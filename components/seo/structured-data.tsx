@@ -40,8 +40,8 @@ export function CalculatorSchema({
     },
     provider: {
       "@type": "Organization",
-      name: "Calculator Hub",
-      url: "https://calculatorhub.com",
+      name: "Calqulate",
+      url: "https://calqulate.net/",
     },
   }
 
@@ -65,13 +65,13 @@ export function FAQSchema({ faqs }: { faqs: Array<{ question: string; answer: st
 
 export function OrganizationSchema() {
   const data = {
-    name: "Calculator Hub",
+    name: "Calqulate",
     description: "Professional calculators for home improvement and financial planning",
-    url: "https://calculatorhub.com",
+    url: "https://calqulate.net/",
     logo: "https://calculatorhub.com/logo.png",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+1-555-0123",
+      telephone: "+91 9265745667",
       contactType: "customer service",
     },
     sameAs: ["https://facebook.com/calculatorhub", "https://twitter.com/calculatorhub"],

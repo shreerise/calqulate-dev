@@ -8,25 +8,25 @@ import "./globals.css"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
-  title: "Calculator Hub - Professional Financial & Home Improvement Calculators",
+  title: "Calqulate - Professional Health & Fitness Calculators",
   description:
-    "Free online calculators for home improvement costs, financial planning, and more. Get accurate estimates for tree removal, lawn care, and construction projects.",
+    "Free online calculators for health , fitness and more. Get accurate estimates for tree removal, lawn care, and construction projects.",
   keywords: "calculator, cost calculator, home improvement, financial calculator, tree removal cost, lawn mowing cost",
-  generator: "Calculator Hub",
+  generator: "Calqulate",
   robots: "index, follow",
   openGraph: {
-    title: "Calculator Hub - Professional Calculators",
+    title: "Calqulate - Professional Calculators",
     description: "Free online calculators for home improvement and financial planning",
     type: "website",
-    siteName: "Calculator Hub",
+    siteName: "Calqulate",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Calculator Hub - Professional Calculators",
+    title: "Calqulate - Professional Calculators",
     description: "Free online calculators for home improvement and financial planning",
   },
   alternates: {
-    canonical: "https://calculatorhub.com",
+    canonical: "https://calqulate.net/",
   },
 }
 

@@ -5,22 +5,16 @@ import Link from "next/link"
 import { Menu, X, Calculator, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/search/search-bar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator,} from "@/components/ui/dropdown-menu"
 
 const calculatorCategories = [
   {
-    name: "Home Improvement",
+    name: "Health",
     calculators: [
-      { name: "Tree Removal Cost", href: "/calculators/tree-removal-cost-calculator" },
-      { name: "Lawn Mowing Cost", href: "/calculators/lawn-mowing-cost-calculator" },
-      { name: "Home Addition Cost", href: "/calculators/home-addition-cost-calculator" },
-    ],
-  },
-  {
-    name: "Financial",
-    calculators: [
-      { name: "Mortgage Calculator", href: "/calculators/mortgage-calculator" },
-      { name: "Loan Calculator", href: "/calculators/loan-calculator" },
+      { name: "ABSI Calculator", href: "/calculators/absi-calculator" },
+      { name: "Lean Body Mass Calculator", href: "/calculators/lean-body-mass-calculator" },
+      { name: "RFM Calculator", href: "/calculators/rfm-calculator" },
+      { name: "Ponderal Index Calculator", href: "/calculators/ponderal-index-calculator" },
     ],
   },
 ]
@@ -35,7 +29,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <Calculator className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">Calculator Hub</span>
+            <span className="text-xl font-bold text-foreground">Calqulate.net</span>
           </Link>
 
           {/* Desktop Navigation */}

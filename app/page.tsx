@@ -9,61 +9,41 @@ import Link from "next/link"
 
 const calculators = [
   {
-    title: "Tree Removal Cost Calculator",
-    description: "Calculate the cost of removing trees from your property",
-    icon: <Wrench className="h-6 w-6" />,
-    href: "/calculators/tree-removal-cost-calculator",
-    category: "Home Improvement",
+    title: "ABSI Calculator",
+    description: "Calculate your A Body Shape Index based on waist, height, weight, and BMI",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/calculators/absi-calculator",
+    category: "Health",
   },
   {
-    title: "Lawn Mowing Cost Calculator",
-    description: "Estimate lawn care and mowing service costs",
-    icon: <Home className="h-6 w-6" />,
-    href: "/calculators/lawn-mowing-cost-calculator",
-    category: "Home Improvement",
+    title: "Lean Body Mass Calculator",
+    description: "Estimate your lean body mass based on height, weight, and gender",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/calculators/lean-body-mass-calculator",
+    category: "Health",
   },
   {
-    title: "Home Addition Cost Calculator",
-    description: "Plan your home expansion project budget",
-    icon: <Home className="h-6 w-6" />,
-    href: "/calculators/home-addition-cost-calculator",
-    category: "Home Improvement",
+    title: "RFM Calculator",
+    description: "Calculate your Relative Fat Mass using height and waist measurements",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/calculators/rfm-calculator",
+    category: "Health",
   },
   {
-    title: "Mortgage Calculator",
-    description: "Calculate monthly mortgage payments and interest",
-    icon: <DollarSign className="h-6 w-6" />,
-    href: "/calculators/mortgage-calculator",
-    category: "Financial",
-  },
-  {
-    title: "Loan Calculator",
-    description: "Determine loan payments and total interest",
-    icon: <TrendingUp className="h-6 w-6" />,
-    href: "/calculators/loan-calculator",
-    category: "Financial",
-  },
-  {
-    title: "Investment Calculator",
-    description: "Calculate investment returns and growth",
-    icon: <TrendingUp className="h-6 w-6" />,
-    href: "/calculators/investment-calculator",
-    category: "Financial",
+    title: "Ponderal Index Calculator",
+    description: "Measure body leanness with the Ponderal Index formula",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/calculators/ponderal-index-calculator",
+    category: "Health",
   },
 ]
 
 const categories = [
   {
-    name: "Home Improvement",
-    description: "Calculate costs for home projects and improvements",
-    icon: <Home className="h-8 w-8" />,
-    count: calculators.filter((calc) => calc.category === "Home Improvement").length,
-  },
-  {
-    name: "Financial",
-    description: "Plan your finances with professional calculators",
-    icon: <DollarSign className="h-8 w-8" />,
-    count: calculators.filter((calc) => calc.category === "Financial").length,
+    name: "Health",
+    description: "Measure health and fitness indicators",
+    icon: <Calculator className="h-8 w-8" />,
+    count: calculators.filter((calc) => calc.category === "Health").length,
   },
 ]
 
@@ -118,7 +98,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto ">
               {categories.map((category) => (
                 <Card key={category.name} className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardHeader className="text-center">
@@ -182,7 +162,7 @@ export default function HomePage() {
         <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Why Choose Calculator Hub?</h2>
+              <h2 className="text-3xl font-bold mb-4">Why Choose Calqulate ?</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Our calculators are built by experts and trusted by professionals nationwide.
               </p>

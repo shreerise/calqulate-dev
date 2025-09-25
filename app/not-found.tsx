@@ -69,13 +69,13 @@ export default function NotFound() {
               <h3 className="text-lg font-semibold">Popular Calculators</h3>
               <div className="flex flex-wrap justify-center gap-2">
                 <Button asChild variant="ghost" size="sm">
-                  <Link href="/calculators/tree-removal-cost-calculator">Tree Removal Cost</Link>
+                  <Link href="/calculators/absi-calculator">ABSI Calculator</Link>
                 </Button>
                 <Button asChild variant="ghost" size="sm">
-                  <Link href="/calculators/lawn-mowing-cost-calculator">Lawn Mowing Cost</Link>
+                  <Link href="/calculators/lean-body-mass-calculator">Lean Body Mass Calculator</Link>
                 </Button>
                 <Button asChild variant="ghost" size="sm">
-                  <Link href="/calculators/home-addition-cost-calculator">Home Addition Cost</Link>
+                  <Link href="/calculators/rfm-calculator">RFM Calculator</Link>
                 </Button>
               </div>
             </div>
