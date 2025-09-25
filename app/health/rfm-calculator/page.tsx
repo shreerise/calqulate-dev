@@ -46,7 +46,7 @@ export default function RFMCalculatorPage() {
       <CalculatorSchema
         name="RFM Calculator"
         description="Estimate your body fat percentage using the RFM (Relative Fat Mass) formula based on waist circumference, height, and sex."
-        url="https://calculatorhub.com/calculators/rfm-calculator"
+        url="https://calqulate.net/health/rfm-calculator"
       />
       <FAQSchema faqs={faqs} />
 

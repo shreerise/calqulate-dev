@@ -46,7 +46,7 @@ export default function LeanBodyMassCalculatorPage() {
       <CalculatorSchema
         name="Lean Body Mass Calculator"
         description="Calculate your lean body mass (LBM) using the Boer formula based on weight, height, and sex."
-        url="https://calculatorhub.com/calculators/lean-body-mass-calculator"
+        url="https://calqulate.net/health/lean-body-mass-calculator"
       />
       <FAQSchema faqs={faqs} />
 

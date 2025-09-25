@@ -11,10 +11,10 @@ const calculatorCategories = [
   {
     name: "Health",
     calculators: [
-      { name: "ABSI Calculator", href: "/calculators/absi-calculator" },
-      { name: "Lean Body Mass Calculator", href: "/calculators/lean-body-mass-calculator" },
-      { name: "RFM Calculator", href: "/calculators/rfm-calculator" },
-      { name: "Ponderal Index Calculator", href: "/calculators/ponderal-index-calculator" },
+      { name: "ABSI Calculator", href: "/health/absi-calculator" },
+      { name: "Lean Body Mass Calculator", href: "/health/lean-body-mass-calculator" },
+      { name: "RFM Calculator", href: "/health/rfm-calculator" },
+      { name: "Ponderal Index Calculator", href: "/health/ponderal-index-calculator" },
     ],
   },
 ]
@@ -29,7 +29,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <Calculator className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">Calqulate.net</span>
+            <span className="text-xl font-bold text-foreground">Calqulate.NET</span>
           </Link>
 
           {/* Desktop Navigation */}

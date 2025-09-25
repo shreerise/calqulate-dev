@@ -47,7 +47,7 @@ export default function ABSICalculatorPage() {
       <CalculatorSchema
         name="ABSI Calculator"
         description="Calculate your A Body Shape Index (ABSI) using waist circumference, weight, and height."
-        url="https://calculatorhub.com/calculators/absi-calculator"
+        url="https://calqulate.net/health/absi-calculator"
       />
       <FAQSchema faqs={faqs} />
 

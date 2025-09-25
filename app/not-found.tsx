@@ -69,13 +69,13 @@ export default function NotFound() {
               <h3 className="text-lg font-semibold">Popular Calculators</h3>
               <div className="flex flex-wrap justify-center gap-2">
                 <Button asChild variant="ghost" size="sm">
-                  <Link href="/calculators/absi-calculator">ABSI Calculator</Link>
+                  <Link href="/health/absi-calculator">ABSI Calculator</Link>
                 </Button>
                 <Button asChild variant="ghost" size="sm">
-                  <Link href="/calculators/lean-body-mass-calculator">Lean Body Mass Calculator</Link>
+                  <Link href="/health/lean-body-mass-calculator">Lean Body Mass Calculator</Link>
                 </Button>
                 <Button asChild variant="ghost" size="sm">
-                  <Link href="/calculators/rfm-calculator">RFM Calculator</Link>
+                  <Link href="/health/rfm-calculator">RFM Calculator</Link>
                 </Button>
               </div>
             </div>

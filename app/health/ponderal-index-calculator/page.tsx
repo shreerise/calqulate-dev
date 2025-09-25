@@ -46,7 +46,7 @@ export default function PonderalIndexCalculatorPage() {
       <CalculatorSchema
         name="Ponderal Index Calculator"
         description="Calculate your Ponderal Index (PI), a measure of body proportion and composition that adjusts for height more accurately than BMI."
-        url="https://calculatorhub.com/calculators/ponderal-index-calculator"
+        url="https://calqulate.net/health/ponderal-index-calculator"
       />
       <FAQSchema faqs={faqs} />
 

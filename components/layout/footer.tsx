@@ -38,7 +38,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="/calculators/absi-calculator"
+                  href="/health/absi-calculator"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   ABSI Calculator
@@ -46,7 +46,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/lean-body-mass-calculator"
+                  href="/health/lean-body-mass-calculator"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Lean Body Mass Calculator
@@ -54,7 +54,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/calculators/rfm-calculator"
+                  href="/health/rfm-calculator"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   RFM Calculator

@@ -21,7 +21,6 @@ import {
   FileCheck2,
   BookUser,
 } from "lucide-react";
-import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions - Calqulate",

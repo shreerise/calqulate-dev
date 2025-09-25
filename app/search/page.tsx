@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/footer"
 import { SearchResults } from "./search-results"
 
 export const metadata: Metadata = {
-  title: "Search Calculators | Calculator Hub",
+  title: "Search Calculators | Calqulate.NET",
   description:
     "Search our comprehensive collection of professional calculators for home improvement and financial planning.",
 }
