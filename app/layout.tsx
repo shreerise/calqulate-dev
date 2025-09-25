@@ -1,0 +1,49 @@
+import type React from "react"
+import type { Metadata } from "next"
+import { GeistSans } from "geist/font/sans"
+import { GeistMono } from "geist/font/mono"
+import { Analytics } from "@vercel/analytics/next"
+import { OrganizationSchema } from "@/components/seo/structured-data"
+import "./globals.css"
+import { Suspense } from "react"
+
+export const metadata: Metadata = {
+  title: "Calculator Hub - Professional Financial & Home Improvement Calculators",
+  description:
+    "Free online calculators for home improvement costs, financial planning, and more. Get accurate estimates for tree removal, lawn care, and construction projects.",
+  keywords: "calculator, cost calculator, home improvement, financial calculator, tree removal cost, lawn mowing cost",
+  generator: "Calculator Hub",
+  robots: "index, follow",
+  openGraph: {
+    title: "Calculator Hub - Professional Calculators",
+    description: "Free online calculators for home improvement and financial planning",
+    type: "website",
+    siteName: "Calculator Hub",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Calculator Hub - Professional Calculators",
+    description: "Free online calculators for home improvement and financial planning",
+  },
+  alternates: {
+    canonical: "https://calculatorhub.com",
+  },
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en">
+      <head>
+        <OrganizationSchema />
+      </head>
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <Analytics />
+      </body>
+    </html>
+  )
+}
