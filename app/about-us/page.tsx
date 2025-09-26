@@ -131,8 +131,7 @@ export default function AboutUsPage() {
                   <li>Totally free—no extra fees.</li>
                   <li>No signup required—just calculate and go.</li>
                   <li>
-                    Dashboards interactive, avec desgraphiques, des tables et même des icônes en 3D pour faciliter
-                    l'entendement des données.
+                    Dynamic dashboards with charts, tables, and even 3D icons to make data easy to understand.
                   </li>
                 </ul>
                 <p className="text-lg leading-relaxed mt-4">
