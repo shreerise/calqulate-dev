@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: "About Us - Calqulate",
   description:
-    "Learn about Calqulate.net's mission to make calculations simpler and quicker for everyone, founded by Meet Patel and Krushal Patel.",
+    "Learn about Calqulate.NET's mission to make calculations simpler and quicker for everyone, founded by Meet Patel and Krushal Patel.",
   keywords: "about Calqulate, online calculators, free calculation tools, Meet Patel, Krushal Patel",
 }
 
@@ -93,7 +93,7 @@ export default function AboutUsPage() {
             <SectionHeader id="why-calqulate" title="Why Calqulate.net?" icon={Rocket} />
             <Card className="rounded-lg p-6 mb-10">
               <CardContent className="p-0">
-                <p className="text-lg leading-relaxed mb-4">We began Calqulate.net to:</p>
+                <p className="text-lg leading-relaxed mb-4">We began Calqulate.NET to:</p>
                 <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed marker:text-primary">
                   <li>With basic tools, solve everyday problems.</li>
                   <li>Benefit users by giving them quick and right answers.</li>
