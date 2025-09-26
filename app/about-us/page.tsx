@@ -1,144 +1,143 @@
 import type { Metadata } from "next"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calculator, Users, Award, TrendingUp } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Users,
+  Lightbulb,
+  Rocket,
+  ShieldCheck,
+  Zap,
+  Award,
+  Link,
+  Mail,
+  Handshake,
+  TrendingUp,
+  FlaskConical,
+} from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "About Us - Professional Calculator Tools | Calculator Hub",
+  title: "About Us - Calqulate",
   description:
-    "Learn about Calculator Hub's mission to provide accurate, professional-grade calculators for home improvement and financial planning.",
-  keywords: "about calculator hub, professional calculators, home improvement tools, financial calculators",
+    "Learn about Calqulate.net's mission to make calculations simpler and quicker for everyone, founded by Meet Patel and Krushal Patel.",
+  keywords: "about Calqulate, online calculators, free calculation tools, Meet Patel, Krushal Patel",
 }
+
+const SectionHeader = ({ id, title, icon: Icon }: { id: string; title: string; icon: React.ElementType }) => (
+  <h2
+    id={id}
+    className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8"
+    style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
+  >
+    <Icon className="w-8 h-8 text-primary" />
+    {title}
+  </h2>
+)
 
 export default function AboutUsPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
+    >
       <Header />
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
-            {/* Hero Section */}
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold text-balance mb-6">About Calculator Hub</h1>
-              <p className="text-xl text-muted-foreground text-pretty max-w-3xl mx-auto">
-                We're dedicated to providing accurate, professional-grade calculators that help homeowners, contractors,
-                and financial professionals make informed decisions.
+            {/* Header */}
+            <div className="mb-12 text-center">
+              <h1
+                className="text-4xl md:text-5xl font-bold mb-3"
+                style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
+              >
+                About Us
+              </h1>
+              <p
+                className="text-muted-foreground text-lg max-w-2xl mx-auto"
+                style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
+              >
+                We are two college buddies, Meet Patel and Krushal Patel, who transformed our friendship into a business
+                cooperation.
               </p>
             </div>
 
-            {/* Mission Section */}
-            <Card className="mb-12">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Our Mission</CardTitle>
-              </CardHeader>
-              <CardContent className="prose prose-gray max-w-none">
-                <p className="text-lg text-center text-muted-foreground">
-                  To democratize access to professional-grade calculation tools, empowering individuals and businesses
-                  to make data-driven decisions with confidence and accuracy.
+            {/* Introduction */}
+            <section className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-lg w-full max-w-none mb-10">
+              <h2 className="text-3xl font-bold mb-4 text-primary">Our Story</h2>
+              <div className="prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>
+                  Calqulate.net was launched jointly by us on 15th September 2025 with a very simple mission: making
+                  calculations simpler and quicker for all.
+                </p>
+                <p>
+                  At Calqulate.net, our free calculators enable quick solutions to hard problems. Rather than wasting
+                  time grappling to remember tricky formulas or calculating manually, individuals simply input their
+                  numbers and receive correct answers instantly. We also provide concise explanations and details about
+                  every calculator—so individuals don't get answers alone, they comprehend them as well.
+                </p>
+              </div>
+            </section>
+
+            <SectionHeader id="how-we-began" title="How We Began" icon={Lightbulb} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>
+                  When we started out, we didn't have our own office. We'd sit together in coffee shops and throw out
+                  big ideas over coffee. We saw how many people struggled with everyday mathematics,—with homework,
+                  with work, with everyday life,—and decided to create something that would truly make an impact.
                 </p>
               </CardContent>
             </Card>
 
-            {/* Values Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              <Card className="text-center">
-                <CardHeader>
-                  <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                    <Calculator className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">Accuracy</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Our calculators are built using industry standards and current market data for reliable results.
-                  </p>
-                </CardContent>
-              </Card>
+            <SectionHeader id="why-calqulate" title="Why Calqulate.net?" icon={Rocket} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0">
+                <p className="text-lg leading-relaxed mb-4">We began Calqulate.net to:</p>
+                <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed marker:text-primary">
+                  <li>With basic tools, solve everyday problems.</li>
+                  <li>Benefit users by giving them quick and right answers.</li>
+                  <li>Share what we know and learn new things.</li>
+                  <li>Network with individuals online and learn their needs.</li>
+                  <li>Earn enough to support ourselves and our families and create something worthwhile.</li>
+                </ul>
+              </CardContent>
+            </Card>
 
-              <Card className="text-center">
-                <CardHeader>
-                  <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                    <Users className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">Accessibility</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Professional tools should be available to everyone, not just industry experts.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center">
-                <CardHeader>
-                  <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                    <Award className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">Quality</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Every calculator is thoroughly tested and validated by industry professionals.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center">
-                <CardHeader>
-                  <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                    <TrendingUp className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">Innovation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    We continuously improve our tools based on user feedback and industry developments.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Story Section */}
-            <Card className="mb-12">
-              <CardHeader>
-                <CardTitle className="text-2xl text-center">Our Story</CardTitle>
-              </CardHeader>
-              <CardContent className="prose prose-gray max-w-none">
+            <SectionHeader id="our-mission" title="Our Mission" icon={Handshake} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
                 <p>
-                  Calculator Hub was founded with a simple observation: professional-grade calculation tools were often
-                  locked behind expensive software or required specialized knowledge to use effectively. We believed
-                  that accurate, reliable calculators should be accessible to everyone.
+                  Our mission is to assist users by providing them with appropriate answers according to what they
+                  require, thus cutting time and facilitating remembrance of difficult formulas. With Calqulate.net, it
+                  is simple to get answers, it is dependable, and it is stress-free.
                 </p>
                 <p>
-                  Starting with home improvement calculators, we quickly realized the need extended far beyond
-                  construction costs. Homeowners needed reliable estimates for landscaping, contractors required quick
-                  project budgeting tools, and individuals sought trustworthy financial planning calculators.
-                </p>
-                <p>
-                  Today, Calculator Hub serves thousands of users monthly, from DIY homeowners planning their next
-                  project to professional contractors estimating job costs. Our calculators are trusted by individuals
-                  and businesses across the country for their accuracy and ease of use.
+                  We aim to create one website that will provide all forms of calculators in the future from basic
+                  mathematical needs to advanced professional instruments.
                 </p>
               </CardContent>
             </Card>
 
-            {/* Team Section */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl text-center">Our Commitment</CardTitle>
-              </CardHeader>
-              <CardContent className="prose prose-gray max-w-none">
-                <p>
-                  We're committed to maintaining the highest standards of accuracy and usability in all our calculators.
-                  Our team regularly reviews and updates our algorithms to reflect current market conditions, industry
-                  standards, and user feedback.
+            <SectionHeader id="how-are-we-different" title="How are we different?" icon={FlaskConical} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0">
+                <p className="text-lg leading-relaxed mb-4">
+                  There are many other calculator sites on the Internet, but this one's unique:
                 </p>
-                <p>
-                  Whether you're a homeowner planning a renovation, a contractor bidding on projects, or someone making
-                  important financial decisions, you can trust Calculator Hub to provide the accurate, reliable tools
-                  you need.
+                <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed marker:text-primary">
+                  <li>99% correct results according to inputs from users.</li>
+                  <li>A simple and streamlined installation that saves time.</li>
+                  <li>Totally free—no extra fees.</li>
+                  <li>No signup required—just calculate and go.</li>
+                  <li>
+                    Dashboards interactive, avec desgraphiques, des tables et même des icônes en 3D pour faciliter
+                    l'entendement des données.
+                  </li>
+                </ul>
+                <p className="text-lg leading-relaxed mt-4">
+                  For us, calqulate.net is not only one website—it's how we learn together, solve things together, and
+                  develop together while helping anyone anywhere.
                 </p>
               </CardContent>
             </Card>
