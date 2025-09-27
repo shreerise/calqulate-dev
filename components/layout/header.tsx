@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X, Calculator, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/search/search-bar"
@@ -28,6 +29,13 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
+            {/* <Image
+              src="/logo.png"       
+              alt="Calqulate Logo"
+              width={180}           // adjust to match your design
+              height={100}
+              priority
+            /> */}
             <Calculator className="h-8 w-8 text-primary" />
             <span className="text-xl font-bold text-foreground">Calqulate.NET</span>
           </Link>
