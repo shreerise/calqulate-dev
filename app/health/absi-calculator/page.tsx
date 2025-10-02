@@ -2,55 +2,85 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-// import Ads from "@/components/ads/ads"
 import ABSICalculator from "@/components/calculators/absi-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "ABSI Calculator: A Body Shape Index Health Risk Assessment",
-  description:
-    "Go beyond BMI with our accurate ABSI Calculator. Learn how your body shape, specifically abdominal fat, impacts your long-term health risk. Includes detailed charts and interpretations.",
-  keywords: "ABSI calculator, A Body Shape Index, body shape calculator, health risk assessment, visceral fat, abdominal fat, BMI vs ABSI, metabolic health",
+  title: "ABSI Calculator: A Body Shape Index Explained",
+  description: "A comprehensive guide to A Body Shape Index (ABSI). Understand the formula, how it differs from BMI, and what your score means for your health.",
+  keywords: "ABSI calculator, A Body Shape Index, what is ABSI, ABSI formula, ABSI vs BMI, health risk, visceral fat, body shape",
 }
 
+// New FAQ data based on your provided content
 const faqs = [
   {
-    question: "What is A Body Shape Index (ABSI)?",
-    answer:
-      "A Body Shape Index (ABSI) is a health metric that evaluates mortality risk based on how fat is distributed in the body, particularly abdominal fat. It's calculated using your waist circumference, height, and weight.",
+    question: "What is an ABSI, and how is it compared to a BMI?",
+    answer: "The ABSI (A Body Shape Index) considers your waist, height, and weight to reflect your body shape. Unlike BMI, which only looks at height and weight, ABSI specifically accounts for belly fat, revealing health risks that BMI might miss."
   },
   {
-    question: "How is the ABSI formula different from BMI?",
-    answer:
-      "The ABSI formula is: Waist / (BMI^(2/3) * Height^(1/2)). Unlike BMI, which only considers height and weight, ABSI specifically includes waist circumference to assess the risk associated with central obesity.",
+    question: "How do I calculate my ABSI?",
+    answer: "ABSI is calculated with a formula using your waist measurement, height, and BMI. The easiest way is to use our calculator. To do it manually, you must measure your waist, convert units correctly, and apply the formula: Waist / (BMI^(2/3) * Height^(1/2))."
   },
   {
-    question: "What does the ABSI Z-Score mean?",
-    answer:
-      "The Z-Score indicates how your ABSI value compares to a reference population of the same age and gender. A positive Z-score means your risk is higher than average, while a negative score means it's lower.",
+    question: "What does my ABSI score value mean?",
+    answer: "A raw ABSI value is best interpreted using percentiles or a Z-Score compared to a population average. Generally, a higher score (e.g., >80th percentile) indicates a higher health risk due to more central fat, while a lower score (<20th percentile) suggests a lower risk."
   },
   {
-    question: "Why is a high ABSI score considered risky?",
-    answer:
-      "A high ABSI score means your waist is larger than expected for your height and weight. This indicates a higher concentration of visceral (abdominal) fat, which is strongly linked to an increased risk of cardiovascular disease, type 2 diabetes, and premature mortality.",
+    question: "Can ABSI predict heart disease or diabetes?",
+    answer: "ABSI is strongly associated with cardiometabolic risk and is a better predictor than BMI alone, but it is not a diagnostic tool. Your ABSI score should be considered alongside blood tests, blood pressure, and a full clinical evaluation for an accurate risk profile."
   },
   {
-      question: "Is ABSI accurate for athletes or bodybuilders?",
-      answer: "ABSI is generally more reliable than BMI for muscular individuals because it focuses on waist size rather than total weight. However, extreme body compositions can still affect its accuracy. It is best used for the general adult population."
-    },
-  {
-    question: "How can I improve my ABSI score?",
-    answer:
-      "Improving your ABSI score involves reducing abdominal fat through a combination of a balanced diet, regular aerobic exercise (like running or cycling), and strength training. Consulting a healthcare provider for personalized advice is recommended.",
+    question: "How reliable is ABSI across diverse ethnic populations?",
+    answer: "The ABSI formula is universally applicable, but the risk thresholds (percentiles or Z-scores) can differ between ethnic groups due to variations in body composition. It's best to view your score as a general indicator and consult a doctor who may use population-specific data."
   },
   {
-    question: "Is ABSI a definitive diagnostic tool?",
-    answer: "No, ABSI is a screening tool, not a diagnostic one. It provides an estimate of risk. Always consult with a healthcare professional for a comprehensive health evaluation and diagnosis."
+    question: "How do I measure my waist for the ABSI calculator?",
+    answer: "For an accurate ABSI result, measure your waist at the narrowest point between your hips and ribs, or just above your belly button. Stand relaxed, breathe out normally, and use a flexible tape measure held snugly against the skin but not digging in."
+  },
+  {
+    question: "How frequently should I monitor my ABSI?",
+    answer: "If you are actively trying to improve your health through diet or exercise, checking every 4-12 weeks is reasonable. Otherwise, monitoring every few months is sufficient to track long-term changes in your body shape."
   }
-]
+];
+
+// --- NEW: Custom Vertical Stepper Component ---
+const VerticalStepper = ({ steps }: { steps: { title: string; description: string }[] }) => {
+  return (
+    <div className="relative pl-8">
+      {steps.map((step, index) => (
+        <div key={index} className="relative pb-12">
+          {/* Vertical line (not on the last item) */}
+          {index < steps.length - 1 && (
+            <div className="absolute top-2 left-[1px] w-0.5 h-full bg-gray-300 dark:bg-gray-700"></div>
+          )}
+          
+          {/* Circle indicator */}
+          <div className="absolute top-2 left-0 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-background"></div>
+          
+          {/* Step content */}
+          <div className="pl-6">
+            <h3 className="text-lg font-semibold text-primary">Step {String(index + 1).padStart(2, '0')}</h3>
+            <p className="font-bold mt-1">{step.title}</p>
+            <p className="text-muted-foreground mt-1">{step.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 
 export default function ABSICalculatorPage() {
+  const stepperSteps = [
+    { title: "Calculate Your BMI", description: "First, calculate your Body Mass Index using the standard formula: weight (kg) / height (m)²." },
+    { title: "Process BMI and Height", description: "Take your BMI to the power of 2/3 and your height to the power of 1/2 (the square root)." },
+    { title: "Incorporate Your Waist", description: "Divide your waist circumference (in meters) by the product of the two values from the previous step." },
+    { title: "Get Your ABSI Score", description: "The resulting number is your raw ABSI score, a powerful indicator of your body shape." },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <CalculatorSchema
@@ -64,182 +94,184 @@ export default function ABSICalculatorPage() {
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
-          {/* <Ads.BannerAd className="mb-8" /> */}
-
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">ABSI Calculator</h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Assess your health risk by calculating your "A Body Shape Index" (ABSI)—a metric that goes beyond traditional BMI by factoring in your waist circumference.
+                ABSI (A Body Shape Index) measures abdominal risk using waist, height and weight. Use our absi calculator to get an absi score instantly; the number helps estimate whether your body shape puts you at higher cardiometabolic risk than BMI alone. For full context and how the absi calculation works, read below.
               </p>
             </div>
 
             <ABSICalculator />
 
-            {/* <Ads.InContentAd /> */}
-
-              <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-8">
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
+              
+              {/* --- What is ABSI? --- */}
               <section>
-                <h2>How to Interpret Your ABSI Score</h2>
-                <p>
-                  Your raw ABSI score is converted into an ABSI Z-Score. This score tells you where your body shape risk falls relative to others of your age and gender.
-                </p>
-                <ul>
-                  <li><strong>Low Risk (Z &lt; -0.868):</strong>Your body shape indicates a very low relative health risk. This is a positive sign for your metabolic health.</li>
-                  <li><strong>Average Risk (-0.868 to 0.868):</strong> Your risk is within the normal range for your demographic. Maintaining a healthy lifestyle is key.</li>
-                  <li><strong>High Risk (0.868 to 1.645):</strong> Your body shape suggests an elevated risk, which may warrant lifestyle changes focused on reducing abdominal fat.</li>
-                  <li><strong>Very High Risk (Z &ge; 1.645):</strong> Indicates a significantly increased health risk. Consulting a healthcare professional for guidance is strongly advised.</li>
-                </ul>
+                <h2>What is ABSI?</h2>
+                <p>ABSI, or A Body Shape Index, is a health metric that includes your waist circumference in addition to your weight and height. This allows ABSI to account for where fat is located on your body. Its main advantage is its ability to highlight the risks associated with belly fat (central adiposity), which has a stronger link to cardiovascular health issues than overall weight alone.</p>
+                <blockquote>Two people can have the same BMI, but if one has more fat around their midsection, their ABSI will be higher—often signaling a greater health risk. This is why ABSI complements BMI, offering a more complete picture.</blockquote>
               </section>
 
-              {/* --- NEW SECTION --- */}
+              {/* --- The ABSI Formula --- */}
               <section>
-                <h2>The Science Behind Why ABSI Matters</h2>
-                <p>
-                  ABSI was developed by researchers to specifically address the shortcomings of BMI. While BMI is good at measuring overall mass, it fails to account for where that mass is stored. The real danger to health isn't weight itself, but <strong>visceral fat</strong>—the fat stored deep within the abdominal cavity around organs like the liver and intestines.
-                </p>
-                <p>
-                  This type of fat is metabolically active and releases inflammatory substances that contribute to insulin resistance, high blood pressure, and cardiovascular disease. Because ABSI incorporates waist circumference, it serves as a powerful proxy for visceral fat levels, making it a more nuanced predictor of mortality risk than BMI alone.
-                </p>
-              </section>
+                  <h2>The ABSI Formula: A Step-by-Step Outline</h2>
+                  <div className="grid md:grid-cols-2 gap-8 items-start not-prose">
+                      {/* Left side: Vertical Stepper */}
+                      <VerticalStepper steps={stepperSteps} />
 
-              {/* --- NEW VISUALS SECTION --- */}
-              <section>
-                  <h2>Visualizing Health Risk: Shape vs. Size</h2>
-                  <p>
-                      Visuals can help clarify why body shape (measured by ABSI) can be more telling than body size (measured by BMI) alone. Below are two illustrations that explain these critical health concepts.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-6">
-                      <div className="p-4 border rounded-lg">
-                          <Image
-                              src="/absi-vs-bmi.svg" // IMPORTANT: Create this image and place it in your /public folder
-                              alt="An illustration comparing two people with the same BMI but different ABSI scores. One has a healthy waist, the other has central obesity, highlighting a higher health risk."
-                              width={300}
-                              height={300}
-                              className="mx-auto"
-                          />
-                          <p className="text-center text-sm mt-2 text-muted-foreground">Fig 1: Same BMI, Different Risk. The person on the right has a higher ABSI due to more abdominal fat, indicating greater health risk.</p>
-                      </div>
-                      <div className="p-4 border rounded-lg">
-                          <Image
-                              src="/visceral-fat.svg" // IMPORTANT: Create this image and place it in your /public folder
-                              alt="A diagram showing the difference between subcutaneous fat (under the skin) and visceral fat (around the organs). Visceral fat is shown as being more dangerous."
-                              width={300}
-                              height={300}
-                              className="mx-auto"
-                          />
-                          <p className="text-center text-sm mt-2 text-muted-foreground">Fig 2: Visceral vs. Subcutaneous Fat. ABSI helps estimate the risk associated with harmful visceral fat.</p>
+                      {/* Right side: Formula Box & Tips */}
+                      <div className="space-y-4">
+                          <Card>
+                              <CardHeader>
+                                  <CardTitle className="flex items-center gap-2"><Calculator className="w-5 h-5" /> The Formula</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                  <div className="p-4 bg-muted rounded-lg text-center font-mono text-sm md:text-base">
+                                      ABSI = Waist / ( BMI<sup>2/3</sup> &times; Height<sup>1/2</sup> )
+                                  </div>
+                                  <h3 className="font-semibold mt-4">Common Mistakes & Tips</h3>
+                                  <ul className="text-sm text-muted-foreground mt-2 space-y-1 list-disc pl-5">
+                                      <li>Always convert waist and height to **meters (m)**.</li>
+                                      <li>To convert pounds to kg, divide by 2.20462.</li>
+                                      <li>Using cm for waist and m for height will give a result ~100x too large.</li>
+                                  </ul>
+                              </CardContent>
+                          </Card>
+                          <Card>
+                              <CardHeader>
+                                <CardTitle className="text-base">Micro Example</CardTitle>
+                                <CardDescription>Weight: 70kg, Height: 1.65m, Waist: 90cm (0.9m)</CardDescription>
+                              </CardHeader>
+                              <CardContent className="text-sm">
+                                <p><strong>1. BMI:</strong> 70 / 1.65² = 25.71</p>
+                                <p><strong>2. BMI²ᐟ³:</strong> 25.71^(2/3) ≈ 8.76</p>
+                                <p><strong>3. Height¹ᐟ²:</strong> √1.65 ≈ 1.28</p>
+                                <p><strong>4. ABSI:</strong> 0.90 / (8.76 &times; 1.28) ≈ <strong>0.08043</strong></p>
+                              </CardContent>
+                          </Card>
                       </div>
                   </div>
               </section>
 
-              {/* --- NEW SECTION --- */}
+              {/* --- How to Measure Your Waist --- */}
               <section>
-                <h2>How to Accurately Measure Your Waist Circumference</h2>
-                <p>
-                  An accurate waist measurement is crucial for a meaningful ABSI result. Follow these steps for the best measurement:
-                </p>
-                <ol>
-                  <li><strong>Find the right spot:</strong> Locate the top of your hip bone and the bottom of your ribs. Your waist is the soft, fleshy part in between, usually just above your belly button.</li>
-                  <li><strong>Use a flexible tape measure:</strong> Wrap the tape around your waist. Make sure it is parallel to the floor and not twisted.</li>
-                  <li><strong>Breathe normally:</strong> Stand relaxed and breathe out normally. Do not suck in your stomach.</li>
-                  <li><strong>Check the fit:</strong> The tape should be snug against your skin, but not so tight that it's digging in. You should be able to fit one finger between the tape and your body.</li>
-                  <li><strong>Read the measurement:</strong> Record the number where the tape measure's end meets the circling tape.</li>
-                </ol>
+                <Card className="not-prose">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><Ruler className="w-5 h-5" /> How to Measure Your Waist Correctly</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <ol className="list-decimal pl-5 space-y-2">
+                        <li><strong>Stand and Relax:</strong> Stand upright but relaxed, and breathe out normally. Don't suck in your stomach.</li>
+                        <li><strong>Find the Location:</strong> Measure just above your belly button, at the narrowest part of your torso.</li>
+                        <li><strong>Use the Tape:</strong> Wrap a flexible measuring tape around your waist, ensuring it's level with the floor.</li>
+                        <li><strong>Check the Fit:</strong> The tape should be snug against the skin but not tight enough to compress it.</li>
+                        <li><strong>Record the Value:</strong> Note the measurement to the nearest 0.1 cm. Remember to convert it to meters for the formula!</li>
+                      </ol>
+                  </CardContent>
+                </Card>
               </section>
 
+              {/* --- Learning Your ABSI Score --- */}
               <section>
-                <h2>ABSI vs. BMI: A Detailed Comparison</h2>
-                <p>
-                  Using both ABSI and BMI together gives a more complete picture of your health status. Here's how they differ:
-                </p>
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead>
-                            <tr>
-                                <th className="text-left p-2">Metric</th>
-                                <th className="text-left p-2">What It Measures</th>
-                                <th className="text-left p-2">Primary Pro</th>
-                                <th className="text-left p-2">Primary Con</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className="p-2 border-t"><strong>BMI</strong></td>
-                                <td className="p-2 border-t">Body mass relative to height (Size)</td>
-                                <td className="p-2 border-t">Simple to calculate; good for population studies.</td>
-                                <td className="p-2 border-t">Can't distinguish fat from muscle mass.</td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 border-t"><strong>ABSI</strong></td>
-                                <td className="p-2 border-t">Body shape and abdominal fat (Shape)</td>
-                                <td className="p-2 border-t">Better predictor of mortality risk by isolating abdominal obesity.</td>
-                                <td className="p-2 border-t">Requires an accurate waist measurement.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <h2>Learning Your ABSI Score</h2>
+                <p>A raw ABSI value is useful, but it becomes powerful when converted to an **ABSI Z-Score**. This score compares your result to an age and gender-matched population, telling you how your body shape risk compares to the average.</p>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 not-prose mt-4">
+                  {[
+                    { title: "Very Low to Low Risk", score: "z ≤ -0.5", icon: <Shield className="w-6 h-6 text-green-500" />, advice: "Keep up your healthy habits." },
+                    { title: "Average Risk", score: "-0.5 < z ≤ 0.5", icon: <UserCheck className="w-6 h-6 text-yellow-500" />, advice: "Focus on general prevention with diet and exercise." },
+                    { title: "High to Very High Risk", score: "z > 0.5", icon: <HeartPulse className="w-6 h-6 text-red-500" />, advice: "Raise physical activity and consult a doctor." },
+                  ].map(item => (
+                    <Card key={item.title}>
+                      <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
+                        {item.icon}
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-lg font-bold">{item.score}</div>
+                        <p className="text-xs text-muted-foreground">{item.advice}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </section>
 
-              {/* --- NEW SECTION --- */}
+              {/* --- ABSI vs Other Indices --- */}
               <section>
-                <h2>Actionable Steps to Improve Your ABSI Score</h2>
-                <p>
-                  If your ABSI score is in a high-risk category, the primary goal is to reduce visceral fat. Here are proven strategies:
-                </p>
-                <ul>
-                  <li><strong>Increase Soluble Fiber:</strong> Foods like oats, beans, avocados, and broccoli can help reduce belly fat.</li>
-                  <li><strong>Prioritize Aerobic Exercise:</strong> Activities like brisk walking, running, cycling, and swimming are highly effective at burning visceral fat. Aim for at least 150 minutes of moderate-intensity cardio per week.</li>
-                  <li><strong>Incorporate Strength Training:</strong> Building muscle increases your overall metabolic rate, helping your body burn more fat at rest.</li>
-                  <li><strong>Avoid Trans Fats and Reduce Sugar:</strong> Read labels to avoid hydrogenated oils. Minimize sugary drinks, desserts, and processed foods, which contribute directly to abdominal fat storage.</li>
-                  <li><strong>Manage Stress and Prioritize Sleep:</strong> High stress levels (and the hormone cortisol) are linked to increased belly fat. Aim for 7-9 hours of quality sleep per night.</li>
-                </ul>
+                <h2>ABSI Versus Other Body Indices</h2>
+                <p>ABSI is one of several tools used to assess body composition. Here's how it compares to other common indices.</p>
+                <div className="overflow-x-auto mt-4">
+                  <table className="w-full text-sm">
+                    <thead className="text-left">
+                      <tr>
+                        <th className="p-2">Index</th>
+                        <th className="p-2">What It Measures</th>
+                        <th className="p-2">Strengths</th>
+                        <th className="p-2">Weaknesses</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-t">
+                        <td className="p-2 font-bold">ABSI</td>
+                        <td className="p-2">Body shape and central fat relative to size.</td>
+                        <td className="p-2">Strongly tied to mortality risk; isolates belly fat.</td>
+                        <td className="p-2">Requires population data (z-scores) for context.</td>
+                      </tr>
+                      <tr className="border-t bg-muted/50">
+                        <td className="p-2 font-bold">BMI</td>
+                        <td className="p-2">Overall body mass relative to height.</td>
+                        <td className="p-2">Simple, universal screening tool.</td>
+                        <td className="p-2">Doesn't distinguish fat from muscle; ignores fat location.</td>
+                      </tr>
+                      <tr className="border-t">
+                        <td className="p-2 font-bold">WHtR</td>
+                        <td className="p-2">Waist size relative to height.</td>
+                        <td className="p-2">Very simple; good predictor of cardiometabolic risk.</td>
+                        <td className="p-2">Doesn't account for overall body mass (weight).</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="grid md:grid-cols-2 gap-8 my-6 not-prose">
+                    <div className="p-4 border rounded-lg">
+                        <Image src="/absi-vs-bmi.svg" alt="Illustration showing two people with the same BMI but different ABSI scores due to belly fat." width={300} height={300} className="mx-auto" />
+                        <p className="text-center text-sm mt-2 text-muted-foreground">Fig 1: Same BMI, Different Risk. Higher ABSI indicates greater health risk.</p>
+                    </div>
+                    <div className="p-4 border rounded-lg">
+                        <Image src="/visceral-fat.svg" alt="Diagram showing dangerous visceral fat around organs versus subcutaneous fat." width={300} height={300} className="mx-auto" />
+                        <p className="text-center text-sm mt-2 text-muted-foreground">Fig 2: ABSI helps estimate the risk from harmful visceral fat.</p>
+                    </div>
+                </div>
               </section>
 
-              {/* --- NEW RESOURCES SECTION --- */}
+              {/* --- Real Life Case Study --- */}
               <section>
-                  <h2>Authoritative Resources & Further Reading</h2>
-                  <p>
-                      To ensure transparency and provide opportunities for deeper learning, this calculator and its information are based on established scientific research. Below are links to the original studies and other authoritative resources.
-                  </p>
-                  <ul>
-                      <li>
-                          <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0039504" target="_blank" rel="noopener noreferrer nofollow">
-                              <strong>Original ABSI Study (PLOS ONE):</strong> The 2012 paper by Krakauer & Krakauer that first proposed "A Body Shape Index" as a new measure of mortality risk.
-                          </a>
-                      </li>
-                      <li>
-                          <a href="https://www.niddk.nih.gov/health-information/weight-management/assessing-your-weight-health-risk" target="_blank" rel="noopener noreferrer nofollow">
-                              <strong>National Institutes of Health (NIH):</strong> Guidance on assessing weight and health risk, explaining the importance of waist circumference.
-                          </a>
-                      </li>
-                      <li>
-                          <a href="https://www.hsph.harvard.edu/obesity-prevention-source/obesity-definition/abdominal-obesity/" target="_blank" rel="noopener noreferrer nofollow">
-                              <strong>Harvard T.H. Chan School of Public Health:</strong> An explanation of abdominal obesity and its associated health dangers.
-                          </a>
-                      </li>
-                       <li>
-                          <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4362399/" target="_blank" rel="noopener noreferrer nofollow">
-                              <strong>Anthropometric indices as predictors of mortality (PMC):</strong> A comparative study highlighting the predictive power of measures like ABSI.
-                          </a>
-                      </li>
-                  </ul>
+                <h2>Real-Life Case Study: "Riya"</h2>
+                 <Card className="not-prose overflow-hidden">
+                    <div className="grid md:grid-cols-2">
+                        <div className="p-6">
+                            <h3 className="font-bold text-lg">Meet Riya, a 28-year-old woman</h3>
+                            <p className="text-muted-foreground text-sm mt-2">Riya wanted to understand her health beyond the number on the scale. Her BMI was in the 'normal' range, but she was concerned about her body shape.</p>
+                            <div className="mt-4 space-y-2 text-sm">
+                                <p><strong>Weight:</strong> 60 kg</p>
+                                <p><strong>Height:</strong> 1.70 m</p>
+                                <p><strong>Waist:</strong> 72 cm (0.72 m)</p>
+                            </div>
+                        </div>
+                        <div className="bg-muted/50 p-6">
+                            <h3 className="font-semibold">Her Results & Action Plan:</h3>
+                            <ul className="list-disc pl-5 mt-2 space-y-2 text-sm">
+                              <li><strong>BMI:</strong> 20.8 (Normal)</li>
+                              <li><strong>WHtR:</strong> 0.42 (Healthy)</li>
+                              <li><strong>ABSI Calculation:</strong> 0.72 / (20.8^(2/3) &times; 1.70^(1/2)) ≈ <strong>0.07310</strong></li>
+                              <li><strong>Interpretation:</strong> Riya's ABSI was in the low-risk category, confirming her healthy body composition.</li>
+                              <li><strong>Action:</strong> She focused on maintaining her active lifestyle with aerobics and core strength exercises, monitoring her waist measurement monthly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </Card>
               </section>
 
-              <section>
-                <h2>Limitations & Medical Disclaimer</h2>
-                <p>
-                  While ABSI is a powerful screening tool, it's essential to understand its limitations.
-                </p>
-                <ul>
-                  <li><strong>Not a Diagnostic Tool:</strong> It provides a risk estimate, not a medical diagnosis.</li>
-                  <li><strong>Measurement Accuracy:</strong> The result is highly dependent on the accuracy of your waist, weight, and height measurements.</li>
-                  <li><strong>Population Averages:</strong> The Z-score is based on population data and may not perfectly reflect individual health factors or ethnicity.</li>
-                </ul>
-                <p>
-                  <strong>Disclaimer:</strong> The information provided by this calculator is for educational purposes only and should not be used as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
-                </p>
-              </section>
             </div>
 
             <FAQSection faqs={faqs} />
