@@ -6,7 +6,7 @@ import ABSICalculator from "@/components/calculators/absi-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield } from "lucide-react"
+import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "ABSI Calculator: A Body Shape Index Explained",
@@ -98,7 +98,7 @@ export default function ABSICalculatorPage() {
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">ABSI Calculator</h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                ABSI (A Body Shape Index) measures abdominal risk using waist, height and weight. Use our absi calculator to get an absi score instantly; the number helps estimate whether your body shape puts you at higher cardiometabolic risk than BMI alone. For full context and how the absi calculation works, read below.
+                ABSI (A Body Shape Index) measures abdominal risk using waist, height and weight. Use our absi calculator to get an absi score instantly; the number helps estimate whether your body shape puts you at higher cardiometabolic risk than BMI alone.
               </p>
             </div>
 
@@ -271,8 +271,24 @@ export default function ABSICalculatorPage() {
                     </div>
                 </Card>
               </section>
+               <section>
+                <h2 className="mb-2"><b>Scientific References and Further Reading</b></h2>
+                <Card className="not-prose overflow-hidden">
 
+                  <CardContent>
+                    <ul className="space-y-4 text-sm">
+                      <li className="pt-4"><p className="font-semibold">Original/Early Paper on ABSI</p><p className="text-muted-foreground">Krakauer, N. Y., & Krakauer, J. C. (2012). A New Body Shape Index Predicts Mortality Hazard Independently of Body Mass Index. PLOS ONE.</p><a href="https://pubmed.ncbi.nlm.nih.gov/22815707/" target="_blank" rel="noopener noreferrer nofollow" className="text-primary hover:underline">→ View on PubMed</a></li>
+                      <li className="border-t pt-4"><p className="font-semibold">Systematic Review Comparing ABSI, BMI, and Waist Circumference</p><p className="text-muted-foreground">Ji, M. et al. (2018). Effectiveness of A Body Shape Index (ABSI) in predicting all-cause mortality and chronic disease outcomes.</p><a href="https://pubmed.ncbi.nlm.nih.gov/29349876/" target="_blank" rel="noopener noreferrer nofollow" className="text-primary hover:underline">→ View on PubMed</a></li>
+      
+                      
+                      <li className="border-t pt-4"><p className="font-semibold">ABSI and Mortality in People with Type 2 Diabetes</p><p className="text-muted-foreground">Chen, F. et al. (2025). A Body Shape Index (ABSI) as a risk factor for all-cause mortality among US adults with Type 2 Diabetes.</p><a href="https://pubmed.ncbi.nlm.nih.gov/40224530/" target="_blank" rel="noopener noreferrer nofollow" className="text-primary hover:underline">→ View on PubMed</a></li>
+                      <li className="border-t pt-4"><p className="font-semibold">Review of Central Fatness and Mortality</p><p className="text-muted-foreground">Jayedi, A. et al. (2020). Central fatness and risk of all cause mortality: systematic review and dose-response meta-analysis.</p><a href="https://www.bmj.com/content/370/bmj.m3324" target="_blank" rel="noopener noreferrer nofollow" className="text-primary hover:underline">→ View on The BMJ</a></li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </section>
             </div>
+
 
             <FAQSection faqs={faqs} />
           </div>
