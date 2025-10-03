@@ -107,15 +107,15 @@ export default function ABSICalculatorPage() {
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
               
               {/* --- What is ABSI? --- */}
-              <section>
-                <h2>What is ABSI?</h2>
+              <section> 
+                <h2 className="mb-2"><b>What is ABSI?</b></h2>
                 <p>ABSI, or A Body Shape Index, is a health metric that includes your waist circumference in addition to your weight and height. This allows ABSI to account for where fat is located on your body. Its main advantage is its ability to highlight the risks associated with belly fat (central adiposity), which has a stronger link to cardiovascular health issues than overall weight alone.</p>
                 <blockquote>Two people can have the same BMI, but if one has more fat around their midsection, their ABSI will be higher—often signaling a greater health risk. This is why ABSI complements BMI, offering a more complete picture.</blockquote>
               </section>
 
               {/* --- The ABSI Formula --- */}
               <section>
-                  <h2>The ABSI Formula: A Step-by-Step Outline</h2>
+                  <h2 className="mb-2"><b>The ABSI Formula </b>: A Step-by-Step Outline</h2>
                   <div className="grid md:grid-cols-2 gap-8 items-start not-prose">
                       {/* Left side: Vertical Stepper */}
                       <VerticalStepper steps={stepperSteps} />
@@ -174,8 +174,8 @@ export default function ABSICalculatorPage() {
 
               {/* --- Learning Your ABSI Score --- */}
               <section>
-                <h2>Learning Your ABSI Score</h2>
-                <p>A raw ABSI value is useful, but it becomes powerful when converted to an **ABSI Z-Score**. This score compares your result to an age and gender-matched population, telling you how your body shape risk compares to the average.</p>
+                <h2 className="mb-2"><b>Learning Your ABSI Score</b></h2>
+                <p>A raw ABSI value is useful, but it becomes powerful when converted to an "ABSI Z-Score". This score compares your result to an age and gender-matched population, telling you how your body shape risk compares to the average.</p>
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 not-prose mt-4">
                   {[
                     { title: "Very Low to Low Risk", score: "z ≤ -0.5", icon: <Shield className="w-6 h-6 text-green-500" />, advice: "Keep up your healthy habits." },
@@ -198,7 +198,7 @@ export default function ABSICalculatorPage() {
 
               {/* --- ABSI vs Other Indices --- */}
               <section>
-                <h2>ABSI Versus Other Body Indices</h2>
+                <h2 className="mb-2"><b>ABSI Versus Other Body Indices</b></h2>
                 <p>ABSI is one of several tools used to assess body composition. Here's how it compares to other common indices.</p>
                 <div className="overflow-x-auto mt-4">
                   <table className="w-full text-sm">
@@ -246,7 +246,7 @@ export default function ABSICalculatorPage() {
 
               {/* --- Real Life Case Study --- */}
               <section>
-                <h2>Real-Life Case Study: "Riya"</h2>
+                <h2 className="mb-2"><b>Real-Life Case Study: "Riya"</b></h2>
                  <Card className="not-prose overflow-hidden">
                     <div className="grid md:grid-cols-2">
                         <div className="p-6">

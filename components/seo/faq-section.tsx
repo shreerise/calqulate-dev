@@ -25,7 +25,7 @@ export function FAQSection({ title = "Frequently Asked Questions", faqs }: FAQSe
   return (
     <Card className="mt-12">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <h2 className="text-2xl font-bold mb-2">{title}</h2>
         <CardDescription>Common questions and answers about our calculator</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -35,7 +35,7 @@ export function FAQSection({ title = "Frequently Asked Questions", faqs }: FAQSe
               className="flex w-full items-center justify-between rounded-lg border p-4 text-left hover:bg-muted/50 transition-colors"
               onClick={() => toggleItem(index)}
             >
-              <span className="font-medium">{faq.question}</span>
+              <h3 className="font-semibold text-base">{faq.question}</h3>
               <ChevronDown
                 className={`h-4 w-4 transition-transform ${openItems.includes(index) ? "rotate-180" : ""}`}
               />
