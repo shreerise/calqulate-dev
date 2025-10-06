@@ -14,7 +14,7 @@ import { Calculator, Scale, HeartPulse, Goal, BrainCircuit, Dna, Bone, FlaskConi
 export const metadata: Metadata = {
   title: "Lean Body Mass Calculator: Boer, Hume, James Formulas | Calqulate",
   description: "Calculate your Lean Body Mass (LBM) using Boer, James, and Hume formulas. Understand muscle mass, body composition, and get actionable insights for fitness, health, and nutrition. Essential for athletes & health enthusiasts.",
-  keywords: "lean body mass calculator, LBM calculator, fat free mass calculator, Boer formula LBM, James formula LBM, Hume formula LBM, body composition calculator, how to increase lean body mass, lean body mass formula, ideal LBM, muscle mass calculator",
+  keywords: "lean body mass calculator, ideal weight calculator, lean body mass calculator with body fat percentage, LBM calculator, fat free mass calculator, Boer formula LBM, James formula LBM, Hume formula LBM, body composition calculator, how to increase lean body mass, lean body mass formula, ideal LBM, muscle mass calculator",
   alternates: {
     canonical: "https://calqulate.net/health/lean-body-mass-calculator",
   },
