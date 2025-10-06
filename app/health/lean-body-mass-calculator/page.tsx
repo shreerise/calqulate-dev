@@ -8,8 +8,8 @@ import { Footer } from "@/components/layout/footer"
 import LeanBodyMassCalculator from "@/components/calculators/lean-body-mass-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calculator, Scale, HeartPulse, Goal, BrainCircuit } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Calculator, Scale, HeartPulse, Goal, BrainCircuit, Dna, Bone, FlaskConical, Percent } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Lean Body Mass Calculator: Boer, Hume, James Formulas | Calqulate",
@@ -30,9 +30,32 @@ const faqs = [
   { question: "Is LBM more important than total weight?", answer: "For assessing health and fitness, LBM is often more important than total weight. A person with a higher LBM and lower body fat is generally healthier and more metabolically active than someone of the same weight with lower LBM, as it reflects better muscle development." }
 ]
 
-const VerticalStepper = ({ steps }: { steps: { title: string; description: string }[] }) => (
-  <div className="relative pl-8">{steps.map((step, index) => (<div key={index} className="relative pb-12">{index < steps.length - 1 && (<div className="absolute top-2 left-[1px] w-0.5 h-full bg-gray-300 dark:bg-gray-700"></div>)}<div className="absolute top-2 left-0 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-background"></div><div className="pl-6"><h3 className="text-lg font-semibold text-primary">Step {String(index + 1).padStart(2, '0')}</h3><p className="font-bold mt-1">{step.title}</p><p className="text-muted-foreground mt-1">{step.description}</p></div></div>))}</div>
-);
+// --- NEW: Custom Vertical Stepper Component ---
+const VerticalStepper = ({ steps }: { steps: { title: string; description: string }[] }) => {
+  return (
+    <div className="relative pl-8">
+      {steps.map((step, index) => (
+        <div key={index} className="relative pb-12">
+          {/* Vertical line (not on the last item) */}
+          {index < steps.length - 1 && (
+            <div className="absolute top-2 left-[1px] w-0.5 h-full bg-gray-300 dark:bg-gray-700"></div>
+          )}
+          
+          {/* Circle indicator */}
+          <div className="absolute top-2 left-0 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-background"></div>
+          
+          {/* Step content */}
+          <div className="pl-6">
+            <h3 className="text-lg font-semibold text-primary">Step {String(index + 1).padStart(2, '0')}</h3>
+            <p className="font-bold mt-1">{step.title}</p>
+            <p className="text-muted-foreground mt-1">{step.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 
 export default function LeanBodyMassCalculatorPage() {
   const howToUseSteps = [
@@ -44,7 +67,11 @@ export default function LeanBodyMassCalculatorPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <CalculatorSchema name="Lean Body Mass Calculator" description="Calculate Lean Body Mass (LBM) using Boer, James, and Hume formulas for comprehensive body composition analysis." url="https://calqulate.net/health/lean-body-mass-calculator" />
+      <CalculatorSchema 
+        name="Lean Body Mass Calculator" 
+        description="Calculate Lean Body Mass (LBM) using Boer, James, and Hume formulas for comprehensive body composition analysis." 
+        url="https://calqulate.net/health/lean-body-mass-calculator" 
+      />
       <FAQSchema faqs={faqs} />
       <Header />
 
@@ -59,48 +86,155 @@ export default function LeanBodyMassCalculatorPage() {
             <LeanBodyMassCalculator />
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
-              <section>
-                <h2 id="what-is-lbm">What is Lean Body Mass (LBM)?</h2>
-                <p>Lean Body Mass (LBM) represents the total weight of your body minus all the weight from fat mass. LBM includes the weight of your bones, muscles, organs, skin, and water. It is a more accurate measure of your body's metabolic activity than total body weight or BMI.</p>
-                <p>Unlike <Link href="/health/bmi-calculator" className="text-primary hover:underline">Body Mass Index (BMI)</Link>, which can misclassify muscular individuals as overweight, LBM provides a clearer picture of your health. Tracking it is essential for athletes looking to gain muscle and for individuals aiming to ensure they lose fat, not muscle, during weight loss.</p>
-                 <div className="p-4 border rounded-lg not-prose my-6"><Image src="/LBM.svg" alt="Illustration showing body composition breakdown vs. fat mass" width={400} height={250} className="mx-auto" /><p className="text-center text-sm mt-2 text-muted-foreground">Fig 1: LBM provides a clearer health picture than BMI by separating fat mass from lean mass.</p></div>
-              </section>
-
-              <section>
-                <h2 id="lbm-formulas">LBM Formulas Explained</h2>
-                <p>Our calculator uses several well-established formulas to estimate LBM based on your weight, height, and sex. Since each formula was developed using different research populations, they provide a valuable range rather than a single absolute number.</p>
-                <Card className="not-prose my-4"><CardContent className="pt-6 font-mono text-sm md:text-base bg-muted rounded-lg space-y-2"><p><strong>Boer (Men):</strong> LBM = 0.407 &times; W(kg) + 0.267 &times; H(cm) - 19.2</p><p><strong>Boer (Women):</strong> LBM = 0.252 &times; W(kg) + 0.473 &times; H(cm) - 48.3</p></CardContent></Card>
-                <Card className="not-prose my-4"><CardContent className="pt-6 font-mono text-sm md:text-base bg-muted rounded-lg space-y-2"><p><strong>Hume (Men):</strong> LBM = (0.32810 &times; W(kg)) + (0.33929 &times; H(cm)) - 29.5336</p><p><strong>Hume (Women):</strong> LBM = (0.29569 &times; W(kg)) + (0.41813 &times; H(cm)) - 43.2933</p></CardContent></Card>
-                 <Card className="not-prose my-4"><CardContent className="pt-6 font-mono text-sm md:text-base bg-muted rounded-lg space-y-2"><p><strong>James (Men):</strong> LBM = 1.1 &times; W(kg) - 128 &times; (W(kg) / H(cm))²</p><p><strong>James (Women):</strong> LBM = 1.07 &times; W(kg) - 148 &times; (W(kg) / H(cm))²</p></CardContent></Card>
-              </section>
               
-              <section>
-                <h2 id="how-to-use">How to Use the LBM Calculator</h2>
-                <div className="grid md:grid-cols-2 gap-8 items-start not-prose">
-                  <VerticalStepper steps={howToUseSteps} />
-                  <Card><CardHeader><CardTitle className="flex items-center gap-2"><Calculator className="w-5 h-5" /> Quick Tips</CardTitle></CardHeader><CardContent><ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground"><li>Use consistent measurements for reliable tracking over time.</li><li>Our calculator automatically handles unit conversions for you.</li><li>For users under 18, results are an estimate; consult a professional for a detailed analysis.</li></ul></CardContent></Card>
+              {/* --- What is Lean Body Mass (LBM)? --- */}
+              <section> 
+                <h2 className="mb-2"><b>What is Lean Body Mass (LBM)?</b></h2>
+                <p>Lean Body Mass (LBM) represents the total weight of your body minus all the weight from fat mass. LBM includes the weight of your bones, muscles, organs, skin, and water. It is a more accurate measure of your body's metabolic activity than total body weight or BMI.</p>
+                <blockquote>Unlike <Link href="/health/bmi-calculator" className="text-primary hover:underline">Body Mass Index (BMI)</Link>, which can misclassify muscular individuals as overweight, LBM provides a clearer picture of your health. Tracking it is essential for athletes looking to gain muscle and for individuals aiming to ensure they lose fat, not muscle, during weight loss.</blockquote>
+                <div className="p-4 border rounded-lg not-prose my-6 flex flex-col items-center justify-center"> {/* Changed to flex-col and centered */}
+                    <Image src="/LBM.svg" alt="Illustration showing body composition breakdown vs. fat mass" width={400} height={250} className="mx-auto" />
+                    <p className="text-center text-sm mt-2 text-muted-foreground">Fig 1: LBM provides a clearer health picture than BMI by separating fat mass from lean mass.</p> {/* Description moved outside the image tag */}
                 </div>
               </section>
 
+              {/* --- What’s a Healthy Lean Body Mass (LBM) Percentage? --- */}
               <section>
-                <h2 id="why-lbm-matters">Why Lean Body Mass Matters</h2>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 not-prose my-6">
+                <h2 className="mb-2"><b>What’s a Healthy Lean Body Mass (LBM) Percentage? A Complete Age & Gender Breakdown</b></h2>
+                <div className="overflow-x-auto mt-4">
+                  <table className="w-full text-sm">
+                    <thead className="text-left">
+                      <tr>
+                        <th className="p-2">Group</th>
+                        <th className="p-2">Average LBM (% of body weight)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-t">
+                        <td className="p-2 font-bold">Men 20–39 yr</td>
+                        <td className="p-2">75–85%</td>
+                      </tr>
+                      <tr className="border-t bg-muted/50">
+                        <td className="p-2 font-bold">Women 20–39 yr</td>
+                        <td className="p-2">65–75%</td>
+                      </tr>
+                      <tr className="border-t">
+                        <td className="p-2 font-bold">Men 40–59 yr</td>
+                        <td className="p-2">70–80%</td>
+                      </tr>
+                      <tr className="border-t bg-muted/50">
+                        <td className="p-2 font-bold">Women 40–59 yr</td>
+                        <td className="p-2">60–70%</td>
+                      </tr>
+                      <tr className="border-t">
+                        <td className="p-2 font-bold">Adults 60+ yr</td>
+                        <td className="p-2">−1% LBM per year if inactive</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3 className="font-bold text-lg mt-8 mb-4 flex items-center gap-2"><Percent className="w-5 h-5 text-primary" /> Important factors affecting LBM</h3>
+                <ul className="list-disc pl-5 space-y-3">
+                  <li><strong>Sex:</strong> Men typically have a higher percentage of LBM than women. For example, for adults aged 20-39, the average LBM for men is 75–85%, while for women it is 65–75%.</li>
+                  <li><strong>Age:</strong> After age 30, LBM tends to decline by about 3% to 8% per decade, especially without regular resistance training.</li>
+                  <li><strong>Genetics:</strong> Individual genetic factors can influence your body composition and LBM.</li>
+                  <li><strong>Activity Level:</strong> Athletes, particularly those who do resistance training, typically have higher LBM percentages, ranging from 80% to 90%. A healthy, non-athletic adult generally falls in the 65% to 75% range.</li>
+                </ul>
+              </section>
+
+              {/* --- LBM Formulas Explained --- */}
+              <section>
+                  <h2 className="mb-2"><b>How to calculate lean body mass ?</b></h2>
+                  <p>Our calculator uses several well-established formulas to estimate LBM based on your weight, height, and sex. Since each formula was developed using different research populations, they provide a valuable range rather than a single absolute number.</p>
+                  <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8 items-start not-prose mt-6">
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className="flex items-center gap-2"><Dna className="w-5 h-5" /> Boer Formula</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                              <div className="p-4 bg-muted rounded-lg font-mono text-sm md:text-base space-y-2">
+                                  <p><strong>Men:</strong> LBM = 0.407 &times; W(kg) + 0.267 &times; H(cm) - 19.2</p>
+                                  <p><strong>Women:</strong> LBM = 0.252 &times; W(kg) + 0.473 &times; H(cm) - 48.3</p>
+                              </div>
+                          </CardContent>
+                      </Card>
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className="flex items-center gap-2"><Bone className="w-5 h-5" /> Hume Formula</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                              <div className="p-4 bg-muted rounded-lg font-mono text-sm md:text-base space-y-2">
+                                  <p><strong>Men:</strong> LBM = (0.32810 &times; W(kg)) + (0.33929 &times; H(cm)) - 29.5336</p>
+                                  <p><strong>Women:</strong> LBM = (0.29569 &times; W(kg)) + (0.41813 &times; H(cm)) - 43.2933</p>
+                              </div>
+                          </CardContent>
+                      </Card>
+                      <div className="lg:col-span-2"> {/* This card spans two columns on large screens */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2"><FlaskConical className="w-5 h-5" /> James Formula</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="p-4 bg-muted rounded-lg font-mono text-sm md:text-base space-y-2">
+                                    <p><strong>Men:</strong> LBM = 1.1 &times; W(kg) - 128 &times; (W(kg) / H(cm))²</p>
+                                    <p><strong>Women:</strong> LBM = 1.07 &times; W(kg) - 148 &times; (W(kg) / H(cm))²</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                      </div>
+                  </div>
+              </section>
+
+              {/* --- How to Use the LBM Calculator --- */}
+              <section>
+                <h2 className="mb-2"><b>How to Use the LBM Calculator</b></h2>
+                <div className="grid md:grid-cols-2 gap-8 items-start not-prose">
+                  {/* Left side: Vertical Stepper */}
+                  <VerticalStepper steps={howToUseSteps} />
+
+                  {/* Right side: Quick Tips */}
+                  <div className="space-y-4">
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className="flex items-center gap-2"><Calculator className="w-5 h-5" /> Quick Tips</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                              <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
+                                  <li>Use consistent measurements for reliable tracking over time.</li>
+                                  <li>Our calculator automatically handles unit conversions for you.</li>
+                                  <li>For users under 18, results are an estimate; consult a professional for a detailed analysis.</li>
+                              </ul>
+                          </CardContent>
+                      </Card>
+                  </div>
+                </div>
+              </section>
+
+              {/* --- Why Lean Body Mass Matters --- */}
+              <section>
+                <h2 className="mb-2"><b>Why Lean Body Mass Matters</b></h2>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mt-4">
                   <Card><CardHeader className="flex flex-row items-center justify-between pb-2"><CardTitle className="text-lg font-bold">Fitness & Performance</CardTitle><Goal className="h-6 w-6 text-primary" /></CardHeader><CardContent className="text-sm text-muted-foreground">LBM is the best metric for tracking muscle gain. It helps athletes distinguish true muscle growth from fat accumulation, allowing for better training and diet adjustments.</CardContent></Card>
                   <Card><CardHeader className="flex flex-row items-center justify-between pb-2"><CardTitle className="text-lg font-bold">Metabolic Health</CardTitle><HeartPulse className="h-6 w-6 text-primary" /></CardHeader><CardContent className="text-sm text-muted-foreground">Your LBM is the primary driver of your Basal Metabolic Rate (BMR). More lean mass means you burn more calories at rest, which is crucial for sustainable weight management.</CardContent></Card>
                   <Card><CardHeader className="flex flex-row items-center justify-between pb-2"><CardTitle className="text-lg font-bold">Healthy Aging</CardTitle><Scale className="h-6 w-6 text-primary" /></CardHeader><CardContent className="text-sm text-muted-foreground">Maintaining LBM is vital for preventing sarcopenia (age-related muscle loss), which helps preserve mobility, strength, and overall quality of life as you get older.</CardContent></Card>
                 </div>
               </section>
 
+              {/* --- How to Increase Lean Body Mass --- */}
               <section>
-                  <h2 id="increase-lbm">How to Increase Lean Body Mass</h2>
+                  <h2 className="mb-2"><b>How to Increase Lean Body Mass</b></h2>
                   <p>Building LBM requires a strategic combination of resistance training and nutrition.</p>
-                  <ul className="list-disc pl-5 space-y-3">
+                  <ul className="list-disc pl-5 space-y-3 mt-4">
                     <li><strong>Resistance Training:</strong> Engage in strength training 3-5 times a week, focusing on compound exercises like squats, deadlifts, and presses. Progressive overload (gradually increasing weight or reps) is key to stimulating muscle growth.</li>
                     <li><strong>Adequate Protein Intake:</strong> Protein provides the building blocks for muscle. Aim for 1.6 to 2.2 grams of protein per kilogram of body weight, spread throughout the day.</li>
                     <li><strong>Sufficient Calorie Intake:</strong> To build muscle, you need to consume slightly more calories than you burn. A modest surplus provides the energy required for muscle repair and growth.</li>
                     <li><strong>Prioritize Sleep and Recovery:</strong> Muscles grow during rest. Aim for 7-9 hours of quality sleep per night and include rest days in your training schedule to allow your body to recover.</li>
                   </ul>
-                   <div className="p-4 border rounded-lg not-prose my-6"><Image src="/LBMC.svg" alt="Illustration showing a person lifting weights to build LBM" width={400} height={250} className="mx-auto" /><p className="text-center text-sm mt-2 text-muted-foreground">Fig 2: A combination of strength training and proper nutrition is essential for increasing LBM.</p></div>
+                   <div className="p-4 border rounded-lg not-prose my-6 flex flex-col items-center justify-center"> {/* Changed to flex-col and centered */}
+                    <Image src="/LBMC.svg" alt="Illustration showing a person lifting weights to build LBM" width={400} height={250} className="mx-auto" />
+                    <p className="text-center text-sm mt-2 text-muted-foreground">Fig 2: A combination of strength training and proper nutrition is essential for increasing LBM.</p> {/* Description moved outside the image tag */}
+                   </div>
               </section>
             </div>
             
