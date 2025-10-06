@@ -6,8 +6,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { SearchBar } from "@/components/search/search-bar"
-import { searchCalculators, getAllCategories, getCalculatorsByCategory, type Calculator } from "@/lib/search-data"
-import { Home, DollarSign } from "lucide-react"
+import {
+  searchCalculators,
+  getAllCategories,
+  getCalculatorsByCategory,
+  type Calculator,
+} from "@/lib/search-data"
+import { Home, DollarSign, CalculatorIcon } from "lucide-react"
 import Link from "next/link"
 
 export function SearchResults() {
@@ -23,7 +28,6 @@ export function SearchResults() {
 
   useEffect(() => {
     setIsLoading(true)
-
     let searchResults: Calculator[] = []
 
     if (query) {
@@ -31,7 +35,7 @@ export function SearchResults() {
     } else if (selectedCategory) {
       searchResults = getCalculatorsByCategory(selectedCategory)
     } else {
-      searchResults = searchCalculators("") // Returns all calculators
+      searchResults = searchCalculators("") // all calculators
     }
 
     setResults(searchResults)
@@ -45,13 +49,11 @@ export function SearchResults() {
       case "Financial":
         return <DollarSign className="h-4 w-4" />
       default:
-        return <span className="h-4 w-4">Calculator</span>
+        return <CalculatorIcon className="h-4 w-4" />
     }
   }
 
-  if (isLoading) {
-    return <div className="text-center py-8">Loading search results...</div>
-  }
+  if (isLoading) return <div className="text-center py-8">Loading search results...</div>
 
   return (
     <div className="space-y-8">
@@ -62,7 +64,11 @@ export function SearchResults() {
 
       {/* Category Filters */}
       <div className="flex flex-wrap justify-center gap-2">
-        <Button variant={!selectedCategory ? "default" : "outline"} size="sm" onClick={() => setSelectedCategory("")}>
+        <Button
+          variant={!selectedCategory ? "default" : "outline"}
+          size="sm"
+          onClick={() => setSelectedCategory("")}
+        >
           All Categories
         </Button>
         {categories.map((cat) => (
@@ -80,7 +86,7 @@ export function SearchResults() {
       </div>
 
       {/* Search Info */}
-      <div className="text-center">
+      <div className="text-center space-y-1">
         {query && (
           <p className="text-muted-foreground">
             Search results for <strong>"{query}"</strong>
@@ -91,25 +97,36 @@ export function SearchResults() {
             Showing <strong>{selectedCategory}</strong> calculators
           </p>
         )}
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-sm text-muted-foreground">
           {results.length} calculator{results.length !== 1 ? "s" : ""} found
         </p>
       </div>
 
-      {/* Results */}
+      {/* Results Grid */}
       {results.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {results.map((calculator) => (
-            <Card key={calculator.id} className="hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="p-2 bg-primary/10 rounded-lg w-fit">{getCategoryIcon(calculator.category)}</div>
-                  <Badge variant="secondary">{calculator.category}</Badge>
-                </div>
-                <CardTitle className="text-lg text-balance">{calculator.title}</CardTitle>
-                <CardDescription className="text-pretty">{calculator.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
+            <Card
+              key={calculator.id}
+              className="flex flex-col justify-between hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
+            >
+              <div>
+                <CardHeader>
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="p-2 bg-primary/10 rounded-lg w-fit">
+                      {getCategoryIcon(calculator.category)}
+                    </div>
+                    <Badge variant="secondary">{calculator.category}</Badge>
+                  </div>
+                  <CardTitle className="text-lg font-semibold mb-2">
+                    {calculator.title}
+                  </CardTitle>
+                  <CardDescription className="text-sm text-muted-foreground">
+                    {calculator.description}
+                  </CardDescription>
+                </CardHeader>
+              </div>
+              <CardContent className="mt-auto">
                 <div className="space-y-3">
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1">
@@ -120,9 +137,10 @@ export function SearchResults() {
                     ))}
                   </div>
 
+                  {/* CTA Button */}
                   <Button asChild className="w-full">
                     <Link href={calculator.href}>
-                      <span className="h-4 w-4 mr-2">Calculator</span>
+                      <CalculatorIcon className="h-4 w-4 mr-2" />
                       Use Calculator
                     </Link>
                   </Button>
@@ -133,10 +151,12 @@ export function SearchResults() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <span className="h-12 w-12 text-muted-foreground mx-auto mb-4">Calculator</span>
+          <CalculatorIcon className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-lg font-semibold mb-2">No calculators found</h3>
           <p className="text-muted-foreground mb-4">
-            {query ? `No calculators match your search for "${query}"` : "No calculators found in this category"}
+            {query
+              ? `No calculators match your search for "${query}"`
+              : "No calculators found in this category"}
           </p>
           <Button
             variant="outline"
