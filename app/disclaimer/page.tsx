@@ -2,129 +2,193 @@ import type { Metadata } from "next"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { Card, CardContent } from "@/components/ui/card"
-import { AlertTriangle } from "lucide-react"
+import {
+  AlertTriangle,
+  Info,
+  ShieldCheck,
+  Megaphone,
+  LocateFixed,
+  Lightbulb,
+  Scale,
+  Link,
+  Edit,
+  UserCheck,
+  Mail,
+  Zap,
+} from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Disclaimer - Calculator Hub",
-  description: "Important disclaimer about Calculator Hub's calculator results and limitations of our estimates.",
-  keywords: "disclaimer, calculator accuracy, estimates, calculator hub disclaimer",
+  title: "Disclaimer - Calqulate.net",
+  description:
+    "Important disclaimer about Calqulate.net's calculator results, limitations, and terms of use. Last edited: October 2025.",
+  keywords: "disclaimer, Calqulate.net, calculator accuracy, terms of use, estimates, professional advice",
 }
+
+const SectionHeader = ({ id, title, icon: Icon }: { id: string; title: string; icon: React.ElementType }) => (
+  <h2
+    id={id}
+    className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8"
+    style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
+  >
+    <Icon className="w-8 h-8 text-primary" />
+    {title}
+  </h2>
+)
 
 export default function DisclaimerPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
+    >
       <Header />
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <AlertTriangle className="h-12 w-12 text-yellow-500" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-balance mb-4">Disclaimer</h1>
-              <p className="text-muted-foreground">Important information about our calculator results</p>
+            {/* Header */}
+            <div className="mb-12 text-center">
+              <h1
+                className="text-4xl md:text-5xl font-bold mb-3"
+                style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
+              >
+                Disclaimer
+              </h1>
+              <p
+                className="text-muted-foreground text-lg max-w-2xl mx-auto"
+                style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
+              >
+                Last edited: October 2025
+              </p>
             </div>
 
-            <Card>
-              <CardContent className="prose prose-gray max-w-none p-8">
-                <h2>General Disclaimer</h2>
+            {/* Introduction */}
+            <section className="bg-gradient-to-r from-yellow-50 to-orange-50 p-8 rounded-lg w-full max-w-none mb-10">
+              <h2 className="text-3xl font-bold mb-4 text-primary">Welcome to Calqulate.net</h2>
+              <div className="prose prose-gray max-w-none text-lg leading-relaxed">
                 <p>
-                  The information provided by Calculator Hub's calculators is for general informational and educational
-                  purposes only. All calculations are estimates based on the data you provide and industry-standard
-                  formulas. These estimates should not be considered as professional advice or exact quotes.
+                  Welcome to Calqulate.net — your home for simple, intelligent, and informative calculators. Whether
+                  considering health figures or planning for future computations, here math is made easy for all.
                 </p>
-
-                <h2>Accuracy of Calculations</h2>
                 <p>
-                  While we strive to provide accurate and up-to-date calculations, Calculator Hub makes no
-                  representations or warranties of any kind, express or implied, about the completeness, accuracy,
-                  reliability, suitability, or availability of the calculator results.
+                  Please read this disclaimer carefully before using our tools. As you continue looking at or using our
+                  calculators, you automatically accept the terms provided below.
                 </p>
+              </div>
+            </section>
 
-                <h3>Factors Affecting Accuracy</h3>
-                <ul>
-                  <li>Regional variations in labor costs and material prices</li>
-                  <li>Market fluctuations and economic conditions</li>
-                  <li>Specific project requirements and complications</li>
-                  <li>Local building codes and permit requirements</li>
-                  <li>Seasonal variations in pricing and availability</li>
-                </ul>
-
-                <h2>Professional Consultation Required</h2>
+            <SectionHeader id="general-information" title="1. This information is general only." icon={Info} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>All the calculators and tools on Calqulate.net are meant for information and education only.</p>
                 <p>
-                  Calculator results should not replace professional consultation. For important decisions involving:
+                  We aim for correct, accurate, and easy-to-use calculations — but note our results are estimates, not
+                  a sure thing.
                 </p>
-                <ul>
-                  <li>
-                    <strong>Home Improvement Projects:</strong> Consult with licensed contractors, architects, or
-                    engineers
-                  </li>
-                  <li>
-                    <strong>Financial Decisions:</strong> Seek advice from qualified financial advisors or accountants
-                  </li>
-                  <li>
-                    <strong>Legal Matters:</strong> Consult with appropriate legal professionals
-                  </li>
-                  <li>
-                    <strong>Safety Concerns:</strong> Always prioritize safety and follow professional guidelines
-                  </li>
-                </ul>
-
-                <h2>Limitation of Liability</h2>
                 <p>
-                  Calculator Hub shall not be liable for any direct, indirect, incidental, consequential, or punitive
-                  damages arising from:
+                  Always consult on your own or with a qualified expert prior to using our tools for any health,
+                  financial, or life decisions.
                 </p>
-                <ul>
-                  <li>Use of calculator results in decision-making</li>
-                  <li>Reliance on estimates for project planning or budgeting</li>
-                  <li>Financial losses resulting from calculator-based decisions</li>
-                  <li>Errors or omissions in calculation results</li>
-                  <li>Technical issues or website downtime</li>
-                </ul>
+              </CardContent>
+            </Card>
 
-                <h2>User Responsibility</h2>
-                <p>Users are responsible for:</p>
-                <ul>
-                  <li>Providing accurate input data for calculations</li>
-                  <li>Understanding the limitations of estimate-based results</li>
-                  <li>Seeking professional advice for important decisions</li>
-                  <li>Verifying results with multiple sources when appropriate</li>
-                  <li>Using common sense and professional judgment</li>
-                </ul>
-
-                <h2>Third-Party Information</h2>
+            <SectionHeader id="not-professional-advice" title="2. Not Professional Advice" icon={ShieldCheck} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>The calqulate.net does not make medical, financial, legal, or professional recommendations.</p>
                 <p>
-                  Our calculators may incorporate data from third-party sources, including industry reports, government
-                  statistics, and market research. While we select reputable sources, we cannot guarantee the accuracy
-                  or completeness of third-party information.
+                  They are not a substitute for medical diagnostics or therapy, for example, our health calculators. If
+                  you have questions or concerns about your health or personal situation, consult a licensed
+                  professional.
                 </p>
+                <p>Consider our tools approachable guides, rather than accredited advisors.</p>
+              </CardContent>
+            </Card>
 
-                <h2>Updates and Changes</h2>
+            <SectionHeader id="global-audience" title="3. Notice for Global Audience" icon={LocateFixed} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
                 <p>
-                  Calculator formulas and underlying data are updated periodically to reflect current market conditions
-                  and industry standards. However, there may be delays between market changes and calculator updates.
+                  They are all over the globe, so some calculators or results may not exactly correspond to local laws,
+                  standards, or regulations.
                 </p>
-
-                <h2>Regional Variations</h2>
                 <p>
-                  Our calculators provide general estimates that may not reflect specific regional conditions, local
-                  regulations, or market variations. Always consider local factors when making decisions based on
-                  calculator results.
+                  Always verify results and data based on your nation's legitimate regulations prior to putting your
+                  confidence in them.
                 </p>
+              </CardContent>
+            </Card>
 
-                <h2>No Warranty</h2>
+            <SectionHeader id="accuracy-limitations" title="4. Accuracy & Limitations" icon={Zap} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
                 <p>
-                  Calculator Hub provides its services "as is" without any warranty of any kind, either express or
-                  implied, including but not limited to the implied warranties of merchantability, fitness for a
-                  particular purpose, or non-infringement.
+                  We regularly refresh our calculators for greater precision, but errors, mechanical faults, or
+                  out-of-date information may occur on occasion.
                 </p>
-
-                <h2>Contact Us</h2>
                 <p>
-                  If you have questions about this disclaimer or need clarification about calculator limitations, please
-                  contact us through our contact page or email us at info@calculatorhub.com.
+                  Calqulate.net does not guarantee that information, results, materials, or other items on the site are
+                  complete, reliable, or suitable.
+                </p>
+                <p>Your decision to make any calculator usage is entirely your own risk.</p>
+              </CardContent>
+            </Card>
+
+            <SectionHeader id="limitation-of-liability" title="5. Limitation of Liability" icon={Scale} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>
+                  Calqulate.net, its affiliates, and owners won't be held responsible for any direct, indirect, or
+                  consequential losses that happen when our tools, information, or site materials are being used.
+                </p>
+                <p>
+                  Your usage of our website constitutes your acknowledgment that we won't be liable for what you do on
+                  the basis of calculator output.
+                </p>
+              </CardContent>
+            </Card>
+
+            <SectionHeader id="outer-links" title="6. Disclaimer for Outer Links" icon={Link} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>Our site might contain links to other third parties' sites or tools.</p>
+                <p>We incorporate them for you, but do not endorse or guarantee their sites, content, or privacy policies.</p>
+                <p>Check their policies first when using any other sites.</p>
+              </CardContent>
+            </Card>
+
+            <SectionHeader id="updates-revisions" title="7. Updates and Revis" icon={Edit} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>Calqulate.net is entitled at any time without notice to make changes or updates to this disclaimer.</p>
+                <p>We suggest you check this page frequently for updates on any changes.</p>
+              </CardContent>
+            </Card>
+
+            <SectionHeader id="user-responsibility" title="8. User Responsibility" icon={UserCheck} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>All results must be investigated and verified for compliance with your own needs, or the needs of your workplace.</p>
+                <p>It is recommended that results which concern health, finances, or legal matters be double-checked.</p>
+              </CardContent>
+            </Card>
+
+            <SectionHeader id="get-in-touch" title="9. Get in Touch" icon={Mail} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>Have some questions regarding this disclaimer or our tools?</p>
+                <p>We'd love for you to reach out!</p>
+                <p>Gmail: <a href="mailto:shreerise@gmail.com" className="text-primary hover:underline">shreerise@gmail.com</a></p>
+              </CardContent>
+            </Card>
+
+            <SectionHeader id="final-point" title="10. Final point" icon={Megaphone} />
+            <Card className="rounded-lg p-6 mb-10">
+              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
+                <p>
+                  Here at calqulate.net, our mission is simple: reduce stress a little, calculation at a time. We
+                  commit to being correct, open, and assisting users. Use our calculators wisely, stay curious, and
+                  have data work more intelligently for you.
                 </p>
               </CardContent>
             </Card>
