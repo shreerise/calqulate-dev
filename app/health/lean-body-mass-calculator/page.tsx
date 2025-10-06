@@ -92,23 +92,21 @@ export default function LeanBodyMassCalculatorPage() {
                 <h2 className="mb-2"><b>What is Lean Body Mass (LBM)?</b></h2>
                 <p>Lean Body Mass (LBM) represents the total weight of your body minus all the weight from fat mass. LBM includes the weight of your bones, muscles, organs, skin, and water. It is a more accurate measure of your body's metabolic activity than total body weight or BMI.</p>
                 <blockquote>Unlike <Link href="/health/bmi-calculator" className="text-primary hover:underline">Body Mass Index (BMI)</Link>, which can misclassify muscular individuals as overweight, LBM provides a clearer picture of your health. Tracking it is essential for athletes looking to gain muscle and for individuals aiming to ensure they lose fat, not muscle, during weight loss.</blockquote>
-                <div className="not-prose my-10 flex justify-center">
-                <div className="not-prose my-8 flex justify-center">
-                  <div className="bg-muted/20  border border-border rounded-xl p-4 md:p-6 shadow-sm max-w-md w-full">
-                    <Image
-                      src="/LBM.svg"
-                      alt="Illustration comparing BMI and Lean Body Mass (LBM)"
-                      width={480}
-                      height={320}
-                      className="w-full h-auto rounded-lg object-contain mx-auto"
-                      priority
-                    />
-                    <p className="text-center text-sm mt-3 text-muted-foreground">
-                      Fig 1: LBM includes all non-fat components, making it a powerful metric for health and fitness.
-                    </p>
-                  </div>
-                </div>
-                </div>
+            <div className="not-prose my-10 flex justify-center">
+              <div className="bg-muted/20 border border-border rounded-lg p-4 md:p-5 shadow-sm w-full max-w-xl">
+                <Image
+                  src="/LBM.svg"
+                  alt="Illustration comparing BMI and Lean Body Mass (LBM)"
+                  width={600}
+                  height={400}
+                  className="w-full h-auto rounded-md object-contain"
+                  priority
+                />
+                <p className="text-center text-sm mt-3 text-muted-foreground">
+                  Fig 1: LBM includes all non-fat components, making it a powerful metric for health and fitness.
+                </p>
+              </div>
+            </div>
               </section>
 
               {/* --- What’s a Healthy Lean Body Mass (LBM) Percentage? --- */}
@@ -245,14 +243,14 @@ export default function LeanBodyMassCalculatorPage() {
                     <li><strong>Sufficient Calorie Intake:</strong> To build muscle, you need to consume slightly more calories than you burn. A modest surplus provides the energy required for muscle repair and growth.</li>
                     <li><strong>Prioritize Sleep and Recovery:</strong> Muscles grow during rest. Aim for 7-9 hours of quality sleep per night and include rest days in your training schedule to allow your body to recover.</li>
                   </ul>
-                   <div className="not-prose my-8 flex justify-center">
-                    <div className="bg-muted/20 border border-border rounded-xl p-4 md:p-6 shadow-sm max-w-md w-full">
+                   <div className="not-prose my-10 flex justify-center">
+                    <div className="bg-muted/20 border border-border rounded-lg p-4 md:p-5 shadow-sm w-full max-w-xl">
                       <Image
                         src="/LBMC.svg"
                         alt="Illustration showing how strength training and nutrition optimize Lean Body Mass"
-                        width={480}
-                        height={320}
-                        className="w-full h-auto rounded-lg object-contain mx-auto"
+                        width={600}
+                        height={400}
+                        className="w-full h-auto rounded-md object-contain"
                         priority
                       />
                       <p className="text-center text-sm mt-3 text-muted-foreground">
