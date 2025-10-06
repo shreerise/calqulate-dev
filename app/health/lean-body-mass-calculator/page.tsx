@@ -33,9 +33,9 @@ const faqs = [
 // --- NEW: Custom Vertical Stepper Component ---
 const VerticalStepper = ({ steps }: { steps: { title: string; description: string }[] }) => {
   return (
-    <div className="relative pl-8">
+    <div className="relative pl-8 pb-4 md:pb-0"> 
       {steps.map((step, index) => (
-        <div key={index} className="relative pb-12">
+        <div key={index} className={`relative ${index < steps.length - 1 ? 'pb-10' : 'pb-0'}`}>
           {/* Vertical line (not on the last item) */}
           {index < steps.length - 1 && (
             <div className="absolute top-2 left-[1px] w-0.5 h-full bg-gray-300 dark:bg-gray-700"></div>
@@ -92,9 +92,22 @@ export default function LeanBodyMassCalculatorPage() {
                 <h2 className="mb-2"><b>What is Lean Body Mass (LBM)?</b></h2>
                 <p>Lean Body Mass (LBM) represents the total weight of your body minus all the weight from fat mass. LBM includes the weight of your bones, muscles, organs, skin, and water. It is a more accurate measure of your body's metabolic activity than total body weight or BMI.</p>
                 <blockquote>Unlike <Link href="/health/bmi-calculator" className="text-primary hover:underline">Body Mass Index (BMI)</Link>, which can misclassify muscular individuals as overweight, LBM provides a clearer picture of your health. Tracking it is essential for athletes looking to gain muscle and for individuals aiming to ensure they lose fat, not muscle, during weight loss.</blockquote>
-                <div className="p-4 border rounded-lg not-prose my-6 flex flex-col items-center justify-center"> {/* Changed to flex-col and centered */}
-                    <Image src="/LBM.svg" alt="Illustration showing body composition breakdown vs. fat mass" width={400} height={250} className="mx-auto" />
-                    <p className="text-center text-sm mt-2 text-muted-foreground">Fig 1: LBM provides a clearer health picture than BMI by separating fat mass from lean mass.</p> {/* Description moved outside the image tag */}
+                <div className="not-prose my-10 flex justify-center">
+                <div className="not-prose my-8 flex justify-center">
+                  <div className="bg-muted/20  border border-border rounded-xl p-4 md:p-6 shadow-sm max-w-md w-full">
+                    <Image
+                      src="/LBM.svg"
+                      alt="Illustration comparing BMI and Lean Body Mass (LBM)"
+                      width={480}
+                      height={320}
+                      className="w-full h-auto rounded-lg object-contain mx-auto"
+                      priority
+                    />
+                    <p className="text-center text-sm mt-3 text-muted-foreground">
+                      Fig 1: LBM includes all non-fat components, making it a powerful metric for health and fitness.
+                    </p>
+                  </div>
+                </div>
                 </div>
               </section>
 
@@ -196,17 +209,18 @@ export default function LeanBodyMassCalculatorPage() {
                   {/* Right side: Quick Tips */}
                   <div className="space-y-4">
                       <Card>
-                          <CardHeader>
-                              <CardTitle className="flex items-center gap-2"><Calculator className="w-5 h-5" /> Quick Tips</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                              <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
-                                  <li>Use consistent measurements for reliable tracking over time.</li>
-                                  <li>Our calculator automatically handles unit conversions for you.</li>
-                                  <li>For users under 18, results are an estimate; consult a professional for a detailed analysis.</li>
-                              </ul>
-                          </CardContent>
-                      </Card>
+                    <CardHeader><CardTitle className="flex items-center gap-2"><Calculator className="w-5 h-5" /> Calculation Transparency</CardTitle></CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">
+                        It's deliberate to present results from various formulas. Each was derived from different data sets, so presenting a range gives a genuine impression of scientific reality and avoids false precision.
+                      </p>
+                      <ul className="list-disc pl-5 mt-4 space-y-2 text-sm">
+                        <li><strong>Boer, Hume, & James formulas</strong> are calculated automatically.</li>
+                        <li><strong>Direct Body Fat Method:</strong> If you enter your body fat %, it calculates LBM = Weight × (1 − BF%).</li>
+                        <li><strong>Prompts:</strong> For users with a high BMI, who are pregnant, highly active, or elderly, the app notes the potential for inaccuracy and suggests considering a professional test.</li>
+                      </ul>
+                    </CardContent>
+                  </Card>
                   </div>
                 </div>
               </section>
@@ -231,36 +245,25 @@ export default function LeanBodyMassCalculatorPage() {
                     <li><strong>Sufficient Calorie Intake:</strong> To build muscle, you need to consume slightly more calories than you burn. A modest surplus provides the energy required for muscle repair and growth.</li>
                     <li><strong>Prioritize Sleep and Recovery:</strong> Muscles grow during rest. Aim for 7-9 hours of quality sleep per night and include rest days in your training schedule to allow your body to recover.</li>
                   </ul>
-                   <div className="p-4 border rounded-lg not-prose my-6 flex flex-col items-center justify-center"> {/* Changed to flex-col and centered */}
-                    <Image src="/LBMC.svg" alt="Illustration showing a person lifting weights to build LBM" width={400} height={250} className="mx-auto" />
-                    <p className="text-center text-sm mt-2 text-muted-foreground">Fig 2: A combination of strength training and proper nutrition is essential for increasing LBM.</p> {/* Description moved outside the image tag */}
-                   </div>
+                   <div className="not-prose my-8 flex justify-center">
+                    <div className="bg-muted/20 border border-border rounded-xl p-4 md:p-6 shadow-sm max-w-md w-full">
+                      <Image
+                        src="/LBMC.svg"
+                        alt="Illustration showing how strength training and nutrition optimize Lean Body Mass"
+                        width={480}
+                        height={320}
+                        className="w-full h-auto rounded-lg object-contain mx-auto"
+                        priority
+                      />
+                      <p className="text-center text-sm mt-3 text-muted-foreground">
+                        Fig 2: Calculators are excellent for tracking trends, while DEXA scans provide clinical-grade accuracy.
+                      </p>
+                    </div>
+                  </div>
               </section>
             </div>
             
-            <FAQSection faqs={faqs} />
-            
-            <div className="mt-16 bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-inner">
-              <h2 className="text-2xl font-bold mb-4 text-center">Explore Related Health Calculators</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Link href="/health/bmi-calculator" className="block p-4 border rounded-lg hover:shadow-lg transition-shadow bg-background"><h3 className="font-semibold text-lg text-primary">BMI Calculator</h3><p className="text-sm text-muted-foreground">Check your body mass index.</p></Link>
-                <Link href="/health/body-fat-calculator" className="block p-4 border rounded-lg hover:shadow-lg transition-shadow bg-background"><h3 className="font-semibold text-lg text-primary">Body Fat Calculator</h3><p className="text-sm text-muted-foreground">Estimate your body fat percentage.</p></Link>
-                <Link href="/health/absi-calculator" className="block p-4 border rounded-lg hover:shadow-lg transition-shadow bg-background"><h3 className="font-semibold text-lg text-primary">ABSI Calculator</h3><p className="text-sm text-muted-foreground">Assess body shape-related risk.</p></Link>
-              </div>
-            </div>
-
-            <section className="mt-16 text-sm text-muted-foreground space-y-4">
-              <h2 className="text-xl font-bold">References & Disclaimer</h2>
-              <div>
-                <h3 className="font-semibold">References:</h3>
-                <ul className="list-disc pl-5 space-y-1 text-xs">
-                  <li>Boer, P. (1984). Estimated lean body mass as an index for normalization of body fluid volumes in humans. Am J Physiol, 247(4 Pt 2), F632-6.</li>
-                  <li>Hume, R. (1966). Prediction of lean body mass from height and weight. Journal of Clinical Pathology, 19(4), 389-391.</li>
-                  <li>James, W. P. T. (1976). Research on obesity: a report of the DHSS/MRC group.</li>
-                </ul>
-              </div>
-              <p><strong>Disclaimer:</strong> This calculator provides an estimate and is for educational purposes only. It is not a substitute for professional medical advice. Always consult with a qualified healthcare provider for any health concerns or before making any decisions related to your health or treatment.</p>
-            </section>
+            <FAQSection faqs={faqs} />           
           </div>
         </div>
       </main>
