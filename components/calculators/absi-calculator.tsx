@@ -85,6 +85,40 @@ const RiskQuadrantChart = ({ bmi, absi }: { bmi: number; absi: number }) => {
 export default function ABSICalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null)
   const [units, setUnits] = useState<UnitSystem>("metric")
+  // --- Conversion helpers ---
+  const cmToInches = (cm: number) => cm / 2.54;
+  const inchesToCm = (inches: number) => inches * 2.54;
+  const kgToLbs = (kg: number) => kg * 2.20462;
+  const lbsToKg = (lbs: number) => lbs / 2.20462;
+
+  // --- Convert input values when switching systems ---
+  const handleUnitChange = (newUnit: UnitSystem) => {
+    const currentValues = form.getValues();
+    const updatedValues: Record<string, any> = { ...currentValues };
+
+    if (currentValues.height) {
+      const h = parseFloat(currentValues.height);
+      updatedValues.height =
+        newUnit === "imperial" ? cmToInches(h).toFixed(1) : inchesToCm(h).toFixed(1);
+    }
+
+    if (currentValues.waist) {
+      const w = parseFloat(currentValues.waist);
+      updatedValues.waist =
+        newUnit === "imperial" ? cmToInches(w).toFixed(1) : inchesToCm(w).toFixed(1);
+    }
+
+    if (currentValues.weight) {
+      const wt = parseFloat(currentValues.weight);
+      updatedValues.weight =
+        newUnit === "imperial" ? kgToLbs(wt).toFixed(1) : lbsToKg(wt).toFixed(1);
+    }
+
+    updatedValues.units = newUnit;
+    form.reset(updatedValues);
+    setUnits(newUnit);
+  };
+
   const [isLoading, setIsLoading] = useState(false)
   const resultsRef = useRef<HTMLDivElement>(null)
 
@@ -176,8 +210,16 @@ export default function ABSICalculator() {
                   <FormItem className="space-y-3">
                     <FormLabel>Unit System</FormLabel>
                     <FormControl>
-                      <RadioGroup onValueChange={(value: UnitSystem) => { field.onChange(value); setUnits(value); }} defaultValue={field.value} className="flex items-center space-x-4">
-                        <FormItem className="flex items-center space-x-2 space-y-0">
+                      <RadioGroup
+                          onValueChange={(value: UnitSystem) => {
+                            field.onChange(value);
+                            handleUnitChange(value);
+                          }}
+                          defaultValue={field.value}
+                          className="flex items-center space-x-4"
+                        >
+
+                        <FormItem   className="flex items-center space-x-2 space-y-0">
                           <FormControl><RadioGroupItem value="metric" /></FormControl>
                           <FormLabel className="font-normal">Metric (cm, kg)</FormLabel>
                         </FormItem>

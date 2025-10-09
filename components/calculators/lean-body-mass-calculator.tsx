@@ -79,6 +79,55 @@ export default function LeanBodyMassCalculator() {
   const unitSystem = form.watch("unitSystem")
   const age = parseInt(form.watch("age") || "0")
 
+  // --- Conversion Helpers ---
+    const cmToFeetInches = (cm: number) => {
+      const totalInches = cm / 2.54;
+      const feet = Math.floor(totalInches / 12);
+      const inches = totalInches % 12;
+      return { feet, inches: parseFloat(inches.toFixed(1)) };
+    };
+
+    const feetInchesToCm = (feet: number, inches: number) => (feet * 30.48) + (inches * 2.54);
+    const kgToLbs = (kg: number) => kg * 2.20462;
+    const lbsToKg = (lbs: number) => lbs / 2.20462;
+
+    // --- Auto-convert when switching units ---
+    const handleUnitChange = (newUnit: "metric" | "imperial") => {
+      const currentValues = form.getValues();
+      const updatedValues: Record<string, any> = { ...currentValues };
+
+      // Convert weight
+      if (currentValues.weight) {
+        const w = parseFloat(currentValues.weight);
+        if (!isNaN(w)) {
+          updatedValues.weight =
+            newUnit === "imperial" ? kgToLbs(w).toFixed(1) : lbsToKg(w).toFixed(1);
+        }
+      }
+
+      // Convert height
+      if (newUnit === "imperial" && currentValues.height) {
+        const h = parseFloat(currentValues.height);
+        if (!isNaN(h)) {
+          const { feet, inches } = cmToFeetInches(h);
+          updatedValues.heightFeet = feet.toString();
+          updatedValues.heightInches = inches.toString();
+          updatedValues.height = "";
+        }
+      } else if (newUnit === "metric" && (currentValues.heightFeet || currentValues.heightInches)) {
+        const feet = parseFloat(currentValues.heightFeet || "0");
+        const inches = parseFloat(currentValues.heightInches || "0");
+        const cm = feetInchesToCm(feet, inches);
+        updatedValues.height = cm.toFixed(1);
+        updatedValues.heightFeet = "";
+        updatedValues.heightInches = "";
+      }
+
+      updatedValues.unitSystem = newUnit;
+      form.reset(updatedValues);
+    };
+
+
   const calculateLBMFormulas = (weightKg: number, heightCm: number, sex: "male" | "female", age: number): LBMFormulaResults => {
     let boer: number | null = null, hume: number | null = null, james: number | null = null;
 
@@ -166,7 +215,14 @@ export default function LeanBodyMassCalculator() {
                   <FormItem className="space-y-3">
                     <FormLabel>Unit System</FormLabel>
                     <FormControl>
-                      <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex items-center space-x-4">
+                      <RadioGroup
+                        onValueChange={(value: "metric" | "imperial") => {
+                          field.onChange(value);
+                          handleUnitChange(value);
+                        }}
+                        defaultValue={field.value}
+                        className="flex items-center space-x-4"
+                      >
                         <FormItem className="flex items-center space-x-2 space-y-0"><FormControl><RadioGroupItem value="metric" /></FormControl><FormLabel className="font-normal">Metric (kg, cm)</FormLabel></FormItem>
                         <FormItem className="flex items-center space-x-2 space-y-0"><FormControl><RadioGroupItem value="imperial" /></FormControl><FormLabel className="font-normal">Imperial (lbs, ft/in)</FormLabel></FormItem>
                       </RadioGroup>
