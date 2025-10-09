@@ -4,49 +4,91 @@ import { Footer } from "@/components/layout/footer"
 import RFMCalculator from "@/components/calculators/rfm-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Ruler, Calculator, CheckCircle, BarChart, Sun, Thermometer, AlertTriangle, BookOpen, Users, Brain, HeartPulse, Shield, Leaf, Target } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "RFM Calculator - Relative Fat Mass | Calculator Hub",
-  description:
-    "Calculate your body fat percentage using the RFM (Relative Fat Mass) formula. A simple and accurate method based on waist circumference, height, and sex.",
-  keywords: "rfm calculator, relative fat mass, body fat percentage, body composition",
+  title: "RFM Calculator — Estimate Body Fat % Fast (Free)",
+  description: "Quickly calculate your RFM score from height & waist. Get an easy body-fat %, clear interpretation, and practical next steps — free and instant. Try it now!",
+  keywords: "rfm calculator, relative fat mass, body fat percentage, body composition, ideal body weight, finding ideal weight, age weight tool, best weight calculator, perfect body weight calculator",
 }
 
+// Updated FAQ data from your new content
 const faqs = [
   {
-    question: "What is RFM?",
-    answer:
-      "Relative Fat Mass (RFM) is an estimate of body fat percentage based on waist circumference, height, and sex. It is a modern alternative to BMI.",
-  },
-  {
     question: "How accurate is RFM compared to BMI?",
-    answer:
-      "Studies suggest RFM is more accurate than BMI for estimating body fat percentage, especially across different body types and sexes.",
+    answer: "RFM correlates better with DEXA scan results (the gold standard) than BMI for estimating body-fat percentage. It misclassifies fewer people, especially women, because it focuses on fat distribution rather than just total weight."
   },
   {
-    question: "Do I need special equipment to measure RFM?",
-    answer:
-      "No, all you need is a measuring tape to measure your waist circumference and your height in centimeters.",
+    question: "Is RFM applicable for kids?",
+    answer: "No, the RFM formula was developed and validated for adults. Children and adolescents require age- and sex-specific tools like pediatric growth charts. Always consult a pediatrician for assessing a child's body composition."
   },
   {
-    question: "What waist measurement should I use?",
-    answer:
-      "Measure your waist circumference at the level of the navel (belly button), standing upright and relaxed.",
+    question: "Does age or ethnicity affect RFM?",
+    answer: "The core RFM formula is independent of age and has been shown to be effective across various ethnic groups in scientific studies. However, a healthcare professional will always interpret your results in the context of your personal health profile, which includes age and other factors."
   },
   {
-    question: "Can RFM be used for children?",
-    answer:
-      "RFM is primarily designed for adults. For children and adolescents, growth charts and specialized formulas should be used instead.",
+    question: "How can I improve my RFM score?",
+    answer: "To improve your RFM score (i.e., lower your body fat percentage), focus on sustainable lifestyle changes. This typically involves a moderate calorie deficit to encourage fat loss, combined with strength training and adequate protein intake to preserve muscle mass."
   },
-]
+  {
+    question: "How often should I measure my RFM?",
+    answer: "If you are actively working on changing your body composition, measuring your RFM every 4 to 12 weeks is a reasonable timeframe to track meaningful progress. Measuring too frequently can be misleading due to normal daily fluctuations."
+  },
+  {
+    question: "I searched 'how to calculate recency in RFM'. Is that related to body fat?",
+    answer: "That's a common point of confusion! 'Recency, Frequency, Monetary' (RFM) is a completely different concept used in marketing to analyze customer behavior. Relative Fat Mass (RFM) for body composition does not involve 'recency' at all; it only uses your height and waist measurements."
+  }
+];
+
+// Re-using the Vertical Stepper component from your ABSI page example
+const VerticalStepper = ({ steps }: { steps: { title: string; description: string }[] }) => {
+  return (
+    <div className="relative pl-8">
+      {steps.map((step, index) => (
+        <div key={index} className="relative pb-12">
+          {/* Vertical line */}
+          {index < steps.length - 1 && (
+            <div className="absolute top-2 left-[1px] w-0.5 h-full bg-gray-300 dark:bg-gray-700"></div>
+          )}
+          {/* Circle indicator */}
+          <div className="absolute top-2 left-0 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-background"></div>
+          {/* Step content */}
+          <div className="pl-6">
+            <h3 className="text-lg font-semibold text-primary">Step {String(index + 1).padStart(2, '0')}</h3>
+            <p className="font-bold mt-1">{step.title}</p>
+            <p className="text-muted-foreground mt-1">{step.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default function RFMCalculatorPage() {
+  const measurementSteps = [
+    { title: "Prepare Yourself", description: "Take off shoes and any heavy or bulky clothing. Measurements should be taken barefoot for accuracy." },
+    { title: "Measure Your Height", description: "Stand straight against a wall with your heels together and eyes looking forward. Measure to the nearest 0.5 cm or 1/8 inch." },
+    { title: "Measure Your Waist", description: "Find the top of your hip bone (iliac crest). Circle a measuring tape around your waist at this level, keeping it horizontal. Breathe out gently and take the reading without squeezing the tape against your skin." },
+    { title: "Calculate Your RFM", description: "Enter the values into our calculator. It will automatically handle any unit conversions and provide your RFM score." },
+    { title: "Compare and Monitor", description: "Use the interpretation table to understand your result and monitor your progress over time." },
+  ];
+  
+  const calculatorFeatures = [
+    { title: "Science-Backed Results", description: "Uses the proven RFM formula for a reliable body fat percentage score.", icon: <Calculator className="w-6 h-6 text-blue-500" /> },
+    { title: "Clear Interpretation", description: "Instantly see where you fall within clear ranges (essential, athlete, average, etc.).", icon: <BarChart className="w-6 h-6 text-green-500" /> },
+    { title: "Unit-Flexible", description: "Enter your measurements in metric or imperial units—we handle the conversion.", icon: <Thermometer className="w-6 h-6 text-orange-500" /> },
+    { title: "Measurement Guidance", description: "In-page guides help ensure your height and waist are measured accurately for the best results.", icon: <Ruler className="w-6 h-6 text-purple-500" /> },
+    { title: "Holistic View", description: "Compare RFM with BMI and Ideal Body Weight concepts for a clearer health picture.", icon: <Sun className="w-6 h-6 text-yellow-500" /> },
+    { title: "Actionable Insights", description: "Get practical follow-up actions to help you reach your health goals.", icon: <Target className="w-6 h-6 text-red-500" /> },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <CalculatorSchema
         name="RFM Calculator"
-        description="Estimate your body fat percentage using the RFM (Relative Fat Mass) formula based on waist circumference, height, and sex."
-        url="https://calqulate.net/health/rfm-calculator"
+        description="Estimate your body fat percentage using the Relative Fat Mass (RFM) formula, a fast and accurate alternative to BMI."
+        url="https://calqulate.net/health/rfm-calculator" // Replace with your actual URL
       />
       <FAQSchema faqs={faqs} />
 
@@ -56,34 +98,142 @@ export default function RFMCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">RFM Calculator</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">RFM Calculator — Fast, Accurate Body-Fat Estimates</h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Use the Relative Fat Mass (RFM) formula to estimate your body fat percentage. A simple and effective
-                alternative to BMI that uses waist measurements.
+                As a doctor and content coordinator for a top-ranked world university, I created this page specifically to give you clear, fact-based answers — NOT fuzzy numbers. Instantly figure out body fat with this RFM calculator, learn the answer's implication for you, and choose your next healthy step.
               </p>
             </div>
 
             <RFMCalculator />
 
-            <div className="prose prose-gray max-w-none mt-12">
-              <h2>About the RFM Formula</h2>
-              <p>
-                The Relative Fat Mass (RFM) formula is designed to estimate body fat percentage more accurately than BMI.
-                It considers waist circumference and height, which better reflect body composition.
-              </p>
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
+              
+              <section> 
+                <h2 className="mb-2"><b>What is RFM?</b></h2>
+                <p>Relative Fat Mass (RFM) is a simple, reliable method of estimating your percentage body fat using only your height and waist circumference. While BMI is based on total weight and can misclassify muscular individuals, RFM is specifically designed to measure fat accumulation.</p>
+                <blockquote>RFM is more directly related to gold-standard DEXA scanning than BMI, making it a quick and clinically useful estimate of body fat without expensive equipment.</blockquote>
+              </section>
 
-              <h3>Why Use RFM?</h3>
-              <ul>
-                <li>More accurate than BMI in many populations</li>
-                <li>Easy to calculate with just a tape measure</li>
-                <li>Provides insights into body composition and health risks</li>
-              </ul>
+              <section>
+                  <h2 className="mb-2"><b>How is RFM Determined?</b></h2>
+                  <div className="grid md:grid-cols-2 gap-8 items-start not-prose">
+                      <Card>
+                          <CardHeader><CardTitle>The Formulas</CardTitle></CardHeader>
+                          <CardContent className="space-y-4">
+                              <div>
+                                  <h3 className="font-semibold">For Men:</h3>
+                                  <div className="p-3 bg-muted rounded-lg text-center font-mono text-sm mt-1">RFM = 64 - 20 &times; (Height / Waist)</div>
+                              </div>
+                              <div>
+                                  <h3 className="font-semibold">For Women:</h3>
+                                  <div className="p-3 bg-muted rounded-lg text-center font-mono text-sm mt-1">RFM = 76 - 20 &times; (Height / Waist)</div>
+                              </div>
+                          </CardContent>
+                      </Card>
+                       <Card>
+                          <CardHeader>
+                            <CardTitle>Quick Example</CardTitle>
+                            <CardDescription>A woman with Height = 170cm, Waist = 72cm</CardDescription>
+                          </CardHeader>
+                          <CardContent className="text-sm space-y-2">
+                            <p><strong>1. Formula:</strong> 76 - 20 &times; (Height / Waist)</p>
+                            <p><strong>2. Calculation:</strong> 76 - 20 &times; (170 / 72)</p>
+                            <p><strong>3. Result:</strong> 76 - 20 &times; 2.36 = 28.8%</p>
+                            <p className="font-bold">Her RFM is 28.8%, which is in the normal range for females.</p>
+                          </CardContent>
+                      </Card>
+                  </div>
+              </section>
 
-              <h3>How to Use This Calculator</h3>
-              <p>
-                Select your sex, enter your height and waist circumference. The calculator will give you an estimated
-                body fat percentage instantly.
-              </p>
+              <section>
+                <h2 className="mb-2"><b>What Your RFM Result Means</b></h2>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                        <thead className="text-left">
+                            <tr>
+                                <th className="p-2">Category</th>
+                                <th className="p-2">Men (% Fat)</th>
+                                <th className="p-2">Women (% Fat)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="border-t"><td className="p-2 font-bold">Essential Fat</td><td className="p-2">2–5%</td><td className="p-2">10–13%</td></tr>
+                            <tr className="border-t bg-muted/50"><td className="p-2 font-bold">Athletes</td><td className="p-2">6–13%</td><td className="p-2">14–20%</td></tr>
+                            <tr className="border-t"><td className="p-2 font-bold">Fitness</td><td className="p-2">14–17%</td><td className="p-2">21–24%</td></tr>
+                            <tr className="border-t bg-muted/50"><td className="p-2 font-bold">Average</td><td className="p-2">18–24%</td><td className="p-2">25–31%</td></tr>
+                            <tr className="border-t"><td className="p-2 font-bold">Obese</td><td className="p-2">≥25%</td><td className="p-2">≥32%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <p className="text-sm mt-4">If your RFM is in the “obese” range, it’s a signal to discuss lifestyle changes or a clinical evaluation; small reductions in body fat (5–10%) often lead to big health improvements.</p>
+              </section>
+
+              <section>
+                  <h2 className="mb-2"><b>How to Measure for the Best RFM Outcome</b></h2>
+                  <div className="grid md:grid-cols-2 gap-8 items-start not-prose">
+                      <VerticalStepper steps={measurementSteps} />
+                      <Card className="bg-amber-50 dark:bg-amber-950/50 border-amber-200 dark:border-amber-900">
+                          <CardHeader><CardTitle className="flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-amber-600" /> Common Errors to Avoid</CardTitle></CardHeader>
+                          <CardContent>
+                              <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
+                                  <li>Measuring from the navel (belly button) instead of the top of the hip bone.</li>
+                                  <li>Letting the tape measure sag or be uneven.</li>
+                                  <li>Measuring over thick or bulky clothing.</li>
+                                  <li>Holding your breath or not maintaining a normal posture.</li>
+                              </ul>
+                          </CardContent>
+                      </Card>
+                  </div>
+              </section>
+
+              <section>
+                <h2 className="mb-2"><b>How Our RFM Calculator is Better</b></h2>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 not-prose mt-4">
+                  {calculatorFeatures.map(item => (
+                    <Card key={item.title}>
+                      <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
+                        {item.icon}
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-xs text-muted-foreground">{item.description}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </section>
+
+              <section>
+                <h2 className="mb-2"><b>What the RFM Score Does Not Show You</b></h2>
+                <p>It's important to understand that RFM is an excellent estimation tool, not a direct diagnosis.</p>
+                <Card className="not-prose mt-4 border-red-200 dark:border-red-900">
+                  <CardContent className="pt-6">
+                    <ul className="list-disc pl-5 space-y-2 text-sm">
+                      <li>It does not differentiate between subcutaneous fat (under the skin) and visceral fat (around organs).</li>
+                      <li>It may be less precise for individuals with atypical body shapes, pregnant or breastfeeding women, or those with amputations.</li>
+                      <li>For competitive athletes or medical applications, advanced methods like DEXA scans provide a more detailed body composition analysis.</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section>
+                <h2 className="mb-2"><b>Other Useful Calculators & Concepts</b></h2>
+                <Card className="not-prose">
+                  <CardHeader>
+                    <CardTitle>Ideal Body Weight (IBW) Calculator</CardTitle>
+                    <CardDescription>IBW formulas (like Devine's) offer a fast way to estimate a healthy weight range based on height. Use these as a starting point, but focus on RFM for body fat targets rather than just a number on the scale.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <h4 className="font-semibold mb-2">IBW Quick Formula (Devine):</h4>
+                    <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+                      <li><b>Men:</b> 50.0 kg + 2.3 kg for each inch over 5 feet</li>
+                      <li><b>Women:</b> 45.5 kg + 2.3 kg for each inch over 5 feet</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </section>
+
             </div>
 
             <FAQSection faqs={faqs} />
