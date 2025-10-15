@@ -15,13 +15,7 @@ const calculatorCategories = [
       { name: "Lean Body Mass Calculator", href: "/health/lean-body-mass-calculator" },
       { name: "RFM Calculator", href: "/health/rfm-calculator" },
       { name: "Ponderal Index Calculator", href: "/health/ponderal-index-calculator" },
-    ],
-  },
-  {
-    name: "Finance",
-    calculators: [
-      { name: "Loan Calculator", href: "/finance/loan-calculator" },
-      { name: "Interest Calculator", href: "/finance/interest-calculator" },
+      { name: "Adjusted Body Weight Calculator", href: "/health/adjusted-body-weight-calculator" },
     ],
   },
 ]

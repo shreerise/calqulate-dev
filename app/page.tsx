@@ -36,6 +36,13 @@ const calculators = [
     href: "/health/ponderal-index-calculator",
     category: "Health",
   },
+  {
+    title: "Adjusted Body Weight Calculator",
+    description: "Calculate your adjusted body weight using ideal body weight and actual weight",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/adjusted-body-weight-calculator",
+    category: "Health",
+  },
 ]
 
 const categories = [
