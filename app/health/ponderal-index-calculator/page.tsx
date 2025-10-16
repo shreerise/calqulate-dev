@@ -7,6 +7,7 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen, Activity, Scale, Baby } from "lucide-react"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Ponderal Index Calculator: Corpulence Index Explained",
@@ -240,6 +241,12 @@ export default function PonderalIndexCalculatorPage() {
                     </div>
                 </Card>
                 <p className="mt-4">Whether you're on a fitness course, a parent tracking growth, or a healthcare professional, our calculator makes challenging body information readable and usable.</p>
+                <p className="mt-4">
+                  If you’re interested in understanding how much of your body weight comes from muscle versus fat, check out our{" "}
+                  <Link href="/health/lean-body-mass-calculator" className="text-primary hover:underline">
+                    Lean Body Mass Calculator
+                  </Link>. It complements the Ponderal Index by showing the muscle component behind your body proportions.
+                </p>
               </section>
             </div>
 

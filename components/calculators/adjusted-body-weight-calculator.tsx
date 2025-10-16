@@ -199,6 +199,36 @@ export default function AdjustedBodyWeightCalculator() {
                 <p className="text-muted-foreground mt-1">
                   Your <strong>Adjusted Body Weight of {result.adjustedBodyWeight.toFixed(1)} {resultUnit}</strong> is the recommended value for clinical calculations like nutritional planning or medication dosing. It provides a more accurate estimate of your metabolically active body mass compared to your actual weight. This value should be used under the guidance of a healthcare professional.
                 </p>
+              
+                {/* Weight comparison table inserted as requested */}
+                <div className="mt-4 overflow-x-auto">
+                  <table className="w-full text-sm text-left table-auto">
+                    <thead>
+                      <tr className="bg-gray-50 dark:bg-gray-800">
+                        <th className="px-4 py-2">Weight Type</th>
+                        <th className="px-4 py-2">Value</th>
+                        <th className="px-4 py-2">Meaning / Insight</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-t">
+                        <td className="px-4 py-3 font-medium">Actual Body Weight (ABW)</td>
+                        <td className="px-4 py-3">{result.actualWeight} {resultUnit}</td>
+                        <td className="px-4 py-3">Your current total body weight, including fat, muscle, bone, and fluids. Used for general health and BMI calculations.</td>
+                      </tr>
+                      <tr className="border-t bg-gray-50 dark:bg-gray-900">
+                        <td className="px-4 py-3 font-medium">Ideal Body Weight (IBW)</td>
+                        <td className="px-4 py-3">{result.idealBodyWeight.toFixed(1)} {resultUnit}</td>
+                        <td className="px-4 py-3">The theoretical healthy weight based on your height and gender — represents optimal body composition for most adults.</td>
+                      </tr>
+                      <tr className="border-t">
+                        <td className="px-4 py-3 font-medium">Adjusted Body Weight (AjBW)</td>
+                        <td className="px-4 py-3">{result.adjustedBodyWeight.toFixed(1)} {resultUnit}</td>
+                        <td className="px-4 py-3">A clinically adjusted weight that blends actual and ideal weight (40% of excess added). Used for accurate drug dosing and nutritional planning in overweight cases.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </CardContent>
           </Card>

@@ -124,7 +124,7 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-8">
             <p className="text-sm text-muted-foreground text-center">
-              &copy; {new Date().getFullYear()} Calqulate. All rights reserved.
+              &copy; {new Date().getFullYear()} Calqulate.NET All rights reserved.
             </p>
         </div>
       </div>

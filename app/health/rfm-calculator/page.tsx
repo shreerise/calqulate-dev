@@ -6,6 +6,7 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Ruler, Calculator, CheckCircle, BarChart, Sun, Thermometer, AlertTriangle, BookOpen, Users, Brain, HeartPulse, Shield, Leaf, Target } from "lucide-react"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "RFM Calculator — Estimate Body Fat % Fast (Free)",
@@ -168,6 +169,13 @@ export default function RFMCalculatorPage() {
                     </table>
                 </div>
                  <p className="text-sm mt-4">If your RFM is in the “obese” range, it’s a signal to discuss lifestyle changes or a clinical evaluation; small reductions in body fat (5–10%) often lead to big health improvements.</p>
+                 <p className="text-sm text-muted-foreground mt-4">
+                  Since RFM estimates your total body fat, you can also calculate the remaining part — your muscle, bone, and organ mass — using our{" "}
+                  <Link href="/health/lean-body-mass-calculator" className="text-primary hover:underline">
+                    Lean Body Mass (LBM) Calculator
+                  </Link>. 
+                  Knowing both RFM and LBM together gives a full view of your body composition.
+                </p>
               </section>
 
               <section>
@@ -214,9 +222,17 @@ export default function RFMCalculatorPage() {
                       <li>It does not differentiate between subcutaneous fat (under the skin) and visceral fat (around organs).</li>
                       <li>It may be less precise for individuals with atypical body shapes, pregnant or breastfeeding women, or those with amputations.</li>
                       <li>For competitive athletes or medical applications, advanced methods like DEXA scans provide a more detailed body composition analysis.</li>
+                      <li className="text-sm mt-4">
+                        While RFM tells you total body fat, it doesn’t show how that fat is distributed. For that, you can use our{" "}
+                        <Link href="/health/absi-calculator" className="text-primary hover:underline">
+                          ABSI Calculator
+                        </Link>, 
+                        which measures your waist-to-height proportions and predicts central fat–related health risks.
+                      </li>
                     </ul>
                   </CardContent>
                 </Card>
+                
               </section>
 
               <section>

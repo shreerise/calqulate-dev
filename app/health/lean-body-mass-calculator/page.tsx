@@ -90,7 +90,12 @@ export default function LeanBodyMassCalculatorPage() {
               {/* --- What is Lean Body Mass (LBM)? --- */}
               <section> 
                 <h2 className="mb-2"><b>What is Lean Body Mass (LBM)?</b></h2>
-                <p>Lean Body Mass (LBM) represents the total weight of your body minus all the weight from fat mass. LBM includes the weight of your bones, muscles, organs, skin, and water. It is a more accurate measure of your body's metabolic activity than total body weight or BMI.</p>
+                <p>Lean Body Mass (LBM) represents the total weight of your body minus all the weight from fat mass. LBM includes the weight of your bones, muscles, organs, skin, and water. It is a more accurate measure of your body's metabolic activity than total body weight or BMI.To better understand your fat distribution,
+                you can also check your{" "}
+                <Link href="/health/rfm-calculator" className="text-primary hover:underline">
+                  RFM (Relative Fat Mass)
+                </Link>{" "}
+                using our dedicated calculator.</p>
                 <blockquote>Unlike <Link href="/health/bmi-calculator" className="text-primary hover:underline">Body Mass Index (BMI)</Link>, which can misclassify muscular individuals as overweight, LBM provides a clearer picture of your health. Tracking it is essential for athletes looking to gain muscle and for individuals aiming to ensure they lose fat, not muscle, during weight loss.</blockquote>
             <div className="not-prose my-10 flex justify-center">
               <div className="bg-muted/20 border border-border rounded-lg p-4 md:p-5 shadow-sm w-full max-w-xl">
@@ -157,7 +162,12 @@ export default function LeanBodyMassCalculatorPage() {
               {/* --- LBM Formulas Explained --- */}
               <section>
                   <h2 className="mb-2"><b>How to calculate lean body mass ?</b></h2>
-                  <p>Our calculator uses several well-established formulas to estimate LBM based on your weight, height, and sex. Since each formula was developed using different research populations, they provide a valuable range rather than a single absolute number.</p>
+                  <p>Our calculator uses several well-established formulas to estimate LBM based on your weight, height, and sex. Since each formula was developed using different research populations, they provide a valuable range rather than a single absolute number. For clinical applications such as nutrition planning or medication dosing, 
+                  you may also find our{" "}
+                  <Link href="/health/adjusted-body-weight-calculator" className="text-primary hover:underline">
+                    Adjusted Body Weight Calculator
+                  </Link>{" "}
+                  useful.</p>
                   <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8 items-start not-prose mt-6">
                       <Card>
                           <CardHeader>
