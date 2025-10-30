@@ -54,6 +54,15 @@ export const calculators: Calculator[] = [
   tags: ["adjusted body weight", "abw", "ibw", "weight correction", "obesity"],
   keywords: ["adjusted body weight calculator","ibw calculator","ideal body weight","obesity dosing weight","nutrition"],
   },
+  {
+  id: "karvonen-formula",
+  title: "Karvonen Formula Calculator",
+  description: "Determine your target heart rate using the Karvonen formula",
+  href: "/health/karvonen-formula-calculator",
+  category: "Health",
+  tags: ["karvonen formula", "target heart rate", "heart rate reserve", "exercise", "fitness"],
+  keywords: ["karvonen formula calculator","target heart rate","heart rate reserve","exercise intensity","fitness"],
+  },
 ]
 
 export function searchCalculators(query: string): Calculator[] {

@@ -52,7 +52,7 @@ const VerticalStepper = ({ steps }: { steps: { title: string; description: strin
   return (
     <div className="relative pl-8">
       {steps.map((step, index) => (
-        <div key={index} className="relative pb-12">
+        <div key={index} className={`relative ${index < steps.length - 1 ? 'pb-10' : 'pb-0'}`}>
           {/* Vertical line (not on the last item) */}
           {index < steps.length - 1 && (
             <div className="absolute top-2 left-[1px] w-0.5 h-full bg-gray-300 dark:bg-gray-700"></div>

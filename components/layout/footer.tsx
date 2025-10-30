@@ -19,15 +19,12 @@ export function Footer() {
             <div className="space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>shreerise@gmail.com</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4" />
-                <span>+91 9265745667</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4" />
-                <span>Nationwide Service</span>
+                <a 
+                  href="mailto:shreerise@gmail.com" 
+                  className="hover:underline"
+                >
+                  shreerise@gmail.com
+                </a>
               </div>
             </div>
           </div>
