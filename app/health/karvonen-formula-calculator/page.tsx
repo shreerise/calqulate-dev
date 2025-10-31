@@ -11,7 +11,7 @@ import Link from "next/link"
 export const metadata: Metadata = {
   title: "Karvonen Formula Calculator for Target Heart Rate Zones",
   description: "Calculate your ideal heart rate zones in seconds for smarter, safer, and more effective workouts. Find your personalized target heart rate based on your age and resting heart rate.",
-  keywords: "Karvonen Formula Calculator, HR Training Calculator, target heart rate zones, heart rate training, workout intensity, fat loss, endurance training, cardiovascular health",
+  keywords: "Karvonen Formula Calculator, target heart rate calculator, how to find target heart rate, HR Training Calculator, target heart rate zones, heart rate training, workout intensity, fat loss, endurance training, cardiovascular health, karvonen formula heart rate zones calculation",
 }
 
 const faqs = [

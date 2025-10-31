@@ -49,6 +49,13 @@ const calculators = [
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/karvonen-formula-calculator",
     category: "Health",
+  },
+  {
+    title:"Body Shape Calculator",
+    description: "Classify your body shape based on measurements of bust, waist, and hips",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/body-shape-calculator",
+    category: "Health",
   }
 ]
 

@@ -63,6 +63,15 @@ export const calculators: Calculator[] = [
   tags: ["karvonen formula", "target heart rate", "heart rate reserve", "exercise", "fitness"],
   keywords: ["karvonen formula calculator","target heart rate","heart rate reserve","exercise intensity","fitness"],
   },
+  {
+    id: "body-shape",
+    title: "Body Shape Calculator",
+    description: "Classify your body shape based on measurements of bust, waist, and hips",
+    href: "/health/body-shape-calculator", 
+    category: "Health",
+    tags: ["body shape", "classification", "bust", "waist", "hips"],
+    keywords: ["body shape calculator", "body classification", "bust measurement", "waist measurement", "hip measurement"],
+  },
 ]
 
 export function searchCalculators(query: string): Calculator[] {
