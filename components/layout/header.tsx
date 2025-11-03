@@ -16,6 +16,8 @@ const calculatorCategories = [
       { name: "RFM Calculator", href: "/health/rfm-calculator" },
       { name: "Ponderal Index Calculator", href: "/health/ponderal-index-calculator" },
       { name: "Adjusted Body Weight Calculator", href: "/health/adjusted-body-weight-calculator" },
+      { name: "Karvonen Formula Calculator", href: "/health/karvonen-formula-calculator" },
+      { name: "Body Shape Calculator", href: "/health/body-shape-calculator" },
     ],
   },
 ]

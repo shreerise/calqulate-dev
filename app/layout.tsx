@@ -12,23 +12,23 @@ const GTM_ID = "GTM-MNCCJNHF";
 const GA_MEASUREMENT_ID = "G-0KV6HQZT4D";
 
 export const metadata: Metadata = {
-  title: "Calqulate - Professional Health & Fitness Calculators",
+  title: "Calqulate - Professional Health Calculators",
   description:
-    "Free online calculators for health , fitness and more. Get accurate estimates for tree removal, lawn care, and construction projects.",
+    "Calculate your health metrics instantly with Calqulate.net — your trusted hub for accurate BMI, body fat, calorie, and ideal weight calculators.",
   keywords:
-    "calculator, cost calculator, home improvement, financial calculator, tree removal cost, lawn mowing cost",
+    "calqulate.net",
   generator: "Calqulate",
   robots: "index, follow",
   openGraph: {
     title: "Calqulate - Professional Calculators",
-    description: "Free online calculators for home improvement and financial planning",
+    description: "Free online calculators for health improvement",
     type: "website",
     siteName: "Calqulate",
   },
   twitter: {
     card: "summary_large_image",
     title: "Calqulate - Professional Calculators",
-    description: "Free online calculators for home improvement and financial planning",
+    description: "Free online calculators for health improvement",
   },
   alternates: {
     canonical: "https://calqulate.net/",

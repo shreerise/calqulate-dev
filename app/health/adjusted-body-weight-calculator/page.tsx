@@ -82,18 +82,10 @@ export default function AdjustedBodyWeightCalculatorPage() {
             <AdjustedBodyWeightCalculator />
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
-              
-              {/* --- What does Adjusted Body Weight (AjBW) mean? --- */}
-              <section> 
-                <h2 className="mb-2"><b>What does Adjusted Body Weight (AjBW) Mean?</b></h2>
-                <p>The Adjusted Body Weight (AjBW) is an agreed-upon formula used to calibrate your weight so your weight more accurately reflects your metabolic mass — the portion of your body that burns calories and turns them into energy at maximum efficiency.</p>
-                <p>It is especially helpful for:</p>
-                <ul className="list-disc pl-5 space-y-3">
-                    <li>People with overweight or obesity, whose current body weights may overestimate their metabolisms' demand.</li>
-                    <li>Health professionals making dose changes or nutritional needs.</li>
-                    <li>Dietitians designing for safe and achievable caloric intake.</li>
-                </ul>
-                <blockquote>AjBW considers lean and fat mass and provides a more accurate measure of body composition compared with <Link href="/health/bmi-calculator" className="text-primary hover:underline">BMI</Link>.</blockquote>
+              <section>
+                <h2 className="mb-2"><b>What is Adjusted Body Weight (AjBW)?</b></h2>
+                <p>Adjusted Body Weight (AjBW) is a measure used to estimate a person's lean body mass, particularly for individuals who are overweight or obese. It "adjusts" their actual weight to account for the fact that fat tissue is less metabolically active than muscle tissue. This prevents overestimation when calculating calorie needs or medication dosages.</p>
+                <blockquote>AjBW is not a weight loss goal. Instead, think of it as a "dosing weight"—a more accurate number for clinical calculations than either your actual or ideal weight.</blockquote>
               </section>
 
               {/* --- Formulas & Example Calculation --- */}

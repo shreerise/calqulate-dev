@@ -43,6 +43,20 @@ const calculators = [
     href: "/health/adjusted-body-weight-calculator",
     category: "Health",
   },
+  {
+    title:" Karvonen Formula Calculator",
+    description: "Determine your target heart rate using the Karvonen formula",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/karvonen-formula-calculator",
+    category: "Health",
+  },
+  {
+    title:"Body Shape Calculator",
+    description: "Classify your body shape based on measurements of bust, waist, and hips",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/body-shape-calculator",
+    category: "Health",
+  }
 ]
 
 const categories = [
@@ -73,8 +87,7 @@ export default function HomePage() {
                 Professional <span className="text-primary">Calculators</span> for Every Need
               </h1>
               <p className="text-xl text-muted-foreground text-pretty mb-8">
-                Get accurate estimates for home improvement projects, financial planning, and more. Trusted by
-                homeowners and professionals nationwide.
+                Calculate your health metrics instantly with Calqulate.net — your trusted hub for accurate BMI, body fat, calorie, and ideal weight calculators. Stay informed, stay fit, and achieve your goals smarter.
               </p>
 
               {/* Hero Search */}

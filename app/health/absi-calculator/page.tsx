@@ -7,6 +7,7 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen } from "lucide-react"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "ABSI Calculator: A Body Shape Index Explained",
@@ -51,7 +52,7 @@ const VerticalStepper = ({ steps }: { steps: { title: string; description: strin
   return (
     <div className="relative pl-8">
       {steps.map((step, index) => (
-        <div key={index} className="relative pb-12">
+        <div key={index} className={`relative ${index < steps.length - 1 ? 'pb-10' : 'pb-0'}`}>
           {/* Vertical line (not on the last item) */}
           {index < steps.length - 1 && (
             <div className="absolute top-2 left-[1px] w-0.5 h-full bg-gray-300 dark:bg-gray-700"></div>
@@ -175,7 +176,15 @@ export default function ABSICalculatorPage() {
               {/* --- Learning Your ABSI Score --- */}
               <section>
                 <h2 className="mb-2"><b>Learning Your ABSI Score</b></h2>
-                <p>A raw ABSI value is useful, but it becomes powerful when converted to an "ABSI Z-Score". This score compares your result to an age and gender-matched population, telling you how your body shape risk compares to the average.</p>
+                <p>
+                  A raw ABSI value is useful, but it becomes powerful when converted to an "ABSI Z-Score".
+                  This score compares your result to an age and gender-matched population, telling you how your body shape risk compares to the average.
+                  If you’d like to estimate your actual body fat percentage using a simpler method, try our{" "}
+                  <Link href="/health/rfm-calculator" className="text-primary hover:underline">
+                    RFM Calculator
+                  </Link>.
+                </p>
+
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 not-prose mt-4">
                   {[
                     { title: "Very Low to Low Risk", score: "z ≤ -0.5", icon: <Shield className="w-6 h-6 text-green-500" />, advice: "Keep up your healthy habits." },
@@ -288,9 +297,14 @@ export default function ABSICalculatorPage() {
                 </Card>
               </section>
             </div>
-
-
+                    
             <FAQSection faqs={faqs} />
+            <p className="text-sm text-muted-foreground text-center mt-12">
+              Want to go one step further? Estimate your body fat directly with our{" "}
+              <Link href="/health/rfm-calculator" className="text-primary hover:underline">
+                RFM Calculator
+              </Link>.
+            </p>
           </div>
         </div>
       </main>
