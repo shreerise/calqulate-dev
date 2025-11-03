@@ -72,6 +72,15 @@ export const calculators: Calculator[] = [
     tags: ["body shape", "classification", "bust", "waist", "hips"],
     keywords: ["body shape calculator", "body classification", "bust measurement", "waist measurement", "hip measurement"],
   },
+  {
+    id: "draw-length",
+    title: "Draw Length Calculator",
+    description: "Calculate your ideal archery draw length based on your wingspan measurement",
+    href: "/health/draw-length-calculator",
+    category: "Health",
+    tags: ["draw length", "archery", "wingspan", "bow", "archer"],
+    keywords: ["draw length calculator","archery draw length","wingspan measurement","bow fitting","archer setup"],
+  },
 ]
 
 export function searchCalculators(query: string): Calculator[] {

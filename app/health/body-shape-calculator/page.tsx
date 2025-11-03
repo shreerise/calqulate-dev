@@ -94,62 +94,62 @@ export default function BodyShapeCalculatorPage() {
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
               {/* What is a body shape calculator? */}
            <section className="py-8">
-  <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
-    What is a Body Shape Calculator?
-  </h2>
+            <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
+              What is a Body Shape Calculator?
+            </h2>
 
-  <p className="mb-3 text-gray-700 leading-relaxed">
-    A Body Shape Calculator, also known as a body type calculator, helps you understand your natural
-    silhouette using bust, waist, and hip measurements. This free tool analyzes your proportions to
-    determine which body type you belong to — helping you make smarter decisions for fashion,
-    fitness, and health.
-  </p>
+            <p className="mb-3 text-gray-700 leading-relaxed">
+              A Body Shape Calculator, also known as a body type calculator, helps you understand your natural
+              silhouette using bust, waist, and hip measurements. This free tool analyzes your proportions to
+              determine which body type you belong to — helping you make smarter decisions for fashion,
+              fitness, and health.
+            </p>
 
-  <p className="mb-3 text-gray-700 leading-relaxed">
-    What makes this calculator different is its scientific foundation — it uses a ratio-based algorithm
-    developed from modern anthropometric research to provide accurate, data-driven shape classification.
-  </p>
+            <p className="mb-3 text-gray-700 leading-relaxed">
+              What makes this calculator different is its scientific foundation — it uses a ratio-based algorithm
+              developed from modern anthropometric research to provide accurate, data-driven shape classification.
+            </p>
 
-  <p className="text-gray-700 leading-relaxed">
-    Designed for both women and men, it’s especially useful as a female body shape calculator for
-    improving styling, wellness, and confidence.
-  </p>
+            <p className="text-gray-700 leading-relaxed">
+              Designed for both women and men, it’s especially useful as a female body shape calculator for
+              improving styling, wellness, and confidence.
+            </p>
 
-  <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl">
-    <CardHeader className="pb-2">
-      <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-800">
-        <CalculatorIcon className="w-5 h-5 text-blue-500" />
-        Body Shape, Style, Fitness &amp; Health in One Tool
-      </CardTitle>
-      <CardDescription className="text-gray-600">
-        Here’s a quick look at how this body shape calculator helps you understand your body better.
-      </CardDescription>
-    </CardHeader>
+            <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-800">
+                  <CalculatorIcon className="w-5 h-5 text-blue-500" />
+                  Body Shape, Style, Fitness &amp; Health in One Tool
+                </CardTitle>
+                <CardDescription className="text-gray-600">
+                  Here’s a quick look at how this body shape calculator helps you understand your body better.
+                </CardDescription>
+              </CardHeader>
 
-    <CardContent className="grid md:grid-cols-2 gap-6 pt-2">
-      <div className="text-gray-700 text-sm leading-relaxed">
-        <ul className="list-disc pl-5 space-y-2">
-          <li>Identifies your body shape accurately using your key measurements.</li>
-          <li>Links your shape to personalized style suggestions and outfit ideas.</li>
-          <li>Provides insights on fat distribution and wellness considerations.</li>
-        </ul>
-      </div>
+              <CardContent className="grid md:grid-cols-2 gap-6 pt-2">
+                <div className="text-gray-700 text-sm leading-relaxed">
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li>Identifies your body shape accurately using your key measurements.</li>
+                    <li>Links your shape to personalized style suggestions and outfit ideas.</li>
+                    <li>Provides insights on fat distribution and wellness considerations.</li>
+                  </ul>
+                </div>
 
-      <div className="flex flex-col items-center gap-3">
-        <Image
-          src="/images/body-shape-illustration.svg"
-          alt="Different body shapes illustration"
-          width={320}
-          height={220}
-          className="rounded-xl border border-gray-200 bg-white object-contain"
-        />
-        <p className="text-gray-500 text-xs text-center">
-          Get a visual sense of how your measurements correspond to common body shapes.
-        </p>
-      </div>
-    </CardContent>
-  </Card>
-</section>
+                <div className="flex flex-col items-center gap-3">
+                  <Image
+                    src="/body-shape-illustration.svg"
+                    alt="Different body shapes illustration"
+                    width={320}
+                    height={220}
+                    className="rounded-xl border border-gray-200 bg-white object-contain"
+                  />
+                  <p className="text-gray-500 text-xs text-center">
+                    Get a visual sense of how your measurements correspond to common body shapes.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
 
 
               {/* Why Knowing Your Body Shape Matters */}

@@ -56,6 +56,13 @@ const calculators = [
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/body-shape-calculator",
     category: "Health",
+  },
+  {
+    title: "Draw Length Calculator",
+    description: "Calculate your ideal archery draw length based on your wingspan measurement",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/draw-length-calculator",
+    category: "Health",
   }
 ]
 
