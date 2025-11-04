@@ -100,7 +100,7 @@ export default function LeanBodyMassCalculatorPage() {
             <div className="not-prose my-10 flex justify-center">
               <div className="bg-muted/20 border border-border rounded-lg p-4 md:p-5 shadow-sm w-full max-w-xl">
                 <Image
-                  src="/LBM.svg"
+                  src="/LBM.png"
                   alt="Illustration comparing BMI and Lean Body Mass (LBM)"
                   width={600}
                   height={400}
@@ -256,7 +256,7 @@ export default function LeanBodyMassCalculatorPage() {
                    <div className="not-prose my-10 flex justify-center">
                     <div className="bg-muted/20 border border-border rounded-lg p-4 md:p-5 shadow-sm w-full max-w-xl">
                       <Image
-                        src="/LBMC.svg"
+                        src="/LBMC.png"
                         alt="Illustration showing how strength training and nutrition optimize Lean Body Mass"
                         width={600}
                         height={400}

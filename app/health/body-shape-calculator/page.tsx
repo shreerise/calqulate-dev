@@ -137,7 +137,7 @@ export default function BodyShapeCalculatorPage() {
 
                 <div className="flex flex-col items-center gap-3">
                   <Image
-                    src="/body-shape-illustration.svg"
+                    src="/body-shape-illustration.png"
                     alt="Different body shapes illustration"
                     width={320}
                     height={220}
