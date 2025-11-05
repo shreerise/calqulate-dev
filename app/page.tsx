@@ -63,6 +63,13 @@ const calculators = [
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/draw-length-calculator",
     category: "Health",
+  },
+  {
+    title: "Face Shape Calculator",
+    description: "Determine your face shape using measurements of forehead, cheekbones, and jawline",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/face-shape-calculator",
+    category: "Health",
   }
 ]
 

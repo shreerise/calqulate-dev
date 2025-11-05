@@ -81,6 +81,15 @@ export const calculators: Calculator[] = [
     tags: ["draw length", "archery", "wingspan", "bow", "archer"],
     keywords: ["draw length calculator","archery draw length","wingspan measurement","bow fitting","archer setup"],
   },
+  {
+    id: "face-shape",
+    title: "Face Shape Calculator",
+    description: "Determine your face shape using measurements of forehead, cheekbones, and jawline",
+    href: "/health/face-shape-calculator",
+    category: "Health",
+    tags: ["face shape", "classification", "forehead", "cheekbones", "jawline"],
+    keywords: ["face shape calculator", "face classification", "forehead measurement", "cheekbone measurement", "jawline measurement"],
+  },
 ]
 
 export function searchCalculators(query: string): Calculator[] {

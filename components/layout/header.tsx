@@ -19,6 +19,7 @@ const calculatorCategories = [
       { name: "Karvonen Formula Calculator", href: "/health/karvonen-formula-calculator" },
       { name: "Body Shape Calculator", href: "/health/body-shape-calculator" },
       { name: "Draw Length Calculator", href: "/health/draw-length-calculator" },
+      { name: "Face Shape Calculator", href: "/health/face-shape-calculator" },
     ],
   },
 ]
