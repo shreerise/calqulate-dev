@@ -70,7 +70,14 @@ const calculators = [
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/face-shape-calculator",
     category: "Health",
-  }
+  },
+  {
+    title: "Cholesterol Ratio Calculator",
+    description: "Calculate cholesterol ratios using total cholesterol, HDL, LDL, and triglycerides",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/cholesterol-ratio-calculator",
+    category: "Health",
+  },
 ]
 
 const categories = [

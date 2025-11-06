@@ -90,6 +90,15 @@ export const calculators: Calculator[] = [
     tags: ["face shape", "classification", "forehead", "cheekbones", "jawline"],
     keywords: ["face shape calculator", "face classification", "forehead measurement", "cheekbone measurement", "jawline measurement"],
   },
+  {
+    id: "cholesterol-ratio",
+    title: "Cholesterol Ratio Calculator",
+    description: "Calculate cholesterol ratios using total cholesterol, HDL, LDL, and triglycerides", 
+    href: "/health/cholesterol-ratio-calculator",
+    category: "Health",
+    tags: ["cholesterol ratio", "total cholesterol", "hdl", "ldl", "triglycerides"],
+    keywords: ["cholesterol ratio calculator","total cholesterol","hdl cholesterol","ldl cholesterol","triglycerides"],
+  }
 ]
 
 export function searchCalculators(query: string): Calculator[] {

@@ -20,6 +20,7 @@ const calculatorCategories = [
       { name: "Body Shape Calculator", href: "/health/body-shape-calculator" },
       { name: "Draw Length Calculator", href: "/health/draw-length-calculator" },
       { name: "Face Shape Calculator", href: "/health/face-shape-calculator" },
+      { name: "Cholesterol Ratio Calculator", href: "/health/cholesterol-ratio-calculator" },
     ],
   },
 ]
