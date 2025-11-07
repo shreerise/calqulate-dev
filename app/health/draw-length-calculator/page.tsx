@@ -12,12 +12,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Calculator, Ruler, Target, HeartPulse, ShieldCheck, Zap, Info } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Draw Length Calculator for Archery | Calqulate",
-  description: "Calculate your archery draw length accurately using the wingspan method. Understand why the correct draw length is crucial for accuracy, comfort, and safety. Find your ideal bow and arrow setup.",
-  keywords: "draw length calculator, archery calculator, how to calculate draw length, draw length formula, wingspan method archery, bow draw length, arrow length calculator, archery for beginners, compound bow draw length, recurve bow draw length",
-  alternates: {
-    canonical: "https://calqulate.net/archery/draw-length-calculator",
-  },
+  title: "Draw Length Calculator: Find Your Perfect Archery Fit",
+  description: "Find your ideal archery draw length using our wingspan method. Get accurate, safe, and comfortable results for your bow setup—fast and easy.",
+  keywords: "draw length calculator, bow draw length calculator, archery calculator, archery draw length calculator, how to calculate draw length compound bow, how to calculate draw length, draw length formula, wingspan method archery, arrow length calculator, archery for beginners, compound bow draw length, recurve bow draw length",
 }
 
 const faqs = [

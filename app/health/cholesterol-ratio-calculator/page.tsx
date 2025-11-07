@@ -10,11 +10,11 @@ import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIc
 import CholesterolRatioCalculator from "@/components/calculators/cholesterol-ratio-calculator"
 
 export const metadata: Metadata = {
-  title: "Cholesterol Ratio Calculator: Check Your Heart Health Instantly",
+  title: "Cholesterol Ratio Calculator: Check Your Heart Health",
   description:
-    "Use our Cholesterol Ratio Calculator to evaluate your heart health in seconds. Enter your Total Cholesterol, HDL, LDL, and Triglyceride levels to automatically compute your cholesterol ratios and understand what they mean for your cardiovascular health.",
+    "Instantly check your cholesterol ratios (HDL, LDL, TC) and heart health risk. Simple, accurate, and free—see how balanced your numbers really are.",
   keywords:
-    "cholesterol ratio calculator, heart health calculator, TC/HDL ratio, LDL/HDL ratio, TG/HDL ratio, cholesterol levels, cardiovascular health, good cholesterol, bad cholesterol, triglycerides",
+    "cholesterol ratio calculator, heart health calculator, how to calculate cholesterol ratio, triglycerides cholesterol ratio calculator, how do you calculate your cholesterol ratio, cholesterol hdl ratio calculator, TC/HDL ratio, LDL/HDL ratio, TG/HDL ratio, cholesterol levels, cardiovascular health, good cholesterol, bad cholesterol, triglycerides",
 }
 
 const faqs = [

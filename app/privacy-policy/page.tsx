@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Calqulate",
+  title: "Privacy Policy - Calqulate.NET",
   description: "Calqulate's privacy policy explaining how we collect, use, and protect your personal information.",
   keywords: "privacy policy, data protection, Calqulate, calculators",
 };

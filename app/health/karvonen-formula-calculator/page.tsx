@@ -9,9 +9,9 @@ import { Calculator, HeartPulse, CheckCircle, Target, BarChart, Users, Globe, Bo
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Karvonen Formula Calculator for Target Heart Rate Zones",
-  description: "Calculate your ideal heart rate zones in seconds for smarter, safer, and more effective workouts. Find your personalized target heart rate based on your age and resting heart rate.",
-  keywords: "Karvonen Formula Calculator, target heart rate calculator, how to find target heart rate, HR Training Calculator, target heart rate zones, heart rate training, workout intensity, fat loss, endurance training, cardiovascular health, karvonen formula heart rate zones calculation",
+  title: "Karvonen Formula Calculator: Find Your Ideal Heart Rate",
+  description: "Find your perfect heart rate zones using the Karvonen Formula. Boost fat burn, endurance, and fitness safely with your personalized numbers.",
+  keywords: "Karvonen Formula Calculator, what is the karvonen formula used to calculate, calculate karvonen formula, how to calculate target heart rate, target heart rate calculator, how to find target heart rate, HR Training Calculator, target heart rate zones, heart rate training, workout intensity, fat loss, endurance training, cardiovascular health, karvonen formula heart rate zones calculation",
 }
 
 const faqs = [

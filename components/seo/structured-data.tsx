@@ -31,7 +31,7 @@ export function CalculatorSchema({
     name,
     description,
     url,
-    applicationCategory: "FinanceApplication",
+    applicationCategory: "HealthApplication",
     operatingSystem: "Web Browser",
     offers: {
       "@type": "Offer",

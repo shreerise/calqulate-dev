@@ -9,11 +9,11 @@ import { getAllCategories, searchCalculators } from "@/lib/search-data"
 export const metadata: Metadata = {
   title: "Search Calculators | Calqulate.NET",
   description:
-    "Find and use professional online calculators for finance, health, home improvement, and more — all in one place at Calqulate.NET.",
+    "Find and use professional online calculators for Health and Body shape — all in one place at Calqulate.NET.",
   openGraph: {
     title: "Search Calculators | Calqulate.NET",
     description:
-      "Quickly find accurate calculators for every category — health, fitness, finance, and more.",
+      "Quickly find accurate calculators for every category — health.",
     url: "https://calqulate.net/search",
     siteName: "Calqulate.NET",
     images: [

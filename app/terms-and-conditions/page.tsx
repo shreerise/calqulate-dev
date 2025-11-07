@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Terms and Conditions - Calqulate",
+  title: "Terms and Conditions - Calqulate.NET",
   description: "Terms and Conditions for Calqulate’s calculators, tools, and services.",
   keywords: "terms, terms and conditions, terms of service, Calqulate",
 };

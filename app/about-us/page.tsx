@@ -17,7 +17,7 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "About Us - Calqulate",
+  title: "About Us - Calqulate.NET",
   description:
     "Learn about Calqulate.NET's mission to make calculations simpler and quicker for everyone, founded by Meet Patel and Krushal Patel.",
   keywords: "about Calqulate, online calculators, free calculation tools, Meet Patel, Krushal Patel",
