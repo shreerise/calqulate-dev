@@ -6,6 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
+        - echo "Building Next.js site..."
         - npm run build
   artifacts:
     baseDirectory: .next
@@ -14,3 +15,4 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
+      - .next/cache/**/*
