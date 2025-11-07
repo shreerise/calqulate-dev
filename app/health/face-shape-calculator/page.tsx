@@ -170,37 +170,37 @@ export default function FaceShapeCalculatorPage() {
     {
       name: "Oval",
       description: "Face length is longer than the width of the cheekbones; forehead is wider than the jawline. Considered balanced.",
-      image: "/images/face-shapes/oval.png",
+      image: "/face-shapes/oval.png",
       styling: "Most styles work well; avoid covering up balanced features."
     },
     {
       name: "Round",
       description: "Face length and cheekbone width are similar. Soft, curved jawline.",
-      image: "/images/face-shapes/round.png",
+      image: "/face-shapes/round.png",
       styling: "Add height and length to elongate the face. Avoid width at the cheeks."
     },
     {
       name: "Square",
       description: "All measurements are fairly similar. Jawline is sharp and angular.",
-      image: "/images/face-shapes/square.png",
+      image: "/face-shapes/square.png",
       styling: "Soften the strong angles with texture, waves, or round frames."
     },
     {
       name: "Oblong",
       description: "Face length is the greatest measurement. Forehead, cheekbones, and jawline are similar in width.",
-      image: "/images/face-shapes/oblong.png",
+      image: "/face-shapes/oblong.png",
       styling: "Create an illusion of width with volume on the sides. Avoid adding height."
     },
     {
       name: "Heart",
       description: "Forehead is the widest, with a narrow jawline and a pointed chin.",
-      image: "/images/face-shapes/heart.png",
+      image: "/face-shapes/heart.png",
       styling: "Add volume to the lower part of the face to balance the wider forehead."
     },
     {
       name: "Diamond",
       description: "Cheekbones are the widest part of the face. Forehead and jawline are narrow and similar in width.",
-      image: "/images/face-shapes/diamond.png",
+      image: "/face-shapes/diamond.png",
       styling: "Soften the cheekbones and add fullness to the forehead and chin areas."
     }
   ];
