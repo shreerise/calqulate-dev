@@ -1,39 +1,58 @@
-import { NextResponse } from "next/server"
-import nodemailer from "nodemailer"
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const { name, email, subject, phone, country, message } = await req.json()
+    const { name, email, subject, phone, country, message } = await req.json();
 
-    // Setup mail transport
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    })
-
-    // Send email
-    await transporter.sendMail({
-      from: `"Calqulate.net" <${process.env.SMTP_USER}>`,
+    const data = await resend.emails.send({
+      from: "Calqulate.net <onboarding@resend.dev>",
       to: "shreerise@gmail.com",
       subject: `New Contact Form: ${subject}`,
-      text: `
-Name: ${name}
-Email: ${email}
-Phone: ${phone || "N/A"}
-Country: ${country}
-Message:
-${message}
-      `,
-    })
+      html: `
+        <div style="font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px; border-radius: 8px;">
+          <h2 style="color: #0f172a;">📩 New Contact Form Submission</h2>
+          <p style="color: #334155;">You have received a new inquiry from your website <b>Calqulate.net</b>.</p>
 
-    return NextResponse.json({ success: true })
+          <table style="width: 100%; margin-top: 15px; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 6px 0;"><strong>Name:</strong></td>
+              <td>${name}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0;"><strong>Email:</strong></td>
+              <td><a href="mailto:${email}" style="color: #2563eb;">${email}</a></td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0;"><strong>Phone:</strong></td>
+              <td>${phone || "N/A"}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0;"><strong>Country:</strong></td>
+              <td>${country}</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 20px;">
+            <strong>Message:</strong>
+            <p style="background-color: #fff; padding: 10px 15px; border-radius: 6px; border: 1px solid #e2e8f0;">
+              ${message}
+            </p>
+          </div>
+
+          <p style="font-size: 12px; color: #94a3b8; margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+            This message was automatically sent from your website contact form.<br>
+            <b>Calqulate.net</b> © ${new Date().getFullYear()}
+          </p>
+        </div>
+      `,
+    });
+
+    return NextResponse.json({ success: true, data });
   } catch (error) {
-    console.error(error)
-    return NextResponse.json({ success: false }, { status: 500 })
+    console.error("Resend Error:", error);
+    return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }
