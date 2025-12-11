@@ -98,6 +98,24 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["cholesterol ratio", "total cholesterol", "hdl", "ldl", "triglycerides"],
     keywords: ["cholesterol ratio calculator","total cholesterol","hdl cholesterol","ldl cholesterol","triglycerides"],
+  },
+  {
+    id: "heart-rate",
+    title: "Heart Rate Calculator",
+    description: "Estimate your maximum and target heart rates based on age and fitness level",
+    href: "/health/heart-rate-calculator",
+    category: "Health",
+    tags: ["heart rate", "maximum heart rate", "target heart rate", "age", "fitness"],
+    keywords: ["heart rate calculator","maximum heart rate","target heart rate","age based heart rate","fitness level"],
+  },
+  {
+    id: "creatinine-clearance",
+    title: "Creatinine Clearance Calculator",
+    description: "Estimate kidney function using the Cockcroft-Gault equation",
+    href: "/health/creatinine-clearance-calculator",
+    category: "Health",
+    tags: ["creatinine clearance", "kidney function", "cockcroft-gault", "renal", "glomerular filtration rate"],
+    keywords: ["creatinine clearance calculator","kidney function estimation","cockcroft-gault equation","renal function","gfr estimation"],
   }
 ]
 

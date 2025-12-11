@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { SearchBar } from "@/components/search/search-bar"
 import { Calculator, Home, DollarSign, Wrench, TrendingUp } from "lucide-react"
 import Link from "next/link"
+import { title } from "process"
 
 const calculators = [
   {
@@ -76,6 +77,20 @@ const calculators = [
     description: "Calculate cholesterol ratios using total cholesterol, HDL, LDL, and triglycerides",
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/cholesterol-ratio-calculator",
+    category: "Health",
+  },
+  {
+    title: "Heart Rate Calculator",
+    description: "Estimate your maximum and target heart rates based on age and fitness level",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/heart-rate-calculator",
+    category: "Health",
+  },
+  {
+    title: "Creatinine Clearance Calculator",
+    description: "Estimate kidney function using the Cockcroft-Gault equation",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/creatinine-clearance-calculator",
     category: "Health",
   },
 ]

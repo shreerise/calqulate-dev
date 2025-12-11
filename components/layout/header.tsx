@@ -21,6 +21,8 @@ const calculatorCategories = [
       { name: "Draw Length Calculator", href: "/health/draw-length-calculator" },
       { name: "Face Shape Calculator", href: "/health/face-shape-calculator" },
       { name: "Cholesterol Ratio Calculator", href: "/health/cholesterol-ratio-calculator" },
+      { name: "Heart Rate Calculator", href: "/health/heart-rate-calculator" },
+      { name: "Creatinine Clearance Calculator", href: "/health/creatinine-clearance-calculator" },
     ],
   },
 ]
