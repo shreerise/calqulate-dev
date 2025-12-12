@@ -93,6 +93,20 @@ const calculators = [
     href: "/health/creatinine-clearance-calculator",
     category: "Health",
   },
+  {
+    title: "Preganancy Weight Gain Calculator",
+    description: "Determine recommended weight gain during pregnancy based on pre-pregnancy BMI",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/pregnancy-weight-gain-calculator",
+    category: "Health",
+  },
+  {
+    title: "Fat Intake Calculator",
+    description: "Calculate your daily fat intake based on total calories and desired fat percentage",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/fat-intake-calculator",
+    category: "Health",
+  },
 ]
 
 const categories = [

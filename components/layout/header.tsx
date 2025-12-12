@@ -23,6 +23,8 @@ const calculatorCategories = [
       { name: "Cholesterol Ratio Calculator", href: "/health/cholesterol-ratio-calculator" },
       { name: "Heart Rate Calculator", href: "/health/heart-rate-calculator" },
       { name: "Creatinine Clearance Calculator", href: "/health/creatinine-clearance-calculator" },
+      { name: "Pregnancy Weight Gain Calculator", href: "/health/pregnancy-weight-gain-calculator" },
+      { name: "Fat Intake Calculator", href: "/health/fat-intake-calculator" },
     ],
   },
 ]

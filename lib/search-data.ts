@@ -116,6 +116,24 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["creatinine clearance", "kidney function", "cockcroft-gault", "renal", "glomerular filtration rate"],
     keywords: ["creatinine clearance calculator","kidney function estimation","cockcroft-gault equation","renal function","gfr estimation"],
+  },
+  {
+    id: "pregnancy-weight-gain",
+    title: "Pregnancy Weight Gain Calculator",
+    description: "Determine recommended weight gain during pregnancy based on pre-pregnancy BMI",
+    href: "/health/pregnancy-weight-gain-calculator",
+    category: "Health",
+    tags: ["pregnancy weight gain", "pregnancy", "weight gain", "bmi", "health"],
+    keywords: ["pregnancy weight gain calculator","recommended weight gain","pre-pregnancy bmi","healthy pregnancy","maternal health"],
+  },
+  {
+    id: "fat-intake",
+    title: "Fat Intake Calculator",
+    description: "Calculate your daily fat intake based on total calories and desired fat percentage",
+    href: "/health/fat-intake-calculator",
+    category: "Health",
+    tags: ["fat intake", "diet", "nutrition", "calories", "health"],
+    keywords: ["fat intake calculator","daily fat intake","dietary fat","nutrition planning","healthy eating"],
   }
 ]
 
