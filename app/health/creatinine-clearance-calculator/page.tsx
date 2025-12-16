@@ -82,8 +82,8 @@ export default function CreatininePage() {
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">Creatinine Clearance Calculator</h1>
               <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Assess your kidney function instantly. Use the industry-standard Cockcroft-Gault formula to calculate Creatinine Clearance (CrCl) and estimate GFR based on your age, weight, and blood test results.
-              </p>
+                 Check your kidney health in seconds.
+                 Use a clinically trusted formula to calculate Creatinine Clearance (CrCl) and estimate your kidney filtration rate (GFR) based on your age, weight, and blood creatinine level.              </p>
             </div>
 
             <CreatinineClearanceCalculator />
@@ -154,7 +154,7 @@ export default function CreatininePage() {
                           <td className="p-3">Mild Impairment</td>
                           <td className="p-3">Slight loss of function; observation needed.</td>
                         </tr>
-                         <tr className="border-b">
+                        <tr className="border-b">
                           <td className="p-3 font-bold text-orange-600">30 – 59</td>
                           <td className="p-3">Moderate Impairment</td>
                           <td className="p-3">Moderate CKD; requires medical management.</td>
