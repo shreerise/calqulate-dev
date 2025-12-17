@@ -20,10 +20,10 @@ export function Footer() {
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
                 <a 
-                  href="mailto:shreerise@gmail.com" 
+                  href="mailto:shreeriise@gmail.com" 
                   className="hover:underline"
                 >
-                  shreerise@gmail.com
+                  shreeriise@gmail.com
                 </a>
               </div>
             </div>

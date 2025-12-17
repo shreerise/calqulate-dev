@@ -107,7 +107,7 @@ export default function ContactUsPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">shreerise@gmail.com</p>
+                    <p className="text-muted-foreground">shreeriise@gmail.com</p>
                   </CardContent>
                 </Card>
 

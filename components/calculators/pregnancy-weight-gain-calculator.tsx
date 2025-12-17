@@ -60,8 +60,8 @@ const formSchema = z.object({
   pregnancyType: z.enum(["single", "twins"]),
   currentWeek: z.string().refine((val) => {
     const n = parseInt(val);
-    return !isNaN(n) && n >= 0 && n <= 42;
-  }, "Week must be between 0 and 42"),
+    return !isNaN(n) && n >= 0 && n <= 40;
+  }, "Week must be between 0 and 40"),
   height: z.string().min(1, "Height is required"), // stored as cm or ft.in (5.10)
   weightBefore: z.string().min(1, "Pre-pregnancy weight is required"),
   weightCurrent: z.string().optional(), // Optional: to track current progress
@@ -370,7 +370,7 @@ export default function PregnancyWeightGainCalculator() {
                     <FormItem>
                       <FormLabel>Current Week (1-40)</FormLabel>
                       <FormControl>
-                        <Input type="number" min="0" max="42" {...field} />
+                        <Input type="number" min="0" max="40" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
