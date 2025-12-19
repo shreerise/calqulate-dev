@@ -25,6 +25,7 @@ const calculatorCategories = [
       { name: "Creatinine Clearance Calculator", href: "/health/creatinine-clearance-calculator" },
       { name: "Pregnancy Weight Gain Calculator", href: "/health/pregnancy-weight-gain-calculator" },
       { name: "Fat Intake Calculator", href: "/health/fat-intake-calculator" },
+      { name: "Mean Arterial Pressure Calculator", href: "/health/mean-arterial-pressure-calculator" },
     ],
   },
 ]

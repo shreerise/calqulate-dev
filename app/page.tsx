@@ -107,6 +107,13 @@ const calculators = [
     href: "/health/fat-intake-calculator",
     category: "Health",
   },
+  {
+    title: "Mean Arterial Pressure Calculator",
+    description: "Calculate your mean arterial pressure using systolic and diastolic blood pressure readings",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/mean-arterial-pressure-calculator",
+    category: "Health",
+  },
 ]
 
 const categories = [

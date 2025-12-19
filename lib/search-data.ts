@@ -134,6 +134,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["fat intake", "diet", "nutrition", "calories", "health"],
     keywords: ["fat intake calculator","daily fat intake","dietary fat","nutrition planning","healthy eating"],
+  },
+  {
+    id: "mean-arterial-pressure",
+    title: "Mean Arterial Pressure Calculator",
+    description: "Calculate your mean arterial pressure using systolic and diastolic blood pressure readings",
+    href: "/health/mean-arterial-pressure-calculator",
+    category: "Health",
+    tags: ["mean arterial pressure", "map", "blood pressure", "systolic", "diastolic"],
+    keywords: ["mean arterial pressure calculator","map calculation","blood pressure readings","systolic pressure","diastolic pressure"],
   }
 ]
 
