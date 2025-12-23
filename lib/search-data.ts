@@ -143,6 +143,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["mean arterial pressure", "map", "blood pressure", "systolic", "diastolic"],
     keywords: ["mean arterial pressure calculator","map calculation","blood pressure readings","systolic pressure","diastolic pressure"],
+  },
+  {
+    id: "framingham-risk-score",
+    title: "Framingham Risk Score Calculator",
+    description: "Estimate 10-year cardiovascular risk using the Framingham Risk Score model",
+    href: "/health/framingham-risk-score-calculator",
+    category: "Health",
+    tags: ["framingham risk score", "cardiovascular risk", "heart disease", "10-year risk", "health"],
+    keywords: ["framingham risk score calculator","cardiovascular risk estimation","heart disease risk","10-year risk prediction","health assessment"],
   }
 ]
 

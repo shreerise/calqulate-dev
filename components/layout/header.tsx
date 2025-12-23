@@ -26,6 +26,7 @@ const calculatorCategories = [
       { name: "Pregnancy Weight Gain Calculator", href: "/health/pregnancy-weight-gain-calculator" },
       { name: "Fat Intake Calculator", href: "/health/fat-intake-calculator" },
       { name: "Mean Arterial Pressure Calculator", href: "/health/mean-arterial-pressure-calculator" },
+      { name: "Framingham Risk Score Calculator", href: "/health/framingham-risk-score-calculator" },
     ],
   },
 ]

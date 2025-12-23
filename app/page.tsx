@@ -114,6 +114,13 @@ const calculators = [
     href: "/health/mean-arterial-pressure-calculator",
     category: "Health",
   },
+  {
+    title: "Framingham Risk Score Calculator",
+    description: "Estimate 10-year cardiovascular risk using the Framingham Risk Score model",
+    icon: <Calculator className="h-6 w-6" />, 
+    href: "/health/framingham-risk-score-calculator",
+    category: "Health",
+  },
 ]
 
 const categories = [
