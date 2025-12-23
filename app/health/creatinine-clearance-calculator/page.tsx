@@ -9,9 +9,9 @@ import { Calculator, Activity, CheckCircle, AlertTriangle, FileText, ClipboardLi
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Creatinine Clearance Calculator: Calculate Cockcroft-Gault CrCl",
+  title: "Creatinine Clearance Calculator (Cockcroft-Gault) - Free & Accurate",
   description: "Accurately calculate Creatinine Clearance (CrCl) using the Cockcroft-Gault formula. Assess kidney function and GFR online with our instant calculator.",
-  keywords: "Creatinine Clearance Calculator, Cockcroft-Gault Calculator, GFR calculator, kidney function test, creatinine clearance formula, CrCl calculator, renal function calculator",
+  keywords: "creatinine clearance calculator, calcul clearance creatinine, calculate creatinine clearance, calculated creatinine clearance calculator, formula creatinine clearance calculator, calculation of creatinine clearance formula, how to calculate creatinine clearance, creatinine clearance calculation, calculating creatinine clearance, calculate gfr creatinine clearance",
 }
 
 const faqs = [

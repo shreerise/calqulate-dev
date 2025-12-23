@@ -18,11 +18,11 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "The Smart Heart Rate Calculator: Find Your Zone 2 & Max HR",
+  title: "Heart Rate Calculator - Find Your Max & Target Heart Rate Instantly",
   description:
     "Instantly calculate your target heart rate zones, including Zone 2 for fat burning and your maximum heart rate. Use our pro Karvonen formula tool for accuracy.",
   keywords:
-    "max heart rate calculator, what is my fat burning heart rate zone calculator, target heart rate calculator, what is my zone 2 heart rate calculator, heart rate calculator, what is my max heart rate calculator, heart rate zone calculator, what is my maximum heart rate calculator, zone 2 heart rate calculator, what should my resting heart rate be calculator",
+    "max heart rate calculator, target heart rate calculator, finding maximum heart rate calculator, heart rate zone calculator, how to calculate heart rate, heart rate calculator, how to calculate max heart rate, maximum heart rate calculator, zone 2 heart rate calculator, calculate max heart rate",
 }
 
 // Extracted from your content's "Frequently Asked Questions" section for Schema/SEO

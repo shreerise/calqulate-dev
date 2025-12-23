@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description:
     "Track your healthy pregnancy weight gain with our calculator guide based on BMI. Learn where the weight goes, IOM vs. French guidelines, and trimester targets. (Kg & Lbs).",
   keywords:
-    "pregnancy weight gain calculator, weight gain calculator pregnancy, weight gain pregnancy calculator, weight gain during pregnancy calculator, french pregnancy weight gain calculator, pregnancy bmi calculator, healthy pregnancy weight, pregnancy weight distribution",
+    "pregnancy weight gain calculator, pregnancy and weight gain calculator, weight gain calculator during pregnancy, weight gain calculator pregnancy, weight gain pregnancy calculator, calculate pregnancy weight gain, weight gain during pregnancy calculator, how much weight should i gain during pregnancy calculator, pregnancy weight gain calculator by week, pregnancy weight gain calculator week by week",
 }
 
 const faqs = [

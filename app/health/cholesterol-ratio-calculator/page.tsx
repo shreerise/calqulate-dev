@@ -10,11 +10,11 @@ import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIc
 import CholesterolRatioCalculator from "@/components/calculators/cholesterol-ratio-calculator"
 
 export const metadata: Metadata = {
-  title: "Cholesterol Ratio Calculator: Check Your Heart Health",
+  title: "Cholesterol Ratio Calculator - Instantly Check Your Heart Health",
   description:
     "Instantly check your cholesterol ratios (HDL, LDL, TC) and heart health risk. Simple, accurate, and free—see how balanced your numbers really are.",
   keywords:
-    "cholesterol ratio calculator, heart health calculator, how to calculate cholesterol ratio, triglycerides cholesterol ratio calculator, how do you calculate your cholesterol ratio, cholesterol hdl ratio calculator, TC/HDL ratio, LDL/HDL ratio, TG/HDL ratio, cholesterol levels, cardiovascular health, good cholesterol, bad cholesterol, triglycerides",
+    "cholesterol ratio calculator, cholesterol hdl ratio calculator, how to calculate cholesterol ratio, triglycerides cholesterol ratio calculator, how do you calculate your cholesterol ratio, calculate cholesterol ratio, cholesterol ratio calculation, how do i calculate my cholesterol ratio, how to calculate your cholesterol ratio, ratio cholesterol calculator",
 }
 
 const faqs = [
@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     question: "How do I calculate LDL manually?",
-    answer: "Use: LDL = Total Cholesterol – HDL – (Triglycerides ÷ 5). This formula is reliable when triglycerides are below 400 mg/dL.",
+    answer: "Use: LDL = Total Cholesterol - HDL - (Triglycerides ÷ 5). This formula is reliable when triglycerides are below 400 mg/dL.",
   },
   {
     question: "Can I calculate the cholesterol in mmol/L?",
@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     question: "How often should I test my cholesterol?",
-    answer: "Adults should check every 4–6 years; those with risk factors for heart disease should test more frequently, often yearly, as recommended by their doctor.",
+    answer: "Adults should check every 4-6 years; those with risk factors for heart disease should test more frequently, often yearly, as recommended by their doctor.",
   },
 ]
 
