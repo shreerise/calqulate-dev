@@ -152,7 +152,34 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["framingham risk score", "cardiovascular risk", "heart disease", "10-year risk", "health"],
     keywords: ["framingham risk score calculator","cardiovascular risk estimation","heart disease risk","10-year risk prediction","health assessment"],
-  }
+  },
+  {
+    id: "pulse-pressure",
+    title: "Pulse Pressure Calculator",
+    description: "Determine your pulse pressure using systolic and diastolic blood pressure values",
+    href: "/health/pulse-pressure-calculator",
+    category: "Health",
+    tags: ["pulse pressure", "blood pressure", "systolic", "diastolic", "health"],
+    keywords: ["pulse pressure calculator","blood pressure values","systolic pressure","diastolic pressure","cardiovascular health"],
+  },
+  {
+    id: "ascvd-risk",
+    title: "ASCVD Risk Calculator",
+    description: "Estimate your 10-year risk of atherosclerotic cardiovascular disease (ASCVD)",
+    href: "/health/ascvd-risk-calculator",
+    category: "Health",
+    tags: ["ascvd risk", "cardiovascular disease", "10-year risk", "atherosclerosis", "health"],
+    keywords: ["ascvd risk calculator","10-year cardiovascular risk","atherosclerotic disease","heart disease risk","health assessment"],
+  },
+  {
+    id: "qrisk3",
+    title: "Qrisk3 Calculator",
+    description: "Calculate your risk of developing cardiovascular disease using the Qrisk3 model",
+    href: "/health/qrisk3-calculator",
+    category: "Health",
+    tags: ["qrisk3", "cardiovascular disease", "risk assessment", "health", "disease prediction"],
+    keywords: ["qrisk3 calculator","cardiovascular disease risk","risk assessment model","health prediction","disease prevention"],
+  },
 ]
 
 export function searchCalculators(query: string): Calculator[] {

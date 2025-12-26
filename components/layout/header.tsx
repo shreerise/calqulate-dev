@@ -27,6 +27,9 @@ const calculatorCategories = [
       { name: "Fat Intake Calculator", href: "/health/fat-intake-calculator" },
       { name: "Mean Arterial Pressure Calculator", href: "/health/mean-arterial-pressure-calculator" },
       { name: "Framingham Risk Score Calculator", href: "/health/framingham-risk-score-calculator" },
+      { name: "Pulse Pressure Calculator", href: "/health/pulse-pressure-calculator" },
+      { name: "ASCVD Risk Calculator", href: "/health/ascvd-risk-calculator" },
+      { name: "Qrisk3 Calculator", href: "/health/qrisk3-calculator" },
     ],
   },
 ]

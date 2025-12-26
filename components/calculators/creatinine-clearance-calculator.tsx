@@ -390,11 +390,11 @@ export default function CreatinineClearanceCalculator() {
               )}
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button type="submit" className="flex-1 text-lg h-12" disabled={isLoading}>
-                  {isLoading ? <Loader2 className="h-5 w-5 mr-2 animate-spin" /> : <Calculator className="h-5 w-5 mr-2" />}
+                <Button type="submit" className="flex-1" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Calculator className="h-4 w-4 mr-2" />}
                   {isLoading ? 'Calculating...' : 'Calculate Creatinine Clearance'}
                 </Button>
-                <Button type="button" variant="outline" onClick={resetCalculator} className="flex-1 h-12" disabled={isLoading}>
+                <Button type="button" variant="outline" onClick={resetCalculator} className="flex-1" disabled={isLoading}>
                     <RefreshCw className="h-4 w-4 mr-2" /> Reset
                 </Button>
               </div>

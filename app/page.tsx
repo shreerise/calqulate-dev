@@ -121,6 +121,27 @@ const calculators = [
     href: "/health/framingham-risk-score-calculator",
     category: "Health",
   },
+  {
+    title: "Pulse Pressure Calculator",
+    description: "Determine your pulse pressure using systolic and diastolic blood pressure values",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/pulse-pressure-calculator",
+    category: "Health",
+  },
+  {
+    title: "ASVCD Risk Calculator",
+    description: "Estimate 10-year risk for atherosclerotic cardiovascular disease using the ASCVD Risk Estimator",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/ascvd-risk-calculator",
+    category: "Health",
+  },
+  {
+    title: "Qrisk3 Calculator",
+    description: "Estimate 10-year cardiovascular risk using the Qrisk3 model",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/qrisk3-calculator",
+    category: "Health",
+  },
 ]
 
 const categories = [
