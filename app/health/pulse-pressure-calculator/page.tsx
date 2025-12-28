@@ -7,46 +7,62 @@ import PulsePressureCalculator from "@/components/calculators/pulse-pressure-cal
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Activity, Heart, AlertCircle, Stethoscope, TrendingUp, BookOpen, UserCheck, Shield } from "lucide-react"
+import { 
+  HeartPulse, 
+  Activity, 
+  Stethoscope, 
+  ShieldCheck, 
+  BookOpen, 
+  Calculator as CalculatorIcon, 
+  AlertCircle, 
+  Globe, 
+  Apple, 
+  Dumbbell 
+} from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Pulse Pressure Calculator: Check Heart Health & MAP Instantly",
+  title: "Pulse Pressure Calculator: How to Calculate & Interpret Your Results",
   description:
-    "Calculate your Pulse Pressure (PP) and Mean Arterial Pressure (MAP) instantly. Understand what a wide or narrow pulse pressure means for your cardiovascular health with our medical-grade tool.",
+    "Learn how to calculate pulse pressure and what it reveals about your heart health. Our pulse pressure calculator helps you identify narrow or wide ranges for better cardiovascular awareness.",
   keywords:
-    "pulse pressure calculator, calculate pulse pressure, wide pulse pressure meaning, narrow pulse pressure causes, mean arterial pressure calculator, MAP calculator, systolic vs diastolic, blood pressure gap, is my pulse pressure normal, cardiovascular health tool",
+    "how to calculate pulse pressure, pulse pressure calculation, how do you calculate pulse pressure, pulse pressure calculator, calculate pulse pressure, how to calculate a pulse pressure, how to calculate the pulse pressure, how is pulse pressure calculated, calculate the pulse pressure, normal pulse pressure range, wide pulse pressure, narrow pulse pressure",
 }
 
 const faqs = [
   {
-    question: "What is a normal pulse pressure?",
+    question: "How do I use this calculator to find my pulse pressure?",
     answer:
-      "For most healthy adults, a normal pulse pressure falls between 40 and 60 mmHg. A reading of 40 mmHg is often considered ideal. This indicates that your heart is working efficiently and your arteries are flexible.",
+      "To use our pulse pressure calculator, simply enter your Systolic (top) and Diastolic (bottom) blood pressure readings. The tool instantly performs the pulse pressure calculation by subtracting the bottom number from the top, giving you a clear indicator of your cardiovascular force and arterial flexibility.",
   },
   {
-    question: "What does it mean if my pulse pressure is high (wide)?",
+    question: "How do you calculate pulse pressure manually?",
     answer:
-      "A high pulse pressure (usually > 60 mmHg) is often called 'wide' pulse pressure. It is typically caused by stiffening of the aorta, the largest artery in the body. This is a common part of aging but can also indicate increased risk of cardiovascular events. It means there is a larger gap between your systolic and diastolic readings.",
+      "If you want to know how is pulse pressure calculated without a tool, the formula is simple: Pulse Pressure = Systolic Pressure - Diastolic Pressure. For example, if your blood pressure is 120/80 mmHg, you calculate the pulse pressure by subtracting 80 from 120, resulting in 40 mmHg.",
   },
   {
-    question: "What causes a low (narrow) pulse pressure?",
+    question: "What is a normal pulse pressure range?",
     answer:
-      "A narrow pulse pressure (usually < 30 mmHg) occurs when the systolic and diastolic numbers are close together. This can be caused by the heart pumping less blood (low stroke volume), heart failure, or significant blood loss (trauma). It requires medical attention if persistent.",
+      "A healthy pulse pressure typically falls between 40 mmHg and 60 mmHg. When you calculate pulse pressure and it consistently falls within this range, it suggests a good balance between heart pump force and arterial elasticity. Anything above 60 is considered 'wide,' and below 40 is 'narrow.'",
   },
   {
-    question: "How is pulse pressure different from blood pressure?",
+    question: "Why is pulse pressure calculation important for people over 50?",
     answer:
-      "Blood pressure gives you two numbers (Systolic/Diastolic). Pulse pressure is the *difference* between those two numbers. While blood pressure measures force against artery walls, pulse pressure specifically indicates the elasticity of your arteries and the force of your heart's contraction.",
+      "Research, including the Framingham Heart Study, shows that for adults over 50, pulse pressure is often a better predictor of heart complications, such as stroke or heart attack, than systolic pressure alone. Knowing how to calculate a pulse pressure helps you monitor arterial stiffness, which often increases with age.",
   },
   {
-    question: "Can I use this calculator for Mean Arterial Pressure (MAP)?",
+    question: "Can a wide pulse pressure be dangerous?",
     answer:
-      "Yes! Our Pulse Pressure Calculator automatically computes your Mean Arterial Pressure (MAP). MAP is the average pressure in a patient's arteries during one cardiac cycle and is a better indicator of perfusion to vital organs than systolic blood pressure alone.",
+      "Yes. If you calculate the pulse pressure and it is consistently above 60 mmHg, it is known as a 'wide' pulse pressure. This often indicates stiffening of the major arteries (atherosclerosis) or heart valve issues, which can increase the risk of cardiovascular events and kidney damage.",
   },
   {
-    question: "Is pulse pressure a better predictor of heart health than BP?",
+    question: "How does pulse pressure differ from standard blood pressure?",
     answer:
-      "Recent studies suggest that for people over age 60, pulse pressure is a more important predictor of heart attacks or other cardiovascular events than systolic blood pressure alone. It is a key marker of arterial stiffness.",
+      "While blood pressure measures the force against your artery walls, pulse pressure measures the 'gap' or the surge of pressure. Two people can have the same pulse pressure but different risks—for example, a 120/60 and a 180/120 both have a PP of 60, but the person with 180/120 is at much higher risk due to high absolute pressure.",
+  },
+  {
+    question: "Does pulse pressure change during exercise?",
+    answer:
+      "Yes, it is normal for pulse pressure to increase during aerobic exercise. This happens because your systolic pressure rises to pump more blood, while your diastolic pressure typically stays the same or drops slightly. However, your resting pulse pressure calculation should ideally return to the 40-60 mmHg range.",
   },
 ]
 
@@ -55,8 +71,8 @@ export default function PulsePressureCalculatorPage() {
     <div className="min-h-screen flex flex-col">
       <CalculatorSchema
         name="Pulse Pressure Calculator"
-        description="Medical-grade calculator to determine Pulse Pressure and Mean Arterial Pressure (MAP) from your blood pressure readings."
-        url="https://calqulate.net/health/pulse-pressure-calculator"
+        description="Calculate your pulse pressure instantly. Understand what your systolic and diastolic difference says about your heart health and arterial stiffness."
+        url="https://yourdomain.com/health/pulse-pressure-calculator"
       />
       <FAQSchema faqs={faqs} />
 
@@ -66,97 +82,138 @@ export default function PulsePressureCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Hero */}
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center justify-center p-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full mb-4">
-                <Activity className="w-4 h-4 mr-2" />
-                <span className="text-sm font-semibold">Cardiology & Heart Health Tool</span>
-              </div>
-              <h1 className="text-3xl md:text-5xl font-bold text-balance mb-4">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Pulse Pressure Calculator
               </h1>
-              <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Discover the hidden indicator of your heart health. Enter your blood pressure to instantly calculate your 
-                <strong> Pulse Pressure (PP)</strong> and <strong>Mean Arterial Pressure (MAP)</strong>.
+              <p className="text-lg text-muted-foreground text-pretty">
+                Most people know their &quot;120 over 80,&quot; but few know the most important number inside that reading: your Pulse Pressure. 
+                Our pulse pressure calculator helps you understand how well your heart pumps and how flexible your arteries are.
+              </p>
+              <p className="text-base text-muted-foreground mt-3">
+                Whether you want to learn how to calculate pulse pressure for clinical records or personal tracking, our tool provides instant, accurate results.
               </p>
             </div>
 
             {/* Calculator Component */}
             <PulsePressureCalculator />
 
-            <div className="prose prose-gray dark:prose-invert max-w-none mt-16 space-y-16">
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
               
-              {/* Introduction Section */}
-              <section className="py-4">
-                <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2 flex items-center gap-2">
-                  <BookOpen className="w-6 h-6 text-blue-500" /> What is Pulse Pressure?
+              {/* What is Pulse Pressure? */}
+              <section className="py-8">
+                <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
+                  What is Pulse Pressure?
                 </h2>
                 <p className="mb-3 text-gray-700 leading-relaxed">
-                  Most people focus on their blood pressure numbers (like 120/80), but there is a third number that is equally critical: **Pulse Pressure**.
+                  Pulse pressure is defined as the numerical difference between your systolic blood pressure (the pressure when the heart beats) and your diastolic blood pressure (the pressure when the heart rests). 
                 </p>
                 <p className="mb-3 text-gray-700 leading-relaxed">
-                  Pulse pressure is the numeric difference between your systolic blood pressure (the top number) and your diastolic blood pressure (the bottom number). It represents the force that your heart generates each time it contracts.
+                  Think of your arteries like a garden hose. Pulse pressure is the &quot;force&quot; of the water surge every time you turn the tap on and off. If that hose is stiff or the pump is failing, that force changes significantly.
                 </p>
-                
-                <Card className="mt-6 bg-slate-50 dark:bg-slate-900 border-l-4 border-l-primary">
+                <p className="text-gray-700 leading-relaxed">
+                  Using a **pulse pressure calculator** allows you to monitor this force, giving you a window into your &quot;vascular age&quot; and overall cardiovascular efficiency.
+                </p>
+
+                <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-lg">The Formula</CardTitle>
+                    <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-800">
+                      <CalculatorIcon className="w-5 h-5 text-red-500" />
+                      Pulse Pressure: How to Calculate
+                    </CardTitle>
+                    <CardDescription className="text-gray-600">
+                      The mathematical steps to perform a pulse pressure calculation at home.
+                    </CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl md:text-3xl font-mono font-bold text-center text-gray-800 dark:text-gray-200 py-4">
-                      PP = Systolic - Diastolic
+                  <CardContent className="grid md:grid-cols-2 gap-6 pt-2">
+                    <div className="text-gray-700 text-sm leading-relaxed">
+                      <h3 className="font-bold text-gray-900 mb-2">The Formula:</h3>
+                      <p className="bg-gray-100 p-3 rounded-lg font-mono mb-4 text-center">
+                        PP = SBP - DBP
+                      </p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Step 1:</strong> Check your blood pressure with a validated cuff.</li>
+                        <li><strong>Step 2:</strong> Identify the Top Number (Systolic).</li>
+                        <li><strong>Step 3:</strong> Identify the Bottom Number (Diastolic).</li>
+                        <li><strong>Step 4:</strong> Subtract the bottom from the top.</li>
+                      </ul>
                     </div>
-                    <p className="text-sm text-center text-muted-foreground">
-                      Example: If your BP is <strong>120/80</strong>, your Pulse Pressure is <strong>40</strong> (120 - 80).
-                    </p>
+                    <div className="flex flex-col items-center justify-center bg-red-50 rounded-xl p-4 border border-red-100">
+                      <p className="text-red-800 font-bold text-center mb-2">Example Calculation:</p>
+                      <p className="text-red-700 text-sm text-center">
+                        Reading: 130/85 mmHg<br />
+                        130 - 85 = <strong>45 mmHg</strong><br />
+                        Result: Normal Pulse Pressure
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               </section>
 
-              {/* Interpretation Chart */}
+              {/* Why Calculate Pulse Pressure? */}
               <section>
-                <h2 className="mb-4 font-semibold flex items-center gap-2">
-                   <TrendingUp className="w-6 h-6 text-green-500" /> Pulse Pressure Interpretation Chart
+                <h2 className="mb-2 font-semibold text-2xl">
+                  Why Calculate Pulse Pressure Matters
                 </h2>
-                <p className="mb-4">
-                  Use the chart below to understand what your results mean. Remember that "Normal" can vary slightly by age, but these are the general medical guidelines.
+                <p className="mb-2">
+                  Research from the <b>Framingham Heart Study</b> indicates that in people over age 50, pulse pressure is a better predictor of heart problems than systolic pressure alone.
                 </p>
-                
-                <Card className="not-prose overflow-hidden">
-                  <CardContent className="p-0">
+                <p className="mb-4">When you calculate pulse pressure, you are essentially measuring two vital indicators:</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="p-4 border rounded-xl bg-blue-50/50">
+                    <h4 className="font-bold flex items-center gap-2 mb-2">
+                      <Activity className="w-4 h-4 text-blue-600" /> Stroke Volume
+                    </h4>
+                    <p className="text-sm">The actual amount of blood pushed out by your left heart ventricle during each beat.</p>
+                  </div>
+                  <div className="p-4 border rounded-xl bg-green-50/50">
+                    <h4 className="font-bold flex items-center gap-2 mb-2">
+                      <HeartPulse className="w-4 h-4 text-green-600" /> Arterial Compliance
+                    </h4>
+                    <p className="text-sm">How &quot;stretchy&quot; or stiff your arteries are. Stiff arteries cannot absorb blood force, causing pressure to widen.</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Interpreting Your Results: The Range Guide */}
+              <section>
+                <Card className="not-prose">
+                  <CardHeader>
+                    <CardTitle>Pulse Pressure Range Interpretation Guide</CardTitle>
+                    <CardDescription>
+                      Use this chart to understand your pulse pressure calculation results.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm border-collapse">
                         <thead>
-                          <tr className="bg-gray-100 dark:bg-gray-800">
-                            <th className="border-b px-4 py-3 text-left font-semibold">Category</th>
-                            <th className="border-b px-4 py-3 text-left font-semibold">Range (mmHg)</th>
-                            <th className="border-b px-4 py-3 text-left font-semibold">Description</th>
-                            <th className="border-b px-4 py-3 text-left font-semibold">Potential Indication</th>
+                          <tr className="bg-gray-50">
+                            <th className="border px-4 py-2 text-left">Category</th>
+                            <th className="border px-4 py-2 text-left">Range (mmHg)</th>
+                            <th className="border px-4 py-2 text-left">Clinical Meaning</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr className="bg-blue-50/50">
-                            <td className="border-b px-4 py-3 font-medium text-blue-700">Narrow (Low)</td>
-                            <td className="border-b px-4 py-3">&lt; 30 mmHg</td>
-                            <td className="border-b px-4 py-3">Numbers are close together</td>
-                            <td className="border-b px-4 py-3">Low stroke volume, heart failure, or blood loss.</td>
+                          <tr>
+                            <td className="border px-4 py-2 font-medium text-blue-600">Low (Narrow)</td>
+                            <td className="border px-4 py-2">Less than 40</td>
+                            <td className="border px-4 py-2">May indicate poor heart pump function, dehydration, or blood loss.</td>
                           </tr>
-                          <tr className="bg-green-50/50">
-                            <td className="border-b px-4 py-3 font-medium text-green-700">Normal (Healthy)</td>
-                            <td className="border-b px-4 py-3">30 – 50 mmHg</td>
-                            <td className="border-b px-4 py-3">Ideal balance</td>
-                            <td className="border-b px-4 py-3">Healthy cardiovascular function and arterial elasticity.</td>
+                          <tr className="bg-green-50/30">
+                            <td className="border px-4 py-2 font-medium text-green-600">Normal</td>
+                            <td className="border px-4 py-2">40 to 60</td>
+                            <td className="border px-4 py-2">Healthy balance between heart force and arterial elasticity.</td>
                           </tr>
                           <tr>
-                            <td className="border-b px-4 py-3 font-medium text-orange-600">Elevated (Wide)</td>
-                            <td className="border-b px-4 py-3">50 – 70 mmHg</td>
-                            <td className="border-b px-4 py-3">Gap is widening</td>
-                            <td className="border-b px-4 py-3">Common in aging; early sign of arterial stiffness.</td>
+                            <td className="border px-4 py-2 font-medium text-orange-600">High (Wide)</td>
+                            <td className="border px-4 py-2">Greater than 60</td>
+                            <td className="border px-4 py-2">Indicates stiffening of the arteries (Atherosclerosis) or valve issues.</td>
                           </tr>
                           <tr className="bg-red-50/50">
-                            <td className="border-b px-4 py-3 font-medium text-red-700">High Risk</td>
-                            <td className="border-b px-4 py-3">&gt; 70-80 mmHg</td>
-                            <td className="border-b px-4 py-3">Large gap</td>
-                            <td className="border-b px-4 py-3">Higher risk of heart disease, atrial fibrillation, or valve issues.</td>
+                            <td className="border px-4 py-2 font-medium text-red-600">Severely High</td>
+                            <td className="border px-4 py-2">Over 100</td>
+                            <td className="border px-4 py-2">High risk of cardiovascular event; requires immediate medical consultation.</td>
                           </tr>
                         </tbody>
                       </table>
@@ -165,84 +222,179 @@ export default function PulsePressureCalculatorPage() {
                 </Card>
               </section>
 
-              {/* Wide vs Narrow */}
+              {/* Narrow vs Wide Explanation */}
               <section className="grid md:grid-cols-2 gap-8">
                 <div>
-                   <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
-                     <AlertCircle className="w-5 h-5 text-red-500" /> Wide Pulse Pressure
-                   </h3>
-                   <p className="text-sm text-gray-600 mb-2">
-                     A pulse pressure greater than 60 mmHg is considered wide. This is most commonly caused by <strong>arterial stiffness</strong>. As we age, arteries lose their elasticity, causing the systolic pressure to rise while the diastolic pressure stays the same or drops.
-                   </p>
-                   <ul className="list-disc pl-5 text-sm space-y-1">
-                     <li>Atherosclerosis (hardening of arteries)</li>
-                     <li>Aortic regurgitation (leaky valve)</li>
-                     <li>Hyperthyroidism</li>
-                     <li>Anemia</li>
-                   </ul>
+                  <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
+                    <AlertCircle className="text-blue-500" /> Narrow Pulse Pressure
+                  </h3>
+                  <p className="text-sm text-gray-700">
+                    If you calculate a pulse pressure and it is consistently below 40 mmHg (or less than 25% of systolic), it is &quot;narrow.&quot; Common causes:
+                  </p>
+                  <ul className="list-disc pl-5 mt-2 text-sm text-gray-600 space-y-1">
+                    <li><b>Heart Failure:</b> Reduced stroke volume.</li>
+                    <li><b>Aortic Stenosis:</b> Heart valve restriction.</li>
+                    <li><b>Anemia:</b> Severe cases can drop pressure.</li>
+                  </ul>
                 </div>
                 <div>
-                   <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
-                     <Activity className="w-5 h-5 text-blue-500" /> Narrow Pulse Pressure
-                   </h3>
-                   <p className="text-sm text-gray-600 mb-2">
-                     A pulse pressure lower than 30 mmHg is narrow. This usually means your heart isn't pumping enough blood with each beat (stroke volume is low).
-                   </p>
-                   <ul className="list-disc pl-5 text-sm space-y-1">
-                     <li>Congestive heart failure</li>
-                     <li>Aortic stenosis (narrowing of valve)</li>
-                     <li>Significant blood loss (trauma)</li>
-                     <li>Cardiac tamponade</li>
-                   </ul>
+                  <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
+                    <AlertCircle className="text-orange-500" /> Wide Pulse Pressure
+                  </h3>
+                  <p className="text-sm text-gray-700">
+                    Results consistently above 60 mmHg suggest arteries are losing their &quot;bounce.&quot; Risks include:
+                  </p>
+                  <ul className="list-disc pl-5 mt-2 text-sm text-gray-600 space-y-1">
+                    <li><b>Stroke:</b> Stiff arteries send pressure waves to the brain.</li>
+                    <li><b>Kidney Damage:</b> High-pressure hits to delicate filters.</li>
+                    <li><b>Hyperthyroidism:</b> Overactive heart force.</li>
+                  </ul>
                 </div>
               </section>
 
-              {/* Why This Calculator Stands Out */}
+              {/* Accuracy Protocol */}
               <section>
-                <Card className="not-prose bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 border-primary/20">
+                <Card className="not-prose border-l-4 border-l-blue-500">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Stethoscope className="w-5 h-5 text-primary" />
-                      Why Use Our Pulse Pressure Tool?
+                      <Stethoscope className="w-5 h-5 text-blue-500" />
+                      Protocol for Accurate Calculation
                     </CardTitle>
+                    <CardDescription>
+                      Used by clinics in the UK and India to ensure the baseline blood pressure is correct.
+                    </CardDescription>
                   </CardHeader>
-                  <CardContent className="text-sm space-y-3">
-                    <p>
-                      Unlike basic calculators, we provide a <strong>comprehensive hemodynamic analysis</strong>. 
-                      Our tool goes beyond simple subtraction:
-                    </p>
-                    <ul className="grid sm:grid-cols-2 gap-3 pt-2">
-                      <li className="flex items-start gap-2">
-                        <UserCheck className="w-4 h-4 text-green-500 mt-0.5" />
-                        <span><strong>Automatic MAP Calculation:</strong> We calculate Mean Arterial Pressure simultaneously, giving you a fuller picture of organ perfusion.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Shield className="w-4 h-4 text-green-500 mt-0.5" />
-                        <span><strong>Risk Visualization:</strong> Our color-coded gauge helps you instantly spot if you are in the "Safe Zone" or "Risk Zone".</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Heart className="w-4 h-4 text-green-500 mt-0.5" />
-                        <span><strong>Actionable Insights:</strong> We provide interpretation based on current cardiology guidelines.</span>
-                      </li>
-                    </ul>
+                  <CardContent className="space-y-4 text-sm">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="flex gap-3">
+                        <div className="h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">1</div>
+                        <p><b>The 5-Minute Rule:</b> Sit quietly for five minutes before measuring. No phones or talking.</p>
+                      </div>
+                      <div className="flex gap-3">
+                        <div className="h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">2</div>
+                        <p><b>Arm Position:</b> Ensure your arm is supported at heart level during the reading.</p>
+                      </div>
+                      <div className="flex gap-3">
+                        <div className="h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">3</div>
+                        <p><b>No Stimulants:</b> Avoid caffeine or nicotine for 30 minutes before you calculate pulse pressure.</p>
+                      </div>
+                      <div className="flex gap-3">
+                        <div className="h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">4</div>
+                        <p><b>The Double Check:</b> Take two readings, two minutes apart, and average them for your final calculation.</p>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               </section>
 
-              {/* Disclaimer */}
-              <section className="bg-yellow-50 dark:bg-yellow-900/10 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800 not-prose">
-                <h4 className="font-bold text-yellow-800 dark:text-yellow-500 flex items-center gap-2 mb-2">
-                   <AlertCircle className="w-4 h-4" /> Medical Disclaimer
-                </h4>
-                <p className="text-sm text-yellow-700 dark:text-yellow-400">
-                  This Pulse Pressure Calculator is for educational and informational purposes only. It is not intended to replace professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or qualified health provider with any questions you may have regarding a medical condition.
+              {/* Regional Health Factors */}
+              <section>
+                <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                  <Globe className="w-6 h-6 text-green-600" /> Regional Health Considerations
+                </h2>
+                <div className="grid md:grid-cols-3 gap-6 not-prose">
+                  <Card className="bg-slate-50">
+                    <CardHeader className="p-4">
+                      <CardTitle className="text-base">USA & UK</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4 pt-0 text-sm">
+                      High processed food intake often leads to arterial stiffness. Physicians here recommend the &quot;DASH&quot; diet to manage widening pulse pressure.
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-slate-50">
+                    <CardHeader className="p-4">
+                      <CardTitle className="text-base">UAE</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4 pt-0 text-sm">
+                      Sedentary lifestyles and high diabetes rates contribute to early arterial aging. Monitoring PP is a vital early intervention tool.
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-slate-50">
+                    <CardHeader className="p-4">
+                      <CardTitle className="text-base">India</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4 pt-0 text-sm">
+                      High-sodium vegetarian diets and genetic heart disease predispositions make weekly PP calculation essential for those over 40.
+                    </CardContent>
+                  </Card>
+                </div>
+              </section>
+
+              {/* Management Tips */}
+              <section>
+                <Card className="not-prose">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <ShieldCheck className="w-5 h-5 text-green-600" />
+                      How to Manage & Improve Pulse Pressure
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="space-y-3">
+                        <h4 className="font-bold text-gray-800 flex items-center gap-2">
+                          <Apple className="w-4 h-4" /> Lifestyle & Diet
+                        </h4>
+                        <ul className="text-sm space-y-2 text-gray-600">
+                          <li>• <b>Reduce Sodium:</b> Salt stiffens artery walls almost immediately.</li>
+                          <li>• <b>Aerobic Exercise:</b> Swimming or brisk walking maintains &quot;bounce.&quot;</li>
+                          <li>• <b>Folic Acid:</b> Studies suggest it may help reduce stiffness in younger men.</li>
+                        </ul>
+                      </div>
+                      <div className="space-y-3">
+                        <h4 className="font-bold text-gray-800 flex items-center gap-2">
+                          <Stethoscope className="w-4 h-4" /> Medical Guidance
+                        </h4>
+                        <ul className="text-sm space-y-2 text-gray-600">
+                          <li>• <b>ACE Inhibitors:</b> Often used to manage hypertension and PP.</li>
+                          <li>• <b>Nitrates:</b> Unique ability to lower systolic pressure while retaining diastolic levels.</li>
+                          <li>• <b>Stress Management:</b> Lowering cortisol prevents chronic arterial narrowing.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              {/* Summary Checklist */}
+              <section className="bg-blue-600 text-white p-8 rounded-3xl shadow-xl">
+                <h2 className="text-2xl font-bold mb-6">Pulse Pressure Summary Checklist</h2>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <ul className="space-y-4">
+                    <li className="flex items-start gap-3">
+                      <div className="h-6 w-6 bg-white/20 rounded-md flex items-center justify-center shrink-0">✓</div>
+                      <p><b>Calculation:</b> Always Systolic minus Diastolic.</p>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="h-6 w-6 bg-white/20 rounded-md flex items-center justify-center shrink-0">✓</div>
+                      <p><b>Ideal Range:</b> Aim for 40 mmHg to 60 mmHg.</p>
+                    </li>
+                  </ul>
+                  <ul className="space-y-4">
+                    <li className="flex items-start gap-3">
+                      <div className="h-6 w-6 bg-white/20 rounded-md flex items-center justify-center shrink-0">✓</div>
+                      <p><b>High Risk:</b> Consult a doctor if PP is consistently over 60.</p>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="h-6 w-6 bg-white/20 rounded-md flex items-center justify-center shrink-0">✓</div>
+                      <p><b>Narrow Risk:</b> Seek advice if PP is below 35 or you feel dizzy.</p>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* Final Note */}
+              <section className="text-center pb-12">
+                <h2 className="text-3xl font-bold mb-4">Every Beat Tells a Story</h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Your pulse pressure is a vital window into your vascular health. By learning how to calculate pulse pressure and monitoring it regularly, you are taking a proactive step in heart disease prevention. Don&apos;t just settle for knowing your blood pressure—know your pulse pressure.
                 </p>
               </section>
 
             </div>
 
             {/* Structured FAQ UI */}
-            <div className="mt-16">
+            <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
           </div>
