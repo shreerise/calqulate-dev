@@ -491,11 +491,10 @@ export default function Qrisk3Calculator() {
                   {isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Calculator className="h-4 w-4 mr-2" />}
                   {isLoading ? 'Calculating Risk...' : 'Calculate QRISK3 Score'}
                 </Button>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                //   size="lg" 
-                  onClick={() => { form.reset(); setResult(null); }} 
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => { form.reset(); setResult(null); }}
                   className="flex-1"
                   disabled={isLoading}
                 >
