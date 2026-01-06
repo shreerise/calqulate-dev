@@ -142,6 +142,13 @@ const calculators = [
     href: "/health/qrisk3-calculator",
     category: "Health",
   },
+  {
+    title: "TDEE Calculator",
+    description: "Calculate your Total Daily Energy Expenditure (TDEE) and recommended macros",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/tdee-calculator",
+    category: "Health",
+  },
 ]
 
 const categories = [

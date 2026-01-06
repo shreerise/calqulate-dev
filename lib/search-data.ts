@@ -180,6 +180,15 @@ export const calculators: Calculator[] = [
     tags: ["qrisk3", "cardiovascular disease", "risk assessment", "health", "disease prediction"],
     keywords: ["qrisk3 calculator","cardiovascular disease risk","risk assessment model","health prediction","disease prevention"],
   },
+  {
+    id: "tdee",
+    title: "TDEE Calculator",
+    description: "Calculate your Total Daily Energy Expenditure (TDEE) and recommended macros",
+    href: "/health/tdee-calculator",
+    category: "Health",
+    tags: ["tdee", "total daily energy expenditure", "calories", "macros", "nutrition"],
+    keywords: ["tdee calculator","total daily energy expenditure","calorie needs","macronutrient recommendations","nutrition planning"],
+  }
 ]
 
 export function searchCalculators(query: string): Calculator[] {

@@ -30,6 +30,7 @@ const calculatorCategories = [
       { name: "Pulse Pressure Calculator", href: "/health/pulse-pressure-calculator" },
       { name: "ASCVD Risk Calculator", href: "/health/ascvd-risk-calculator" },
       { name: "Qrisk3 Calculator", href: "/health/qrisk3-calculator" },
+      { name: "TDEE Calculator", href: "/health/tdee-calculator" },
     ],
   },
 ]
