@@ -31,6 +31,8 @@ const calculatorCategories = [
       { name: "ASCVD Risk Calculator", href: "/health/ascvd-risk-calculator" },
       { name: "Qrisk3 Calculator", href: "/health/qrisk3-calculator" },
       { name: "TDEE Calculator", href: "/health/tdee-calculator" },
+      { name: "Macro Calculator", href: "/health/macro-calculator" },
+      { name: "One-Rep Max Calculator", href: "/health/one-rep-max-calculator" }
     ],
   },
 ]

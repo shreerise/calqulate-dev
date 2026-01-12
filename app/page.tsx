@@ -149,6 +149,20 @@ const calculators = [
     href: "/health/tdee-calculator",
     category: "Health",
   },
+  {
+    title: "Macro Calculator",
+    description: "Determine your ideal macronutrient breakdown based on fitness goals",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/macro-calculator",
+    category: "Health",
+  },
+  {
+    title: "One-Rep Max Calculator",
+    description: "Estimate your one-rep max for various strength training exercises",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/one-rep-max-calculator",
+    category: "Health",
+  },
 ]
 
 const categories = [

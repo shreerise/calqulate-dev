@@ -188,6 +188,24 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["tdee", "total daily energy expenditure", "calories", "macros", "nutrition"],
     keywords: ["tdee calculator","total daily energy expenditure","calorie needs","macronutrient recommendations","nutrition planning"],
+  },
+  {
+    id: "macro",
+    title: "Macro Calculator",
+    description: "Determine your ideal macronutrient breakdown based on fitness goals",
+    href: "/health/macro-calculator",
+    category: "Health",
+    tags: ["macro calculator", "macronutrients", "nutrition", "fitness goals", "diet"],
+    keywords: ["macro calculator","macronutrient breakdown","nutrition planning","fitness goals","diet management"],
+  },
+  {
+    id: "one-rep-max",
+    title: "One-Rep Max Calculator",
+    description: "Estimate your one-rep max for various strength training exercises",
+    href: "/health/one-rep-max-calculator",
+    category: "Health",
+    tags: ["one-rep max", "strength training", "exercise", "fitness", "workout"],
+    keywords: ["one-rep max calculator","strength training estimation","exercise performance","fitness assessment","workout planning"],
   }
 ]
 
