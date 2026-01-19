@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Link from "next/link";
+
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -220,7 +222,14 @@ export default function AscvdRiskCalculator() {
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-6">
                     <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                        <HeartPulse className="w-4 h-4 text-blue-600" /> Cholesterol Levels (mg/dL)
+                      <HeartPulse className="w-4 h-4 text-blue-600" />
+                      <Link
+                        href="/health/cholesterol-ratio-calculator"
+                        className="no-underline hover:underline hover:text-blue-700"
+                      >
+                        Cholesterol
+                      </Link>{" "}
+                      Levels (mg/dL)
                     </h3>
                     
                     <FormField control={form.control} name="totalCholesterol" render={({ field }) => (
@@ -251,7 +260,14 @@ export default function AscvdRiskCalculator() {
 
                 <div className="space-y-6">
                     <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                        <Activity className="w-4 h-4 text-blue-600" /> Blood Pressure (mmHg)
+                      <Activity className="w-4 h-4 text-blue-600" />
+                      <Link
+                        href="/health/mean-arterial-pressure-calculator"
+                        className="no-underline hover:underline hover:text-blue-700"
+                      >
+                        Blood Pressure
+                      </Link>{" "}
+                      (mmHg)
                     </h3>
                     <FormField control={form.control} name="systolicBP" render={({ field }) => (
                     <FormItem>

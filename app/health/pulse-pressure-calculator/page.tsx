@@ -72,7 +72,7 @@ export default function PulsePressureCalculatorPage() {
       <CalculatorSchema
         name="Pulse Pressure Calculator"
         description="Calculate your pulse pressure instantly. Understand what your systolic and diastolic difference says about your heart health and arterial stiffness."
-        url="https://yourdomain.com/health/pulse-pressure-calculator"
+        url="https://calqulate.net/health/pulse-pressure-calculator"
       />
       <FAQSchema faqs={faqs} />
 
@@ -111,9 +111,16 @@ export default function PulsePressureCalculatorPage() {
                 <p className="mb-3 text-gray-700 leading-relaxed">
                   Think of your arteries like a garden hose. Pulse pressure is the &quot;force&quot; of the water surge every time you turn the tap on and off. If that hose is stiff or the pump is failing, that force changes significantly.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Using a **pulse pressure calculator** allows you to monitor this force, giving you a window into your &quot;vascular age&quot; and overall cardiovascular efficiency.
-                </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    Using a pulse pressure calculator allows you to monitor this force, giving you a window into your &quot;vascular age&quot; and overall{" "}
+                    <Link
+                      href="/health/ascvd-risk-calculator"
+                      className="font-medium text-gray-700 no-underline hover:underline hover:text-blue-700"
+                    >
+                      cardiovascular efficiency
+                    </Link>
+                    .
+                  </p>
 
                 <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl">
                   <CardHeader className="pb-2">
@@ -156,7 +163,14 @@ export default function PulsePressureCalculatorPage() {
                   Why Calculate Pulse Pressure Matters
                 </h2>
                 <p className="mb-2">
-                  Research from the <b>Framingham Heart Study</b> indicates that in people over age 50, pulse pressure is a better predictor of heart problems than systolic pressure alone.
+                  Research from the{" "}
+                  <Link
+                    href="/health/framingham-risk-score-calculator"
+                    className="text-green-700 no-underline hover:underline hover:text-green-900 font-semibold"
+                  >
+                    Framingham Heart Study
+                  </Link>{" "}
+                  indicates that in people over age 50, pulse pressure is a better predictor of heart problems than systolic pressure alone.
                 </p>
                 <p className="mb-4">When you calculate pulse pressure, you are essentially measuring two vital indicators:</p>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -357,13 +371,13 @@ export default function PulsePressureCalculatorPage() {
               </section>
 
               {/* Summary Checklist */}
-              <section className="bg-blue-600 text-white p-8 rounded-3xl shadow-xl">
+              <section className="bg-white-600 text-black p-8 rounded-3xl shadow-xl">
                 <h2 className="text-2xl font-bold mb-6">Pulse Pressure Summary Checklist</h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
                       <div className="h-6 w-6 bg-white/20 rounded-md flex items-center justify-center shrink-0">✓</div>
-                      <p><b>Calculation:</b> Always Systolic minus Diastolic.</p>
+                        <p><b>Calculation:</b> Always <a href="/health/mean-arterial-pressure-calculator" className="text-green-700 no-underline hover:underline hover:text-green-900 font-semibold">Systolic minus Diastolic</a>.</p>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="h-6 w-6 bg-white/20 rounded-md flex items-center justify-center shrink-0">✓</div>

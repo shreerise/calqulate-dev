@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -467,7 +468,14 @@ export default function FraminghamCalculator() {
                     name="systolicBP"
                     render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Systolic Blood Pressure</FormLabel>
+                        <FormLabel>
+                          <Link
+                            href="/health/mean-arterial-pressure-calculator"
+                            className="hover:underline text-black-700"
+                          >
+                            Systolic Blood Pressure
+                          </Link>
+                        </FormLabel>
                         <FormControl>
                             <div className="relative">
                                 <Input type="number" {...field} />

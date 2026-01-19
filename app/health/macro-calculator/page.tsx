@@ -65,7 +65,7 @@ export default function MacroCalculatorPage() {
       <CalculatorSchema
         name="Macro Calculator"
         description="Calculate your daily protein, carbs, and fats based on your fitness goals."
-        url="https://calqulate.net/fitness/macro-calculator"
+        url="https://calqulate.net/health/macro-calculator"
       />
       <FAQSchema faqs={faqs} />
 
@@ -266,7 +266,7 @@ export default function MacroCalculatorPage() {
                       ))}
                    </div>
                    <Image 
-                      src="/api/placeholder/400/250" 
+                      src="/macro-3.avif"
                       alt="Person tracking food on mobile" 
                       width={400} 
                       height={250} 

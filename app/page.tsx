@@ -163,6 +163,20 @@ const calculators = [
     href: "/health/one-rep-max-calculator",
     category: "Health",
   },
+  {
+    title: "VO2 Max Calculator",
+    description: "Estimate your VO2 max based on exercise performance and heart rate data",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/vo2-max-calculator",
+    category: "Health",
+  },
+  {
+    title: "Willks Calculator",
+    description: "Calculate your Wilks Score for powerlifting performance comparison",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/wilks-calculator",
+    category: "Health",
+  }
 ]
 
 const categories = [

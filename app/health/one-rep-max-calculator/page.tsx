@@ -55,7 +55,7 @@ export default function OneRepMaxCalculatorPage() {
       <CalculatorSchema
         name="One Rep Max Calculator"
         description="Calculate your estimated maximum lift capacity for bench press, squats, and deadlifts safely."
-        url="https://calqulate.net/fitness/one-rep-max-calculator"
+        url="https://calqulate.net/health/one-rep-max-calculator"
       />
       <FAQSchema faqs={faqs} />
 
@@ -119,7 +119,7 @@ export default function OneRepMaxCalculatorPage() {
                   </div>
                   <div className="w-full md:w-1/3">
                     <Image 
-                      src="/api/placeholder/400/300" 
+                      src="/squat-rack.avif" 
                       alt="Weightlifter preparing for a lift" 
                       width={400} 
                       height={300} 
@@ -214,7 +214,7 @@ export default function OneRepMaxCalculatorPage() {
               <section>
                 <div className="flex flex-col md:flex-row gap-12 items-center">
                   <Image 
-                    src="/api/placeholder/400/400" 
+                    src="/squat-safety.avif" 
                     alt="Strength training session" 
                     width={400} 
                     height={400} 

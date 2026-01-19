@@ -63,7 +63,7 @@ export default function TDEECalculatorPage() {
       <CalculatorSchema
         name="TDEE Calculator"
         description="Understand your daily energy expenditure. Not just a number, but a complete view of how your body uses energy."
-        url="https://yourdomain.com/fitness/tdee-calculator"
+        url="https://calqulate.net/health/tdee-calculator"
       />
       <FAQSchema faqs={faqs} />
 

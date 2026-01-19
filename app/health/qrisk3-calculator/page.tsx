@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import Qrisk3Calculator from "@/components/calculators/qrisk3-calculator"
+import Link from "next/link"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { 
@@ -58,7 +59,7 @@ export default function Qrisk3CalculatorPage() {
       <CalculatorSchema
         name="QRISK3 Calculator"
         description="The official UK clinical tool for predicting 10-year risk of cardiovascular disease."
-        url="https://yourdomain.co.uk/health/qrisk3-calculator"
+        url="https://calqulate.net/health/qrisk3-calculator"
       />
       <FAQSchema faqs={faqs} />
 
@@ -100,7 +101,14 @@ export default function Qrisk3CalculatorPage() {
                 </p>
                 <p>
                   It is a <b>cardiovascular event risk calculator</b> that looks at you as a whole person, 
-                  not just a blood pressure reading. It is the gold standard for <b>cardiovascular disease risk score</b> 
+                  not just a{" "}
+                  <Link
+                    href="/health/mean-arterial-pressure-calculator"
+                    className="font-medium text-gray-800 no-underline hover:underline hover:text-blue-700"
+                  >
+                    blood pressure
+                  </Link>{" "}
+                  reading. It is the gold standard for <b>cardiovascular disease risk score</b> 
                   assessment in the United Kingdom.
                 </p>
               </div>
@@ -211,7 +219,9 @@ export default function Qrisk3CalculatorPage() {
               <div className="text-center">
                 <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">2</div>
                 <h4 className="font-bold mb-2">Cholesterol</h4>
-                <p className="text-xs text-slate-500">You need your Total Cholesterol/HDL ratio from a blood test.</p>
+                <p className="text-xs text-slate-500">
+                  You need your <a href="/health/cholesterol-ratio-calculator" className="underline">Total Cholesterol/HDL ratio</a> from a blood test.
+                </p>
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">3</div>

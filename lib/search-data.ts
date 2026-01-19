@@ -206,6 +206,24 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["one-rep max", "strength training", "exercise", "fitness", "workout"],
     keywords: ["one-rep max calculator","strength training estimation","exercise performance","fitness assessment","workout planning"],
+  },
+  {
+    id: "vo2-max",
+    title: "VO2 Max Calculator",
+    description: "Estimate your VO2 max based on exercise performance and heart rate data",
+    href: "/health/vo2-max-calculator",
+    category: "Health",
+    tags: ["vo2 max", "cardio fitness", "aerobic capacity", "exercise", "health"],
+    keywords: ["vo2 max calculator","cardio fitness estimation","aerobic capacity assessment","exercise performance","health evaluation"],
+  },
+  {
+    id: "wilks",
+    title: "Wilks Calculator",
+    description: "Calculate your Wilks score for powerlifting performance comparison",
+    href: "/health/wilks-calculator",
+    category: "Health",
+    tags: ["wilks score", "powerlifting", "strength", "performance", "comparison"],
+    keywords: ["wilks calculator","powerlifting performance","strength comparison","wilks score calculation","fitness assessment"],
   }
 ]
 

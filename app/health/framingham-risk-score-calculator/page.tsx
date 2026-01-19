@@ -93,7 +93,7 @@ export default function FraminghamRiskCalculatorPage() {
               </p>
               <p className="text-base text-muted-foreground mt-3">
                 Whether you are in the USA, UK, UAE, or Malaysia, knowing your 
-                <strong> 10 year ascvd risk calculator framingham</strong> score is the first step toward a longer life.
+                <strong><a href="/health/ascvd-risk-calculator" className="no-underline hover:underline hover:text-blue-700"> 10-year ASCVD risk calculator</a> Framingham</strong> score is the first step toward a longer life.
               </p>
             </div>
 
@@ -113,9 +113,14 @@ export default function FraminghamRiskCalculatorPage() {
                   including myocardial infarction (heart attack) or fatal heart disease.
                 </p>
                 <p className="mb-3 text-gray-700 leading-relaxed">
-                  Developed from the landmark <strong>Framingham Heart Study</strong>, which began in 1948 in 
-                  Massachusetts, this study helped identify the major cardiovascular risk factors we recognize 
-                  today: high blood pressure, high cholesterol, and smoking.
+                  Developed from the landmark{" "}
+                  <Link
+                    href="/health/pulse-pressure-calculator"
+                    className="font-semibold text-gray-700 no-underline hover:underline hover:text-blue-700"
+                  >
+                    Framingham Heart Study
+                  </Link>
+                  , which began in 1948 in Massachusetts, this study helped identify the major cardiovascular risk factors we recognize today: high blood pressure, high cholesterol, and smoking.
                 </p>
 
                 <Card className="mt-8 border border-gray-200 shadow-sm rounded-2xl">

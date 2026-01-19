@@ -56,7 +56,7 @@ export default function AscvdRiskPage() {
       <CalculatorSchema
         name="ASCVD Risk Calculator"
         description="Clinically validated 10-year cardiovascular risk calculator using the Pooled Cohort Equation (PCE)."
-        url="https://yourdomain.com/health/ascvd-risk-calculator"
+        url="https://calqulate.net/health/ascvd-risk-calculator"
       />
       <FAQSchema faqs={faqs} />
 
@@ -70,7 +70,7 @@ export default function AscvdRiskPage() {
           </h1>
           <p className="text-xl text-slate-600 leading-relaxed max-w-3xl">
             Heart attacks and strokes aren't just random events. They are the result of decades of cumulative pressure. 
-            Our <b>ascvd calculator</b> uses the industry-standard <b>Pooled Cohort Equation</b> to turn your 
+            Our <b>ascvd calculator</b> uses the industry-standard <b><a href="/health/pulse-pressure-calculator" className="no-underline hover:underline hover:text-blue-700">Pooled Cohort Equation</a></b> to turn your 
             clinical data into a 10-year survival prediction.
           </p>
         </header>
@@ -98,8 +98,8 @@ export default function AscvdRiskPage() {
                   and stroke risk across diverse populations.
                 </p>
                 <p>
-                  The &quot;Pooled&quot; part of the name comes from the fact that researchers combined data from 
-                  multiple massive studies (like the Framingham Heart Study and the ARIC study) to create 
+                  The "Pooled" part of the name comes from the fact that researchers combined data from 
+                  multiple massive studies (like the <a href="/health/framingham-risk-score-calculator" className     ="text-blue-600 underline">Framingham Heart Study</a> and the ARIC study) to create 
                   a statistical model that accurately reflects the modern U.S. population.
                 </p>
               </div>

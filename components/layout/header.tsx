@@ -32,7 +32,9 @@ const calculatorCategories = [
       { name: "Qrisk3 Calculator", href: "/health/qrisk3-calculator" },
       { name: "TDEE Calculator", href: "/health/tdee-calculator" },
       { name: "Macro Calculator", href: "/health/macro-calculator" },
-      { name: "One-Rep Max Calculator", href: "/health/one-rep-max-calculator" }
+      { name: "One-Rep Max Calculator", href: "/health/one-rep-max-calculator" },
+      { name: "VO2 Max Calculator", href: "/health/vo2-max-calculator" },
+      { name: "Wilks Calculator", href: "/health/wilks-calculator" },
     ],
   },
 ]

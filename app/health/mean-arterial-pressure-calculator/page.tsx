@@ -133,8 +133,15 @@ export default function MapCalculatorPage() {
                        <code className="text-xl">MAP = [SBP + (2 × DBP)] / 3</code>
                     </div>
                     <div className="p-4 bg-white rounded-lg border">
-                       <p className="font-bold text-blue-700">2. The Pulse Pressure Method:</p>
-                       <code className="text-xl">MAP = DBP + 1/3(SBP - DBP)</code>
+                      <p>
+                        <Link
+                          href="/health/pulse-pressure-calculator"
+                          className="font-bold text-blue-700 no-underline hover:underline hover:text-blue-900"
+                        >
+                          2. The Pulse Pressure Method:
+                        </Link>
+                      </p>
+                      <code className="text-xl">MAP = DBP + 1/3(SBP - DBP)</code>
                     </div>
                   </CardContent>
                 </Card>
@@ -308,7 +315,16 @@ export default function MapCalculatorPage() {
 
               {/* SECTION 8: Summary Comparison */}
               <section>
-                <h2 className="mb-4 text-2xl font-semibold">MAP vs. Systolic Blood Pressure: Which is Better?</h2>
+                <h2 className="mb-4 text-2xl font-semibold">
+                  MAP vs. Systolic{" "}
+                  <Link
+                    href="/health/pulse-pressure-calculator"
+                    className="text-green-700 no-underline hover:underline hover:text-green-900"
+                  >
+                    Blood Pressure
+                  </Link>
+                  : Which is Better?
+                </h2>
                 <p className="mb-4">
                    While both are important, they serve different purposes in your health journey:
                 </p>
