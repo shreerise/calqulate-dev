@@ -95,9 +95,20 @@ export default function MacroCalculatorPage() {
               {/* Simple Explanation */}
               <section>
                 <h2 className="text-2xl font-bold mb-6">What Is a Macro Calculator?</h2>
-                <p className="text-gray-700">
-                  A macros calculator tells you how many grams of <strong>protein, carbohydrates, and fats</strong> you should eat each day based on your age, gender, height, weight, activity level, and specific goal.
-                </p>
+                  <p className="text-gray-700">
+                    A macros calculator tells you how many grams of{" "}
+                    <strong>
+                      protein,{" "}
+                      <Link
+                        href="/health/vo2-max-calculator"
+                        className="no-underline hover:underline hover:text-blue-700 font-semibold"
+                      >
+                        carbohydrates
+                      </Link>
+                      , and fats
+                    </strong>{" "}
+                    you should eat each day based on your age, gender, height, weight, activity level, and specific goal.
+                  </p>
                 <div className="grid md:grid-cols-2 gap-4 not-prose mt-8">
                   <Card className="border-none bg-blue-50 shadow-sm">
                     <CardHeader>
@@ -176,7 +187,14 @@ export default function MacroCalculatorPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-blue-600">
-                    <Dumbbell className="w-5 h-5" /> For Muscle Gain
+                    <Dumbbell className="w-5 h-5" />
+                    For{" "}
+                    <Link
+                      href="/health/wilks-calculator"
+                      className="no-underline hover:underline hover:text-blue-700"
+                    >
+                      Muscle Gain
+                    </Link>
                   </h3>
                   <ul className="space-y-4 text-sm text-gray-600 list-none p-0">
                     <li className="bg-slate-50 p-3 rounded-lg"><strong>Lean Bulk:</strong> Small calorie surplus (5–10%).</li>
@@ -316,10 +334,17 @@ export default function MacroCalculatorPage() {
               {/* Conclusion */}
               <section className="text-center pb-12">
                 <h2 className="text-3xl font-bold mb-4">Do Macro Calculators Work?</h2>
-                <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-                  Yes—when used correctly. A macro calculator is not a diet; it&apos;s a decision-making tool. 
-                  Used properly, it teaches you portion control, food awareness, and sustainable fat loss.
-                </p>
+                  <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
+                    Yes—when used correctly. A macro calculator is not a diet; it&apos;s a decision-making tool. 
+                    Used properly, it teaches you portion control, food awareness, and sustainable{" "}
+                    <Link
+                      href="/health/fat-intake-calculator"
+                      className="no-underline hover:underline hover:text-blue-700 font-medium"
+                    >
+                      fat loss
+                    </Link>
+                    .
+                  </p>
                 <div className="bg-gray-900 text-white p-8 rounded-3xl">
                   <h3 className="text-white text-xl font-bold mb-2">Ready to start?</h3>
                   <p className="text-gray-400 text-sm mb-0">Use the calqulate.net tool above to get your custom blueprint.</p>

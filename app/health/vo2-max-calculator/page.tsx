@@ -103,7 +103,16 @@ export default function VO2MaxCalculatorPage() {
                 </p>
                 <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
                   <p className="font-bold text-gray-900 mb-2">In simple terms:</p>
-                  <p className="text-gray-700 mb-4">It’s a measure of your cardiorespiratory fitness. Higher VO₂ max generally means:</p>
+                  <p className="text-gray-700 mb-4">
+                    It’s a measure of your{" "}
+                    <Link
+                      href="/health/heart-rate-calculator"
+                      className="font-medium no-underline hover:underline hover:text-blue-700"
+                    >
+                      cardiorespiratory fitness
+                    </Link>
+                    . Higher VO₂ max generally means:
+                  </p>
                   <ul className="grid md:grid-cols-3 gap-4 list-none pl-0">
                     <li className="flex items-center gap-2 text-sm font-medium"><TrendingUp className="text-blue-600 w-4 h-4" /> Better endurance</li>
                     <li className="flex items-center gap-2 text-sm font-medium"><Heart className="text-red-600 w-4 h-4" /> More efficient heart/lungs</li>
@@ -170,8 +179,16 @@ export default function VO2MaxCalculatorPage() {
               <section className="bg-slate-50 p-8 rounded-3xl border border-slate-200">
                 <h2 className="text-2xl font-bold mb-4">VO₂ Max Calculator vs Wearables</h2>
                 <h3 className="text-xl font-semibold mb-2 text-blue-700">How Does Garmin Calculate VO₂ Max?</h3>
-                <p className="mb-4">Garmin does not measure oxygen directly. It estimates VO₂ max using heart rate variability, running speed or cycling power, historical training data, and Firstbeat algorithms.</p>
-                <p className="mb-4 font-medium">That’s why:</p>
+                <p className="mb-4">
+                  Garmin does not measure oxygen directly. It estimates VO₂ max using{" "}
+                  <Link
+                    href="/health/heart-rate-calculator"
+                    className="no-underline hover:underline hover:text-blue-700 font-medium"
+                  >
+                    heart rate
+                  </Link>{" "}
+                  variability, running speed or cycling power, historical training data, and Firstbeat algorithms.
+                </p>                <p className="mb-4 font-medium">That’s why:</p>
                 <ul className="grid md:grid-cols-2 gap-4 list-none pl-0 text-sm">
                   <li className="bg-white p-3 rounded-lg shadow-sm border border-gray-100">✓ Values change over time based on training load</li>
                   <li className="bg-white p-3 rounded-lg shadow-sm border border-gray-100">✓ Indoor vs outdoor runs differ due to GPS/air resistance</li>
@@ -362,10 +379,17 @@ export default function VO2MaxCalculatorPage() {
               {/* Final Note */}
               <section className="text-center pb-12">
                 <h2 className="text-3xl font-bold mb-4">Master Your Aerobic Potential</h2>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
-                  A universal VO2 max calculator must consider environment and training specificity, not just simple formulas. 
-                  By understanding what the number means and how it is calculated, you can better tailor your training for long-term cardiovascular health.
-                </p>
+                  <p className="text-muted-foreground max-w-2xl mx-auto">
+                    A universal VO₂ max calculator must consider environment and training specificity, not just simple formulas. 
+                    By understanding what the number means and how it is calculated, you can better tailor your training for long-term{" "}
+                    <Link
+                      href="/health/framingham-risk-score-calculator"
+                      className="no-underline hover:underline hover:text-blue-700 font-medium"
+                    >
+                      cardiovascular health 
+                    </Link>
+                    .
+                  </p>
               </section>
 
             </div>

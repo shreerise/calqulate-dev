@@ -87,7 +87,15 @@ export default function WilksCalculatorPage() {
                   A Wilks score calculator compares powerlifting strength across different bodyweights. Instead of asking “Who lifted more weight?”, Wilks asks: Who lifted more relative to their bodyweight? 
                 </p>
                 <p className="text-gray-700 leading-relaxed">
-                  That’s why Wilks is used to rank lifters fairly in many competitions. Higher Wilks = stronger relative performance.
+                  That’s why Wilks is used to rank lifters fairly in many competitions. 
+                  Higher Wilks = stronger{" "}
+                  <Link
+                    href="/health/one-rep-max-calculator"
+                    className="no-underline hover:underline hover:text-blue-700 font-medium"
+                  >
+                    relative performance
+                  </Link>
+                  .
                 </p>
 
                 <Card className="mt-8 border border-gray-200 shadow-sm rounded-2xl">

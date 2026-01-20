@@ -349,8 +349,22 @@ export default function OneRepMaxCalculatorPage() {
                   A one rep max calculator is not about ego lifting. It’s about Smarter programming, Safer progression, and Measurable strength gains.
                 </p>
                 <div className="inline-block px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold text-lg">
-                  Master Your Strength at calqulate.net
+                  Master Your{" "}
+                  <Link
+                    href="/health/wilks-calculator"
+                    className="underline hover:text-blue-100"
+                  >
+                    Strength
+                  </Link>{" "}
+                  at{" "}
+                  <Link
+                    href="https://calqulate.net/"
+                    className="underline hover:text-blue-100"
+                  >
+                    calqulate.net
+                  </Link>
                 </div>
+
               </section>
 
             </div>

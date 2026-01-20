@@ -263,7 +263,14 @@ export default function TDEECalculatorPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <AlertCircle className="w-5 h-5 text-red-500" />
-                      TDEE vs Calories Eaten – Why People Get Stuck
+                      TDEE vs{" "}
+                      <Link
+                        href="/health/macro-calculator"
+                        className="no-underline hover:underline hover:text-blue-700"
+                      >
+                        Calories
+                      </Link>{" "}
+                      Eaten – Why People Get Stuck
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -323,7 +330,17 @@ export default function TDEECalculatorPage() {
                     <CardContent className="p-4 pt-0 text-sm">Improves food handling (how your body uses nutrients).</CardContent>
                   </Card>
                   <Card className="bg-slate-50">
-                    <CardHeader className="p-4"><CardTitle className="text-base">Protects Metabolism</CardTitle></CardHeader>
+                    <CardHeader className="p-4">
+                      <CardTitle className="text-base">
+                        Protects{" "}
+                        <Link
+                          href="/health/rfm-calculator"
+                          className="no-underline hover:underline hover:text-blue-700"
+                        >
+                          Metabolism
+                        </Link>
+                      </CardTitle>
+                    </CardHeader>
                     <CardContent className="p-4 pt-0 text-sm">Protects metabolism during dieting and calorie restriction.</CardContent>
                   </Card>
                 </div>
@@ -447,7 +464,14 @@ export default function TDEECalculatorPage() {
               <section className="text-center pb-12">
                 <h2 className="text-3xl font-bold mb-4">Master Your Metabolism</h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto">
-                  Understanding your Total Daily Energy Expenditure is the first step toward lasting health changes. 
+                  Understanding your Total{" "}
+                  <Link
+                    href="/health/heart-rate-calculator"
+                    className="no-underline hover:underline hover:text-blue-700"
+                  >
+                    Daily Energy Expenditure
+                  </Link>{" "}
+                  is the first step toward lasting health changes. 
                   Don&apos;t treat the number as a rule—treat it as a map that guides your movement and nutrition choices.
                 </p>
               </section>
