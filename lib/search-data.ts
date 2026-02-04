@@ -224,6 +224,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["wilks score", "powerlifting", "strength", "performance", "comparison"],
     keywords: ["wilks calculator","powerlifting performance","strength comparison","wilks score calculation","fitness assessment"],
+  },
+  {
+    id: "bmi",
+    title: "BMI Calculator",
+    description: "Calculate your Body Mass Index (BMI) to assess if you are underweight, normal weight, overweight, or obese",
+    href: "/health/bmi-calculator",
+    category: "Health",
+    tags: ["bmi", "body mass index", "weight", "health", "fitness"],
+    keywords: ["bmi calculator","body mass index","weight assessment","underweight","overweight","obesity"],  
   }
 ]
 

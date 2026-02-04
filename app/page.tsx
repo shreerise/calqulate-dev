@@ -176,6 +176,13 @@ const calculators = [
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/wilks-calculator",
     category: "Health",
+  },
+  {
+    title: "BMI Calculator",
+    description: "Calculate your Body Mass Index (BMI) to assess if you are underweight, normal weight, overweight, or obese",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/bmi-calculator",
+    category: "Health",
   }
 ]
 
