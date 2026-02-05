@@ -36,6 +36,7 @@ const calculatorCategories = [
       { name: "VO2 Max Calculator", href: "/health/vo2-max-calculator" },
       { name: "Wilks Calculator", href: "/health/wilks-calculator" },
       { name: "BMI Calculator", href: "/health/bmi-calculator" },
+      { name: "Age Calculator", href: "/health/age-calculator" },
     ],
   },
 ]

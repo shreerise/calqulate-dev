@@ -233,6 +233,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["bmi", "body mass index", "weight", "health", "fitness"],
     keywords: ["bmi calculator","body mass index","weight assessment","underweight","overweight","obesity"],  
+  },
+  {
+    id: "age",
+    title: "Age Calculator",
+    description: "Calculate your exact age in years, months, and days based on your date of birth",
+    href: "/health/age-calculator",
+    category: "Health",
+    tags: ["age", "date of birth", "time", "years", "months", "days"],
+    keywords: ["age calculator","exact age","date of birth calculation","age in years","age in months","age in days"],
   }
 ]
 

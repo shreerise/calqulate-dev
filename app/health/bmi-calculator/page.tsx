@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer"
 import BMICalculator from "@/components/calculators/bmi-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import Image from "next/image"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { 
   Scale, 
@@ -130,9 +131,21 @@ export default function BMICalculatorPage() {
                   </CardContent>
                 </Card>
               </section>
-
               {/* BMI Chart */}
               <section>
+
+                {/* BMI Illustration Image */}
+                <div className="mb-6 flex justify-center">
+                  <Image
+                    src="/bmi-chart.jpeg"
+                    alt="BMI Chart Illustration showing weight categories"
+                    width={900}
+                    height={500}
+                    className="rounded-xl shadow-sm border border-gray-100"
+                    priority
+                  />
+                </div>
+
                 <h2 className="mb-6 text-2xl font-bold text-gray-800">BMI Chart – What Your Number Means in Daily Life</h2>
                 <Card className="not-prose border-green-200">
                   <CardContent className="p-0">

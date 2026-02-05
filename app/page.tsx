@@ -183,6 +183,13 @@ const calculators = [
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/bmi-calculator",
     category: "Health",
+  },
+  {
+    title: "Age Calculator",
+    description: "Calculate your exact age in years, months, and days based on your date of birth",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/age-calculator",
+    category: "Health",
   }
 ]
 
