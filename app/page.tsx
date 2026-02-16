@@ -190,6 +190,41 @@ const calculators = [
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/age-calculator",
     category: "Health",
+  },
+  {
+    title: "Waist-to-Height Ratio Calculator",
+    description: "Calculate your waist-to-height ratio to assess health risk based on waist circumference and height",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/waist-to-height-ratio-calculator",
+    category: "Health",
+  },
+  {
+    title: "Ideal Body Weight Calculator",
+    description: "Calculate your ideal body weight using multiple medical formulas for accurate health insights",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/ideal-body-weight-calculator",
+    category: "Health",
+  },
+  {
+    title: "Body Fat Percentage Calculator",
+    description: "Calculate your body fat percentage using the U.S. Navy method for accurate body composition analysis",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/body-fat-calculator",
+    category: "Health",
+  },
+  {
+    title: "Blood Pressure Calculator",
+    description: "Calculate your blood pressure category and health insights",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/blood-pressure-calculator",
+    category: "Health",
+  },
+  {
+    title: "Resting Heart Rate Calculator",
+    description: "Calculate your resting heart rate and assess your cardiovascular health",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/resting-heart-rate-calculator",
+    category: "Health",
   }
 ]
 

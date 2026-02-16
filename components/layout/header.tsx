@@ -37,6 +37,11 @@ const calculatorCategories = [
       { name: "Wilks Calculator", href: "/health/wilks-calculator" },
       { name: "BMI Calculator", href: "/health/bmi-calculator" },
       { name: "Age Calculator", href: "/health/age-calculator" },
+      { name: "Waist-to-Height Ratio Calculator", href: "/health/waist-to-height-ratio-calculator" },
+      { name: "Ideal Body Weight Calculator", href: "/health/ideal-body-weight-calculator" },
+      { name: "Body Fat Calculator", href: "/health/body-fat-calculator" },
+      { name: "Blood Pressure Calculator", href: "/health/blood-pressure-calculator" },
+      { name: "Resting Heart Rate Calculator", href: "/health/resting-heart-rate-calculator" },
     ],
   },
 ]
