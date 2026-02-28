@@ -123,9 +123,16 @@ export default function StressLevelCalculatorPage() {
                     </div>
                     <div className="flex flex-col justify-center items-center gap-3 p-4 bg-indigo-50 dark:bg-indigo-950/20 rounded-xl">
                        <Zap className="w-10 h-10 text-indigo-400" />
-                       <p className="text-center text-sm font-medium text-indigo-800 dark:text-indigo-300">
-                         Stress isn't just in your head. It changes your biology, metabolism, and behavior.
-                       </p>
+                      <p className="text-center text-sm font-medium text-indigo-800 dark:text-indigo-300">
+                        Stress isn't just in your head. It changes your biology,{" "}
+                        <Link
+                          href="/health/bmr-calculator"
+                          className="underline hover:text-indigo-900 dark:hover:text-indigo-200 transition-colors"
+                        >
+                          metabolism
+                        </Link>
+                        , and behavior.
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -167,7 +174,16 @@ export default function StressLevelCalculatorPage() {
                           <tr>
                             <td className="border px-4 py-3 font-semibold text-red-600">27 – 40</td>
                             <td className="border px-4 py-3">High Stress (Burnout Risk)</td>
-                            <td className="border px-4 py-3">Chronic fatigue, weight changes, brain fog, digestive issues, high cortisol.</td>
+                            <td className="border px-4 py-3">
+                              Chronic fatigue,{" "}
+                              <Link
+                                href="/health/body-fat-calculator"
+                                className="font-medium hover:underline hover:text-green-700 transition-colors"
+                              >
+                                weight changes
+                              </Link>
+                              , brain fog, digestive issues, high cortisol.
+                            </td>
                             <td className="border px-4 py-3">Seek professional support, take time off, restructure daily stressors immediately.</td>
                           </tr>
                         </tbody>
@@ -177,24 +193,30 @@ export default function StressLevelCalculatorPage() {
                 </Card>
               </section>
 
-              {/* Cross Referral - Body Shape Connection */}
+              {/* Cross Referral - Stress & Abdominal Fat */}
               <section>
                 <Card className="not-prose border-indigo-200 bg-indigo-50/50 dark:bg-indigo-950/10 dark:border-indigo-900">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-indigo-700 dark:text-indigo-400">
                       <Activity className="w-5 h-5" />
-                      The Stress & Body Shape Connection
+                      The Stress & Abdominal Fat Connection
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm space-y-4 text-gray-700 dark:text-gray-300">
                     <p>
-                      Did you know that chronic stress can literally alter your body shape? When you experience prolonged high stress (a score of 20+), your adrenal glands release a steady stream of the hormone <b>cortisol</b>.
+                      Chronic stress doesn’t just affect your mood — it changes your biology. 
+                      When stress remains elevated, your body releases higher levels of <b>cortisol</b>, 
+                      a hormone that directly influences fat storage.
                     </p>
                     <p>
-                      Elevated cortisol signals your body to store fat globally, but specifically targets <b>visceral fat in the abdominal region</b>. This means someone who naturally has an "Hourglass" or "Pear" shape can shift toward an "Apple" shape purely due to unmanaged stress.
+                      Persistently high cortisol promotes the accumulation of <b>visceral fat in the abdominal region</b>. 
+                      This type of fat increases your Waist-to-Height Ratio (WHtR) and is strongly linked to heart disease and metabolic disorders.
                     </p>
-                    <Link href="/health/body-shape-calculator" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-indigo-600 text-white shadow hover:bg-indigo-700 h-9 px-4 py-2 mt-2">
-                      Check Your Current Body Shape <ArrowRight className="ml-2 w-4 h-4" />
+                    <Link 
+                      href="/health/waist-to-height-ratio-calculator" 
+                      className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-indigo-600 text-white shadow hover:bg-indigo-700 h-9 px-4 py-2 mt-2"
+                    >
+                      Check Your Waist-to-Height Ratio <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                   </CardContent>
                 </Card>

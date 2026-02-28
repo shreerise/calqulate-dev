@@ -69,7 +69,14 @@ export default function ObesityRiskCalculatorPage() {
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
                 Discover your true metabolic health profile. Unlike standard calculators, our tool combines 
-                Body Mass Index (BMI), Waist-to-Height Ratio (WHtR), and lifestyle factors to give you 
+                Body Mass Index (BMI), Waist-to-Height Ratio (
+                <Link
+                  href="/health/waist-to-height-ratio-calculator"
+                  className="font-medium hover:underline hover:text-green-700 transition-colors"
+                >
+                  WHtR
+                </Link>
+                ), and lifestyle factors to give you 
                 a highly accurate, personalized obesity risk assessment.
               </p>
             </div>
@@ -88,7 +95,21 @@ export default function ObesityRiskCalculatorPage() {
                   For decades, Body Mass Index (BMI) has been the standard for determining if someone is underweight, normal weight, overweight, or obese. While it is a helpful baseline, <strong>BMI has a major flaw: it cannot distinguish between fat mass and muscle mass</strong>, nor does it know <em>where</em> your fat is stored.
                 </p>
                 <p className="text-gray-700 leading-relaxed">
-                  Our advanced <strong>Obesity Risk Calculator</strong> goes a step further by utilizing the <strong>Waist-to-Height Ratio (WHtR)</strong>. Research shows that measuring waist circumference relative to height is vastly superior at detecting visceral fat—the dangerous fat that wraps around your internal organs and drives up the risk for heart disease, type 2 diabetes, and hypertension.
+                  Our advanced <strong>Obesity Risk Calculator</strong> goes a step further by utilizing the <strong>Waist-to-Height Ratio (WHtR)</strong>. 
+                  Research shows that measuring waist circumference relative to height is vastly superior at detecting visceral fat—the dangerous fat that wraps around your internal organs and drives up the risk for heart disease,{" "}
+                  <Link
+                    href="/health/diabetes-risk-calculator"
+                    className="font-medium text-blue-700 hover:underline hover:text-blue-900 transition-colors"
+                  >
+                    type 2 diabetes
+                  </Link>
+                  , and{" "}
+                  <Link
+                    href="/health/blood-pressure-calculator"
+                    className="font-medium text-red-700 hover:underline hover:text-red-900 transition-colors"
+                  >
+                    hypertension (blood pressure)
+                  </Link>.
                 </p>
 
                 {/* Cross-linking Promo Card */}
@@ -102,8 +123,8 @@ export default function ObesityRiskCalculatorPage() {
                       <p className="text-gray-600 text-sm m-0 mb-3">
                         Knowing your obesity risk is step one. Knowing how to dress and train for your unique silhouette is step two.
                       </p>
-                      <Link href="/health/body-shape-calculator" className="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800">
-                        Try our Body Shape Calculator <ArrowRight className="w-4 h-4 ml-1" />
+                      <Link href="/health/body-fat-calculator" className="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800">
+                        Try our Body Fat Calculator <ArrowRight className="w-4 h-4 ml-1" />
                       </Link>
                     </div>
                   </CardContent>

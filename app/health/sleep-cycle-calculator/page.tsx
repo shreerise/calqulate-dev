@@ -186,25 +186,27 @@ export default function SleepCycleCalculatorPage() {
                 </Card>
               </section>
 
-              {/* Cross Linking Strategy (Boosts SEO & Engagement) */}
+              {/* Cross Linking Strategy (Sleep ↔ Stress Integration) */}
               <section>
                 <Card className="not-prose overflow-hidden border-2 border-indigo-100 dark:border-indigo-900">
                   <div className="md:flex">
                     <div className="bg-indigo-50 dark:bg-indigo-950/50 p-6 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-indigo-100 dark:border-indigo-900">
                       <div className="text-center">
                         <Activity className="w-12 h-12 text-indigo-500 mx-auto mb-3" />
-                        <h3 className="font-bold text-lg">The Sleep-Fitness Connection</h3>
+                        <h3 className="font-bold text-lg">The Sleep & Stress Connection</h3>
                       </div>
                     </div>
                     <div className="p-6 md:w-2/3 space-y-4">
                       <p className="text-sm text-gray-700 dark:text-gray-300">
-                        Did you know that chronic sleep deprivation alters your body shape? Lack of sleep increases cortisol (the stress hormone), which signals your body to store belly fat. It also decreases muscle recovery after workouts.
+                        Did you know that poor sleep directly increases stress levels? When you don’t get enough quality sleep, your body produces more <strong>cortisol</strong> — the primary stress hormone — which can lead to mood changes, fatigue, and difficulty concentrating.
                       </p>
                       <p className="text-sm text-gray-700 dark:text-gray-300">
-                        Once you've calculated your perfect sleep schedule, check out our highly popular <strong>Body Shape Calculator</strong>. It analyzes your measurements to tell you your exact body type (Apple, Pear, Hourglass, etc.) and provides tailored fitness and style tips.
+                        Chronic sleep disruption and elevated stress often create a negative cycle. After optimizing your bedtime using this Sleep Cycle Calculator, measure your psychological load with our <strong>Stress Level Calculator</strong> to see how well your mind and body are truly recovering.
                       </p>
                       <Button asChild variant="default">
-                        <Link href="/health/body-shape-calculator">Discover Your Body Shape</Link>
+                        <Link href="/health/stress-level-calculator">
+                          Check Your Stress Level
+                        </Link>
                       </Button>
                     </div>
                   </div>

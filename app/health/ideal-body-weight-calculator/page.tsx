@@ -164,9 +164,17 @@ export default function IBWCalculatorPage() {
                     <Users className="w-6 h-6 text-green-600" />
                     Ideal Body Weight Calculator – Female Focus
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Women naturally have higher essential body fat, different hormonal balances, and different muscle distributions. That’s why female-specific formulas are essential.
-                  </p>
+                    <p className="text-gray-700 leading-relaxed">
+                      Women naturally have higher essential{" "}
+                      <Link
+                        href="/health/body-fat-calculator"
+                        className="text-pink-600 hover:underline hover:text-pink-800 transition-colors font-medium"
+                      >
+                        body fat
+                      </Link>
+                      , different hormonal balances, and different muscle distributions. 
+                      That’s why female-specific formulas are essential.
+                    </p>
                   <div className="bg-green-50 p-6 rounded-2xl border border-green-100">
                     <h4 className="font-bold text-green-900 mb-3">Example: 5&apos;2&quot; Female</h4>
                     <ul className="text-sm space-y-1 text-green-800 font-medium">
@@ -217,10 +225,35 @@ export default function IBWCalculatorPage() {
                     <h4 className="font-bold text-gray-800">Why IBW is not one fixed number?</h4>
                     <p className="text-sm text-gray-600">Your real healthy weight depends on:</p>
                     <ul className="grid grid-cols-2 gap-2 text-xs font-bold text-green-700">
-                      <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> Bone Structure</li>
-                      <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> Muscle Mass</li>
-                      <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> Activity Level</li>
-                      <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> Medical Conditions</li>
+                      <li className="flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3"/>
+                        Bone Structure
+                      </li>
+
+                      <li className="flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3"/>
+                        <Link
+                          href="/health/lean-body-mass-calculator"
+                          className="hover:underline hover:text-green-900 transition-colors"
+                        >
+                          Muscle Mass
+                        </Link>
+                      </li>
+
+                      <li className="flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3"/>
+                        Activity Level
+                      </li>
+
+                      <li className="flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3"/>
+                        <Link
+                          href="/health/creatinine-clearance-calculator"
+                          className="hover:underline hover:text-green-900 transition-colors"
+                        >
+                          Medical Conditions
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -228,7 +261,15 @@ export default function IBWCalculatorPage() {
 
               {/* IBW vs BMI Table */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Ideal Body Weight vs BMI Calculator</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                  Ideal Body Weight vs{" "}
+                  <Link
+                    href="/health/bmi-calculator"
+                    className="text-green-700 hover:underline hover:text-green-900 transition-colors"
+                  >
+                    BMI Calculator
+                  </Link>
+                </h2>
                 <div className="not-prose overflow-x-auto border border-green-100 rounded-2xl">
                   <table className="w-full text-sm">
                     <thead>

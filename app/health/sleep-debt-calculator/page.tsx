@@ -329,7 +329,7 @@ export default function SleepDebtCalculatorPage() {
                     </p>
                   </div>
                   <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
-                    <Link href="/health/sleep-calculator">
+                    <Link href="/health/sleep-cycle-calculator">
                       Sleep Cycle Tool <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                   </Button>

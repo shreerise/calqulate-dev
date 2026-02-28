@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -254,8 +255,18 @@ export default function BodyFatCalculator() {
                   <div className="space-y-5">
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm font-medium">
-                        <span className="text-gray-600">Lean Body Mass</span>
-                        <span className="text-gray-900">{result.leanMass.toFixed(1)} {units === 'metric' ? 'kg' : 'lb'}</span>
+                        <span>
+                          <Link
+                            href="/health/lean-body-mass-calculator"
+                            className="text-gray-600 hover:underline hover:text-green-700 transition-colors"
+                          >
+                            Lean Body Mass
+                          </Link>
+                        </span>
+
+                        <span className="text-gray-900">
+                          {result.leanMass.toFixed(1)} {units === 'metric' ? 'kg' : 'lb'}
+                        </span>
                       </div>
                       <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
                         <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${100 - result.bfp}%` }} />
@@ -293,7 +304,14 @@ export default function BodyFatCalculator() {
                     </div>
                     
                     <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                      <p className="text-xs font-bold text-gray-500 uppercase">Basal Metabolic Rate (BMR)</p>
+                      <p className="text-xs font-bold text-gray-500 uppercase">
+                        <Link
+                          href="/health/bmr-calculator"
+                          className="hover:underline hover:text-green-700 transition-colors"
+                        >
+                          Basal Metabolic Rate (BMR)
+                        </Link>
+                      </p>
                       <p className="text-3xl font-black text-gray-900 mt-1">{result.bmr} <span className="text-sm font-medium">kcal/day</span></p>
                       <p className="text-[11px] text-gray-500 mt-2 leading-tight">
                         Calories burned at rest using the Katch-McArdle formula (muscle-adjusted).

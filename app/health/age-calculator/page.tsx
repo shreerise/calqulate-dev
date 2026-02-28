@@ -199,7 +199,14 @@ export default function AgeCalculatorPage() {
                 <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 list-none pl-0 mt-4">
                   <li className="bg-white border border-green-200 p-3 rounded-xl text-center text-sm font-medium text-gray-700">Legal verification</li>
                   <li className="bg-white border border-green-200 p-3 rounded-xl text-center text-sm font-medium text-gray-700">Academic eligibility</li>
-                  <li className="bg-white border border-green-200 p-3 rounded-xl text-center text-sm font-medium text-gray-700">Medical tracking</li>
+                  <li className="bg-white border border-green-200 p-3 rounded-xl text-center text-sm font-medium">
+                    <Link
+                      href="/health/diabetes-risk-calculator"
+                      className="text-gray-700 hover:text-green-700 hover:underline transition-colors"
+                    > 
+                      Medical tracking
+                    </Link>
+                  </li>
                   <li className="bg-white border border-green-200 p-3 rounded-xl text-center text-sm font-medium text-gray-700">HR records</li>
                 </ul>
               </section>
@@ -300,13 +307,13 @@ export default function AgeCalculatorPage() {
                   <div className="space-y-2">
                     <h3 className="text-2xl font-bold">Checking your health metrics?</h3>
                     <p className="text-gray-300 max-w-md">
-                      Now that you know your exact age, see how your body measurements compare. 
-                      Try our Body Shape Calculator next.
+                      Now that you know your exact age, see how your heart age measurements compare. 
+                      Try our Heart Age Calculator next.
                     </p>
                   </div>
                   <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
-                    <Link href="/health/body-shape-calculator">
-                      Check Body Shape <ArrowRight className="ml-2 w-4 h-4" />
+                    <Link href="/health/heart-age-calculator">
+                      Check Heart Age <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                   </Button>
                 </div>

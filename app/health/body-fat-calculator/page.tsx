@@ -107,14 +107,29 @@ export default function BodyFatCalculatorPage() {
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {[
-                    { label: 'Heart Health', icon: HeartPulse },
+                    { label: 'Heart Health', icon: HeartPulse, href: '/health/heart-age-calculator' },
                     { label: 'Diabetes Risk', icon: Activity },
                     { label: 'Hormonal Health', icon: Zap },
                     { label: 'Performance', icon: Dumbbell }
                   ].map((item) => (
-                    <div key={item.label} className="flex flex-col items-center p-4 bg-green-50 rounded-2xl border border-green-100 text-center">
+                    <div
+                      key={item.label}
+                      className="flex flex-col items-center p-4 bg-green-50 rounded-2xl border border-green-100 text-center"
+                    >
                       <item.icon className="w-6 h-6 text-green-600 mb-2" />
-                      <span className="text-xs font-bold text-green-900">{item.label}</span>
+
+                      {item.href ? (
+                        <Link
+                          href={item.href}
+                          className="text-xs font-bold text-green-900 hover:underline hover:text-green-700 transition-colors"
+                        >
+                          {item.label}
+                        </Link>
+                      ) : (
+                        <span className="text-xs font-bold text-green-900">
+                          {item.label}
+                        </span>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -302,8 +317,21 @@ export default function BodyFatCalculatorPage() {
 
               {/* Mindset Shift */}
               <section className="bg-green-600 text-white p-8 rounded-3xl shadow-xl">
-                <h2 className="text-2xl font-bold mb-4">Fat Loss vs Weight Loss</h2>
-                <p className="text-green-50 mb-6 leading-relaxed">
+                <h2 className="text-2xl font-bold mb-4">
+                  <Link
+                    href="/health/calorie-deficit-calculator"
+                    className="text-2xl font-bold mb-4 text-white hover:underline hover:text-green-300 transition-colors"
+                  >
+                    Fat Loss
+                  </Link>{" "}
+                    vs{" "}
+                  <Link
+                    href="/health/calories-burned-calculator"
+                    className="text-2xl font-bold mb-4 text-white hover:underline hover:text-green-300 transition-colors"
+                  >
+                   Weight Loss
+                  </Link>{" "}
+                </h2>                <p className="text-green-50 mb-6 leading-relaxed">
                   A critical insight: You can lose weight but gain fat, or you can gain weight but lose fat. 
                   Scale weight is a blunt instrument; body fat percentage is the precision tool for health.
                 </p>

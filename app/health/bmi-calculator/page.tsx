@@ -229,10 +229,22 @@ export default function BMICalculatorPage() {
 
               {/* Action Plan */}
               <section className="bg-green-50 p-8 rounded-3xl border border-green-100">
-                <h2 className="text-2xl font-bold mb-6 text-green-900">What to Do After Knowing Your BMI</h2>
+                <h2 className="text-2xl font-bold mb-6 text-green-900">
+                  What to Do After Knowing Your BMI
+                </h2>
+
                 <div className="grid md:grid-cols-2 gap-6 not-prose">
+
+                  {/* UNDERWEIGHT */}
                   <div className="bg-white p-5 rounded-2xl shadow-sm">
-                    <h4 className="font-bold text-blue-700 mb-2">If Underweight</h4>
+                    <h4 className="mb-2">
+                      <Link
+                        href="/health/ideal-body-weight-calculator"
+                        className="font-bold text-blue-700 hover:underline hover:text-blue-900 transition-colors"
+                      >
+                        If Underweight
+                      </Link>
+                    </h4>
                     <ul className="text-sm space-y-1 text-gray-600">
                       <li>• Increase protein (paneer, eggs, lentils).</li>
                       <li>• Start light strength training.</li>
@@ -240,8 +252,17 @@ export default function BMICalculatorPage() {
                       <li>• Avoid skipping meals.</li>
                     </ul>
                   </div>
+
+                  {/* NORMAL */}
                   <div className="bg-white p-5 rounded-2xl shadow-sm">
-                    <h4 className="font-bold text-green-700 mb-2">If Normal Weight</h4>
+                    <h4 className="mb-2">
+                      <Link
+                        href="/health/daily-water-intake-calculator"
+                        className="font-bold text-green-700 hover:underline hover:text-green-900 transition-colors"
+                      >
+                        If Normal Weight 
+                      </Link>
+                    </h4>
                     <ul className="text-sm space-y-1 text-gray-600">
                       <li>• Maintain your eating pattern.</li>
                       <li>• Walk/exercise 30 minutes daily.</li>
@@ -249,8 +270,17 @@ export default function BMICalculatorPage() {
                       <li>• Monitor BMI every 2–3 months.</li>
                     </ul>
                   </div>
+
+                  {/* OVERWEIGHT */}
                   <div className="bg-white p-5 rounded-2xl shadow-sm">
-                    <h4 className="font-bold text-orange-700 mb-2">If Overweight</h4>
+                    <h4 className="mb-2">
+                      <Link
+                        href="/health/calorie-deficit-calculator"
+                        className="font-bold text-orange-700 hover:underline hover:text-orange-900 transition-colors"
+                      >
+                        If Overweight 
+                      </Link>
+                    </h4>
                     <ul className="text-sm space-y-1 text-gray-600">
                       <li>• Reduce sugary drinks and fried snacks.</li>
                       <li>• Walk 8,000–10,000 steps daily.</li>
@@ -258,8 +288,17 @@ export default function BMICalculatorPage() {
                       <li>• Focus on consistency, not speed.</li>
                     </ul>
                   </div>
+
+                  {/* OBESE */}
                   <div className="bg-white p-5 rounded-2xl shadow-sm">
-                    <h4 className="font-bold text-red-700 mb-2">If Obese</h4>
+                    <h4 className="mb-2">
+                      <Link
+                        href="/health/obesity-risk-calculator"
+                        className="font-bold text-red-700 hover:underline hover:text-red-900 transition-colors"
+                      >
+                        If Obese 
+                      </Link>
+                    </h4>
                     <ul className="text-sm space-y-1 text-gray-600">
                       <li>• Consult a professional before heavy exercise.</li>
                       <li>• Start with walking and simple diet control.</li>
@@ -267,6 +306,7 @@ export default function BMICalculatorPage() {
                       <li>• Aim for slow, steady improvement.</li>
                     </ul>
                   </div>
+
                 </div>
               </section>
 

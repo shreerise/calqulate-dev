@@ -187,7 +187,14 @@ export default function BreastCancerRiskPage() {
               <section className="grid md:grid-cols-2 gap-12">
                 <div>
                   <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
-                    <History className="text-green-600 w-5 h-5" /> Risk of Breast Cancer by Age
+                    <History className="text-green-600 w-5 h-5" />
+                    Risk of Breast Cancer by{" "}
+                    <Link
+                      href="/age-calculator"
+                      className="hover:underline hover:text-green-700 transition-colors"
+                    >
+                      Age
+                    </Link>
                   </h3>
                   <div className="space-y-2 text-sm text-gray-700">
                     <p>Risk increases as you age, with most cases occurring after age 50:</p>
@@ -217,9 +224,21 @@ export default function BreastCancerRiskPage() {
                 </h2>
                 <div className="grid md:grid-cols-2 gap-8 text-sm">
                   <div className="bg-white/10 p-5 rounded-2xl">
-                    <h4 className="font-bold text-green-200 mb-2">Hormone Therapy (HRT)</h4>
+                    <h4 className="font-bold text-green-200 mb-2">
+                      Hormone Therapy (HRT)
+                    </h4>
+
                     <p className="opacity-90 leading-relaxed">
-                      HRT can slightly increase risk depending on the type and duration. Combination estrogen-progestin therapy generally carries a higher risk than estrogen alone. Advanced models include this in the calculation.
+                      HRT can slightly increase risk depending on the type and duration. 
+                      Combination estrogen-progestin therapy generally carries a higher risk 
+                      than estrogen alone. Advanced models include factors like{" "}
+                      <Link
+                        href="/health/body-fat-calculator"
+                        className="underline hover:text-white transition-colors font-medium"
+                      >
+                        body fat
+                      </Link>{" "}
+                      levels and metabolic profile in the calculation.
                     </p>
                   </div>
                   <div className="bg-white/10 p-5 rounded-2xl">

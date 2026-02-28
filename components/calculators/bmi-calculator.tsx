@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -489,13 +490,26 @@ export default function BmiCalculator() {
                     </CardHeader>
                     <CardContent className="space-y-6 pt-4">
                         <div className="flex items-center justify-between">
-                            <div>
-                                <p className="font-semibold text-slate-700 dark:text-slate-200">Ponderal Index</p>
-                                <p className="text-xs text-muted-foreground">Better for tall/short people</p>
-                            </div>
-                            <Badge variant="outline" className="text-lg px-3 py-1 border-purple-200 bg-purple-50 text-purple-700">
-                                {result.ponderalIndex}
-                            </Badge>
+                          <div>
+                            <p>
+                              <Link
+                                href="/health/ponderal-index-calculator"
+                                className="font-semibold text-slate-700 dark:text-slate-200 hover:underline hover:text-purple-700 transition-colors"
+                              >
+                                Ponderal Index
+                              </Link>
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Better for tall/short people
+                            </p>
+                          </div>
+
+                          <Badge
+                            variant="outline"
+                            className="text-lg px-3 py-1 border-purple-200 bg-purple-50 text-purple-700"
+                          >
+                            {result.ponderalIndex}
+                          </Badge>
                         </div>
                         
                         <div className="flex items-center justify-between border-t pt-4">

@@ -84,7 +84,14 @@ export default function WHtRCalculatorPage() {
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
                 A waist to height ratio calculator measures how your waist circumference compares to your height. 
-                It helps assess abdominal fat, which is strongly linked to heart disease and metabolic health.
+                It helps assess abdominal fat, which is strongly linked to{" "}
+                <Link
+                  href="/health/heart-age-calculator"
+                  className="text-red-600 hover:underline hover:text-red-800 transition-colors font-medium"
+                >
+                  heart disease
+                </Link>{" "}
+                and metabolic health.
               </p>
               <div className="mt-4 inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full font-bold border border-green-200">
                 <Zap className="w-4 h-4 fill-current" />
@@ -198,7 +205,14 @@ export default function WHtRCalculatorPage() {
                       <thead className="bg-green-50 text-green-900">
                         <tr>
                           <th className="px-4 py-3 text-left">Factor</th>
-                          <th className="px-4 py-3 text-left">BMI Calculator</th>
+                          <th className="px-4 py-3 text-left">
+                            <Link
+                              href="/health/bmi-calculator"
+                              className="hover:underline hover:text-green-800 transition-colors"
+                            >
+                              BMI Calculator
+                            </Link>
+                          </th>
                           <th className="px-4 py-3 text-left">Waist to Height Ratio</th>
                         </tr>
                       </thead>
@@ -210,7 +224,16 @@ export default function WHtRCalculatorPage() {
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-3 text-sm font-bold text-green-700">👉 BMI calculator waist to height ratio together gives a far better health picture than either alone.</p>
+                  <p className="mt-3 text-sm font-bold text-green-700">
+                    👉 Using a{" "}
+                    <Link
+                      href="/health/bmi-calculator"
+                      className="underline hover:text-green-900 transition-colors"
+                    >
+                      BMI calculator
+                    </Link>{" "}
+                    and waist to height ratio together gives a far better health picture than either alone.
+                  </p>
                 </div>
               </section>
 
@@ -283,8 +306,26 @@ export default function WHtRCalculatorPage() {
                       <Zap className="w-4 h-4" /> Lifestyle
                     </h4>
                     <ul className="text-sm space-y-2 text-green-700">
-                      <li>• Improve sleep quality</li>
-                      <li>• Manage stress (cortisol)</li>
+                      <li>
+                        • Improve{" "}
+                        <Link
+                          href="/health/sleep-cycle-calculator"
+                          className="hover:underline hover:text-green-900 transition-colors font-medium"
+                        >
+                          sleep quality
+                        </Link>
+                      </li>
+
+                      <li>
+                        •{" "}
+                        <Link
+                          href="/health/stress-level-calculator"
+                          className="hover:underline hover:text-green-900 transition-colors font-medium"
+                        >
+                          Manage stress
+                        </Link>{" "}
+                        (cortisol)
+                      </li>
                     </ul>
                   </div>
                 </div>
