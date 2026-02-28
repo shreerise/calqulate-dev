@@ -1,60 +1,70 @@
 import type { Metadata } from "next"
-import Image from "next/image"
+import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import DiabetesRiskCalculator from "@/components/calculators/diabetes-risk-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Activity, HeartPulse, Scale, Shield, ActivitySquare, AlertCircle } from "lucide-react"
+import {
+  Activity,
+  Heart,
+  Stethoscope,
+  Users,
+  Info,
+  FileText,
+  Scale,
+  ShieldCheck,
+  CheckCircle2,
+  AlertCircle,
+  ArrowRight,
+  TrendingDown,
+  Globe
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Diabetes Risk Calculator: Check Your Type 2 Risk Instantly",
+  title: "Diabetes Risk Calculator: Type 2 Diabetes Screening | Fast & Free",
   description:
-    "Assess your risk for Type 2 Diabetes in under 60 seconds. Our step-by-step Diabetes Risk Calculator uses ADA-backed clinical guidelines to evaluate your health, BMI, and lifestyle factors.",
+    "Assess your risk of developing type 2 diabetes with our free calculator. Based on lifestyle, family history, and body measurements. Fast, accurate, and private.",
   keywords:
-    "diabetes risk calculator, type 2 diabetes risk test, ada diabetes risk test, calculate diabetes risk, prediabetes calculator, diabetes risk assessment tool, bmi and diabetes risk, am i at risk for diabetes",
+    "diabetes risk calculator, type 2 diabetes risk, prediabetes screening, IDRS calculator, Indian diabetes risk score, gestational diabetes risk, calculate diabetes risk online",
 }
 
 const faqs = [
   {
-    question: "How accurate is this Diabetes Risk Calculator?",
+    question: "What is a diabetes risk calculator?",
     answer:
-      "This calculator is based on the widely recognized American Diabetes Association (ADA) Type 2 Diabetes Risk Test. While it is highly accurate in assessing risk factors based on statistical data, it is purely educational and not a medical diagnosis. Always consult a healthcare provider for blood tests like A1C or fasting glucose to confirm your exact status.",
+      "A diabetes risk calculator is a screening tool that estimates your likelihood of developing type 2 diabetes based on factors like age, BMI, physical activity, and family history.",
   },
   {
-    question: "What does a score of 5 or higher mean?",
+    question: "Is the diabetes risk calculator accurate?",
     answer:
-      "According to clinical guidelines, a score of 5 or higher indicates that you are at an increased risk for having or developing Type 2 diabetes. If you score 5 or above, it is highly recommended to schedule an appointment with your doctor to get a blood sugar test.",
+      "It is highly effective for screening and identifying high-risk individuals, but it is not a diagnostic tool. A blood test (HbA1c or Fasting Glucose) is required for a formal diagnosis.",
   },
   {
-    question: "Why does the calculator ask for my height and weight?",
+    question: "What is the Indian Diabetes Risk Score (IDRS)?",
     answer:
-      "Your height and weight are used to calculate your Body Mass Index (BMI). Excess body weight, particularly around the abdomen, is one of the most significant modifiable risk factors for developing Type 2 diabetes. Higher BMI categories add more points to your total risk score.",
+      "IDRS is a validated scoring system specifically designed for the Indian population, which considers waist circumference and activity levels more heavily due to different body compositions.",
   },
   {
-    question: "Can I use this tool for Type 1 Diabetes?",
+    question: "Can I have high diabetes risk without symptoms?",
     answer:
-      "No. This calculator is specifically designed to assess the risk of Type 2 diabetes, which is largely influenced by lifestyle, age, and genetics. Type 1 diabetes is an autoimmune condition that is not evaluated using these standard lifestyle metrics.",
+      "Yes. Type 2 diabetes often develops silently for years. Most high-risk or prediabetic people feel completely normal until the condition progresses.",
   },
   {
-    question: "What is gestational diabetes and why does it matter?",
+    question: "How often should I check my diabetes risk?",
     answer:
-      "Gestational diabetes is a type of diabetes that develops during pregnancy. Women who have had gestational diabetes are at a significantly higher lifetime risk of developing Type 2 diabetes later in life, which is why it adds a point to your risk score.",
-  },
-  {
-    question: "How can I lower my diabetes risk score?",
-    answer:
-      "While you cannot change factors like your age, genetics, or past pregnancies, you can dramatically lower your risk by increasing physical activity, losing a moderate amount of weight (even 5-7% of your body weight makes a huge difference), and managing your blood pressure.",
+      "It is recommended to check once a year, or sooner if you experience significant lifestyle changes, weight gain, or if you are over the age of 30.",
   },
 ]
 
 export default function DiabetesRiskCalculatorPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <CalculatorSchema
         name="Diabetes Risk Calculator"
-        description="Calculate your risk of developing Type 2 Diabetes using clinical guidelines. Get personalized insights and lifestyle recommendations instantly."
+        description="Estimate your chance of developing type 2 diabetes based on lifestyle, body measurements, and health history."
         url="https://calqulate.net/health/diabetes-risk-calculator"
       />
       <FAQSchema faqs={faqs} />
@@ -64,164 +74,250 @@ export default function DiabetesRiskCalculatorPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            
-            {/* Hero Section */}
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center justify-center p-3 bg-blue-50 text-blue-600 rounded-full mb-4">
-                <ActivitySquare className="w-8 h-8" />
-              </div>
-              <h1 className="text-3xl md:text-5xl font-bold text-balance mb-4 text-gray-900 dark:text-gray-100">
-                Type 2 Diabetes Risk Calculator
+            {/* Hero */}
+            <div className="text-center mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+                Diabetes Risk Calculator
               </h1>
-              <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Are you at risk for Type 2 diabetes? 1 in 3 adults have prediabetes, and over 80% don't know it. Take this quick, clinically-backed step-by-step test to uncover your risk level instantly.
+              <p className="text-lg text-muted-foreground text-pretty">
+                A diabetes risk calculator estimates your chance of developing type 2 diabetes based on lifestyle, body measurements, family history, and health factors.
+              </p>
+              <p className="text-base text-muted-foreground mt-3">
+                Early detection is the key to prevention. Use this tool to find out if you should get a blood sugar test or if you can prevent diabetes before it even starts.
               </p>
             </div>
 
-            {/* Step-by-Step Interactive Calculator Component */}
+            {/* Calculator Component Placeholder */}
             <DiabetesRiskCalculator />
 
-            {/* Comprehensive SEO Content */}
-            <div className="prose prose-gray dark:prose-invert max-w-none mt-16 space-y-12">
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
               
-              {/* Introduction */}
-              <section>
-                <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
-                  What is the Diabetes Risk Calculator?
+              {/* Importance Section */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <Activity className="w-6 h-6 text-green-600" />
+                  Why This Calculator Is Important (Before Symptoms Start)
                 </h2>
-                <p className="leading-relaxed text-gray-700">
-                  The <strong>Diabetes Risk Calculator</strong> is an intuitive health assessment tool designed to estimate your likelihood of developing Type 2 diabetes. Unlike generic quizzes, our calculator is strictly modeled after the <strong>American Diabetes Association (ADA) Risk Test guidelines</strong>, ensuring the results meet rigorous industrial standards.
+                <p className="mb-4 text-gray-700 leading-relaxed">
+                  More than <strong>50% of people</strong> with type 2 diabetes don’t know they have it. Diabetes develops silently for years before symptoms appear.
                 </p>
-                <p className="leading-relaxed text-gray-700 mt-2">
-                  By evaluating seven critical health factors—including your age, genetics, body mass index (BMI), and lifestyle habits—this tool generates a personalized risk score. It acts as an essential first step in preventive healthcare.
-                </p>
-              </section>
-
-              {/* How it Works / Score Breakdown */}
-              <section>
-                <Card className="not-prose border-blue-100 shadow-sm">
-                  <CardHeader className="bg-blue-50/50 pb-4">
-                    <CardTitle className="flex items-center gap-2 text-blue-800">
-                      <Scale className="w-5 h-5" />
-                      How is the Risk Score Calculated?
-                    </CardTitle>
-                    <CardDescription>
-                      This calculator evaluates 7 clinical data points. Here is how your score is generated:
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <ul className="space-y-3 text-sm text-gray-700">
-                        <li className="flex items-start gap-2">
-                          <strong className="min-w-[120px]">Age:</strong>
-                          <span>Risk increases with age. (40-49: 1 pt, 50-59: 2 pts, 60+: 3 pts)</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <strong className="min-w-[120px]">Gender:</strong>
-                          <span>Men are statistically at a slightly higher risk. (Men: 1 pt)</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <strong className="min-w-[120px]">Genetics:</strong>
-                          <span>Having a parent or sibling with diabetes increases risk. (Yes: 1 pt)</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <strong className="min-w-[120px]">Pregnancy:</strong>
-                          <span>History of Gestational Diabetes increases future risk. (Yes: 1 pt)</span>
-                        </li>
-                      </ul>
-                      <ul className="space-y-3 text-sm text-gray-700">
-                        <li className="flex items-start gap-2">
-                          <strong className="min-w-[120px]">Blood Pressure:</strong>
-                          <span>High BP correlates strongly with insulin resistance. (Yes: 1 pt)</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <strong className="min-w-[120px]">Activity Level:</strong>
-                          <span>Leading a sedentary lifestyle is a massive risk factor. (No: 1 pt)</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <strong className="min-w-[120px]">BMI (Weight):</strong>
-                          <span>Excess fat impacts insulin production. (Overweight: 1 pt, Obese: 2 pts, Morbidly Obese: 3 pts)</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
-                      <p className="font-semibold text-gray-900">
-                        A total score of <span className="text-red-600 text-lg">5 or more</span> puts you in the High-Risk category.
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </section>
-
-              {/* Modifiable vs Non-Modifiable */}
-              <section>
-                <h2 className="mb-4 text-2xl font-semibold">Understanding Your Risk Factors</h2>
-                <p className="mb-4">
-                  When dealing with Type 2 diabetes risk assessment, clinical experts divide risk factors into two categories: things you can change (modifiable) and things you cannot (non-modifiable).
-                </p>
-                <div className="grid md:grid-cols-2 gap-6 not-prose">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg flex items-center gap-2 text-green-700">
-                        <Activity className="w-5 h-5" /> Modifiable Factors
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm text-gray-600">
-                      <ul className="list-disc pl-4 space-y-2">
-                        <li><strong>Weight & BMI:</strong> Losing just 5% to 7% of your body weight can lower your risk by up to 58%.</li>
-                        <li><strong>Physical Activity:</strong> Aiming for 150 minutes of brisk walking per week significantly improves insulin sensitivity.</li>
-                        <li><strong>Blood Pressure:</strong> Managing diet, reducing sodium, and taking prescribed medication helps protect your vascular system.</li>
-                      </ul>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg flex items-center gap-2 text-orange-700">
-                        <Shield className="w-5 h-5" /> Non-Modifiable Factors
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm text-gray-600">
-                      <ul className="list-disc pl-4 space-y-2">
-                        <li><strong>Age:</strong> Risk naturally increases as you get older, specifically after age 40.</li>
-                        <li><strong>Family History:</strong> Genetics play a crucial role. If a direct family member has diabetes, your vigilance must increase.</li>
-                        <li><strong>Gestational History:</strong> For women, previous gestational diabetes permanently elevates long-term risk.</li>
-                      </ul>
-                    </CardContent>
-                  </Card>
+                <div className="grid md:grid-cols-3 gap-4 mt-6">
+                  <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                    <p className="font-bold text-green-800 text-sm mb-1">Detect Prediabetes</p>
+                    <p className="text-xs text-gray-600">Catch high blood sugar before it becomes chronic.</p>
+                  </div>
+                  <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                    <p className="font-bold text-green-800 text-sm mb-1">Insulin Resistance</p>
+                    <p className="text-xs text-gray-600">Identify how your body processes energy.</p>
+                  </div>
+                  <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                    <p className="font-bold text-green-800 text-sm mb-1">Early Prevention</p>
+                    <p className="text-xs text-gray-600">Early detection = prevention, not medication.</p>
+                  </div>
                 </div>
               </section>
 
-              {/* Next Steps */}
+              {/* How it works Card */}
               <section>
-                <Card className="not-prose bg-blue-600 text-white border-none shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-white">
-                      <AlertCircle className="w-6 h-6" /> What To Do If Your Score Is High
+                <Card className="border-green-100 shadow-sm rounded-2xl overflow-hidden">
+                  <CardHeader className="bg-green-50 pb-4">
+                    <CardTitle className="flex items-center gap-2 text-xl font-bold text-green-800">
+                      <Info className="w-5 h-5" />
+                      How Does the Diabetes Risk Score Work?
                     </CardTitle>
+                    <CardDescription className="text-green-700/80">
+                      We use validated scoring models based on population studies and clinical data.
+                    </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4 text-blue-50">
-                    <p>
-                      Scoring a 5 or above does not mean you have diabetes right now—it means you have a clinical profile that is statistically at risk. Prediabetes is highly reversible if caught early.
+                  <CardContent className="pt-6">
+                    <p className="text-gray-700 mb-4 font-semibold uppercase tracking-wider text-sm">The Point-Based Scoring System:</p>
+                    <div className="space-y-4">
+                      <div className="flex gap-4">
+                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">1</div>
+                        <p className="text-gray-700"><strong>Demographics:</strong> Factors like age and gender are the baseline.</p>
+                      </div>
+                      <div className="flex gap-4">
+                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">2</div>
+                        <p className="text-gray-700"><strong>Measurements:</strong> Waist circumference or BMI are measured.</p>
+                      </div>
+                      <div className="flex gap-4">
+                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">3</div>
+                        <p className="text-gray-700"><strong>Lifestyle:</strong> Physical activity levels and high blood pressure history.</p>
+                      </div>
+                      <div className="flex gap-4">
+                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">4</div>
+                        <p className="text-gray-700"><strong>Family History:</strong> Genetic predisposition is added to the total.</p>
+                      </div>
+                    </div>
+                    <p className="mt-6 text-sm italic text-gray-500 border-t pt-4">
+                      Formula: Total Risk Score = Age + Waist/BMI + Activity + Family History + BP + Glucose History.
                     </p>
-                    <ol className="list-decimal pl-5 space-y-2 font-medium">
-                      <li>Schedule an appointment with your primary care physician.</li>
-                      <li>Ask for an A1C test or Fasting Plasma Glucose test.</li>
-                      <li>Assess your current diet and look to reduce processed sugars and simple carbohydrates.</li>
-                      <li>Incorporate daily movement—even 20 minutes a day makes a massive difference.</li>
-                    </ol>
                   </CardContent>
                 </Card>
               </section>
 
+              {/* Indian Diabetes Risk Score (IDRS) */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <Globe className="w-6 h-6 text-green-600" />
+                  Indian Diabetes Risk Score (IDRS)
+                </h2>
+                <p className="mb-4 text-gray-700">
+                  Indians develop diabetes at a lower BMI, younger ages, and with more abdominal fat. That’s why a separate IDRS calculator is essential for accurate screening in India.
+                </p>
+               
+                <Card className="not-prose overflow-hidden border-green-200">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-green-600 text-white">
+                        <th className="px-6 py-4 text-left font-bold">IDRS Score</th>
+                        <th className="px-6 py-4 text-left font-bold">Risk Level</th>
+                        <th className="px-6 py-4 text-left font-bold">Recommended Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr>
+                        <td className="px-6 py-4 font-bold text-green-700">&lt; 30</td>
+                        <td className="px-6 py-4">Low Risk</td>
+                        <td className="px-6 py-4">Maintain healthy lifestyle</td>
+                      </tr>
+                      <tr className="bg-green-50/30">
+                        <td className="px-6 py-4 font-bold text-yellow-600">30–50</td>
+                        <td className="px-6 py-4">Moderate Risk</td>
+                        <td className="px-6 py-4">Increase activity, watch diet</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-bold text-red-600">≥ 60</td>
+                        <td className="px-6 py-4">High Risk</td>
+                        <td className="px-6 py-4">See a doctor for a blood test</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Card>
+                <p className="mt-4 text-sm text-gray-600 italic">👉 This makes the "diabetes risk calculator India" far more accurate than Western tools.</p>
+              </section>
+
+              {/* Who Should Use It & Gestational */}
+              <section className="grid md:grid-cols-2 gap-8">
+                <div className="p-6 border border-gray-100 rounded-2xl bg-white shadow-sm">
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Users className="text-green-600 w-5 h-5" /> Who Should Screen?
+                  </h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-green-600 mt-1 shrink-0" /> People over 30 years old</li>
+                    <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-green-600 mt-1 shrink-0" /> Family history of diabetes</li>
+                    <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-green-600 mt-1 shrink-0" /> Sedentary lifestyle (sitting long hours)</li>
+                    <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-green-600 mt-1 shrink-0" /> Feeling frequent fatigue</li>
+                  </ul>
+                </div>
+                <div className="p-6 border border-gray-100 rounded-2xl bg-white shadow-sm">
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Heart className="text-green-600 w-5 h-5" /> Pregnancy & Gestational
+                  </h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    A gestational diabetes risk calculator estimates risk during pregnancy. Risk factors include being over age 25, PCOS, or having a family history of diabetes. 
+                  </p>
+                  <p className="text-xs text-gray-500 mt-2">Note: This highlights risk but does not replace glucose testing.</p>
+                </div>
+              </section>
+
+              {/* Risk vs Test comparison */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Risk Calculator vs. Blood Sugar Test</h2>
+                <div className="grid md:grid-cols-2 gap-6 not-prose">
+                  <div className="p-5 border-l-4 border-green-600 bg-white shadow-sm">
+                    <h4 className="font-bold text-gray-800">Diabetes Risk Calculator</h4>
+                    <p className="text-sm text-gray-600">Predicts <strong>future risk</strong> based on behavior and body metrics. Non-invasive screening.</p>
+                  </div>
+                  <div className="p-5 border-l-4 border-blue-600 bg-white shadow-sm">
+                    <h4 className="font-bold text-gray-800">Glucose / HbA1c Test</h4>
+                    <p className="text-sm text-gray-600"><strong>Confirms diagnosis</strong> of current state. Clinical blood work required.</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* How to Reduce Risk */}
+              <section className="bg-green-600 rounded-3xl p-8 text-white">
+                <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                  <TrendingDown className="w-6 h-6" />
+                  How to Reduce Your Diabetes Risk
+                </h2>
+                <p className="mb-6 opacity-90">If your risk is moderate or high, these steps can reduce diabetes risk by 40–60%:</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-green-200" />
+                    <span>Walk 30 minutes daily</span>
+                  </div>
+                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-green-200" />
+                    <span>Reduce sugar & refined carbs</span>
+                  </div>
+                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-green-200" />
+                    <span>Lose 5–7% body weight</span>
+                  </div>
+                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-green-200" />
+                    <span>Manage stress & sleep 7-8 hours</span>
+                  </div>
+                </div>
+              </section>
+
+              {/* Myths and ASCVD */}
+              <section className="space-y-8">
+                <div className="border-2 border-dashed border-green-200 p-6 rounded-2xl bg-green-50/30">
+                  <h3 className="text-lg font-bold mb-3 flex items-center gap-2 text-green-800 uppercase tracking-tight">
+                    <Scale className="w-5 h-5" /> ASCVD & Cardiovascular Risk
+                  </h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    Diabetes is a major multiplier in ASCVD risk calculators. Having diabetes can double or triple heart disease risk, even with normal cholesterol. Diabetes prevention is also heart protection.
+                  </p>
+                </div>
+
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-gray-800 mb-4">Common Myths About Diabetes Risk</h3>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    <span className="bg-white border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 italic">"I'm thin, so I'm safe" — False</span>
+                    <span className="bg-white border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 italic">"It's genetic, nothing I can do" — False</span>
+                    <span className="bg-white border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 italic">"No symptoms means no risk" — False</span>
+                  </div>
+                </div>
+              </section>
+
+              {/* Download & User First */}
+              <section className="pt-8 border-t text-center">
+                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-2">
+                  <ShieldCheck className="w-6 h-6 text-green-600" />
+                  Why Use Our Online Calculator?
+                </h3>
+                <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  While some search for a "diabetes risk score calculator download," online tools are safer and more accurate. Our calculator stays updated with the latest clinical standards, ensures no calculation errors, and protects your privacy by not storing health data.
+                </p>
+              </section>
+
+              {/* CTA */}
+              <section className="not-prose mt-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white shadow-xl">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">Know your exact age?</h3>
+                    <p className="text-gray-300 max-w-md">
+                      Accurate age is a key input for health risk assessments. Check your age in years, months, and days.
+                    </p>
+                  </div>
+                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                    <Link href="/health/age-calculator">
+                      Try Age Calculator <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </section>
+
             </div>
 
-            {/* FAQs */}
-            <div className="mt-16">
-              <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+            {/* Structured FAQ UI */}
+            <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
-
           </div>
         </div>
       </main>

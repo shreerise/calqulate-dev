@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -7,7 +6,7 @@ import CaloriesBurnedCalculator from "@/components/calculators/calories-burned-c
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Activity, Flame, HeartPulse, Trophy, Timer, Info, Calculator as CalculatorIcon } from "lucide-react"
+import { Activity, Flame, HeartPulse, Trophy, Info, Calculator as CalculatorIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {

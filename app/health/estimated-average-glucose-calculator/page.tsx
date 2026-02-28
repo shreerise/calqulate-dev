@@ -1,66 +1,70 @@
 import type { Metadata } from "next"
-import Image from "next/image"
+import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import EstimatedAverageGlucoseCalculator from "@/components/calculators/estimated-average-glucose-calculator"
+import EAGCalculator from "@/components/calculators/estimated-average-glucose-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Activity, Droplets, HeartPulse, Stethoscope, BookOpen, Calculator as CalculatorIcon, Shield } from "lucide-react"
+import {
+  Activity,
+  Calculator,
+  LineChart,
+  ClipboardCheck,
+  Info,
+  Beaker,
+  AlertTriangle,
+  Stethoscope,
+  CheckCircle2,
+  Table,
+  ArrowRight,
+  Zap
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Estimated Average Glucose (eAG) Calculator | Convert A1C to eAG",
+  title: "eAG Calculator: Convert HbA1c to Estimated Average Glucose",
   description:
-    "Easily convert your A1C to Estimated Average Glucose (eAG) or vice versa. Use our clinical-grade eAG calculator to understand your daily blood sugar levels and track your diabetes management.",
+    "Easily convert your HbA1c percentage into Estimated Average Glucose (eAG). Understand your daily blood sugar levels in mg/dL or mmol/L for better diabetes management.",
   keywords:
-    "estimated average glucose calculator, eag calculator, a1c to eag calculator, eag to a1c conversion, average blood sugar calculator, diabetes calculator, average glucose mg/dl, hbA1c average blood sugar, what is my eag",
+    "eAG calculator, estimated average glucose, HbA1c to glucose conversion, calculate average blood sugar, A1c to eAG formula, diabetes management tool",
 }
 
 const faqs = [
   {
-    question: "What is Estimated Average Glucose (eAG)?",
+    question: "What is estimated average glucose (eAG)?",
     answer:
-      "Estimated Average Glucose (eAG) translates your A1C percentage into a daily average blood sugar level (in mg/dL or mmol/L). Because most people test their daily blood sugar in mg/dL or mmol/L, eAG makes it easier to understand your A1C test results in numbers you are already familiar with.",
+      "Estimated Average Glucose (eAG) is a value calculated from your HbA1c percentage that represents your average blood sugar levels over the past 2–3 months in the same units used by daily glucometers (mg/dL or mmol/L).",
   },
   {
-    question: "How does the A1C to eAG formula work?",
+    question: "How accurate is the eAG calculator?",
     answer:
-      "Our calculator uses the scientifically validated formula from the ADAG (A1c-Derived Average Glucose) study conducted by the American Diabetes Association (ADA). The exact formula is: eAG (mg/dL) = (28.7 x A1C) - 46.7.",
+      "The eAG calculator is based on a clinically validated international study. While it provides a highly reliable estimate of long-term averages, it is not a replacement for daily finger-stick monitoring.",
   },
   {
-    question: "Is eAG the same as my fasting blood sugar?",
+    question: "Is eAG better than HbA1c?",
     answer:
-      "No. Fasting blood sugar is your glucose level at a single point in time (usually in the morning before eating). Your eAG is an average of your blood sugar levels over a 2 to 3-month period, including times when it was high (like after meals) and low (like while sleeping).",
+      "Neither is 'better'; they work together. HbA1c is the laboratory standard, while eAG makes that number easier to understand by relating it to the daily readings you see on your sugar monitor.",
   },
   {
-    question: "Why is my meter average different from my eAG?",
+    question: "What is a normal estimated average glucose range?",
     answer:
-      "Your home glucose meter only averages the times you test—typically fasting or right after meals. The eAG reflects your true average over 24 hours a day for the last 90 days. Since you don't test while you sleep or during every fluctuation, your meter average and eAG might not match perfectly.",
+      "A normal eAG is typically below 117 mg/dL (which corresponds to an HbA1c below 5.7%). Levels between 117 and 139 mg/dL indicate prediabetes.",
   },
   {
-    question: "What is a normal eAG level?",
+    question: "Can eAG be wrong?",
     answer:
-      "A normal eAG level for someone without diabetes is typically under 117 mg/dL (which corresponds to an A1C of less than 5.7%). For those managing diabetes, doctors often recommend an A1C goal of around 7.0%, which equals an eAG of 154 mg/dL.",
-  },
-  {
-    question: "Can I convert eAG back to A1C?",
-    answer:
-      "Yes! Our two-way calculator allows you to input your Estimated Average Glucose to find out what your estimated A1C percentage would be. Just select the 'eAG to A1C' option in the calculator.",
-  },
-  {
-    question: "How accurate is this calculator?",
-    answer:
-      "The calculator is highly accurate as it follows the standard ADA clinical formula. However, individual biological differences (like red blood cell lifespan or certain anemias) can cause A1C to not perfectly reflect true average glucose. Always consult your doctor for medical advice.",
+      "Yes, eAG calculations can be less accurate in individuals with anemia, hemoglobin variants, kidney disease, or during pregnancy, as these conditions affect HbA1c levels.",
   },
 ]
 
-export default function EstimatedAverageGlucoseCalculatorPage() {
+export default function EAGCalculatorPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <CalculatorSchema
         name="Estimated Average Glucose (eAG) Calculator"
-        description="Convert your A1C percentage to your daily average blood sugar level (eAG) using the official ADA formula."
-        url="https://calqulate.net/health/estimated-average-glucose-calculator"
+        description="Convert your HbA1c value into an average daily blood glucose level in mg/dL or mmol/L."
+        url="https://calqulate.net/health/eag-calculator"
       />
       <FAQSchema faqs={faqs} />
 
@@ -69,210 +73,218 @@ export default function EstimatedAverageGlucoseCalculatorPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            {/* Hero */}
+            {/* Hero Section */}
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Estimated Average Glucose (eAG) Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Make sense of your A1C test. Translate your HbA1c percentage into daily average blood sugar 
-                levels (mg/dL or mmol/L) to better manage your health. Our calculator works both ways!
-              </p>
-              <p className="text-base text-muted-foreground mt-3">
-                Trusted, clinical-grade conversions based on guidelines from the American Diabetes Association (ADA).
+                Understand your HbA1c in daily sugar terms. This tool converts your long-term HbA1c percentage into the average daily blood glucose numbers you see on your meter.
               </p>
             </div>
 
             {/* Calculator Component */}
-            <EstimatedAverageGlucoseCalculator />
+            <EAGCalculator />
 
-            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
               
-              {/* What is eAG? */}
-              <section className="py-8">
-                <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
-                  What is Estimated Average Glucose (eAG)?
+              {/* Definition Section */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <Info className="w-6 h-6 text-green-600" />
+                  What Is an Estimated Average Glucose (eAG) Calculator?
                 </h2>
-                <p className="mb-3 text-gray-700 leading-relaxed">
-                  If you have diabetes or prediabetes, you are likely familiar with the <b>HbA1c (A1C)</b> blood test. 
-                  While A1C gives a percentage indicating your blood sugar control over the past 2 to 3 months, 
-                  it can be hard to relate a percentage (like 7.0%) to the daily numbers you see on your blood glucose meter (like 150 mg/dL).
+                <p className="text-gray-700 leading-relaxed">
+                  An Estimated Average Glucose (eAG) calculator converts your HbA1c value into an average daily blood glucose level. In simple words:
                 </p>
-                <p className="mb-3 text-gray-700 leading-relaxed">
-                  That’s where <b>Estimated Average Glucose (eAG)</b> comes in. eAG translates your A1C percentage into the 
-                  same units your daily blood glucose meter uses—either <b>mg/dL</b> or <b>mmol/L</b>.
-                </p>
+                <div className="grid md:grid-cols-2 gap-4 mt-6">
+                  <div className="bg-green-50 p-5 rounded-2xl border border-green-100">
+                    <span className="font-bold text-green-800 block mb-1">HbA1c</span>
+                    <p className="text-sm text-gray-600">Long-term blood sugar average measured over 2–3 months.</p>
+                  </div>
+                  <div className="bg-green-50 p-5 rounded-2xl border border-green-100">
+                    <span className="font-bold text-green-800 block mb-1">eAG</span>
+                    <p className="text-sm text-gray-600">What that HbA1c means in day-to-day glucose numbers (mg/dL or mmol/L).</p>
+                  </div>
+                </div>
+              </section>
 
-                <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-800">
-                      <CalculatorIcon className="w-5 h-5 text-blue-500" />
-                      Why Our eAG Calculator Stands Out
+              {/* Why eAG Matters */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Why eAG Is More Understandable Than HbA1c</h2>
+                <p className="text-gray-700 mb-4">HbA1c can feel abstract. Most people ask: <br /> 
+                <span className="italic text-gray-500">“My HbA1c is 6.8… is that bad? What does this mean for my daily sugar levels?”</span></p>
+                <p className="bg-white border-l-4 border-green-600 p-4 shadow-sm text-gray-700">
+                  <strong>eAG makes it real and relatable.</strong> It answers the question: “On average, what has my blood sugar been every day?”
+                </p>
+              </section>
+
+              {/* Formula Card */}
+              <section>
+                <Card className="border-green-100 shadow-sm rounded-2xl overflow-hidden">
+                  <CardHeader className="bg-green-50 pb-4">
+                    <CardTitle className="flex items-center gap-2 text-xl font-bold text-green-800">
+                      <Calculator className="w-5 h-5" />
+                      eAG Calculator Formula (Clear & Honest)
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
-                      We go beyond a simple math conversion to provide a comprehensive health tool.
+                    <CardDescription className="text-green-700/80">
+                      The standard formula used globally by major diabetes organizations.
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="grid md:grid-cols-2 gap-6 pt-2">
-                    <div className="text-gray-700 text-sm leading-relaxed">
-                      <ul className="list-disc pl-5 space-y-2">
-                        <li><b>Two-Way Conversion:</b> Calculate A1C to eAG, or enter an eAG to predict your A1C.</li>
-                        <li><b>Visual Risk Gauges:</b> Instantly see if your levels indicate Normal, Prediabetes, or Diabetes.</li>
-                        <li><b>Global Units:</b> Seamlessly switch between mg/dL (used in US) and mmol/L (used in UK/Canada/Aus).</li>
-                        <li><b>Actionable Insights:</b> Receive tailored lifestyle and monitoring tips based on your results.</li>
-                      </ul>
-                    </div>
-                    <div className="flex flex-col items-center justify-center gap-3 bg-gray-50 rounded-xl p-4 border border-gray-100">
-                       <Droplets className="w-12 h-12 text-blue-500" />
-                       <p className="text-gray-500 text-xs text-center font-medium">
-                         Based on the globally recognized ADAG Study formula.
-                       </p>
+                  <CardContent className="pt-6">
+                    <div className="space-y-6">
+                      <div className="flex flex-col md:flex-row justify-around gap-6 text-center">
+                        <div className="p-4 bg-white border border-green-100 rounded-xl flex-1">
+                          <p className="text-xs uppercase font-bold text-gray-400 mb-2">Formula for mg/dL</p>
+                          <p className="text-xl font-mono font-bold text-green-700">eAG = (28.7 × HbA1c) − 46.7</p>
+                        </div>
+                        <div className="p-4 bg-white border border-green-100 rounded-xl flex-1">
+                          <p className="text-xs uppercase font-bold text-gray-400 mb-2">Formula for mmol/L</p>
+                          <p className="text-xl font-mono font-bold text-green-700">eAG = (1.59 × HbA1c) − 2.59</p>
+                        </div>
+                      </div>
+                      <div className="border-t pt-4">
+                        <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+                          <Zap className="w-4 h-4 text-yellow-500" /> Example Calculation
+                        </h4>
+                        <p className="text-sm text-gray-700">
+                          If your <strong>HbA1c = 7.0%</strong>:<br />
+                          eAG = (28.7 × 7) − 46.7 = <strong>154 mg/dL</strong>. <br />
+                          This means your average blood sugar over 2–3 months was approximately 154 mg/dL.
+                        </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
               </section>
 
-              {/* The Formula */}
+              {/* Range Table */}
               <section>
-                <h2 className="mb-2 font-semibold">
-                  <b>The Science: How We Calculate eAG</b>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <Table className="w-6 h-6 text-green-600" />
+                  Estimated Average Glucose Range by HbA1c
                 </h2>
-                <p className="mb-2">
-                  Our calculator utilizes the standard formula established by the rigorous <b>A1c-Derived Average Glucose (ADAG)</b> study, recognized by the American Diabetes Association (ADA).
-                </p>
-                <ul className="list-disc pl-5 space-y-2 mt-4">
-                  <li><b>For mg/dL:</b> <code>eAG = (28.7 × A1C) - 46.7</code></li>
-                  <li><b>For mmol/L:</b> <code>eAG = (1.59 × A1C) - 2.59</code></li>
-                </ul>
-                <p className="mt-4 text-sm text-gray-600 border-l-4 border-blue-500 pl-4 bg-blue-50 p-3 rounded-r-lg">
-                  <b>Did you know?</b> Your eAG will almost always be slightly higher than the average you calculate manually from your daily morning meter readings. This is because eAG accounts for 24 hours of data, including post-meal spikes that you might not be testing for!
-                </p>
-              </section>
-
-              {/* A1C to eAG Conversion Chart */}
-              <section>
-                <Card className="not-prose">
-                  <CardHeader>
-                    <CardTitle>📊 A1C to eAG Quick Reference Chart</CardTitle>
-                    <CardDescription>
-                      Compare A1C percentages to their corresponding average daily glucose levels.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm border-collapse">
-                        <thead>
-                          <tr className="bg-gray-50">
-                            <th className="border px-4 py-3 text-left font-semibold">A1C Level (%)</th>
-                            <th className="border px-4 py-3 text-left font-semibold">eAG (mg/dL)</th>
-                            <th className="border px-4 py-3 text-left font-semibold">eAG (mmol/L)</th>
-                            <th className="border px-4 py-3 text-left font-semibold">Diagnostic Category</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td className="border px-4 py-2 font-medium">5.0%</td>
-                            <td className="border px-4 py-2">97</td>
-                            <td className="border px-4 py-2">5.4</td>
-                            <td className="border px-4 py-2 text-green-600 font-medium">Normal</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-2 font-medium">5.5%</td>
-                            <td className="border px-4 py-2">111</td>
-                            <td className="border px-4 py-2">6.2</td>
-                            <td className="border px-4 py-2 text-green-600 font-medium">Normal</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-2 font-medium">6.0%</td>
-                            <td className="border px-4 py-2">126</td>
-                            <td className="border px-4 py-2">7.0</td>
-                            <td className="border px-4 py-2 text-yellow-600 font-medium">Prediabetes</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-2 font-medium">6.5%</td>
-                            <td className="border px-4 py-2">140</td>
-                            <td className="border px-4 py-2">7.8</td>
-                            <td className="border px-4 py-2 text-red-600 font-medium">Diabetes</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-2 font-medium">7.0%</td>
-                            <td className="border px-4 py-2">154</td>
-                            <td className="border px-4 py-2">8.6</td>
-                            <td className="border px-4 py-2 text-red-600 font-medium">Diabetes (Common Target)</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-2 font-medium">8.0%</td>
-                            <td className="border px-4 py-2">183</td>
-                            <td className="border px-4 py-2">10.2</td>
-                            <td className="border px-4 py-2 text-red-600 font-medium">Diabetes (Elevated)</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-2 font-medium">9.0%</td>
-                            <td className="border px-4 py-2">212</td>
-                            <td className="border px-4 py-2">11.8</td>
-                            <td className="border px-4 py-2 text-red-600 font-medium">Diabetes (High)</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-2 font-medium">10.0%</td>
-                            <td className="border px-4 py-2">240</td>
-                            <td className="border px-4 py-2">13.3</td>
-                            <td className="border px-4 py-2 text-red-600 font-medium">Diabetes (Very High)</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </CardContent>
+                <Card className="not-prose overflow-hidden border-green-200">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-green-600 text-white">
+                        <th className="px-6 py-4 text-left font-bold">HbA1c (%)</th>
+                        <th className="px-6 py-4 text-left font-bold">eAG (mg/dL)</th>
+                        <th className="px-6 py-4 text-left font-bold">Meaning</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr><td className="px-6 py-3">5.0</td><td className="px-6 py-3">97</td><td className="px-6 py-3 font-medium text-green-600">Normal</td></tr>
+                      <tr className="bg-green-50/30"><td className="px-6 py-3">5.5</td><td className="px-6 py-3">111</td><td className="px-6 py-3 font-medium text-green-600">Healthy</td></tr>
+                      <tr><td className="px-6 py-3">5.7</td><td className="px-6 py-3">117</td><td className="px-6 py-3 font-medium text-yellow-600">Prediabetes starts</td></tr>
+                      <tr className="bg-green-50/30"><td className="px-6 py-3">6.0</td><td className="px-6 py-3">126</td><td className="px-6 py-3 font-medium text-yellow-600">Prediabetes</td></tr>
+                      <tr><td className="px-6 py-3">6.5</td><td className="px-6 py-3">140</td><td className="px-6 py-3 font-medium text-red-600">Diabetes threshold</td></tr>
+                      <tr className="bg-green-50/30"><td className="px-6 py-3">7.0</td><td className="px-6 py-3">154</td><td className="px-6 py-3 text-gray-600">Diabetes (controlled)</td></tr>
+                      <tr><td className="px-6 py-3">8.0</td><td className="px-6 py-3">183</td><td className="px-6 py-3 text-gray-600">Poor control</td></tr>
+                      <tr className="bg-green-50/30"><td className="px-6 py-3">9.0</td><td className="px-6 py-3">212</td><td className="px-6 py-3 font-bold text-red-700">High risk</td></tr>
+                    </tbody>
+                  </table>
                 </Card>
               </section>
 
-              {/* Interpreting Results */}
-              <section>
-                <Card className="not-prose">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <HeartPulse className="w-5 h-5 text-red-500" />
-                      What Do Your Results Mean?
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm space-y-4">
-                    <div>
-                      <h3 className="font-semibold text-base text-green-600">🟢 Normal Range (A1C below 5.7% / eAG &lt; 117 mg/dL)</h3>
-                      <p className="mt-1 text-gray-600">Your average blood sugar levels are within the healthy, non-diabetic range. Continue maintaining a balanced diet and regular exercise routine.</p>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-base text-yellow-600">🟡 Prediabetes Range (A1C 5.7% - 6.4% / eAG 117 - 137 mg/dL)</h3>
-                      <p className="mt-1 text-gray-600">You are at a higher risk of developing Type 2 diabetes. Lifestyle modifications, such as increased physical activity and dietary changes, can often reverse this trend.</p>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-base text-red-600">🔴 Diabetes Range (A1C 6.5% or higher / eAG &gt; 137 mg/dL)</h3>
-                      <p className="mt-1 text-gray-600">Levels in this range indicate diabetes. An A1C of around 7.0% (154 mg/dL) is a common treatment target for many adults with diabetes, but goals should always be personalized by your healthcare provider.</p>
-                    </div>
-                  </CardContent>
-                </Card>
+              {/* Comparison Section */}
+              <section className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <LineChart className="text-green-600 w-5 h-5" /> eAG vs Finger-Stick
+                  </h3>
+                  <div className="space-y-3 text-sm text-gray-700">
+                    <p><strong>Finger-stick glucose:</strong> Sugar at one specific moment.</p>
+                    <p><strong>eAG:</strong> The big picture 2–3 month average.</p>
+                    <p><strong>HbA1c:</strong> The long-term chemical exposure percentage.</p>
+                  </div>
+                </div>
+                <div className="bg-yellow-50 p-6 rounded-2xl border border-yellow-100">
+                  <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-yellow-800">
+                    <AlertTriangle className="w-5 h-5" /> Why they may differ
+                  </h3>
+                  <ul className="text-sm text-yellow-900/80 space-y-1 list-disc pl-4">
+                    <li>Frequent post-meal spikes</li>
+                    <li>Missed high readings during the day</li>
+                    <li>Night-time glucose rises</li>
+                    <li>Anemia or hemoglobin variants</li>
+                  </ul>
+                </div>
               </section>
 
-              {/* Disclaimer */}
+              {/* Who Should Use / Pregnancy Note */}
+              <section className="bg-green-600 rounded-3xl p-8 text-white">
+                <h2 className="text-2xl font-bold mb-6 text-white">Who Should Use This?</h2>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <p className="opacity-90">Ideal for those who:</p>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-green-200" /> Have Diabetes or Prediabetes</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-green-200" /> Monitor HbA1c regularly</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-green-200" /> Want clear, relatable sugar data</li>
+                    </ul>
+                  </div>
+                  <div className="bg-white/10 p-5 rounded-2xl">
+                    <h4 className="font-bold mb-2 flex items-center gap-2"><Stethoscope className="w-5 h-5" /> Medical Note</h4>
+                    <p className="text-xs leading-relaxed opacity-90">
+                      eAG is valid for most adults. However, in children, pregnancy, anemia, or kidney disease, HbA1c may be misleading. Always interpret these results with medical context.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Practical Meaning Section */}
               <section>
-                <Card className="not-prose bg-gray-50 border-gray-200">
-                  <CardContent className="text-sm space-y-2 pt-6">
-                     <p className="flex items-start gap-2 text-gray-600">
-                       <Shield className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
-                       <span>
-                         <b>Medical Disclaimer:</b> This Estimated Average Glucose (eAG) calculator is designed for informational and educational purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider regarding any medical condition or adjustments to your diabetes care plan.
-                       </span>
-                     </p>
-                  </CardContent>
-                </Card>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">What to Do With Your eAG Result</h2>
+                <div className="grid md:grid-cols-3 gap-6 not-prose">
+                  <div className="p-5 border border-gray-100 rounded-2xl bg-white">
+                    <h4 className="font-bold text-green-700 mb-2">Normal (&lt;117)</h4>
+                    <p className="text-sm text-gray-600">Maintain your current lifestyle and schedule an annual HbA1c check.</p>
+                  </div>
+                  <div className="p-5 border border-gray-100 rounded-2xl bg-white">
+                    <h4 className="font-bold text-yellow-600 mb-2">Prediabetes (117–139)</h4>
+                    <p className="text-sm text-gray-600">Reduce sugar, increase activity, and recheck in 3–6 months.</p>
+                  </div>
+                  <div className="p-5 border border-gray-100 rounded-2xl bg-white">
+                    <h4 className="font-bold text-red-600 mb-2">High (≥140)</h4>
+                    <p className="text-sm text-gray-600">Consult a doctor for medication and lifestyle adjustments.</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Myths Section */}
+              <section className="text-center pt-8 border-t">
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Common Myths About eAG & HbA1c</h3>
+                <div className="max-w-2xl mx-auto space-y-4">
+                  <p className="text-sm text-muted-foreground italic">"HbA1c shows today's sugar" — False</p>
+                  <p className="text-sm text-muted-foreground italic">"eAG replaces glucose testing" — False</p>
+                  <p className="text-sm text-muted-foreground italic">"Normal fasting sugar means no diabetes" — False</p>
+                </div>
+              </section>
+
+              {/* Internal Link CTA */}
+              <section className="not-prose mt-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white shadow-xl">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">Worried about your risk?</h3>
+                    <p className="text-gray-300 max-w-md">
+                      If your eAG is high, use our Diabetes Risk Calculator to assess your overall risk level.
+                    </p>
+                  </div>
+                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                    <Link href="/health/diabetes-risk-calculator">
+                      Assess Diabetes Risk <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
               </section>
 
             </div>
 
             {/* Structured FAQ UI */}
-            <div className="mt-12 border-t pt-8">
-              <h2 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
+            <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
-            
           </div>
         </div>
       </main>

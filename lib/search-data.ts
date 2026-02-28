@@ -361,15 +361,6 @@ export const calculators: Calculator[] = [
     keywords: ["stress level calculator","stress assessment","lifestyle factors evaluation","health indicators analysis","stress management"],
   },
   {
-    id: "child-bmi",
-    title: "Child BMI Calculator",
-    description: "Calculate your child's Body Mass Index (BMI) and assess their growth percentile",
-    href: "/health/child-bmi-calculator",
-    category: "Health",
-    tags: ["child bmi calculator", "child bmi", "growth percentile", "weight", "height"],
-    keywords: ["child bmi calculator","child bmi assessment","growth percentile calculation","weight height ratio","child health evaluation"],
-  },
-  {
     id: "breast-cancer-risk",
     title: "Breast Cancer Risk Calculator",
     description: "Calculate your risk of developing breast cancer using the Gail Model",
@@ -413,15 +404,6 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["running pace calculator", "running pace", "distance", "time", "fitness"],
     keywords: ["running pace calculator","pace calculation","distance time ratio","fitness assessment","running performance"],
-  },
-  {
-    id: "metabolic-age",
-    title: "Metabolic Age Calculator",
-    description: "Calculate your metabolic age based on BMR and age",
-    href: "/health/metabolic-age-calculator",
-    category: "Health",
-    tags: ["metabolic age calculator", "metabolic age", "bmr", "age", "health"],
-    keywords: ["metabolic age calculator","bmr assessment","age related metabolism","health evaluation","metabolism analysis"],
   },
   {
     id: "period-cycle",

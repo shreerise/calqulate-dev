@@ -283,13 +283,6 @@ const calculators = [
     category: "Health",
   },
   {
-    title: "Child BMI Calculator",
-    description: "Calculate your child's Body Mass Index (BMI) and assess their growth percentile",
-    icon: <Calculator className="h-6 w-6" />,
-    href: "/health/child-bmi-calculator",
-    category: "Health",
-  },
-  {
     title: "Breast Cancer Risk Calculator",
     description: "Calculate your risk of developing breast cancer using the Gail Model",
     icon: <Calculator className="h-6 w-6" />,
@@ -322,13 +315,6 @@ const calculators = [
     description: "Calculate your running pace based on distance and time",
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/running-pace-calculator",
-    category: "Health",
-  },
-  {
-    title: "Metabolic Age Calculator",
-    description: "Calculate your metabolic age based on BMR and age",
-    icon: <Calculator className="h-6 w-6" />,
-    href: "/health/metabolic-age-calculator",
     category: "Health",
   },
   {

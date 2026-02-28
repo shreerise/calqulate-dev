@@ -1,147 +1,285 @@
 import type { Metadata } from "next"
-import Image from "next/image"
+import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import PeriodCalculator from "@/components/calculators/period-cycle-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Activity, Sparkles, Baby, Moon } from "lucide-react"
+import {
+  Calendar,
+  Droplets,
+  RotateCcw,
+  Clock,
+  Heart,
+  Info,
+  AlertCircle,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles,
+  ListChecks,
+  Table
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Period Cycle Calculator & Ovulation Tracker",
-  description: "Simple and accurate menstrual cycle tracker. Predict your next period, ovulation day, and fertile window.",
-  keywords: "period calculator, ovulation tracker, menstrual cycle phases, next period date",
+  title: "Period Cycle Calculator: Track Your Menstrual Cycle Accurately",
+  description:
+    "Predict your next period, estimate ovulation, and find your fertile window with our accurate period cycle calculator. Perfect for regular and irregular cycles.",
+  keywords:
+    "period cycle calculator, menstrual cycle tracker, calculate period length, ovulation predictor, irregular period calculator, fertile days after period, LMP calculator",
 }
 
 const faqs = [
   {
-    question: "How does the Period Cycle Calculator predict my next period?",
-    answer: "It adds your average cycle length (usually 28 days) to the start date of your last period to project future dates.",
+    question: "How to calculate period cycle days?",
+    answer:
+      "To calculate your cycle length, count from Day 1 of one period (the first day of full bleeding) to Day 1 of your next period.",
   },
   {
-    question: "How accurate is the ovulation prediction?",
-    answer: "It estimates ovulation 14 days before your next period. Stress, diet, and health can shift this date by a few days.",
+    question: "What is the average period cycle length?",
+    answer:
+      "The average cycle is 28 days, but anything between 26 and 32 days is considered normal for most women.",
   },
   {
-    question: "What is the 'Fertile Window'?",
-    answer: "The 5 days leading up to ovulation plus ovulation day itself. This is when pregnancy is most likely.",
+    question: "How to calculate the ovulation window?",
+    answer:
+      "Ovulation typically occurs 14 days before your next period begins. Your fertile window includes the 5 days before ovulation and the day of ovulation itself.",
   },
   {
-    question: "Is my data saved?",
-    answer: "No. All calculations happen on your device. We do not store your personal health data.",
+    question: "Can I calculate ovulation with irregular periods?",
+    answer:
+      "Yes, but the results will be a range of dates rather than a single specific day. You subtract 18 from your shortest cycle and 11 from your longest cycle to find your fertile range.",
+  },
+  {
+    question: "If my period lasts 5 days, when do I ovulate?",
+    answer:
+      "Ovulation timing depends on your total cycle length (e.g., 28 or 30 days), not on how many days you bleed during your period.",
   },
 ]
 
-export default function PeriodCycleCalculatorPage() {
+export default function PeriodCalculatorPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-white">
       <CalculatorSchema
         name="Period Cycle Calculator"
-        description="Accurately track your period, predict ovulation, and understand your cycle phases."
+        description="Accurately track your menstrual cycle, predict your next period, and estimate your most fertile window."
         url="https://calqulate.net/health/period-cycle-calculator"
       />
       <FAQSchema faqs={faqs} />
 
       <Header />
 
-      <main className="flex-1 py-10">
-        <div className="container mx-auto px-4">
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            
-            {/* Compact Hero */}
+            {/* Hero Section */}
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-3">
+              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Period Cycle Calculator
               </h1>
-              <p className="text-gray-600 max-w-xl mx-auto text-base">
-                Track your cycle, find your fertile window, and predict your next period in seconds.
+              <p className="text-lg text-muted-foreground text-pretty">
+                Track your menstrual cycle accurately. Predict your next period, estimate your ovulation date, and identify your most fertile days with ease.
               </p>
             </div>
 
-            {/* Calculator */}
+            {/* Calculator Component */}
             <PeriodCalculator />
 
-            {/* Content Section */}
-            <div className="prose prose-slate max-w-none mt-12 bg-white p-6 md:p-8 rounded-xl border border-gray-100 shadow-sm">
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
               
-              {/* Phases Section */}
-              <section>
-                <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">The 4 Phases of Your Cycle</h2>
-                
-                {/* Visual Placeholder - Reduced Height */}
-                <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden border mb-6">
-                   <Image 
-                     src="/images/placeholder-cycle-phases.jpg" 
-                     alt="Cycle Phases Diagram"
-                     fill
-                     className="object-cover opacity-80"
-                   />
-                   <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">
-                      [Image: Cycle Phases Diagram]
-                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose">
-                  <div className="p-4 rounded-lg bg-rose-50 border border-rose-100">
-                    <h3 className="font-semibold text-rose-700 flex items-center gap-2 text-sm">
-                      <Activity className="w-4 h-4" /> Menstrual
-                    </h3>
-                    <p className="text-xs text-gray-600 mt-1">Days 1–7. Shedding of lining.</p>
+              {/* Definition Section */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <Info className="w-6 h-6 text-green-600" />
+                  What Is a Period Cycle Calculator?
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  A period cycle calculator (also called a menstrual cycle calculator) estimates your next period date, ovulation date, and fertile window using the first day of your last menstrual period (LMP) and your average cycle length.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                  <div className="p-4 bg-green-50 rounded-xl text-center border border-green-100">
+                    <Calendar className="w-5 h-5 mx-auto text-green-600 mb-2" />
+                    <p className="text-xs font-bold text-green-800 uppercase">Next Period</p>
                   </div>
-
-                  <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
-                    <h3 className="font-semibold text-blue-700 flex items-center gap-2 text-sm">
-                      <Sparkles className="w-4 h-4" /> Follicular
-                    </h3>
-                    <p className="text-xs text-gray-600 mt-1">Days 8–13. Egg preparation.</p>
+                  <div className="p-4 bg-green-50 rounded-xl text-center border border-green-100">
+                    <Sparkles className="w-5 h-5 mx-auto text-green-600 mb-2" />
+                    <p className="text-xs font-bold text-green-800 uppercase">Ovulation</p>
                   </div>
-
-                  <div className="p-4 rounded-lg bg-purple-50 border border-purple-100">
-                    <h3 className="font-semibold text-purple-700 flex items-center gap-2 text-sm">
-                      <Baby className="w-4 h-4" /> Ovulation
-                    </h3>
-                    <p className="text-xs text-gray-600 mt-1">Day 14. Peak fertility.</p>
+                  <div className="p-4 bg-green-50 rounded-xl text-center border border-green-100">
+                    <Heart className="w-5 h-5 mx-auto text-green-600 mb-2" />
+                    <p className="text-xs font-bold text-green-800 uppercase">Fertility</p>
                   </div>
-
-                  <div className="p-4 rounded-lg bg-amber-50 border border-amber-100">
-                    <h3 className="font-semibold text-amber-700 flex items-center gap-2 text-sm">
-                      <Moon className="w-4 h-4" /> Luteal
-                    </h3>
-                    <p className="text-xs text-gray-600 mt-1">Days 15–28. Premenstrual.</p>
+                  <div className="p-4 bg-green-50 rounded-xl text-center border border-green-100">
+                    <RotateCcw className="w-5 h-5 mx-auto text-green-600 mb-2" />
+                    <p className="text-xs font-bold text-green-800 uppercase">Cycle Tracking</p>
                   </div>
                 </div>
               </section>
 
-              {/* Fertility Section */}
-              <section className="mt-10">
-                <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Understanding Fertility</h2>
-                <div className="flex flex-col md:flex-row gap-6 items-start">
-                   <div className="w-full md:w-1/3 relative h-40 bg-gray-100 rounded-lg overflow-hidden border shrink-0">
-                     <Image 
-                       src="/images/placeholder-fertility.jpg" 
-                       alt="Fertility Calendar"
-                       fill
-                       className="object-cover opacity-80"
-                     />
-                   </div>
-                   <div>
-                     <p className="text-sm text-gray-600 mb-2">
-                       The <strong>fertile window</strong> is the 6-day interval ending on the day of ovulation. This is the only time during the cycle when pregnancy is possible.
-                     </p>
-                     <ul className="text-sm list-disc pl-4 text-gray-600 space-y-1">
-                       <li>Sperm survival: up to 5 days.</li>
-                       <li>Egg survival: 12-24 hours.</li>
-                       <li>Peak fertility: 2 days before ovulation.</li>
-                     </ul>
-                   </div>
+              {/* Step by Step Guide */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">How to Calculate Period Cycle (Step-by-Step)</h2>
+                <div className="space-y-6">
+                  <div className="flex gap-4 items-start">
+                    <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">1</div>
+                    <p className="text-gray-700"><strong>Identify Day 1:</strong> This is the first day of full bleeding (not spotting).</p>
+                  </div>
+                  <div className="flex gap-4 items-start">
+                    <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">2</div>
+                    <p className="text-gray-700"><strong>Count Until Next Period:</strong> Count the days from Day 1 of your last period until the day before your next period starts. This number is your <strong>Cycle Length</strong>.</p>
+                  </div>
+                </div>
+
+                <Card className="mt-8 border-green-100 shadow-sm rounded-2xl overflow-hidden">
+                  <CardHeader className="bg-green-50 pb-4">
+                    <CardTitle className="flex items-center gap-2 text-xl font-bold text-green-800">
+                      <ListChecks className="w-5 h-5" />
+                      Period Cycle Length Formula
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <p className="text-lg font-mono font-bold text-green-700 bg-gray-50 p-4 rounded-xl border-2 border-dashed border-green-200 text-center">
+                      Cycle Length = First day of current period to first day of next period
+                    </p>
+                    <p className="mt-4 text-sm text-gray-600">
+                      <strong>Note:</strong> The average cycle length is 26–32 days. Most calculators assume 28 days unless you specify otherwise.
+                    </p>
+                  </CardContent>
+                </Card>
+              </section>
+
+              {/* Cycle Phases */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <Clock className="w-6 h-6 text-green-600" />
+                  Understanding Your Cycle Phases
+                </h2>
+                <div className="grid md:grid-cols-4 gap-4 not-prose">
+                  <div className="p-4 border border-gray-100 rounded-xl bg-white shadow-sm">
+                    <h4 className="font-bold text-green-800 text-sm mb-1">Menstrual</h4>
+                    <p className="text-xs text-gray-500">Day 1–5: Bleeding begins.</p>
+                  </div>
+                  <div className="p-4 border border-gray-100 rounded-xl bg-white shadow-sm">
+                    <h4 className="font-bold text-green-800 text-sm mb-1">Follicular</h4>
+                    <p className="text-xs text-gray-500">Day 1–13: Egg preparation.</p>
+                  </div>
+                  <div className="p-4 border border-gray-100 rounded-xl bg-white shadow-sm">
+                    <h4 className="font-bold text-green-800 text-sm mb-1">Ovulation</h4>
+                    <p className="text-xs text-gray-500">Day 14: Release of the egg.</p>
+                  </div>
+                  <div className="p-4 border border-gray-100 rounded-xl bg-white shadow-sm">
+                    <h4 className="font-bold text-green-800 text-sm mb-1">Luteal</h4>
+                    <p className="text-xs text-gray-500">Day 15–28: Post-ovulation.</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Ovulation Calculation */}
+              <section className="bg-green-600 rounded-3xl p-8 text-white">
+                <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                  <Sparkles className="w-6 h-6" />
+                  How to Calculate Ovulation Date
+                </h2>
+                <p className="mb-6 opacity-90">Ovulation happens about 14 days before your next period, not necessarily 14 days after it starts. Use this logic:</p>
+                <div className="bg-white/10 p-6 rounded-2xl border border-white/20 mb-6">
+                  <p className="text-xl font-bold text-center">Ovulation Day = Cycle Length − 14</p>
+                </div>
+                <div className="grid md:grid-cols-2 gap-8 text-sm">
+                  <div>
+                    <h4 className="font-bold text-green-200 mb-2">Example: 30 Day Cycle</h4>
+                    <p>30 − 14 = Day 16. Ovulation is approximately on Day 16. Your fertile window is roughly Day 11–16.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-green-200 mb-2">Fertile Window Explained</h4>
+                    <p>Includes 5 days before ovulation + ovulation day. Sperm survive up to 5 days; the egg survives 12–24 hours.</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Fertile Days After Period */}
+              <section className="grid md:grid-cols-2 gap-12">
+                <div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Droplets className="text-green-600 w-5 h-5" /> Fertile Days After Period
+                  </h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    If your cycle is 28 days and your period lasts 5 days, your fertile window starts around Day 9. Fertile days usually begin 3–5 days after bleeding stops. 
+                    <strong> Note:</strong> Ovulation timing depends on total cycle length, not the number of days you bleed.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Calendar className="text-green-600 w-5 h-5" /> LMP & Missed Periods
+                  </h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    <strong>LMP (Last Menstrual Period):</strong> The starting point for all tracking. If your period is late, consider stress, illness, or travel. A pregnancy test is recommended if you are 5–7 days late.
+                  </p>
+                </div>
+              </section>
+
+              {/* Irregular Periods Section */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <AlertCircle className="w-6 h-6 text-red-600" />
+                  Calculating Irregular Cycles
+                </h2>
+                <p className="text-gray-700 mb-6">If your cycles vary, track them for 6 months, find your shortest and longest cycles, and use this formula:</p>
+                <div className="grid md:grid-cols-2 gap-6 not-prose">
+                  <div className="p-5 bg-white border border-red-100 rounded-2xl shadow-sm">
+                    <p className="text-xs font-bold text-red-800 uppercase mb-1">First Fertile Day</p>
+                    <p className="text-sm font-bold text-gray-800">Shortest cycle length − 18</p>
+                  </div>
+                  <div className="p-5 bg-white border border-red-100 rounded-2xl shadow-sm">
+                    <p className="text-xs font-bold text-red-800 uppercase mb-1">Last Fertile Day</p>
+                    <p className="text-sm font-bold text-gray-800">Longest cycle length − 11</p>
+                  </div>
+                </div>
+                <p className="mt-4 text-sm text-gray-500 italic">Accuracy for irregular periods improves when combined with Basal Body Temperature (BBT) and ovulation predictor kits.</p>
+              </section>
+
+              {/* Safe Period Note */}
+              <section className="border-2 border-dashed border-green-200 p-6 rounded-2xl bg-green-50/30">
+                <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-green-800">
+                  <AlertCircle className="w-5 h-5" /> Safe Period Calculator Warning
+                </h3>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  No calculator is 100% safe. Ovulation can shift due to stress, hormonal imbalance, or sleep disruption. If avoiding pregnancy, always use reliable contraception rather than relying solely on cycle calculations.
+                </p>
+              </section>
+
+              {/* Final Takeaway */}
+              <section className="text-center pt-8 border-t">
+                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-2">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                  Final Takeaway
+                </h3>
+                <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed italic">
+                  "Your cycle is a health signal, not just a calendar event. Consistently tracking for 3–6 months helps you understand your body, plan or avoid pregnancy, and detect hormonal irregularities early."
+                </p>
+              </section>
+
+              {/* Internal Link CTA */}
+              <section className="not-prose mt-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white shadow-xl">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">Ready to find your fertile days?</h3>
+                    <p className="text-gray-300 max-w-md">
+                      Now that you know your cycle, find the exact dates for your next ovulation window.
+                    </p>
+                  </div>
+                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                    <Link href="/health/ovulation-calculator">
+                      Ovulation Calculator <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
                 </div>
               </section>
 
             </div>
 
-            {/* FAQ */}
-            <div className="mt-10">
+            {/* Structured FAQ UI */}
+            <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
           </div>

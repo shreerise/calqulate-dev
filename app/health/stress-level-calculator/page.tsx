@@ -7,6 +7,7 @@ import StressLevelCalculator from "@/components/calculators/stress-level-calcula
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Activity, Brain, Shield, Zap, BatteryWarning, ArrowRight } from "lucide-react"
 
 export const metadata: Metadata = {

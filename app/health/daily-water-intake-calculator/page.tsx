@@ -1,62 +1,75 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import DailyWaterIntakeCalculator from "@/components/calculators/daily-water-intake-calculator"
+import WaterIntakeCalculator from "@/components/calculators/daily-water-intake-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Droplets, Activity, Sun, Info, HeartPulse, CupSoda, CheckCircle2 } from "lucide-react"
+import {
+  Droplets,
+  ThermometerSun,
+  Dumbbell,
+  Info,
+  AlertCircle,
+  GlassWater,
+  Table,
+  CheckCircle2,
+  ArrowRight,
+  User,
+  Utensils,
+  Zap
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
   title: "Daily Water Intake Calculator: How Much Water Should You Drink?",
   description:
-    "Calculate your exact daily water intake based on your weight, activity level, and climate. Get personalized hydration goals, hourly tracking tips, and fluid vs. food breakdowns.",
+    "Calculate your personalized daily water intake based on weight, activity level, and climate. Get specific hydration advice for Indian weather conditions.",
   keywords:
-    "daily water intake calculator, how much water should I drink, hydration calculator, water requirement calculator, calculate water intake, daily water requirement, water calculator by weight, hydration tracker",
+    "daily water intake calculator, how much water to drink, hydration calculator, water intake calculator India, calculate water needs by weight, dehydration signs",
 }
 
 const faqs = [
   {
-    question: "How is my daily water intake calculated?",
+    question: "What is a daily water intake calculator?",
     answer:
-      "Our calculator uses an industry-standard formula (approximately 35ml of water per kilogram of body weight) and adjusts it dynamically based on your daily exercise duration, local climate, and specific biological conditions like pregnancy or lactation.",
+      "It is a tool that estimates your daily hydration needs based on factors like body weight, activity levels, and lifestyle, providing a more personalized target than the generic '8 glasses a day' rule.",
   },
   {
-    question: "Does coffee or tea count toward my daily water intake?",
+    question: "How do I calculate daily water intake manually?",
     answer:
-      "Yes! While caffeine is a mild diuretic, the water in coffee and tea still contributes to your overall daily fluid intake. However, plain water is always the most efficient way to stay hydrated.",
+      "A common nutritionist-approved method is to multiply your body weight in kg by 30–35 ml. For example, a 60kg person needs roughly 1.8 to 2.1 liters per day.",
   },
   {
-    question: "Do I need to drink more water if I exercise?",
+    question: "Is 8 glasses of water enough?",
     answer:
-      "Absolutely. When you exercise, you lose water through sweat. Our calculator automatically adds approximately 12 to 14 ounces (about 350-400ml) of water for every 30 minutes of physical activity you perform.",
+      "For some people, yes. However, for many—especially those living in hot climates like India or those who are physically active—8 glasses is often not enough to maintain optimal hydration.",
   },
   {
-    question: "How much of my water comes from food?",
+    question: "How much water should I drink in India?",
     answer:
-      "On average, about 20% of your daily hydration comes from the foods you eat, especially fruits and vegetables like watermelon, cucumbers, and oranges. Our calculator breaks down exactly how much you should drink versus how much you will naturally eat.",
+      "Due to high average temperatures and sweat loss, most adults in India need between 2.5 to 3.5 liters per day, even if they aren't performing heavy exercise.",
   },
   {
-    question: "Can I drink too much water?",
+    question: "Does food count toward daily water intake?",
     answer:
-      "Yes. Drinking excessive amounts of water in a short period can lead to a dangerous condition called hyponatremia (water intoxication), where your blood sodium levels drop too low. It's best to spread your intake throughout the day as recommended in our hourly breakdown.",
+      "Yes. Fruits and vegetables contribute about 20–30% of your hydration. However, plain water should still be your primary source of fluids.",
   },
   {
-    question: "Why do I need more water in hot weather?",
+    question: "Can drinking too much water be harmful?",
     answer:
-      "In hot or humid climates, your body sweats more to regulate its temperature, even if you aren't exercising. We add a 500ml (approx. 17 oz) buffer to your daily goal if you live in a hot climate.",
+      "Yes. While rare, excessive water intake without proper electrolyte balance can lead to hyponatremia (water intoxication). Balance is key.",
   },
 ]
 
-export default function DailyWaterIntakeCalculatorPage() {
+export default function WaterIntakeCalculatorPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <CalculatorSchema
         name="Daily Water Intake Calculator"
-        description="Calculate your exact daily water intake based on your weight, activity level, and climate. Get personalized hydration goals and hourly tracking tips."
-        url="https://calqulate.net/health/daily-water-intake-calculator"
+        description="Estimate how much water your body needs each day based on weight, climate, and activity level."
+        url="https://calqulate.net/health/water-intake-calculator"
       />
       <FAQSchema faqs={faqs} />
 
@@ -65,194 +78,250 @@ export default function DailyWaterIntakeCalculatorPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            {/* Hero */}
+            {/* Hero Section */}
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Daily Water Intake Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Hydration is the foundation of good health. Stop guessing how much water you need. 
-                Enter your weight, activity level, and environment to get a highly personalized, 
-                science-backed hydration profile—complete with a fluid vs. food breakdown and hourly goals.
+                How much water do you really need each day? Use our personalized calculator to find your hydration target based on your weight, lifestyle, and climate.
               </p>
             </div>
 
             {/* Calculator Component */}
-            <DailyWaterIntakeCalculator />
+            <WaterIntakeCalculator />
 
-            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
               
-              {/* What is it? */}
-              <section className="py-8">
-                <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
-                  What is a Daily Water Intake Calculator?
+              {/* Definition Section */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <Info className="w-6 h-6 text-green-600" />
+                  What Is a Daily Water Intake Calculator?
                 </h2>
-                <p className="mb-3 text-gray-700 leading-relaxed">
-                  While the old rule of "8 glasses a day" is easy to remember, it isn't medically accurate for everyone. 
-                  A 200-pound athlete living in a hot climate needs significantly more water than a 130-pound office worker in a mild climate.
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  A daily water intake calculator estimates how much water your body needs each day based on:
                 </p>
-                <p className="mb-3 text-gray-700 leading-relaxed">
-                  Our <b>Daily Water Intake Calculator</b> relies on guidelines from the National Academies of Sciences, Engineering, and Medicine, adapting base weight formulas with real-life variables like sweat loss (exercise) and environmental heat. 
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center p-4 bg-green-50 rounded-xl border border-green-100">
+                    <User className="w-5 h-5 mx-auto text-green-600 mb-2" />
+                    <span className="text-xs font-bold text-green-800">Body weight</span>
+                  </div>
+                  <div className="text-center p-4 bg-green-50 rounded-xl border border-green-100">
+                    <ThermometerSun className="w-5 h-5 mx-auto text-green-600 mb-2" />
+                    <span className="text-xs font-bold text-green-800">Climate</span>
+                  </div>
+                  <div className="text-center p-4 bg-green-50 rounded-xl border border-green-100">
+                    <Dumbbell className="w-5 h-5 mx-auto text-green-600 mb-2" />
+                    <span className="text-xs font-bold text-green-800">Activity Level</span>
+                  </div>
+                  <div className="text-center p-4 bg-green-50 rounded-xl border border-green-100">
+                    <Zap className="w-5 h-5 mx-auto text-green-600 mb-2" />
+                    <span className="text-xs font-bold text-green-800">Lifestyle</span>
+                  </div>
+                </div>
+                <p className="mt-6 text-gray-700">
+                  Unlike generic advice like “drink 8 glasses a day,” this calculator gives a personalized hydration target tailored specifically to you.
                 </p>
-
-                <Card className="mt-8 border border-blue-100 bg-blue-50/50 shadow-sm rounded-2xl">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-lg font-medium text-blue-800">
-                      <Droplets className="w-5 h-5 text-blue-500" />
-                      The 80/20 Hydration Rule
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-700 text-sm leading-relaxed">
-                      Did you know you don't actually have to <i>drink</i> 100% of your water goal? According to clinical standards, about <b>20% of your daily water intake comes from the food you eat</b> (especially fruits, vegetables, and soups). Our calculator separates your "Drinking Goal" from your total requirement so you don't over-hydrate.
-                    </p>
-                  </CardContent>
-                </Card>
               </section>
 
-              {/* Referral to Body Shape Calculator */}
+              {/* Variation Section */}
               <section>
-                <Card className="not-prose border-2 border-primary/20 shadow-md">
-                  <CardContent className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
-                    <div className="flex-1 space-y-3">
-                      <h3 className="text-xl font-bold flex items-center gap-2">
-                        <HeartPulse className="w-6 h-6 text-primary" />
-                        Hydration & Your Body Shape
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        Proper hydration directly impacts your metabolism, skin elasticity, and how your body stores or flushes weight. Water weight can completely alter your physical proportions!
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Once you've optimized your hydration, why not discover what your true body proportions mean for your health and style?
-                      </p>
-                      <Link href="/health/body-shape-calculator" className="inline-block mt-2 font-semibold text-primary hover:underline">
-                        Try our Body Shape Calculator →
-                      </Link>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Why Water Intake Is Not the Same for Everyone</h2>
+                <p className="text-gray-700 mb-4">Your water needs change dynamically. A "daily water intake calculator India" gives more realistic guidance because it accounts for:</p>
+                <ul className="grid md:grid-cols-2 gap-2 list-none pl-0">
+                  <li className="flex items-center gap-2 bg-white p-3 border rounded-lg text-sm text-gray-700">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Hot or humid climates
+                  </li>
+                  <li className="flex items-center gap-2 bg-white p-3 border rounded-lg text-sm text-gray-700">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Diet (High protein or salt)
+                  </li>
+                  <li className="flex items-center gap-2 bg-white p-3 border rounded-lg text-sm text-gray-700">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Physical exertion/Sweat loss
+                  </li>
+                  <li className="flex items-center gap-2 bg-white p-3 border rounded-lg text-sm text-gray-700">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Illness, fever, or pregnancy
+                  </li>
+                </ul>
+              </section>
+
+              {/* Formula & Examples Card */}
+              <section>
+                <Card className="border-green-100 shadow-sm rounded-2xl overflow-hidden">
+                  <CardHeader className="bg-green-50 pb-4">
+                    <CardTitle className="flex items-center gap-2 text-xl font-bold text-green-800">
+                      <Droplets className="w-5 h-5" />
+                      How to Calculate Daily Water Intake
+                    </CardTitle>
+                    <CardDescription className="text-green-700/80">
+                      The weight-based method used by nutritionists globally.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <div className="bg-white border-2 border-green-600 border-dashed p-6 rounded-xl text-center mb-8">
+                      <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2">Basic Formula (Adults)</p>
+                      <p className="text-2xl md:text-3xl font-bold text-green-700">Daily Water (ml) = Weight (kg) × 30–35</p>
                     </div>
-                    <div className="w-full md:w-1/3 flex justify-center">
-                      <div className="p-4 bg-muted rounded-full">
-                        <Activity className="w-16 h-16 text-primary" />
+
+                    <h4 className="font-bold text-gray-800 mb-4">Calculation Examples:</h4>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="p-4 bg-gray-50 rounded-xl">
+                        <p className="font-bold text-sm mb-1">Example 1: Sedentary Adult (60kg)</p>
+                        <p className="text-sm text-gray-600">60 × 30 = 1800 ml <br /><strong>✅ About 1.8 liters/day</strong></p>
+                      </div>
+                      <div className="p-4 bg-gray-50 rounded-xl">
+                        <p className="font-bold text-sm mb-1">Example 2: Active Adult in India (70kg)</p>
+                        <p className="text-sm text-gray-600">70 × 35 = 2450 ml <br /><strong>✅ About 2.4–2.5 liters/day</strong></p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               </section>
 
-              {/* Standard Hydration Chart */}
+              {/* India-Specific Adjustments */}
               <section>
-                <Card className="not-prose">
-                  <CardHeader>
-                    <CardTitle>Institute of Medicine (IOM) General Guidelines</CardTitle>
-                    <CardDescription>
-                      These are the baseline adequate intake (AI) levels for total water (from all beverages and foods) per day.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm border-collapse">
-                        <thead>
-                          <tr className="bg-muted/50">
-                            <th className="border px-4 py-3 text-left">Demographic</th>
-                            <th className="border px-4 py-3 text-left">Total Water (Liters)</th>
-                            <th className="border px-4 py-3 text-left">Total Water (Ounces)</th>
-                            <th className="border px-4 py-3 text-left">Approx. Fluid Goal (Drink)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td className="border px-4 py-3 font-medium">Adult Men (19+ yrs)</td>
-                            <td className="border px-4 py-3">3.7 L / day</td>
-                            <td className="border px-4 py-3">125 oz / day</td>
-                            <td className="border px-4 py-3">~3.0 L (101 oz)</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-3 font-medium">Adult Women (19+ yrs)</td>
-                            <td className="border px-4 py-3">2.7 L / day</td>
-                            <td className="border px-4 py-3">91 oz / day</td>
-                            <td className="border px-4 py-3">~2.2 L (74 oz)</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-3 font-medium">Pregnant Women</td>
-                            <td className="border px-4 py-3">3.0 L / day</td>
-                            <td className="border px-4 py-3">101 oz / day</td>
-                            <td className="border px-4 py-3">~2.4 L (81 oz)</td>
-                          </tr>
-                          <tr>
-                            <td className="border px-4 py-3 font-medium">Lactating Women</td>
-                            <td className="border px-4 py-3">3.8 L / day</td>
-                            <td className="border px-4 py-3">128 oz / day</td>
-                            <td className="border px-4 py-3">~3.1 L (104 oz)</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </CardContent>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <ThermometerSun className="w-6 h-6 text-orange-500" />
+                  India-Specific Guidance (Practical Adjustments)
+                </h2>
+                <p className="mb-6 text-gray-700">Most global calculators ignore high average temperatures and sweat loss. Many Indians need 2.5–3.5 liters/day, even without gym workouts.</p>
+                
+                <Card className="not-prose overflow-hidden border-green-200">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-green-600 text-white">
+                        <th className="px-6 py-4 text-left font-bold">Condition</th>
+                        <th className="px-6 py-4 text-left font-bold">Add Extra Water</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr><td className="px-6 py-3">Hot weather / Humidity</td><td className="px-6 py-3 font-medium">+500 ml</td></tr>
+                      <tr className="bg-green-50/30"><td className="px-6 py-3">Heavy sweating</td><td className="px-6 py-3 font-medium">+500–1000 ml</td></tr>
+                      <tr><td className="px-6 py-3">Exercise &gt; 45 min</td><td className="px-6 py-3 font-medium">+500 ml</td></tr>
+                      <tr className="bg-green-50/30"><td className="px-6 py-3">Fever / Illness</td><td className="px-6 py-3 font-medium">+500 ml</td></tr>
+                    </tbody>
+                  </table>
                 </Card>
               </section>
 
-              {/* Factors Influencing Hydration */}
+              {/* Quick Chart */}
               <section>
-                <h2 className="mb-2 font-semibold">
-                  <b>Key Factors That Change Your Water Needs</b>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <Table className="w-6 h-6 text-green-600" />
+                  Daily Water Intake Chart (Adults)
                 </h2>
-                <div className="grid md:grid-cols-3 gap-6 not-prose mt-4">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <Activity className="w-6 h-6 text-blue-500 mb-2" />
-                      <CardTitle className="text-base">Physical Activity</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm">
-                      If you do any activity that makes you sweat, you need to drink extra water to cover the fluid loss. It's important to drink water before, during, and after a workout.
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <Sun className="w-6 h-6 text-orange-500 mb-2" />
-                      <CardTitle className="text-base">Environment</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm">
-                      Hot or humid weather can make you sweat and requires additional fluid. Dehydration can also occur at high altitudes.
-                    </CardContent>
-                  </Card>
+                <Card className="not-prose overflow-hidden border-gray-200">
+                  <table className="w-full text-sm text-center">
+                    <thead className="bg-gray-100 text-gray-700">
+                      <tr>
+                        <th className="px-4 py-3 font-bold">Body Weight</th>
+                        <th className="px-4 py-3 font-bold">Recommended Intake (L)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr><td className="px-4 py-3">50 kg</td><td className="px-4 py-3">1.5 – 1.8 L</td></tr>
+                      <tr><td className="px-4 py-3">60 kg</td><td className="px-4 py-3">1.8 – 2.1 L</td></tr>
+                      <tr><td className="px-4 py-3">70 kg</td><td className="px-4 py-3">2.1 – 2.5 L</td></tr>
+                      <tr><td className="px-4 py-3">80 kg</td><td className="px-4 py-3">2.4 – 2.8 L</td></tr>
+                      <tr><td className="px-4 py-3">90 kg</td><td className="px-4 py-3">2.7 – 3.1 L</td></tr>
+                    </tbody>
+                  </table>
+                </Card>
+                <p className="mt-4 text-xs text-gray-500 italic">📌 This target includes plain water + fluids derived from your food.</p>
+              </section>
 
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <HeartPulse className="w-6 h-6 text-red-500 mb-2" />
-                      <CardTitle className="text-base">Overall Health</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm">
-                      Your body loses fluids when you have a fever, vomiting, or diarrhea. Pregnancy and breast-feeding also significantly increase baseline requirements.
-                    </CardContent>
-                  </Card>
+              {/* Food & Drink Section */}
+              <section className="grid md:grid-cols-2 gap-8">
+                <div className="p-6 bg-white border border-green-100 rounded-2xl shadow-sm">
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Utensils className="text-green-600 w-5 h-5" /> Does Food Count?
+                  </h3>
+                  <ul className="space-y-3 text-sm text-gray-700">
+                    <li className="flex gap-2"><strong>✔ Fruits/Veg:</strong> Account for ~20–30% of hydration.</li>
+                    <li className="flex gap-2"><strong>✔ Tea/Coffee:</strong> They count, but caffeine can offset some benefits.</li>
+                    <li className="flex gap-2 text-red-600"><strong>❌ Sugary Drinks:</strong> Not ideal for hydration.</li>
+                  </ul>
+                  <p className="mt-4 text-xs font-semibold">Plain water should always be the main source.</p>
+                </div>
+                <div className="p-6 bg-red-50 border border-red-100 rounded-2xl shadow-sm">
+                  <h3 className="text-xl font-bold mb-4 text-red-800 flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5" /> Signs of Dehydration
+                  </h3>
+                  <div className="grid grid-cols-2 gap-2 text-xs font-medium text-red-700">
+                    <div className="bg-white/50 p-2 rounded">Dark yellow urine</div>
+                    <div className="bg-white/50 p-2 rounded">Dry mouth or lips</div>
+                    <div className="bg-white/50 p-2 rounded">Fatigue & Headaches</div>
+                    <div className="bg-white/50 p-2 rounded">Constipation</div>
+                  </div>
+                  <p className="mt-4 text-xs text-red-800 font-bold italic">Thirst means you’re already dehydrated!</p>
                 </div>
               </section>
 
-              {/* Benefits of staying hydrated */}
-              <section>
-                <Card className="not-prose">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-green-500" />
-                      Benefits of Hitting Your Hydration Goal
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm space-y-3">
-                    <ul className="list-disc pl-4 space-y-2">
-                      <li><b>Flushes out wastes</b> through urination, perspiration, and bowel movements.</li>
-                      <li><b>Regulates body temperature</b> and prevents heat stroke.</li>
-                      <li><b>Lubricates and cushions joints</b>, reducing physical fatigue.</li>
-                      <li><b>Protects sensitive tissues</b> and the spinal cord.</li>
-                      <li><b>Boosts skin health</b> by maintaining elasticity and flushing toxins.</li>
+              {/* How to Drink correctly */}
+              <section className="bg-green-600 rounded-3xl p-8 text-white">
+                <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                  <GlassWater className="w-6 h-6" />
+                  How to Drink Water Correctly
+                </h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <h4 className="font-bold text-green-200 uppercase tracking-wider text-sm">Mistakes to Avoid:</h4>
+                    <ul className="space-y-2 text-sm opacity-90 list-disc pl-4">
+                      <li>Drinking massive amounts all at once</li>
+                      <li>Waiting until you are very thirsty</li>
                     </ul>
-                  </CardContent>
-                </Card>
+                  </div>
+                  <div className="space-y-4">
+                    <h4 className="font-bold text-green-200 uppercase tracking-wider text-sm">The Right Way:</h4>
+                    <ul className="space-y-2 text-sm opacity-90">
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-300" /> Sip water throughout the day</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-300" /> Start morning with 1 glass</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-300" /> Drink before meals</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              {/* Myths & Apps */}
+              <section className="space-y-8">
+                <div className="border-2 border-dashed border-gray-200 p-6 rounded-2xl">
+                  <h3 className="text-lg font-bold mb-3 text-gray-800">Apps vs. Calculators</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    A daily water intake calculator app can help with reminders, but they often overestimate needs and ignore local climate adjustments. The best approach is to use this calculator to set your target and use apps only as reminders.
+                  </p>
+                </div>
+
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-gray-800 mb-4">Common Myths About Water Intake</h3>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    <span className="bg-white border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 italic">"More water is always better" — False</span>
+                    <span className="bg-white border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 italic">"Urine must be crystal clear" — False</span>
+                    <span className="bg-white border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 italic">"Only water hydrates" — False</span>
+                  </div>
+                </div>
+              </section>
+
+              {/* Professional Footer CTA */}
+              <section className="not-prose mt-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white shadow-xl">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">Checking your health metrics?</h3>
+                    <p className="text-gray-300 max-w-md">
+                      Hydration is step one. Step two is understanding your body’s metabolic markers.
+                    </p>
+                  </div>
+                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                    <Link href="/health/eag-calculator">
+                      Check Average Glucose <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
               </section>
 
             </div>
 
-            {/* FAQ Section */}
-            <div className="mt-16">
+            {/* Structured FAQ UI */}
+            <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
           </div>

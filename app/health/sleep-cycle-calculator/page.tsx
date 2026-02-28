@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -7,7 +6,7 @@ import SleepCycleCalculator from "@/components/calculators/sleep-cycle-calculato
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data";
 import { FAQSection } from "@/components/seo/faq-section";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
-import { Moon, Sun, Clock, Brain, BatteryCharging, BedDouble, Activity } from "lucide-react";
+import { Moon, Clock, Brain, BatteryCharging, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
@@ -149,9 +148,9 @@ export default function SleepCycleCalculatorPage() {
                       <table className="w-full text-sm border-collapse">
                         <thead>
                           <tr className="bg-slate-50 dark:bg-slate-800 text-left">
-                            <th className="px-4 py-3 border-b font-semibold">Age Group</th>
-                            <th className="px-4 py-3 border-b font-semibold">Recommended Hours</th>
-                            <th className="px-4 py-3 border-b font-semibold">Total Sleep Cycles</th>
+                            <th scope="col" className="px-4 py-3 border-b font-semibold">Age Group</th>
+                            <th scope="col" className="px-4 py-3 border-b font-semibold">Recommended Hours</th>
+                            <th scope="col" className="px-4 py-3 border-b font-semibold">Total Sleep Cycles</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y">
@@ -214,7 +213,7 @@ export default function SleepCycleCalculatorPage() {
 
               {/* How to use the calculator effectively */}
               <section>
-                <h2 className="mb-2"><b>How to Use the Sleep Calculator Effectively</b></h2>
+                <h2 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-gray-100">How to Use the Sleep Calculator Effectively</h2>
                 <ul className="list-disc pl-5 space-y-2 mt-4">
                   <li><strong>Assess your sleep latency:</strong> Most people take 10-20 minutes to fall asleep. If you toss and turn for an hour, adjust the "Time to fall asleep" input to 60 minutes for accurate math.</li>
                   <li><strong>Aim for 5 cycles:</strong> For average adults, hitting the 7.5-hour mark (5 cycles) strikes the perfect balance between REM saturation and physical recovery.</li>

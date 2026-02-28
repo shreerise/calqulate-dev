@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -7,47 +6,65 @@ import CalorieDeficitCalculator from "@/components/calculators/calorie-deficit-c
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Flame, Activity, Apple, Scale, TrendingDown, Target, ShieldCheck } from "lucide-react"
+import {
+  Flame,
+  Calculator,
+  Target,
+  Dumbbell,
+  Info,
+  AlertCircle,
+  TrendingDown,
+  Table,
+  CheckCircle2,
+  ArrowRight,
+  Scale,
+  Utensils,
+  History
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Calorie Deficit Calculator: Find Your Target Weight Loss Calories",
-  description: "Calculate your exact calorie deficit for sustainable weight loss. Get your TDEE, personalized macronutrient splits, and a unique zig-zag diet schedule to prevent plateaus.",
-  keywords: "calorie deficit calculator, weight loss calculator, tdee calculator, how many calories to lose weight, calorie cycling, macro calculator, calorie deficit for weight loss",
+  title: "Calorie Deficit Calculator: Weight Loss & Fat Loss Tool | Free",
+  description:
+    "Calculate your maintenance calories and daily calorie deficit needed to lose weight safely. Learn the exact formula for fat loss and muscle preservation.",
+  keywords:
+    "calorie deficit calculator, calculate calorie deficit, weight loss calculator, fat loss calculator, BMR calculator, TDEE calculator, calorie deficit for weight loss",
 }
 
 const faqs = [
   {
-    question: "What is a calorie deficit?",
-    answer: "A calorie deficit occurs when you consume fewer calories from food and drink than your body burns through basal metabolic rate (BMR) and physical activity. This energy shortage forces your body to use stored fat for energy, leading to weight loss."
+    question: "How to calculate calorie deficit to lose weight?",
+    answer:
+      "First, calculate your maintenance calories (TDEE). Then, subtract a safe amount, typically 300–700 calories, to create your target daily intake.",
   },
   {
-    question: "How accurate is this calorie deficit calculator?",
-    answer: "Our calculator uses the Mifflin-St Jeor equation, which is widely recognized by health and fitness professionals as the most accurate standard for estimating Basal Metabolic Rate (BMR). Factoring in your daily activity level gives a highly reliable estimate of your Total Daily Energy Expenditure (TDEE)."
+    question: "How much calorie deficit is needed for weight loss?",
+    answer:
+      "A deficit of 500 calories per day is the gold standard, as it leads to approximately 0.5 kg of weight loss per week, which is sustainable and safe.",
   },
   {
-    question: "Is it safe to eat less than 1,200 calories a day?",
-    answer: "Generally, no. Health standards dictate that women should not consume fewer than 1,200 calories per day, and men should not consume fewer than 1,500 calories per day unless under direct medical supervision. Dropping below this can cause muscle loss, nutrient deficiencies, and metabolic slowdown."
+    question: "How much calorie deficit to lose fat (not muscle)?",
+    answer:
+      "A moderate deficit of 300–500 kcal combined with high protein intake (1.6–2.2g/kg) and strength training helps preserve muscle while losing fat.",
   },
   {
-    question: "What is Zig-Zag Calorie Cycling?",
-    answer: "Zig-zag calorie cycling is a dieting strategy where you alternate your daily calorie intake (e.g., eating more on weekends and less on weekdays) while keeping your overall weekly deficit the same. Our calculator automatically generates this schedule to help you avoid weight-loss plateaus and diet fatigue."
+    question: "How to find your calorie deficit manually?",
+    answer:
+      "It is your Maintenance Calories (TDEE) minus your daily caloric intake. If your TDEE is 2500 and you eat 2000, your deficit is 500.",
   },
   {
-    question: "Do I need to track my macros to lose weight?",
-    answer: "While a calorie deficit is the primary driver of weight loss, tracking your macronutrients (Protein, Fats, Carbs) ensures you lose fat rather than muscle. A higher protein intake, for example, helps preserve lean muscle and keeps you feeling full longer."
+    question: "Is it the same as a calorie deficiency calculator?",
+    answer:
+      "Yes, people often use these terms interchangeably. However, in nutrition, a 'deficit' is intentional for weight loss, while 'deficiency' usually refers to a lack of specific nutrients.",
   },
-  {
-    question: "Does my body shape affect my calorie deficit?",
-    answer: "Your body shape doesn't change the basic math of a calorie deficit, but it does indicate where you naturally store fat. For a complete wellness strategy, we recommend pairing your calorie insights with our Body Shape Calculator to understand your natural proportions and best workout styles."
-  }
 ]
 
-export default function CalorieDeficitCalculatorPage() {
+export default function CalorieDeficitPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <CalculatorSchema
         name="Calorie Deficit Calculator"
-        description="Discover your ideal calorie deficit for healthy weight loss. Includes TDEE calculation, macro splits, and a plateau-busting zig-zag schedule."
+        description="Calculate exactly how many calories you need to burn and consume to reach your weight loss goals."
         url="https://calqulate.net/health/calorie-deficit-calculator"
       />
       <FAQSchema faqs={faqs} />
@@ -57,191 +74,202 @@ export default function CalorieDeficitCalculatorPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            {/* Hero */}
+            {/* Hero Section */}
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Calorie Deficit Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Take the guesswork out of weight loss. Our advanced Calorie Deficit Calculator determines 
-                exactly how much you need to eat to lose weight sustainably. It calculates your TDEE, breaks down 
-                your ideal macros, and even builds a custom calorie-cycling schedule to prevent plateaus.
+                Calculate exactly how many calories you need to lose weight. Understand your BMR, TDEE, and the perfect deficit for sustainable fat loss.
               </p>
             </div>
 
             {/* Calculator Component */}
             <CalorieDeficitCalculator />
 
-            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
               
-              {/* Introduction */}
-              <section className="py-8">
-                <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
-                  The Science of Losing Weight: What is a Calorie Deficit?
+              {/* Core Definition */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <Flame className="w-6 h-6 text-green-600" />
+                  What Is a Calorie Deficit?
                 </h2>
-                <p className="mb-3 text-gray-700 leading-relaxed">
-                  Weight loss, at its core, is driven by energy balance. A <b>calorie deficit</b> happens when you supply 
-                  your body with fewer calories than it needs to maintain its current weight. To make up for this 
-                  energy shortfall, your body taps into its stored energy reserves (body fat), resulting in weight loss.
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  A calorie deficit happens when: <strong>Calories Burned &gt; Calories Consumed</strong>. When this happens consistently, your body uses stored fat for energy, leading to weight loss.
                 </p>
-                <p className="mb-3 text-gray-700 leading-relaxed">
-                  While simple in theory, finding the <i>right</i> deficit is crucial. Cut too few calories, and you won't see results. 
-                  Cut too many, and you risk losing muscle mass, slowing down your metabolism, and experiencing extreme fatigue.
-                </p>
-
-                <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-800">
-                      <Target className="w-5 h-5 text-blue-500" />
-                      More Than Just a Number
-                    </CardTitle>
-                    <CardDescription className="text-gray-600">
-                      Why our calculator stands out from the rest.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="grid md:grid-cols-2 gap-6 pt-2">
-                    <div className="text-gray-700 text-sm leading-relaxed">
-                      <ul className="list-disc pl-5 space-y-2">
-                        <li><b>Industry Standard Accuracy:</b> Uses the Mifflin-St Jeor formula.</li>
-                        <li><b>Macro Split Options:</b> Tailors protein, fat, and carbs to your diet style.</li>
-                        <li><b>Zig-Zag Dieting:</b> Provides a varied schedule to trick your metabolism.</li>
-                        <li><b>Safety First:</b> Warns against dangerously low calorie goals.</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gray-50 rounded-xl p-4 flex flex-col justify-center border border-gray-100">
-                       <p className="text-sm text-gray-600 italic">
-                         "Pair this insight with our <Link href="/health/body-shape-calculator" className="text-blue-600 hover:underline font-semibold">Body Shape Calculator</Link> to understand exactly how your body naturally distributes the fat you are working to lose."
-                       </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </section>
-
-              {/* TDEE and BMR */}
-              <section>
-                <h2 className="mb-2 font-semibold">
-                  <b>Understanding BMR and TDEE</b>
-                </h2>
-                <p className="mb-2">
-                  To calculate your deficit, we first need to determine your maintenance calories. We do this by calculating two important metrics:
-                </p>
-                <ul className="list-disc pl-5 space-y-3 mt-4">
-                  <li>
-                    <b>Basal Metabolic Rate (BMR):</b> This is the number of calories your body burns at complete rest just to keep you alive (breathing, circulating blood, cell production). For most people, BMR accounts for 60-75% of total daily calorie burn.
-                  </li>
-                  <li>
-                    <b>Total Daily Energy Expenditure (TDEE):</b> This is your BMR multiplied by an activity factor. It includes the calories burned through exercise, walking, working, and even digesting food. Your TDEE is your <b>Maintenance Level</b>.
-                  </li>
-                </ul>
-                <p className="mt-4">
-                  Once we have your TDEE, we subtract calories based on your goal (e.g., -500 calories a day to lose roughly 1 pound a week).
-                </p>
-              </section>
-
-              {/* Zig Zag Calorie Cycling */}
-              <section>
-                <Card className="not-prose border-primary/20 bg-primary/5">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-primary">
-                      <TrendingDown className="w-5 h-5" />
-                      The Secret Weapon: Zig-Zag Calorie Cycling
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm space-y-3">
-                    <p>
-                      Most calculators just give you a static number (e.g., "Eat 1,500 calories a day"). While effective at first, your body is incredibly smart. Over time, it adapts to a static low-calorie diet by slowing down your metabolism—a process called <i>adaptive thermogenesis</i>.
-                    </p>
-                    <p>
-                      <b>Calorie Cycling (Zig-Zag Dieting)</b> solves this. By eating higher calories on some days and lower calories on others, you:
-                    </p>
-                    <ul className="list-disc pl-5 space-y-1 font-medium">
-                      <li>Prevent your metabolism from adapting to a low intake.</li>
-                      <li>Enjoy more flexibility (e.g., eating more on weekends or heavy workout days).</li>
-                      <li>Reduce diet fatigue and mental burnout.</li>
-                    </ul>
-                    <p>
-                      Our calculator automatically provides a 7-day Zig-Zag schedule that matches your exact weekly deficit goal!
-                    </p>
-                  </CardContent>
-                </Card>
-              </section>
-
-              {/* Safe Limits */}
-              <section>
-                <Card className="not-prose">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <ShieldCheck className="w-5 h-5 text-green-600" />
-                      Safe Weight Loss Limits
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm space-y-3 text-muted-foreground">
-                    <p>
-                      Faster isn't always better. The medical consensus for safe, sustainable weight loss is <b>0.5 to 2 pounds (0.25 to 1 kg) per week</b>. 
-                    </p>
-                    <p>
-                      As a general rule, the National Institutes of Health (NIH) recommends that calorie intake should not fall below:
-                    </p>
-                    <ul className="list-disc pl-5 space-y-1 font-medium text-foreground">
-                      <li>1,200 calories per day for Women</li>
-                      <li>1,500 calories per day for Men</li>
-                    </ul>
-                    <p>
-                      If your calculated deficit puts you below these numbers, our calculator will flag it. In these cases, it's better to increase your physical activity rather than dropping your food intake further.
-                    </p>
-                  </CardContent>
-                </Card>
-              </section>
-
-              {/* Macros Explained */}
-              <section>
-                <h2 className="mb-2 font-semibold flex items-center gap-2">
-                  <Apple className="w-6 h-6 text-red-500" />
-                  Why Macronutrients Matter
-                </h2>
-                <p>
-                  Calories dictate <i>how much</i> weight you lose, but macronutrients (macros) dictate <i>what kind</i> of weight you lose (fat vs. muscle) and how you feel during the process.
-                </p>
-                <div className="grid md:grid-cols-3 gap-4 not-prose mt-6">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">🥩 Protein</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm">
-                      Essential for preserving muscle mass while in a deficit. It has the highest thermic effect (burns the most calories to digest) and keeps you feeling full.
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">🥑 Fats</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm">
-                      Crucial for hormonal balance, brain health, and absorbing vitamins. Never cut fats entirely out of your diet.
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">🍚 Carbohydrates</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm">
-                      Your body's preferred energy source. Needed for high-intensity workouts and general daily energy.
-                    </CardContent>
-                  </Card>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="p-4 bg-green-50 rounded-xl border border-green-100">
+                    <p className="font-bold text-green-800 text-sm">Weight Loss Speed</p>
+                    <p className="text-xs text-gray-600">Determined by the depth of your daily deficit.</p>
+                  </div>
+                  <div className="p-4 bg-green-50 rounded-xl border border-green-100">
+                    <p className="font-bold text-green-800 text-sm">Fat vs. Muscle</p>
+                    <p className="text-xs text-gray-600">A proper deficit ensures you lose fat, not muscle mass.</p>
+                  </div>
+                  <div className="p-4 bg-green-50 rounded-xl border border-green-100">
+                    <p className="font-bold text-green-800 text-sm">Sustainability</p>
+                    <p className="text-xs text-gray-600">Calculated deficits prevent extreme hunger and rebounding.</p>
+                  </div>
                 </div>
               </section>
 
-              {/* Final Encouragement */}
+              {/* Step by Step Guide */}
               <section>
-                <h2 className="mb-2">
-                  <b>Ready to Start Your Journey?</b>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">How to Calculate Calorie Deficit (Step-by-Step)</h2>
+                <div className="space-y-8">
+                  <div className="flex gap-4">
+                    <div className="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">1</div>
+                    <div>
+                      <h4 className="font-bold text-gray-800">Calculate Your BMR (Basal Metabolic Rate)</h4>
+                      <p className="text-sm text-gray-600 mb-2">We use the Mifflin-St Jeor Formula, the most accurate for adults:</p>
+                      <div className="bg-gray-50 p-3 rounded-lg text-xs font-mono">
+                        Men: (10 × wt kg) + (6.25 × ht cm) − (5 × age) + 5 <br />
+                        Women: (10 × wt kg) + (6.25 × ht cm) − (5 × age) − 161
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">2</div>
+                    <div>
+                      <h4 className="font-bold text-gray-800">Calculate Your TDEE (Total Daily Energy Expenditure)</h4>
+                      <p className="text-sm text-gray-600">Multiply your BMR by your activity level multiplier:</p>
+                      <Card className="not-prose mt-3 overflow-hidden border-green-100">
+                        <table className="w-full text-xs text-left">
+                          <thead className="bg-green-50">
+                            <tr>
+                              <th className="px-4 py-2">Activity Level</th>
+                              <th className="px-4 py-2">Multiplier</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100">
+                            <tr><td className="px-4 py-2">Sedentary</td><td className="px-4 py-2">1.2</td></tr>
+                            <tr><td className="px-4 py-2">Light Exercise</td><td className="px-4 py-2">1.375</td></tr>
+                            <tr><td className="px-4 py-2">Moderate Exercise</td><td className="px-4 py-2">1.55</td></tr>
+                            <tr><td className="px-4 py-2">Very Active</td><td className="px-4 py-2">1.725</td></tr>
+                          </tbody>
+                        </table>
+                      </Card>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">3</div>
+                    <div>
+                      <h4 className="font-bold text-gray-800">Apply the Calorie Deficit Formula</h4>
+                      <p className="text-sm text-gray-600 bg-green-50 p-3 rounded-lg border-l-4 border-green-600">
+                        <strong>Calorie Deficit = Maintenance Calories (TDEE) − Target Intake</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Loss Targets Table */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <Target className="w-6 h-6 text-green-600" />
+                  Safe Fat Loss Deficit Targets
                 </h2>
-                <p>
-                  Use the Calorie Deficit Calculator above to find your targets. Remember that consistency is more important than perfection. 
-                  Hit your calorie goals 80% of the time, stay active, and be patient with your body. 
+                <Card className="not-prose overflow-hidden border-green-200">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-green-600 text-white">
+                        <th className="px-6 py-4 text-left font-bold">Daily Deficit</th>
+                        <th className="px-6 py-4 text-left font-bold">Expected Weekly Loss</th>
+                        <th className="px-6 py-4 text-left font-bold">Effort Level</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr><td className="px-6 py-4">300 kcal</td><td className="px-6 py-4">~0.25 kg</td><td className="px-6 py-4 text-green-600 font-medium">Easy/Slow</td></tr>
+                      <tr className="bg-green-50/30"><td className="px-6 py-4">500 kcal</td><td className="px-6 py-4">~0.5 kg</td><td className="px-6 py-4 text-green-700 font-bold">Sustainable</td></tr>
+                      <tr><td className="px-6 py-4">750 kcal</td><td className="px-6 py-4">~0.7 kg</td><td className="px-6 py-4 text-yellow-600 font-medium">Moderate</td></tr>
+                      <tr className="bg-green-50/30"><td className="px-6 py-4">1000 kcal</td><td className="px-6 py-4">~1 kg</td><td className="px-6 py-4 text-red-600 font-bold">Aggressive</td></tr>
+                    </tbody>
+                  </table>
+                </Card>
+                <p className="mt-4 text-sm text-gray-600">
+                  <strong>How Many Calories Deficit to Lose 1kg?</strong> 1 kg of fat ≈ 7,700 calories. To lose 1kg in a week, you'd need an 1,100 calorie daily deficit, which is aggressive and not ideal for most.
                 </p>
-                <p className="mt-4">
-                  For a full understanding of your body's transformation, track your progress alongside our <Link href="/health/body-shape-calculator" className="text-primary hover:underline">Body Shape Calculator</Link> to see how your proportions evolve as you shed fat!
+              </section>
+
+              {/* Fat Loss vs Muscle */}
+              <section className="grid md:grid-cols-2 gap-8">
+                <div className="p-6 bg-white border border-green-100 rounded-2xl shadow-sm">
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Dumbbell className="text-green-600 w-5 h-5" /> Lose Fat, Not Muscle
+                  </h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-600" /> Keep deficit moderate (300-500)</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-600" /> Eat 1.6–2.2g of protein per kg</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-600" /> Prioritize strength training</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-600" /> Avoid crash dieting</li>
+                  </ul>
+                </div>
+                <div className="p-6 bg-red-50 border border-red-100 rounded-2xl shadow-sm">
+                  <h3 className="text-xl font-bold mb-4 text-red-800 flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5" /> Common Mistakes
+                  </h3>
+                  <ul className="text-xs space-y-2 text-red-900/80">
+                    <li><strong>Eating too little:</strong> Leads to metabolic adaptation.</li>
+                    <li><strong>Untracked oils/sauces:</strong> Hidden calories remove your deficit.</li>
+                    <li><strong>Weekend overeating:</strong> Canceling out the weekday deficit.</li>
+                    <li><strong>Overestimating exercise:</strong> Gym sessions burn less than you think.</li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* Plateau Section */}
+              <section className="bg-green-600 rounded-3xl p-8 text-white">
+                <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                  <History className="w-6 h-6" />
+                  Managing Weight Loss Plateaus
+                </h2>
+                <p className="mb-6 opacity-90">Most calculators don’t mention metabolic adaptation — but it matters. If you stop losing weight:</p>
+                <div className="grid md:grid-cols-2 gap-4 text-sm">
+                  <div className="bg-white/10 p-4 rounded-xl">
+                    <strong>Recalculate:</strong> A lighter body burns fewer calories. Update your weight in the calculator monthly.
+                  </div>
+                  <div className="bg-white/10 p-4 rounded-xl">
+                    <strong>Diet Breaks:</strong> Spend 1–2 weeks eating at maintenance to reset your hormones and metabolism.
+                  </div>
+                </div>
+              </section>
+
+              {/* Realistic Expectations */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Realistic Expectations</h2>
+                <p className="text-gray-700 mb-4">A healthy fat loss rate is <strong>0.5–1% of body weight per week</strong>. For an 80kg person, losing 0.4–0.8 kg per week is realistic and sustainable. Faster loss increases the risk of a weight rebound.</p>
+                <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                  <h4 className="font-bold text-gray-800 mb-2">The "Free Calorie Deficit Calculator" Quality Standard:</h4>
+                  <p className="text-sm text-gray-600">An accurate tool must use the Mifflin-St Jeor formula, adjust for activity, allow for goal-based selection, and warn against cutting calories below your BMR.</p>
+                </div>
+              </section>
+
+              {/* Final Takeaway */}
+              <section className="text-center pt-8 border-t">
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Final Takeaway</h3>
+                <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed italic">
+                  Weight loss is not about starving. It’s about creating a controlled, sustainable calorie deficit. The best results happen when the deficit is moderate, protein is adequate, and progress is tracked weekly.
                 </p>
+              </section>
+
+              {/* CTA Section */}
+              <section className="not-prose mt-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white shadow-xl">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">Curious about your hydration?</h3>
+                    <p className="text-gray-300 max-w-md">
+                      When dieting, water intake becomes even more critical for metabolic health.
+                    </p>
+                  </div>
+                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                    <Link href="/health/water-intake-calculator">
+                      Check Water Intake <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
               </section>
 
             </div>

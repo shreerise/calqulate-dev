@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -7,263 +6,305 @@ import BreastCancerRiskCalculator from "@/components/calculators/breast-cancer-r
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Activity, Shield, BookOpen, Stethoscope, AlertTriangle, HeartPulse, ClipboardList } from "lucide-react"
+import {
+  ShieldCheck,
+  Activity,
+  Users,
+  Info,
+  Scale,
+  Stethoscope,
+  AlertTriangle,
+  CheckCircle2,
+  ArrowRight,
+  FileText,
+  History,
+  Beaker,
+  TrendingUp
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Breast Cancer Risk Calculator | Assess Your Risk Profile Instantly",
+  title: "Breast Cancer Risk Calculator: Personalized Risk Assessment",
   description:
-    "Evaluate your breast cancer risk with our comprehensive Breast Cancer Risk Assessment Tool. Based on standard clinical models (like the Gail Model), get personalized screening guidelines and health insights.",
+    "Estimate your 5-year and lifetime breast cancer risk using validated models like Gail and Tyrer-Cuzick. Understand your risk factors and screening needs.",
   keywords:
-    "breast cancer risk calculator, gail model calculator, breast cancer risk assessment tool, breast cancer screening guidelines, high risk breast cancer calculator, family history breast cancer risk, mammogram calculator",
+    "breast cancer risk calculator, gail model breast cancer, tyrer-cuzick score, breast cancer risk assessment tool, lifetime risk assessment, family history breast cancer calculator",
 }
 
 const faqs = [
   {
-    question: "What is a Breast Cancer Risk Calculator?",
+    question: "What is a breast cancer risk assessment?",
     answer:
-      "A Breast Cancer Risk Calculator is an educational tool that uses established medical risk factors—such as age, reproductive history, and family history—to estimate your relative risk of developing breast cancer compared to the average population. It helps guide conversations with your healthcare provider.",
+      "A breast cancer risk assessment is a statistical estimate of your probability of developing breast cancer over a specific timeframe (usually 5 years or lifetime) based on population data.",
   },
   {
-    question: "Is this tool the same as the Gail Model?",
+    question: "What is the Gail Model?",
     answer:
-      "This calculator is heavily inspired by standard clinical assessment models like the Breast Cancer Risk Assessment Tool (BCRAT / Gail Model). It evaluates similar key risk factors to provide a relative risk category, but it is designed for educational purposes and should not replace a clinical evaluation by your doctor.",
+      "The Gail Model (Breast Cancer Risk Assessment Tool) is a validated prediction model used primarily for the general population. It considers age, reproductive history, and limited family history.",
   },
   {
-    question: "What are the most significant risk factors for breast cancer?",
+    question: "What is the Tyrer Cuzick score?",
     answer:
-      "The most significant non-modifiable risk factors include being born female, advancing age, inherited gene mutations (like BRCA1 and BRCA2), dense breast tissue, and a strong family history of the disease. Modifiable factors include alcohol consumption, physical inactivity, and certain hormone replacement therapies.",
+      "The Tyrer-Cuzick (IBIS) score is a more comprehensive risk model that incorporates extended family history on both sides, genetic mutation probabilities, HRT use, and breast density.",
   },
   {
-    question: "Can men get breast cancer?",
+    question: "What is considered high lifetime risk?",
     answer:
-      "Yes. While it is much more common in women, men can also develop breast cancer. However, this specific calculator is optimized for female reproductive and physiological risk factors, as standard models (like the Gail model) were developed using female demographic data.",
+      "A lifetime risk of above 20% is generally considered high. Individuals in this category may qualify for enhanced screening, such as annual MRIs alongside mammograms.",
   },
   {
-    question: "If my risk is high, does that mean I will definitely get cancer?",
+    question: "Does family history guarantee cancer?",
     answer:
-      "Absolutely not. A 'High' or 'Elevated' risk score simply means your statistical probability is higher than average based on demographic data. Many women with elevated risk never develop breast cancer, and some women with average risk do. This score is meant to empower you to start proactive screening.",
+      "No. While family history increases the probability, it does not mean you will definitely develop the disease. It serves as a guide for proactive screening.",
   },
   {
-    question: "When should I start getting mammograms?",
+    question: "Should I take a lifetime risk assessment test?",
     answer:
-      "According to the American Cancer Society, women at average risk should have the option to start annual mammograms at age 40, and are highly recommended to start by age 45. Women at high risk may need to start earlier and include MRI screenings. Always consult your doctor for a personalized timeline.",
-  },
-  {
-    question: "Does having a breast biopsy mean I am at higher risk?",
-    answer:
-      "Not necessarily, but the *results* of the biopsy matter. If a past biopsy showed Atypical Hyperplasia or Lobular Carcinoma in Situ (LCIS), it significantly increases your risk profile. If the biopsy was entirely benign with no atypia, the risk increase is very minimal.",
+      "If you are over 35, have a family history of breast or ovarian cancer, or have dense breast tissue, a risk assessment can provide valuable guidance for your screening schedule.",
   },
 ]
 
-export default function BreastCancerRiskCalculatorPage() {
+export default function BreastCancerRiskPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <CalculatorSchema
-        name="Breast Cancer Risk Assessment Tool"
-        description="Estimate your relative risk of breast cancer based on established medical risk factors and receive personalized screening recommendations."
+        name="Breast Cancer Risk Calculator"
+        description="Personalized assessment to estimate 5-year and lifetime breast cancer risk based on medical and family history."
         url="https://calqulate.net/health/breast-cancer-risk-calculator"
       />
       <FAQSchema faqs={faqs} />
 
       <Header />
 
-      <main className="flex-1 bg-gray-50/50 dark:bg-gray-900/50">
+      <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            {/* Hero */}
+            {/* Hero Section */}
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center p-3 bg-pink-100 dark:bg-pink-900/30 rounded-full mb-4">
-                <HeartPulse className="w-8 h-8 text-pink-600 dark:text-pink-400" />
-              </div>
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-                Breast Cancer Risk Assessment Tool
+                Breast Cancer Risk Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Empower your health journey. Evaluate your personal risk factors, understand your
-                relative risk profile, and discover personalized, standard-compliant screening guidelines.
+                Understanding your personal risk is powerful. Use this personalized assessment to estimate your 5-year and lifetime breast cancer risk and plan your screening schedule.
               </p>
-              
-              <div className="mt-6 flex items-center justify-center p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg text-sm text-yellow-800 dark:text-yellow-200 text-left max-w-3xl mx-auto">
-                <AlertTriangle className="w-6 h-6 mr-3 flex-shrink-0 text-yellow-600 dark:text-yellow-500" />
-                <p>
-                  <strong>Medical Disclaimer:</strong> This tool is for educational purposes only and does not provide medical advice or diagnosis. It is designed to estimate relative risk based on standard clinical parameters (such as the Gail Model). Always consult a healthcare professional for clinical diagnoses and screening decisions.
-                </p>
-              </div>
             </div>
 
             {/* Calculator Component */}
             <BreastCancerRiskCalculator />
 
-            <div className="prose prose-gray dark:prose-invert max-w-none mt-16 space-y-16">
-              {/* Introduction Section */}
-              <section className="py-8">
-                <h2 className="mb-4 text-2xl font-semibold text-gray-800 dark:text-gray-100 border-b border-gray-200 pb-2">
-                  Understanding the Breast Cancer Risk Calculator
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
+              
+              {/* Core Definition */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <Info className="w-6 h-6 text-green-600" />
+                  What Is a Breast Cancer Risk Assessment?
                 </h2>
-                <p className="mb-3 text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Our Breast Cancer Risk Assessment Tool is engineered to help women estimate their risk of developing invasive breast cancer over their lifetime. Modeled after gold-standard clinical assessments like the <strong>Gail Model (BCRAT)</strong> and the <strong>Tyrer-Cuzick</strong> models, it evaluates specific personal and family history data to classify your relative risk.
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  A breast cancer risk assessment evaluates multiple factors to estimate your probability of developing breast cancer over time. It is not a diagnosis, but a statistical estimate based on population data to help guide your screening decisions.
                 </p>
-                <p className="mb-3 text-gray-700 dark:text-gray-300 leading-relaxed">
-                  What makes our calculator stand out is its focus on <strong>actionability</strong>. Instead of leaving you with a confusing percentage, it translates your risk factors into a clear, personalized screening roadmap based on American Cancer Society (ACS) guidelines.
-                </p>
-
-                <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl not-prose">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-lg font-medium">
-                      <Stethoscope className="w-5 h-5 text-pink-500" />
-                      Key Risk Factors Analyzed
-                    </CardTitle>
-                    <CardDescription>
-                      This tool evaluates several established components of breast cancer risk:
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="grid md:grid-cols-2 gap-6 pt-2 text-sm">
-                    <ul className="space-y-3">
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-pink-500 mt-1.5 flex-shrink-0" />
-                        <span><strong>Current Age:</strong> Risk increases naturally as you get older.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-pink-500 mt-1.5 flex-shrink-0" />
-                        <span><strong>Age at Menarche:</strong> Starting menstruation before age 12 slightly increases lifetime estrogen exposure.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-pink-500 mt-1.5 flex-shrink-0" />
-                        <span><strong>Age at First Live Birth:</strong> Having a first child after 30, or never giving birth, alters risk profiles.</span>
-                      </li>
-                    </ul>
-                    <ul className="space-y-3">
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-pink-500 mt-1.5 flex-shrink-0" />
-                        <span><strong>Family History:</strong> Having 1st-degree relatives (mother, sister, daughter) with breast cancer heavily impacts risk.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-pink-500 mt-1.5 flex-shrink-0" />
-                        <span><strong>Biopsy History:</strong> Previous breast biopsies, especially those showing Atypical Hyperplasia, are significant indicators.</span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="p-4 bg-green-50 rounded-xl border border-green-100 text-center">
+                    <p className="font-bold text-green-800 text-sm">5-Year Risk</p>
+                    <p className="text-xs text-gray-600">Short-term probability estimate.</p>
+                  </div>
+                  <div className="p-4 bg-green-50 rounded-xl border border-green-100 text-center">
+                    <p className="font-bold text-green-800 text-sm">10-Year Risk</p>
+                    <p className="text-xs text-gray-600">Mid-term risk projection.</p>
+                  </div>
+                  <div className="p-4 bg-green-50 rounded-xl border border-green-100 text-center">
+                    <p className="font-bold text-green-800 text-sm">Lifetime Risk</p>
+                    <p className="text-xs text-gray-600">Total probability up to age 80-90.</p>
+                  </div>
+                </div>
               </section>
 
-              {/* Modifiable vs Non Modifiable */}
+              {/* Models Card */}
               <section>
-                <h2 className="mb-4 font-semibold text-2xl">
-                  Modifiable vs. Non-Modifiable Risk Factors
-                </h2>
-                <p className="mb-6">
-                  Knowledge is power. While you cannot change certain aspects of your biology, there are many lifestyle choices you can make to actively lower your risk of developing breast cancer.
-                </p>
-
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Major Breast Cancer Risk Models Explained</h2>
                 <div className="grid md:grid-cols-2 gap-6 not-prose">
-                  <Card className="border-l-4 border-l-gray-400">
-                    <CardHeader>
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <Shield className="w-5 h-5 text-gray-500" />
-                        Non-Modifiable (You Can't Change)
+                  <Card className="border-green-100 shadow-sm">
+                    <CardHeader className="bg-green-50/50">
+                      <CardTitle className="text-lg font-bold text-green-800 flex items-center gap-2">
+                        <FileText className="w-5 h-5" /> Gail Model
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="text-sm space-y-2">
-                      <ul className="list-disc pl-5 space-y-2">
-                        <li><strong>Age & Gender:</strong> Being female and growing older are the two biggest factors.</li>
-                        <li><strong>Genetics:</strong> Inherited mutations (BRCA1, BRCA2, PALB2).</li>
-                        <li><strong>Family History:</strong> Having close blood relatives who have had the disease.</li>
-                        <li><strong>Dense Breast Tissue:</strong> Makes mammograms harder to read and slightly increases risk.</li>
-                        <li><strong>Menstrual History:</strong> Early periods (before 12) or late menopause (after 55).</li>
-                      </ul>
+                    <CardContent className="pt-4 text-sm text-gray-600 space-y-2">
+                      <p>Widely used for general population screening. It considers age, biopsy history, and first-degree family history.</p>
+                      <p className="font-semibold text-green-700">Best for: General screening decisions.</p>
                     </CardContent>
                   </Card>
-
-                  <Card className="border-l-4 border-l-green-500">
-                    <CardHeader>
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <Activity className="w-5 h-5 text-green-500" />
-                        Modifiable (You Can Control)
+                  <Card className="border-green-100 shadow-sm">
+                    <CardHeader className="bg-green-50/50">
+                      <CardTitle className="text-lg font-bold text-green-800 flex items-center gap-2">
+                        <Beaker className="w-5 h-5" /> Tyrer-Cuzick (IBIS)
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="text-sm space-y-2">
-                      <ul className="list-disc pl-5 space-y-2">
-                        <li><strong>Physical Activity:</strong> Regular exercise (150 mins/week) significantly lowers risk.</li>
-                        <li><strong>Weight Management:</strong> Maintaining a healthy weight, especially after menopause.</li>
-                        <li><strong>Alcohol Intake:</strong> Limiting alcohol (even small amounts can increase risk).</li>
-                        <li><strong>Hormone Therapy:</strong> Limiting the duration of combined hormone replacement therapy (HRT) after menopause.</li>
-                        <li><strong>Breastfeeding:</strong> Breastfeeding for several months can reduce breast cancer risk.</li>
-                      </ul>
+                    <CardContent className="pt-4 text-sm text-gray-600 space-y-2">
+                      <p>More comprehensive. Includes extended family history, breast density, and HRT use.</p>
+                      <p className="font-semibold text-green-700">Best for: High-risk clinics and detailed assessment.</p>
                     </CardContent>
                   </Card>
                 </div>
               </section>
 
-              {/* Standard Screening Guidelines */}
+              {/* Risk Interpretation Table */}
               <section>
-                <Card className="not-prose bg-primary/5 border-primary/20">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <ClipboardList className="w-6 h-6 text-primary" />
-                      Standard Breast Cancer Screening Guidelines
-                    </CardTitle>
-                    <CardDescription>
-                      Based on the American Cancer Society (ACS) recommendations for women at <strong>Average Risk</strong>.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm border-collapse bg-white dark:bg-gray-950 rounded-lg overflow-hidden shadow-sm">
-                        <thead className="bg-muted">
-                          <tr>
-                            <th className="px-4 py-3 text-left font-semibold border-b">Age Group</th>
-                            <th className="px-4 py-3 text-left font-semibold border-b">Recommendation</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y">
-                          <tr>
-                            <td className="px-4 py-3 font-medium text-nowrap">Ages 40 to 44</td>
-                            <td className="px-4 py-3 text-muted-foreground">
-                              Should have the choice to start annual breast cancer screening with mammograms if they wish to do so.
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium text-nowrap">Ages 45 to 54</td>
-                            <td className="px-4 py-3 font-semibold text-primary">
-                              Should get mammograms every year.
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium text-nowrap">Ages 55 and older</td>
-                            <td className="px-4 py-3 text-muted-foreground">
-                              Can switch to mammograms every 2 years, or can continue yearly screening. Screening should continue as long as a woman is in good health and is expected to live 10 more years or longer.
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-4 italic">
-                      * Women who are at High Risk (due to family history, genetic tendency, or past breast cancer) may need to start MRI and mammogram screenings earlier (often around age 30).
-                    </p>
-                  </CardContent>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <Scale className="w-6 h-6 text-green-600" />
+                  Understanding Your Risk Score
+                </h2>
+                <Card className="not-prose overflow-hidden border-green-200">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-green-600 text-white">
+                        <th className="px-6 py-4 text-left font-bold">Lifetime Risk</th>
+                        <th className="px-6 py-4 text-left font-bold">Interpretation</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr>
+                        <td className="px-6 py-4 font-bold text-green-700">&lt;15%</td>
+                        <td className="px-6 py-4">Average risk (Population average is ~12%)</td>
+                      </tr>
+                      <tr className="bg-green-50/30">
+                        <td className="px-6 py-4 font-bold text-yellow-600">15–20%</td>
+                        <td className="px-6 py-4">Moderate risk</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-bold text-red-600">&gt;20%</td>
+                        <td className="px-6 py-4">High risk (Earlier screening recommended)</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </Card>
+                <p className="mt-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg border-l-4 border-green-600">
+                  <strong>Who is High Risk?</strong> Women with &gt;20% lifetime risk may qualify for earlier mammograms, annual MRI screening, and targeted preventive strategies.
+                </p>
               </section>
 
-              {/* Why choose this tool */}
-              <section>
-                <h2 className="mb-4 text-2xl font-semibold border-b border-gray-200 pb-2">
-                  Why Use Our Calculator?
+              {/* Age and Family History */}
+              <section className="grid md:grid-cols-2 gap-12">
+                <div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <History className="text-green-600 w-5 h-5" /> Risk of Breast Cancer by Age
+                  </h3>
+                  <div className="space-y-2 text-sm text-gray-700">
+                    <p>Risk increases as you age, with most cases occurring after age 50:</p>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li><strong>Age 30:</strong> Generally Low risk</li>
+                      <li><strong>Age 40:</strong> Risk starts increasing</li>
+                      <li><strong>Age 50:</strong> Moderate risk levels</li>
+                      <li><strong>Age 60+:</strong> Highest risk category</li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Users className="text-green-600 w-5 h-5" /> Family History Impacts
+                  </h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    Risk is significantly higher if a first-degree relative (mother/sister) was diagnosed before age 50, if multiple relatives are affected, or if there is a history of ovarian cancer in the family.
+                  </p>
+                </div>
+              </section>
+
+              {/* Advanced Risk Factors */}
+              <section className="bg-green-600 rounded-3xl p-8 text-white">
+                <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                  <Beaker className="w-6 h-6" />
+                  Advanced Risk Factors: HRT & Genetics
                 </h2>
-                <p>
-                  While you may find tools like the <strong>MDCalc Gail Model</strong> or government-backed platforms, our interface is specifically built to be user-friendly, reducing medical anxiety while providing highly accurate, guidelines-based advice.
-                </p>
-                <ul className="space-y-2 mt-4">
-                  <li><strong>Complete Privacy:</strong> Your sensitive health data is processed entirely in your browser. We do not store or track your inputs.</li>
-                  <li><strong>Action-Oriented:</strong> We don't just calculate risk; we give you the exact questions to ask your doctor.</li>
-                  <li><strong>Holistic View:</strong> Integrates seamlessly with our BMI and Body Shape calculators so you can track your modifiable risk factors (like weight and fat distribution) in one place.</li>
+                <div className="grid md:grid-cols-2 gap-8 text-sm">
+                  <div className="bg-white/10 p-5 rounded-2xl">
+                    <h4 className="font-bold text-green-200 mb-2">Hormone Therapy (HRT)</h4>
+                    <p className="opacity-90 leading-relaxed">
+                      HRT can slightly increase risk depending on the type and duration. Combination estrogen-progestin therapy generally carries a higher risk than estrogen alone. Advanced models include this in the calculation.
+                    </p>
+                  </div>
+                  <div className="bg-white/10 p-5 rounded-2xl">
+                    <h4 className="font-bold text-green-200 mb-2">Genetic Testing vs. Calculator</h4>
+                    <p className="opacity-90 leading-relaxed">
+                      Calculators provide statistical estimates based on history. Genetic testing (BRCA1/BRCA2) detects actual mutations. High calculator scores often prompt a referral for genetic testing.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Modifiable Factors */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <TrendingUp className="w-6 h-6 text-green-600" />
+                  How to Lower Breast Cancer Risk
+                </h2>
+                <p className="text-gray-700 mb-6">Even if your calculated risk is elevated, modifiable lifestyle factors play a massive role in prevention:</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 not-prose">
+                  <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Maintain healthy weight
+                  </div>
+                  <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Exercise regularly
+                  </div>
+                  <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Limit alcohol intake
+                  </div>
+                  <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Avoid smoking
+                  </div>
+                  <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Breastfeed if possible
+                  </div>
+                  <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Regular Screenings
+                  </div>
+                </div>
+              </section>
+
+              {/* What score does not mean */}
+              <section className="border-2 border-dashed border-red-100 p-6 rounded-2xl bg-red-50/30">
+                <h3 className="text-lg font-bold mb-3 flex items-center gap-2 text-red-800">
+                  <AlertTriangle className="w-5 h-5" /> What Your Risk Score Does NOT Mean
+                </h3>
+                <ul className="text-sm text-red-900/80 space-y-2 list-disc pl-5">
+                  <li>It does <strong>not</strong> mean you will definitely develop cancer.</li>
+                  <li>It does <strong>not</strong> replace the need for regular mammograms.</li>
+                  <li>It is <strong>not</strong> a definitive genetic test for mutations.</li>
                 </ul>
+                <p className="mt-4 text-xs italic text-gray-500">The goal of this tool is to guide prevention decisions, not to cause anxiety.</p>
+              </section>
+
+              {/* Final Takeaway */}
+              <section className="text-center pt-8 border-t">
+                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-2">
+                  <ShieldCheck className="w-6 h-6 text-green-600" />
+                  Final Takeaway
+                </h3>
+                <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed italic">
+                  "Knowledge reduces fear. Understanding your risk allows for proactive care. A breast cancer risk calculator is not about anxiety — it’s about early awareness and smarter screening."
+                </p>
+              </section>
+
+              {/* CTA Section */}
+              <section className="not-prose mt-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white shadow-xl">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">Assess your overall health?</h3>
+                    <p className="text-gray-300 max-w-md">
+                      Weight management is a key factor in cancer prevention. Check your BMI and body metrics next.
+                    </p>
+                  </div>
+                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                    <Link href="/health/bmr-calculator">
+                      Metabolic Rate Tool <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
               </section>
 
             </div>
 
             {/* Structured FAQ UI */}
-            <div className="mt-16">
-              <h2 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
+            <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
           </div>
