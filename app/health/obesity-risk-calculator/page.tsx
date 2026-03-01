@@ -58,28 +58,44 @@ export default function ObesityRiskCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             
-            {/* Hero Section */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
-                <Stethoscope className="w-4 h-4" />
-                <span>Advanced Medical Standards</span>
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-                Obesity Risk Calculator
-              </h1>
-              <p className="text-lg text-muted-foreground text-pretty">
-                Discover your true metabolic health profile. Unlike standard calculators, our tool combines 
-                Body Mass Index (BMI), Waist-to-Height Ratio (
-                <Link
-                  href="/health/waist-to-height-ratio-calculator"
-                  className="font-medium hover:underline hover:text-green-700 transition-colors"
-                >
-                  WHtR
-                </Link>
-                ), and lifestyle factors to give you 
-                a highly accurate, personalized obesity risk assessment.
-              </p>
+              {/* Hero Section */}
+          <div className="text-center mb-12">
+
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
+              <Stethoscope className="w-4 h-4" />
+              <span>Advanced Medical Standards</span>
             </div>
+
+            <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+              Obesity Risk Calculator
+            </h1>
+
+            <p className="text-lg text-muted-foreground text-pretty max-w-3xl mx-auto">
+              Discover your true metabolic health profile. Unlike standard calculators, our tool combines 
+              Body Mass Index (BMI), Waist-to-Height Ratio (
+              <Link
+                href="/health/waist-to-height-ratio-calculator"
+                className="font-medium hover:underline hover:text-green-700 transition-colors"
+              >
+                WHtR
+              </Link>
+              ), and lifestyle factors to give you 
+              a highly accurate, personalized obesity risk assessment.
+            </p>
+
+            {/* Hero Image */}
+            <div className="mt-10 flex justify-center">
+              <Image
+                src="/obesity-risk-calculator.png"
+                alt="Obesity risk calculator chart showing BMI and waist to height ratio health risk levels"
+                width={950}
+                height={520}
+                className="rounded-2xl shadow-xl border border-blue-100"
+                priority
+              />
+            </div>
+
+          </div>
 
             {/* Main Calculator Component */}
             <ObesityRiskCalculator />
