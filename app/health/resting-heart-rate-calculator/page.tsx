@@ -6,6 +6,7 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { HeartPulse, Activity, Info, ShieldAlert, Timer, TrendingUp, Users } from "lucide-react"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Resting Heart Rate Calculator: Check Your Heart Health Instantly",
@@ -52,7 +53,14 @@ export default function HeartRatePage() {
                 Resting Heart Rate Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Your resting heart rate is a powerful indicator of your cardiovascular fitness and overall health. 
+                Your resting heart rate is a powerful indicator of your{" "}
+                <Link
+                  href="/health/vo2-max-calculator"
+                  className="font-medium hover:underline hover:text-green-700 transition-colors"
+                >
+                  cardiovascular fitness
+                </Link>{" "}
+                and overall health. 
                 Use our professional-grade calculator to measure your pulse, interpret your results, and see where you stand compared to global health standards.
               </p>
             </div>
@@ -79,7 +87,7 @@ export default function HeartRatePage() {
                     <CardTitle className="text-lg flex items-center gap-2">
                       <TrendingUp className="w-5 h-5 text-red-600" />
                       Why It Matters
-                    </CardTitle>
+                    </CardTitle>  
                   </CardHeader>
                   <CardContent className="text-sm text-gray-700">
                     Studies show that a higher resting heart rate is linked to a higher risk of cardiovascular disease. Monitoring your RHR over time can help you track fitness gains or identify potential health issues early.

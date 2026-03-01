@@ -142,32 +142,93 @@ export default function HeartAgeCalculatorPage() {
                     </p>
                     <div className="grid md:grid-cols-2 gap-6">
                       <ul className="space-y-3">
+
+                        {/* Blood Pressure (Already Linked) */}
                         <li className="flex items-start gap-2 text-sm text-gray-700">
                           <CheckCircle2 className="w-4 h-4 text-red-600 mt-1 shrink-0" />
-                          <span><strong>Blood Pressure:</strong> Higher pressure strains the heart and arteries.</span>
+                          <span>
+                            <strong>
+                              <Link
+                                href="/health/blood-pressure-calculator"
+                                className="hover:underline hover:text-red-700 transition-colors"
+                              >
+                                Blood Pressure
+                              </Link>
+                              :
+                            </strong>{" "}
+                            Higher pressure strains the heart and arteries.
+                          </span>
                         </li>
+
+                        {/* Cholesterol */}
                         <li className="flex items-start gap-2 text-sm text-gray-700">
                           <CheckCircle2 className="w-4 h-4 text-red-600 mt-1 shrink-0" />
-                          <span><strong>Cholesterol:</strong> High LDL or low HDL contributes to plaque buildup.</span>
+                          <span>
+                            <strong>
+                              <Link
+                                href="/health/cholesterol-calculator"
+                                className="hover:underline hover:text-red-700 transition-colors"
+                              >
+                                Cholesterol
+                              </Link>
+                              :
+                            </strong>{" "}
+                            High LDL or low HDL contributes to plaque buildup.
+                          </span>
                         </li>
+
+                        {/* Diabetes */}
                         <li className="flex items-start gap-2 text-sm text-gray-700">
                           <CheckCircle2 className="w-4 h-4 text-red-600 mt-1 shrink-0" />
-                          <span><strong>Diabetes:</strong> High blood sugar damages blood vessels over time.</span>
+                          <span>
+                            <strong>
+                              <Link
+                                href="/health/diabetes-risk-calculator"
+                                className="hover:underline hover:text-red-700 transition-colors"
+                              >
+                                Diabetes
+                              </Link>
+                              :
+                            </strong>{" "}
+                            High blood sugar damages blood vessels over time.
+                          </span>
                         </li>
+
                       </ul>
+
                       <ul className="space-y-3">
+
                         <li className="flex items-start gap-2 text-sm text-gray-700">
                           <CheckCircle2 className="w-4 h-4 text-red-600 mt-1 shrink-0" />
-                          <span><strong>Smoking Status:</strong> Smoking is the fastest way to increase heart age.</span>
+                          <span>
+                            <strong>Smoking Status:</strong> Smoking is the fastest way to increase heart age.
+                          </span>
                         </li>
+
+                        {/* BMI */}
                         <li className="flex items-start gap-2 text-sm text-gray-700">
                           <CheckCircle2 className="w-4 h-4 text-red-600 mt-1 shrink-0" />
-                          <span><strong>BMI:</strong> Excess weight increases the workload on your heart.</span>
+                          <span>
+                            <strong>
+                              <Link
+                                href="/health/bmi-calculator"
+                                className="hover:underline hover:text-red-700 transition-colors"
+                              >
+                                BMI
+                              </Link>
+                              :
+                            </strong>{" "}
+                            Excess weight increases the workload on your heart.
+                          </span>
                         </li>
+
                         <li className="flex items-start gap-2 text-sm text-gray-700">
                           <CheckCircle2 className="w-4 h-4 text-red-600 mt-1 shrink-0" />
-                          <span><strong>History:</strong> Family history and physical activity levels.</span>
+                          <span>
+                            <strong>History:</strong> Family history and physical activity levels.
+                          </span>
                         </li>
+
                       </ul>
                     </div>
                   </CardContent>
@@ -216,7 +277,14 @@ export default function HeartAgeCalculatorPage() {
                 <div className="grid md:grid-cols-2 gap-12">
                   <div>
                     <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                      <ArrowDownCircle className="w-5 h-5 text-red-600" /> ASCVD vs. Heart Age
+                      <ArrowDownCircle className="w-5 h-5 text-red-600" />
+                      <Link
+                        href="/health/ascvd-risk-calculator"
+                        className="hover:underline hover:text-red-700 transition-colors"
+                      >
+                        ASCVD
+                      </Link>{" "}
+                      vs. Heart Age
                     </h3>
                     <p className="text-sm text-gray-600 mb-4">Both tools use the same data but present it differently:</p>
                     <div className="space-y-2">
@@ -232,7 +300,14 @@ export default function HeartAgeCalculatorPage() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                      <TrendingDown className="w-5 h-5 text-red-600" /> Max Heart Rate Formula
+                      <TrendingDown className="w-5 h-5 text-red-600" />
+                      <Link
+                        href="/health/heart-rate-calculator"
+                        className="hover:underline hover:text-red-700 transition-colors"
+                      >
+                        Max Heart Rate
+                      </Link>{" "}
+                      Formula
                     </h3>
                     <p className="text-sm text-gray-600 mb-4 text-pretty">
                       Don&apos;t confuse <strong>Heart Age</strong> with <strong>Maximum Heart Rate</strong>.

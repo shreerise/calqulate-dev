@@ -204,7 +204,16 @@ export default function BMRCalculatorPage() {
                   <TrendingDown className="w-6 h-6" />
                   BMR Calculator to Lose Weight
                 </h2>
-                <p className="mb-6 opacity-90">BMR is the foundation of fat loss. To use it effectively, you must find your TDEE (Total Daily Energy Expenditure):</p>
+                  <p className="mb-6 opacity-90">
+                    BMR is the foundation of fat loss. To use it effectively, you must find your{" "}
+                    <Link
+                      href="/health/tdee-calculator"
+                      className="hover:underline hover:text-green-700 transition-colors font-medium"
+                    >
+                      TDEE (Total Daily Energy Expenditure)
+                    </Link>
+                    :
+                  </p>
                 
                 <div className="grid md:grid-cols-2 gap-8">
                   <Card className="not-prose overflow-hidden border-none bg-white/10 text-white">
@@ -247,7 +256,13 @@ export default function BMRCalculatorPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
-                    <User className="text-green-600 w-5 h-5" /> Metabolic Age
+                    <User className="text-green-600 w-5 h-5" />
+                    <Link
+                      href="/health/heart-age-calculator"
+                      className="hover:underline hover:text-green-700 transition-colors"
+                    >
+                      Metabolic Age
+                    </Link>
                   </h3>
                   <p className="text-sm text-gray-700 leading-relaxed">
                     Metabolic age compares your BMR to population averages for your age group. While motivational, it is not a formal medical diagnosis but a helpful indicator of your overall metabolic health.

@@ -4,6 +4,7 @@ import { useState, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import Link from "next/link"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -172,12 +173,26 @@ export default function BloodPressureCalculator() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 border-t border-b bg-white">
                 <div className="p-6 text-center border-b md:border-b-0 md:border-r">
-                   <p className="text-xs font-bold text-gray-400 uppercase mb-1">Mean Arterial Pressure (MAP)</p>
+                   <p className="text-xs font-bold text-gray-400 uppercase mb-1">
+                      <Link
+                        href="/health/mean-arterial-pressure-calculator"
+                        className="hover:underline hover:text-gray-600 transition-colors"
+                      >
+                        Mean Arterial Pressure (MAP)
+                      </Link>
+                    </p>
                    <p className="text-3xl font-black text-gray-800">{result.map.toFixed(1)} <span className="text-sm font-normal text-gray-400">mmHg</span></p>
                    <div className="mt-2 text-[11px] text-gray-500 bg-gray-50 rounded p-1 inline-block">Normal range: 70 - 100 mmHg</div>
                 </div>
                 <div className="p-6 text-center">
-                   <p className="text-xs font-bold text-gray-400 uppercase mb-1">Pulse Pressure</p>
+                   <p className="text-xs font-bold text-gray-400 uppercase mb-1">
+                      <Link
+                        href="/health/pulse-pressure-calculator"
+                        className="hover:underline hover:text-gray-600 transition-colors"
+                      >
+                        Pulse Pressure
+                      </Link>
+                    </p>
                    <p className="text-3xl font-black text-gray-800">{result.pulsePressure} <span className="text-sm font-normal text-gray-400">mmHg</span></p>
                    <div className="mt-2 text-[11px] text-gray-500 bg-gray-50 rounded p-1 inline-block">Healthy: &lt; 60 mmHg</div>
                 </div>

@@ -247,13 +247,24 @@ export default function WaterIntakeCalculatorPage() {
                   <h3 className="text-xl font-bold mb-4 text-red-800 flex items-center gap-2">
                     <AlertCircle className="w-5 h-5" /> Signs of Dehydration
                   </h3>
+
                   <div className="grid grid-cols-2 gap-2 text-xs font-medium text-red-700">
                     <div className="bg-white/50 p-2 rounded">Dark yellow urine</div>
                     <div className="bg-white/50 p-2 rounded">Dry mouth or lips</div>
                     <div className="bg-white/50 p-2 rounded">Fatigue & Headaches</div>
                     <div className="bg-white/50 p-2 rounded">Constipation</div>
                   </div>
-                  <p className="mt-4 text-xs text-red-800 font-bold italic">Thirst means you’re already dehydrated!</p>
+
+                  <p className="mt-4 text-xs text-red-800 font-bold italic">
+                    Thirst means you’re already dehydrated! Severe dehydration may also affect{" "}
+                    <Link
+                      href="/health/blood-pressure-calculator"
+                      className="underline hover:text-red-900 transition-colors"
+                    >
+                      blood pressure
+                    </Link>
+                    , leading to dizziness or fainting.
+                  </p>
                 </div>
               </section>
 
@@ -311,7 +322,7 @@ export default function WaterIntakeCalculatorPage() {
                     </p>
                   </div>
                   <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
-                    <Link href="/health/eag-calculator">
+                    <Link href="/health/estimated-average-glucose-calculator">
                       Check Average Glucose <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                   </Button>

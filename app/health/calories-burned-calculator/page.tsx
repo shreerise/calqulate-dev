@@ -122,7 +122,14 @@ export default function CaloriesBurnedCalculatorPage() {
                     <div className="bg-orange-50 dark:bg-orange-950/30 p-6 rounded-xl border border-orange-100 dark:border-orange-900 text-center">
                       <p className="text-sm font-medium text-orange-800 dark:text-orange-200 mb-2">Did you know?</p>
                       <p className="text-lg font-bold text-slate-800 dark:text-slate-200">
-                        1 pound of body fat equals approximately 3,500 calories!
+                        1 pound of{" "}
+                        <Link
+                          href="/health/body-fat-calculator"
+                          className="underline hover:text-green-700 transition-colors"
+                        >
+                          body fat
+                        </Link>{" "}
+                        equals approximately 3,500 calories!
                       </p>
                     </div>
                   </CardContent>
@@ -143,7 +150,13 @@ export default function CaloriesBurnedCalculatorPage() {
                   </CardHeader>
                   <CardContent className="pt-6 space-y-4 text-sm md:text-base">
                     <p>
-                      <b>MET</b> stands for <i>Metabolic Equivalent of Task</i>. It is a ratio that compares the working metabolic rate of a specific activity to your resting metabolic rate.
+                      <b>MET</b> stands for <i>Metabolic Equivalent of Task</i>. It is a ratio that compares the working metabolic rate of a specific activity to your{" "}
+                      <Link
+                        href="/health/bmr-calculator"
+                        className="font-medium underline hover:text-green-700 transition-colors"
+                      >
+                        resting metabolic rate
+                      </Link>.
                     </p>
                     <p>
                       One MET is the energy you spend sitting quietly. Therefore, an activity with a MET value of 5 implies you are expending 5 times the energy you would sitting on the couch.
@@ -173,7 +186,14 @@ export default function CaloriesBurnedCalculatorPage() {
                       If you use an Apple Watch, Garmin, or WHOOP strap, you know your average heart rate during a workout. Because heart rate directly correlates with oxygen consumption (VO2), this method provides a highly customized calorie output specific to your cardiovascular effort.
                     </p>
                     <p>
-                      We use the standard <i>Keytel et al. (2005)</i> formulas for calculating energy expenditure from heart rate.
+                      We use the standard <i>Keytel et al. (2005)</i> formulas for calculating{" "}
+                      <Link
+                        href="/health/tdee-calculator"
+                        className="font-medium underline hover:text-green-700 transition-colors"
+                      >
+                        energy expenditure
+                      </Link>{" "}
+                      from heart rate.
                     </p>
                     <div className="bg-muted p-4 rounded-lg mt-4 font-mono text-xs md:text-sm overflow-x-auto text-muted-foreground">
                       Male: [(-55.0969 + (0.6309 × HR) + (0.1988 × W) + (0.2017 × Age)) / 4.184] × Time<br />
@@ -183,18 +203,18 @@ export default function CaloriesBurnedCalculatorPage() {
                 </Card>
               </section>
 
-              {/* Referral to Body Shape Calculator */}
+              {/* Referral to Calorie Deficit Calculator */}
               <section className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 rounded-3xl p-8 border border-blue-100 dark:border-blue-900 text-center not-prose">
                 <Info className="w-10 h-10 text-blue-500 mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                  Where Does The Burned Fat Come From?
+                  Are You Actually in a Calorie Deficit?
                 </h2>
                 <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mb-6">
-                  Burning calories is only half the story. Your genetics determine exactly <b>where</b> you lose fat and build muscle. Are you an Hourglass, Pear, or Apple shape? Knowing your body type helps you pick the right workouts.
+                  Burning calories during workouts is only part of fat loss. To lose body fat consistently, you must maintain a <b>calorie deficit</b> — meaning you burn more calories than you consume. Use our Calorie Deficit Calculator to see how your daily intake and activity levels work together.
                 </p>
-                <Link href="/health/body-shape-calculator">
+                <Link href="/health/calorie-deficit-calculator">
                   <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8 shadow-lg hover:shadow-xl transition-all">
-                    Discover Your Body Shape
+                    Calculate Your Calorie Deficit
                   </Button>
                 </Link>
               </section>

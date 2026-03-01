@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -268,7 +269,14 @@ export default function DailyWaterIntakeCalculator() {
                   name="exerciseMinutes"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-semibold">Daily Exercise Duration</FormLabel>
+                      <FormLabel className="text-base font-semibold">
+                        <Link
+                          href="/health/calories-burned-calculator"
+                          className="hover:underline hover:text-green-700 transition-colors"
+                        >
+                          Daily Exercise Duration
+                        </Link>
+                      </FormLabel>
                       <FormControl>
                          <div className="relative">
                           <Activity className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />

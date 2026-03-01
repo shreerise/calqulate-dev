@@ -257,7 +257,14 @@ export default function CaloriesBurnedCalculator() {
                     )} />
                     <FormField control={form.control} name="heartRate" render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Average Heart Rate (BPM)</FormLabel>
+                        <FormLabel>
+                          <Link
+                            href="/health/heart-rate-calculator"
+                            className="hover:underline hover:text-green-700 transition-colors"
+                          >
+                            Average Heart Rate (BPM)
+                          </Link>
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Input type="number" placeholder="135" className="pl-10" {...field} />

@@ -247,7 +247,14 @@ export default function RunningPaceCalculatorPage() {
               {/* Pace vs Calories */}
               <section className="border-2 border-dashed border-green-200 p-6 rounded-2xl bg-green-50/30">
                 <h3 className="text-lg font-bold mb-3 flex items-center gap-2 text-green-800 uppercase tracking-tight">
-                  <Flame className="w-5 h-5" /> Running Pace for Weight Loss
+                  <Flame className="w-5 h-5" />
+                  Running Pace for{" "}
+                  <Link
+                    href="/health/calorie-deficit-calculator"
+                    className="hover:underline hover:text-green-900 transition-colors"
+                  >
+                    Weight Loss
+                  </Link>
                 </h3>
                 <p className="text-sm text-gray-700 leading-relaxed mb-4">
                   A faster pace results in a higher calorie burn. For a 70 kg person: <br />

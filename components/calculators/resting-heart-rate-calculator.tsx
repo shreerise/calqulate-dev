@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Heart, Activity, Timer, RefreshCw, Zap, ShieldCheck, Info } from "lucide-react";
+import Link from "next/link";
 
 // --- HELPERS ---
 const calculateZones = (age: number, rhr: number) => {
@@ -158,7 +159,16 @@ export default function RestingHeartRateCalculator() {
                <div className="p-6 md:p-8">
                   <div className="flex items-center gap-2 mb-6">
                     <Activity className="text-red-500 w-5 h-5" />
-                    <h3 className="text-xl font-bold">Your Personalized Target Heart Rate Zones</h3>
+                    <h3 className="text-xl font-bold">
+                      Your Personalized{" "}
+                      <Link
+                        href="/health/heart-rate-calculator"
+                        className="hover:underline hover:text-green-700 transition-colors"
+                      >
+                        Target Heart Rate
+                      </Link>{" "}
+                      Zones
+                    </h3>
                   </div>
                   <p className="text-sm text-muted-foreground mb-6">
                     Based on your age of <strong>{result.age}</strong> and RHR of <strong>{result.rhr}</strong>, here are your optimal zones for aerobic exercise calculated using the Karvonen formula:
@@ -168,7 +178,14 @@ export default function RestingHeartRateCalculator() {
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className="bg-slate-50 text-slate-600 text-sm uppercase">
-                          <th className="p-4 font-bold border-b">Exercise Intensity</th>
+                        <th className="p-4 font-bold border-b">
+                          <Link
+                            href="/health/calories-burned-calculator"
+                            className="hover:underline hover:text-green-700 transition-colors"
+                          >
+                            Exercise Intensity
+                          </Link>
+                        </th>
                           <th className="p-4 font-bold border-b">Heart Rate Reserve</th>
                           <th className="p-4 font-bold border-b">Target Range (BPM)</th>
                         </tr>

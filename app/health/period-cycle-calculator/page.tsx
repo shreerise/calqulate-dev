@@ -213,7 +213,17 @@ export default function PeriodCalculatorPage() {
                     <Calendar className="text-green-600 w-5 h-5" /> LMP & Missed Periods
                   </h3>
                   <p className="text-sm text-gray-700 leading-relaxed">
-                    <strong>LMP (Last Menstrual Period):</strong> The starting point for all tracking. If your period is late, consider stress, illness, or travel. A pregnancy test is recommended if you are 5–7 days late.
+                    <strong>
+                      <Link
+                        href="/health/pregnancy-weight-gain-calculator"
+                        className="hover:underline hover:text-green-700 transition-colors"
+                      >
+                        LMP (Last Menstrual Period)
+                      </Link>
+                      :
+                    </strong>{" "}
+                    The starting point for all tracking. If your period is late, consider stress, illness, or travel. 
+                    A pregnancy test is recommended if you are 5–7 days late.
                   </p>
                 </div>
               </section>
@@ -243,8 +253,23 @@ export default function PeriodCalculatorPage() {
                 <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-green-800">
                   <AlertCircle className="w-5 h-5" /> Safe Period Calculator Warning
                 </h3>
+
                 <p className="text-sm text-gray-700 leading-relaxed">
-                  No calculator is 100% safe. Ovulation can shift due to stress, hormonal imbalance, or sleep disruption. If avoiding pregnancy, always use reliable contraception rather than relying solely on cycle calculations.
+                  No calculator is 100% safe. Ovulation can shift due to{" "}
+                  <Link
+                    href="/health/stress-level-calculator"
+                    className="font-medium hover:underline hover:text-green-700 transition-colors"
+                  >
+                    stress
+                  </Link>
+                  , hormonal imbalance, or{" "}
+                  <Link
+                    href="/health/sleep-debt-calculator"
+                    className="font-medium hover:underline hover:text-green-700 transition-colors"
+                  >
+                    sleep disruption
+                  </Link>
+                  . If avoiding pregnancy, always use reliable contraception rather than relying solely on cycle calculations.
                 </p>
               </section>
 

@@ -177,7 +177,18 @@ export default function EAGCalculatorPage() {
                       <tr><td className="px-6 py-3">5.0</td><td className="px-6 py-3">97</td><td className="px-6 py-3 font-medium text-green-600">Normal</td></tr>
                       <tr className="bg-green-50/30"><td className="px-6 py-3">5.5</td><td className="px-6 py-3">111</td><td className="px-6 py-3 font-medium text-green-600">Healthy</td></tr>
                       <tr><td className="px-6 py-3">5.7</td><td className="px-6 py-3">117</td><td className="px-6 py-3 font-medium text-yellow-600">Prediabetes starts</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-3">6.0</td><td className="px-6 py-3">126</td><td className="px-6 py-3 font-medium text-yellow-600">Prediabetes</td></tr>
+                      <tr className="bg-green-50/30">
+                        <td className="px-6 py-3">6.0</td>
+                        <td className="px-6 py-3">126</td>
+                        <td className="px-6 py-3 font-medium text-yellow-600">
+                          <Link
+                            href="/health/diabetes-risk-calculator"
+                            className="hover:underline hover:text-yellow-700 transition-colors"
+                          >
+                            Prediabetes
+                          </Link>
+                        </td>
+                      </tr>
                       <tr><td className="px-6 py-3">6.5</td><td className="px-6 py-3">140</td><td className="px-6 py-3 font-medium text-red-600">Diabetes threshold</td></tr>
                       <tr className="bg-green-50/30"><td className="px-6 py-3">7.0</td><td className="px-6 py-3">154</td><td className="px-6 py-3 text-gray-600">Diabetes (controlled)</td></tr>
                       <tr><td className="px-6 py-3">8.0</td><td className="px-6 py-3">183</td><td className="px-6 py-3 text-gray-600">Poor control</td></tr>

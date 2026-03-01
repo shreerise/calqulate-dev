@@ -121,7 +121,14 @@ export default function CalorieDeficitPage() {
                   <div className="flex gap-4">
                     <div className="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">1</div>
                     <div>
-                      <h4 className="font-bold text-gray-800">Calculate Your BMR (Basal Metabolic Rate)</h4>
+                     <h4 className="font-bold text-gray-800">
+                        <Link
+                          href="/health/bmr-calculator"
+                          className="hover:underline hover:text-green-700 transition-colors"
+                        >
+                          Calculate Your BMR (Basal Metabolic Rate)
+                        </Link>
+                      </h4>
                       <p className="text-sm text-gray-600 mb-2">We use the Mifflin-St Jeor Formula, the most accurate for adults:</p>
                       <div className="bg-gray-50 p-3 rounded-lg text-xs font-mono">
                         Men: (10 × wt kg) + (6.25 × ht cm) − (5 × age) + 5 <br />
@@ -133,7 +140,14 @@ export default function CalorieDeficitPage() {
                   <div className="flex gap-4">
                     <div className="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">2</div>
                     <div>
-                      <h4 className="font-bold text-gray-800">Calculate Your TDEE (Total Daily Energy Expenditure)</h4>
+                      <h4 className="font-bold text-gray-800">
+                        <Link
+                          href="/health/tdee-calculator"
+                          className="hover:underline hover:text-green-700 transition-colors"
+                        >
+                          Calculate Your TDEE (Total Daily Energy Expenditure)
+                        </Link>
+                      </h4>
                       <p className="text-sm text-gray-600">Multiply your BMR by your activity level multiplier:</p>
                       <Card className="not-prose mt-3 overflow-hidden border-green-100">
                         <table className="w-full text-xs text-left">
@@ -157,9 +171,21 @@ export default function CalorieDeficitPage() {
                   <div className="flex gap-4">
                     <div className="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">3</div>
                     <div>
-                      <h4 className="font-bold text-gray-800">Apply the Calorie Deficit Formula</h4>
+                      <h4 className="font-bold text-gray-800">
+                        Apply the Calorie Deficit Formula
+                      </h4>
+
                       <p className="text-sm text-gray-600 bg-green-50 p-3 rounded-lg border-l-4 border-green-600">
-                        <strong>Calorie Deficit = Maintenance Calories (TDEE) − Target Intake</strong>
+                        <strong>
+                          Calorie Deficit ={" "}
+                          <Link
+                            href="/health/tdee-calculator"
+                            className="hover:underline hover:text-green-700 transition-colors"
+                          >
+                            Maintenance Calories (TDEE)
+                          </Link>{" "}
+                          − Target Intake
+                        </strong>
                       </p>
                     </div>
                   </div>
@@ -265,7 +291,7 @@ export default function CalorieDeficitPage() {
                     </p>
                   </div>
                   <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
-                    <Link href="/health/water-intake-calculator">
+                    <Link href="/health/daily-water-intake-calculator">
                       Check Water Intake <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                   </Button>

@@ -138,11 +138,32 @@ export default function DiabetesRiskCalculatorPage() {
                       </div>
                       <div className="flex gap-4">
                         <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">2</div>
-                        <p className="text-gray-700"><strong>Measurements:</strong> Waist circumference or BMI are measured.</p>
-                      </div>
+                        <p className="text-gray-700">
+                          <strong>Measurements:</strong>{" "}
+                          <Link
+                            href="/health/waist-to-height-ratio-calculator"
+                            className="font-medium hover:underline hover:text-green-700 transition-colors"
+                          >
+                            Waist circumference
+                          </Link>{" "}
+                          or BMI are measured.
+                        </p>                      
+                        </div>
                       <div className="flex gap-4">
-                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">3</div>
-                        <p className="text-gray-700"><strong>Lifestyle:</strong> Physical activity levels and high blood pressure history.</p>
+                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">
+                          3s
+                        </div>
+
+                        <p className="text-gray-700">
+                          <strong>Lifestyle:</strong> Physical activity levels and{" "}
+                          <Link
+                            href="/health/blood-pressure-calculator"
+                            className="font-medium hover:underline hover:text-green-700 transition-colors"
+                          >
+                            high blood pressure
+                          </Link>{" "}
+                          history.
+                        </p>
                       </div>
                       <div className="flex gap-4">
                         <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">4</div>
@@ -212,7 +233,14 @@ export default function DiabetesRiskCalculatorPage() {
                 </div>
                 <div className="p-6 border border-gray-100 rounded-2xl bg-white shadow-sm">
                   <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
-                    <Heart className="text-green-600 w-5 h-5" /> Pregnancy & Gestational
+                    <Heart className="text-green-600 w-5 h-5" />
+                    <Link
+                      href="/health/pregnancy-weight-gain-calculator"
+                      className="hover:underline hover:text-green-700 transition-colors"
+                    >
+                      Pregnancy
+                    </Link>{" "}
+                    & Gestational
                   </h3>
                   <p className="text-sm text-gray-700 leading-relaxed">
                     A gestational diabetes risk calculator estimates risk during pregnancy. Risk factors include being over age 25, PCOS, or having a family history of diabetes. 
@@ -230,7 +258,14 @@ export default function DiabetesRiskCalculatorPage() {
                     <p className="text-sm text-gray-600">Predicts <strong>future risk</strong> based on behavior and body metrics. Non-invasive screening.</p>
                   </div>
                   <div className="p-5 border-l-4 border-blue-600 bg-white shadow-sm">
-                    <h4 className="font-bold text-gray-800">Glucose / HbA1c Test</h4>
+                    <h4 className="font-bold text-gray-800">
+                      <Link
+                        href="/health/estimated-average-glucose-calculator"
+                        className="hover:underline hover:text-green-700 transition-colors"
+                      >
+                        Glucose / HbA1c Test
+                      </Link>
+                    </h4>
                     <p className="text-sm text-gray-600"><strong>Confirms diagnosis</strong> of current state. Clinical blood work required.</p>
                   </div>
                 </div>
@@ -270,7 +305,15 @@ export default function DiabetesRiskCalculatorPage() {
                     <Scale className="w-5 h-5" /> ASCVD & Cardiovascular Risk
                   </h3>
                   <p className="text-sm text-gray-700 leading-relaxed">
-                    Diabetes is a major multiplier in ASCVD risk calculators. Having diabetes can double or triple heart disease risk, even with normal cholesterol. Diabetes prevention is also heart protection.
+                    Diabetes is a major multiplier in{" "}
+                    <Link
+                      href="/health/ascvd-risk-calculator"
+                      className="font-medium hover:underline hover:text-green-700 transition-colors"
+                    >
+                      ASCVD risk calculators
+                    </Link>
+                    . Having diabetes can double or triple heart disease risk, even with normal cholesterol. 
+                    Diabetes prevention is also heart protection.
                   </p>
                 </div>
 

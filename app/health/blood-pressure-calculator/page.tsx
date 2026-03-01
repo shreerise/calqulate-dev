@@ -184,7 +184,16 @@ export default function BloodPressurePage() {
                     <h4 className="font-bold text-gray-800 uppercase tracking-widest text-sm">How to Use This Guidance:</h4>
                     <ul className="space-y-3">
                       <li className="flex gap-2 text-sm text-gray-600"><CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" /> Compare your reading to age trends.</li>
-                      <li className="flex gap-2 text-sm text-gray-600"><CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" /> Understand long-term cardiovascular risk.</li>
+                      <li className="flex gap-2 text-sm text-gray-600">
+                        <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
+                        Understand long-term{" "}
+                        <Link
+                          href="/health/ascvd-risk-calculator"
+                          className="font-medium hover:underline hover:text-green-700 transition-colors"
+                        >
+                          cardiovascular risk
+                        </Link>.
+                      </li>
                       <li className="flex gap-2 text-sm text-red-600 font-bold"><AlertCircle className="w-4 h-4 shrink-0" /> Do NOT ignore high readings because of age. A BP of 140/90 is still high at age 65.</li>
                     </ul>
                   </div>
@@ -266,14 +275,39 @@ export default function BloodPressurePage() {
 
               {/* Trends vs Numbers */}
               <section className="border-l-4 border-green-600 pl-6 py-2">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">BP Level vs One-Time Reading</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  BP Level vs One-Time Reading
+                </h3>
+
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  One high reading does not automatically mean you have hypertension. Diagnosis requires <b>multiple readings on different days</b>. Trends matter far more than single numbers.
+                  One high reading does not automatically mean you have hypertension. 
+                  Diagnosis requires <b>multiple readings on different days</b>. 
+                  Trends matter far more than single numbers.
                 </p>
+
                 <div className="flex flex-wrap gap-4">
-                  {['Age over 35', 'Diabetes', 'Overweight', 'Family History', 'Poor Sleep'].map((item) => (
-                    <span key={item} className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-bold border border-green-100">
-                      Monitor Regularly if: {item}
+                  {[
+                    { label: 'Age over 35' },
+                    { label: 'Diabetes', href: '/health/diabetes-risk-calculator' },
+                    { label: 'Overweight', href: '/health/bmi-calculator' },
+                    { label: 'Family History' },
+                    { label: 'Poor Sleep', href: '/health/sleep-debt-calculator' }
+                  ].map((item) => (
+                    <span
+                      key={item.label}
+                      className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-bold border border-green-100"
+                    >
+                      Monitor Regularly if:{' '}
+                      {item.href ? (
+                        <Link
+                          href={item.href}
+                          className="underline hover:text-green-900 transition-colors"
+                        >
+                          {item.label}
+                        </Link>
+                      ) : (
+                        item.label
+                      )}
                     </span>
                   ))}
                 </div>
