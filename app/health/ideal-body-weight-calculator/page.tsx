@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import Image from "next/image"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import IdealBodyWeightCalculator from "@/components/calculators/ideal-body-weight-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
-import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import { 
   Scale, 
   Dumbbell, 
@@ -75,17 +76,32 @@ export default function IBWCalculatorPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
+
             {/* Hero */}
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Ideal Body Weight Calculator
               </h1>
+
               <p className="text-lg text-muted-foreground text-pretty">
                 An ideal body weight calculator estimates the healthy weight range for a person based on height and gender, using medically accepted formulas.
               </p>
+
               <p className="text-base text-muted-foreground mt-3 italic">
                 “Am I underweight, healthy, or overweight for my height?” — This tool uses scientific formulas, not social trends, to give you a clear answer.
               </p>
+
+              {/* Hero Image */}
+              <div className="mt-8 flex justify-center">
+                <Image
+                  src="/ideal-body-weight-calculator.png"
+                  alt="Ideal body weight calculator illustration showing height measurement and healthy weight range chart"
+                  width={900}
+                  height={500}
+                  className="rounded-2xl shadow-xl border border-green-100"
+                  priority
+                />
+              </div>
             </div>
 
             {/* Calculator Component */}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -116,45 +117,83 @@ export default function AgeCalculatorPage() {
                   This ensures your age is calculated correctly — not approximately. 👉 Just enter your date of birth, and the calculator does the rest.
                 </p>
               </section>
-
+              
               {/* How it works Card */}
-              <section>
-                <Card className="border-green-100 shadow-sm rounded-2xl overflow-hidden">
-                  <CardHeader className="bg-green-50 pb-4">
-                    <CardTitle className="flex items-center gap-2 text-xl font-bold text-green-800">
-                      <Info className="w-5 h-5" />
-                      How Does This Age Calculator Work?
-                    </CardTitle>
-                    <CardDescription className="text-green-700/80">
-                      Unlike many tools that only show a number, we believe in full transparency.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-6">
-                    <p className="text-gray-700 mb-4 font-semibold uppercase tracking-wider text-sm">Here’s how age calculation actually works:</p>
-                    <div className="space-y-4">
-                      <div className="flex gap-4">
-                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">1</div>
-                        <p className="text-gray-700">Your birth date is compared with today’s date.</p>
-                      </div>
-                      <div className="flex gap-4">
-                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">2</div>
-                        <p className="text-gray-700">Years are counted first.</p>
-                      </div>
-                      <div className="flex gap-4">
-                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">3</div>
-                        <p className="text-gray-700">Remaining months and days are calculated.</p>
-                      </div>
-                      <div className="flex gap-4">
-                        <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">4</div>
-                        <p className="text-gray-700">Leap years (366 days) are included automatically.</p>
-                      </div>
-                    </div>
-                    <p className="mt-6 text-sm italic text-gray-500 border-t pt-4">
-                      This method matches official age calculation standards used in education, government, and healthcare.
-                    </p>
-                  </CardContent>
-                </Card>
-              </section>
+                    <section>
+                      <Card className="border-green-100 shadow-sm rounded-2xl overflow-hidden">
+                        <CardHeader className="bg-green-50 pb-4">
+                          <CardTitle className="flex items-center gap-2 text-xl font-bold text-green-800">
+                            <Info className="w-5 h-5" />
+                            How Does This Age Calculator Work?
+                          </CardTitle>
+                          <CardDescription className="text-green-700/80">
+                            Unlike many tools that only show a number, we believe in full transparency.
+                          </CardDescription>
+                        </CardHeader>
+
+                        <CardContent className="pt-6">
+                          
+                          {/* Image */}
+                          <div className="mb-8 flex justify-center">
+                            <Image
+                              src="/age-calculator.png"
+                              alt="Age calculator working process showing date comparison, year counting, month and day calculation with leap year adjustment"
+                              width={700}
+                              height={400}
+                              className="rounded-2xl shadow-lg border border-green-100"
+                              priority
+                            />
+                          </div>
+
+                          <p className="text-gray-700 mb-4 font-semibold uppercase tracking-wider text-sm">
+                            Here’s how age calculation actually works:
+                          </p>
+
+                          <div className="space-y-4">
+                            <div className="flex gap-4">
+                              <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">
+                                1
+                              </div>
+                              <p className="text-gray-700">
+                                Your birth date is compared with today’s date.
+                              </p>
+                            </div>
+
+                            <div className="flex gap-4">
+                              <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">
+                                2
+                              </div>
+                              <p className="text-gray-700">
+                                Completed years are counted first.
+                              </p>
+                            </div>
+
+                            <div className="flex gap-4">
+                              <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">
+                                3
+                              </div>
+                              <p className="text-gray-700">
+                                Remaining months and days are calculated precisely.
+                              </p>
+                            </div>
+
+                            <div className="flex gap-4">
+                              <div className="h-8 w-8 rounded-full bg-green-600 text-white flex items-center justify-center shrink-0 font-bold">
+                                4
+                              </div>
+                              <p className="text-gray-700">
+                                Leap years (366 days) are included automatically to ensure 100% accuracy.
+                              </p>
+                            </div>
+                          </div>
+
+                          <p className="mt-6 text-sm italic text-gray-500 border-t pt-4">
+                            This method matches official age calculation standards used in education, government, and healthcare.
+                          </p>
+
+                        </CardContent>
+                      </Card>
+                    </section>
 
               {/* Result Chart */}
               <section>

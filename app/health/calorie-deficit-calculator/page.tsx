@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -193,32 +194,64 @@ export default function CalorieDeficitPage() {
               </section>
 
               {/* Loss Targets Table */}
-              <section>
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                  <Target className="w-6 h-6 text-green-600" />
-                  Safe Fat Loss Deficit Targets
-                </h2>
-                <Card className="not-prose overflow-hidden border-green-200">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-green-600 text-white">
-                        <th className="px-6 py-4 text-left font-bold">Daily Deficit</th>
-                        <th className="px-6 py-4 text-left font-bold">Expected Weekly Loss</th>
-                        <th className="px-6 py-4 text-left font-bold">Effort Level</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-6 py-4">300 kcal</td><td className="px-6 py-4">~0.25 kg</td><td className="px-6 py-4 text-green-600 font-medium">Easy/Slow</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">500 kcal</td><td className="px-6 py-4">~0.5 kg</td><td className="px-6 py-4 text-green-700 font-bold">Sustainable</td></tr>
-                      <tr><td className="px-6 py-4">750 kcal</td><td className="px-6 py-4">~0.7 kg</td><td className="px-6 py-4 text-yellow-600 font-medium">Moderate</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">1000 kcal</td><td className="px-6 py-4">~1 kg</td><td className="px-6 py-4 text-red-600 font-bold">Aggressive</td></tr>
-                    </tbody>
-                  </table>
-                </Card>
-                <p className="mt-4 text-sm text-gray-600">
-                  <strong>How Many Calories Deficit to Lose 1kg?</strong> 1 kg of fat ≈ 7,700 calories. To lose 1kg in a week, you'd need an 1,100 calorie daily deficit, which is aggressive and not ideal for most.
-                </p>
-              </section>
+                  <section>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                      <Target className="w-6 h-6 text-green-600" />
+                      Safe Fat Loss Deficit Targets
+                    </h2>
+
+                    {/* Image */}
+                    <div className="mb-8 flex justify-center">
+                      <Image
+                        src="/calorie-deficit-calculator.png"
+                        alt="Calorie deficit chart showing daily calorie deficit and expected weekly fat loss results"
+                        width={800}
+                        height={450}
+                        className="rounded-2xl shadow-lg border border-green-100"
+                        priority
+                      />
+                    </div>
+
+                    <Card className="not-prose overflow-hidden border-green-200">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-green-600 text-white">
+                            <th className="px-6 py-4 text-left font-bold">Daily Deficit</th>
+                            <th className="px-6 py-4 text-left font-bold">Expected Weekly Loss</th>
+                            <th className="px-6 py-4 text-left font-bold">Effort Level</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                          <tr>
+                            <td className="px-6 py-4">300 kcal</td>
+                            <td className="px-6 py-4">~0.25 kg</td>
+                            <td className="px-6 py-4 text-green-600 font-medium">Easy/Slow</td>
+                          </tr>
+                          <tr className="bg-green-50/30">
+                            <td className="px-6 py-4">500 kcal</td>
+                            <td className="px-6 py-4">~0.5 kg</td>
+                            <td className="px-6 py-4 text-green-700 font-bold">Sustainable</td>
+                          </tr>
+                          <tr>
+                            <td className="px-6 py-4">750 kcal</td>
+                            <td className="px-6 py-4">~0.7 kg</td>
+                            <td className="px-6 py-4 text-yellow-600 font-medium">Moderate</td>
+                          </tr>
+                          <tr className="bg-green-50/30">
+                            <td className="px-6 py-4">1000 kcal</td>
+                            <td className="px-6 py-4">~1 kg</td>
+                            <td className="px-6 py-4 text-red-600 font-bold">Aggressive</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </Card>
+
+                    <p className="mt-4 text-sm text-gray-600">
+                      <strong>How Many Calories Deficit to Lose 1kg?</strong> 1 kg of fat ≈ 7,700 calories. 
+                      To lose 1kg in a week, you'd need an 1,100 calorie daily deficit, 
+                      which is aggressive and not ideal for most.
+                    </p>
+                  </section>
 
               {/* Fat Loss vs Muscle */}
               <section className="grid md:grid-cols-2 gap-8">

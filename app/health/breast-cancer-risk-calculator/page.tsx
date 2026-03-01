@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -256,25 +257,52 @@ export default function BreastCancerRiskPage() {
                   <TrendingUp className="w-6 h-6 text-green-600" />
                   How to Lower Breast Cancer Risk
                 </h2>
-                <p className="text-gray-700 mb-6">Even if your calculated risk is elevated, modifiable lifestyle factors play a massive role in prevention:</p>
+
+                {/* Image */}
+                <div className="mb-8 flex justify-center">
+                  <Image
+                    src="/breast-cancer-risk-calculator.png"
+                    alt="Breast cancer prevention lifestyle illustration showing exercise, healthy diet, weight management and regular screening"
+                    width={750}
+                    height={420}
+                    className="rounded-2xl shadow-lg border border-green-100"
+                    priority
+                  />
+                </div>
+
+                <p className="text-gray-700 mb-6">
+                  Even if your calculated risk is elevated, modifiable lifestyle factors play a massive role in prevention:
+                </p>
+
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 not-prose">
                   <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Maintain healthy weight
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    Maintain healthy weight
                   </div>
+
                   <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Exercise regularly
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    Exercise regularly
                   </div>
+
                   <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Limit alcohol intake
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    Limit alcohol intake
                   </div>
+
                   <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Avoid smoking
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    Avoid smoking
                   </div>
+
                   <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Breastfeed if possible
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    Breastfeed if possible
                   </div>
+
                   <div className="p-3 border border-gray-100 rounded-xl text-center text-xs font-bold text-gray-700 flex flex-col items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" /> Regular Screenings
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    Regular Screenings
                   </div>
                 </div>
               </section>

@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer"
 import BMRCalculator from "@/components/calculators/bmr-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import Image from "next/image"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Zap,
@@ -88,42 +89,71 @@ export default function BMRCalculatorPage() {
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
               
-              {/* Definition Section */}
-              <section className="py-8 border-b border-gray-100">
-                <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
-                  <Info className="w-6 h-6 text-green-600" />
-                  What Is Basal Metabolic Rate (BMR)?
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Your basal metabolic rate (BMR) is the number of calories your body burns at complete rest to maintain essential life-sustaining functions:
-                </p>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
-                    <Activity className="w-4 h-4 mx-auto text-green-600 mb-1" />
-                    <span className="text-[10px] font-bold text-green-800 uppercase">Breathing</span>
-                  </div>
-                  <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
-                    <Zap className="w-4 h-4 mx-auto text-green-600 mb-1" />
-                    <span className="text-[10px] font-bold text-green-800 uppercase">Heartbeat</span>
-                  </div>
-                  <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
-                    <User className="w-4 h-4 mx-auto text-green-600 mb-1" />
-                    <span className="text-[10px] font-bold text-green-800 uppercase">Brain Function</span>
-                  </div>
-                  <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
-                    <Activity className="w-4 h-4 mx-auto text-green-600 mb-1" />
-                    <span className="text-[10px] font-bold text-green-800 uppercase">Cell Repair</span>
-                  </div>
-                  <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
-                    <Activity className="w-4 h-4 mx-auto text-green-600 mb-1" />
-                    <span className="text-[10px] font-bold text-green-800 uppercase">Temperature</span>
-                  </div>
-                </div>
-                <p className="mt-6 text-gray-700 font-medium">
-                  In simple words: BMR = Calories your body needs to survive. It does NOT include exercise or daily movement.
-                </p>
-              </section>
+                            {/* Definition Section */}
+                <section className="py-8 border-b border-gray-100">
+                  <h2 className="mb-6 text-2xl font-bold text-gray-800 flex items-center gap-2">
+                    <Info className="w-6 h-6 text-green-600" />
+                    What Is Basal Metabolic Rate (BMR)?
+                  </h2>
 
+                  {/* Image */}
+                  <div className="mb-8 flex justify-center">
+                    <Image
+                      src="/BMR-Calculator.png"
+                      alt="Basal Metabolic Rate illustration showing calorie burn at rest including breathing, heartbeat, brain function and body temperature regulation"
+                      width={750}
+                      height={420}
+                      className="rounded-2xl shadow-lg border border-green-100"
+                      priority
+                    />
+                  </div>
+
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Your basal metabolic rate (BMR) is the number of calories your body burns at complete rest to maintain essential life-sustaining functions:
+                  </p>
+
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
+                      <Activity className="w-4 h-4 mx-auto text-green-600 mb-1" />
+                      <span className="text-[10px] font-bold text-green-800 uppercase">
+                        Breathing
+                      </span>
+                    </div>
+
+                    <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
+                      <Zap className="w-4 h-4 mx-auto text-green-600 mb-1" />
+                      <span className="text-[10px] font-bold text-green-800 uppercase">
+                        Heartbeat
+                      </span>
+                    </div>
+
+                    <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
+                      <User className="w-4 h-4 mx-auto text-green-600 mb-1" />
+                      <span className="text-[10px] font-bold text-green-800 uppercase">
+                        Brain Function
+                      </span>
+                    </div>
+
+                    <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
+                      <Activity className="w-4 h-4 mx-auto text-green-600 mb-1" />
+                      <span className="text-[10px] font-bold text-green-800 uppercase">
+                        Cell Repair
+                      </span>
+                    </div>
+
+                    <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
+                      <Activity className="w-4 h-4 mx-auto text-green-600 mb-1" />
+                      <span className="text-[10px] font-bold text-green-800 uppercase">
+                        Temperature
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="mt-6 text-gray-700 font-medium">
+                    In simple words: <strong>BMR = Calories your body needs to survive.</strong>  
+                    It does NOT include exercise, digestion, or daily movement.
+                  </p>
+                </section>
               {/* Formulas Card */}
               <section>
                 <Card className="border-green-100 shadow-sm rounded-2xl overflow-hidden">

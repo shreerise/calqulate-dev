@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import Image from "next/image"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import DiabetesRiskCalculator from "@/components/calculators/diabetes-risk-calculator"
@@ -271,33 +272,51 @@ export default function DiabetesRiskCalculatorPage() {
                 </div>
               </section>
 
-              {/* How to Reduce Risk */}
-              <section className="bg-green-600 rounded-3xl p-8 text-white">
-                <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
-                  <TrendingDown className="w-6 h-6" />
-                  How to Reduce Your Diabetes Risk
-                </h2>
-                <p className="mb-6 opacity-90">If your risk is moderate or high, these steps can reduce diabetes risk by 40–60%:</p>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-green-200" />
-                    <span>Walk 30 minutes daily</span>
-                  </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-green-200" />
-                    <span>Reduce sugar & refined carbs</span>
-                  </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-green-200" />
-                    <span>Lose 5–7% body weight</span>
-                  </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-green-200" />
-                    <span>Manage stress & sleep 7-8 hours</span>
-                  </div>
-                </div>
-              </section>
+               {/* How to Reduce Risk */}
+                  <section className="bg-green-600 rounded-3xl p-8 text-white">
+                    <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                      <TrendingDown className="w-6 h-6" />
+                      How to Reduce Your Diabetes Risk
+                    </h2>
 
+                    {/* Image */}
+                    <div className="mb-8 flex justify-center">
+                      <Image
+                        src="/diabetes-risk-calculator.png"
+                        alt="Lifestyle changes to reduce diabetes risk including walking, healthy diet, weight loss and proper sleep"
+                        width={800}
+                        height={450}
+                        className="rounded-2xl shadow-xl border border-white/20"
+                        priority
+                      />
+                    </div>
+
+                    <p className="mb-6 opacity-90">
+                      If your risk is moderate or high, these steps can reduce diabetes risk by 40–60%:
+                    </p>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
+                        <CheckCircle2 className="w-5 h-5 text-green-200" />
+                        <span>Walk 30 minutes daily</span>
+                      </div>
+
+                      <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
+                        <CheckCircle2 className="w-5 h-5 text-green-200" />
+                        <span>Reduce sugar & refined carbs</span>
+                      </div>
+
+                      <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
+                        <CheckCircle2 className="w-5 h-5 text-green-200" />
+                        <span>Lose 5–7% body weight</span>
+                      </div>
+
+                      <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
+                        <CheckCircle2 className="w-5 h-5 text-green-200" />
+                        <span>Manage stress & sleep 7–8 hours</span>
+                      </div>
+                    </div>
+                  </section>
               {/* Myths and ASCVD */}
               <section className="space-y-8">
                 <div className="border-2 border-dashed border-green-200 p-6 rounded-2xl bg-green-50/30">

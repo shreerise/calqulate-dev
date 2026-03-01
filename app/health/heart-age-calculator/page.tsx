@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -322,35 +323,69 @@ export default function HeartAgeCalculatorPage() {
               </section>
 
               {/* Checklist Section */}
-              <section>
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Is Your Heart Healthy? (Checklist)</h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <p className="text-gray-700">If you can check most of these boxes, your heart age is likely younger than your birthday:</p>
-                    <ul className="space-y-2">
-                      <li className="flex items-center gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 text-green-600" /> Blood pressure &lt; 120/80</li>
-                      <li className="flex items-center gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 text-green-600" /> Resting heart rate 60–80 bpm</li>
-                      <li className="flex items-center gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 text-green-600" /> Non-smoker</li>
-                      <li className="flex items-center gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 text-green-600" /> Active most days of the week</li>
-                    </ul>
-                  </div>
-                  <div className="not-prose grid grid-cols-1 gap-3">
-                    <div className="p-4 bg-orange-50 border border-orange-100 rounded-xl">
-                      <p className="text-sm font-bold text-orange-900 flex items-center gap-2">
-                        <Cigarette className="w-4 h-4" /> Smoking Impact
-                      </p>
-                      <p className="text-xs text-orange-800 mt-1">Smoking is the #1 heart age accelerator. Quitting can reduce your heart age by years in just 6-12 months.</p>
-                    </div>
-                    <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl">
-                      <p className="text-sm font-bold text-blue-900 flex items-center gap-2">
-                        <Scale className="w-4 h-4" /> Abdominal Fat
-                      </p>
-                      <p className="text-xs text-blue-800 mt-1">Waist circumference is often a better predictor of heart age than total weight or BMI.</p>
-                    </div>
-                  </div>
-                </div>
-              </section>
+                      <section>
+                        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                          Is Your Heart Healthy? (Checklist)
+                        </h2>
 
+                        {/* Image */}
+                        <div className="mb-8 flex justify-center">
+                          <Image
+                            src="/heart-age-calculator.png"
+                            alt="Heart health checklist illustration showing blood pressure, resting heart rate, non-smoking and active lifestyle"
+                            width={800}
+                            height={450}
+                            className="rounded-2xl shadow-lg border border-red-100"
+                            priority
+                          />
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div className="space-y-4">
+                            <p className="text-gray-700">
+                              If you can check most of these boxes, your heart age is likely younger than your birthday:
+                            </p>
+                            <ul className="space-y-2">
+                              <li className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle2 className="w-4 h-4 text-green-600" />
+                                Blood pressure &lt; 120/80
+                              </li>
+                              <li className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle2 className="w-4 h-4 text-green-600" />
+                                Resting heart rate 60–80 bpm
+                              </li>
+                              <li className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle2 className="w-4 h-4 text-green-600" />
+                                Non-smoker
+                              </li>
+                              <li className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle2 className="w-4 h-4 text-green-600" />
+                                Active most days of the week
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div className="not-prose grid grid-cols-1 gap-3">
+                            <div className="p-4 bg-orange-50 border border-orange-100 rounded-xl">
+                              <p className="text-sm font-bold text-orange-900 flex items-center gap-2">
+                                <Cigarette className="w-4 h-4" /> Smoking Impact
+                              </p>
+                              <p className="text-xs text-orange-800 mt-1">
+                                Smoking is the #1 heart age accelerator. Quitting can reduce your heart age by years in just 6–12 months.
+                              </p>
+                            </div>
+
+                            <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl">
+                              <p className="text-sm font-bold text-blue-900 flex items-center gap-2">
+                                <Scale className="w-4 h-4" /> Abdominal Fat
+                              </p>
+                              <p className="text-xs text-blue-800 mt-1">
+                                Waist circumference is often a better predictor of heart age than total weight or BMI.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
               {/* Reductions Section */}
               <section className="bg-green-500 text-white p-8 rounded-3xl shadow-xl">
                 <h2 className="text-2xl font-bold mb-4">Can Heart Age Be Reduced?</h2>
