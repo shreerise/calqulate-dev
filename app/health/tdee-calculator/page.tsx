@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     "Calculate your Total Daily Energy Expenditure (TDEE). Understand how your body uses energy through BMR, movement, food processing, and adaptation.",
   keywords:
     "TDEE calculator, total daily energy expenditure, calculate TDEE, energy expenditure, daily calories, metabolism tool, BMR calculator, calories burned, weight management",
+  alternates: {
+    canonical: "https://calqulate.net/health/tdee-calculator",
+  },
 }
 
 const faqs = [

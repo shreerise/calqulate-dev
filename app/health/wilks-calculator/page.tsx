@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     "Coach-level explanation for lifters in India, UK & USA — accurate, transparent, and competition-aware. Learn how to calculate Wilks score and compare strength.",
   keywords:
     "Wilks calculator, how to calculate Wilks score, Wilks score calculator, powerlifting calculator, Wilks vs IPF calculator, DOT calculator, Wilks formula, powerlifting score, strength standards",
+  alternates: {
+    canonical: "https://calqulate.net/health/wilks-calculator",
+  },
 }
 
 const faqs = [

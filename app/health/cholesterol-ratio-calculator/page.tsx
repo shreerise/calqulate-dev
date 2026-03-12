@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     "Instantly check your cholesterol ratios (HDL, LDL, TC) and heart health risk. Simple, accurate, and free—see how balanced your numbers really are.",
   keywords:
     "cholesterol ratio calculator, cholesterol hdl ratio calculator, how to calculate cholesterol ratio, triglycerides cholesterol ratio calculator, how do you calculate your cholesterol ratio, calculate cholesterol ratio, cholesterol ratio calculation, how do i calculate my cholesterol ratio, how to calculate your cholesterol ratio, ratio cholesterol calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/cholesterol-ratio-calculator",
+  },
 }
 
 const faqs = [

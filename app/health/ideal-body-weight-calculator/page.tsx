@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "Calculate your ideal body weight (IBW) based on medical formulas. Understand your healthy weight range for height and gender with our accurate tool.",
   keywords:
     "ideal body weight calculator, IBW calculator, how to calculate ideal weight, ideal weight for women, ideal weight for men, Devine formula, healthy weight range",
+  alternates: {
+    canonical: "https://calqulate.net/health/ideal-body-weight-calculator",
+  },
 }
 
 const faqs = [

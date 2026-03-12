@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "Feeling tired despite sleeping? Calculate your sleep debt accurately. Find your sleep deficit by age and get a science-backed recovery plan to restore your energy.",
   keywords:
     "sleep debt calculator, sleep deficit calculator, calculate sleep debt, sleep debt symptoms, sleep debt recovery plan, catch up on sleep myth, sleep debt by age",
+  alternates: {
+    canonical: "https://calqulate.net/health/sleep-debt-calculator",
+  },
 }
 
 const faqs = [

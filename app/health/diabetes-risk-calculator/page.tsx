@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     "Assess your risk of developing type 2 diabetes with our free calculator. Based on lifestyle, family history, and body measurements. Fast, accurate, and private.",
   keywords:
     "diabetes risk calculator, type 2 diabetes risk, prediabetes screening, IDRS calculator, Indian diabetes risk score, gestational diabetes risk, calculate diabetes risk online",
+  alternates: {
+    canonical: "https://calqulate.net/health/diabetes-risk-calculator",
+  },
 }
 
 const faqs = [

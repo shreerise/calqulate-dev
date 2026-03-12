@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     "Calculate exact calories burned during running, walking, cycling, or any workout. Use our advanced Activity (MET) and Heart Rate formulas to track your fat loss accurately.",
   keywords:
     "calories burned calculator, how many calories did i burn, calorie burn calculator heart rate, walking calories calculator, running calories burned, MET value calculator, fat burn calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/calories-burned-calculator",
+  },
 }
 
 const faqs = [

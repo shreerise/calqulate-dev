@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     "Find out if your heart is older or younger than your actual age. Use our heart age calculator based on blood pressure, cholesterol, and lifestyle factors to assess cardiovascular risk.",
   keywords:
     "heart age calculator, cardiac age calculator, cardiovascular age, heart health test, ASCVD risk, calculate heart age, heart rate by age, reduce heart age",
+  alternates: {
+    canonical: "https://calqulate.net/health/heart-age-calculator",
+  },
 }
 
 const faqs = [

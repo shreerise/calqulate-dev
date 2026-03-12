@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     "Estimate your body fat percentage using the U.S. Navy method. Understand your body composition, health risks, and fitness levels better than BMI.",
   keywords:
     "body fat calculator, body fat percentage calculator, calculate body fat, navy method body fat, ideal body fat percentage, body fat for men, body fat for women, fat loss tracking",
+  alternates: {
+    canonical: "https://calqulate.net/health/body-fat-calculator",
+  },
 }
 
 const faqs = [

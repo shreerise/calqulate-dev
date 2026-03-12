@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "Use our blood pressure calculator to classify your BP readings into levels like Normal, Elevated, or Hypertension. Learn how age and gender affect your BP.",
   keywords:
     "blood pressure calculator, BP level calculator, normal blood pressure by age, calculate blood pressure, high blood pressure range, systolic and diastolic meaning",
+  alternates: {
+    canonical: "https://calqulate.net/health/blood-pressure-calculator",
+  },
 }
 
 const faqs = [

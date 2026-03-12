@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "Calculate your BMI (Body Mass Index) to understand if your weight matches your height. Get personalized health tips for men, women, and simple diet swaps.",
   keywords:
     "BMI calculator, body mass index, how to calculate BMI, BMI chart, healthy weight calculator, BMI for men, BMI for women, weight management",
+  alternates: {
+    canonical: "https://calqulate.net/health/bmi-calculator",
+  },
 }
 
 const faqs = [

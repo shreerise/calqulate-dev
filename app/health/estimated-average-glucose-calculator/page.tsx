@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "Easily convert your HbA1c percentage into Estimated Average Glucose (eAG). Understand your daily blood sugar levels in mg/dL or mmol/L for better diabetes management.",
   keywords:
     "eAG calculator, estimated average glucose, HbA1c to glucose conversion, calculate average blood sugar, A1c to eAG formula, diabetes management tool",
+  alternates: {
+    canonical: "https://calqulate.net/health/estimated-average-glucose-calculator",
+  },
 }
 
 const faqs = [

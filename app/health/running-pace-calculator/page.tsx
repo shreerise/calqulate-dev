@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     "Plan your race strategy with our running pace calculator. Convert pace between km and miles, estimate finish times for 5K, 10K, and Marathons, and track performance.",
   keywords:
     "running pace calculator, calculate running pace, marathon pace chart, 10k pace calculator, pace conversion km to miles, run walk pace calculator, finish time estimator",
+  alternates: {
+    canonical: "https://calqulate.net/health/running-pace-calculator",
+  },
 }
 
 const faqs = [

@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Creatinine Clearance Calculator (Cockcroft-Gault) - Free & Accurate",
   description: "Accurately calculate Creatinine Clearance (CrCl) using the Cockcroft-Gault formula. Assess kidney function and GFR online with our instant calculator.",
   keywords: "creatinine clearance calculator, calcul clearance creatinine, calculate creatinine clearance, calculated creatinine clearance calculator, formula creatinine clearance calculator, calculation of creatinine clearance formula, how to calculate creatinine clearance, creatinine clearance calculation, calculating creatinine clearance, calculate gfr creatinine clearance",
+  alternates: {
+    canonical: "https://calqulate.net/health/creatinine-clearance-calculator",
+  },
 }
 
 const faqs = [

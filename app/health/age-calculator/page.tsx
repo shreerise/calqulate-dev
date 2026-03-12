@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "Use our free age calculator to accurately find your age in years, months, days, and total days lived. Perfect for official forms, job applications, and personal use.",
   keywords:
     "age calculator, calculate age from date of birth, age calculator online, calculate my age, age difference calculator, date of birth age, age in days calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/age-calculator",
+  },
 }
 
 const faqs = [

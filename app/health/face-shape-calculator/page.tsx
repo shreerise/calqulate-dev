@@ -45,6 +45,9 @@ export const metadata: Metadata = {
     "Instantly detect your face shape with AI! Get personalized hairstyle, glasses, and makeup tips—all private, secure, and beautifully accurate.",
   keywords:
     "face shape calculator, calculate my face shape, face calculator shape, shape face calculator, how to determine face shape calculator, AI face shape detector, determine face shape, face shape analysis, face type, hairstyle for face shape, glasses for face shape, makeup for face shape, face shape tool, online face shape",
+  alternates: {
+    canonical: "https://calqulate.net/health/face-shape-calculator",
+  },
 };
 
 const faqs = [

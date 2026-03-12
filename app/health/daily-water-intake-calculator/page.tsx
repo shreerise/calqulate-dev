@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "Calculate your personalized daily water intake based on weight, activity level, and climate. Get specific hydration advice for Indian weather conditions.",
   keywords:
     "daily water intake calculator, how much water to drink, hydration calculator, water intake calculator India, calculate water needs by weight, dehydration signs",
+  alternates: {
+    canonical: "https://calqulate.net/health/daily-water-intake-calculator",
+  },
 }
 
 const faqs = [

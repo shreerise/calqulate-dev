@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Draw Length Calculator: Find Your Perfect Archery Fit",
   description: "Find your ideal archery draw length using our wingspan method. Get accurate, safe, and comfortable results for your bow setup—fast and easy.",
   keywords: "draw length calculator, bow draw length calculator, archery calculator, archery draw length calculator, how to calculate draw length compound bow, how to calculate draw length, draw length formula, wingspan method archery, arrow length calculator, archery for beginners, compound bow draw length, recurve bow draw length",
+  alternates: {
+    canonical: "https://calqulate.net/health/draw-length-calculator",
+  },
 }
 
 const faqs = [

@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "Calculate your heart age and 10-year risk of heart attack or stroke using the official UK QRISK3 calculator. The gold standard cardiovascular risk calculator for NHS health checks.",
   keywords:
     "qrisk3 calculator, cardiovascular risk calculator, cardiovascular event risk calculator, 10 year cardiovascular risk calculator uk, qrisk2 score, cardiovascular disease risk score, qrisk3 score calculator, qrisk3 nhs calculator, qrisk3 cardiovascular disease 10 year risk calculator score",
+  alternates: {
+    canonical: "https://calqulate.net/health/qrisk3-calculator",
+  },
 }
 
 const faqs = [

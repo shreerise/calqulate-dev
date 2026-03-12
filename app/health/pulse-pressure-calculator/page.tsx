@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "Learn how to calculate pulse pressure and what it reveals about your heart health. Our pulse pressure calculator helps you identify narrow or wide ranges for better cardiovascular awareness.",
   keywords:
     "how to calculate pulse pressure, pulse pressure calculation, how do you calculate pulse pressure, pulse pressure calculator, calculate pulse pressure, how to calculate a pulse pressure, how to calculate the pulse pressure, how is pulse pressure calculated, calculate the pulse pressure, normal pulse pressure range, wide pulse pressure, narrow pulse pressure",
+  alternates: {
+    canonical: "https://calqulate.net/health/pulse-pressure-calculator",
+  },
 }
 
 const faqs = [

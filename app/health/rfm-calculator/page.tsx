@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "RFM Calculator — Estimate Body Fat % Fast (Free)",
   description: "Quickly calculate your RFM score from height & waist. Get an easy body-fat %, clear interpretation, and practical next steps — free and instant. Try it now!",
   keywords: "rfm calculator, relative fat mass, body fat percentage, body composition, ideal body weight, finding ideal weight, age weight tool, best weight calculator, perfect body weight calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/rfm-calculator",
+  },
 }
 
 // Updated FAQ data from your new content

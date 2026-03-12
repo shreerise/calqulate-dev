@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: "Ponderal Index Calculator: Corpulence Index Explained",
   description: "Calculate your Ponderal Index (PI) score to assess your body composition more accurately than BMI, especially for tall or short individuals. Use our evidence-based formulas for adults and pediatrics.",
   keywords: "Ponderal Index calculator, Corpulence Index calculator, Rohrer's Index, what is Ponderal Index, PI formula, Ponderal Index vs BMI, body composition, healthy weight, child growth assessment",
+  alternates: {
+    canonical: "https://calqulate.net/health/ponderal-index-calculator",
+  },
 }
 
 // New FAQ data based on your provided content

@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: "Obesity Risk Calculator: Assess Your Health Profile Instantly",
   description: "Check your obesity and metabolic risk instantly. Our advanced Obesity Risk Calculator goes beyond BMI by analyzing your Waist-to-Height Ratio (WHtR) and lifestyle for accurate health insights.",
   keywords: "obesity risk calculator, BMI calculator, metabolic risk calculator, waist to height ratio calculator, health risk assessment, visceral fat calculator, overweight health risk, calculate obesity level",
+  alternates: {
+    canonical: "https://calqulate.net/health/obesity-risk-calculator",
+  },
 };
 
 const faqs = [

@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "Predict your next period, estimate ovulation, and find your fertile window with our accurate period cycle calculator. Perfect for regular and irregular cycles.",
   keywords:
     "period cycle calculator, menstrual cycle tracker, calculate period length, ovulation predictor, irregular period calculator, fertile days after period, LMP calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/period-cycle-calculator",
+  },
 }
 
 const faqs = [

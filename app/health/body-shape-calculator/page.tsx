@@ -11,11 +11,14 @@ import { Ruler, HeartPulse, UserCheck, Shield, BookOpen, Calculator as Calculato
 import { Sparkles, Activity, Shirt, Dumbbell, Smile } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Body Shape Calculator: Find Your True Type Instantly",
+  title: "Body Shape Calculator (Female & Male) – Find Your Body Type",
   description:
     "Uncover your true body shape and what it means for style, fitness, and health. Our Body Shape Calculator identifies whether you're an hourglass, pear, apple, rectangle, or inverted triangle and provides personalized insights.",
   keywords:
     "body shape calculator, female body shape calculator, body type calculator, what is my body shape, body measurements, body shape calculator 3d, hourglass body shape, pear shape, apple body shape, rectangle body shape, inverted triangle body shape, male body type chart, what is my body shape calculator, what body shape am i calculator, what is your body shape calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/body-shape-calculator",
+  },
 }
 
 const faqs = [
@@ -126,28 +129,39 @@ export default function BodyShapeCalculatorPage() {
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="grid md:grid-cols-2 gap-6 pt-2">
-                <div className="text-gray-700 text-sm leading-relaxed">
-                  <ul className="list-disc pl-5 space-y-2">
-                    <li>Identifies your body shape accurately using your key measurements.</li>
-                    <li>Links your shape to personalized style suggestions and outfit ideas.</li>
-                    <li>Provides insights on fat distribution and wellness considerations.</li>
-                  </ul>
+                <CardContent className="grid md:grid-cols-2 gap-6 pt-2">
+
+                {/* Female Body Shapes */}
+                <div className="flex flex-col items-center gap-3">
+                <Image
+                src="/body-shape-illustration.png"
+                alt="Female body shapes chart showing apple pear hourglass rectangle and diamond body types"
+                width={320}
+                height={220}
+                className="rounded-xl border border-gray-200 bg-white object-contain"
+                />
+
+                <p className="text-gray-500 text-xs text-center">
+                Female body shapes including apple, pear, hourglass, rectangle and diamond.
+                </p>
                 </div>
 
+                {/* Male Body Shapes */}
                 <div className="flex flex-col items-center gap-3">
-                  <Image
-                    src="/body-shape-illustration.png"
-                    alt="Different body shapes illustration"
-                    width={320}
-                    height={220}
-                    className="rounded-xl border border-gray-200 bg-white object-contain"
-                  />
-                  <p className="text-gray-500 text-xs text-center">
-                    Get a visual sense of how your measurements correspond to common body shapes.
-                  </p>
+                <Image
+                src="/male-body-shapes.png"
+                alt="Male body shapes chart showing rectangle triangle inverted triangle oval and trapezoid"
+                width={320}
+                height={220}
+                className="rounded-xl border border-gray-200 bg-white object-contain"
+                />
+
+                <p className="text-gray-500 text-xs text-center">
+                Common male body types such as rectangle, triangle, inverted triangle, oval and trapezoid.
+                </p>
                 </div>
-              </CardContent>
+
+                </CardContent>
             </Card>
           </section>
 

@@ -32,6 +32,9 @@ export const metadata: Metadata = {
     "Calculate your ideal daily fat intake for weight loss, keto, or muscle gain. Our accurate Fat Intake Calculator breaks down saturated, unsaturated, and trans fats.",
   keywords:
     "fat intake calculator, saturated fat calculator, how much fat should i eat per day calculator, daily fat intake calculator, fats calculator, protein intake calculator for fat loss, fat intake calculator for muscle gain, saturated fat intake calculator, how much fat should i eat per day to lose weight, how much fat per day, how many grams of fat per day to lose weight, how much fat should i eat per day, fat calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/fat-intake-calculator",
+  },
   openGraph: {
     title: "Fat Intake Calculator — Calqulate",
     description: "Calculate daily fat needs (grams) and get a visual, practical breakdown for healthy eating.",

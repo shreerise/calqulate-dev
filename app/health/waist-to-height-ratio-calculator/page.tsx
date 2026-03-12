@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     "Measure your waist to height ratio (WHtR) to assess abdominal fat and metabolic health. Learn why keeping your waist less than half your height is vital.",
   keywords:
     "waist to height ratio calculator, WHtR calculator, height to waist ratio, calculate waist to height ratio, abdominal fat calculator, WHtR NHS, metabolic health risk",
+  alternates: {
+    canonical: "https://calqulate.net/health/waist-to-height-ratio-calculator",
+  },
 }
 
 const faqs = [

@@ -23,6 +23,9 @@ export const metadata: Metadata = {
     "Instantly calculate your target heart rate zones, including Zone 2 for fat burning and your maximum heart rate. Use our pro Karvonen formula tool for accuracy.",
   keywords:
     "max heart rate calculator, target heart rate calculator, finding maximum heart rate calculator, heart rate zone calculator, how to calculate heart rate, heart rate calculator, how to calculate max heart rate, maximum heart rate calculator, zone 2 heart rate calculator, calculate max heart rate",
+  alternates: {
+    canonical: "https://calqulate.net/health/heart-rate-calculator",
+  },
 }
 
 // Extracted from your content's "Frequently Asked Questions" section for Schema/SEO

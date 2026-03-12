@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "Find out how many calories your body burns at rest with our accurate BMR calculator. Uses the Mifflin-St Jeor equation for precise metabolic rate estimation.",
   keywords:
     "BMR calculator, basal metabolic rate, calculate BMR, resting metabolic rate, metabolic age, calorie burn at rest, Mifflin-St Jeor formula",
+  alternates: {
+    canonical: "https://calqulate.net/health/bmr-calculator",
+  },
 }
 
 const faqs = [

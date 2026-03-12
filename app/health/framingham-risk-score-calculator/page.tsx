@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "Predict your 10-year heart health with the Framingham Risk Score Calculator. Estimate your risk of heart attack or stroke based on the Framingham Heart Study.",
   keywords:
     "Framingham Risk Calculator, framingham risk calculator, framingham risk score calculator, framingham heart risk calculator, framingham heart study risk calculator, framingham study risk calculator, 10 year ascvd risk calculator framingham",
+  alternates: {
+    canonical: "https://calqulate.net/health/framingham-risk-score-calculator",
+  },
 }
 
 const faqs = [

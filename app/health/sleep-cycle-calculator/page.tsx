@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     "Never wake up feeling groggy again. Our advanced Sleep Cycle Calculator factors in customized sleep latency and REM cycles to find your perfect bedtime and wake-up time.",
   keywords:
     "sleep calculator, sleep cycle calculator, bedtime calculator, wake up time calculator, rem sleep calculator, 90 minute sleep cycle, how much sleep do I need, optimal sleep calculator, sleep stages",
+  alternates: {
+    canonical: "https://calqulate.net/health/sleep-cycle-calculator",
+  },
 };
 
 const faqs = [

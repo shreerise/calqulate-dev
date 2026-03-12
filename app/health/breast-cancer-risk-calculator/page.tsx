@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     "Estimate your 5-year and lifetime breast cancer risk using validated models like Gail and Tyrer-Cuzick. Understand your risk factors and screening needs.",
   keywords:
     "breast cancer risk calculator, gail model breast cancer, tyrer-cuzick score, breast cancer risk assessment tool, lifetime risk assessment, family history breast cancer calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/breast-cancer-risk-calculator",
+  },
 }
 
 const faqs = [

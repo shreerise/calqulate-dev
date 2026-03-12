@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     "Calculate your estimated One Rep Max (1RM) for bench press, squat, and deadlift. Safe, accurate, and science-backed strength tools from calqulate.net.",
   keywords:
     "one rep max calculator, 1RM calculator, calculate bench press max, squat max calculator, strength calculator, calqulate.net, weightlifting tool",
+  alternates: {
+    canonical: "https://calqulate.net/health/one-rep-max-calculator",
+  },
 }
 
 const faqs = [

@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "Professional Mean Arterial Pressure (MAP) Calculator. Learn the formula, specialized clinical targets for sepsis and stroke, and how to calculate mean arterial pressure from blood pressure accurately.",
   keywords:
     "map calculator, mean arterial pressure calculator, calculate mean arterial pressure, how to calculate mean arterial pressure, mean arterial pressure formula, map formula, calculate mean arterial pressure from blood pressure, mean arterial pressure calculation, formula for calculating mean arterial pressure, how do you calculate mean arterial pressure, calculating mean arterial pressure, how is mean arterial pressure calculated, how to calculate mean arterial pressure from bpr",
+  alternates: {
+    canonical: "https://calqulate.net/health/mean-arterial-pressure-calculator",
+  },
 }
 
 const faqs = [

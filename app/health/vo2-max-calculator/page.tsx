@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "Estimate your VO2 max using the Cooper or Rockport tests. Learn how to calculate VO2 max, interpret your score, and improve your cardiovascular fitness.",
   keywords:
     "VO2 max calculator, how to calculate VO2 max, calculate VO2 max, estimate VO2 max, Garmin VO2 max calculation, Cooper test formula, Rockport walk test, aerobic capacity calculator, fitness level calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/vo2-max-calculator",
+  },
 }
 
 const faqs = [

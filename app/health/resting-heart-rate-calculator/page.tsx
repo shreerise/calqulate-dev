@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Resting Heart Rate Calculator: Check Your Heart Health Instantly",
   description: "Calculate your resting heart rate (RHR) and see how you compare to health standards. Use our interactive tap-to-measure tool for accurate results and personalized health insights.",
   keywords: "resting heart rate calculator, normal resting heart rate by age, how to measure RHR, heart health tool, pulse calculator, bradycardia, tachycardia, fitness level heart rate",
+  alternates: {
+    canonical: "https://calqulate.net/health/resting-heart-rate-calculator",
+  },
 }
 
 const faqs = [

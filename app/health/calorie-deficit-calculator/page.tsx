@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     "Calculate your maintenance calories and daily calorie deficit needed to lose weight safely. Learn the exact formula for fat loss and muscle preservation.",
   keywords:
     "calorie deficit calculator, calculate calorie deficit, weight loss calculator, fat loss calculator, BMR calculator, TDEE calculator, calorie deficit for weight loss",
+  alternates: {
+    canonical: "https://calqulate.net/health/calorie-deficit-calculator",
+  },
 }
 
 const faqs = [

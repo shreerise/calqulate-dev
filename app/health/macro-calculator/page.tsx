@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "Calculate your ideal daily macros for weight loss, muscle gain, or maintenance. Trusted by professionals at calqulate.net for science-backed nutrition planning.",
   keywords:
     "macro calculator, calculate macros, macro calculator for weight loss, macros for muscle gain, protein calculator, calqulate.net, nutrition tool",
+  alternates: {
+    canonical: "https://calqulate.net/health/macro-calculator",
+  },
 }
 
 const faqs = [

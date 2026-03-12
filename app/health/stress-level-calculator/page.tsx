@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     "Measure your mental load with our clinically validated Stress Level Calculator. Based on the Perceived Stress Scale (PSS), discover your burnout risk, psychological sub-scores, and actionable health insights.",
   keywords:
     "stress level calculator, perceived stress scale calculator, online stress test, measure stress levels, PSS-10 test, how stressed am I, stress test online, burnout calculator, emotional stress test",
+  alternates: {
+    canonical: "https://calqulate.net/health/stress-level-calculator",
+  },
 }
 
 const faqs = [

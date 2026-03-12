@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     "Calculate your 10-year risk of heart disease or stroke. Our ASCVD score calculator uses the Pooled Cohort Equation (PCE) and modern PREVENT guidelines for accurate prediction.",
   keywords:
     "ascvd risk calculator, ascvd calculator, cardiac risk calculator, cardiovascular risk calculator, pooled cohort equation, ascvd score, mdcalc ascvd, 10 year cardiovascular risk calculator, ascvd score calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/ascvd-risk-calculator",
+  },
 }
 
 const faqs = [
