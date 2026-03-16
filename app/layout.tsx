@@ -15,8 +15,7 @@ export const metadata: Metadata = {
   title: "Calqulate - Professional Health Calculators",
   description:
     "Calculate your health metrics instantly with Calqulate.net — your trusted hub for accurate BMI, body fat, calorie, and ideal weight calculators.",
-  keywords:
-    "calqulate.net",
+  keywords: "calqulate.net",
   generator: "Calqulate",
   robots: "index, follow",
   openGraph: {
@@ -54,18 +53,18 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <OrganizationSchema />
-        {/* Favicon and Apple Touch Icon */}
+
+        {/* Favicon */}
         <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
         <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
         <link rel="manifest" href="/favicon/site.webmanifest" />
 
-        {/*
-          ==========================
-          Google Tag Manager - HEAD snippet
-          ==========================
-        */}
+        {/* Google AdSense Verification */}
+        <meta name="google-adsense-account" content="ca-pub-4361792190799561" />
+
+        {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -78,11 +77,7 @@ export default function RootLayout({
           }}
         />
 
-        {/*
-          ==========================
-          Google Analytics (gtag.js) Script
-          ==========================
-        */}
+        {/* Google Analytics */}
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
@@ -97,16 +92,19 @@ export default function RootLayout({
             `,
           }}
         />
+
+        {/* Google AdSense Script */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4361792190799561"
+          crossOrigin="anonymous"
+        ></script>
       </head>
 
       <body
         className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
-        {/*
-          ==========================
-          Google Tag Manager - NoScript snippet
-          ==========================
-        */}
+        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -117,6 +115,7 @@ export default function RootLayout({
         </noscript>
 
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+
         <Analytics />
       </body>
     </html>
