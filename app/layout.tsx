@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { OrganizationSchema } from "@/components/seo/structured-data";
 import "./globals.css";
 import { Suspense } from "react";
+import CalculatorPopup from "@/components/ui/calculator-popup";
 
 // GTM and GA IDs
 const GTM_ID = "GTM-MNCCJNHF";
@@ -116,6 +117,8 @@ export default function RootLayout({
 
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 
+        <CalculatorPopup />
+        
         <Analytics />
       </body>
     </html>
