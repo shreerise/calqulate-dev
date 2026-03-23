@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
+export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   try {
     const { name, email, subject, phone, country, message } = await req.json();
@@ -8,8 +10,9 @@ export async function POST(req: Request) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const data = await resend.emails.send({
-      from: "Calqulate.net <onboarding@resend.dev>",
-      to: "shreerise@gmail.com",
+      from: "Calqulate.net <krushal.barasiya@calqulate.net>",
+      to: "shreeriise@gmail.com",
+      replyTo: email,
       subject: `New Contact Form: ${subject}`,
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px; border-radius: 8px;">
