@@ -1,61 +1,97 @@
 import type { Metadata } from "next"
-import Image from "next/image"
+import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import PonderalIndexCalculator from "@/components/calculators/ponderal-index-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen, Activity, Scale, Baby } from "lucide-react"
-import Link from "next/link"
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
+import {
+  Scale,
+  Baby,
+  Calculator,
+  ShieldCheck,
+  UserCheck,
+  Info,
+  FileText,
+  Activity,
+  CheckCircle2,
+  ArrowRight,
+  BarChart3,
+  BookOpen,
+  HeartPulse,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
+// ─────────────────────────────────────────────
+// METADATA
+// Primary cluster (124 imp): "ponderal index normal range 11–15 adults"
+// Secondary: "ponderal index calculator" (pos 65), "rohrer index" (pos 20–23)
+// Gaps: "fetal ponderal index", "ponderal index chart", "corpulence index"
+// ─────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: "Ponderal Index Calculator: Corpulence Index Explained",
-  description: "Calculate your Ponderal Index (PI) score to assess your body composition more accurately than BMI, especially for tall or short individuals. Use our evidence-based formulas for adults and pediatrics.",
-  keywords: "Ponderal Index calculator, Corpulence Index calculator, Rohrer's Index, what is Ponderal Index, PI formula, Ponderal Index vs BMI, body composition, healthy weight, child growth assessment",
-  alternates: {
-    canonical: "https://calqulate.net/health/ponderal-index-calculator",
-  },
+  title: "Ponderal Index Calculator – Normal Range 11–15 for Adults & Children | Rohrer's Index",
+  description:
+    "Calculate your Ponderal Index (Corpulence Index / Rohrer's Index) free. Normal range for adults is 11–15 kg/m³. Includes adult, child, and newborn/fetal PI formulas with reference charts.",
+  keywords:
+    "ponderal index calculator, ponderal index normal range, ponderal index normal range adults 11 15, rohrer index normal values, corpulence index, ponderal index formula, ponderal index chart, fetal ponderal index, ponderal index newborn, ponderal index vs bmi, what is ponderal index, rohrer index, ponderal index definition",
 }
 
-// New FAQ data based on your provided content
+// ─────────────────────────────────────────────
+// FAQ — mapped to real GSC queries
+// "what is ponderal index" (pos 65), "ponderal index formula" (pos 53)
+// "ponderal index normal range" (pos 36), "rohrer index normal values" (pos 11)
+// "fetal ponderal index" (pos 56), "corpulence index formula" (pos 40)
+// ─────────────────────────────────────────────
 const faqs = [
   {
     question: "What is the Ponderal Index?",
-    answer: "The Ponderal Index (PI), or Corpulence Index, is a body composition test that measures your weight against your height raised to the third power. This process provides a better measurement of body proportion than BMI, and is superior for very short or very tall persons."
+    answer:
+      "The Ponderal Index (PI), also called the Corpulence Index or Rohrer's Index, is a measure of body composition that compares weight to the cube of height (weight ÷ height³). Unlike BMI which uses height squared, PI accounts for the three-dimensional volume of the body, making it more accurate for very tall, very short, or lean individuals.",
   },
   {
     question: "What is the Ponderal Index formula?",
-    answer: "For adults, the formula is PI = weight (kg) ÷ height³ (m³). For infants or children, the formula is PI = weight (grams) ÷ height³ (cm³). It is sometimes referred to as the Corpulence Index formula and is utilized to determine whether a human body weight is healthy."
+    answer:
+      "For adults: PI = Weight (kg) ÷ Height³ (m³). For infants and children: PI = Weight (g) ÷ Height³ (cm³). Note that the adult and infant formulas use different units and produce numerically different results — do not compare adult PI values to infant PI values directly.",
   },
   {
     question: "How do you manually calculate the Ponderal Index?",
-    answer: "To calculate the Ponderal Index manually: 1. Convert your height to meters. 2. Cube the height (height × height × height). 3. Divide your weight (in kg) by the cubed height. The resulting number is your Ponderal Index (kg/m³)."
+    answer:
+      "Example for a 70 kg adult who is 1.75 m tall: Height³ = 1.75 × 1.75 × 1.75 = 5.359 m³. PI = 70 ÷ 5.359 = 13.06 kg/m³. Since 13.06 falls within 11–15, this person is in the normal range. For a newborn: divide weight in grams by height in cm cubed. A result between 2.32 and 2.85 g/cm³ is normal.",
   },
   {
-    question: "What is the normal Ponderal Index range?",
-    answer: "The average Ponderal Index for adults is between 11 and 15. For newborn infants and young children, the average is 2.2 to 3.0 g/cm³. A measurement lower or higher than these values may indicate an underweight or overweight body composition."
+    question: "What is the normal Ponderal Index range for adults?",
+    answer:
+      "The normal Ponderal Index range for adults is 11–15 kg/m³. A PI below 11 kg/m³ indicates underweight. A PI above 15 kg/m³ indicates overweight. These thresholds are used in clinical and research settings and are consistently referenced across medical literature.",
   },
   {
-    question: "Is the Ponderal Index more accurate than the BMI?",
-    answer: "Yes, the Ponderal Index is often seen as more accurate than BMI because it considers your body's 3D shape. BMI uses height squared (2D), while PI uses height cubed (3D), which makes it a better assessment for individuals who are very tall or short."
+    question: "What are normal Rohrer Index values?",
+    answer:
+      "Rohrer's Index is another name for the Ponderal Index, named after the German physiologist Fritz Rohrer. Normal Rohrer Index values for adults are 11–15 kg/m³. For neonates and infants, normal values using the pediatric formula (g/cm³) are typically 2.32–2.85 g/cm³. Values outside this range in newborns may indicate intrauterine growth restriction (IUGR) or macrosomia.",
   },
   {
-    question: "What does my Ponderal Index result indicate?",
-    answer: "Your Ponderal Index result indicates your body weight status. A score below 11 suggests you are underweight. A score between 11 and 15 indicates a healthy weight. A score above 15 suggests you are overweight. These are calculated from your height and weight."
+    question: "What is the fetal and newborn Ponderal Index?",
+    answer:
+      "The fetal Ponderal Index (FPI) is used by obstetricians and neonatologists to assess intrauterine growth. It is calculated as: Fetal PI = Weight (g) ÷ Crown-heel length³ (cm³). A normal neonatal PI is 2.32–2.85 g/cm³. A low FPI (< 2.2) may indicate symmetric intrauterine growth restriction (IUGR). A high FPI (> 3.0) may indicate macrosomia.",
   },
   {
-    question: "Can I also use the Ponderal Index Calculator for infants or young persons?",
-    answer: "Yes, our Ponderal Index Calculator has a specific mode for children and infants. For infants, the formula applies grams and centimeters (PI = weight ÷ height³). This enables physicians to review their growth and identify potential issues like Intrauterine Growth Restriction (IUGR)."
-  }
-];
+    question: "Is the Ponderal Index more accurate than BMI?",
+    answer:
+      "For very tall, very short, and lean individuals, yes — PI is more accurate than BMI because it uses height cubed rather than height squared, approximating body volume rather than area. BMI systematically overestimates adiposity in tall people and underestimates it in short people. However, like BMI, PI does not distinguish muscle from fat, so muscular individuals may still be misclassified.",
+  },
+  {
+    question: "What does my Ponderal Index result mean?",
+    answer:
+      "For adults: PI < 11 kg/m³ = underweight; 11–15 = normal healthy range; > 15 = overweight. These thresholds apply to the standard adult formula (kg/m³). For infants and children using the pediatric formula (g/cm³), the normal range is approximately 2.2–3.0 g/cm³ — do not apply adult thresholds to infant results.",
+  },
+]
 
 export default function PonderalIndexCalculatorPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <CalculatorSchema
         name="Ponderal Index Calculator"
-        description="Calculate your Ponderal Index (PI) or Corpulence Index to assess body composition for adults and children."
+        description="Calculate Ponderal Index (Corpulence Index / Rohrer's Index) for adults and children. Normal adult range is 11–15 kg/m³. Includes fetal and newborn reference values."
         url="https://calqulate.net/health/ponderal-index-calculator"
       />
       <FAQSchema faqs={faqs} />
@@ -65,196 +101,526 @@ export default function PonderalIndexCalculatorPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
+
+            {/* ── HERO ── */}
             <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">Ponderal Index Calculator</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+                Ponderal Index Calculator
+              </h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Our Ponderal Index or Corpulence Index Calculator allows you to see your body weight in proportion to your height in a better way than the BMI. Unlike BMI, which looks at height squared, the Ponderal Index (PI) uses height cubed.
+                Calculate your <strong>Ponderal Index</strong> (also called the <strong>Corpulence Index</strong> or
+                <strong> Rohrer's Index</strong>) — a body composition measure that uses height cubed
+                rather than height squared, giving a more accurate result than BMI for tall, short, or lean individuals.
+              </p>
+              <p className="text-base text-muted-foreground mt-3">
+                <strong>Normal Ponderal Index range for adults: 11–15 kg/m³.</strong> Our calculator
+                supports adult, child, and newborn/fetal formulas with full reference charts and
+                worked calculation examples.
               </p>
             </div>
 
+            {/* ── CALCULATOR COMPONENT ── */}
             <PonderalIndexCalculator />
 
-            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
-              
-              {/* --- What Is Ponderal Index? --- */}
-              <section> 
-                <h2 className="mb-2"><b>What Is Ponderal Index?</b></h2>
-                <p>The Ponderal Index (PI), also known as the Corpulence Index or Rohrer's Index, is a measure of body composition. It is defined as the ratio of your weight in kilograms to the cube of your height in meters. It allows you to assess if your body weight is healthy for your height.</p>
-                <blockquote>Because it includes the cubic height, it better approximates body volume. This makes it a superior index to BMI, especially for very lean or very tall individuals.</blockquote>
-              </section>
+            <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
 
-              {/* --- The Ponderal Index Formula --- */}
-              <section>
-                  <h2 className="mb-2"><b>Ponderal Index Formula</b></h2>
-                  <div className="grid md:grid-cols-2 gap-8 items-start not-prose">
-                      {/* Left side: Formula Cards */}
-                      <div className="space-y-4">
-                          <Card>
-                              <CardHeader>
-                                  <CardTitle className="flex items-center gap-2"><UserCheck className="w-5 h-5" /> For Adults</CardTitle>
-                              </CardHeader>
-                              <CardContent>
-                                  <div className="p-4 bg-muted rounded-lg text-center font-mono text-sm md:text-base">
-                                      PI = Weight (kg) &divide; Height&sup3; (m&sup3;)
-                                  </div>
-                                  <p className="text-sm text-muted-foreground mt-2">This is the standard formula used in clinical and fitness assessments for the adult population.</p>
-                              </CardContent>
-                          </Card>
-                           <Card>
-                              <CardHeader>
-                                  <CardTitle className="flex items-center gap-2"><Baby className="w-5 h-5" /> For Infants/Children</CardTitle>
-                              </CardHeader>
-                              <CardContent>
-                                  <div className="p-4 bg-muted rounded-lg text-center font-mono text-sm md:text-base">
-                                      PI = Weight (g) &divide; Height&sup3; (cm&sup3;)
-                                  </div>
-                                   <p className="text-sm text-muted-foreground mt-2">Note: This result is numerically different from the adult PI (approximately 0.1 times the adult value).</p>
-                              </CardContent>
-                          </Card>
-                      </div>
+              {/* ── WHAT IS PI ── */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <BookOpen className="w-6 h-6 text-teal-600" />
+                  What Is the Ponderal Index? Definition & Background
+                </h2>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  The <strong>Ponderal Index (PI)</strong> — also known as the <strong>Corpulence Index</strong>,
+                  <strong> Rohrer's Index</strong>, or in French as <em>indice pondéral</em> and in German
+                  as <em>Rohrer'scher Index</em> — is a clinical measure of body composition defined as
+                  the ratio of body weight to the <strong>cube</strong> of height.
+                </p>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  It was developed by the German physiologist <strong>Fritz Rohrer</strong> in 1921 as
+                  an improvement over simpler height-weight ratios. By using height³ rather than height²,
+                  PI approximates three-dimensional body <em>volume</em> rather than two-dimensional body
+                  <em>area</em> — a fundamentally more geometrically accurate approach.
+                </p>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  Today it is used across three distinct clinical populations: <strong>adults</strong>
+                  (fitness and obesity assessment), <strong>infants and children</strong> (growth monitoring),
+                  and <strong>fetuses and newborns</strong> (intrauterine growth assessment and IUGR detection).
+                </p>
 
-                      {/* Right side: Reference Chart */}
-                      <Card>
-                          <CardHeader>
-                              <CardTitle className="flex items-center gap-2"><Ruler className="w-5 h-5" /> Ponderal Index Reference Chart</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <h3 className="font-semibold">Adults (kg/m³)</h3>
-                            <ul className="text-sm text-muted-foreground mt-2 space-y-2">
-                                <li className="flex justify-between"><span>&lt; 11</span> <span className="font-medium text-blue-500">Underweight</span></li>
-                                <li className="flex justify-between"><span>11 – 15</span> <span className="font-medium text-green-500">Normal Weight</span></li>
-                                <li className="flex justify-between"><span>&gt; 15</span> <span className="font-medium text-red-500">Overweight</span></li>
-                            </ul>
-                             <h3 className="font-semibold mt-6">Infants & Kids (g/cm³)</h3>
-                              <ul className="text-sm text-muted-foreground mt-2 space-y-2">
-                                <li className="flex justify-between"><span>2.2 – 3.0</span> <span className="font-medium text-green-500">Normal Range</span></li>
-                            </ul>
-                          </CardContent>
-                      </Card>
-                  </div>
-              </section>
-
-              {/* --- Why Use Our Calculator? --- */}
-              <section>
-                <h2 className="mb-2"><b>Why Use Our Calculator?</b></h2>
-                <p>Choosing the right metric matters. Our Ponderal Index calculator offers several advantages over simpler measures like BMI:</p>
-                <div className="space-y-4 mt-4">
-                  <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
-                    <li><strong>More correct than BMI:</strong> The Ponderal Index takes your body's 3D shape into consideration, minimizing misclassification for very tall or very short individuals.</li>
-                    <li><strong>Two modes (Adult & Child):</strong> We provide distinct formulas for adults and infants/children to improve accuracy across age groups.</li>
-                    <li><strong>Quick health check:</strong> A visually-minded bar and readable-at-a-glance results let you instantly see where you stand along the continuum of health.</li>
-                    <li><strong>Metric and Imperial units:</strong> Easily switch between kilograms/meters and pounds/inches for convenience.</li>
-                    <li><strong>Research-based accuracy:</strong> Built using criteria commonly used in pediatric growth assessment and adult fitness evaluation.</li>
-                  </ul>
-                </div>
-              </section>
-
-              {/* --- Pros of Knowing Its Ponderal Index --- */}
-              <section>
-                <h2 className="mb-2"><b>Benefits of Knowing Your Ponderal Index</b></h2>
-                <p>Understanding your PI offers several advantages for monitoring your health and fitness journey.</p>
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 not-prose mt-4">
+                <div className="grid md:grid-cols-3 gap-4 not-prose mt-5">
                   {[
-                    { title: "Assess Healthy Weight", icon: <Scale className="w-6 h-6 text-primary" />, description: "Aids in determining whether your body weight is appropriate for your size." },
-                    { title: "Complement Other Measures", icon: <BrainCircuit className="w-6 h-6 text-primary" />, description: "Complements metrics like BMI, Body Fat %, and Waist-to-Height Ratio." },
-                    { title: "Track Fitness Progress", icon: <Activity className="w-6 h-6 text-primary" />, description: "Portable for easy tracking of diet or fitness program effectiveness." },
-                    { title: "Early Health Indication", icon: <HeartPulse className="w-6 h-6 text-primary" />, description: "Helps find possible underweight or overweight problems early." },
-                    { title: "Monitor Child Growth", icon: <Baby className="w-6 h-6 text-primary" />, description: "Can be applied to infants and children to assess growth healthily." },
-                    { title: "Better Body Proportion", icon: <UserCheck className="w-6 h-6 text-primary" />, description: "Provides a fairer measurement of your body shape and volume." },
-                  ].map(item => (
-                    <Card key={item.title}>
-                      <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
-                        {item.icon}
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-xs text-muted-foreground">{item.description}</p>
-                      </CardContent>
-                    </Card>
+                    { icon: "📐", title: "Rohrer's Index (Adults)", desc: "Standard clinical measure for adult body composition. Normal range: 11–15 kg/m³." },
+                    { icon: "👶", title: "Pediatric PI", desc: "Adapted formula for infants and children using g/cm³. Normal range: 2.2–3.0 g/cm³." },
+                    { icon: "🏥", title: "Fetal PI", desc: "Used by obstetricians to detect IUGR and macrosomia in utero and at birth." },
+                  ].map((item) => (
+                    <div key={item.title} className="p-4 border border-gray-100 rounded-2xl bg-white shadow-sm">
+                      <div className="text-2xl mb-2">{item.icon}</div>
+                      <h4 className="font-bold text-teal-800 mb-1 text-sm">{item.title}</h4>
+                      <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                    </div>
                   ))}
                 </div>
               </section>
 
-              {/* --- Ponderal Index vs. BMI --- */}
+              {/* ── FORMULA SECTION ── */}
               <section>
-                <h2 className="mb-2"><b>Ponderal Index vs. BMI - How Do They Differ?</b></h2>
-                <p>While both PI and BMI assess weight relative to height, their formulas and sensitivity to different body types set them apart. The Ponderal Index is a fairer measurement because it uses height cubed (height³), connecting it more closely to body volume and density.</p>
-                <div className="overflow-x-auto mt-4">
+                <Card className="border-teal-100 shadow-sm rounded-2xl overflow-hidden">
+                  <CardHeader className="bg-teal-50 pb-4">
+                    <CardTitle className="flex items-center gap-2 text-xl font-bold text-teal-800">
+                      <Calculator className="w-5 h-5" />
+                      Ponderal Index Formula — Adults, Children & Newborns
+                    </CardTitle>
+                    <CardDescription className="text-teal-700/80">
+                      Each population uses a distinct formula. Never apply adult thresholds to infant results.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-6 space-y-6">
+
+                    {/* Adult formula */}
+                    <div>
+                      <p className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">
+                        Adult Formula (Rohrer's Index)
+                      </p>
+                      <div className="flex gap-4">
+                        <div className="h-8 w-8 rounded-full bg-teal-600 text-white flex items-center justify-center shrink-0 font-bold text-sm">A</div>
+                        <div className="flex-1">
+                          <p className="font-mono text-sm bg-gray-50 px-3 py-2 rounded border">
+                            PI = Weight (kg) ÷ Height³ (m³)
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">Used for adults. Result in kg/m³. Normal range: 11–15.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Child formula */}
+                    <div>
+                      <p className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">
+                        Infant & Child Formula
+                      </p>
+                      <div className="flex gap-4">
+                        <div className="h-8 w-8 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0 font-bold text-sm">C</div>
+                        <div className="flex-1">
+                          <p className="font-mono text-sm bg-gray-50 px-3 py-2 rounded border">
+                            PI = Weight (g) ÷ Height³ (cm³)
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">Used for infants/children. Result in g/cm³. Normal range: 2.2–3.0.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Fetal formula */}
+                    <div>
+                      <p className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">
+                        Fetal / Newborn Formula
+                      </p>
+                      <div className="flex gap-4">
+                        <div className="h-8 w-8 rounded-full bg-purple-500 text-white flex items-center justify-center shrink-0 font-bold text-sm">N</div>
+                        <div className="flex-1">
+                          <p className="font-mono text-sm bg-gray-50 px-3 py-2 rounded border">
+                            Fetal PI = Birth Weight (g) ÷ Crown-heel length³ (cm³)
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">Used at birth for IUGR screening. Normal range: 2.32–2.85 g/cm³.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Worked examples */}
+                    <div className="bg-teal-50 border border-teal-100 rounded-xl p-4 space-y-4">
+                      <p className="text-sm font-bold text-teal-800">Worked Examples — Step by Step</p>
+
+                      <div>
+                        <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Adult Example</p>
+                        <p className="text-sm text-gray-700 mb-1">70 kg adult · 1.75 m tall:</p>
+                        <div className="font-mono text-sm space-y-0.5 text-gray-600">
+                          <p>Height³ = 1.75 × 1.75 × 1.75 = 5.359 m³</p>
+                          <p>PI = 70 ÷ 5.359 = <span className="font-bold text-teal-700">13.06 kg/m³ → Normal</span></p>
+                        </div>
+                      </div>
+
+                      <div className="border-t border-teal-100 pt-3">
+                        <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Newborn Example</p>
+                        <p className="text-sm text-gray-700 mb-1">Newborn · 3,200 g · 50 cm crown-heel length:</p>
+                        <div className="font-mono text-sm space-y-0.5 text-gray-600">
+                          <p>Height³ = 50 × 50 × 50 = 125,000 cm³</p>
+                          <p>PI = 3,200 ÷ 125,000 = <span className="font-bold text-teal-700">2.56 g/cm³ → Normal</span></p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </CardContent>
+                </Card>
+              </section>
+
+              {/* ── NORMAL RANGE CHART ── */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <BarChart3 className="w-6 h-6 text-teal-600" />
+                  Ponderal Index Normal Range — Adult Reference Chart
+                </h2>
+                <p className="mb-4 text-gray-700 leading-relaxed">
+                  The <strong>Ponderal Index normal range for adults is 11–15 kg/m³</strong>. This is the
+                  clinically accepted threshold used in research literature, sports science, and health
+                  assessments. Below is the full reference chart with interpretation:
+                </p>
+
+                <Card className="not-prose overflow-hidden border-teal-200 mb-5">
                   <table className="w-full text-sm">
-                    <thead className="text-left bg-muted">
-                      <tr>
-                        <th className="p-2 font-semibold">Feature</th>
-                        <th className="p-2 font-semibold">Ponderal Index</th>
-                        <th className="p-2 font-semibold">BMI</th>
+                    <thead>
+                      <tr className="bg-teal-600 text-white">
+                        <th className="px-5 py-3 text-left font-bold">PI Value (kg/m³)</th>
+                        <th className="px-5 py-3 text-left font-bold">Category</th>
+                        <th className="px-5 py-3 text-left font-bold">Clinical Interpretation</th>
+                        <th className="px-5 py-3 text-left font-bold">Action</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr className="border-t">
-                        <td className="p-2 font-bold">Formula</td>
-                        <td className="p-2">Weight &divide; Height&sup3;</td>
-                        <td className="p-2">Weight &divide; Height&sup2;</td>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr>
+                        <td className="px-5 py-3 font-mono font-bold text-blue-600">&lt; 11</td>
+                        <td className="px-5 py-3"><span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-semibold">Underweight</span></td>
+                        <td className="px-5 py-3 text-gray-600">Body weight is low relative to height volume</td>
+                        <td className="px-5 py-3 text-gray-500 text-xs">Consult a healthcare provider</td>
                       </tr>
-                      <tr className="border-t bg-muted/50">
-                        <td className="p-2 font-bold">Body Type Sensitivity</td>
-                        <td className="p-2">More accurate for tall or short individuals</td>
-                        <td className="p-2">Can misclassify obesity in tall or muscular people</td>
+                      <tr className="bg-teal-50/30">
+                        <td className="px-5 py-3 font-mono font-bold text-teal-700">11 – 15</td>
+                        <td className="px-5 py-3"><span className="bg-teal-50 text-teal-700 px-2 py-0.5 rounded text-xs font-semibold">Normal Weight ✓</span></td>
+                        <td className="px-5 py-3 text-gray-600">Healthy body weight for your height and volume</td>
+                        <td className="px-5 py-3 text-gray-500 text-xs">Maintain current habits</td>
                       </tr>
-                      <tr className="border-t">
-                        <td className="p-2 font-bold">Used For</td>
-                        <td className="p-2">Adults, Children, Newborns</td>
-                        <td className="p-2">Primarily adults</td>
-                      </tr>
-                       <tr className="border-t bg-muted/50">
-                        <td className="p-2 font-bold">Accuracy (Dimensionality)</td>
-                        <td className="p-2">High (3D volume-based)</td>
-                        <td className="p-2">Moderate (2D area-based)</td>
+                      <tr>
+                        <td className="px-5 py-3 font-mono font-bold text-orange-600">&gt; 15</td>
+                        <td className="px-5 py-3"><span className="bg-orange-50 text-orange-700 px-2 py-0.5 rounded text-xs font-semibold">Overweight</span></td>
+                        <td className="px-5 py-3 text-gray-600">Body weight is high relative to height volume</td>
+                        <td className="px-5 py-3 text-gray-500 text-xs">Review diet and activity level</td>
                       </tr>
                     </tbody>
                   </table>
-                </div>
-                <div className="mt-4 not-prose">
-                    <Card>
-                      <CardContent className="pt-6">
-                        <p className="text-sm text-muted-foreground">
-                          <strong>Key Takeaway:</strong> Keep in mind — just like BMI, the PI doesn't differentiate between muscle and fat. A very muscular individual may register as "overweight" by PI. It's best to consider it in combination with other health measures.
-                        </p>
-                      </CardContent>
-                    </Card>
-                </div>
-              </section>
-
-              {/* --- Why It Matters --- */}
-              <section>
-                <h2 className="mb-2"><b>Why It Matters</b></h2>
-                 <Card className="not-prose overflow-hidden">
-                    <div className="grid md:grid-cols-2">
-                        <div className="p-6">
-                            <h3 className="font-bold text-lg">A More Insightful Health Metric</h3>
-                            <p className="text-muted-foreground text-sm mt-2">Tracking your Ponderal Index provides valuable information for several key areas of health and wellness, offering a more nuanced view than traditional metrics alone.</p>
-                        </div>
-                        <div className="bg-muted/50 p-6">
-                            <h3 className="font-semibold">PI Informs Your Understanding Of:</h3>
-                            <ul className="list-disc pl-5 mt-2 space-y-2 text-sm">
-                              <li><b>Healthy weight regulation:</b> Gain clarity on whether your weight is proportional to your volume.</li>
-                              <li><b>Watching babies grow:</b> An essential tool for parents and pediatricians to monitor healthy development.</li>
-                              <li><b>Body proportion balance:</b> Understand your body composition beyond a simple weight number.</li>
-                              <li><b>Better diet or fitness:</b> Use it as a reliable metric to track the progress of your health goals.</li>
-                            </ul>
-                        </div>
-                    </div>
                 </Card>
-                <p className="mt-4">Whether you're on a fitness course, a parent tracking growth, or a healthcare professional, our calculator makes challenging body information readable and usable.</p>
-                <p className="mt-4">
-                  If you’re interested in understanding how much of your body weight comes from muscle versus fat, check out our{" "}
-                  <Link href="/health/lean-body-mass-calculator" className="text-primary hover:underline">
-                    Lean Body Mass Calculator
-                  </Link>. It complements the Ponderal Index by showing the muscle component behind your body proportions.
+
+                <p className="text-sm text-gray-500 italic">
+                  <strong>Note:</strong> Like BMI, PI does not distinguish muscle from fat. A highly
+                  muscular individual may score above 15 while having low body fat. Always interpret
+                  PI alongside other measures such as waist-to-height ratio or body fat percentage.
+                </p>
+
+                {/* Rohrer normal values */}
+                <h3 className="text-xl font-bold text-gray-800 mt-8 mb-3 flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-teal-600" />
+                  Rohrer Index Normal Values — Adults
+                </h3>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  <strong>Rohrer's Index</strong> is the historical name for the Ponderal Index,
+                  named after Fritz Rohrer who formalized the formula in 1921. The terms are
+                  interchangeable in modern literature. <strong>Normal Rohrer Index values for
+                  adults are identical to PI: 11–15 kg/m³.</strong>
+                </p>
+                <p className="text-gray-700 leading-relaxed">
+                  In German-language clinical literature, the Rohrer Index (<em>Rohrerscher Index</em> or
+                  <em> Rohrer Körperbauindex</em>) is the standard term used. In French literature,
+                  <em> indice pondéral de Rohrer</em> is the accepted term. Regardless of name, the
+                  formula and normal value thresholds are identical.
                 </p>
               </section>
+
+              {/* ── FETAL / NEWBORN SECTION ── */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <Baby className="w-6 h-6 text-teal-600" />
+                  Fetal & Newborn Ponderal Index — Clinical Reference
+                </h2>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  The <strong>fetal Ponderal Index</strong> (FPI) is a specialized clinical tool used by
+                  obstetricians, neonatologists, and pediatricians to assess fetal growth quality —
+                  not just size. While birth weight alone cannot distinguish a constitutionally small
+                  baby from one suffering intrauterine growth restriction (IUGR), the FPI provides
+                  a proportionality assessment that standard weight percentiles cannot.
+                </p>
+
+                <Card className="not-prose overflow-hidden border-teal-200 mb-5">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-teal-600 text-white">
+                        <th className="px-5 py-3 text-left font-bold">Neonatal PI (g/cm³)</th>
+                        <th className="px-5 py-3 text-left font-bold">Category</th>
+                        <th className="px-5 py-3 text-left font-bold">Clinical Significance</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr>
+                        <td className="px-5 py-3 font-mono font-bold text-orange-600">&lt; 2.2</td>
+                        <td className="px-5 py-3"><span className="bg-orange-50 text-orange-700 px-2 py-0.5 rounded text-xs font-semibold">Low — IUGR risk</span></td>
+                        <td className="px-5 py-3 text-gray-600">Possible intrauterine growth restriction; asymmetric IUGR common</td>
+                      </tr>
+                      <tr className="bg-teal-50/30">
+                        <td className="px-5 py-3 font-mono font-bold text-teal-700">2.32 – 2.85</td>
+                        <td className="px-5 py-3"><span className="bg-teal-50 text-teal-700 px-2 py-0.5 rounded text-xs font-semibold">Normal ✓</span></td>
+                        <td className="px-5 py-3 text-gray-600">Proportionate growth; healthy fetal nutrition assumed</td>
+                      </tr>
+                      <tr>
+                        <td className="px-5 py-3 font-mono font-bold text-red-600">&gt; 3.0</td>
+                        <td className="px-5 py-3"><span className="bg-red-50 text-red-700 px-2 py-0.5 rounded text-xs font-semibold">High — Macrosomia risk</span></td>
+                        <td className="px-5 py-3 text-gray-600">Excess fetal weight for length; associated with gestational diabetes</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Card>
+
+                <div className="grid md:grid-cols-2 gap-6 not-prose mt-4">
+                  <div className="p-5 border border-gray-100 rounded-2xl bg-white shadow-sm">
+                    <h4 className="font-bold text-teal-800 mb-2 text-sm">Why FPI matters clinically</h4>
+                    <ul className="space-y-2 text-sm text-gray-600">
+                      {[
+                        "Detects asymmetric IUGR that weight alone misses",
+                        "Identifies disproportionate growth from symmetric IUGR",
+                        "Correlates with neonatal adiposity and metabolic risk",
+                        "Used in NICU assessment alongside weight percentiles",
+                        "Predictive of neurodevelopmental outcomes in preterm infants",
+                      ].map((item) => (
+                        <li key={item} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="p-5 border border-gray-100 rounded-2xl bg-white shadow-sm">
+                    <h4 className="font-bold text-teal-800 mb-2 text-sm">Ponderal Index calculator for newborns — worked example</h4>
+                    <p className="text-sm text-gray-600 mb-3">Term newborn · 2,800 g · 49 cm:</p>
+                    <div className="font-mono text-sm space-y-1 text-gray-600 bg-gray-50 p-3 rounded border">
+                      <p>Height³ = 49³ = 117,649 cm³</p>
+                      <p>FPI = 2,800 ÷ 117,649</p>
+                      <p className="font-bold text-teal-700">= 2.38 g/cm³ → Normal range</p>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2 italic">
+                      Measurement taken at birth using crown-heel length.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* ── ADULT REFERENCE TABLE ── */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <BarChart3 className="w-6 h-6 text-teal-600" />
+                  Ponderal Index Chart — Adults by Height & Weight
+                </h2>
+                <p className="mb-4 text-gray-700 leading-relaxed">
+                  Use this <strong>Ponderal Index chart</strong> as a quick reference. Values shown are PI
+                  in kg/m³ using the adult formula. The green-shaded range (11–15) represents the
+                  normal weight category.
+                </p>
+
+                <Card className="not-prose overflow-hidden border-teal-200">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-teal-600 text-white">
+                        <th className="px-4 py-3 text-left font-bold">Height</th>
+                        <th className="px-4 py-3 text-left font-bold">55 kg</th>
+                        <th className="px-4 py-3 text-left font-bold">65 kg</th>
+                        <th className="px-4 py-3 text-left font-bold">75 kg</th>
+                        <th className="px-4 py-3 text-left font-bold">90 kg</th>
+                        <th className="px-4 py-3 text-left font-bold">105 kg</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 text-xs">
+                      {[
+                        ["1.60 m", 13.4, 15.9, 18.3, 22.0, 25.6],
+                        ["1.65 m", 12.3, 14.5, 16.7, 20.1, 23.4],
+                        ["1.70 m", 11.2, 13.2, 15.3, 18.3, 21.4],
+                        ["1.75 m", 10.3, 12.2, 14.0, 16.8, 19.6],
+                        ["1.80 m", 9.5, 11.2, 12.9, 15.4, 18.0],
+                        ["1.85 m", 8.7, 10.3, 11.9, 14.3, 16.6],
+                      ].map((row, i) => (
+                        <tr key={i} className={i % 2 === 1 ? "bg-teal-50/20" : ""}>
+                          <td className="px-4 py-2 font-semibold">{row[0]}</td>
+                          {(row.slice(1) as number[]).map((val, j) => (
+                            <td
+                              key={j}
+                              className={`px-4 py-2 font-mono ${
+                                val >= 11 && val <= 15
+                                  ? "text-teal-700 font-bold bg-teal-50"
+                                  : val < 11
+                                  ? "text-blue-600"
+                                  : "text-orange-600"
+                              }`}
+                            >
+                              {val.toFixed(1)}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </Card>
+                <p className="mt-3 text-xs text-gray-400 italic">
+                  Green = normal (11–15 kg/m³) · Blue = underweight (&lt;11) · Orange = overweight (&gt;15)
+                </p>
+              </section>
+
+              {/* ── PI vs BMI ── */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <Scale className="w-6 h-6 text-teal-600" />
+                  Ponderal Index vs BMI — Key Differences
+                </h2>
+                <p className="mb-4 text-gray-700 leading-relaxed">
+                  Both PI and BMI measure weight relative to height — but the mathematical difference
+                  between height² and height³ has real clinical consequences, especially at the extremes
+                  of height distribution.
+                </p>
+
+                <Card className="not-prose overflow-hidden border-teal-200 mb-5">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-teal-600 text-white">
+                        <th className="px-5 py-3 text-left font-bold">Feature</th>
+                        <th className="px-5 py-3 text-left font-bold">Ponderal Index (PI)</th>
+                        <th className="px-5 py-3 text-left font-bold">BMI</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr><td className="px-5 py-3 font-medium">Formula</td><td className="px-5 py-3 font-mono text-xs">Weight ÷ Height³</td><td className="px-5 py-3 font-mono text-xs">Weight ÷ Height²</td></tr>
+                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium">Dimensionality</td><td className="px-5 py-3">3D (volume-based)</td><td className="px-5 py-3">2D (area-based)</td></tr>
+                      <tr><td className="px-5 py-3 font-medium">Accuracy for tall individuals</td><td className="px-5 py-3 text-teal-700 font-semibold">✓ More accurate</td><td className="px-5 py-3 text-orange-600">Overestimates adiposity</td></tr>
+                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium">Accuracy for short individuals</td><td className="px-5 py-3 text-teal-700 font-semibold">✓ More accurate</td><td className="px-5 py-3 text-orange-600">Underestimates adiposity</td></tr>
+                      <tr><td className="px-5 py-3 font-medium">Used for newborns/infants</td><td className="px-5 py-3 text-teal-700 font-semibold">✓ Yes (pediatric formula)</td><td className="px-5 py-3 text-gray-400">Rarely used</td></tr>
+                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium">Muscle vs fat distinction</td><td className="px-5 py-3 text-orange-500">✗ Does not distinguish</td><td className="px-5 py-3 text-orange-500">✗ Does not distinguish</td></tr>
+                      <tr><td className="px-5 py-3 font-medium">Clinical adoption</td><td className="px-5 py-3">Neonatology, research</td><td className="px-5 py-3">Primary care, population screening</td></tr>
+                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium">Normal range (adults)</td><td className="px-5 py-3 font-semibold">11–15 kg/m³</td><td className="px-5 py-3 font-semibold">18.5–24.9 kg/m²</td></tr>
+                    </tbody>
+                  </table>
+                </Card>
+
+                <p className="text-gray-700 font-medium bg-teal-50 p-3 rounded-lg border-l-4 border-teal-600">
+                  <strong>Key takeaway:</strong> PI is the superior metric for anyone at the height
+                  extremes (&lt;160 cm or &gt;185 cm) or for neonatal assessment. For the general adult
+                  population, both metrics give clinically similar results — use them together for the
+                  most complete picture.
+                </p>
+              </section>
+
+              {/* ── TOPIC AUTHORITY: CLINICAL USES ── */}
+              <section className="py-8 border-b border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <HeartPulse className="w-6 h-6 text-teal-600" />
+                  Clinical & Research Applications of the Ponderal Index
+                </h2>
+                <p className="mb-4 text-gray-700 leading-relaxed">
+                  The Ponderal Index is used across multiple clinical disciplines. Understanding its
+                  specific use cases helps you interpret your result in the right context.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-5 not-prose">
+                  {[
+                    {
+                      title: "Neonatology & IUGR Detection",
+                      desc: "The fetal Ponderal Index is used routinely in NICUs to classify newborns as symmetric IUGR (whole-body small), asymmetric IUGR (brain-sparing, low FPI), or macrosomic. This guides nutritional and metabolic management in the first days of life.",
+                      tag: "Primary clinical use",
+                    },
+                    {
+                      title: "Pediatric Growth Monitoring",
+                      desc: "Pediatricians use PI to monitor whether children are growing proportionally — not just tracking weight or height in isolation. A sustained low PI may indicate nutritional insufficiency; a rising PI may indicate early-onset obesity.",
+                      tag: "Ongoing monitoring",
+                    },
+                    {
+                      title: "Sports Science & Lean Athletes",
+                      desc: "BMI frequently misclassifies lean, tall athletes as normal-weight or even underweight due to the height² limitation. PI provides a more stable measure for this population, where volume-based assessment better reflects actual body mass distribution.",
+                      tag: "Athletic populations",
+                    },
+                    {
+                      title: "Epidemiological Research",
+                      desc: "PI is used in large-scale population studies comparing body composition across different height distributions — particularly useful in global health research where population height varies significantly between regions.",
+                      tag: "Research use",
+                    },
+                    {
+                      title: "Obstetric Screening",
+                      desc: "During prenatal care, serial fetal biometry can estimate FPI before birth. A low estimated FPI at 36–40 weeks may prompt closer monitoring for IUGR, early delivery decisions, or nutritional interventions.",
+                      tag: "Prenatal care",
+                    },
+                    {
+                      title: "Complementary Health Tracking",
+                      desc: "PI works best alongside BMI, waist-to-height ratio, body fat percentage, and lean body mass calculations. No single metric captures the full picture of metabolic health — PI is one informed piece of a larger assessment.",
+                      tag: "Combined use",
+                    },
+                  ].map((item) => (
+                    <div key={item.title} className="p-5 border border-gray-100 rounded-2xl bg-white hover:border-teal-300 transition-colors shadow-sm">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <h4 className="font-bold text-teal-800 text-sm">{item.title}</h4>
+                        <span className="text-xs bg-teal-50 text-teal-700 px-2 py-0.5 rounded shrink-0">{item.tag}</span>
+                      </div>
+                      <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* ── RELIABILITY ── */}
+              <section className="bg-teal-600 rounded-3xl p-8 text-white">
+                <h2 className="text-2xl font-bold mb-5 flex items-center gap-2">
+                  <ShieldCheck className="w-6 h-6" />
+                  Limitations of the Ponderal Index
+                </h2>
+                <p className="mb-5 opacity-90">
+                  PI is a powerful screening tool — but like all anthropometric indices,
+                  it has well-documented limitations that every user should understand:
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {[
+                    ["Does not distinguish muscle from fat", "A 90 kg bodybuilder and a 90 kg sedentary person of the same height get identical PI scores despite vastly different health profiles."],
+                    ["Not validated for all ethnic populations", "Normal range thresholds (11–15) were developed primarily on European adult populations. Some Asian populations may have different healthy ranges."],
+                    ["Adult formula cannot be applied to children", "The adult (kg/m³) and pediatric (g/cm³) formulas use different units and produce numerically incomparable results. Never use adult thresholds for infant results."],
+                    ["Not a diagnostic tool", "PI is a screening index, not a diagnosis. Any result outside the normal range should be discussed with a healthcare professional for proper clinical evaluation."],
+                  ].map(([title, desc]) => (
+                    <div key={title} className="flex gap-3 bg-white/10 p-4 rounded-xl">
+                      <span className="text-yellow-200 font-bold shrink-0 mt-0.5">⚠</span>
+                      <div>
+                        <p className="font-semibold text-sm mb-1">{title}</p>
+                        <p className="text-white/70 text-sm">{desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* ── WHO BUILT ── */}
+              <section className="text-center pt-8 border-t">
+                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-2">
+                  <UserCheck className="w-6 h-6 text-teal-600" />
+                  A more geometrically honest measure of your body
+                </h3>
+                <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  The <strong>Ponderal Index</strong> has been used in clinical settings for over
+                  100 years — from Fritz Rohrer's original 1921 publication to modern neonatal
+                  intensive care units. Whether you're assessing adult body composition or monitoring
+                  infant growth, PI provides a volumetrically grounded perspective that BMI alone cannot.
+                </p>
+              </section>
+
+              {/* ── CTA ── */}
+              <section className="not-prose mt-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-teal-600 to-teal-700 rounded-3xl text-white shadow-xl">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">Want a fuller picture of your body composition?</h3>
+                    <p className="text-teal-100 max-w-md">
+                      Complement your Ponderal Index with a Lean Body Mass calculation —
+                      see exactly how much of your weight is muscle vs fat.
+                    </p>
+                  </div>
+                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                    <Link href="/health/lean-body-mass-calculator">
+                      Lean Body Mass Calculator <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </section>
+
             </div>
 
+            {/* ── FAQ ── */}
+            <div className="mt-12">
+              <FAQSection faqs={faqs} />
+            </div>
 
-            <FAQSection faqs={faqs} />
           </div>
         </div>
       </main>
