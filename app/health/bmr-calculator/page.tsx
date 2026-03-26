@@ -38,6 +38,9 @@ export const metadata: Metadata = {
     "Calculate your BMR free using the Mifflin-St Jeor & Harris-Benedict formulas. Find your basal metabolic rate in calories per day — with results for weight loss, men, and women.",
   keywords:
     "bmr calculator, basal metabolic rate calculator, metabolic rate calculator, calculate bmr, resting metabolic rate calculator, free bmr calculator, bmr calculator for men, bmr calculator for women, bmr calculator to lose weight, basal metabolic rate calculation, bmr formula, how to calculate bmr, resting calorie burn calculator, calories burned at rest calculator, metabolism calculator",
+    alternates: {
+      canonical: "https://calqulate.net/health/bmr-calculator",
+    }
 }
 
 // ─────────────────────────────────────────────

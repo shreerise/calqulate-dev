@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     "Free period cycle calculator: predict your next period date, ovulation day, and fertile window using your LMP and cycle length. Covers irregular periods, menstrual phases, and PMS windows.",
   keywords:
     "period cycle calculator, menstrual cycle calculator, period calculator, calculate menstrual cycle, cycle length calculator, ovulation calculator, fertile window calculator, irregular period calculator, menstrual phase calculator, pms cycle calculator, accurate period calculator, how to calculate menstrual cycle, how to calculate ovulation, menstrual cycle length, next period date, safe period calculator",
+    alternates: {
+      canonical: "https://calqulate.net/health/period-cycle-calculator",
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────
