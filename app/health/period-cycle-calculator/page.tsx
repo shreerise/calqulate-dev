@@ -105,20 +105,20 @@ export default function PeriodCycleCalculatorPage() {
       <Header />
 
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
           <div className="max-w-4xl mx-auto">
 
             {/* ── HERO ── */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+            <div className="text-center mb-6 sm:mb-8">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-balance mb-3 sm:mb-4">
                 Period Cycle Calculator
               </h1>
-              <p className="text-lg text-muted-foreground text-pretty">
+              <p className="text-sm sm:text-lg text-muted-foreground text-pretty px-2 sm:px-0">
                 Accurately predict your <strong>next period date</strong>, <strong>ovulation day</strong>,
                 and <strong>fertile window</strong> using your last menstrual period (LMP) date and average
                 cycle length — the same inputs used by clinical cycle-tracking tools.
               </p>
-              <p className="text-base text-muted-foreground mt-3">
+              <p className="text-xs sm:text-base text-muted-foreground mt-2 sm:mt-3 px-2 sm:px-0">
                 Whether you want to <strong>calculate your menstrual cycle</strong> for family planning,
                 understand your fertile days, track an irregular period, or simply know when your next
                 period starts — this free menstrual cycle calculator gives you a complete picture in seconds.
@@ -367,11 +367,11 @@ export default function PeriodCycleCalculatorPage() {
                   Fertile Days by Cycle Length — Reference Table
                 </h3>
                 <div className="not-prose overflow-x-auto rounded-2xl border border-gray-100 shadow-sm">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-sm min-w-[450px]">
                     <thead className="bg-rose-50">
                       <tr>
                         {["Cycle Length", "Ovulation Day", "Fertile Window"].map((h) => (
-                          <th key={h} className="px-4 py-3 text-left font-bold text-rose-700">
+                          <th key={h} className="px-4 py-3 text-left font-bold text-rose-700 whitespace-nowrap">
                             {h}
                           </th>
                         ))}
@@ -390,9 +390,9 @@ export default function PeriodCycleCalculatorPage() {
                           key={cl}
                           className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
                         >
-                          <td className="px-4 py-3 text-gray-700 font-medium">{cl}</td>
-                          <td className="px-4 py-3 text-gray-700">{ov}</td>
-                          <td className="px-4 py-3 text-gray-700">{fw}</td>
+                          <td className="px-4 py-3 text-gray-700 font-medium whitespace-nowrap">{cl}</td>
+                          <td className="px-4 py-3 text-gray-700 whitespace-nowrap">{ov}</td>
+                          <td className="px-4 py-3 text-gray-700 whitespace-nowrap">{fw}</td>
                         </tr>
                       ))}
                     </tbody>

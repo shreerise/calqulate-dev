@@ -92,22 +92,22 @@ export default function BodyFatCalculatorPage() {
       <Header />
 
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
           <div className="max-w-4xl mx-auto">
             
             {/* Hero - Primary keyword "body fat calculator" in H1 */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-sm font-medium mb-4">
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-sm font-medium mb-3 sm:mb-4">
                 <Ruler className="w-4 h-4" />
                 U.S. Navy Method • Clinically Validated
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-balance mb-3 sm:mb-4">
                 Body Fat Calculator
               </h1>
-              <p className="text-lg text-muted-foreground text-pretty">
+              <p className="text-sm sm:text-lg text-muted-foreground text-pretty px-2 sm:px-0">
                 Calculate your body fat percentage accurately using proven circumference measurements. Our free body fat calculator uses the U.S. Navy Method to estimate body fat for men and women.
               </p>
-              <p className="text-base text-muted-foreground mt-3">
+              <p className="text-xs sm:text-base text-muted-foreground mt-2 sm:mt-3 px-2 sm:px-0">
                 Body fat percentage tells you what BMI cannot: how much of your weight is actually fat vs muscle, bone, and water. Two people at the same weight can have vastly different health risks.
               </p>
             </div>
@@ -120,7 +120,7 @@ export default function BodyFatCalculatorPage() {
               {/* Why Body Fat % Matters - Addresses "bmi to body fat" queries */}
               <section className="py-8 border-b border-gray-100">
                 <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
-                  <Scale className="w-6 h-6 text-orange-600" />
+                  <Scale className="w-6 h-6 text-teal-600" />
                   Why Body Fat Percentage Matters More Than BMI
                 </h2>
                 <p className="mb-4 text-gray-700 leading-relaxed">
@@ -153,20 +153,20 @@ export default function BodyFatCalculatorPage() {
                   </div>
                 </div>
                 
-                <p className="mt-6 text-gray-700 font-medium bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
+                <p className="mt-6 text-gray-700 font-medium bg-teal-50 p-4 rounded-lg border-l-4 border-teal-500">
                   👉 This is why fitness professionals, doctors, and athletes rely on <strong>body fat percentage calculators</strong>, not BMI alone.
                 </p>
               </section>
 
               {/* Navy Method Formula - Addresses "body fat calculator by measurements" queries */}
               <section>
-                <Card className="border-orange-100 shadow-sm rounded-2xl overflow-hidden">
-                  <CardHeader className="bg-orange-50 pb-4">
-                    <CardTitle className="flex items-center gap-2 text-xl font-bold text-orange-800">
+                <Card className="border-teal-100 shadow-sm rounded-2xl overflow-hidden">
+                  <CardHeader className="bg-teal-50 pb-4">
+                    <CardTitle className="flex items-center gap-2 text-xl font-bold text-teal-800">
                       <Ruler className="w-5 h-5" />
                       The U.S. Navy Method: How to Calculate Body Fat by Measurements
                     </CardTitle>
-                    <CardDescription className="text-orange-700/80">
+                    <CardDescription className="text-teal-700/80">
                       Proven circumference-based formulas validated against clinical methods
                     </CardDescription>
                   </CardHeader>
@@ -207,7 +207,7 @@ export default function BodyFatCalculatorPage() {
               {/* How to Measure - Step by step for "calculate body fat at home" */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                  <Target className="w-6 h-6 text-orange-600" />
+                  <Target className="w-6 h-6 text-teal-600" />
                   How to Calculate Body Fat Percentage at Home
                 </h2>
                 <p className="mb-4 text-gray-700">Follow these steps for accurate body fat measurement using circumference:</p>
@@ -236,13 +236,13 @@ export default function BodyFatCalculatorPage() {
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 not-prose">
-                  <div className="p-5 bg-white border-2 border-orange-200 rounded-2xl">
-                    <div className="h-10 w-10 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold mb-3">1</div>
+                  <div className="p-5 bg-white border-2 border-teal-200 rounded-2xl">
+                    <div className="h-10 w-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold mb-3">1</div>
                     <h4 className="font-bold text-gray-800 mb-2">Measure Waist</h4>
                     <p className="text-sm text-gray-600">At the narrowest point (usually navel level), relaxed abdomen.</p>
                   </div>
-                  <div className="p-5 bg-white border-2 border-orange-200 rounded-2xl">
-                    <div className="h-10 w-10 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold mb-3">2</div>
+                  <div className="p-5 bg-white border-2 border-teal-200 rounded-2xl">
+                    <div className="h-10 w-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold mb-3">2</div>
                     <h4 className="font-bold text-gray-800 mb-2">Measure Neck</h4>
                     <p className="text-sm text-gray-600">Just below Adam's apple, tape level around.</p>
                   </div>
@@ -251,8 +251,8 @@ export default function BodyFatCalculatorPage() {
                     <h4 className="font-bold text-gray-800 mb-2">Measure Hip</h4>
                     <p className="text-sm text-gray-600">Widest part of buttocks. <span className="text-pink-600 font-semibold">(Women only)</span></p>
                   </div>
-                  <div className="p-5 bg-white border-2 border-orange-200 rounded-2xl">
-                    <div className="h-10 w-10 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold mb-3">4</div>
+                  <div className="p-5 bg-white border-2 border-teal-200 rounded-2xl">
+                    <div className="h-10 w-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold mb-3">4</div>
                     <h4 className="font-bold text-gray-800 mb-2">Measure Height</h4>
                     <p className="text-sm text-gray-600">Barefoot, standing straight against a wall.</p>
                   </div>
@@ -262,7 +262,7 @@ export default function BodyFatCalculatorPage() {
               {/* Body Fat Ranges - Gender specific sections for GSC queries */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                  <Users className="w-6 h-6 text-orange-600" />
+                  <Users className="w-6 h-6 text-teal-600" />
                   Healthy Body Fat Percentage Ranges
                 </h2>
                 
@@ -276,36 +276,38 @@ export default function BodyFatCalculatorPage() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
-                      <table className="w-full text-sm">
+                      <div className="overflow-x-auto">
+                      <table className="w-full text-sm min-w-[300px]">
                         <thead className="bg-blue-50">
                           <tr>
-                            <th className="px-4 py-3 text-left font-bold text-blue-800">Category</th>
-                            <th className="px-4 py-3 text-left font-bold text-blue-800">Body Fat %</th>
+                            <th className="px-4 py-3 text-left font-bold text-blue-800 whitespace-nowrap">Category</th>
+                            <th className="px-4 py-3 text-left font-bold text-blue-800 whitespace-nowrap">Body Fat %</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                           <tr>
-                            <td className="px-4 py-3 font-medium">Essential Fat</td>
-                            <td className="px-4 py-3 text-blue-700 font-semibold">2–5%</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Essential Fat</td>
+                            <td className="px-4 py-3 text-blue-700 font-semibold whitespace-nowrap">2–5%</td>
                           </tr>
                           <tr className="bg-green-50">
-                            <td className="px-4 py-3 font-medium">Athletes</td>
-                            <td className="px-4 py-3 text-green-700 font-semibold">6–13%</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Athletes</td>
+                            <td className="px-4 py-3 text-green-700 font-semibold whitespace-nowrap">6–13%</td>
                           </tr>
                           <tr>
-                            <td className="px-4 py-3 font-medium">Fitness</td>
-                            <td className="px-4 py-3 text-green-700 font-semibold">14–17%</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Fitness</td>
+                            <td className="px-4 py-3 text-green-700 font-semibold whitespace-nowrap">14–17%</td>
                           </tr>
                           <tr className="bg-gray-50">
-                            <td className="px-4 py-3 font-medium">Average</td>
-                            <td className="px-4 py-3 text-gray-700 font-semibold">18–24%</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Average</td>
+                            <td className="px-4 py-3 text-gray-700 font-semibold whitespace-nowrap">18–24%</td>
                           </tr>
                           <tr className="bg-red-50">
-                            <td className="px-4 py-3 font-medium">Obese</td>
-                            <td className="px-4 py-3 text-red-700 font-semibold">25%+</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Obese</td>
+                            <td className="px-4 py-3 text-red-700 font-semibold whitespace-nowrap">25%+</td>
                           </tr>
                         </tbody>
                       </table>
+                      </div>
                     </CardContent>
                   </Card>
 
@@ -318,36 +320,38 @@ export default function BodyFatCalculatorPage() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
-                      <table className="w-full text-sm">
+                      <div className="overflow-x-auto">
+                      <table className="w-full text-sm min-w-[300px]">
                         <thead className="bg-pink-50">
                           <tr>
-                            <th className="px-4 py-3 text-left font-bold text-pink-800">Category</th>
-                            <th className="px-4 py-3 text-left font-bold text-pink-800">Body Fat %</th>
+                            <th className="px-4 py-3 text-left font-bold text-pink-800 whitespace-nowrap">Category</th>
+                            <th className="px-4 py-3 text-left font-bold text-pink-800 whitespace-nowrap">Body Fat %</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                           <tr>
-                            <td className="px-4 py-3 font-medium">Essential Fat</td>
-                            <td className="px-4 py-3 text-pink-700 font-semibold">10–13%</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Essential Fat</td>
+                            <td className="px-4 py-3 text-pink-700 font-semibold whitespace-nowrap">10–13%</td>
                           </tr>
                           <tr className="bg-green-50">
-                            <td className="px-4 py-3 font-medium">Athletes</td>
-                            <td className="px-4 py-3 text-green-700 font-semibold">14–20%</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Athletes</td>
+                            <td className="px-4 py-3 text-green-700 font-semibold whitespace-nowrap">14–20%</td>
                           </tr>
                           <tr>
-                            <td className="px-4 py-3 font-medium">Fitness</td>
-                            <td className="px-4 py-3 text-green-700 font-semibold">21–24%</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Fitness</td>
+                            <td className="px-4 py-3 text-green-700 font-semibold whitespace-nowrap">21–24%</td>
                           </tr>
                           <tr className="bg-gray-50">
-                            <td className="px-4 py-3 font-medium">Average</td>
-                            <td className="px-4 py-3 text-gray-700 font-semibold">25–31%</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Average</td>
+                            <td className="px-4 py-3 text-gray-700 font-semibold whitespace-nowrap">25–31%</td>
                           </tr>
                           <tr className="bg-red-50">
-                            <td className="px-4 py-3 font-medium">Obese</td>
-                            <td className="px-4 py-3 text-red-700 font-semibold">32%+</td>
+                            <td className="px-4 py-3 font-medium whitespace-nowrap">Obese</td>
+                            <td className="px-4 py-3 text-red-700 font-semibold whitespace-nowrap">32%+</td>
                           </tr>
                         </tbody>
                       </table>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -362,7 +366,7 @@ export default function BodyFatCalculatorPage() {
               {/* What's Ideal - Goal-based section */}
               <section className="py-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <Target className="w-6 h-6 text-orange-600" />
+                  <Target className="w-6 h-6 text-teal-600" />
                   What's the "Ideal" Body Fat Percentage?
                 </h2>
                 <p className="text-gray-700 leading-relaxed mb-6">
@@ -394,53 +398,55 @@ export default function BodyFatCalculatorPage() {
               {/* Accuracy Comparison - Addresses "accurate body fat calculator" */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                  <ShieldCheck className="w-6 h-6 text-orange-600" />
+                  <ShieldCheck className="w-6 h-6 text-teal-600" />
                   Body Fat Measurement Accuracy: Which Method is Best?
                 </h2>
                 
                 <Card className="not-prose overflow-hidden border-gray-200">
-                  <table className="w-full text-sm">
+                  <div className="overflow-x-auto">
+                  <table className="w-full text-sm min-w-[500px]">
                     <thead className="bg-gray-100">
                       <tr>
-                        <th className="px-6 py-4 text-left font-bold text-gray-800">Method</th>
-                        <th className="px-6 py-4 text-left font-bold text-gray-800">Accuracy</th>
-                        <th className="px-6 py-4 text-left font-bold text-gray-800">Accessibility</th>
-                        <th className="px-6 py-4 text-left font-bold text-gray-800">Cost</th>
+                        <th className="px-6 py-4 text-left font-bold text-gray-800 whitespace-nowrap">Method</th>
+                        <th className="px-6 py-4 text-left font-bold text-gray-800 whitespace-nowrap">Accuracy</th>
+                        <th className="px-6 py-4 text-left font-bold text-gray-800 whitespace-nowrap">Accessibility</th>
+                        <th className="px-6 py-4 text-left font-bold text-gray-800 whitespace-nowrap">Cost</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       <tr className="bg-green-50">
-                        <td className="px-6 py-4 font-bold text-green-700">DEXA Scan</td>
-                        <td className="px-6 py-4">⭐⭐⭐⭐⭐ Gold Standard</td>
-                        <td className="px-6 py-4">Medical facility only</td>
-                        <td className="px-6 py-4">$75-150</td>
+                        <td className="px-6 py-4 font-bold text-green-700 whitespace-nowrap">DEXA Scan</td>
+                        <td className="px-6 py-4 whitespace-nowrap">⭐⭐⭐⭐⭐ Gold Standard</td>
+                        <td className="px-6 py-4 whitespace-nowrap">Medical facility only</td>
+                        <td className="px-6 py-4 whitespace-nowrap">$75-150</td>
                       </tr>
                       <tr>
-                        <td className="px-6 py-4 font-bold text-blue-700">Bod Pod</td>
-                        <td className="px-6 py-4">⭐⭐⭐⭐ Very High</td>
-                        <td className="px-6 py-4">University/research labs</td>
-                        <td className="px-6 py-4">$40-75</td>
+                        <td className="px-6 py-4 font-bold text-blue-700 whitespace-nowrap">Bod Pod</td>
+                        <td className="px-6 py-4 whitespace-nowrap">⭐⭐⭐⭐ Very High</td>
+                        <td className="px-6 py-4 whitespace-nowrap">University/research labs</td>
+                        <td className="px-6 py-4 whitespace-nowrap">$40-75</td>
                       </tr>
                       <tr className="bg-orange-50">
-                        <td className="px-6 py-4 font-bold text-orange-700">Navy Formula (This Calculator)</td>
-                        <td className="px-6 py-4">⭐⭐⭐ Good (±3-4%)</td>
-                        <td className="px-6 py-4">Free, at home</td>
-                        <td className="px-6 py-4">$0</td>
+                        <td className="px-6 py-4 font-bold text-orange-700 whitespace-nowrap">Navy Formula (This Calculator)</td>
+                        <td className="px-6 py-4 whitespace-nowrap">⭐⭐⭐ Good (±3-4%)</td>
+                        <td className="px-6 py-4 whitespace-nowrap">Free, at home</td>
+                        <td className="px-6 py-4 whitespace-nowrap">$0</td>
                       </tr>
                       <tr>
-                        <td className="px-6 py-4 font-bold text-gray-700">Smart Scales (BIA)</td>
-                        <td className="px-6 py-4">⭐⭐ Variable</td>
-                        <td className="px-6 py-4">Home use</td>
-                        <td className="px-6 py-4">$30-200</td>
+                        <td className="px-6 py-4 font-bold text-gray-700 whitespace-nowrap">Smart Scales (BIA)</td>
+                        <td className="px-6 py-4 whitespace-nowrap">⭐⭐ Variable</td>
+                        <td className="px-6 py-4 whitespace-nowrap">Home use</td>
+                        <td className="px-6 py-4 whitespace-nowrap">$30-200</td>
                       </tr>
                       <tr className="bg-gray-50">
-                        <td className="px-6 py-4 font-bold text-gray-500">BMI</td>
-                        <td className="px-6 py-4">⭐ Poor (not body fat)</td>
-                        <td className="px-6 py-4">Free</td>
-                        <td className="px-6 py-4">$0</td>
+                        <td className="px-6 py-4 font-bold text-gray-500 whitespace-nowrap">BMI</td>
+                        <td className="px-6 py-4 whitespace-nowrap">⭐ Poor (not body fat)</td>
+                        <td className="px-6 py-4 whitespace-nowrap">Free</td>
+                        <td className="px-6 py-4 whitespace-nowrap">$0</td>
                       </tr>
                     </tbody>
                   </table>
+                  </div>
                 </Card>
 
                 <p className="mt-4 text-gray-700 font-medium bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
@@ -451,7 +457,7 @@ export default function BodyFatCalculatorPage() {
               {/* Common Mistakes - Practical user value */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                  <AlertTriangle className="w-6 h-6 text-red-600" />
+                  <AlertTriangle className="w-6 h-6 text-teal-600" />
                   Common Measurement Mistakes to Avoid
                 </h2>
                 
@@ -516,7 +522,7 @@ export default function BodyFatCalculatorPage() {
               {/* Fat Loss vs Weight Loss - Critical differentiation */}
               <section className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-3xl p-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                  <TrendingDown className="w-6 h-6 text-orange-600" />
+                  <TrendingDown className="w-6 h-6 text-teal-600" />
                   Fat Loss vs Weight Loss: The Critical Difference
                 </h2>
                 <p className="text-gray-700 leading-relaxed mb-6">
@@ -550,36 +556,36 @@ export default function BodyFatCalculatorPage() {
               </section>
 
               {/* Trust Section */}
-              <section className="bg-orange-600 rounded-3xl p-8 text-white">
-                <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
-                  <ShieldCheck className="w-6 h-6" />
+              <section className="bg-white rounded-3xl p-8 border border-gray-200">
+                <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+                  <ShieldCheck className="w-6 h-6 text-teal-600" />
                   Why Trust This Body Fat Calculator?
                 </h2>
-                <p className="mb-6 opacity-90">We designed this calculator with accuracy and user trust as priorities:</p>
+                <p className="mb-6 text-gray-700">We designed this calculator with accuracy and user trust as priorities:</p>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-orange-200" />
-                    <span>Uses the clinically validated U.S. Navy Method</span>
+                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                    <span className="text-gray-800">Uses the clinically validated U.S. Navy Method</span>
                   </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-orange-200" />
-                    <span>Separate formulas for men and women</span>
+                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                    <span className="text-gray-800">Separate formulas for men and women</span>
                   </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-orange-200" />
-                    <span>No data stored or tracked — complete privacy</span>
+                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                    <span className="text-gray-800">No data stored or tracked — complete privacy</span>
                   </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-orange-200" />
-                    <span>Clear explanations of what results mean</span>
+                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                    <span className="text-gray-800">Clear explanations of what results mean</span>
                   </div>
                 </div>
               </section>
 
               {/* Disclaimer */}
-              <section className="border-2 border-dashed border-orange-200 p-6 rounded-2xl bg-orange-50/30">
-                <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-orange-800 uppercase tracking-tight">
-                  <Info className="w-5 h-5" /> Health Disclaimer
+              <section className="border-2 border-dashed border-teal-200 p-6 rounded-2xl bg-gray-50">
+                <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-gray-800 uppercase tracking-tight">
+                  <Info className="w-5 h-5 text-teal-600" /> Health Disclaimer
                 </h3>
                 <p className="text-sm text-gray-700 leading-relaxed">
                   This body fat calculator provides estimates for educational purposes only. Results should not replace professional medical assessment. For clinical body composition analysis, consult a healthcare provider or certified fitness professional. If you have concerns about your body fat levels, eating habits, or body image, speak with a qualified professional.
@@ -588,14 +594,14 @@ export default function BodyFatCalculatorPage() {
 
               {/* CTA Section */}
               <section className="not-prose mt-12">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-orange-600 to-amber-600 rounded-3xl text-white shadow-xl">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-white border-2 border-teal-200 rounded-3xl shadow-sm">
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-bold">Complete Your Health Assessment</h3>
-                    <p className="text-orange-100 max-w-md">
+                    <h3 className="text-2xl font-bold text-gray-800">Complete Your Health Assessment</h3>
+                    <p className="text-gray-600 max-w-md">
                       Now that you know your body fat percentage, check your overall fitness metrics with our BMI Calculator.
                     </p>
                   </div>
-                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                  <Button asChild size="lg" className="whitespace-nowrap bg-teal-600 hover:bg-teal-700">
                     <Link href="/health/bmi-calculator">
                       Calculate BMI <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>

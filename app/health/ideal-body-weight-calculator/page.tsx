@@ -195,37 +195,39 @@ export default function IdealBodyWeightCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-green-200">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-green-600 text-white">
-                        <th className="px-6 py-4 text-left font-bold">Formula</th>
-                        <th className="px-6 py-4 text-left font-bold">Used For</th>
-                        <th className="px-6 py-4 text-left font-bold">Clinical Context</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      <tr>
-                        <td className="px-6 py-4 font-bold text-green-700">✅ Devine Formula</td>
-                        <td className="px-6 py-4">Drug dosing, ventilation</td>
-                        <td className="px-6 py-4">Most widely used in hospitals</td>
-                      </tr>
-                      <tr className="bg-green-50/30">
-                        <td className="px-6 py-4 font-bold text-green-700">✅ Robinson Formula</td>
-                        <td className="px-6 py-4">Nutritional assessment</td>
-                        <td className="px-6 py-4">Commonly used in dietetics</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 font-bold text-green-700">✅ Miller Formula</td>
-                        <td className="px-6 py-4">General fitness reference</td>
-                        <td className="px-6 py-4">Lower estimates, used in fitness</td>
-                      </tr>
-                      <tr className="bg-green-50/30">
-                        <td className="px-6 py-4 font-bold text-green-700">✅ Healthy Range</td>
-                        <td className="px-6 py-4">Goal setting</td>
-                        <td className="px-6 py-4">IBW ± 10% is clinically accepted</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm min-w-[500px]">
+                      <thead>
+                        <tr className="bg-green-600 text-white">
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Formula</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Used For</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Clinical Context</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        <tr>
+                          <td className="px-6 py-4 font-bold text-green-700">✅ Devine Formula</td>
+                          <td className="px-6 py-4">Drug dosing, ventilation</td>
+                          <td className="px-6 py-4">Most widely used in hospitals</td>
+                        </tr>
+                        <tr className="bg-green-50/30">
+                          <td className="px-6 py-4 font-bold text-green-700">✅ Robinson Formula</td>
+                          <td className="px-6 py-4">Nutritional assessment</td>
+                          <td className="px-6 py-4">Commonly used in dietetics</td>
+                        </tr>
+                        <tr>
+                          <td className="px-6 py-4 font-bold text-green-700">✅ Miller Formula</td>
+                          <td className="px-6 py-4">General fitness reference</td>
+                          <td className="px-6 py-4">Lower estimates, used in fitness</td>
+                        </tr>
+                        <tr className="bg-green-50/30">
+                          <td className="px-6 py-4 font-bold text-green-700">✅ Healthy Range</td>
+                          <td className="px-6 py-4">Goal setting</td>
+                          <td className="px-6 py-4">IBW ± 10% is clinically accepted</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </Card>
 
                 <p className="mt-4 text-gray-700 italic">
@@ -246,24 +248,26 @@ export default function IdealBodyWeightCalculatorPage() {
                 <p className="mb-4 text-gray-700 font-semibold">Female Healthy Weight Chart by Height:</p>
 
                 <Card className="not-prose overflow-hidden border-green-200">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-green-600 text-white">
-                        <th className="px-6 py-4 text-left font-bold">Height</th>
-                        <th className="px-6 py-4 text-left font-bold">Ideal Weight (kg)</th>
-                        <th className="px-6 py-4 text-left font-bold">Healthy Range (±10%)</th>
-                        <th className="px-6 py-4 text-left font-bold">IBW in lbs</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-6 py-4">5'0" (152 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~45.5 kg</td><td className="px-6 py-4">41–50 kg</td><td className="px-6 py-4">~100 lbs</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">5'2" (157 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~50.1 kg</td><td className="px-6 py-4">45–55 kg</td><td className="px-6 py-4">~110 lbs</td></tr>
-                      <tr><td className="px-6 py-4">5'4" (163 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~54.6 kg</td><td className="px-6 py-4">49–60 kg</td><td className="px-6 py-4">~120 lbs</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">5'6" (168 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~59.1 kg</td><td className="px-6 py-4">53–65 kg</td><td className="px-6 py-4">~130 lbs</td></tr>
-                      <tr><td className="px-6 py-4">5'8" (173 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~63.6 kg</td><td className="px-6 py-4">57–70 kg</td><td className="px-6 py-4">~140 lbs</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">5'10" (178 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~68.2 kg</td><td className="px-6 py-4">61–75 kg</td><td className="px-6 py-4">~150 lbs</td></tr>
-                    </tbody>
-                  </table>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm min-w-[600px]">
+                      <thead>
+                        <tr className="bg-green-600 text-white">
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Height</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Ideal Weight (kg)</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Healthy Range (±10%)</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">IBW in lbs</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        <tr><td className="px-6 py-4">5'0" (152 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~45.5 kg</td><td className="px-6 py-4">41–50 kg</td><td className="px-6 py-4">~100 lbs</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">5'2" (157 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~50.1 kg</td><td className="px-6 py-4">45–55 kg</td><td className="px-6 py-4">~110 lbs</td></tr>
+                        <tr><td className="px-6 py-4">5'4" (163 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~54.6 kg</td><td className="px-6 py-4">49–60 kg</td><td className="px-6 py-4">~120 lbs</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">5'6" (168 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~59.1 kg</td><td className="px-6 py-4">53–65 kg</td><td className="px-6 py-4">~130 lbs</td></tr>
+                        <tr><td className="px-6 py-4">5'8" (173 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~63.6 kg</td><td className="px-6 py-4">57–70 kg</td><td className="px-6 py-4">~140 lbs</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">5'10" (178 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~68.2 kg</td><td className="px-6 py-4">61–75 kg</td><td className="px-6 py-4">~150 lbs</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </Card>
 
                 <p className="mt-4 text-gray-700 font-medium bg-green-50 p-3 rounded-lg border-l-4 border-green-600">
@@ -282,24 +286,26 @@ export default function IdealBodyWeightCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-green-200 mb-6">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-green-600 text-white">
-                        <th className="px-6 py-4 text-left font-bold">Height</th>
-                        <th className="px-6 py-4 text-left font-bold">Ideal Weight (kg)</th>
-                        <th className="px-6 py-4 text-left font-bold">Healthy Range (±10%)</th>
-                        <th className="px-6 py-4 text-left font-bold">IBW in lbs</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-6 py-4">5'6" (168 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~63.8 kg</td><td className="px-6 py-4">57–70 kg</td><td className="px-6 py-4">~141 lbs</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">5'8" (173 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~68.4 kg</td><td className="px-6 py-4">62–75 kg</td><td className="px-6 py-4">~151 lbs</td></tr>
-                      <tr><td className="px-6 py-4">5'10" (178 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~73.0 kg</td><td className="px-6 py-4">66–80 kg</td><td className="px-6 py-4">~161 lbs</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">5'11" (180 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~75.3 kg</td><td className="px-6 py-4">68–83 kg</td><td className="px-6 py-4">~166 lbs</td></tr>
-                      <tr><td className="px-6 py-4 font-bold">6'0" (183 cm)</td><td className="px-6 py-4 font-bold text-green-700">~77.6 kg</td><td className="px-6 py-4 font-bold">70–85 kg</td><td className="px-6 py-4 font-bold">~171 lbs</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">6'2" (188 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~82.1 kg</td><td className="px-6 py-4">74–90 kg</td><td className="px-6 py-4">~181 lbs</td></tr>
-                    </tbody>
-                  </table>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm min-w-[600px]">
+                      <thead>
+                        <tr className="bg-green-600 text-white">
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Height</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Ideal Weight (kg)</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Healthy Range (±10%)</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">IBW in lbs</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        <tr><td className="px-6 py-4">5'6" (168 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~63.8 kg</td><td className="px-6 py-4">57–70 kg</td><td className="px-6 py-4">~141 lbs</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">5'8" (173 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~68.4 kg</td><td className="px-6 py-4">62–75 kg</td><td className="px-6 py-4">~151 lbs</td></tr>
+                        <tr><td className="px-6 py-4">5'10" (178 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~73.0 kg</td><td className="px-6 py-4">66–80 kg</td><td className="px-6 py-4">~161 lbs</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">5'11" (180 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~75.3 kg</td><td className="px-6 py-4">68–83 kg</td><td className="px-6 py-4">~166 lbs</td></tr>
+                        <tr><td className="px-6 py-4 font-bold">6'0" (183 cm)</td><td className="px-6 py-4 font-bold text-green-700">~77.6 kg</td><td className="px-6 py-4 font-bold">70–85 kg</td><td className="px-6 py-4 font-bold">~171 lbs</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">6'2" (188 cm)</td><td className="px-6 py-4 font-semibold text-green-700">~82.1 kg</td><td className="px-6 py-4">74–90 kg</td><td className="px-6 py-4">~181 lbs</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </Card>
 
                 <Card className="border-green-100 shadow-sm rounded-2xl overflow-hidden">
@@ -370,24 +376,26 @@ export default function IdealBodyWeightCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-green-200 mb-6">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-green-600 text-white">
-                        <th className="px-6 py-4 text-left font-bold">Factor</th>
-                        <th className="px-6 py-4 text-left font-bold">Ideal Body Weight</th>
-                        <th className="px-6 py-4 text-left font-bold">BMI Calculator</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-6 py-4">Uses height</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">Uses current weight</td><td className="px-6 py-4 text-gray-400">❌ No</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td></tr>
-                      <tr><td className="px-6 py-4">Gives a target weight</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td><td className="px-6 py-4 text-gray-400">❌ No</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">Classifies obesity</td><td className="px-6 py-4 text-gray-400">❌ No</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td></tr>
-                      <tr><td className="px-6 py-4">Used in medical dosing</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td><td className="px-6 py-4 text-gray-400">❌ No</td></tr>
-                      <tr className="bg-green-50/30"><td className="px-6 py-4">Gender-adjusted</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td><td className="px-6 py-4 text-gray-400">❌ No</td></tr>
-                      <tr><td className="px-6 py-4">Best use case</td><td className="px-6 py-4">Goal-setting, dosing</td><td className="px-6 py-4">Population screening</td></tr>
-                    </tbody>
-                  </table>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm min-w-[500px]">
+                      <thead>
+                        <tr className="bg-green-600 text-white">
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Factor</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">Ideal Body Weight</th>
+                          <th className="px-6 py-4 text-left font-bold sticky top-0 bg-green-600">BMI Calculator</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        <tr><td className="px-6 py-4">Uses height</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">Uses current weight</td><td className="px-6 py-4 text-gray-400">❌ No</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td></tr>
+                        <tr><td className="px-6 py-4">Gives a target weight</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td><td className="px-6 py-4 text-gray-400">❌ No</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">Classifies obesity</td><td className="px-6 py-4 text-gray-400">❌ No</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td></tr>
+                        <tr><td className="px-6 py-4">Used in medical dosing</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td><td className="px-6 py-4 text-gray-400">❌ No</td></tr>
+                        <tr className="bg-green-50/30"><td className="px-6 py-4">Gender-adjusted</td><td className="px-6 py-4 text-green-600 font-semibold">✅ Yes</td><td className="px-6 py-4 text-gray-400">❌ No</td></tr>
+                        <tr><td className="px-6 py-4">Best use case</td><td className="px-6 py-4">Goal-setting, dosing</td><td className="px-6 py-4">Population screening</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </Card>
 
                 <div className="grid md:grid-cols-2 gap-12">

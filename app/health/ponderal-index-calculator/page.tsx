@@ -102,20 +102,20 @@ export default function PonderalIndexCalculatorPage() {
       <Header />
 
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
           <div className="max-w-4xl mx-auto">
 
             {/* ── HERO ── */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+            <div className="text-center mb-6 sm:mb-8">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-balance mb-3 sm:mb-4">
                 Ponderal Index Calculator
               </h1>
-              <p className="text-lg text-muted-foreground text-pretty">
+              <p className="text-sm sm:text-lg text-muted-foreground text-pretty px-2 sm:px-0">
                 Calculate your <strong>Ponderal Index</strong> (also called the <strong>Corpulence Index</strong> or
                 <strong> Rohrer's Index</strong>) — a body composition measure that uses height cubed
                 rather than height squared, giving a more accurate result than BMI for tall, short, or lean individuals.
               </p>
-              <p className="text-base text-muted-foreground mt-3">
+              <p className="text-xs sm:text-base text-muted-foreground mt-2 sm:mt-3 px-2 sm:px-0">
                 <strong>Normal Ponderal Index range for adults: 11–15 kg/m³.</strong> Our calculator
                 supports adult, child, and newborn/fetal formulas with full reference charts and
                 worked calculation examples.
@@ -268,36 +268,38 @@ export default function PonderalIndexCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-teal-200 mb-5">
-                  <table className="w-full text-sm">
+                  <div className="overflow-x-auto">
+                  <table className="w-full text-sm min-w-[600px]">
                     <thead>
                       <tr className="bg-teal-600 text-white">
-                        <th className="px-5 py-3 text-left font-bold">PI Value (kg/m³)</th>
-                        <th className="px-5 py-3 text-left font-bold">Category</th>
-                        <th className="px-5 py-3 text-left font-bold">Clinical Interpretation</th>
-                        <th className="px-5 py-3 text-left font-bold">Action</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">PI Value (kg/m³)</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">Category</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">Clinical Interpretation</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       <tr>
-                        <td className="px-5 py-3 font-mono font-bold text-blue-600">&lt; 11</td>
-                        <td className="px-5 py-3"><span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-semibold">Underweight</span></td>
+                        <td className="px-5 py-3 font-mono font-bold text-blue-600 whitespace-nowrap">&lt; 11</td>
+                        <td className="px-5 py-3"><span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap">Underweight</span></td>
                         <td className="px-5 py-3 text-gray-600">Body weight is low relative to height volume</td>
                         <td className="px-5 py-3 text-gray-500 text-xs">Consult a healthcare provider</td>
                       </tr>
                       <tr className="bg-teal-50/30">
-                        <td className="px-5 py-3 font-mono font-bold text-teal-700">11 – 15</td>
-                        <td className="px-5 py-3"><span className="bg-teal-50 text-teal-700 px-2 py-0.5 rounded text-xs font-semibold">Normal Weight ✓</span></td>
+                        <td className="px-5 py-3 font-mono font-bold text-teal-700 whitespace-nowrap">11 – 15</td>
+                        <td className="px-5 py-3"><span className="bg-teal-50 text-teal-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap">Normal Weight ✓</span></td>
                         <td className="px-5 py-3 text-gray-600">Healthy body weight for your height and volume</td>
                         <td className="px-5 py-3 text-gray-500 text-xs">Maintain current habits</td>
                       </tr>
                       <tr>
-                        <td className="px-5 py-3 font-mono font-bold text-orange-600">&gt; 15</td>
-                        <td className="px-5 py-3"><span className="bg-orange-50 text-orange-700 px-2 py-0.5 rounded text-xs font-semibold">Overweight</span></td>
+                        <td className="px-5 py-3 font-mono font-bold text-orange-600 whitespace-nowrap">&gt; 15</td>
+                        <td className="px-5 py-3"><span className="bg-orange-50 text-orange-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap">Overweight</span></td>
                         <td className="px-5 py-3 text-gray-600">Body weight is high relative to height volume</td>
                         <td className="px-5 py-3 text-gray-500 text-xs">Review diet and activity level</td>
                       </tr>
                     </tbody>
                   </table>
+                  </div>
                 </Card>
 
                 <p className="text-sm text-gray-500 italic">
@@ -340,32 +342,34 @@ export default function PonderalIndexCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-teal-200 mb-5">
-                  <table className="w-full text-sm">
+                  <div className="overflow-x-auto">
+                  <table className="w-full text-sm min-w-[500px]">
                     <thead>
                       <tr className="bg-teal-600 text-white">
-                        <th className="px-5 py-3 text-left font-bold">Neonatal PI (g/cm³)</th>
-                        <th className="px-5 py-3 text-left font-bold">Category</th>
-                        <th className="px-5 py-3 text-left font-bold">Clinical Significance</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">Neonatal PI (g/cm³)</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">Category</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">Clinical Significance</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       <tr>
-                        <td className="px-5 py-3 font-mono font-bold text-orange-600">&lt; 2.2</td>
-                        <td className="px-5 py-3"><span className="bg-orange-50 text-orange-700 px-2 py-0.5 rounded text-xs font-semibold">Low — IUGR risk</span></td>
+                        <td className="px-5 py-3 font-mono font-bold text-orange-600 whitespace-nowrap">&lt; 2.2</td>
+                        <td className="px-5 py-3"><span className="bg-orange-50 text-orange-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap">Low — IUGR risk</span></td>
                         <td className="px-5 py-3 text-gray-600">Possible intrauterine growth restriction; asymmetric IUGR common</td>
                       </tr>
                       <tr className="bg-teal-50/30">
-                        <td className="px-5 py-3 font-mono font-bold text-teal-700">2.32 – 2.85</td>
-                        <td className="px-5 py-3"><span className="bg-teal-50 text-teal-700 px-2 py-0.5 rounded text-xs font-semibold">Normal ✓</span></td>
+                        <td className="px-5 py-3 font-mono font-bold text-teal-700 whitespace-nowrap">2.32 – 2.85</td>
+                        <td className="px-5 py-3"><span className="bg-teal-50 text-teal-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap">Normal ✓</span></td>
                         <td className="px-5 py-3 text-gray-600">Proportionate growth; healthy fetal nutrition assumed</td>
                       </tr>
                       <tr>
-                        <td className="px-5 py-3 font-mono font-bold text-red-600">&gt; 3.0</td>
-                        <td className="px-5 py-3"><span className="bg-red-50 text-red-700 px-2 py-0.5 rounded text-xs font-semibold">High — Macrosomia risk</span></td>
+                        <td className="px-5 py-3 font-mono font-bold text-red-600 whitespace-nowrap">&gt; 3.0</td>
+                        <td className="px-5 py-3"><span className="bg-red-50 text-red-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap">High — Macrosomia risk</span></td>
                         <td className="px-5 py-3 text-gray-600">Excess fetal weight for length; associated with gestational diabetes</td>
                       </tr>
                     </tbody>
                   </table>
+                  </div>
                 </Card>
 
                 <div className="grid md:grid-cols-2 gap-6 not-prose mt-4">
@@ -414,15 +418,16 @@ export default function PonderalIndexCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-teal-200">
-                  <table className="w-full text-sm">
+                  <div className="overflow-x-auto">
+                  <table className="w-full text-sm min-w-[600px]">
                     <thead>
                       <tr className="bg-teal-600 text-white">
-                        <th className="px-4 py-3 text-left font-bold">Height</th>
-                        <th className="px-4 py-3 text-left font-bold">55 kg</th>
-                        <th className="px-4 py-3 text-left font-bold">65 kg</th>
-                        <th className="px-4 py-3 text-left font-bold">75 kg</th>
-                        <th className="px-4 py-3 text-left font-bold">90 kg</th>
-                        <th className="px-4 py-3 text-left font-bold">105 kg</th>
+                        <th className="px-4 py-3 text-left font-bold whitespace-nowrap">Height</th>
+                        <th className="px-4 py-3 text-left font-bold whitespace-nowrap">55 kg</th>
+                        <th className="px-4 py-3 text-left font-bold whitespace-nowrap">65 kg</th>
+                        <th className="px-4 py-3 text-left font-bold whitespace-nowrap">75 kg</th>
+                        <th className="px-4 py-3 text-left font-bold whitespace-nowrap">90 kg</th>
+                        <th className="px-4 py-3 text-left font-bold whitespace-nowrap">105 kg</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100 text-xs">
@@ -435,11 +440,11 @@ export default function PonderalIndexCalculatorPage() {
                         ["1.85 m", 8.7, 10.3, 11.9, 14.3, 16.6],
                       ].map((row, i) => (
                         <tr key={i} className={i % 2 === 1 ? "bg-teal-50/20" : ""}>
-                          <td className="px-4 py-2 font-semibold">{row[0]}</td>
+                          <td className="px-4 py-2 font-semibold whitespace-nowrap">{row[0]}</td>
                           {(row.slice(1) as number[]).map((val, j) => (
                             <td
                               key={j}
-                              className={`px-4 py-2 font-mono ${
+                              className={`px-4 py-2 font-mono whitespace-nowrap ${
                                 val >= 11 && val <= 15
                                   ? "text-teal-700 font-bold bg-teal-50"
                                   : val < 11
@@ -454,6 +459,7 @@ export default function PonderalIndexCalculatorPage() {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </Card>
                 <p className="mt-3 text-xs text-gray-400 italic">
                   Green = normal (11–15 kg/m³) · Blue = underweight (&lt;11) · Orange = overweight (&gt;15)
@@ -473,25 +479,27 @@ export default function PonderalIndexCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-teal-200 mb-5">
-                  <table className="w-full text-sm">
+                  <div className="overflow-x-auto">
+                  <table className="w-full text-sm min-w-[500px]">
                     <thead>
                       <tr className="bg-teal-600 text-white">
-                        <th className="px-5 py-3 text-left font-bold">Feature</th>
-                        <th className="px-5 py-3 text-left font-bold">Ponderal Index (PI)</th>
-                        <th className="px-5 py-3 text-left font-bold">BMI</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">Feature</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">Ponderal Index (PI)</th>
+                        <th className="px-5 py-3 text-left font-bold whitespace-nowrap">BMI</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-5 py-3 font-medium">Formula</td><td className="px-5 py-3 font-mono text-xs">Weight ÷ Height³</td><td className="px-5 py-3 font-mono text-xs">Weight ÷ Height²</td></tr>
-                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium">Dimensionality</td><td className="px-5 py-3">3D (volume-based)</td><td className="px-5 py-3">2D (area-based)</td></tr>
-                      <tr><td className="px-5 py-3 font-medium">Accuracy for tall individuals</td><td className="px-5 py-3 text-teal-700 font-semibold">✓ More accurate</td><td className="px-5 py-3 text-orange-600">Overestimates adiposity</td></tr>
-                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium">Accuracy for short individuals</td><td className="px-5 py-3 text-teal-700 font-semibold">✓ More accurate</td><td className="px-5 py-3 text-orange-600">Underestimates adiposity</td></tr>
-                      <tr><td className="px-5 py-3 font-medium">Used for newborns/infants</td><td className="px-5 py-3 text-teal-700 font-semibold">✓ Yes (pediatric formula)</td><td className="px-5 py-3 text-gray-400">Rarely used</td></tr>
-                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium">Muscle vs fat distinction</td><td className="px-5 py-3 text-orange-500">✗ Does not distinguish</td><td className="px-5 py-3 text-orange-500">✗ Does not distinguish</td></tr>
-                      <tr><td className="px-5 py-3 font-medium">Clinical adoption</td><td className="px-5 py-3">Neonatology, research</td><td className="px-5 py-3">Primary care, population screening</td></tr>
-                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium">Normal range (adults)</td><td className="px-5 py-3 font-semibold">11–15 kg/m³</td><td className="px-5 py-3 font-semibold">18.5–24.9 kg/m²</td></tr>
+                      <tr><td className="px-5 py-3 font-medium whitespace-nowrap">Formula</td><td className="px-5 py-3 font-mono text-xs whitespace-nowrap">Weight ÷ Height³</td><td className="px-5 py-3 font-mono text-xs whitespace-nowrap">Weight ÷ Height²</td></tr>
+                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium whitespace-nowrap">Dimensionality</td><td className="px-5 py-3 whitespace-nowrap">3D (volume-based)</td><td className="px-5 py-3 whitespace-nowrap">2D (area-based)</td></tr>
+                      <tr><td className="px-5 py-3 font-medium whitespace-nowrap">Accuracy for tall individuals</td><td className="px-5 py-3 text-teal-700 font-semibold whitespace-nowrap">✓ More accurate</td><td className="px-5 py-3 text-orange-600 whitespace-nowrap">Overestimates adiposity</td></tr>
+                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium whitespace-nowrap">Accuracy for short individuals</td><td className="px-5 py-3 text-teal-700 font-semibold whitespace-nowrap">✓ More accurate</td><td className="px-5 py-3 text-orange-600 whitespace-nowrap">Underestimates adiposity</td></tr>
+                      <tr><td className="px-5 py-3 font-medium whitespace-nowrap">Used for newborns/infants</td><td className="px-5 py-3 text-teal-700 font-semibold whitespace-nowrap">✓ Yes (pediatric formula)</td><td className="px-5 py-3 text-gray-400 whitespace-nowrap">Rarely used</td></tr>
+                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium whitespace-nowrap">Muscle vs fat distinction</td><td className="px-5 py-3 text-orange-500 whitespace-nowrap">✗ Does not distinguish</td><td className="px-5 py-3 text-orange-500 whitespace-nowrap">✗ Does not distinguish</td></tr>
+                      <tr><td className="px-5 py-3 font-medium whitespace-nowrap">Clinical adoption</td><td className="px-5 py-3 whitespace-nowrap">Neonatology, research</td><td className="px-5 py-3 whitespace-nowrap">Primary care, population screening</td></tr>
+                      <tr className="bg-teal-50/20"><td className="px-5 py-3 font-medium whitespace-nowrap">Normal range (adults)</td><td className="px-5 py-3 font-semibold whitespace-nowrap">11–15 kg/m³</td><td className="px-5 py-3 font-semibold whitespace-nowrap">18.5–24.9 kg/m²</td></tr>
                     </tbody>
                   </table>
+                  </div>
                 </Card>
 
                 <p className="text-gray-700 font-medium bg-teal-50 p-3 rounded-lg border-l-4 border-teal-600">

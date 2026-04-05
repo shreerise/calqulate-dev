@@ -413,6 +413,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["period cycle calculator", "menstrual cycle", "ovulation prediction", "fertility", "women's health"],
     keywords: ["period cycle calculator","menstrual cycle prediction","ovulation days estimation","fertility assessment","women's health evaluation"],
+  },
+  {
+    id: "ovulation",
+    title: "Ovulation Calculator",
+    description: "Calculate your ovulation day and fertile window based on your menstrual cycle",
+    href: "/health/ovulation-calculator",
+    category: "Health",
+    tags: ["ovulation calculator", "ovulation day", "fertile window", "menstrual cycle"],
+    keywords: ["ovulation calculator","ovulation day","fertile window","menstrual cycle","fertility assessment"]
   }
   
 ]

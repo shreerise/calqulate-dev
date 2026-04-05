@@ -722,57 +722,57 @@ export default function BreastCancerRiskCalculatorPage() {
               </section>
 
               {/* Section 13: Trust & Validation */}
-              <section className="bg-pink-600 rounded-3xl p-8 text-white">
-                <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
-                  <ShieldCheck className="w-6 h-6" />
+              <section className="bg-white rounded-3xl p-8 border border-gray-200">
+                <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+                  <ShieldCheck className="w-6 h-6 text-teal-600" />
                   Is This Breast Cancer Risk Calculator Clinically Validated?
                 </h2>
-                <p className="mb-4 opacity-90">
+                <p className="mb-4 text-gray-700">
                   Our calculator implements algorithms based on the Gail Model and Tyrer-Cuzick (IBIS) methodology—both validated through peer-reviewed studies and used in clinical settings. We cite National Cancer Institute and peer-reviewed sources for all risk factor weightings.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6 mt-6">
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-pink-200" />
-                    <span>Based on NCI-validated Gail Model</span>
+                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                    <span className="text-gray-800">Based on NCI-validated Gail Model</span>
                   </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-pink-200" />
-                    <span>Incorporates Tyrer-Cuzick methodology</span>
+                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                    <span className="text-gray-800">Incorporates Tyrer-Cuzick methodology</span>
                   </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-pink-200" />
-                    <span>Your data is never stored or tracked</span>
+                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                    <span className="text-gray-800">Your data is never stored or tracked</span>
                   </div>
-                  <div className="flex items-center gap-3 bg-white/10 p-4 rounded-xl">
-                    <CheckCircle2 className="w-5 h-5 text-pink-200" />
-                    <span>Not a substitute for professional evaluation</span>
+                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                    <span className="text-gray-800">Not a substitute for professional evaluation</span>
                   </div>
                 </div>
-                <p className="mt-6 text-sm opacity-80">
+                <p className="mt-6 text-sm text-gray-600">
                   This tool provides educational risk estimates only. It does not diagnose cancer or replace clinical evaluation. Always consult a healthcare professional for personalized medical advice.
                 </p>
               </section>
 
               {/* Important Limitations */}
-              <section className="border-2 border-dashed border-pink-200 p-6 rounded-2xl bg-pink-50/30">
-                <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-pink-800 uppercase tracking-tight">
-                  <AlertTriangle className="w-5 h-5" /> What Your Risk Score Does NOT Mean
+              <section className="border-2 border-dashed border-teal-200 p-6 rounded-2xl bg-gray-50">
+                <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-gray-800 uppercase tracking-tight">
+                  <AlertTriangle className="w-5 h-5 text-teal-600" /> What Your Risk Score Does NOT Mean
                 </h3>
                 <ul className="space-y-2 text-gray-700 mt-4">
                   <li className="flex items-start gap-2">
-                    <span className="text-pink-600 font-bold">•</span>
+                    <span className="text-teal-600 font-bold">•</span>
                     <span>It does <strong>not</strong> mean you will definitely develop breast cancer</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-pink-600 font-bold">•</span>
+                    <span className="text-teal-600 font-bold">•</span>
                     <span>It does <strong>not</strong> replace the need for regular mammograms and clinical exams</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-pink-600 font-bold">•</span>
+                    <span className="text-teal-600 font-bold">•</span>
                     <span>It is <strong>not</strong> a genetic test for BRCA or other mutations</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-pink-600 font-bold">•</span>
+                    <span className="text-teal-600 font-bold">•</span>
                     <span>It cannot detect existing cancer — only screening and biopsy can diagnose</span>
                   </li>
                 </ul>
@@ -797,14 +797,14 @@ export default function BreastCancerRiskCalculatorPage() {
 
               {/* CTA Section */}
               <section className="not-prose mt-12">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-pink-600 to-pink-700 rounded-3xl text-white shadow-xl">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-white border-2 border-teal-200 rounded-3xl shadow-sm">
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-bold">Assessing your overall health?</h3>
-                    <p className="text-pink-100 max-w-md">
+                    <h3 className="text-2xl font-bold text-gray-800">Assessing your overall health?</h3>
+                    <p className="text-gray-600 max-w-md">
                       Weight management is a key factor in breast cancer prevention. Check your BMI and body metrics to support your health goals.
                     </p>
                   </div>
-                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                  <Button asChild size="lg" className="whitespace-nowrap bg-teal-600 hover:bg-teal-700">
                     <Link href="/health/bmi-calculator">
                       Check Your BMI <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>

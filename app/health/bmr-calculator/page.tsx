@@ -278,22 +278,24 @@ export default function BMRCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-orange-200 mb-4">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-orange-500 text-white">
-                        <th className="px-5 py-3 text-left font-bold">Age</th>
-                        <th className="px-5 py-3 text-left font-bold">70 kg / 175 cm</th>
-                        <th className="px-5 py-3 text-left font-bold">80 kg / 175 cm</th>
-                        <th className="px-5 py-3 text-left font-bold">90 kg / 175 cm</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-5 py-3 font-semibold">25</td><td className="px-5 py-3">1,788 kcal</td><td className="px-5 py-3">1,888 kcal</td><td className="px-5 py-3">1,988 kcal</td></tr>
-                      <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">35</td><td className="px-5 py-3">1,738 kcal</td><td className="px-5 py-3">1,838 kcal</td><td className="px-5 py-3">1,938 kcal</td></tr>
-                      <tr><td className="px-5 py-3 font-semibold">45</td><td className="px-5 py-3">1,688 kcal</td><td className="px-5 py-3">1,788 kcal</td><td className="px-5 py-3">1,888 kcal</td></tr>
-                      <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">55</td><td className="px-5 py-3">1,638 kcal</td><td className="px-5 py-3">1,738 kcal</td><td className="px-5 py-3">1,838 kcal</td></tr>
-                    </tbody>
-                  </table>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm min-w-[500px]">
+                      <thead>
+                        <tr className="bg-orange-500 text-white">
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">Age</th>
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">70 kg / 175 cm</th>
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">80 kg / 175 cm</th>
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">90 kg / 175 cm</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        <tr><td className="px-5 py-3 font-semibold">25</td><td className="px-5 py-3">1,788 kcal</td><td className="px-5 py-3">1,888 kcal</td><td className="px-5 py-3">1,988 kcal</td></tr>
+                        <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">35</td><td className="px-5 py-3">1,738 kcal</td><td className="px-5 py-3">1,838 kcal</td><td className="px-5 py-3">1,938 kcal</td></tr>
+                        <tr><td className="px-5 py-3 font-semibold">45</td><td className="px-5 py-3">1,688 kcal</td><td className="px-5 py-3">1,788 kcal</td><td className="px-5 py-3">1,888 kcal</td></tr>
+                        <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">55</td><td className="px-5 py-3">1,638 kcal</td><td className="px-5 py-3">1,738 kcal</td><td className="px-5 py-3">1,838 kcal</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </Card>
                 <p className="text-sm text-gray-500 italic">
                   BMR decreases by approximately 50 kcal per decade as muscle mass naturally declines
@@ -315,22 +317,24 @@ export default function BMRCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-orange-200 mb-4">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-orange-500 text-white">
-                        <th className="px-5 py-3 text-left font-bold">Age</th>
-                        <th className="px-5 py-3 text-left font-bold">55 kg / 163 cm</th>
-                        <th className="px-5 py-3 text-left font-bold">65 kg / 163 cm</th>
-                        <th className="px-5 py-3 text-left font-bold">75 kg / 163 cm</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-5 py-3 font-semibold">25</td><td className="px-5 py-3">1,332 kcal</td><td className="px-5 py-3">1,432 kcal</td><td className="px-5 py-3">1,532 kcal</td></tr>
-                      <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">35</td><td className="px-5 py-3">1,282 kcal</td><td className="px-5 py-3">1,382 kcal</td><td className="px-5 py-3">1,482 kcal</td></tr>
-                      <tr><td className="px-5 py-3 font-semibold">45</td><td className="px-5 py-3">1,232 kcal</td><td className="px-5 py-3">1,332 kcal</td><td className="px-5 py-3">1,432 kcal</td></tr>
-                      <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">55</td><td className="px-5 py-3">1,182 kcal</td><td className="px-5 py-3">1,282 kcal</td><td className="px-5 py-3">1,382 kcal</td></tr>
-                    </tbody>
-                  </table>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm min-w-[500px]">
+                      <thead>
+                        <tr className="bg-orange-500 text-white">
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">Age</th>
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">55 kg / 163 cm</th>
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">65 kg / 163 cm</th>
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">75 kg / 163 cm</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        <tr><td className="px-5 py-3 font-semibold">25</td><td className="px-5 py-3">1,332 kcal</td><td className="px-5 py-3">1,432 kcal</td><td className="px-5 py-3">1,532 kcal</td></tr>
+                        <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">35</td><td className="px-5 py-3">1,282 kcal</td><td className="px-5 py-3">1,382 kcal</td><td className="px-5 py-3">1,482 kcal</td></tr>
+                        <tr><td className="px-5 py-3 font-semibold">45</td><td className="px-5 py-3">1,232 kcal</td><td className="px-5 py-3">1,332 kcal</td><td className="px-5 py-3">1,432 kcal</td></tr>
+                        <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">55</td><td className="px-5 py-3">1,182 kcal</td><td className="px-5 py-3">1,282 kcal</td><td className="px-5 py-3">1,382 kcal</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </Card>
                 <p className="mt-3 text-gray-700 font-medium bg-orange-50 p-3 rounded-lg border-l-4 border-orange-500">
                   <strong>Hormonal note:</strong> Pregnancy, menopause, and thyroid conditions can
@@ -352,22 +356,24 @@ export default function BMRCalculatorPage() {
                 </p>
 
                 <Card className="not-prose overflow-hidden border-orange-200 mb-4">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-orange-500 text-white">
-                        <th className="px-5 py-3 text-left font-bold">Group</th>
-                        <th className="px-5 py-3 text-left font-bold">Average BMR Range</th>
-                        <th className="px-5 py-3 text-left font-bold">Average TDEE (Moderate Activity)</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-5 py-3 font-semibold">Adult Women (20–40)</td><td className="px-5 py-3">1,300–1,600 kcal</td><td className="px-5 py-3">2,000–2,400 kcal</td></tr>
-                      <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">Adult Men (20–40)</td><td className="px-5 py-3">1,600–2,000 kcal</td><td className="px-5 py-3">2,400–3,000 kcal</td></tr>
-                      <tr><td className="px-5 py-3 font-semibold">Women (40–60)</td><td className="px-5 py-3">1,200–1,500 kcal</td><td className="px-5 py-3">1,850–2,300 kcal</td></tr>
-                      <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">Men (40–60)</td><td className="px-5 py-3">1,500–1,900 kcal</td><td className="px-5 py-3">2,300–2,900 kcal</td></tr>
-                      <tr><td className="px-5 py-3 font-semibold">Athletes (any sex)</td><td className="px-5 py-3">1,700–2,400+ kcal</td><td className="px-5 py-3">3,000–4,500+ kcal</td></tr>
-                    </tbody>
-                  </table>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm min-w-[600px]">
+                      <thead>
+                        <tr className="bg-orange-500 text-white">
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">Group</th>
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">Average BMR Range</th>
+                          <th className="px-5 py-3 text-left font-bold sticky top-0 bg-orange-500">Average TDEE (Moderate Activity)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        <tr><td className="px-5 py-3 font-semibold">Adult Women (20–40)</td><td className="px-5 py-3">1,300–1,600 kcal</td><td className="px-5 py-3">2,000–2,400 kcal</td></tr>
+                        <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">Adult Men (20–40)</td><td className="px-5 py-3">1,600–2,000 kcal</td><td className="px-5 py-3">2,400–3,000 kcal</td></tr>
+                        <tr><td className="px-5 py-3 font-semibold">Women (40–60)</td><td className="px-5 py-3">1,200–1,500 kcal</td><td className="px-5 py-3">1,850–2,300 kcal</td></tr>
+                        <tr className="bg-orange-50/30"><td className="px-5 py-3 font-semibold">Men (40–60)</td><td className="px-5 py-3">1,500–1,900 kcal</td><td className="px-5 py-3">2,300–2,900 kcal</td></tr>
+                        <tr><td className="px-5 py-3 font-semibold">Athletes (any sex)</td><td className="px-5 py-3">1,700–2,400+ kcal</td><td className="px-5 py-3">3,000–4,500+ kcal</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </Card>
 
                 <div className="grid md:grid-cols-2 gap-12 mt-6">
@@ -417,22 +423,24 @@ export default function BMRCalculatorPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-0 px-0">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-gray-50 border-b border-gray-100">
-                          <th className="px-5 py-3 text-left font-bold text-gray-700">Activity Level</th>
-                          <th className="px-5 py-3 text-left font-bold text-gray-700">Multiplier</th>
-                          <th className="px-5 py-3 text-left font-bold text-gray-700">Example</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100">
-                        <tr><td className="px-5 py-3">Sedentary</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.2</td><td className="px-5 py-3 text-gray-500">Desk job, no gym</td></tr>
-                        <tr className="bg-orange-50/20"><td className="px-5 py-3">Lightly active</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.375</td><td className="px-5 py-3 text-gray-500">1–3 days/week training</td></tr>
-                        <tr><td className="px-5 py-3">Moderately active</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.55</td><td className="px-5 py-3 text-gray-500">3–5 days/week training</td></tr>
-                        <tr className="bg-orange-50/20"><td className="px-5 py-3">Very active</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.725</td><td className="px-5 py-3 text-gray-500">Hard training 6–7 days</td></tr>
-                        <tr><td className="px-5 py-3">Extra active</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.9</td><td className="px-5 py-3 text-gray-500">Physical job + daily training</td></tr>
-                      </tbody>
-                    </table>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm min-w-[500px]">
+                        <thead>
+                          <tr className="bg-gray-50 border-b border-gray-100">
+                            <th className="px-5 py-3 text-left font-bold text-gray-700 sticky top-0 bg-gray-50">Activity Level</th>
+                            <th className="px-5 py-3 text-left font-bold text-gray-700 sticky top-0 bg-gray-50">Multiplier</th>
+                            <th className="px-5 py-3 text-left font-bold text-gray-700 sticky top-0 bg-gray-50">Example</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                          <tr><td className="px-5 py-3">Sedentary</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.2</td><td className="px-5 py-3 text-gray-500">Desk job, no gym</td></tr>
+                          <tr className="bg-orange-50/20"><td className="px-5 py-3">Lightly active</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.375</td><td className="px-5 py-3 text-gray-500">1–3 days/week training</td></tr>
+                          <tr><td className="px-5 py-3">Moderately active</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.55</td><td className="px-5 py-3 text-gray-500">3–5 days/week training</td></tr>
+                          <tr className="bg-orange-50/20"><td className="px-5 py-3">Very active</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.725</td><td className="px-5 py-3 text-gray-500">Hard training 6–7 days</td></tr>
+                          <tr><td className="px-5 py-3">Extra active</td><td className="px-5 py-3 font-mono font-semibold text-orange-700">× 1.9</td><td className="px-5 py-3 text-gray-500">Physical job + daily training</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </CardContent>
                 </Card>
 
@@ -534,9 +542,9 @@ export default function BMRCalculatorPage() {
               </section>
 
               {/* ── RELIABILITY STRIP ── */}
-              <section className="bg-orange-500 rounded-3xl p-8 text-white">
-                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <AlertTriangle className="w-6 h-6" />
+              <section className="bg-white border-2 border-teal-200 rounded-3xl p-8 text-gray-800">
+                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-gray-800">
+                  <AlertTriangle className="w-6 h-6 text-teal-600" />
                   Common BMR Mistakes — and How to Avoid Them
                 </h2>
                 <p className="mb-6 opacity-90">
@@ -603,15 +611,15 @@ export default function BMRCalculatorPage() {
 
               {/* ── CTA ── */}
               <section className="not-prose mt-12">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-3xl text-white shadow-xl">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-white border-2 border-teal-200 rounded-3xl text-gray-800 shadow-xl">
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-bold">Ready to calculate your calorie deficit?</h3>
-                    <p className="text-orange-100 max-w-md">
+                    <h3 className="text-2xl font-bold text-gray-800">Ready to calculate your calorie deficit?</h3>
+                    <p className="text-gray-600 max-w-md">
                       Now that you know your BMR, find out exactly how many calories you need
                       to eat to reach your weight loss goals.
                     </p>
                   </div>
-                  <Button asChild size="lg" variant="secondary" className="whitespace-nowrap">
+                  <Button asChild size="lg" className="whitespace-nowrap bg-teal-600 hover:bg-teal-700 text-white">
                     <Link href="/health/calorie-deficit-calculator">
                       Calorie Deficit Tool <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
