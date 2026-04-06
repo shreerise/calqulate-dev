@@ -323,6 +323,20 @@ const calculators = [
     icon: <Calculator className="h-6 w-6" />,
     href: "/health/period-cycle-calculator",
     category: "Health",
+  },
+  {
+      title: "Ovulation Calculator",
+      description: "Calculate your ovulation day and fertile window based on your menstrual cycle",
+      icon: <Calculator className="h-6 w-6" />,
+      href: "/health/ovulation-calculator",
+      category: "Health",
+  },
+  {
+    title: "IVF Pregnancy Due Date Calculator",
+    description: "Calculate your IVF pregnancy due date based on embryo transfer date",
+    icon: <Calculator className="h-6 w-6" />,
+    href: "/health/ivf-pregnancy-due-date-calculator",
+    category: "Health",
   }
 ]
 
