@@ -35,12 +35,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon/favicon.ico" },
+      { url: "/logo.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: "/favicon/apple-touch-icon.png",
-    shortcut: "/favicon/favicon.ico",
+    apple: "/apple-touch-icon.jpg",
   },
   manifest: "/favicon/site.webmanifest",
 };
@@ -54,13 +51,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <OrganizationSchema />
-
-        {/* Favicon */}
-        <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
-        <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
 
         {/* Google AdSense Verification */}
         <meta name="google-adsense-account" content="ca-pub-4361792190799561" />
@@ -90,7 +80,7 @@ export default function RootLayout({
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', '${GA_MEASUREMENT_ID}');
-            `,
+            `,  
           }}
         />
 

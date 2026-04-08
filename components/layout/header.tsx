@@ -93,8 +93,9 @@ export function Header() {
             {/* Calculators */}
             <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => setShowDropdown((v) => !v)}
-                className="flex items-center space-x-1 text-sm font-medium hover:text-primary"
+              aria-label="Open calculators menu"
+              onClick={() => setShowDropdown((v) => !v)}
+              className="flex items-center space-x-1 text-sm font-medium hover:text-primary"
               >
                 <span>Calculators</span>
                 <ChevronDown
@@ -111,6 +112,7 @@ export function Header() {
                     {calculatorCategories.map((category) => (
                       <button
                         key={category.name}
+                        aria-label={`Open ${category.name} calculators`}
                         onMouseEnter={() => setActiveCategory(category.name)}
                         onClick={() => setActiveCategory(category.name)}
                         className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md ${
@@ -184,10 +186,11 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden"
-            onClick={() => setIsMenuOpen((v) => !v)}
+          variant="ghost"
+          size="sm"
+          className="md:hidden"
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setIsMenuOpen((v) => !v)}
           >
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
