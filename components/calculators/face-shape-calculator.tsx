@@ -1527,10 +1527,10 @@ export default function FaceShapeCalculator() {
         <CardHeader className="text-center">
           <CardTitle className="flex items-center justify-center gap-2 text-2xl md:text-3xl">
             <Sparkles className="w-6 h-6 text-primary" />
-            Face Shape Calculator
+            Face Shape Detector & Hairstyle Recommender (Alpha Version)
           </CardTitle>
           <CardDescription className="text-base">
-            Upload a photo or use your camera to discover your face shape and get personalized hairstyle recommendations
+            “Upload a photo or use your camera with our face shape calculator from photo to instantly discover your face shape and get personalized hairstyle recommendations.”
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -1553,11 +1553,11 @@ export default function FaceShapeCalculator() {
               >
                 <div className="flex items-center space-x-2 space-y-0">
                   <RadioGroupItem value="female" id="gender-female" />
-                  <label htmlFor="gender-female" className="font-normal cursor-pointer text-sm">Female</label>
+                  <label htmlFor="gender-female" className="font-normal cursor-pointer text-sm">face shape female</label>
                 </div>
                 <div className="flex items-center space-x-2 space-y-0">
                   <RadioGroupItem value="male" id="gender-male" />
-                  <label htmlFor="gender-male" className="font-normal cursor-pointer text-sm">Male</label>
+                  <label htmlFor="gender-male" className="font-normal cursor-pointer text-sm">face shape male</label>
                 </div>
                 <div className="flex items-center space-x-2 space-y-0">
                   <RadioGroupItem value="other" id="gender-other" />

@@ -42,7 +42,7 @@ const calculators = [
     badge: "Trending",
   },
   {
-    title: "Face Shape Calculator",
+    title: "Face Shape Detector",
     description: "Identify your face shape using precise measurements and unlock personalized hairstyle, glasses, and makeup guidance.",
     icon: <Sparkles className="h-5 w-5" />,
     href: "/health/face-shape-calculator",
@@ -496,7 +496,7 @@ export default function HomePage() {
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3">Body Shape Calculator</h3>
                   <p className="text-gray-500 mb-2 leading-relaxed">
-                    Enter your bust, waist, and hip measurements to discover your body shape — hourglass, pear, apple, or rectangle.
+                    Enter your bust, waist, and hip measurements to discover your body shape - hourglass, pear, apple, or rectangle.
                   </p>
                   <ul className="space-y-1.5 mb-6">
                     {["Identify your exact body type", "Get fitness tips for your shape", "Find flattering clothing styles"].map((item) => (
@@ -530,9 +530,9 @@ export default function HomePage() {
                       Trending
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">Face Shape Calculator</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">Face Shape Detector</h3>
                   <p className="text-gray-500 mb-2 leading-relaxed">
-                    Use precise facial measurements — forehead, cheekbones, jaw, and face length — to identify your exact face shape.
+                    Use precise facial measurements - forehead, cheekbones, jaw, and face length - to identify your exact face shape.
                   </p>
                   <ul className="space-y-1.5 mb-6">
                     {["Determine oval, round, square, heart, diamond, or oblong", "Get hairstyle recommendations", "Find the best glasses for your features"].map((item) => (

@@ -228,7 +228,7 @@ export default function FaceShapeCalculatorPage() {
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
                 Your face tells a story, and understanding its shape helps in picking up the perfect hairstyle, glasses, or even the right makeup look.
-                Our AI Face Shape Calculator helps you calculate your face shape instantly using advanced AI detection or manual measurement, while keeping your privacy 100% secure.
+                Our AI Face Shape Calculator helps you calculate your face shape instantly using advanced AI detection or manual measurement, while keeping your <b>privacy 100% secure</b>.
               </p>
             </div>
 
@@ -362,7 +362,7 @@ export default function FaceShapeCalculatorPage() {
 
               {/* NEW FACE SHAPE IMAGES SECTION */}
               <section>
-                <h2 className="mb-2"><b>Visual Guide to Face Shapes</b></h2>
+                <h2 className="mb-2"><b>Face Shape Female Guide: Find Yours in 30 Seconds (With Pictures)</b></h2>
                 <p className="mb-6">Understanding the different face shapes is easier when you can see visual examples. Here's a comprehensive guide to help you identify the main face shape categories:</p>
                 
                 {/* Image with caption in the style you requested */}

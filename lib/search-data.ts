@@ -422,6 +422,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["ovulation calculator", "ovulation day", "fertile window", "menstrual cycle"],
     keywords: ["ovulation calculator","ovulation day","fertile window","menstrual cycle","fertility assessment"]
+  },
+  {
+    id: "ivf-pregnancy-due-date",
+    title: "IVF Due Date Calculator",
+    description: "Calculate your IVF pregnancy due date based on embryo transfer date or egg retrieval date",
+    href: "/health/ivf-pregnancy-due-date-calculator",
+    category: "Health",
+    tags: ["ivf due date calculator", "ivf", "pregnancy due date", "embryo transfer", "fertility", "women's health"],
+    keywords: ["ivf due date calculator","ivf pregnancy","embryo transfer date","egg retrieval date","fertility due date","women's health"]
   }
   
 ]
