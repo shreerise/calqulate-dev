@@ -118,52 +118,53 @@ export default function BodyShapeCalculatorPage() {
               improving styling, wellness, and confidence.
             </p>
 
-            <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-800">
-                  <CalculatorIcon className="w-5 h-5 text-blue-500" />
-                  Body Shape, Style, Fitness &amp; Health in One Tool
-                </CardTitle>
-                <CardDescription className="text-gray-600">
-                  Here’s a quick look at how this body shape calculator helps you understand your body better.
-                </CardDescription>
-              </CardHeader>
+                          <Card className="mt-8 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-800">
+                      <CalculatorIcon className="w-5 h-5 text-blue-500" />
+                      Find Your Real Body Shape for Female (Hourglass, Pear, Athletic & More) - Stop Guessing and Start Dressing & Training Right
+                    </CardTitle>
+                    <CardDescription className="text-gray-600">
+                      Here’s a quick look at how these body type female image help you better understand your shape and make smarter style, fitness, and health choices
+                    </CardDescription>
+                  </CardHeader>
 
-                <CardContent className="grid md:grid-cols-2 gap-6 pt-2">
+                  {/* ✅ FIXED HERE */}
+                  <CardContent className="flex flex-col gap-8 pt-4">
 
-                {/* Female Body Shapes */}
-                <div className="flex flex-col items-center gap-3">
-                <Image
-                src="/body-shape-illustration.png"
-                alt="Female body shapes chart showing apple pear hourglass rectangle and diamond body types"
-                width={320}
-                height={220}
-                className="rounded-xl border border-gray-200 bg-white object-contain"
-                />
+                    {/* Female Body Shapes */}
+                    <div className="flex flex-col items-center gap-3">
+                      <Image
+                        src="/body-shape-female.png"
+                        alt="Female body shapes chart showing apple pear hourglass rectangle and diamond body types"
+                        width={800}
+                        height={500}
+                        className="w-full max-w-4xl rounded-xl border border-gray-200 bg-white object-contain"
+                      />
 
-                <p className="text-gray-500 text-xs text-center">
-                Female body shapes including apple, pear, hourglass, rectangle and diamond.
-                </p>
-                </div>
+                      <p className="text-gray-500 text-sm text-center">
+                        Female body shapes including apple, pear, hourglass, rectangle and diamond.
+                      </p>
+                    </div>
 
-                {/* Male Body Shapes */}
-                <div className="flex flex-col items-center gap-3">
-                <Image
-                src="/male-body-shapes.png"
-                alt="Male body shapes chart showing rectangle triangle inverted triangle oval and trapezoid"
-                width={320}
-                height={220}
-                className="rounded-xl border border-gray-200 bg-white object-contain"
-                />
+                    {/* Male Body Shapes */}
+                    <div className="flex flex-col items-center gap-3">
+                      <Image
+                        src="/male-body-shapes.png"
+                        alt="Male body shapes chart showing rectangle triangle inverted triangle oval and trapezoid"
+                        width={800}
+                        height={500}
+                        className="w-full max-w-4xl rounded-xl border border-gray-200 bg-white object-contain"
+                      />
 
-                <p className="text-gray-500 text-xs text-center">
-                Common male body types such as rectangle, triangle, inverted triangle, oval and trapezoid.
-                </p>
-                </div>
+                      <p className="text-gray-500 text-sm text-center">
+                        Common male body types such as rectangle, triangle, inverted triangle, oval and trapezoid.
+                      </p>
+                    </div>
 
-                </CardContent>
-            </Card>
-          </section>
+                  </CardContent>
+                </Card>
+              </section>
 
 
               {/* Why Knowing Your Body Shape Matters */}

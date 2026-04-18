@@ -121,6 +121,14 @@ const calculators = [
     category: "Disease Risk",
     badge: null,
   },
+  {
+    title: "golden Ratio Face Calculator",
+    description: "Measure your facial proportions to see how closely they align with the Golden Ratio — and get personalized beauty insights.",
+    icon: <Sparkles className="h-5 w-5" />,
+    href: "/health/golden-ratio-face-calculator",
+    category: "Appearance",
+    badge: null,
+  }
 ]
 
 // Full calculator list (used for count display)
@@ -172,6 +180,7 @@ const allCalculators = [
   { href: "/health/period-cycle-calculator", title: "Period Cycle Calculator", category: "Women's Health" },
   { href: "/health/ovulation-calculator", title: "Ovulation Calculator", category: "Women's Health" },
   { href: "/health/ivf-pregnancy-due-date-calculator", title: "IVF Due Date Calculator", category: "Women's Health" },
+  { href: "/health/golden-ratio-face-calculator", title: "Golden Ratio Face Calculator", category: "Appearance" },
 ]
 
 // ─── Category Groups ─────────────────────────────────────────────────────────
