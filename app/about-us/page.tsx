@@ -3,31 +3,27 @@ import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import {
-  Users,
   Lightbulb,
   Rocket,
-  ShieldCheck,
   Zap,
-  Award,
-  Link,
-  Mail,
   Handshake,
   TrendingUp,
   FlaskConical,
+  Linkedin,
 } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "About Us - Calqulate.NET",
   description:
-    "Learn about Calqulate.NET's mission to make calculations simpler and quicker for everyone, founded by Meet Patel and Krushal Patel.",
-  keywords: "about Calqulate, online calculators, free calculation tools, Meet Patel, Krushal Patel",
+    "Learn about Calqulate.NET's mission to provide accurate, user-friendly calculators with clear explanations and real-world usability.",
+  keywords:
+    "about Calqulate, online calculators, free calculation tools, Meet Akabari, SEO expert, calculator website",
 }
 
-const SectionHeader = ({ id, title, icon: Icon }: { id: string; title: string; icon: React.ElementType }) => (
+const SectionHeader = ({ id, title, icon: Icon }: any) => (
   <h2
     id={id}
     className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8"
-    style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
   >
     <Icon className="w-8 h-8 text-primary" />
     {title}
@@ -36,113 +32,190 @@ const SectionHeader = ({ id, title, icon: Icon }: { id: string; title: string; i
 
 export default function AboutUsPage() {
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
-    >
+    <div className="min-h-screen flex flex-col">
       <Header />
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
+
             {/* Header */}
             <div className="mb-12 text-center">
-              <h1
-                className="text-4xl md:text-5xl font-bold mb-3"
-                style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
-              >
+              <h1 className="text-4xl md:text-5xl font-bold mb-3">
                 About Us
               </h1>
-              <p
-                className="text-muted-foreground text-lg max-w-2xl mx-auto"
-                style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
-              >
-                We are two college buddies, Meet Patel and Krushal Patel, who transformed our friendship into a business
-                cooperation.
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                We are building Calqulate.net to make calculations simple,
+                accurate, and easy to understand for everyone.
               </p>
             </div>
 
-            {/* Introduction */}
-            <section className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-lg w-full max-w-none mb-10">
+            {/* Our Story */}
+            <section className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-lg mb-10">
               <h2 className="text-3xl font-bold mb-4 text-primary">Our Story</h2>
-              <div className="prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>
-                  Calqulate.net was launched jointly by us on 15th September 2025 with a very simple mission: making
-                  calculations simpler and quicker for all.
-                </p>
-                <p>
-                  At Calqulate.net, our free calculators enable quick solutions to hard problems. Rather than wasting
-                  time grappling to remember tricky formulas or calculating manually, individuals simply input their
-                  numbers and receive correct answers instantly. We also provide concise explanations and details about
-                  every calculator—so individuals don't get answers alone, they comprehend them as well.
-                </p>
-              </div>
+              <p className="text-lg mb-4">
+                Calqulate.net was launched with a simple mission: making
+                calculations faster, simpler, and more useful for real users.
+              </p>
+              <p className="text-lg">
+                Instead of forcing users to remember formulas or do manual
+                calculations, we provide tools that give accurate results along
+                with clear explanations.
+              </p>
             </section>
 
+            {/* How We Began */}
             <SectionHeader id="how-we-began" title="How We Began" icon={Lightbulb} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>
-                  When we started out, we didn't have our own office. We'd sit together in coffee shops and throw out
-                  big ideas over coffee. We saw how many people struggled with everyday mathematics,—with homework,
-                  with work, with everyday life,—and decided to create something that would truly make an impact.
-                </p>
+            <Card className="p-6 mb-10">
+              <CardContent className="p-0 text-lg">
+                We noticed that many people struggle with everyday calculations —
+                whether in health, finance, or daily life. That’s when we decided
+                to build a platform that solves real problems with simple tools.
               </CardContent>
             </Card>
 
+            {/* Why Calqulate */}
             <SectionHeader id="why-calqulate" title="Why Calqulate.net?" icon={Rocket} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0">
-                <p className="text-lg leading-relaxed mb-4">We began Calqulate.NET to:</p>
-                <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed marker:text-primary">
-                  <li>With basic tools, solve everyday problems.</li>
-                  <li>Benefit users by giving them quick and right answers.</li>
-                  <li>Share what we know and learn new things.</li>
-                  <li>Network with individuals online and learn their needs.</li>
-                  <li>Earn enough to support ourselves and our families and create something worthwhile.</li>
+            <Card className="p-6 mb-10">
+              <CardContent className="p-0 text-lg">
+                <ul className="list-disc list-inside space-y-3">
+                  <li>Solve real-world problems using simple tools</li>
+                  <li>Provide accurate and instant results</li>
+                  <li>Help users understand calculations</li>
+                  <li>Continuously improve based on user needs</li>
                 </ul>
               </CardContent>
             </Card>
 
+            {/* Mission */}
             <SectionHeader id="our-mission" title="Our Mission" icon={Handshake} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>
-                  Our mission is to assist users by providing them with appropriate answers according to what they
-                  require, thus cutting time and facilitating remembrance of difficult formulas. With Calqulate.net, it
-                  is simple to get answers, it is dependable, and it is stress-free.
-                </p>
-                <p>
-                  We aim to create one website that will provide all forms of calculators in the future from basic
-                  mathematical needs to advanced professional instruments.
-                </p>
+            <Card className="p-6 mb-10">
+              <CardContent className="p-0 text-lg">
+                Our mission is to provide accurate, easy-to-use calculators that
+                save time and remove confusion. We aim to build a platform where
+                users can trust every result they see.
               </CardContent>
             </Card>
 
-            <SectionHeader id="how-are-we-different" title="How are we different?" icon={FlaskConical} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0">
-                <p className="text-lg leading-relaxed mb-4">
-                  There are many other calculator sites on the Internet, but this one's unique:
-                </p>
-                <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed marker:text-primary">
-                  <li>99% correct results according to inputs from users.</li>
-                  <li>A simple and streamlined installation that saves time.</li>
-                  <li>Totally free—no extra fees.</li>
-                  <li>No signup required—just calculate and go.</li>
-                  <li>
-                    Dynamic dashboards with charts, tables, and even 3D icons to make data easy to understand.
-                  </li>
+            {/* Difference */}
+            <SectionHeader id="difference" title="How are we different?" icon={FlaskConical} />
+            <Card className="p-6 mb-10">
+              <CardContent className="p-0 text-lg">
+                <ul className="list-disc list-inside space-y-3">
+                  <li>Accurate and reliable results</li>
+                  <li>Simple and user-friendly interface</li>
+                  <li>No signup required</li>
+                  <li>Free to use</li>
+                  <li>Clear explanations with every tool</li>
                 </ul>
-                <p className="text-lg leading-relaxed mt-4">
-                  For us, calqulate.net is not only one website—it's how we learn together, solve things together, and
-                  develop together while helping anyone anywhere.
-                </p>
               </CardContent>
             </Card>
+
+            {/* Our Approach */}
+            <SectionHeader id="approach" title="Our Approach: Beyond Just Calculation" icon={Zap} />
+            <Card className="p-6 mb-10">
+              <CardContent className="p-0 text-lg">
+                <p className="mb-4">
+                  Most calculator websites only give numbers.
+                </p>
+
+                <p className="mb-4 font-semibold">
+                  Users don’t want just a number — they also want to understand the process behind it.
+                </p>
+
+                <ul className="list-disc list-inside space-y-3">
+                  <li>Step-by-step explanation</li>
+                  <li>Real-world meaning of results</li>
+                  <li>Focus on accuracy (especially health tools)</li>
+                </ul>
+
+              </CardContent>
+            </Card>
+
+            {/* Organic Growth */}
+            <SectionHeader id="growth" title="Our Organic Growth (Google Search Performance)" icon={TrendingUp} />
+            <Card className="p-6 mb-10">
+              <CardContent className="p-0 text-lg">
+
+                <img
+                  src="/gsc-report.png"
+                  alt="Google Search Console performance"
+                  className="mb-6 rounded-lg shadow-md"
+                />
+
+                <ul className="list-disc list-inside space-y-3">
+                  <li><strong>27.5K+ impressions</strong></li>
+                  <li><strong>105 clicks</strong></li>
+                  <li><strong>0.4% CTR</strong></li>
+                  <li><strong>Avg position: 45.7</strong></li>
+                </ul>
+
+                <p className="mt-4">
+                  This growth is completely organic, driven by users searching for real solutions.
+                </p>
+
+              </CardContent>
+            </Card>
+
+            {/* Author Section */}
+            <Card className="p-6 mb-10">
+              <CardContent className="flex items-start md:items-center gap-4">
+                <img
+                  src="/meet.akabari.jpeg"
+                  alt="Meet Akabari"
+                  className="w-16 h-16 rounded-full object-cover mt-1 md:mt-0"
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="font-semibold text-lg">Meet Akabari</p>
+                    <a
+                      href="https://www.linkedin.com/in/meet-akabari/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-[#0A66C2] transition-colors"
+                      aria-label="Connect with Meet Akabari on LinkedIn"
+                    >
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Web Developer & Health enthusiast with a passion for building tools that solve real problems.
+                  </p>
+                  <p className="text-sm mt-1">
+                    Founder of Calqulate.net, focused on building accurate,
+                    user-friendly calculators.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Meet Akabari",
+            url: "https://calqulate.net/about-us",
+            sameAs: [
+              "https://www.linkedin.com/in/meet-akabari/"
+            ],
+            image: "/meet.akabari.jpeg",
+            jobTitle: "Web Developer & health enthusiast",
+            worksFor: {
+              "@type": "Organization",
+              name: "Calqulate.net",
+            },
+            description:
+              "Meet Akabari is a web developer and Health enthusiast building Calqulate.net.",
+          }),
+        }}
+      />
 
       <Footer />
     </div>

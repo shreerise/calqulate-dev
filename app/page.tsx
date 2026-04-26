@@ -128,6 +128,14 @@ const calculators = [
     href: "/health/golden-ratio-face-calculator",
     category: "Appearance",
     badge: null,
+  },
+  {
+    title: "waist-to-Height Ratio Calculator",
+    description: "Calculate your waist-to-height ratio to assess central obesity risk and get targeted lifestyle recommendations.",
+    icon: <Scale className="h-5 w-5" />,
+    href: "/health/waist-to-height-ratio-calculator",
+    category: "Body Composition",
+    badge: null,
   }
 ]
 

@@ -59,6 +59,7 @@ const calculatorCategories = [
       { name: "Ovulation Calculator", href: "/health/ovulation-calculator" },
       { name: "IVF Pregnancy Due Date Calculator", href: "/health/ivf-pregnancy-due-date-calculator" },
       { name: "Golden Ratio Face Calculator", href: "/health/golden-ratio-face-calculator" },
+      { name: "waist-to-Height Ratio Calculator", href: "/health/waist-to-height-ratio-calculator" },
     ],
   },
 ]

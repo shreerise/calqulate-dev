@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   keywords:
     "golden ratio face calculator, face golden ratio calculator, calculate face golden ratio, golden ratio calculator face, golden ratio face test, facial proportion analysis",
   alternates: {
-    canonical: "https://calqulate.net/tools/golden-ratio-face-calculator",
+    canonical: "https://calqulate.net/health/golden-ratio-face-calculator",
   },
 }
 
