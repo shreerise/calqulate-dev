@@ -136,6 +136,14 @@ const calculators = [
     href: "/health/waist-to-height-ratio-calculator",
     category: "Body Composition",
     badge: null,
+  },
+  {
+    title: "weight loss percentage Calculator",
+    description: "Calculate the percentage of weight you've lost towards your goal and get personalized tips to keep you motivated.",
+    icon: <TrendingUp className="h-5 w-5" />,
+    href: "/health/weight-loss-percentage-calculator",
+    category: "Body Composition",
+    badge: null,
   }
 ]
 
@@ -189,6 +197,7 @@ const allCalculators = [
   { href: "/health/ovulation-calculator", title: "Ovulation Calculator", category: "Women's Health" },
   { href: "/health/ivf-pregnancy-due-date-calculator", title: "IVF Due Date Calculator", category: "Women's Health" },
   { href: "/health/golden-ratio-face-calculator", title: "Golden Ratio Face Calculator", category: "Appearance" },
+  { href: "/health/weight-loss-percentage-calculator", title: "Weight Loss Percentage Calculator", category: "Body Composition" },
 ]
 
 // ─── Category Groups ─────────────────────────────────────────────────────────
