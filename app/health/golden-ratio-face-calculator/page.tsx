@@ -20,9 +20,9 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Golden Ratio Face Calculator: Check Your Facial Proportions",
+  title: "Golden Ratio Face Calculator: How Close Is Your Face to Perfect?",
   description:
-    "Upload a clear photo and check how balanced your facial proportions appear with our Golden Ratio Face Detector.",
+    "Think your face is balanced and symmetrical? Find out how close your facial proportions are to the Golden Ratio (1.618) — the mathematical standard of beauty. Our free Golden Ratio Face Calculator analyzes key measurements like eyes, nose, lips, and face thirds to give you an accurate harmony score. Discover your real facial strengths, weaknesses, and which angles make you look your best.",
   keywords:
     "golden ratio face calculator, face golden ratio calculator, calculate face golden ratio, golden ratio calculator face, golden ratio face test, facial proportion analysis",
   alternates: {

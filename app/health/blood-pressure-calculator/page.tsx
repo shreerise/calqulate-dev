@@ -21,7 +21,7 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Blood Pressure Calculator: Understand Your BP Readings & Levels",
+  title: "Blood Pressure Calculator: Is Your BP Normal? Check Your Risk of Heart Attack",
   description:
     "Use our blood pressure calculator to classify your BP readings into levels like Normal, Elevated, or Hypertension. Learn how age and gender affect your BP.",
   keywords:

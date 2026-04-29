@@ -28,7 +28,7 @@ import {
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Body Fat Calculator: Calculate Body Fat % by Measurements | Free & Accurate",
+  title: "Body Fat Calculator: Check Your Real Body Fat %",
   description:
     "Calculate body fat percentage accurately using the U.S. Navy Method. Our free body fat calculator uses your measurements (waist, neck, hip, height) to estimate body fat for men and women.",
   keywords:

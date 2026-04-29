@@ -26,7 +26,7 @@ import {
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Creatinine Clearance Calculator (Cockcroft-Gault) | CrCl with IBW & ABW",
+  title: "Creatinine Clearance Calculator (Cockcroft-Gault): IBW vs ABW",
   description:
     "Calculate creatinine clearance using the Cockcroft-Gault equation with actual, ideal, and adjusted body weight. Includes CKD staging, drug dosing guidance, and clinical decision support.",
   keywords:

@@ -10,7 +10,7 @@ import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIc
 import CholesterolRatioCalculator from "@/components/calculators/cholesterol-ratio-calculator"
 
 export const metadata: Metadata = {
-  title: "Cholesterol Ratio Calculator - Instantly Check Your Heart Health",
+  title: "Cholesterol Ratio Calculator: Is Your Heart at Risk?",
   description:
     "Instantly check your cholesterol ratios (HDL, LDL, TC) and heart health risk. Simple, accurate, and free—see how balanced your numbers really are.",
   keywords:

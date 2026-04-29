@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Calculator, Scale, HeartPulse, ShieldCheck, Clock, Users, FlaskConical, AlertTriangle, CheckCircle } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Adjusted Body Weight (AjBW) Calculator | Calqulate",
+  title: "Adjusted Body Weight (AjBW) Calculator: Accurate Dosing for Obese Patients",
   description: "Calculate your Adjusted Body Weight (AjBW) for accurate medicine dosing, nutritional planning, and metabolic health monitoring. An essential tool for healthcare professionals, dietitians, and individuals managing their health.",
   keywords: "adjusted body weight calculator, AjBW calculator, how to calculate adjusted body weight, adjusted body weight calculator globalrph, ideal body weight calculator, medical dosing calculator, nutrition planning tool, metabolic health, Robinson equation, body weight adjustment",
   alternates: {

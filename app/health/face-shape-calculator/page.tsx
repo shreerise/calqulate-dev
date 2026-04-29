@@ -40,9 +40,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Face Shape Calculator - Free Online Tool for Men & Women | AI + Measurements",
+  title: "What Is My Real Face Shape? Free AI Face Shape Calculator for Men & Women",
   description:
-    "Find your face shape free — upload a photo or enter your face measurements. Works for men and women. Instantly detect oval, round, square, heart, or oblong face shapes.",
+    "Confused about your face shape and tired of hairstyles, glasses, or makeup that just don’t look right? Discover your real face shape instantly with our free AI-powered Face Shape Calculator for men and women.",
   keywords:
     "face shape calculator, calculate my face shape, face calculator shape, shape face calculator, how to determine face shape calculator, AI face shape detector, determine face shape, face shape analysis, face type, hairstyle for face shape, glasses for face shape, makeup for face shape, face shape tool, online face shape",
   alternates: {

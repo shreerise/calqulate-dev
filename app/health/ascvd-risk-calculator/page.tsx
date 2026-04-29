@@ -20,7 +20,7 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "ASCVD Risk Calculator: 10-Year Cardiovascular Score & PCE Guide",
+  title: "ASCVD Risk Calculator: What's Your 10-Year Heart Attack & Stroke Risk?",
   description:
     "Calculate your 10-year risk of heart disease or stroke. Our ASCVD score calculator uses the Pooled Cohort Equation (PCE) and modern PREVENT guidelines for accurate prediction.",
   keywords:

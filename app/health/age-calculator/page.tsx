@@ -23,7 +23,7 @@ import {
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Age Calculator: Calculate Age from Date of Birth | Fast & Free",
+  title: "Age Calculator: Calculate Exact Age from Date of Birth in Years, Months & Days.",
   description:
     "Use our free age calculator to accurately find your age in years, months, days, and total days lived. Perfect for official forms, job applications, and personal use.",
   keywords:

@@ -10,7 +10,7 @@ import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpe
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "ABSI Calculator: A Body Shape Index Explained",
+  title: "ABSI Calculator: Is Your Body Shape Killing You?",
   description: "Calculate your A Body Shape Index (ABSI) score to assess health risks associated with central obesity. Use the formula: ABSI = (Waist Circumference) / [(BMI2/3) * (Height1/2)].",
   keywords: "ABSI calculator, Body roundness index calculator, A Body Shape Index, what is ABSI, ABSI formula, ABSI vs BMI, health risk, visceral fat, absi score, body shape, what should my calorie deficit be",
   alternates: {

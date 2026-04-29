@@ -29,7 +29,7 @@ import {
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Breast Cancer Risk Calculator: Gail Model & Tyrer-Cuzick | Free",
+  title: "What Is Your Breast Cancer Risk? Free Gail & Tyrer-Cuzick Calculator",
   description:
     "Calculate your breast cancer risk using validated Gail and Tyrer-Cuzick models. Get your 5-year, 10-year, and lifetime risk score. Free, private, clinically-based.",
   keywords:

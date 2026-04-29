@@ -367,12 +367,12 @@ export default function HomePage() {
                   47 Free Health Calculators — No Login Required
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
-                  Know Your Health Numbers.{" "}
-                  <span className="text-emerald-400 block lg:inline">
-                    Know What to Do Next.
-                  </span>
-                </h1>
+                            <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
+                The health dashboard{" "}
+                <span className="text-emerald-400 block lg:inline">
+                  your doctor doesn't have time to give you.
+                </span>
+              </h1>
 
                 <p className="text-lg text-emerald-100/80 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                   Calqulate goes beyond raw numbers. Calculate your BMI, body fat, heart health, sleep cycles, and

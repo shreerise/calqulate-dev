@@ -33,7 +33,7 @@ import { Button } from "@/components/ui/button"
 // bmr calculator for men/women (13/7)
 // ─────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: "BMR Calculator – Free Basal Metabolic Rate Calculator for Men & Women",
+  title: "BMR Calculator: How Many Calories Does Your Body Burn at Rest?",
   description:
     "Calculate your BMR free using the Mifflin-St Jeor & Harris-Benedict formulas. Find your basal metabolic rate in calories per day — with results for weight loss, men, and women.",
   keywords:

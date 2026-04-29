@@ -10,7 +10,7 @@ import { Activity, Flame, HeartPulse, Trophy, Info, Calculator as CalculatorIcon
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Calories Burned Calculator: Accurate MET & Heart Rate Tool",
+  title: "How Many Calories Do You Actually Burn? Free Calories Burned Calculator",
   description:
     "Calculate exact calories burned during running, walking, cycling, or any workout. Use our advanced Activity (MET) and Heart Rate formulas to track your fat loss accurately.",
   keywords:

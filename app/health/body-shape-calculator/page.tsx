@@ -11,9 +11,9 @@ import { Ruler, HeartPulse, UserCheck, Shield, BookOpen, Calculator as Calculato
 import { Sparkles, Activity, Shirt, Dumbbell, Smile } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Body Shape Calculator (Female & Male) – Find Your Body Type",
+  title: "What Body Shape Are You? Free Body Type Calculator for Women & Men",
   description:
-    "Uncover your true body shape and what it means for style, fitness, and health. Our Body Shape Calculator identifies whether you're an hourglass, pear, apple, rectangle, or inverted triangle and provides personalized insights.",
+    "Instantly discover your body shape (Hourglass, Pear, Apple, Rectangle, etc.) with our free accurate calculator for women and men. Get personalized styling tips that actually work.",
   keywords:
     "body shape calculator, female body shape calculator, body type calculator, what is my body shape, body measurements, body shape calculator 3d, hourglass body shape, pear shape, apple body shape, rectangle body shape, inverted triangle body shape, male body type chart, what is my body shape calculator, what body shape am i calculator, what is your body shape calculator",
   alternates: {

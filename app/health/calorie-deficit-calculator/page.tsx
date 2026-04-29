@@ -25,7 +25,7 @@ import {
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Calorie Deficit Calculator: Weight Loss & Fat Loss Tool | Free",
+  title: "What Is Your Calorie Deficit for Weight Loss? Free Calculator",
   description:
     "Calculate your maintenance calories and daily calorie deficit needed to lose weight safely. Learn the exact formula for fat loss and muscle preservation.",
   keywords:

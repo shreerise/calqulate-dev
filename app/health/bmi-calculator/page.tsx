@@ -21,7 +21,7 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "BMI Calculator: Calculate Your Body Mass Index & Healthy Weight",
+  title: "BMI Calculator: Are You Really Overweight or Just 'Normal'? Find Out in Seconds",
   description:
     "Calculate your BMI (Body Mass Index) to understand if your weight matches your height. Get personalized health tips for men, women, and simple diet swaps.",
   keywords:
