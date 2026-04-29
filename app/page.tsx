@@ -122,7 +122,7 @@ const calculators = [
     badge: null,
   },
   {
-    title: "golden Ratio Face Calculator",
+    title: "Golden Ratio Face Calculator",
     description: "Measure your facial proportions to see how closely they align with the Golden Ratio — and get personalized beauty insights.",
     icon: <Sparkles className="h-5 w-5" />,
     href: "/health/golden-ratio-face-calculator",
@@ -130,7 +130,7 @@ const calculators = [
     badge: null,
   },
   {
-    title: "waist-to-Height Ratio Calculator",
+    title: "Waist-to-Height Ratio Calculator",
     description: "Calculate your waist-to-height ratio to assess central obesity risk and get targeted lifestyle recommendations.",
     icon: <Scale className="h-5 w-5" />,
     href: "/health/waist-to-height-ratio-calculator",
@@ -138,7 +138,7 @@ const calculators = [
     badge: null,
   },
   {
-    title: "weight loss percentage Calculator",
+    title: "Weight loss percentage Calculator",
     description: "Calculate the percentage of weight you've lost towards your goal and get personalized tips to keep you motivated.",
     icon: <TrendingUp className="h-5 w-5" />,
     href: "/health/weight-loss-percentage-calculator",
@@ -198,6 +198,7 @@ const allCalculators = [
   { href: "/health/ivf-pregnancy-due-date-calculator", title: "IVF Due Date Calculator", category: "Women's Health" },
   { href: "/health/golden-ratio-face-calculator", title: "Golden Ratio Face Calculator", category: "Appearance" },
   { href: "/health/weight-loss-percentage-calculator", title: "Weight Loss Percentage Calculator", category: "Body Composition" },
+  { href: "/health/glp-1-dose-calculator", title: "GLP-1 Dose Calculator", category: "Disease Risk" },
 ]
 
 // ─── Category Groups ─────────────────────────────────────────────────────────

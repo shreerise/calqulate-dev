@@ -59,7 +59,9 @@ const calculatorCategories = [
       { name: "Ovulation Calculator", href: "/health/ovulation-calculator" },
       { name: "IVF Pregnancy Due Date Calculator", href: "/health/ivf-pregnancy-due-date-calculator" },
       { name: "Golden Ratio Face Calculator", href: "/health/golden-ratio-face-calculator" },
-      { name: "waist-to-Height Ratio Calculator", href: "/health/waist-to-height-ratio-calculator" },
+      { name: "Waist-to-Height Ratio Calculator", href: "/health/waist-to-height-ratio-calculator" },
+      { name: "Weight loss percentage Calculator", href: "/health/weight-loss-percentage-calculator" },
+      { name: "Glp-1 dose Calculator", href: "/health/glp-1-dose-calculator" },
     ],
   },
 ]
