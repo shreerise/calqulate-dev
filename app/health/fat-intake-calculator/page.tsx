@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer";
 import FatIntakeCalculator from "@/components/calculators/fat-intake-calculator";
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data";
 import { FAQSection } from "@/components/seo/faq-section";
+import { AuthorSection } from "@/components/seo/author-section";
+import { AuthorSchema } from "@/components/seo/author-schema";
 import {
   Card,
   CardContent,
@@ -102,66 +104,66 @@ export default function FatIntakeCalculatorPage() {
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
 
-{/* Introduction Section — adjusted spacing to match other sections (no content changes) */}
-<section id="introduction" className="not-prose rounded-2xl p-6 md:p-8 bg-white/60 dark:bg-black/5">
-  <div className="max-w-4xl mx-auto">
-    <div className="mb-4">
-      <h2 className="text-2xl font-bold mb-6">Why Calculate Your Fat Intake?</h2>
-      <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-        Fat is often misunderstood. For years it was demonized as the cause of weight gain, but modern science shows that
-        <strong> dietary fat is essential for life</strong>. The key isn't avoiding fat — it's eating the <em>right amount</em> of the <em>right kind</em>.
-      </p>
-    </div>
+              {/* Introduction Section — adjusted spacing to match other sections (no content changes) */}
+              <section id="introduction" className="not-prose rounded-2xl p-6 md:p-8 bg-white/60 dark:bg-black/5">
+                <div className="max-w-4xl mx-auto">
+                  <div className="mb-4">
+                    <h2 className="text-2xl font-bold mb-6">Why Calculate Your Fat Intake?</h2>
+                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                      Fat is often misunderstood. For years it was demonized as the cause of weight gain, but modern science shows that
+                      <strong> dietary fat is essential for life</strong>. The key isn't avoiding fat — it's eating the <em>right amount</em> of the <em>right kind</em>.
+                    </p>
+                  </div>
 
-    <p className="text-sm text-muted-foreground mb-4">Using a fat intake calculator helps you:</p>
+                  <p className="text-sm text-muted-foreground mb-4">Using a fat intake calculator helps you:</p>
 
-    <div className="grid sm:grid-cols-2 gap-6">
-      <div className="flex gap-3 p-3 rounded-lg border hover:shadow-sm transition">
-        <div className="w-10 h-10 rounded-md bg-yellow-50 flex items-center justify-center shrink-0">
-          <Zap className="w-5 h-5 text-yellow-500" />
-        </div>
-        <div>
-          <div className="font-medium text-sm">Regulate hormones</div>
-          <div className="text-xs text-muted-foreground mt-1">Fats are the building blocks for testosterone and estrogen.</div>
-        </div>
-      </div>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="flex gap-3 p-3 rounded-lg border hover:shadow-sm transition">
+                      <div className="w-10 h-10 rounded-md bg-yellow-50 flex items-center justify-center shrink-0">
+                        <Zap className="w-5 h-5 text-yellow-500" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-sm">Regulate hormones</div>
+                        <div className="text-xs text-muted-foreground mt-1">Fats are the building blocks for testosterone and estrogen.</div>
+                      </div>
+                    </div>
 
-      <div className="flex gap-3 p-3 rounded-lg border hover:shadow-sm transition">
-        <div className="w-10 h-10 rounded-md bg-blue-50 flex items-center justify-center shrink-0">
-          <BrainCircuit className="w-5 h-5 text-blue-500" />
-        </div>
-        <div>
-          <div className="font-medium text-sm">Boost brain power</div>
-          <div className="text-xs text-muted-foreground mt-1">The brain is approx. 60% fat; healthy fat supports cognition.</div>
-        </div>
-      </div>
+                    <div className="flex gap-3 p-3 rounded-lg border hover:shadow-sm transition">
+                      <div className="w-10 h-10 rounded-md bg-blue-50 flex items-center justify-center shrink-0">
+                        <BrainCircuit className="w-5 h-5 text-blue-500" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-sm">Boost brain power</div>
+                        <div className="text-xs text-muted-foreground mt-1">The brain is approx. 60% fat; healthy fat supports cognition.</div>
+                      </div>
+                    </div>
 
-      <div className="flex gap-3 p-3 rounded-lg border hover:shadow-sm transition">
-        <div className="w-10 h-10 rounded-md bg-green-50 flex items-center justify-center shrink-0">
-          <Activity className="w-5 h-5 text-green-500" />
-        </div>
-        <div>
-          <div className="font-medium text-sm">Absorb vitamins</div>
-          <div className="text-xs text-muted-foreground mt-1">Vitamins A, D, E & K require fat for proper absorption.</div>
-        </div>
-      </div>
+                    <div className="flex gap-3 p-3 rounded-lg border hover:shadow-sm transition">
+                      <div className="w-10 h-10 rounded-md bg-green-50 flex items-center justify-center shrink-0">
+                        <Activity className="w-5 h-5 text-green-500" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-sm">Absorb vitamins</div>
+                        <div className="text-xs text-muted-foreground mt-1">Vitamins A, D, E & K require fat for proper absorption.</div>
+                      </div>
+                    </div>
 
-      <div className="flex gap-3 p-3 rounded-lg border hover:shadow-sm transition">
-        <div className="w-10 h-10 rounded-md bg-purple-50 flex items-center justify-center shrink-0">
-          <Scale className="w-5 h-5 text-purple-500" />
-        </div>
-        <div>
-          <div className="font-medium text-sm">Control hunger</div>
-          <div className="text-xs text-muted-foreground mt-1">Fat digests slowly, keeping you fuller for longer.</div>
-        </div>
-      </div>
-    </div>
+                    <div className="flex gap-3 p-3 rounded-lg border hover:shadow-sm transition">
+                      <div className="w-10 h-10 rounded-md bg-purple-50 flex items-center justify-center shrink-0">
+                        <Scale className="w-5 h-5 text-purple-500" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-sm">Control hunger</div>
+                        <div className="text-xs text-muted-foreground mt-1">Fat digests slowly, keeping you fuller for longer.</div>
+                      </div>
+                    </div>
+                  </div>
 
-    <div className="mt-6 text-sm text-muted-foreground">
-      <strong>Quick note:</strong> Fat provides ~9 kcal per gram — our calculator converts your calories into practical fat amounts and food equivalents.
-    </div>
-  </div>
-</section>
+                  <div className="mt-6 text-sm text-muted-foreground">
+                    <strong>Quick note:</strong> Fat provides ~9 kcal per gram — our calculator converts your calories into practical fat amounts and food equivalents.
+                  </div>
+                </div>
+              </section>
 
 
               {/* Visual Guide: Good vs Bad Fats */}

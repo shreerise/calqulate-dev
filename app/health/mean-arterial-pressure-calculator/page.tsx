@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/footer"
 import MAPCalculator from "@/components/calculators/mean-arterial-pressure-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Heart,

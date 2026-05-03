@@ -66,7 +66,12 @@ const formSchema = z.object({
 })
 
 interface CalculationResult {
-  crCl: number;
+  crClActual: number;    // CrCl using actual body weight
+  crClIBW?: number;      // CrCl using ideal body weight
+  crClABW?: number;      // CrCl using adjusted body weight
+  ibw?: number;          // Ideal body weight
+  abw?: number;          // Adjusted body weight
+  weightKg: number;      // Weight in kg used for calculation
   bmi?: number;
   bsa?: number;
   stage: string;
@@ -193,14 +198,47 @@ export default function CreatinineClearanceCalculator() {
 
       // Cockcroft-Gault (uses weight in kg and Scr in mg/dL)
       const isFemale = values.gender === "female"
-      const cgBase = ((140 - age) * weight) / (72 * creatinine)
-      let crCl = isFemale ? cgBase * 0.85 : cgBase
-
+      
+      // Calculate CrCl for a given weight
+      const calculateCrCl = (w: number) => {
+        const base = ((140 - age) * w) / (72 * creatinine)
+        return isFemale ? base * 0.85 : base
+      }
+      
+      // CrCl using actual body weight
+      let crClActual = calculateCrCl(weight)
+      
       // safety if something odd
-      if (!isFinite(crCl) || crCl <= 0) {
+      if (!isFinite(crClActual) || crClActual <= 0) {
         setCalcError("Unable to calculate with given inputs. Check values.")
         setIsLoading(false)
         return
+      }
+
+      // Calculate IBW (Devine formula) if height provided
+      let ibw: number | undefined = undefined
+      let crClIBW: number | undefined = undefined
+      let abw: number | undefined = undefined
+      let crClABW: number | undefined = undefined
+      
+      if (heightProvided && isFinite(height) && height > 0) {
+        const heightInches = heightUnit === "in" ? height : height / 2.54
+        
+        // Devine formula for IBW
+        if (values.gender === "male") {
+          ibw = 50 + 2.3 * (heightInches - 60)
+        } else {
+          ibw = 45.5 + 2.3 * (heightInches - 60)
+        }
+        
+        // CrCl using IBW
+        crClIBW = calculateCrCl(ibw)
+        
+        // Adjusted Body Weight (ABW) = IBW + 0.4 * (Actual - IBW)
+        abw = ibw + 0.4 * (weight - ibw)
+        
+        // CrCl using ABW
+        crClABW = calculateCrCl(abw)
       }
 
       // Optional BMI & BSA if height provided
@@ -214,27 +252,27 @@ export default function CreatinineClearanceCalculator() {
         bsa = round(0.007184 * Math.pow(weight, 0.425) * Math.pow(heightCm, 0.725), PRECISION_BSA)
       }
 
-      // round output for UI
-      const crClRounded = round(crCl, 1)
+      // round output for UI - use actual body weight CrCl as primary
+      const crClActualRounded = round(crClActual, 1)
 
       // Interpretation using KDIGO ranges but applied for CrCl here (simple rule-of-thumb)
       let stage = ""
       let description = ""
       let color = ""
 
-      if (crClRounded >= 90) {
+      if (crClActualRounded >= 90) {
         stage = "Normal Kidney Function"
         description = "Your calculated clearance suggests normal or high kidney function."
         color = "text-green-600 dark:text-green-400"
-      } else if (crClRounded >= 60) {
+      } else if (crClActualRounded >= 60) {
         stage = "Mild Impairment"
         description = "Slightly decreased kidney function. Monitor changes over time."
         color = "text-yellow-600 dark:text-yellow-400"
-      } else if (crClRounded >= 30) {
+      } else if (crClActualRounded >= 30) {
         stage = "Moderate Impairment"
         description = "Moderately decreased kidney function. Medical consultation recommended."
         color = "text-orange-600 dark:text-orange-400"
-      } else if (crClRounded >= 15) {
+      } else if (crClActualRounded >= 15) {
         stage = "Severe Impairment"
         description = "Severely decreased kidney function. Requires medical attention."
         color = "text-red-600 dark:text-red-400"
@@ -245,7 +283,12 @@ export default function CreatinineClearanceCalculator() {
       }
 
       setResult({
-        crCl: crClRounded,
+        crClActual: crClActualRounded,
+        crClIBW: crClIBW !== undefined ? round(crClIBW, 1) : undefined,
+        crClABW: crClABW !== undefined ? round(crClABW, 1) : undefined,
+        ibw: ibw !== undefined ? round(ibw, 1) : undefined,
+        abw: abw !== undefined ? round(abw, 1) : undefined,
+        weightKg: round(weight, 1),
         bmi: bmi,
         bsa: bsa,
         stage,
@@ -413,10 +456,39 @@ export default function CreatinineClearanceCalculator() {
                 
                 <div className="flex flex-col items-center justify-center py-6">
                     <div className="text-6xl font-extrabold text-primary tracking-tighter">
-                        {result.crCl}
+                        {result.crClActual}
                     </div>
                     <div className="text-muted-foreground font-medium mt-1">mL/min</div>
+                    <div className="text-sm text-muted-foreground mt-1">using Actual Body Weight ({result.weightKg} kg)</div>
                 </div>
+
+                {/* CrCl Comparison Cards - only show when height is provided */}
+                {(typeof result.crClIBW !== "undefined" || typeof result.crClABW !== "undefined") && (
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-center">Creatinine Clearance Comparison</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200">
+                        <div className="text-sm text-green-700 dark:text-green-300 mb-1">Using Actual Weight</div>
+                        <div className="text-2xl font-bold text-green-800 dark:text-green-200">{result.crClActual} mL/min</div>
+                      </div>
+                      {typeof result.crClIBW !== "undefined" && (
+                        <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200">
+                          <div className="text-sm text-blue-700 dark:text-blue-300 mb-1">Using IBW ({result.ibw} kg)</div>
+                          <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">{result.crClIBW} mL/min</div>
+                        </div>
+                      )}
+                      {typeof result.crClABW !== "undefined" && (
+                        <div className="text-center p-4 bg-purple-50 dark:bg-purple-950/20 rounded-lg border border-purple-200">
+                          <div className="text-sm text-purple-700 dark:text-purple-300 mb-1">Using ABW ({result.abw} kg)</div>
+                          <div className="text-2xl font-bold text-purple-800 dark:text-purple-200">{result.crClABW} mL/min</div>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground text-center">
+                      For obese patients (BMI ≥30 or {">"}20% above IBW), use Adjusted Body Weight (ABW). For normal/underweight patients, use Actual Body Weight.
+                    </p>
+                  </div>
+                )}
 
                 {/* BMI & BSA cards: only show when present */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -430,6 +502,12 @@ export default function CreatinineClearanceCalculator() {
                     <div className="text-center p-3 bg-gray-50 rounded-lg">
                       <div className="text-sm text-gray-500 mb-1">BSA (m²)</div>
                       <div className="font-bold text-lg">{result.bsa?.toFixed(2)}</div>
+                    </div>
+                  )}
+                  {typeof result.ibw !== "undefined" && (
+                    <div className="text-center p-3 bg-gray-50 rounded-lg">
+                      <div className="text-sm text-gray-500 mb-1">Ideal Body Weight</div>
+                      <div className="font-bold text-lg">{result.ibw?.toFixed(1)} kg</div>
                     </div>
                   )}
                 </div>

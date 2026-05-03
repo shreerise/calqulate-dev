@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/footer"
 import CaloriesBurnedCalculator from "@/components/calculators/calories-burned-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { Activity, Flame, HeartPulse, Trophy, Info, Calculator as CalculatorIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -275,9 +277,14 @@ export default function CaloriesBurnedCalculatorPage() {
               <FAQSection faqs={faqs} />
             </div>
 
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

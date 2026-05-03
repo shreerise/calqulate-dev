@@ -349,6 +349,9 @@ export default function SleepDebtCalculatorPage() {
         </div>
       </main>
 
+      {/* Author Schema */}
+      <AuthorSchema />
+
       <Footer />
     </div>
   )

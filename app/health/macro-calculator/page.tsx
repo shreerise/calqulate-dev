@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer"
 import MacroCalculator from "@/components/calculators/macro-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { 
   Beef, 
@@ -361,10 +363,11 @@ export default function MacroCalculatorPage() {
               <h2 className="text-2xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>
-
+       <AuthorSchema />
       <Footer />
     </div>
   )

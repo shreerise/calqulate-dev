@@ -325,6 +325,9 @@ export default function RunningPaceCalculatorPage() {
         </div>
       </main>
 
+      {/* Author Schema */}
+      <AuthorSchema />
+
       <Footer />
     </div>
   )

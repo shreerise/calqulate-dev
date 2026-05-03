@@ -260,7 +260,13 @@ export default function Qrisk3CalculatorPage() {
         <div className="mt-20">
           <FAQSection faqs={faqs} />
         </div>
+
+        {/* Author Badge Section */}
+        <AuthorSection />
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

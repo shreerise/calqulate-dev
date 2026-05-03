@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer"
 import WaterIntakeCalculator from "@/components/calculators/daily-water-intake-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Droplets,
@@ -341,6 +342,9 @@ export default function WaterIntakeCalculatorPage() {
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

@@ -19,6 +19,8 @@ import {
   AlertTriangle,
   CheckCircle2
 } from "lucide-react"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 
 export const metadata: Metadata = {
   title: "BMI Calculator: Are You Really Overweight or Just 'Normal'? Find Out in Seconds",
@@ -410,9 +412,15 @@ export default function BMICalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

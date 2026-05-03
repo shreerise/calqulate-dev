@@ -656,6 +656,9 @@ export default function LeanBodyMassCalculatorPage() {
         </div>
       </main>
 
+      {/* Author Schema */}
+      <AuthorSchema />
+
       <Footer />
     </div>
   )

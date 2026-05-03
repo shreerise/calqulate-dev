@@ -8,6 +8,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Calculator, Scale, HeartPulse, ShieldCheck, Clock, Users, FlaskConical, AlertTriangle, CheckCircle } from "lucide-react"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 
 export const metadata: Metadata = {
   title: "Adjusted Body Weight (AjBW) Calculator: Accurate Dosing for Obese Patients",
@@ -191,10 +193,17 @@ export default function AdjustedBodyWeightCalculatorPage() {
               </section>
             </div>
             
-            <FAQSection faqs={faqs} />           
+            {/* Structured FAQ UI */}
+            <div className="mt-12">
+              <FAQSection faqs={faqs} />
+            </div>
+
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+      <AuthorSchema />
 
       <Footer />
     </div>

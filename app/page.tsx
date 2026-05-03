@@ -21,6 +21,7 @@ import {
   Sparkles,
 } from "lucide-react"
 import Link from "next/link"
+import { title } from "process"
 
 // ─── Calculator Data ────────────────────────────────────────────────────────
 
@@ -143,6 +144,14 @@ const calculators = [
     icon: <TrendingUp className="h-5 w-5" />,
     href: "/health/weight-loss-percentage-calculator",
     category: "Body Composition",
+    badge: null,
+  },
+  {
+    title: "GLP-1 Dose Calculator",
+    description: "Calculate the optimal GLP-1 medication dose for weight loss based on your current weight and target goals.",
+    icon: <Wrench className="h-5 w-5" />,
+    href: "/health/glp-1-dose-calculator",
+    category: "Disease Risk",
     badge: null,
   }
 ]
@@ -364,7 +373,7 @@ export default function HomePage() {
                 {/* Pill badge */}
                 <div className="inline-flex items-center gap-2 bg-emerald-800/60 border border-emerald-600/40 text-emerald-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
                   <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  47 Free Health Calculators — No Login Required
+                  50+ Free Health Calculators — No Login Required
                 </div>
 
                             <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
@@ -468,7 +477,7 @@ export default function HomePage() {
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div className="p-6">
-                  <div className="text-4xl font-extrabold text-emerald-600 mb-1">47+</div>
+                  <div className="text-4xl font-extrabold text-emerald-600 mb-1">50+</div>
                   <div className="text-sm font-semibold text-gray-700 mb-2">Health Calculators</div>
                   <p className="text-sm text-gray-500 leading-relaxed">
                     From BMI to cardiovascular risk — every health metric covered in one place.

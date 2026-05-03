@@ -7,6 +7,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIcon, Droplets } from "lucide-react"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import CholesterolRatioCalculator from "@/components/calculators/cholesterol-ratio-calculator"
 
 export const metadata: Metadata = {
@@ -296,9 +298,15 @@ export default function CholesterolCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

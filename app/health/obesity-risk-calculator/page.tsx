@@ -5,7 +5,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import ObesityRiskCalculator from "@/components/calculators/obesity-risk-calculator";
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data";
-import { FAQSection } from "@/components/seo/faq-section";
+import { FAQSection } from "@/components/seo/faq-section";import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 import { Activity, HeartPulse, Scale, Shield, Stethoscope, AlertTriangle, ArrowRight, Apple } from "lucide-react";
 
@@ -269,9 +270,15 @@ export default function ObesityRiskCalculatorPage() {
               <FAQSection faqs={faqs} />
             </div>
 
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
+
       <Footer />
     </div>
   );

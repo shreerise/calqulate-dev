@@ -6,6 +6,8 @@ import WaistToHipRatioCalculator from "@/components/calculators/waist-to-hip-rat
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent } from "@/components/ui/card"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { 
   HeartPulse, 
   Ruler, 
@@ -453,32 +455,7 @@ export default function WaistToHipRatioPage() {
             </div>
 
             {/* Author Badge Section */}
-            <div className="mt-16 mb-8 max-w-2xl mx-auto">
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-sm">
-                <div className="relative w-24 h-24 rounded-full overflow-hidden shrink-0 border-4 border-white shadow-md">
-                  {/* NOTE: Make sure the image is in your public folder as /meet.akabari.jpeg */}
-                  <Image 
-                    src="/meet.akabari.jpeg" 
-                    alt="Meet Akabari" 
-                    fill 
-                    className="object-cover"
-                  />
-                </div>
-                <div className="text-center sm:text-left">
-                  <h3 className="text-xl font-bold text-slate-900">Meet Akabari</h3>
-                  <p className="text-indigo-600 font-medium text-sm mb-3">Web Developer & Health Enthusiast</p>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                    Meet is the creator of Calqulate.net, dedicated to building accurate, privacy-first health and fitness tools that help users make informed decisions about their well-being.
-                  </p>
-                  <a 
-                    href="https://calqulate.net/about-us" 
-                    className="inline-flex items-center text-sm font-semibold text-slate-900 hover:text-indigo-600 transition-colors"
-                  >
-                    Read more about the author <ArrowRight className="w-4 h-4 ml-1" />
-                  </a>
-                </div>
-              </div>
-            </div>
+            <AuthorSection />
 
             {/* Structured FAQ UI */}
             <div className="mt-12 pt-8 border-t border-slate-100">
@@ -493,28 +470,7 @@ export default function WaistToHipRatioPage() {
       </main>
 
       {/* Author Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Meet Akabari",
-            url: "https://calqulate.net/about-us",
-            sameAs:[
-              "https://www.linkedin.com/in/meet-akabari/"
-            ],
-            image: "https://calqulate.net/meet.akabari.jpeg",
-            jobTitle: "Web Developer & health enthusiast",
-            worksFor: {
-              "@type": "Organization",
-              name: "Calqulate.net",
-            },
-            description:
-              "Meet Akabari is a web developer and Health enthusiast building Calqulate.net.",
-          }),
-        }}
-      />
+      <AuthorSchema />
 
       <Footer />
     </div>

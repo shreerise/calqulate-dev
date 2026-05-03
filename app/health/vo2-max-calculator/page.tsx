@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer"
 import VO2MaxCalculator from "@/components/calculators/vo2-max-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { 
   Wind, 
@@ -404,6 +406,9 @@ export default function VO2MaxCalculatorPage() {
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

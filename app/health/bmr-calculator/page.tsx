@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/footer"
 import BMRCalculator from "@/components/calculators/bmr-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Flame,
@@ -634,9 +636,14 @@ export default function BMRCalculatorPage() {
               <FAQSection faqs={faqs} />
             </div>
 
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

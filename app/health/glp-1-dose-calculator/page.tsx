@@ -4,6 +4,8 @@ import { Footer } from "@/components/layout/footer"
 import GLP1DoseCalculator from "@/components/calculators/glp-1-dose-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   FlaskConical,
@@ -614,27 +616,14 @@ export default function GLP1DoseCalculatorPage() {
               </p>
             </div>
 
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
 
       {/* Author Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Meet Akabari",
-            url: "https://calqulate.net/about-us",
-            sameAs: ["https://www.linkedin.com/in/meet-akabari/"],
-            image: "https://calqulate.net/meet.akabari.jpeg",
-            jobTitle: "Web Developer & health enthusiast",
-            description:
-              "Meet Akabari is a web developer and Health enthusiast building Calqulate.net.",
-          }),
-        }}
-      />
+      <AuthorSchema />
 
       <Footer />
     </div>

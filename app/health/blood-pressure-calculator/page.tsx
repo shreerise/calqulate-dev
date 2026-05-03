@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/footer"
 import BloodPressureCalculator from "@/components/calculators/blood-pressure-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { 
   Heart, 
@@ -333,6 +335,9 @@ export default function BloodPressurePage() {
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

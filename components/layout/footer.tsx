@@ -13,8 +13,7 @@ export function Footer() {
               <span className="text-lg font-bold">Calqulate</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              Professional calculators for home improvement and financial planning. Get accurate estimates and make
-              informed decisions.
+              Professional-grade health calculators to improve your lifestyle - get accurate insights, track progress, and make smarter wellness decisions every day.
             </p>
             <div className="space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">

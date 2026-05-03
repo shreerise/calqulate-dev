@@ -297,6 +297,9 @@ export default function KarvonenCalculatorPage() {
         </div>
       </main>
 
+      {/* Author Schema */}
+      <AuthorSchema />
+
       <Footer />
     </div>
   )

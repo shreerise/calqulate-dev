@@ -4,6 +4,8 @@ import { Footer } from "@/components/layout/footer"
 import RFMCalculator from "@/components/calculators/rfm-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Ruler, Calculator, CheckCircle, BarChart, Sun, Thermometer, AlertTriangle, BookOpen, Users, Brain, HeartPulse, Shield, Leaf, Target } from "lucide-react"
 import Link from "next/link"
@@ -258,9 +260,15 @@ export default function RFMCalculatorPage() {
             </div>
 
             <FAQSection faqs={faqs} />
+
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

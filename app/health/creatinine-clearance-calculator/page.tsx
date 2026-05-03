@@ -5,7 +5,8 @@ import { Footer } from "@/components/layout/footer"
 import CreatinineClearanceCalculator from "@/components/calculators/creatinine-clearance-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
-import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import {
   Activity,
   Scale,
@@ -24,6 +25,7 @@ import {
   Clock
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata: Metadata = {
   title: "Creatinine Clearance Calculator (Cockcroft-Gault): IBW vs ABW",
@@ -587,9 +589,15 @@ export default function CreatinineClearanceCalculatorPage() {
               </div>
             </div>
 
+            {/* Author Badge Section */}
+            <AuthorSection />
+
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

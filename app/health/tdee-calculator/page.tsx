@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer"
 import TDEECalculator from "@/components/calculators/tdee-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { 
   Flame, 
@@ -488,6 +490,9 @@ export default function TDEECalculatorPage() {
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

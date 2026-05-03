@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/footer";
 import FaceShapeCalculator from "@/components/calculators/face-shape-calculator"; // Import the calculator component
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data";
 import { FAQSection } from "@/components/seo/faq-section";
+import { AuthorSection } from "@/components/seo/author-section";
+import { AuthorSchema } from "@/components/seo/author-schema";
 import {
   Card,
   CardContent,
@@ -506,6 +508,9 @@ export default function FaceShapeCalculatorPage() {
             </div>
 
             <FAQSection faqs={faqs} />
+
+            {/* Author Badge Section */}
+            <AuthorSection />
             <p className="text-sm text-muted-foreground text-center mt-12">
               Curious about other health metrics? Check out our{" "}
               <Link href="/health/absi-calculator" className="text-primary hover:underline">
@@ -515,6 +520,9 @@ export default function FaceShapeCalculatorPage() {
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

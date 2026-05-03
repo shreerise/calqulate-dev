@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer"
 import BodyShapeCalculator from "@/components/calculators/body-shape-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { Ruler, HeartPulse, UserCheck, Shield, BookOpen, Calculator as CalculatorIcon } from "lucide-react"
 import { Sparkles, Activity, Shirt, Dumbbell, Smile } from "lucide-react";
@@ -875,9 +877,15 @@ export default function BodyShapeCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>

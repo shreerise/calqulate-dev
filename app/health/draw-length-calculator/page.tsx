@@ -243,10 +243,16 @@ export default function DrawLengthCalculatorPage() {
 
             </div>
             
-            <FAQSection faqs={faqs} />           
+            <FAQSection faqs={faqs} />
+            
+            {/* Author Badge Section */}
+            <AuthorSection />
           </div>
         </div>
       </main>
+
+      {/* Author Schema */}
+      <AuthorSchema />
 
       <Footer />
     </div>
