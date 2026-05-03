@@ -379,10 +379,11 @@ export default function OneRepMaxCalculatorPage() {
               <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">FAQs – One Rep Max Calculator</h2>
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>
-
+      <AuthorSchema />
       <Footer />
     </div>
   )

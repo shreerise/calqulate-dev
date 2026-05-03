@@ -4,6 +4,8 @@ import { Footer } from "@/components/layout/footer"
 import KarvonenFormulaCalculator from "@/components/calculators/karvonen-formula-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
+import { AuthorSection } from "@/components/seo/author-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Calculator, HeartPulse, CheckCircle, Target, BarChart, Users, Globe, BookOpen, Award, Flame, TrendingUp, Zap } from "lucide-react"
 import Link from "next/link"
@@ -292,7 +294,7 @@ export default function KarvonenCalculatorPage() {
                 ABSI Calculator
               </Link>.
             </p>
-            
+            <AuthorSection />
           </div>
         </div>
       </main>

@@ -241,8 +241,9 @@ export default function AscvdRiskPage() {
         <div className="mt-20">
           <FAQSection faqs={faqs} />
         </div>
+        <AuthorSection />
       </main>
-
+      <AuthorSchema />
       <Footer />
     </div>
   )

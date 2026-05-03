@@ -23,6 +23,8 @@ import {
   TrendingDown
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { AuthorSchema } from "@/components/seo/author-schema"
+import { AuthorSection } from "@/components/seo/author-section"
 
 export const metadata: Metadata = {
   title: "Running Pace Calculator: Accurate Run Pace, Split & Finish Time Estimator",
@@ -321,6 +323,7 @@ export default function RunningPaceCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>

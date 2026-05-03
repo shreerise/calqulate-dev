@@ -591,7 +591,7 @@ export default function WeightLossPercentageCalculatorPage() {
                 <strong className="text-slate-900">Medical Disclaimer:</strong> This calculator is for informational purposes only and should not replace medical advice. Always consult a qualified healthcare provider before starting any weight loss program — especially if you have underlying health conditions, are pregnant, or are taking medication.
               </p>
             </div>
-
+            <AuthorSection />
           </div>
         </div>
       </main>

@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/footer"
 import LeanBodyMassCalculator from "@/components/calculators/lean-body-mass-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Calculator,
@@ -652,6 +654,7 @@ export default function LeanBodyMassCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>

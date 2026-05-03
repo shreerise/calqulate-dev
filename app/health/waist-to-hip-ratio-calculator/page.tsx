@@ -464,7 +464,7 @@ export default function WaistToHipRatioPage() {
               </h2>
               <FAQSection faqs={faqs} />
             </div>
-            
+            <AuthorSection />
           </div>
         </div>
       </main>

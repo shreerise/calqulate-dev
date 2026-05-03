@@ -282,18 +282,19 @@ export default function StressLevelCalculatorPage() {
 
             </div>
 
-            {/* Structured FAQ UI */}
-            <div className="mt-12">
-              <FAQSection faqs={faqs} />
-            </div>
-          </div>
-        </div>
-      </main>
-
-      {/* Author Schema */}
-      <AuthorSchema />
-
-      <Footer />
-    </div>
-  )
-}
+                      {/* Structured FAQ UI */}
+                      <div className="mt-12">
+                        <FAQSection faqs={faqs} />
+                      </div>
+                      <AuthorSection />
+                    </div>
+                  </div>
+                </main>
+          
+                {/* Author Schema */}
+                <AuthorSchema />
+          
+                <Footer />
+              </div>
+            )
+          }

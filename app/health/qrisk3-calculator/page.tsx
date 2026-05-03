@@ -21,6 +21,8 @@ import {
   Brain
 } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { AuthorSchema } from "@/components/seo/author-schema"
+import { AuthorSection } from "@/components/seo/author-section"
 
 export const metadata: Metadata = {
   title: "QRISK3 Calculator: NHS Heart Disease 10-Year Risk Score",
@@ -255,14 +257,15 @@ export default function Qrisk3CalculatorPage() {
           </section>
 
         </article>
-
-        {/* Structured FAQ Section */}
-        <div className="mt-20">
+           {/* Structured FAQ UI */}
+        <div className="mt-12">
           <FAQSection faqs={faqs} />
         </div>
 
         {/* Author Badge Section */}
-        <AuthorSection />
+        <div className="mt-8">
+          <AuthorSection />
+        </div>
       </main>
 
       {/* Author Schema */}

@@ -403,6 +403,7 @@ export default function VO2MaxCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>

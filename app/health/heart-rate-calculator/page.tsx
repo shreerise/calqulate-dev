@@ -570,10 +570,11 @@ export default function HeartRateCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>
-
+      <AuthorSchema />
       <Footer />
     </div>
   )

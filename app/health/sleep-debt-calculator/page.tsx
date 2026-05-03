@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer"
 import SleepDebtCalculator from "@/components/calculators/sleep-debt-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import {
   Brain,
@@ -22,6 +23,7 @@ import {
   Zap
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { AuthorSection } from "@/components/seo/author-section"
 
 export const metadata: Metadata = {
   title: "Sleep Debt Calculator: Calculate Your Sleep Deficit | Free Tool",
@@ -340,11 +342,11 @@ export default function SleepDebtCalculatorPage() {
               </section>
 
             </div>
-
             {/* Structured FAQ UI */}
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>

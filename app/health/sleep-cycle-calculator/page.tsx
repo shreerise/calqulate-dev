@@ -4,7 +4,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import SleepCycleCalculator from "@/components/calculators/sleep-cycle-calculator";
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data";
-import { FAQSection } from "@/components/seo/faq-section";import { AuthorSection } from "@/components/seo/author-section"
+import { FAQSection } from "@/components/seo/faq-section";
+import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 import { Moon, Clock, Brain, BatteryCharging, Activity } from "lucide-react";
@@ -234,11 +235,11 @@ export default function SleepCycleCalculatorPage() {
             <div className="mt-16">
               <FAQSection faqs={faqs} />
             </div>
-
+            <AuthorSection />
           </div>
         </div>
       </main>
-
+      <AuthorSchema />
       <Footer />
     </div>
   );

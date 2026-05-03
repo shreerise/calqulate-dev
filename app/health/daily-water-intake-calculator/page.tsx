@@ -22,6 +22,7 @@ import {
   Zap
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { AuthorSection } from "@/components/seo/author-section"
 
 export const metadata: Metadata = {
   title: "Daily Water Intake Calculator: How Much Water Should You Drink?",
@@ -339,6 +340,7 @@ export default function WaterIntakeCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>

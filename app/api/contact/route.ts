@@ -7,7 +7,17 @@ export async function POST(req: Request) {
   try {
     const { name, email, subject, phone, country, message } = await req.json();
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resendApiKey = process.env.RESEND_API_KEY;
+    
+    if (!resendApiKey) {
+      console.error("RESEND_API_KEY is not configured");
+      return NextResponse.json(
+        { success: false, error: "Email service not configured. Please contact the administrator." },
+        { status: 503 }
+      );
+    }
+
+    const resend = new Resend(resendApiKey);
 
     const data = await resend.emails.send({
       from: "Calqulate.net <krushal.barasiya@calqulate.net>",

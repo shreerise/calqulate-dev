@@ -75,6 +75,7 @@ export default function BloodPressurePage() {
         url="https://calqulate.net/health/blood-pressure-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <AuthorSchema />
 
       <Header />
 
@@ -332,6 +333,7 @@ export default function BloodPressurePage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <AuthorSection />
           </div>
         </div>
       </main>

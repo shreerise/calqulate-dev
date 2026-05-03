@@ -7,7 +7,12 @@ frontend:
     build:
       commands:
         - echo "Building Next.js site..."
-        - echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env.production
+        - |-
+          if [ -n "$RESEND_API_KEY" ]; then
+            echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env.production
+          else
+            echo "Warning: RESEND_API_KEY is not set. Contact form may not work."
+          fi
         - npm run build
   artifacts:
     baseDirectory: .next

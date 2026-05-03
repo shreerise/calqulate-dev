@@ -344,11 +344,11 @@ export default function FatIntakeCalculatorPage() {
                 </Link>{" "}to see how your training is paying off.
               </p>
             </div>
-
+           <AuthorSection />
           </div>
         </div>
       </main>
-
+      <AuthorSchema />
       <Footer />
     </div>
   );

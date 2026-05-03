@@ -304,6 +304,7 @@ export default function ABSICalculatorPage() {
             </div>
                     
             <FAQSection faqs={faqs} />
+            <AuthorSchema />
             <p className="text-sm text-muted-foreground text-center mt-12">
               Want to go one step further? Estimate your body fat directly with our{" "}
               <Link href="/health/rfm-calculator" className="text-primary hover:underline">
@@ -311,9 +312,10 @@ export default function ABSICalculatorPage() {
               </Link>.
             </p>
           </div>
+          <AuthorSection />
         </div>
       </main>
-
+      <AuthorSchema />
       <Footer />
     </div>
   )

@@ -10,6 +10,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Calculator, Ruler, Target, HeartPulse, ShieldCheck, Zap, Info } from "lucide-react"
+import { AuthorSection } from "@/components/seo/author-section"
+import { AuthorSchema } from "@/components/seo/author-schema"
 
 export const metadata: Metadata = {
   title: "Draw Length Calculator: Find Your Perfect Archery Fit",
@@ -243,8 +245,9 @@ export default function DrawLengthCalculatorPage() {
 
             </div>
             
-            <FAQSection faqs={faqs} />
-            
+             <div className="mt-12">
+                          <FAQSection faqs={faqs} />
+                        </div>
             {/* Author Badge Section */}
             <AuthorSection />
           </div>
