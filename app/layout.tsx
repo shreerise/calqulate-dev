@@ -7,6 +7,7 @@ import { OrganizationSchema } from "@/components/seo/structured-data";
 import "./globals.css";
 import { Suspense } from "react";
 import CalculatorPopup from "@/components/ui/calculator-popup";
+import ClarityProvider from "@/components/analytics/clarity-provider";
 
 // GTM and GA IDs
 const GTM_ID = "GTM-MNCCJNHF";
@@ -95,6 +96,8 @@ export default function RootLayout({
       <body
         className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
+        <ClarityProvider />
+
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
