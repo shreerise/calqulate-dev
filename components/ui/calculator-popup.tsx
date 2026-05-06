@@ -26,18 +26,23 @@ export default function CalculatorPopup() {
   };
 
   const handleSubmit = async () => {
-    if (!request) return;
+    if (!request.trim()) return;
 
     try {
-      await fetch("/api/calculator-request", {
+      const response = await fetch("/api/calculator-request", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          request,
+          request: request.trim(),
           page: window.location.href,
         }),
       });
 
-      setSubmitted(true);
+      if (response.ok) {
+        setSubmitted(true);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -57,11 +62,11 @@ export default function CalculatorPopup() {
         {!submitted ? (
           <>
             <h2 className="text-xl font-semibold mb-2 text-green-700">
-              Find the right calculator faster
-            </h2>
+            Can’t find the calculator you need?       
+             </h2>
 
             <p className="text-gray-600 mb-4">
-              Looking for a calculator we don't have yet? Tell us and we will build it.
+             Tell us what you're looking for - we may build it next and help thousands of others searching for the same thing.
             </p>
 
             <input
@@ -77,7 +82,7 @@ export default function CalculatorPopup() {
                 onClick={handleSubmit}
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
               >
-                Submit
+                Send Request
               </button>
 
               <button
