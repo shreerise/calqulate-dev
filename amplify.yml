@@ -4,20 +4,42 @@ frontend:
     preBuild:
       commands:
         - npm ci
+
     build:
       commands:
         - echo "Building Next.js site..."
+
+        # Resend API Key
         - |-
           if [ -n "$RESEND_API_KEY" ]; then
             echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env.production
           else
-            echo "Warning: RESEND_API_KEY is not set. Contact form may not work."
+            echo "Warning: RESEND_API_KEY is not set."
           fi
+
+        # Supabase URL
+        - |-
+          if [ -n "$NEXT_PUBLIC_SUPABASE_URL" ]; then
+            echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL" >> .env.production
+          else
+            echo "Warning: NEXT_PUBLIC_SUPABASE_URL is not set."
+          fi
+
+        # Supabase Secret Key
+        - |-
+          if [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY" >> .env.production
+          else
+            echo "Warning: SUPABASE_SERVICE_ROLE_KEY is not set."
+          fi
+
         - npm run build
+
   artifacts:
     baseDirectory: .next
     files:
       - '**/*'
+
   cache:
     paths:
       - node_modules/**/*
