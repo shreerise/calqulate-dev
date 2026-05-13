@@ -5,13 +5,6 @@ import Link from "next/link"
 import { Menu, X, Calculator, ChevronDown, Search, ArrowRight } from "lucide-react"
 import { SearchBar } from "@/components/search/search-bar"
 
-// ─── Brand colours ────────────────────────────────────────────────────────────
-// Primary green : #16a34a  (green-600)
-// Active green  : #15803d  (green-700)
-// Tint          : #f0fdf4  (green-50)
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-
 const categories = [
   {
     name: "Body Composition",
@@ -93,7 +86,6 @@ const categories = [
       { name: "GLP-1 Dose Calculator", href: "/health/glp-1-dose-calculator" },
     ],
   },
-  // ── Overflow into "More" ───────────────────────────────────────────────────
   {
     name: "Mental Wellness",
     slug: "/health/mental-wellness",
@@ -152,8 +144,8 @@ function MegaMenu({ category, onClose }: { category: Category; onClose: () => vo
           </span>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-0 mb-4">
+        {/* Grid — no footer/view-all link */}
+        <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-0">
           {category.calculators.map((calc) => (
             <Link
               key={calc.href}
@@ -165,18 +157,6 @@ function MegaMenu({ category, onClose }: { category: Category; onClose: () => vo
               {calc.name}
             </Link>
           ))}
-        </div>
-
-        {/* Footer */}
-        <div className="pt-2 border-t border-gray-100">
-          <Link
-            href={category.slug}
-            onClick={onClose}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-green-600 hover:text-green-700 transition-colors"
-          >
-            View all {category.name} calculators
-            <ArrowRight className="h-3 w-3" />
-          </Link>
         </div>
       </div>
     </div>
@@ -190,7 +170,6 @@ function MoreDropdown({ onClose }: { onClose: () => void }) {
     <div className="absolute right-0 top-full mt-2 w-72 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden py-2">
       {moreCategories.map((cat, idx) => (
         <div key={cat.name}>
-          {/* Category label */}
           <div className="px-4 pt-3 pb-1.5 flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
               {cat.name}
@@ -198,7 +177,6 @@ function MoreDropdown({ onClose }: { onClose: () => void }) {
             <span className="text-[11px] text-gray-300">{cat.count}</span>
           </div>
 
-          {/* All calculators in this category */}
           {cat.calculators.map((calc) => (
             <Link
               key={calc.href}
@@ -211,7 +189,6 @@ function MoreDropdown({ onClose }: { onClose: () => void }) {
             </Link>
           ))}
 
-          {/* Divider between categories, not after last */}
           {idx < moreCategories.length - 1 && (
             <div className="mx-4 mt-2 border-t border-gray-100" />
           )}
@@ -256,13 +233,7 @@ function MobileCategory({ category, onLinkClick }: { category: Category; onLinkC
               {calc.name}
             </Link>
           ))}
-          <Link
-            href={category.slug}
-            onClick={onLinkClick}
-            className="flex items-center gap-1 px-6 py-3 text-xs font-semibold text-green-600 hover:text-green-700"
-          >
-            View all <ArrowRight className="h-3 w-3" />
-          </Link>
+          {/* ← "View all" link removed */}
         </div>
       )}
     </div>
@@ -384,7 +355,7 @@ export function Header() {
             </div>
           </nav>
 
-          {/* ── Desktop right: search icon + links ── */}
+          {/* ── Desktop right: search + Blog + About ── */}
           <div className="hidden lg:flex items-center gap-1 ml-auto flex-shrink-0">
             <button
               onClick={() => setSearchOpen((v) => !v)}
@@ -395,11 +366,18 @@ export function Header() {
             >
               <Search className="h-[18px] w-[18px]" />
             </button>
-            <Link href="/about-us" className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
-              About
+            <Link
+              href="/blog"
+              onClick={closeAll}
+              className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+            >
+              Blog
             </Link>
-            <Link href="/contact-us" className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
-              Contact
+            <Link
+              href="/about-us"
+              className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+            >
+              About
             </Link>
           </div>
 
@@ -440,7 +418,7 @@ export function Header() {
           </div>
         </div>
 
-        {/* ── Inline search bar (desktop, expands below nav row) ── */}
+        {/* ── Inline search bar (desktop) ── */}
         {searchOpen && (
           <div className="hidden lg:block border-t border-gray-100 py-3">
             <SearchBar placeholder="Search calculators…" className="max-w-sm" />
@@ -503,8 +481,8 @@ export function Header() {
             <MobileCategory key={cat.name} category={cat} onLinkClick={closeAll} />
           ))}
           <div className="border-t border-gray-100 px-4 py-3 flex gap-4">
+            <Link href="/blog" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">Blog</Link>
             <Link href="/about-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">About</Link>
-            <Link href="/contact-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">Contact</Link>
           </div>
         </div>
       )}
