@@ -22,16 +22,15 @@ export default function BlogListingPage() {
           <p className="text-sm font-medium uppercase tracking-widest text-emerald-600">
             Calqulate Journal
           </p>
-          <h1 className="mt-3 text-4xl font-bold leading-tight text-slate-900 md:text-6xl">
-            Guides that help you{" "}
+          <h1 className="mt-3 text-3xl font-bold leading-tight text-slate-800 md:text-5xl">
+            Why Do Some Diets, Workouts & Clothes Work for Others But Not You?{" "}
             <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-              understand your body
+             Your Body Type Holds the Answer
             </span>
             .
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-slate-600">
-            Interactive blogs powered by real calculators. Find your shape,
-            style, diet, and fitness plan — all personalized.
+            Interactive guides powered by smart calculators - discover your body shape, perfect style, ideal diet, and fitness plan personalized specifically for your body and goals.
           </p>
         </div>
       </section>

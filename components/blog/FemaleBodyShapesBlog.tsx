@@ -23,9 +23,9 @@ export default function FemaleBodyShapesBlog({ blog }: Props) {
               {blog.category}
             </span>
             <h1 className="mt-4 text-4xl font-bold leading-tight text-slate-900 md:text-5xl lg:text-6xl">
-              Female Body Shapes{" "}
+              Your Body Isn’t the Problem-{" "}
               <span className="bg-gradient-to-r from-emerald-600 to-rose-500 bg-clip-text text-transparent">
-                Explained
+                You’re Dressing for the Wrong Body Shape
               </span>
             </h1>
             <p className="mt-5 text-lg text-slate-600">

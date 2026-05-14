@@ -6,14 +6,21 @@ export function AuthorSection() {
   return (
     <div className="mt-16 mb-8 max-w-2xl mx-auto">
       <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-sm">
-        <div className="relative w-24 h-24 rounded-full overflow-hidden shrink-0 border-4 border-white shadow-md">
+        <a
+          href="/meet.akabari.jpeg"
+          target="_blank"
+          rel="noopener noreferrer"
+            className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden shrink-0 border-4 border-white shadow-md ring-1 ring-slate-200 hover:ring-green-400 transition-colors"
+        >
           <Image
             src="/meet.akabari.jpeg"
             alt="Meet Akabari"
-            fill
+            width={112}
+            height={112}
+            sizes="(max-width: 640px) 96px, 112px"
             className="object-cover"
           />
-        </div>
+        </a>
         <div className="text-center sm:text-left flex-1">
           <h3 className="text-xl font-bold text-slate-900">Meet Akabari</h3>
           <p className="text-green-700 font-medium text-sm mb-3">Web Developer & Health Enthusiast</p>
