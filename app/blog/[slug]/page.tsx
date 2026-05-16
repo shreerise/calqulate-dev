@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { blogs, getBlogBySlug, getRelatedBlogs } from "@/lib/blog/blogs-data";
 import FemaleBodyShapesBlog from "@/components/blog/FemaleBodyShapesBlog";
+import BestDressesPearShapeBlog from "@/components/blog/BestDressesPearShapeBlog";
 import GenericBlogPlaceholder from "@/components/blog/GenericBlogPlaceholder";
 import RelatedBlogs from "@/components/blog/RelatedBlogs";
 
@@ -36,10 +37,14 @@ export default function BlogSlugPage({ params }: Props) {
 
   const related = getRelatedBlogs(params.slug);
 
+  // Route to the right body component per slug.
+  // Add new blog components here as you build each one out.
   const renderContent = () => {
     switch (blog.slug) {
       case "female-body-shapes-explained":
         return <FemaleBodyShapesBlog blog={blog} />;
+      case "best-dresses-for-pear-shape":
+        return <BestDressesPearShapeBlog blog={blog} />;
       default:
         return <GenericBlogPlaceholder blog={blog} />;
     }
