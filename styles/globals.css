@@ -123,3 +123,47 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .rainbow-highlight {
+    position: relative;
+  }
+
+  .rainbow-highlight::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-bottom-left-radius: 1rem;
+    background: linear-gradient(135deg, #ff3cac, #ff8c00, #ffe600, #00c853, #1e88e5, #8e24aa);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
+    pointer-events: none;
+    animation: rainbow-corner 1.4s linear infinite;
+    z-index: 10;
+  }
+
+  .rainbow-highlight::before {
+    content: "";
+    position: absolute;
+    top: 0.45rem;
+    right: 0.45rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 11;
+  }
+
+  @keyframes rainbow-corner {
+    0%, 100% {
+      transform: rotate(0deg) translate(0, 0);
+    }
+    50% {
+      transform: rotate(12deg) translate(0.05rem, -0.05rem);
+    }
+  }
+}

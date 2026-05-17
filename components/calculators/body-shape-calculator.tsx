@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -141,6 +142,7 @@ const getMaleBodyShape = (bust: number, waist: number, hips: number): Omit<Calcu
 export default function BodyShapeCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [highlightPear, setHighlightPear] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -200,9 +202,20 @@ export default function BodyShapeCalculator() {
 
       setResult({ ...shapeResult, whr, measurements: displayUnits });
       setIsLoading(false);
+      setHighlightPear(values.gender === 'female');
       setTimeout(() => { resultsRef.current?.scrollIntoView({ behavior: 'smooth' }); }, 100);
     }, 500);
   }
+
+  useEffect(() => {
+    if (!result || gender !== 'female') {
+      setHighlightPear(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => setHighlightPear(false), 10000);
+    return () => window.clearTimeout(timer);
+  }, [result, gender]);
 
   return (
     <>
@@ -263,6 +276,29 @@ export default function BodyShapeCalculator() {
                   <h3 className="text-lg font-semibold flex items-center gap-2 mb-3"><HeartPulse className="w-5 h-5 text-red-500" /> Health Insights</h3>
                   <p className="text-muted-foreground">{result.healthInsights}</p>
               </div>
+
+              {gender === 'female' && (
+                <div className="border-t pt-8">
+                  <h3 className="text-lg font-semibold mb-4">Must-read style guides for women</h3>
+                  <div className="grid gap-4 sm:grid-cols-2 min-w-0">
+                    <div className="w-full min-w-0">
+                      <Button asChild variant="outline" size="lg" className="w-full justify-center text-base sm:text-base min-w-0">
+                        <Link href="/blog/female-body-shapes-explained" className="text-center whitespace-normal">
+                          Learn all female body shapes
+                        </Link>
+                      </Button>
+                    </div>
+
+                    <div className={highlightPear ? "relative w-full min-w-0 rounded-xl overflow-hidden rainbow-highlight" : "relative w-full min-w-0 rounded-xl overflow-hidden"}>
+                      <Button asChild size="lg" variant="default" className="w-full justify-center text-base sm:text-base min-w-0 bg-emerald-700 text-white hover:bg-emerald-600">
+                        <Link href="/blog/best-dresses-for-pear-shape" className="text-center whitespace-normal">
+                          Pear shape dress guide
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}

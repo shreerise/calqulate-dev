@@ -20,8 +20,8 @@ import {
   Award,
   Sparkles,
 } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
-import { title } from "process"
 
 // ─── Calculator Data ────────────────────────────────────────────────────────
 
@@ -437,12 +437,17 @@ export default function HomePage() {
                 
                 {/* Main Image Container */}
                 <div className="relative w-full max-w-2xl lg:max-w-none ml-auto bg-emerald-800/40 border border-emerald-600/30 p-4 rounded-[2.5rem] shadow-2xl backdrop-blur-sm">
-                  <img 
-                    src="\Health-personalized-dashboard-calqulate.net.png" 
-                    alt="Health Metrics and Analytics Graphic" 
-                    className="w-full h-[480px] object-cover rounded-[1.8rem] shadow-inner"
-                  />
-                  
+                  <div className="relative w-full h-[480px] overflow-hidden rounded-[1.8rem] shadow-inner">
+                    <Image
+                      src="/Health-personalized-dashboard-calqulate.net.png"
+                      alt="Health Metrics and Analytics Graphic"
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 720px, 100vw"
+                      className="object-contain"
+                    />
+                  </div>
+
                   {/* Floating Concept UI Element 1: Insights (Animated) */}
                   <div className="absolute -bottom-6 -left-4 xl:-left-8 bg-white p-4 rounded-2xl shadow-xl border border-emerald-100 flex items-center gap-4 animate-float">
                     <div className="p-3 bg-emerald-100 rounded-full text-emerald-600">
