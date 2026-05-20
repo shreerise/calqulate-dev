@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -148,7 +149,7 @@ export default function FraminghamRiskCalculatorPage() {
                       </ul>
                     </div>
                     <div className="flex flex-col items-center gap-3">
-                      <Image
+                      <ClickableImage
                         src="/framingham-heart-study-chart.png"
                         alt="Framingham Heart Study Evolution"
                         width={320}

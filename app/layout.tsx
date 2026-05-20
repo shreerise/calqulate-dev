@@ -8,10 +8,7 @@ import "./globals.css";
 import { Suspense } from "react";
 import CalculatorPopup from "@/components/ui/calculator-popup";
 import ClarityProvider from "@/components/analytics/clarity-provider";
-
-// GTM and GA IDs
-const GTM_ID = "GTM-MNCCJNHF";
-const GA_MEASUREMENT_ID = "G-0KV6HQZT4D";
+import { CookieConsentProvider } from "@/components/analytics/cookie-consent-provider";
 
 export const metadata: Metadata = {
   title: "Calqulate - Professional Health Calculators",
@@ -55,42 +52,6 @@ export default function RootLayout({
 
         {/* Google AdSense Verification */}
         <meta name="google-adsense-account" content="ca-pub-4361792190799561" />
-
-        {/* Google Tag Manager */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','${GTM_ID}');
-            `,
-          }}
-        />
-
-        {/* Google Analytics */}
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_MEASUREMENT_ID}');
-            `,  
-          }}
-        />
-
-        {/* Google AdSense Script */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4361792190799561"
-          crossOrigin="anonymous"
-        ></script>
       </head>
 
       <body
@@ -98,21 +59,13 @@ export default function RootLayout({
       >
         <ClarityProvider />
 
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
-
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 
         <CalculatorPopup />
         
         <Analytics />
+
+        <CookieConsentProvider />
       </body>
     </html>
   );

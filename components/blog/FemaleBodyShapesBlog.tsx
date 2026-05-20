@@ -4,9 +4,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Blog } from "@/lib/blog/blogs-data";
-import { bodyShapes } from "@/lib/blog/body-shapes-data";
+import { bodyShapes, type ShapeId } from "@/lib/blog/body-shapes-data";
 import BodyShapeDashboard from "@/components/body-shape/BodyShapeDashboard";
 import BodyShapeRatioChart from "@/components/charts/BodyShapeRatioChart";
+import { useState, useEffect, useRef } from "react";
 
 interface Props {
   blog: Blog;
@@ -306,6 +307,31 @@ const extendedFAQs = [
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
 
 export default function FemaleBodyShapesBlog({ blog }: Props) {
+  const dashboardRef = useRef<HTMLDivElement>(null);
+  const [selectedShape, setSelectedShape] = useState<ShapeId | null>(null);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith("#shape-")) {
+      const shapeId = hash.replace("#shape-", "") as ShapeId;
+      const validIds: ShapeId[] = ["pear", "apple", "hourglass", "rectangle", "inverted-triangle"];
+      if (validIds.includes(shapeId)) {
+        setSelectedShape(shapeId);
+        setTimeout(() => {
+          dashboardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+  }, []);
+
+  const handleShapeClick = (shapeId: ShapeId) => {
+    setSelectedShape(shapeId);
+    window.history.pushState(null, "", `#shape-${shapeId}`);
+    setTimeout(() => {
+      dashboardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  };
+
   return (
     <article className="bg-white">
 
@@ -653,25 +679,26 @@ export default function FemaleBodyShapesBlog({ blog }: Props) {
               {/* Quick Shape Grid */}
               <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-5">
                 {bodyShapes.map((s) => (
-                  <a
+                  <button
                     key={s.id}
-                    href={`#shape-${s.id}`}
-                    className="group flex flex-col items-center rounded-2xl bg-white p-5 text-center ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-lg"
+                    type="button"
+                    onClick={() => handleShapeClick(s.id)}
+                    className="group flex flex-col items-center rounded-2xl bg-white p-4 text-center ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-lg cursor-pointer"
                   >
-                    <div className="relative mb-3 h-24 w-24 overflow-hidden rounded-xl">
+                    <div className="relative mb-3 w-full aspect-[16/9] overflow-hidden rounded-xl bg-slate-50">
                       <Image
                         src={s.illustration}
-                        alt={s.name}
+                        alt={`${s.name} body shape illustration`}
                         fill
-                        className="object-contain"
-                        sizes="96px"
+                        className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 50vw, 20vw"
                       />
                     </div>
                     <p className="text-sm font-bold text-slate-900 group-hover:text-emerald-600">
                       {s.name}
                     </p>
                     <p className="text-xs text-slate-500">{s.alsoKnownAs}</p>
-                  </a>
+                  </button>
                 ))}
               </div>
 
@@ -729,7 +756,7 @@ export default function FemaleBodyShapesBlog({ blog }: Props) {
               </div>
 
               {/* Ratio Rule Table */}
-              <div className="mt-10 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+              <div className="mt-10 overflow-x-auto rounded-2xl ring-1 ring-slate-200">
                 <table className="w-full text-sm">
                   <thead className="bg-slate-900 text-white">
                     <tr>
@@ -990,11 +1017,13 @@ export default function FemaleBodyShapesBlog({ blog }: Props) {
       </div>
 
       {/* ── INTERACTIVE DASHBOARD (USP) ─────────────── */}
-      <section id="calculator" className="scroll-mt-24 bg-slate-50 py-4">
-        <div className="mx-auto max-w-6xl px-6">
-          <BodyShapeDashboard />
-        </div>
-      </section>
+      <div ref={dashboardRef}>
+        <section id="calculator" className="scroll-mt-24 bg-slate-50 py-4">
+          <div className="mx-auto max-w-6xl px-6">
+            <BodyShapeDashboard defaultShape={selectedShape || undefined} />
+          </div>
+        </section>
+      </div>
 
       {/* ── PDF DOWNLOAD CTA ─────────────────────────── */}
       <section className="bg-gradient-to-br from-rose-50 to-emerald-50 py-16">

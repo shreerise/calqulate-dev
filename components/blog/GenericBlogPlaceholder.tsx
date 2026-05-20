@@ -1,6 +1,6 @@
 // components/blog/GenericBlogPlaceholder.tsx
 import Link from "next/link";
-import Image from "next/image";
+import { ClickableImage } from "@/components/ui/image-lightbox";
 import type { Blog } from "@/lib/blog/blogs-data";
 
 export default function GenericBlogPlaceholder({ blog }: { blog: Blog }) {
@@ -14,11 +14,12 @@ export default function GenericBlogPlaceholder({ blog }: { blog: Blog }) {
       </h1>
       <p className="mt-4 text-lg text-slate-600">{blog.description}</p>
 
-      <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl bg-slate-100">
-        <Image
+      <div className="mt-8">
+        <ClickableImage
           src={blog.featuredImage}
           alt={blog.title}
           fill
+          containerClassName="relative aspect-[16/9] overflow-hidden rounded-2xl bg-slate-100"
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 768px"
           priority

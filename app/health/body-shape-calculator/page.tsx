@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -136,7 +137,7 @@ export default function BodyShapeCalculatorPage() {
 
                     {/* Female Body Shapes */}
                     <div className="flex flex-col items-center gap-3">
-                      <Image
+                      <ClickableImage
                         src="/body-shape-female.png"
                         alt="Female body shapes chart showing apple pear hourglass rectangle and diamond body types"
                         width={800}
@@ -151,7 +152,7 @@ export default function BodyShapeCalculatorPage() {
 
                     {/* Male Body Shapes */}
                     <div className="flex flex-col items-center gap-3">
-                      <Image
+                      <ClickableImage
                         src="/male-body-shapes.png"
                         alt="Male body shapes chart showing rectangle triangle inverted triangle oval and trapezoid"
                         width={800}

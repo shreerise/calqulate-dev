@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import DiabetesRiskCalculator from "@/components/calculators/diabetes-risk-calculator"
@@ -286,7 +287,7 @@ export default function DiabetesRiskCalculatorPage() {
 
                     {/* Image */}
                     <div className="mb-8 flex justify-center">
-                      <Image
+                      <ClickableImage
                         src="/diabetes-risk-calculator.png"
                         alt="Lifestyle changes to reduce diabetes risk including walking, healthy diet, weight loss and proper sleep"
                         width={800}

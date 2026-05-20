@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -261,7 +262,7 @@ export default function OvulationCalculatorPage() {
                   Signs and Symptoms of Ovulation
                 </h2>
                 <div className="mb-6 flex justify-center">
-                  <Image
+                  <ClickableImage
                     src="/signs-and-symptoms-of-ovulation-infograpic.png"
                     alt="Signs and Symptoms of Ovulation infographic"
                     width={420}

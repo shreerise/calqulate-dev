@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -288,13 +289,13 @@ export default function MacroCalculatorPage() {
                         </div>
                       ))}
                    </div>
-                   <Image 
-                      src="/macro-3.avif"
-                      alt="Person tracking food on mobile" 
-                      width={400} 
-                      height={250} 
-                      className="rounded-2xl border"
-                    />
+                   <ClickableImage 
+                       src="/macro-3.avif"
+                       alt="Person tracking food on mobile" 
+                       width={400} 
+                       height={250} 
+                       className="rounded-2xl border"
+                     />
                 </div>
               </section>
 

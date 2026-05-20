@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useRef } from "react"
-import Image from "next/image" // Import the Next.js Image component
+import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -142,8 +143,8 @@ export default function DrawLengthCalculator() {
                 </div>
                 {/* Column 2: Informative Image */}
                 <div className=" flex flex-col items-center">
-                  <Image 
-                    src="/draw-length-visual.png" // IMPORTANT: Place your image in the /public folder
+                  <ClickableImage 
+                    src="/draw-length-visual.png"
                     alt="Diagram showing how to measure wingspan for archery draw length"
                     width={300}
                     height={200}

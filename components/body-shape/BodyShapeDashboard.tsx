@@ -1,15 +1,24 @@
 // components/body-shape/BodyShapeDashboard.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { bodyShapes, type ShapeId } from "@/lib/blog/body-shapes-data";
 import { getDietPlan } from "@/lib/diet/diet-plans-data";
 import MacrosDonutChart from "@/components/charts/MacrosDonutChart";
 import DietPlanPdfButton from "@/components/plans/DietPlanPdfButton";
 
-export default function BodyShapeDashboard() {
-  const [activeId, setActiveId] = useState<ShapeId>("hourglass");
+interface BodyShapeDashboardProps {
+  defaultShape?: ShapeId;
+}
+
+export default function BodyShapeDashboard({ defaultShape }: BodyShapeDashboardProps) {
+  const [activeId, setActiveId] = useState<ShapeId>(defaultShape || "hourglass");
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    if (defaultShape) setActiveId(defaultShape);
+  }, [defaultShape]);
   const active = bodyShapes.find((s) => s.id === activeId)!;
   const diet = getDietPlan(activeId)!;
 
@@ -25,7 +34,8 @@ export default function BodyShapeDashboard() {
         </p>
       </div>
 
-      <div className="mb-6 flex flex-wrap gap-3">
+      <div className="mb-6 overflow-x-auto pb-2">
+        <div className="flex gap-3 min-w-max">
         {bodyShapes.map((s) => {
           const isActive = s.id === activeId;
           return (
@@ -40,13 +50,13 @@ export default function BodyShapeDashboard() {
               }`}
               style={isActive ? { backgroundColor: s.brandColor } : {}}
             >
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-white/20">
+              <div className="relative w-16 h-10 shrink-0 overflow-hidden rounded-lg bg-white/20">
                 <Image
                   src={s.illustration}
                   alt={s.name}
                   fill
-                  className="object-contain p-1"
-                  sizes="40px"
+                  className="object-contain p-0.5"
+                  sizes="64px"
                 />
               </div>
               <div>
@@ -58,6 +68,7 @@ export default function BodyShapeDashboard() {
             </button>
           );
         })}
+        </div>
       </div>
 
       {/* ── Active shape detail ──────────────────────── */}
@@ -90,14 +101,19 @@ export default function BodyShapeDashboard() {
             </div>
           </div>
 
-          <div className="relative aspect-square overflow-hidden rounded-2xl bg-white shadow-md">
-            <Image
-              src={active.illustration}
-              alt={`${active.name} body shape illustration`}
-              fill
-              className="object-contain p-6"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+          <div
+            className="group relative overflow-hidden rounded-2xl bg-white shadow-md cursor-zoom-in"
+            onClick={() => setLightboxOpen(true)}
+          >
+            <div className="relative w-full aspect-[16/9]">
+              <Image
+                src={active.illustration}
+                alt={`${active.name} body shape illustration`}
+                fill
+                className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           </div>
         </div>
 
@@ -287,6 +303,37 @@ export default function BodyShapeDashboard() {
           </div>
         </div>
       </div>
+
+      {/* ── IMAGE LIGHTBOX MODAL ─────────────────────── */}
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/90 p-4 sm:p-8 backdrop-blur-sm transition-opacity"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <div className="relative flex h-full max-h-[90vh] w-full max-w-5xl items-center justify-center">
+            <Image
+              src={active.illustration}
+              alt={`${active.name} body shape illustration — enlarged view`}
+              fill
+              className="object-contain"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              priority
+            />
+            <button
+              className="absolute right-0 top-0 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition hover:bg-white/30 md:-right-4 md:-top-4"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxOpen(false);
+              }}
+              aria-label="Close"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

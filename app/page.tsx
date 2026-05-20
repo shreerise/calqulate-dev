@@ -788,6 +788,63 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── VISUAL GALLERY ───────────────────────────────────────────────── */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-10">
+              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+                Visual Guides
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Explore Health Visuals
+              </h2>
+              <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+                Body shapes, face shapes, BMI charts, and more — click any image to explore detailed guides.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+              {[
+                { title: "Body Shapes", href: "/gallery#pear-shape", image: "/images/body-shapes/pear-shape.png", color: "bg-rose-50" },
+                { title: "Face Shapes", href: "/gallery#face-shape-comparison", image: "/face-shape-comparison.jpg", color: "bg-blue-50" },
+                { title: "BMI Chart", href: "/gallery#bmi-chart", image: "/bmi-chart.jpeg", color: "bg-emerald-50" },
+                { title: "Sleep Guide", href: "/gallery#sleep-cycle", image: "/recommendation-sleep-cycle-by-age-infographic.png", color: "bg-violet-50" },
+              ].map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="group block rounded-2xl overflow-hidden bg-white ring-1 ring-gray-100 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
+                >
+                  <div className={`relative w-full aspect-[4/3] ${item.color}`}>
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                  <div className="p-3 text-center">
+                    <p className="text-sm font-bold text-gray-900 group-hover:text-emerald-700 transition-colors">
+                      {item.title}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <Link
+                href="/gallery"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-500 transition-colors"
+              >
+                View All Visual Guides
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* ── FINAL CTA STRIP ───────────────────────────────────────────────── */}
         <section className="py-16 bg-emerald-50 border-t border-emerald-100">
           <div className="container mx-auto px-4 text-center">

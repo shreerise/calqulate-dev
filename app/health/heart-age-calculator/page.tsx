@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -335,7 +336,7 @@ export default function HeartAgeCalculatorPage() {
 
                         {/* Image */}
                         <div className="mb-8 flex justify-center">
-                          <Image
+                          <ClickableImage
                             src="/heart-age-calculator.png"
                             alt="Heart health checklist illustration showing blood pressure, resting heart rate, non-smoking and active lifestyle"
                             width={800}

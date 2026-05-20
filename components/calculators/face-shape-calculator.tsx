@@ -1232,7 +1232,7 @@ const FaceShapeResultCard = ({
           <User className="w-4 h-4 text-primary" />
           Your Facial Proportions
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {Object.entries(result.faceAnalysis.proportions).map(([key, value]) => (
             <div key={key} className="text-center">
               <p className="text-xs text-muted-foreground capitalize">

@@ -6,6 +6,8 @@ import FemaleBodyShapesBlog from "@/components/blog/FemaleBodyShapesBlog";
 import BestDressesPearShapeBlog from "@/components/blog/BestDressesPearShapeBlog";
 import GenericBlogPlaceholder from "@/components/blog/GenericBlogPlaceholder";
 import RelatedBlogs from "@/components/blog/RelatedBlogs";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 interface Props {
   params: { slug: string };
@@ -51,9 +53,13 @@ export default function BlogSlugPage({ params }: Props) {
   };
 
   return (
-    <>
-      {renderContent()}
-      <RelatedBlogs blogs={related} />
-    </>
+    <div className="min-h-screen flex flex-col bg-white">
+      <Header />
+      <main className="flex-1">
+        {renderContent()}
+        <RelatedBlogs blogs={related} />
+      </main>
+      <Footer />
+    </div>
   );
 }

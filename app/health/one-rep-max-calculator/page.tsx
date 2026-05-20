@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -123,7 +124,7 @@ export default function OneRepMaxCalculatorPage() {
                     </p>
                   </div>
                   <div className="w-full md:w-1/3">
-                    <Image 
+                    <ClickableImage 
                       src="/squat-rack.avif" 
                       alt="Weightlifter preparing for a lift" 
                       width={400} 
@@ -218,7 +219,7 @@ export default function OneRepMaxCalculatorPage() {
               {/* Step by Step */}
               <section>
                 <div className="flex flex-col md:flex-row gap-12 items-center">
-                  <Image 
+                  <ClickableImage 
                     src="/squat-safety.avif" 
                     alt="Strength training session" 
                     width={400} 

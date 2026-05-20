@@ -374,6 +374,13 @@ export function Header() {
               Blog
             </Link>
             <Link
+              href="/gallery"
+              onClick={closeAll}
+              className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+            >
+              Gallery
+            </Link>
+            <Link
               href="/about-us"
               className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
             >
@@ -482,6 +489,7 @@ export function Header() {
           ))}
           <div className="border-t border-gray-100 px-4 py-3 flex gap-4">
             <Link href="/blog" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">Blog</Link>
+            <Link href="/gallery" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">Gallery</Link>
             <Link href="/about-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">About</Link>
           </div>
         </div>

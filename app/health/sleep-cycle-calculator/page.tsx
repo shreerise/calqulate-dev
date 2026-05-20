@@ -6,6 +6,7 @@ import SleepCycleCalculator from "@/components/calculators/sleep-cycle-calculato
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Moon,
@@ -442,7 +443,7 @@ export default function SleepCycleCalculatorPage() {
                 {/* Infographic Image */}
                 <div className="mb-6 flex justify-center">
                   <a href="/recommendation-sleep-cycle-by-age-infographic.png" target="_blank" rel="noopener noreferrer">
-                    <Image
+                    <ClickableImage
                       src="/recommendation-sleep-cycle-by-age-infographic.png"
                       alt="How Much Sleep Do I Need? Infographic showing recommended sleep hours by age group"
                       width={400}

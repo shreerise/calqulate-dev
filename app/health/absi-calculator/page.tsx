@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import ABSICalculator from "@/components/calculators/absi-calculator"
@@ -248,11 +249,11 @@ export default function ABSICalculatorPage() {
                 </div>
                 <div className="grid md:grid-cols-2 gap-8 my-6 not-prose">
                     <div className="p-4 border rounded-lg">
-                        <Image src="/absi-vs-bmi.png" alt="Illustration showing two people with the same BMI but different ABSI scores due to belly fat." width={300} height={300} className="mx-auto" />
+                        <ClickableImage src="/absi-vs-bmi.png" alt="Illustration showing two people with the same BMI but different ABSI scores due to belly fat." width={300} height={300} className="mx-auto" />
                         <p className="text-center text-sm mt-2 text-muted-foreground">Fig 1: Same BMI, Different Risk. Higher ABSI indicates greater health risk.</p>
                     </div>
                     <div className="p-4 border rounded-lg">
-                        <Image src="/visceral-fat.png" alt="Diagram showing dangerous visceral fat around organs versus subcutaneous fat." width={300} height={300} className="mx-auto" />
+                        <ClickableImage src="/visceral-fat.png" alt="Diagram showing dangerous visceral fat around organs versus subcutaneous fat." width={300} height={300} className="mx-auto" />
                         <p className="text-center text-sm mt-2 text-muted-foreground">Fig 2: ABSI helps estimate the risk from harmful visceral fat.</p>
                     </div>
                 </div>

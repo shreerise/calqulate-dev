@@ -29,7 +29,7 @@ export default function BodyShapeRatioChart() {
       <p className="mb-5 text-sm text-slate-500">
         Average bust, waist & hip measurements (in inches) across all 5 female body shapes.
       </p>
-      <div className="h-80 w-full">
+      <div className="h-64 sm:h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} barCategoryGap="20%">
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />

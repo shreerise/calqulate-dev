@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { blogs } from "@/lib/blog/blogs-data";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 export const metadata: Metadata = {
   title: "Calqulate Blog — Body Shape, Face Shape & Health Guides",
@@ -15,7 +17,9 @@ const categories = ["All", "Body Shape", "Face Shape"] as const;
 
 export default function BlogListingPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen flex flex-col bg-white">
+      <Header />
+      <main className="flex-1 bg-gradient-to-b from-slate-50 to-white">
       {/* ── Hero ────────────────────────────────────────── */}
       <section className="border-b border-slate-200 bg-white">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
@@ -94,6 +98,8 @@ export default function BlogListingPage() {
           ))}
         </div>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </div>
   );
 }

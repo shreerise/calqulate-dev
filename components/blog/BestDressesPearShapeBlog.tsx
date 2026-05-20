@@ -514,8 +514,8 @@ export default function BestDressesPearShapeBlog({ blog }: Props) {
                   styling choice has been made.
                 </p>
 
-                <div className="mt-8 overflow-hidden rounded-2xl ring-1 ring-slate-200">
-                  <table className="w-full text-sm">
+                <div className="mt-8 overflow-x-auto rounded-2xl ring-1 ring-slate-200">
+                  <table className="w-full text-sm min-w-[500px]">
                     <thead className="bg-slate-900 text-white">
                       <tr>
                         <th className="p-4 text-left">Neckline</th>
@@ -617,8 +617,8 @@ export default function BestDressesPearShapeBlog({ blog }: Props) {
             keeping the silhouette proportional.
           </p>
 
-          <div className="mt-8 overflow-hidden rounded-2xl ring-1 ring-slate-200">
-            <table className="w-full text-sm">
+          <div className="mt-8 overflow-x-auto rounded-2xl ring-1 ring-slate-200">
+            <table className="w-full text-sm min-w-[500px]">
               <thead className="bg-slate-900 text-white">
                 <tr>
                   <th className="p-4 text-left">Style</th>

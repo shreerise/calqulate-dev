@@ -6,6 +6,7 @@ import BMICalculator from "@/components/calculators/bmi-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { 
   Scale, 
@@ -141,7 +142,7 @@ export default function BMICalculatorPage() {
 
                 {/* BMI Illustration Image */}
                 <div className="mb-6 flex justify-center">
-                  <Image
+                  <ClickableImage
                     src="/bmi-chart.jpeg"
                     alt="BMI Chart Illustration showing weight categories"
                     width={900}

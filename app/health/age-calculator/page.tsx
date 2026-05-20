@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { ClickableImage } from "@/components/ui/image-lightbox"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
@@ -140,7 +141,7 @@ export default function AgeCalculatorPage() {
                           
                           {/* Image */}
                           <div className="mb-8 flex justify-center">
-                            <Image
+                            <ClickableImage
                               src="/age-calculator.png"
                               alt="Age calculator working process showing date comparison, year counting, month and day calculation with leap year adjustment"
                               width={700}

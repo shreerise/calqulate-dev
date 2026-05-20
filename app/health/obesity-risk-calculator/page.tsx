@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ClickableImage } from "@/components/ui/image-lightbox";
 import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -89,7 +90,7 @@ export default function ObesityRiskCalculatorPage() {
 
             {/* Hero Image */}
             <div className="mt-10 flex justify-center">
-              <Image
+              <ClickableImage
                 src="/obesity-risk-calculator.png"
                 alt="Obesity risk calculator chart showing BMI and waist to height ratio health risk levels"
                 width={950}

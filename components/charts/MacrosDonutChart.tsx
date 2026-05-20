@@ -25,7 +25,7 @@ export default function MacrosDonutChart({ protein, carbs, fats, shapeName }: Pr
       <p className="mb-3 text-sm text-slate-500">
         Tailored for {shapeName} body shape goals.
       </p>
-      <div className="h-64 w-full">
+      <div className="h-56 sm:h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie

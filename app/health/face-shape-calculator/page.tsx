@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ClickableImage } from "@/components/ui/image-lightbox";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import FaceShapeCalculator from "@/components/calculators/face-shape-calculator"; // Import the calculator component
@@ -370,7 +371,7 @@ export default function FaceShapeCalculatorPage() {
                 {/* Image with caption in the style you requested */}
 <div className="grid md:grid-cols-1 gap-8 my-8 not-prose">
   <div className="p-4 border rounded-xl shadow-sm bg-card flex flex-col items-center">
-    <Image 
+    <ClickableImage 
       src="/face-shape-comparison.jpg" 
       alt="Visual comparison of different face shapes showing oval, round, square, heart, diamond, and oblong shapes with their key characteristics." 
       width={600} 
@@ -389,11 +390,12 @@ export default function FaceShapeCalculatorPage() {
     <Card key={index} className="text-center w-full max-w-sm hover:shadow-md transition-shadow duration-200">
       <CardHeader className="flex flex-col items-center">
         <div className="relative w-32 h-32 mb-4 flex items-center justify-center">
-          <Image
+          <ClickableImage
             src={shape.image}
-            alt={shape.name}
+            alt={`${shape.name} face shape illustration`}
             fill
-            className="object-contain rounded-full"
+            containerClassName="rounded-full"
+            className="object-contain"
           />
         </div>
         <CardTitle className="text-xl font-semibold">{shape.name}</CardTitle>
