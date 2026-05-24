@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -1186,6 +1187,40 @@ const FaceShapeResultCard = ({
           className={`inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br ${shapeData.gradient} text-4xl`}
         >
           {shapeData.icon}
+        </div>
+        {/* Premium CTA: styling guide — prominent, editorial card */}
+        <div className="mt-6 flex justify-center">
+          <Link
+            href="/blog/find-your-face-shape"
+            className="relative w-full max-w-2xl"
+            aria-label="Discover styling guide for your face shape"
+          >
+            <div className="rounded-2xl p-[2px] bg-gradient-to-r from-pink-500 via-violet-600 to-indigo-600 animate-[pulse_6s_alternate]">
+              <div className="relative overflow-hidden rounded-xl bg-white dark:bg-slate-900 p-5 md:p-6 shadow-xl transform transition-all hover:scale-105 hover:-translate-y-1">
+                {/* Corner shine */}
+                <div className="pointer-events-none absolute -top-6 -right-10 w-28 h-28 bg-white/10 rounded-full blur-2xl opacity-60 transform rotate-45 animate-[pulse_3s_infinite]" />
+
+                <div className="flex items-center gap-4 md:gap-6">
+                  <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-amber-200 to-rose-200 flex items-center justify-center text-2xl md:text-3xl shadow-inner">
+                    ✨
+                  </div>
+
+                  <div className="flex-1">
+                    <p className="text-sm md:text-base text-muted-foreground">Styling Guide</p>
+                    <h3 className="text-lg md:text-2xl font-semibold leading-tight">Discover What Actually Suits Your Face Shape</h3>
+                    <p className="mt-1 text-xs md:text-sm text-muted-foreground">Curated haircuts, glasses & styling tips — handpicked for your result.</p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="hidden md:inline-block text-sm text-muted-foreground">See more</span>
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-primary to-primary/80 text-white shadow-lg transition-transform group-hover:translate-x-1">
+                      <ChevronRight className="w-5 h-5" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
         </div>
         <div>
           <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Your Face Shape</p>

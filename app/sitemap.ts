@@ -3,43 +3,49 @@ import fs from "fs";
 import path from "path";
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://calqulate.net"; // change to your domain
+const baseUrl = "https://calqulate.net";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const appDir = path.join(process.cwd(), "app");
-
   const urls: MetadataRoute.Sitemap = [];
 
   function scanDir(dir: string, parentPath = "") {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
-      if (
-        entry.isDirectory() &&
-        !entry.name.startsWith("_") && // ignore private dirs
-        !entry.name.startsWith("(") && // ignore group routes
-        !["api"].includes(entry.name) // ignore API routes
-      ) {
-        const currentPath = `${parentPath}/${entry.name}`;
-        const pageFile = path.join(dir, entry.name, "page.tsx");
+      if (!entry.isDirectory()) continue;
+      if (entry.name.startsWith("_")) continue;
+      if (entry.name.startsWith("@")) continue;
+      if (["api"].includes(entry.name)) continue;
 
-        // If directory has a page.tsx → it's a route
-        if (fs.existsSync(pageFile)) {
+      const isRouteGroup = entry.name.startsWith("(") && entry.name.endsWith(")");
+
+      // Route groups: traverse but don't add to URL path
+      const currentPath = isRouteGroup
+        ? parentPath
+        : `${parentPath}/${entry.name}`;
+
+      if (!isRouteGroup) {
+        const pageExists = ["page.tsx", "page.jsx", "page.ts", "page.js"].some(
+          (f) => fs.existsSync(path.join(dir, entry.name, f))
+        );
+
+        if (pageExists) {
           urls.push({
             url: `${baseUrl}${currentPath}`,
             lastModified: new Date(),
             changeFrequency: "weekly",
-            priority: 0.8,
+            priority: currentPath.split("/").length <= 2 ? 0.9 : 0.8,
           });
         }
-
-        // Recursively scan subdirectories
-        scanDir(path.join(dir, entry.name), currentPath);
       }
+
+      // Always recurse into every directory (including route groups)
+      scanDir(path.join(dir, entry.name), currentPath);
     }
   }
 
-  // Always include home page
+  // Home page
   urls.push({
     url: baseUrl,
     lastModified: new Date(),
@@ -47,7 +53,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1,
   });
 
-  // Scan the app directory
   scanDir(appDir);
 
   return urls;
