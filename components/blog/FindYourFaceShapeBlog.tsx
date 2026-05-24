@@ -2,11 +2,11 @@
 
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import type { Blog } from "@/lib/blog/blogs-data";
 import { faceShapeGuides, faqs } from "@/lib/blog/face-shape-data";
 import FaceShapeCalculator from "@/components/face-shape/FaceShapeCalculator";
 import FaceShapeLookbookPdfButton from "@/components/face-shape/FaceShapeLookbookPdfButton";
+import { ClickableImage } from "@/components/ui/image-lightbox";
 
 interface Props {
   blog: Blog;
@@ -98,7 +98,7 @@ export default function FindYourFaceShapeBlog({ blog }: Props) {
           </div>
 
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-slate-200">
-            <Image
+            <ClickableImage
               src={blog.featuredImage}
               alt={blog.title}
               fill
@@ -585,11 +585,12 @@ function FaceShapeBlock({
     >
       <div className="flex flex-col gap-6 md:flex-row">
         {/* Image side */}
-        <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-emerald-50 md:w-2/5">
-          <Image
+        <div className="md:w-2/5 self-start">
+          <ClickableImage
             src={`/blog/face-shape/shape-${guide.id}.jpg`}
             alt={`${guide.label} — illustration and styling guide`}
             fill
+            containerClassName="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-emerald-50"
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 320px"
           />

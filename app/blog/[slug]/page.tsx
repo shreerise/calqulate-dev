@@ -2,6 +2,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { blogs, getBlogBySlug, getRelatedBlogs } from "@/lib/blog/blogs-data";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import FemaleBodyShapesBlog from "@/components/blog/FemaleBodyShapesBlog";
 import BestDressesPearShapeBlog from "@/components/blog/BestDressesPearShapeBlog";
 import BestJeansBodyShapeBlog from "@/components/blog/BestJeansBodyShapeBlog";
@@ -69,9 +71,13 @@ export default function BlogSlugPage({ params }: Props) {
   };
 
   return (
-    <>
-      {renderContent()}
-      <RelatedBlogs blogs={related} />
-    </>
+    <div className="min-h-screen flex flex-col bg-white">
+      <Header />
+      <main className="flex-1">
+        {renderContent()}
+        <RelatedBlogs blogs={related} />
+      </main>
+      <Footer />
+    </div>
   );
 }
