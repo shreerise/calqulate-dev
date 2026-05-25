@@ -431,6 +431,33 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["ivf due date calculator", "ivf", "pregnancy due date", "embryo transfer", "fertility", "women's health"],
     keywords: ["ivf due date calculator","ivf pregnancy","embryo transfer date","egg retrieval date","fertility due date","women's health"]
+  },
+  {
+    id: "golden-ratio",
+    title: "Golden Ratio Face Calculator",
+    description: "Calculate your facial golden ratio to assess facial symmetry and aesthetics",
+    href: "/health/golden-ratio-face-calculator",
+    category: "Health",
+    tags: ["golden ratio calculator", "facial golden ratio", "facial symmetry", "aesthetics", "beauty"],
+    keywords: ["golden ratio calculator","facial golden ratio","symmetry assessment","aesthetic evaluation","beauty analysis"]
+  },
+  {
+    id: "face shape",
+    title: "Face Shape Calculator",
+    description: "Determine your face shape using measurements of forehead, cheekbones, and jawline",
+    href: "/health/face-shape-calculator",
+    category: "Health",
+    tags: ["face shape", "classification", "forehead", "cheekbones", "jawline"],
+    keywords: ["face shape calculator", "face classification", "forehead measurement", "cheekbone measurement", "jawline measurement"],
+  },
+  {
+    id: "glp-1-dose",
+    title: "GLP-1 Dose Calculator",
+    description: "Calculate the appropriate GLP-1 receptor agonist dose for weight loss or diabetes management",
+    href: "/health/glp-1-dose-calculator",
+    category: "Health",
+    tags: ["glp-1 dose calculator", "glp-1 receptor agonist", "weight loss", "diabetes management", "medication dosing"],
+    keywords: ["glp-1 dose calculator","glp-1 receptor agonist dosing","weight loss medication","diabetes management","medication dose estimation"]
   }
   
 ]

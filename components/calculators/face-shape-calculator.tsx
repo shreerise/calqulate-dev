@@ -809,6 +809,17 @@ const hairstyleDatabase: Record<FaceShape, Record<Gender, HairstyleRecommendatio
   }
 };
 
+const femaleFaceShapeImage: Record<FaceShape, string> = {
+  oval: "/blog/face-shape/shape-oval.jpg",
+  round: "/blog/face-shape/shape-round.jpg",
+  square: "/blog/face-shape/shape-square.jpg",
+  heart: "/blog/face-shape/shape-heart.jpg",
+  diamond: "/blog/face-shape/shape-diamond.jpg",
+  oblong: "/blog/face-shape/shape-oblong.jpg",
+  rectangle: "/blog/face-shape/shape-rectangle.jpg",
+  triangle: "/blog/face-shape/shape-triangle.jpg"
+};
+
 // --- 3D HAIRSTYLE VIEWER COMPONENT ---
 const HairstyleViewer3D = ({ 
   hairstyle, 
@@ -821,9 +832,31 @@ const HairstyleViewer3D = ({
   const [isAutoRotating, setIsAutoRotating] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
+  const [zoomSrc, setZoomSrc] = useState<string | null>(null);
+  const [zoomAlt, setZoomAlt] = useState<string>("");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const angles = ["Front", "Right", "Back", "Left"];
+
+  useEffect(() => {
+    if (!zoomSrc) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setZoomSrc(null);
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [zoomSrc]);
+
+  const openZoom = (src: string, alt: string) => {
+    setZoomSrc(src);
+    setZoomAlt(alt);
+  };
 
   // Auto-rotate effect
   useEffect(() => {
@@ -861,7 +894,7 @@ const HairstyleViewer3D = ({
       {/* 3D Viewer */}
       <div 
         ref={containerRef}
-        className="relative aspect-[4/5] bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing select-none"
+        className="relative w-full max-w-[280px] sm:max-w-[340px] md:max-w-[420px] mx-auto aspect-[7/10] min-h-[380px] sm:min-h-[460px] md:min-h-[540px] bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing select-none"
         onMouseDown={(e) => handleDragStart(e.clientX)}
         onMouseMove={(e) => handleDragMove(e.clientX)}
         onMouseUp={handleDragEnd}
@@ -882,22 +915,60 @@ const HairstyleViewer3D = ({
             {hairstyle.images.map((img, idx) => (
               <div
                 key={idx}
-                className="absolute inset-0 backface-hidden"
+                className="absolute inset-0 backface-hidden group"
                 style={{
                   transform: `rotateY(${idx * 90}deg) translateZ(150px)`,
                   backfaceVisibility: "hidden"
                 }}
               >
-                <img 
-                  src={img} 
-                  alt={`${hairstyle.name} - ${angles[idx]} view`}
-                  className="w-full h-full object-cover pointer-events-none"
-                  loading="lazy"
-                />
+                <div className="relative h-full w-full overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900">
+                  <img 
+                    src={img} 
+                    alt={`${hairstyle.name} - ${angles[idx]} view`}
+                    className="w-full h-full object-contain transition-transform duration-300 ease-out group-hover:scale-105 cursor-zoom-in"
+                    loading="lazy"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openZoom(img, `${hairstyle.name} - ${angles[idx]} view`);
+                    }}
+                  />
+                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="rounded-full bg-black/50 px-3 py-2 text-sm text-white flex items-center gap-2">
+                      <ImageIcon className="w-4 h-4" />
+                      Click to zoom
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
+
+        {zoomSrc && (
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/95 p-4 backdrop-blur-sm"
+            onClick={() => setZoomSrc(null)}
+          >
+            <div
+              className="relative mx-auto max-h-[90vh] w-full max-w-[90vw]"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setZoomSrc(null)}
+                className="absolute right-0 top-0 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition hover:bg-white/30 md:-right-4 md:-top-4"
+                aria-label="Close image preview"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <img
+                src={zoomSrc}
+                alt={zoomAlt}
+                className="mx-auto max-h-[90vh] max-w-[90vw] rounded-3xl object-contain shadow-2xl"
+              />
+            </div>
+          </div>
+        )}
 
         {/* Angle Indicator */}
         <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white px-4 py-1.5 rounded-full text-sm font-medium">
@@ -1177,7 +1248,13 @@ const FaceShapeResultCard = ({
   const [selectedHairstyle, setSelectedHairstyle] = useState(0);
   
   const genderKey = result.gender === "other" ? "female" : result.gender;
-  const recommendations = hairstyleDatabase[result.faceAnalysis.faceShape][genderKey] || [];
+  const baseRecommendations = hairstyleDatabase[result.faceAnalysis.faceShape][genderKey] || [];
+  const recommendations = genderKey === "female"
+    ? baseRecommendations.map((rec) => ({
+        ...rec,
+        images: [femaleFaceShapeImage[result.faceAnalysis.faceShape]]
+      }))
+    : baseRecommendations;
 
   return (
     <div className="space-y-8">
@@ -1314,7 +1391,11 @@ const FaceShapeResultCard = ({
 
       {/* Download Results Button */}
       <div className="flex justify-center pt-4">
-        <Button onClick={onDownload} size="lg" className="gap-2">
+        <Button
+          onClick={onDownload}
+          size="lg"
+          className="gap-2 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+        >
           <Download className="w-5 h-5" />
           Download Your Results
         </Button>
@@ -1430,116 +1511,154 @@ export default function FaceShapeCalculator() {
     }
   };
 
-  // Download results as image
+  const fetchImageDataUrl = async (src: string): Promise<string> => {
+    if (src.startsWith("data:")) return src;
+    const response = await fetch(src);
+    const blob = await response.blob();
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
+  const getImageType = (dataUrl: string) => {
+    if (dataUrl.startsWith("data:image/jpeg")) return "JPEG" as const;
+    if (dataUrl.startsWith("data:image/png")) return "PNG" as const;
+    if (dataUrl.startsWith("data:image/webp")) return "WEBP" as const;
+    return "PNG" as const;
+  };
+
+  // Download results as PDF
   const handleDownload = async () => {
     if (!result || !downloadRef.current) return;
 
     try {
-      // Create a canvas to combine the user's image with results
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
+      const { default: jsPDF } = await import("jspdf");
+      const doc = new jsPDF({ unit: "pt", format: "a4" });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 40;
+      let y = margin;
 
-      canvas.width = 1200;
-      canvas.height = 1600;
+      const genderKey = result.gender === "other" ? "female" : result.gender;
+      const recommendations = hairstyleDatabase[result.faceAnalysis.faceShape][genderKey] || [];
+      const leadingRecommendation = recommendations[0] || {
+        id: "default",
+        name: "Recommended Hairstyle",
+        description: "A hairstyle tailored to your face shape.",
+        suitability: "Perfect for your result",
+        images: [femaleFaceShapeImage[result.faceAnalysis.faceShape]],
+        tips: []
+      };
 
-      // Background
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const logoDataUrl = await fetchImageDataUrl("/logo.png");
+      const userPhotoType = getImageType(result.imageData);
+      const logoType = getImageType(logoDataUrl);
+      const hairstyleImageUrl = leadingRecommendation.images[0] || femaleFaceShapeImage[result.faceAnalysis.faceShape];
+      const hairstyleImageDataUrl = await fetchImageDataUrl(hairstyleImageUrl);
+      const hairstyleImageType = getImageType(hairstyleImageDataUrl);
 
       // Header
-      ctx.fillStyle = "#1e293b";
-      ctx.fillRect(0, 0, canvas.width, 80);
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "bold 32px system-ui";
-      ctx.textAlign = "center";
-      ctx.fillText("Face Shape Analysis Results", canvas.width / 2, 52);
+      doc.setFillColor(5, 150, 105);
+      doc.rect(0, 0, pageWidth, 90, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(22);
+      doc.text("Calqulate Face Shape Report", margin + 80, y + 30);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text("Download your personalized face shape result, hairstyle recommendation, and styling notes.", margin + 80, y + 50);
+      doc.addImage(logoDataUrl, logoType, margin, y, 60, 60);
 
-      // User's photo
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-        img.src = result.imageData;
-      });
+      y += 100;
 
-      const imgSize = 400;
-      const imgX = (canvas.width - imgSize) / 2;
-      ctx.drawImage(img, imgX, 100, imgSize, imgSize);
+      // Result summary
+      doc.setTextColor(15, 23, 42);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(18);
+      doc.text("Your Face Shape", margin, y);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(28);
+      doc.text(result.faceAnalysis.faceShape.toUpperCase(), margin, y + 30);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(11);
+      doc.text(`Confidence: ${(result.faceAnalysis.confidence * 100).toFixed(0)}%`, margin, y + 50);
 
-      // Face shape result
-      ctx.fillStyle = faceShapeData[result.faceAnalysis.faceShape].color;
-      ctx.font = "bold 48px system-ui";
-      ctx.textAlign = "center";
-      ctx.fillText(`${result.faceAnalysis.faceShape.toUpperCase()} FACE`, canvas.width / 2, 560);
+      const userImageSize = 130;
+      doc.addImage(result.imageData, userPhotoType, pageWidth - margin - userImageSize, y - 10, userImageSize, userImageSize);
+      y += 90;
 
-      // Confidence
-      ctx.fillStyle = "#64748b";
-      ctx.font = "20px system-ui";
-      ctx.fillText(`Confidence: ${(result.faceAnalysis.confidence * 100).toFixed(0)}%`, canvas.width / 2, 600);
-
-      // Description
-      ctx.fillStyle = "#334155";
-      ctx.font = "18px system-ui";
-      const description = faceShapeData[result.faceAnalysis.faceShape].description;
-      const words = description.split(" ");
-      let line = "";
-      let y = 660;
-      const maxWidth = 900;
-
-      for (const word of words) {
-        const testLine = line + word + " ";
-        const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxWidth && line !== "") {
-          ctx.fillText(line.trim(), canvas.width / 2, y);
-          line = word + " ";
-          y += 28;
-        } else {
-          line = testLine;
-        }
-      }
-      ctx.fillText(line.trim(), canvas.width / 2, y);
+      const descriptionLines = doc.splitTextToSize(faceShapeData[result.faceAnalysis.faceShape].description, pageWidth - margin * 2);
+      doc.setFontSize(11);
+      doc.setTextColor(71, 85, 105);
+      doc.text(descriptionLines, margin, y);
+      y += descriptionLines.length * 14 + 20;
 
       // Characteristics
-      y += 60;
-      ctx.fillStyle = "#1e293b";
-      ctx.font = "bold 24px system-ui";
-      ctx.fillText("Key Characteristics", canvas.width / 2, y);
-      
-      y += 40;
-      ctx.font = "18px system-ui";
-      ctx.fillStyle = "#475569";
-      faceShapeData[result.faceAnalysis.faceShape].characteristics.forEach((char, idx) => {
-        ctx.fillText(`• ${char}`, canvas.width / 2, y + idx * 30);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.setTextColor(15, 23, 42);
+      doc.text("Key Characteristics", margin, y);
+      y += 18;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(11);
+      faceShapeData[result.faceAnalysis.faceShape].characteristics.forEach((char) => {
+        const lines = doc.splitTextToSize(`• ${char}`, pageWidth - margin * 2);
+        doc.text(lines, margin, y);
+        y += lines.length * 14;
       });
+      y += 10;
 
-      // Hairstyle recommendations
-      y += 180;
-      ctx.fillStyle = "#1e293b";
-      ctx.font = "bold 24px system-ui";
-      ctx.fillText("Recommended Hairstyles", canvas.width / 2, y);
+      // Hairstyle recommendation section
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.setTextColor(5, 150, 105);
+      doc.text("Hairstyle Recommendation", margin, y);
+      y += 22;
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.setTextColor(15, 23, 42);
+      doc.text(leadingRecommendation.name, margin, y);
+      y += 18;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(11);
+      doc.setTextColor(71, 85, 105);
+      doc.text(leadingRecommendation.suitability, margin, y);
+      y += 16;
 
-      y += 40;
-      ctx.font = "18px system-ui";
-      ctx.fillStyle = "#475569";
-      const genderKey = result.gender === "other" ? "female" : result.gender;
-      const recommendations = hairstyleDatabase[result.faceAnalysis.faceShape][genderKey];
-      recommendations?.slice(0, 3).forEach((rec, idx) => {
-        ctx.fillText(`${idx + 1}. ${rec.name}`, canvas.width / 2, y + idx * 30);
+      const hairstyleImageHeight = 170;
+      if (hairstyleImageDataUrl) {
+        const imageWidth = pageWidth - margin * 2;
+        const imageHeight = hairstyleImageHeight;
+        doc.addImage(hairstyleImageDataUrl, hairstyleImageType, margin, y, imageWidth, imageHeight);
+      }
+      y += hairstyleImageHeight + 14;
+
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "bold");
+      doc.text("Styling Tips", margin, y);
+      y += 18;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(11);
+      leadingRecommendation.tips.slice(0, 4).forEach((tip) => {
+        const lines = doc.splitTextToSize(`• ${tip}`, pageWidth - margin * 2);
+        doc.text(lines, margin, y);
+        y += lines.length * 14;
       });
 
       // Footer
-      ctx.fillStyle = "#94a3b8";
-      ctx.font = "14px system-ui";
-      ctx.fillText("Generated by AI Face Shape Calculator", canvas.width / 2, canvas.height - 30);
+      if (y + 60 > pageHeight) {
+        doc.addPage();
+        y = margin;
+      }
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(9);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Generated by Calqulate • ${new Date().toLocaleDateString()}`, margin, pageHeight - 40);
 
-      // Download
-      const link = document.createElement("a");
-      link.download = `face-shape-analysis-${Date.now()}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-
+      doc.save(`calqulate-face-shape-result-${Date.now()}.pdf`);
     } catch (err) {
       console.error("Download error:", err);
       setError("Failed to download results. Please try again.");

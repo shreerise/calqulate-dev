@@ -385,7 +385,7 @@ export default function FemaleBodyShapesBlog({ blog }: Props) {
               src={blog.featuredImage}
               alt={blog.title}
               fill
-              className="object-cover"
+              className="object-contain"
               sizes="(max-width: 768px) 100vw, 600px"
               priority
             />

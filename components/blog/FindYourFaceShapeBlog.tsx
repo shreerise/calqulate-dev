@@ -102,7 +102,7 @@ export default function FindYourFaceShapeBlog({ blog }: Props) {
               src={blog.featuredImage}
               alt={blog.title}
               fill
-              className="object-cover"
+              className="object-contain"
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
@@ -591,7 +591,7 @@ function FaceShapeBlock({
             alt={`${guide.label} — illustration and styling guide`}
             fill
             containerClassName="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-emerald-50"
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 320px"
           />
         </div>

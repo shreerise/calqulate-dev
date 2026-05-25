@@ -23,7 +23,7 @@ export default function RelatedBlogs({ blogs }: { blogs: Blog[] }) {
                   src={b.featuredImage}
                   alt={b.title}
                   fill
-                  className="object-cover transition group-hover:scale-105"
+                  className="object-contain transition group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>

@@ -69,7 +69,7 @@ export default function BlogListingPage() {
                   src={blog.featuredImage}
                   alt={blog.title}
                   fill
-                  className="object-cover transition duration-500 group-hover:scale-105"
+                  className="object-contain transition duration-500 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 {/* Category badge */}

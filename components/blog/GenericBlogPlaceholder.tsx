@@ -20,7 +20,7 @@ export default function GenericBlogPlaceholder({ blog }: { blog: Blog }) {
           alt={blog.title}
           fill
           containerClassName="relative aspect-[16/9] overflow-hidden rounded-2xl bg-slate-100"
-          className="object-cover"
+          className="object-contain"
           sizes="(max-width: 768px) 100vw, 768px"
           priority
         />
