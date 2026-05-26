@@ -28,131 +28,147 @@ import Link from "next/link"
 const calculators = [
   {
     title: "BMI Calculator",
-    description: "Calculate your Body Mass Index to assess if you're underweight, healthy, overweight, or obese — and get personalized next steps.",
+    description: "Standard weight scales don't tell the whole story. Decode what your numbers actually mean for your health and get a realistic, shame-free action plan.",
     icon: <Scale className="h-5 w-5" />,
     href: "/health/bmi-calculator",
     category: "Body Composition",
     badge: "Most Popular",
+    cta: "Check My BMI",
   },
   {
     title: "Body Shape Calculator",
-    description: "Discover your unique body shape — apple, pear, hourglass, or rectangle — and get tailored fitness and styling recommendations.",
+    description: "Tired of clothes that fit on the hanger but look off on you? Discover your exact frame shape to unlock flattering styling choices that match your natural proportions.",
     icon: <Activity className="h-5 w-5" />,
     href: "/health/body-shape-calculator",
     category: "Body Composition",
     badge: "Trending",
+    cta: "Find My Body Shape",
   },
   {
     title: "Face Shape Detector",
-    description: "Identify your face shape using precise measurements and unlock personalized hairstyle, glasses, and makeup guidance.",
+    description: "Stop wasting money on haircuts or glasses that don't suit you. Instantly identify your facial structure so you can make style choices that naturally flatter your look.",
     icon: <Sparkles className="h-5 w-5" />,
     href: "/health/face-shape-calculator",
     category: "Appearance",
     badge: "Trending",
+    cta: "Detect My Face Shape",
   },
   {
     title: "Body Fat Percentage Calculator",
-    description: "Measure your body composition with the U.S. Navy method — go beyond weight and understand what's actually inside.",
+    description: "Scale weight doesn't show your hard-earned muscle, which leads to needless frustration. Estimate your body composition using the trusted US Navy method to see real progress.",
     icon: <Calculator className="h-5 w-5" />,
     href: "/health/body-fat-calculator",
     category: "Body Composition",
     badge: null,
+    cta: "Check My Fat",
   },
   {
     title: "TDEE Calculator",
-    description: "Calculate your Total Daily Energy Expenditure and get a precise calorie target matched to your actual activity level.",
+    description: "Eating healthy but still not seeing results? Find the exact baseline calories your body burns daily so you can stop guessing and start eating with purpose.",
     icon: <Zap className="h-5 w-5" />,
     href: "/health/tdee-calculator",
     category: "Nutrition",
     badge: null,
+    cta: "Find My Baseline",
   },
   {
     title: "Ideal Body Weight Calculator",
-    description: "Find your ideal weight using multiple clinical formulas — Devine, Hamwi, Robinson — so you know exactly what to aim for.",
+    description: "Generic height-weight charts often set unrealistic, discouraging targets. Calculate a personalized, clinically backed weight range based on your unique body frame.",
     icon: <TrendingUp className="h-5 w-5" />,
     href: "/health/ideal-body-weight-calculator",
     category: "Body Composition",
     badge: null,
+    cta: "Get My Range for ideal body weight",
   },
   {
     title: "Heart Rate Calculator",
-    description: "Estimate your max and target heart rate zones so every workout is in the right intensity range for your fitness goal.",
+    description: "Exhausting yourself during workouts without seeing fat loss? Identify your target cardio zones so you can build stamina without burning yourself out.",
     icon: <Heart className="h-5 w-5" />,
     href: "/health/heart-rate-calculator",
     category: "Cardio Health",
     badge: null,
+    cta: "Check Heart Zone",
   },
   {
     title: "Calorie Deficit Calculator",
-    description: "Find the precise calorie deficit needed for your weight loss timeline — no guesswork, just a clear, sustainable plan.",
+    description: "Restrictive dieting usually leads to crashes and intense cravings. Calculate a safe, sustainable deficit tailored to your lifestyle so you can lose weight without starving.",
     icon: <Calculator className="h-5 w-5" />,
     href: "/health/calorie-deficit-calculator",
     category: "Nutrition",
     badge: null,
+    cta: "Find My Deficit",
   },
   {
     title: "Sleep Cycle Calculator",
-    description: "Calculate optimal bedtime and wake-up times based on your sleep cycles so you wake up refreshed — not groggy.",
+    description: "Sleeping for eight hours but still waking up exhausted? Time your bedtime with your natural sleep cycles so you can wake up feeling clear-headed and energized.",
     icon: <Brain className="h-5 w-5" />,
     href: "/health/sleep-cycle-calculator",
     category: "Mental Wellness",
     badge: null,
+    cta: "Fix My Sleep cycle",
   },
   {
     title: "Blood Pressure Calculator",
-    description: "Understand your blood pressure readings with clinical categories and actionable guidance on what to do next.",
+    description: "High numbers at the doctor's office can cause unnecessary anxiety. Safely decode your readings into clear terms and learn simple daily steps to protect your heart.",
     icon: <Activity className="h-5 w-5" />,
     href: "/health/blood-pressure-calculator",
     category: "Cardio Health",
     badge: null,
+    cta: "Is My BP High?",
   },
   {
     title: "Macro Calculator",
-    description: "Determine your ideal protein, carb, and fat breakdown tailored to your body, goals, and preferred eating style.",
+    description: "Tracking calories but constantly feeling hungry or sluggish? Find the right daily balance of proteins, carbs, and fats to keep you full while preserving lean muscle.",
     icon: <Zap className="h-5 w-5" />,
     href: "/health/macro-calculator",
     category: "Nutrition",
     badge: null,
+    cta: "Get My Macros",
   },
   {
     title: "Diabetes Risk Calculator",
-    description: "Assess your risk of developing Type 2 Diabetes using clinical guidelines and understand which factors to address first.",
+    description: "Silent risk factors can be hard to spot on your own. Take a clinical assessment to understand your personal risk levels and discover practical steps to protect your long-term health.",
     icon: <Shield className="h-5 w-5" />,
     href: "/health/diabetes-risk-calculator",
     category: "Disease Risk",
     badge: null,
+    cta: "Diabetes Risk Scan",
   },
   {
     title: "Golden Ratio Face Calculator",
-    description: "Measure your facial proportions to see how closely they align with the Golden Ratio — and get personalized beauty insights.",
+    description: "Ever wonder why your face looks different in photos than in the mirror? Discover your structural symmetry using the classic Golden Ratio to highlight your natural balance.",
     icon: <Sparkles className="h-5 w-5" />,
     href: "/health/golden-ratio-face-calculator",
     category: "Appearance",
     badge: null,
+    cta: "Measure My Face Symmetry",
   },
   {
     title: "Waist-to-Height Ratio Calculator",
-    description: "Calculate your waist-to-height ratio to assess central obesity risk and get targeted lifestyle recommendations.",
+    description: "Standard weight doesn't account for midsection fat, which is often a hidden indicator of cardiovascular strain. Find out if your waistline falls within a healthy, safe range.",
     icon: <Scale className="h-5 w-5" />,
     href: "/health/waist-to-height-ratio-calculator",
     category: "Body Composition",
     badge: null,
+    cta: "Check Belly Fat",
   },
   {
     title: "Weight loss percentage Calculator",
-    description: "Calculate the percentage of weight you've lost towards your goal and get personalized tips to keep you motivated.",
+    description: "When progress feels slow, focusing only on the scale can kill your motivation. Shift your focus to your total progress percentage to celebrate how far you’ve actually come.",
     icon: <TrendingUp className="h-5 w-5" />,
     href: "/health/weight-loss-percentage-calculator",
     category: "Body Composition",
     badge: null,
+    cta: "Weight Loss % Check",
   },
   {
     title: "GLP-1 Dose Calculator",
-    description: "Calculate the optimal GLP-1 medication dose for weight loss based on your current weight and target goals.",
+    description: "Navigating weight loss medications like Ozempic or Wegovy can feel overwhelming. Map out your typical dosing schedule to better understand your titration plan and manage side effects safely.",
     icon: <Wrench className="h-5 w-5" />,
     href: "/health/glp-1-dose-calculator",
     category: "Disease Risk",
     badge: null,
+    cta: "GLP-1 Dose Check",
   }
 ]
 
@@ -377,15 +393,12 @@ export default function HomePage() {
                 </div>
 
                             <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
-                The health dashboard{" "}
-                <span className="text-emerald-400 block lg:inline">
-                  your doctor doesn't have time to give you.
-                </span>
-              </h1>
+                  Decode your body. Define your look. Own your health.
+                </h1>
 
                 <p className="text-lg text-emerald-100/80 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                  Calqulate goes beyond raw numbers. Calculate your BMI, body fat, heart health, sleep cycles, and
-                  50+ more health metrics — then get clear, actionable guidance tailored to your results.
+                  From tracking your cardiovascular vitals to mapping your physical and facial proportions,
+                  Calqulate.net gives you the personalized data you need to live and look your best.
                 </p>
 
                 {/* Hero Search */}
@@ -676,7 +689,7 @@ export default function HomePage() {
                     </p>
 
                     <div className="flex items-center text-sm font-semibold text-emerald-600 group-hover:text-emerald-500">
-                      Calculate Now
+                      {calculator.cta ?? "Calculate Now"}
                       <ArrowRight className="ml-1.5 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
