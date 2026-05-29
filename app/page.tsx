@@ -224,6 +224,7 @@ const allCalculators = [
   { href: "/health/golden-ratio-face-calculator", title: "Golden Ratio Face Calculator", category: "Appearance" },
   { href: "/health/weight-loss-percentage-calculator", title: "Weight Loss Percentage Calculator", category: "Body Composition" },
   { href: "/health/glp-1-dose-calculator", title: "GLP-1 Dose Calculator", category: "Disease Risk" },
+  { href: "/health/dress-size-calculator", title: "Dress Size Calculator", category: "Appearance" },
 ]
 
 // ─── Category Groups ─────────────────────────────────────────────────────────

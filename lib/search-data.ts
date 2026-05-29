@@ -458,6 +458,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["glp-1 dose calculator", "glp-1 receptor agonist", "weight loss", "diabetes management", "medication dosing"],
     keywords: ["glp-1 dose calculator","glp-1 receptor agonist dosing","weight loss medication","diabetes management","medication dose estimation"]
+  },
+  {
+    id: "dress-size",
+    title: "Dress Size Calculator",
+    description: "Calculate your dress size based on your body measurements and find the best fit for your shape",  
+    href: "/health/dress-size-calculator",
+    category: "Health",
+    tags: ["dress size calculator", "dress size", "body measurements", "clothing fit", "fashion"],
+    keywords: ["dress size calculator","clothing size estimation","body measurements","fashion fit","style advice"]  
   }
   
 ]
