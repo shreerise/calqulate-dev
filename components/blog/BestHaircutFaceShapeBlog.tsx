@@ -14,6 +14,24 @@ export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [activeStep, setActiveStep] = useState<number>(1);
 
+  const haircutImageByShape: Record<string, string> = {
+    round: "/images/haircuts/round-women-1.jpg",
+    oval: "/images/haircuts/oval-women-1.jpg",
+    square: "/images/haircuts/square-women-1.jpg",
+    heart: "/images/haircuts/heart-women-1.jpg",
+    diamond: "/images/haircuts/diamond-women-1.jpg",
+    oblong: "/images/haircuts/oblong-women-1.jpg",
+  };
+
+  const menHaircutImageByShape: Record<string, string> = {
+    round: "/images/haircuts/round-men-1.jpg",
+    oval: "/images/haircuts/oval-men-1.jpg",
+    square: "/images/haircuts/square-men-1.jpg",
+    heart: "/images/haircuts/heart-men-1.jpg",
+    diamond: "/images/haircuts/diamond-men-1.jpg",
+    oblong: "/images/haircuts/oblong-men-1.jpg",
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 antialiased selection:bg-emerald-200 selection:text-emerald-900">
       
@@ -445,7 +463,7 @@ export default function App() {
                         gender="women"
                         headline={guide.women.headline}
                         pureGraphic={true}
-                        images={["/images/blogs/hairstyles-for-your-face.png"]}
+                        images={[haircutImageByShape[guide.id]]}
                       />
                       <div className="rounded-2xl border border-slate-200 bg-white p-4">
                         <span className="inline-flex rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-bold text-pink-700">
@@ -494,7 +512,7 @@ export default function App() {
                         gender="men"
                         headline={guide.men.headline}
                         pureGraphic={true}
-                        images={["/images/blogs/hairstyles-for-your-face.png"]}
+                        images={[menHaircutImageByShape[guide.id]]}
                       />
                       <div className="rounded-2xl border border-slate-200 bg-white p-4">
                         <span className="inline-flex rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-700">
@@ -578,7 +596,7 @@ export default function App() {
                             gender="women"
                             headline={guide.women.headline}
                             pureGraphic={true}
-                            images={["/images/blogs/hairstyles-for-your-face.png"]}
+                            images={[haircutImageByShape[guide.id]]}
                           />
 
                           {/* Male Illustration */}
@@ -587,7 +605,7 @@ export default function App() {
                             gender="men"
                             headline={guide.men.headline}
                             pureGraphic={true}
-                            images={["/images/blogs/hairstyles-for-your-face.png"]}
+                            images={[menHaircutImageByShape[guide.id]]}
                           />
                         </div>
                       </div>
