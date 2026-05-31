@@ -225,22 +225,41 @@ export default function FaceShapeCalculatorPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-                AI Face Shape Calculator
-              </h1>
-              <p className="text-lg text-muted-foreground text-pretty">
-                Your face tells a story, and understanding its shape helps in picking up the perfect hairstyle, glasses, or even the right makeup look.
-                Our AI Face Shape Calculator helps you calculate your face shape instantly using advanced AI detection or manual measurement, while keeping your <b>privacy 100% secure</b>.
-              </p>
-            </div>
+            <div>
+              <div className="text-center mb-8">
+                <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+                  AI Face Shape Calculator
+                </h1>
+                <p className="text-lg text-muted-foreground text-pretty">
+                  Your face tells a story, and understanding its shape helps in picking up the perfect hairstyle, glasses, or even the right makeup look.
+                  Our AI Face Shape Calculator helps you calculate your face shape instantly using advanced AI detection or manual measurement, while keeping your <b>privacy 100% secure</b>.
+                </p>
+              </div>
+              </div>
 
             {/* --- CALCULATOR COMPONENT INSERTED HERE --- */}
             <FaceShapeCalculator />
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
               
-              <section>
+              <section id="why-face-shape">
+                <h2 className="mb-2"><b>Why People Want to Know Their Face Shape?</b></h2>
+                <p>Most users are not searching for face shapes just for fun. They want the right hairstyle, glasses, makeup, and accessories that fit their unique face best - without wasting money on the wrong choices.</p>
+                <p>On calculate.net, we know the goal is clear: help you identify your face shape quickly and then give you the best guidance for looks that suit you.</p>
+                <p>Our intelligent detection is built to analyze hundreds of facial points and measurements so the result is based on real facial structure, not guesswork.</p>
+                <div className="bg-muted p-4 rounded-lg mt-6">
+                  <p className="font-semibold">How our approach works:</p>
+                  <ul className="list-disc pl-5 mt-3 space-y-2 text-sm text-muted-foreground">
+                    <li>We detect and evaluate up to <strong>470 facial points</strong> for a detailed shape profile.</li>
+                    <li>We measure your forehead, cheekbones, jawline, chin, and face length to compare the best matching shape.</li>
+                    <li>Our AI then decides your shape based on facial ratios and feature balance - not just a single measurement.</li>
+                    <li>We also explain that no face shape calculator can be 100% perfect, because results depend on photo angle, lighting, and individual facial variation.</li>
+                  </ul>
+                </div>
+                <p className="mt-6">After detection, our blog helps you take the next step with personalized advice for <Link href="/blog/best-haircut-for-your-face-shape" className="text-primary hover:underline">hairstyles</Link>, glasses, <Link href="/blog/find-your-face-shape" className="text-primary hover:underline">face shape styling</Link>, quiz-based discovery, and visual guidance through our <Link href="/blog" className="text-primary hover:underline">blog</Link> so you can look your best.</p>
+              </section>
+
+              <section id="why-use">
                 <h2 className="mb-2"><b>Why Use Our Face Shape Calculator?</b></h2>
                 <p>No two faces are the same, and neither should your styling choices be. Intelligent facial mapping applied to our Face Shape Detector AI identifies your face type and unlocks personalized style suggestions that really work for you.</p><br></br>
                 <p className="text-center font-semibold mb-8">Here's what makes our tool special:</p>
@@ -303,7 +322,7 @@ export default function FaceShapeCalculatorPage() {
                 </div>
               </section>
 
-              <section>
+              <section id="how-to-use">
                 <h2 className="mb-2"><b>How to Use the Calculator: AI vs. Manual</b></h2>
                 <p>You can determine your face shape in two easy ways. Use the AI for speed and convenience, or the manual mode for complete privacy if you prefer not to upload a photo.</p>
                 <div className="grid md:grid-cols-2 gap-8 not-prose mt-6">
@@ -332,7 +351,7 @@ export default function FaceShapeCalculatorPage() {
                 </div>
               </section>
               
-              <section>
+              <section id="photo-guide">
                 <h2 className="text-2xl font-semibold mb-2">How to Take or Upload the Perfect Photo for Accurate Results</h2>
                 <p className="mb-6">For the most accurate result with our face shape detector AI, ensure that your photo follows these simple guidelines. A clear and well-framed image allows the AI to identify your correct facial landmarks.</p>
                 <div className="grid md:grid-cols-2 gap-8">
@@ -364,7 +383,7 @@ export default function FaceShapeCalculatorPage() {
               </section>
 
               {/* NEW FACE SHAPE IMAGES SECTION */}
-              <section>
+              <section id="face-shape-guide">
                 <h2 className="mb-2"><b>Face Shape Female Guide: Find Yours in 30 Seconds (With Pictures)</b></h2>
                 <p className="mb-6">Understanding the different face shapes is easier when you can see visual examples. Here's a comprehensive guide to help you identify the main face shape categories:</p>
                 
@@ -428,7 +447,7 @@ export default function FaceShapeCalculatorPage() {
                 </div>
               </section>
               
-              <section>
+              <section id="shape-types">
                 <h2 className="mb-2"><b>The Main Types of Face Shapes Explained</b></h2>
                 <p>Our tool analyzes your features to classify your face into one of the common shapes. Each one has its own unique characteristics and styling considerations.</p>
                 <div className="overflow-x-auto mt-4">
@@ -446,7 +465,7 @@ export default function FaceShapeCalculatorPage() {
                 </div>
               </section>
 
-              <section>
+              <section id="why-matters">
                 <h2 className="mb-2"><b>Why Knowing Your Face Shape Matters</b></h2>
                 <p>Understanding your face shape is the first step to making informed style choices that enhance your natural features. It empowers you to select flattering haircuts, glasses, and makeup techniques that create balance and highlight your best attributes.</p><br></br>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 not-prose">
@@ -490,7 +509,7 @@ export default function FaceShapeCalculatorPage() {
               </section>
 
               {/* How the AI Works */}
-              <section>
+              <section id="how-ai-works">
                 <Card className="not-prose">
                   <CardHeader>
                     <CardTitle>Step-by-Step: How the AI Face Shape Detector Works</CardTitle>
@@ -515,9 +534,9 @@ export default function FaceShapeCalculatorPage() {
             <AuthorSection />
             <p className="text-sm text-muted-foreground text-center mt-12">
               Curious about other health metrics? Check out our{" "}
-              <Link href="/health/absi-calculator" className="text-primary hover:underline">
-                ABSI Calculator
-              </Link> to understand your body shape risk.
+              <Link href="/health/golden-ratio-face-calculator" className="text-primary hover:underline">
+                Golden Ratio Face Calculator
+              </Link> to understand your facial proportions.
             </p>
           </div>
         </div>
