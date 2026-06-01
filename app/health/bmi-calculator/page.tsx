@@ -8,6 +8,8 @@ import { FAQSection } from "@/components/seo/faq-section"
 import Image from "next/image"
 import { ClickableImage } from "@/components/ui/image-lightbox"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
+import { AdUnit } from "@/components/ads/ad-unit"
+import { NATIVE_AD } from "@/components/ads/ad-codes"
 import { 
   Scale, 
   Info, 
@@ -92,6 +94,11 @@ export default function BMICalculatorPage() {
 
             {/* Calculator Component */}
             <BMICalculator />
+
+            {/* Native Ad - between calculator and content */}
+            <div className="mt-10">
+              <AdUnit html={NATIVE_AD} />
+            </div>
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">
               
