@@ -52,6 +52,9 @@ export default function RootLayout({
 
         {/* Google AdSense Verification */}
         <meta name="google-adsense-account" content="ca-pub-4361792190799561" />
+
+        {/* Adsterra Popunder */}
+        <script src="https://pl29609476.effectivecpmnetwork.com/d9/5a/8c/d95a8c5cbcf03eb5ba9f34f90fd5ccdf.js"></script>
       </head>
 
       <body
