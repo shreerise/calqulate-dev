@@ -2,7 +2,6 @@ import type React from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { Analytics } from "@vercel/analytics/next";
 import { OrganizationSchema } from "@/components/seo/structured-data";
 import "./globals.css";
 import { Suspense } from "react";
@@ -76,8 +75,6 @@ export default function RootLayout({
 
         <CalculatorPopup />
         
-        <Analytics />
-
         <CookieConsentProvider />
 
         {/* 320x50 Mobile Sticky Banner - visible only on small screens */}
