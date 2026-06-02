@@ -2,7 +2,6 @@ import type React from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { Analytics } from "@vercel/analytics/next";
 import { OrganizationSchema } from "@/components/seo/structured-data";
 import "./globals.css";
 import { Suspense } from "react";
@@ -13,6 +12,7 @@ import { AdUnit } from "@/components/ads/ad-unit";
 import { NATIVE_AD, BANNER_320x50, BANNER_720x90 } from "@/components/ads/ad-codes";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://calqulate.net"),
   title: "Calqulate - Professional Health Calculators",
   description:
     "Calculate your health metrics instantly with Calqulate.net — your trusted hub for accurate BMI, body fat, calorie, and ideal weight calculators.",
@@ -75,8 +75,6 @@ export default function RootLayout({
 
         <CalculatorPopup />
         
-        <Analytics />
-
         <CookieConsentProvider />
 
         {/* 320x50 Mobile Sticky Banner - visible only on small screens */}
