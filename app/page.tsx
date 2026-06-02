@@ -171,6 +171,24 @@ const calculators = [
     category: "Disease Risk",
     badge: null,
     cta: "GLP-1 Dose Check",
+  },
+  {
+    title: "Dress Size Calculator",
+    description: "Tired of inconsistent sizing across brands? Get a personalized dress size recommendation based on your unique body measurements to make online shopping less of a gamble.",
+    icon: <Sparkles className="h-5 w-5" />,
+    href: "/health/dress-size-calculator",
+    category: "Appearance",
+    badge: null,
+    cta: "Find My Dress Size",
+  },
+  {
+    title: "Ai Attractiveness Test",
+    description: "Discover your unique facial features and learn what makes you attractive to others.",
+    icon: <Sparkles className="h-5 w-5" />,
+    href: "/health/ai-attractiveness-test",
+    category: "Appearance",
+    badge: null,
+    cta: "Take the AI Attractiveness Test",
   }
 ]
 
@@ -227,6 +245,7 @@ const allCalculators = [
   { href: "/health/weight-loss-percentage-calculator", title: "Weight Loss Percentage Calculator", category: "Body Composition" },
   { href: "/health/glp-1-dose-calculator", title: "GLP-1 Dose Calculator", category: "Disease Risk" },
   { href: "/health/dress-size-calculator", title: "Dress Size Calculator", category: "Appearance" },
+  { href: "/health/ai-attractiveness-test", title: "AI Attractiveness Test", category: "Appearance" },
 ]
 
 // ─── Category Groups ─────────────────────────────────────────────────────────

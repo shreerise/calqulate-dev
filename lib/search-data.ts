@@ -467,6 +467,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["dress size calculator", "dress size", "body measurements", "clothing fit", "fashion"],
     keywords: ["dress size calculator","clothing size estimation","body measurements","fashion fit","style advice"]  
+  },
+  {
+    id: "ai-attractiveness-test",
+    title: "AI Attractiveness Test",
+    description: "Upload your photo and get an AI-generated attractiveness score along with personalized beauty tips",
+    href: "/health/ai-attractiveness-test",
+    category: "Health",
+    tags: ["ai attractiveness test", "attractiveness score", "beauty tips", "photo analysis", "aesthetics"],
+    keywords: ["ai attractiveness test","attractiveness score","beauty analysis","photo evaluation","aesthetic assessment"]
   }
   
 ]

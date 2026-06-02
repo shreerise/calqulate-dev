@@ -122,6 +122,26 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Make all headings bold and add one line of vertical space above/below.
+     Also target headings inside the Tailwind Typography `.prose` class which
+     has its own specificity. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
 @layer utilities {
