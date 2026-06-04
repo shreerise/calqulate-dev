@@ -149,12 +149,9 @@ function JsonLd({ data }: { data: object }) {
 }
 
 const RELATED_TOOLS = [
-  { label: "Face Shape Detector", href: "/tools/face-shape-detector" },
-  { label: "Golden Ratio Calculator", href: "/tools/golden-ratio-face-calculator" },
-  { label: "Face Symmetry Test", href: "/tools/face-symmetry-test" },
-  { label: "Hairstyle Finder", href: "/tools/hairstyle-finder" },
-  { label: "Glasses Finder", href: "/tools/glasses-finder" },
-  { label: "Beard Style Finder", href: "/tools/beard-style-finder" },
+  { label: "Face Shape Detector", href: "/health/face-shape-calculator" },
+  { label: "Golden Ratio Calculator", href: "/health/golden-ratio-face-calculator" },
+  { label: "Hairstyle Finder", href: "blog/best-haircut-for-your-face-shape" },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -309,7 +306,9 @@ export default function AiAttractivenessTestPage() {
                   1.618, but the evidence does not back this up. A 2024 systematic review in Maxillofacial Plastic
                   and Reconstructive Surgery concluded there is no convincing evidence linking the golden ratio to
                   idealized facial proportions or beauty, and that it should not even guide surgical planning.
-                  Plenty of widely admired faces do not fit it. When a golden ratio face calculator presents 1.618
+                  Plenty of widely admired faces do not fit it. When a <a href="/health/golden-ratio-face-calculator" className="text-primary hover:underline">
+                    golden ratio face calculator
+                  </a> presents 1.618
                   as objective science, read it as marketing.
                 </p>
               </section>
