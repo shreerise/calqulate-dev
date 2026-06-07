@@ -25,7 +25,7 @@ import ImproveParagraphs from "@/components/ui/improve-paragraphs"
 
 const PUBLISHED = "2026-06-02"
 const MODIFIED = "2026-06-02"
-const PAGE_URL = "https://calqulate.net/tools/ai-attractiveness-test"
+const PAGE_URL = "https://calqulate.net/health/ai-attractiveness-test"
 
 export const metadata: Metadata = {
   title: "AI Attractiveness Test: What Your Beauty Score Really Means | Calqulate.net",
@@ -139,7 +139,6 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://calqulate.net" },
-    { "@type": "ListItem", position: 2, name: "Tools", item: "https://calqulate.net/tools" },
     { "@type": "ListItem", position: 3, name: "AI Attractiveness Test", item: PAGE_URL },
   ],
 }

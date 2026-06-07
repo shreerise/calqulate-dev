@@ -43,9 +43,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "What Is My Real Face Shape? Free AI Face Shape Calculator for Men & Women",
+  title: "What Is My Real Face Shape? Free AI Face Shape Calculator for Men & Women · 8 face shapes",
   description:
-    "Confused about your face shape and tired of hairstyles, glasses, or makeup that just don’t look right? Discover your real face shape instantly with our free AI-powered Face Shape Calculator for men and women.",
+    "Confused about your face shape and tired of hairstyles, glasses, or makeup that just don’t look right? Discover your real face shape instantly with our free AI-powered Face Shape Calculator for men and women. Covers 8 face shapes.",
   keywords:
     "face shape calculator, calculate my face shape, face calculator shape, shape face calculator, how to determine face shape calculator, AI face shape detector, determine face shape, face shape analysis, face type, hairstyle for face shape, glasses for face shape, makeup for face shape, face shape tool, online face shape",
   alternates: {
@@ -78,6 +78,21 @@ const faqs = [
     question: "What if my face doesn't fit one exact category?",
     answer:
       "That's completely normal. Most people have a combination of features, and the calculator will indicate your closest match, with suggestions for both styles.",
+  },
+  {
+    question: "What is the rarest face shape?",
+    answer:
+      "The diamond face shape is the rarest, defined by wide cheekbones with a narrow forehead and a narrow, often pointed chin. Oval is the most common shape and is considered the most balanced and style-versatile.",
+  },
+  {
+    question: "Which face shape is most attractive?",
+    answer:
+      "Oval is often called the most attractive face shape because its balanced proportions suit nearly every hairstyle, pair of glasses, and makeup style. Attractiveness is subjective, though — every face shape has flattering options that enhance its natural features.",
+  },
+  {
+    question: "Can your face shape change over time?",
+    answer:
+      "Your underlying bone structure stays largely constant, so your fundamental face shape rarely changes. Weight changes, aging, and muscle development can subtly soften or sharpen your jawline and cheeks, which slightly shifts how your shape appears.",
   },
 ];
 
@@ -209,6 +224,19 @@ export default function FaceShapeCalculatorPage() {
       image: "/face-shapes/diamond.png",
       styling: "Soften the cheekbones and add fullness to the forehead and chin areas."
     }
+    ,
+    {
+      name: "Rectangle",
+      description: "Face length is the greatest measurement, and the jawline is sharp and angular. Like a square but longer — forehead, cheekbones, and jaw are similar in width with defined corners.",
+      image: "/face-shapes/rectangle.jpg",
+      styling: "Add width and softness at the sides; avoid styles that lengthen the face further."
+    },
+    {
+      name: "Triangle (Pear)",
+      description: "The jawline is the widest part of the face, with a narrower forehead. The opposite of a heart shape.",
+      image: "/face-shapes/triangle.jpg",
+      styling: "Add volume and width at the forehead and temples to balance the wider jaw."
+    }
   ];
 
   return (
@@ -233,6 +261,7 @@ export default function FaceShapeCalculatorPage() {
                 <p className="text-lg text-muted-foreground text-pretty">
                   Your face tells a story, and understanding its shape helps in picking up the perfect hairstyle, glasses, or even the right makeup look.
                   Our AI Face Shape Calculator helps you calculate your face shape instantly using advanced AI detection or manual measurement, while keeping your <b>privacy 100% secure</b>.
+                  For related styling guidance by body proportions, try our <Link href="/health/body-shape-calculator" className="text-primary hover:underline">body shape calculator</Link>.
                 </p>
               </div>
               </div>
@@ -242,6 +271,59 @@ export default function FaceShapeCalculatorPage() {
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
               
+              <section id="how-face-shape-calculated">
+                <h2 className="mb-2"><b>How Is Face Shape Calculated?</b></h2>
+                <p>Face shape is calculated from the ratio between face length and cheekbone width, called the R1 ratio. An R1 of <span className="text-emerald-600 font-semibold">1.4 to 1.6</span> indicates an oval face, an R1 below <span className="text-emerald-600 font-semibold">1.15</span> indicates a round or square face, and an R1 above <span className="text-emerald-600 font-semibold">1.6</span> indicates an oblong or rectangle face.</p>
+                <p>The calculator uses four measurements:</p>
+                <ul className="list-disc pl-5 mt-3 space-y-2 text-sm text-muted-foreground">
+                  <li><strong>Face length</strong> — from the center of your hairline to the tip of your chin.</li>
+                  <li><strong>Forehead width</strong> — across the widest point of your forehead.</li>
+                  <li><strong>Cheekbone width</strong> — from the outer edge of one cheekbone to the other (the bizygomatic width), just below your eyes.</li>
+                  <li><strong>Jawline width</strong> — from the base of one ear to the chin and up to the other ear.</li>
+                </ul>
+                <p>Your shape is decided in two steps. First, the R1 ratio (face length ÷ cheekbone width) tells the tool whether your face is long, balanced, or short. Second, your <strong>widest feature</strong> and your <strong>jaw angularity</strong> narrow it to one shape:</p>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-sm">
+                    <thead>
+                      <tr>
+                        <th className="border-b py-2 font-semibold">R1 ratio</th>
+                        <th className="border-b py-2 font-semibold">Face is</th>
+                        <th className="border-b py-2 font-semibold">Soft, curved jaw →</th>
+                        <th className="border-b py-2 font-semibold">Sharp, angular jaw →</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="border-b py-3">Below <span className="text-emerald-600 font-semibold">1.15</span></td>
+                        <td className="border-b py-3">Short / equal</td>
+                        <td className="border-b py-3">Round</td>
+                        <td className="border-b py-3">Square</td>
+                      </tr>
+                      <tr>
+                        <td className="border-b py-3"><span className="text-emerald-600 font-semibold">1.15 – 1.6</span></td>
+                        <td className="border-b py-3">Balanced</td>
+                        <td className="border-b py-3">See "widest feature" below</td>
+                        <td className="border-b py-3">See "widest feature" below</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3">Above <span className="text-emerald-600 font-semibold">1.6</span></td>
+                        <td className="py-3">Long</td>
+                        <td className="py-3">Oblong</td>
+                        <td className="py-3">Rectangle</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-6">When R1 is balanced (<span className="text-emerald-600 font-semibold">1.15–1.6</span>), the widest feature decides the shape:</p>
+                <ul className="list-disc pl-5 mt-3 space-y-2 text-sm text-muted-foreground">
+                  <li><strong>Forehead widest, chin pointed →</strong> Heart</li>
+                  <li><strong>Cheekbones widest, forehead and jaw narrow →</strong> Diamond</li>
+                  <li><strong>Jawline widest, forehead narrow →</strong> Triangle (Pear)</li>
+                  <li><strong>Cheekbones and forehead nearly equal, jaw slightly narrower, soft chin →</strong> Oval</li>
+                </ul>
+                <p className="mt-6">This two-step method is why the AI compares hundreds of points instead of relying on one measurement: a single ratio cannot separate a diamond from an oval, but the combination of R1, widest feature, and jaw angularity can.</p>
+              </section>
+
               <section id="why-face-shape">
                 <h2 className="mb-2"><b>Why People Want to Know Their Face Shape?</b></h2>
                 <p>Most users are not searching for face shapes just for fun. They want the right hairstyle, glasses, makeup, and accessories that fit their unique face best - without wasting money on the wrong choices.</p>
@@ -259,129 +341,20 @@ export default function FaceShapeCalculatorPage() {
                 <p className="mt-6">After detection, our blog helps you take the next step with personalized advice for <Link href="/blog/best-haircut-for-your-face-shape" className="text-primary hover:underline">hairstyles</Link>, glasses, <Link href="/blog/find-your-face-shape" className="text-primary hover:underline">face shape styling</Link>, quiz-based discovery, and visual guidance through our <Link href="/blog" className="text-primary hover:underline">blog</Link> so you can look your best.</p>
               </section>
 
-              <section id="why-use">
-                <h2 className="mb-2"><b>Why Use Our Face Shape Calculator?</b></h2>
-                <p>No two faces are the same, and neither should your styling choices be. Intelligent facial mapping applied to our Face Shape Detector AI identifies your face type and unlocks personalized style suggestions that really work for you.</p><br></br>
-                <p className="text-center font-semibold mb-8">Here's what makes our tool special:</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex flex-col items-center gap-2">
-                        <ShieldCheck className="w-8 h-8 text-green-500" />
-                        Private & Secure
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm">Your image is never stored. Analysis happens right away and gets deleted after processing.</p>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex flex-col items-center gap-2">
-                        <Cpu className="w-8 h-8 text-blue-500" />
-                        Dual Mode
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm">Either AI face shape detector (upload photo) or calculator with manual input (add measurements).</p>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex flex-col items-center gap-2">
-                        <CheckCircle className="w-8 h-8 text-purple-500" />
-                        Accurate Analysis
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm">Our AI model compares more than 60 facial landmarks for high precision.</p>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex flex-col items-center gap-2">
-                        <MonitorSmartphone className="w-8 h-8 text-yellow-500" />
-                        Works on All Devices
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm">No installation of an app is required. Works flawlessly on mobile, tablet, or desktop.</p>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex flex-col items-center gap-2">
-                        <Users className="w-8 h-8 text-red-500" />
-                        For Everyone
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm">Designed for both men and women, with universal compatibility.</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </section>
+              <section id="calculator-queries" className="space-y-10">
+                <h2 className="mb-2"><b>How Do I Find My Face Shape From a Photo?</b></h2>
+                <p>Upload a clear, front-facing photo and the AI maps up to <span className="text-emerald-600 font-semibold">470 facial landmarks</span>, measures your forehead, cheekbone, jawline, and length ratios, then matches them to a shape. You get a result with a visual overlay in a few seconds.</p>
 
-              <section id="how-to-use">
-                <h2 className="mb-2"><b>How to Use the Calculator: AI vs. Manual</b></h2>
-                <p>You can determine your face shape in two easy ways. Use the AI for speed and convenience, or the manual mode for complete privacy if you prefer not to upload a photo.</p>
-                <div className="grid md:grid-cols-2 gap-8 not-prose mt-6">
-                    <Card>
-                        <CardHeader><CardTitle className="flex items-center gap-2"><Camera className="w-5 h-5"/>Option 1: AI Detector</CardTitle><CardDescription>Instant & Smart</CardDescription></CardHeader>
-                        <CardContent>
-                            <ol className="list-decimal pl-5 space-y-2 text-sm">
-                                <li>Select the "From Photo" tab in the calculator.</li>
-                                <li>Click "Load Analyzer" to activate the on-device AI.</li>
-                                <li>Upload a clear, front-facing photo.</li>
-                                <li>Get your results and analysis instantly.</li>
-                            </ol>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader><CardTitle className="flex items-center gap-2"><Ruler className="w-5 h-5"/>Option 2: Manual Input</CardTitle><CardDescription>100% Private</CardDescription></CardHeader>
-                        <CardContent>
-                           <ol className="list-decimal pl-5 space-y-2 text-sm">
-                                <li>Select the "Manual" tab in the calculator.</li>
-                                <li>Use a tape measure for your face, forehead, cheekbones, and jawline.</li>
-                                <li>Enter the values into the corresponding fields.</li>
-                                <li>Click "Classify Face Shape" for your result.</li>
-                           </ol>
-                        </CardContent>
-                    </Card>
-                </div>
+                <h2 className="mb-2"><b>How Do I Measure My Face Shape Manually?</b></h2>
+                <p>Use a soft tape measure for four distances: face length (hairline to chin), forehead width, cheekbone width at the widest point, and jawline width. Enter the four values into the manual mode to classify your face shape privately, without uploading a photo.</p>
+
+                <h2 className="mb-2"><b>How Accurate Is an AI Face Shape Detector?</b></h2>
+                <p>An AI face shape detector is highly accurate when the photo is clear, front-facing, and well-lit, because it analyzes hundreds of facial points instead of one measurement. Accuracy drops with tilted angles, poor lighting, filters, or hair covering the jawline.</p>
+
+                <h2 className="mb-2"><b>Can I Check My Face Shape Online for Free?</b></h2>
+                <p>Yes. This online face shape calculator is completely free with no sign-up or app. Use the AI photo mode for instant results or the manual measurement mode for full privacy, on any device, as many times as you want.</p>
               </section>
               
-              <section id="photo-guide">
-                <h2 className="text-2xl font-semibold mb-2">How to Take or Upload the Perfect Photo for Accurate Results</h2>
-                <p className="mb-6">For the most accurate result with our face shape detector AI, ensure that your photo follows these simple guidelines. A clear and well-framed image allows the AI to identify your correct facial landmarks.</p>
-                <div className="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 className="font-semibold text-lg text-green-600 mb-3">Do This</h3>
-                        <ul className="list-disc pl-5 space-y-2">
-                            <li>Use natural or bright indoor lighting. Make sure your face is evenly lit.</li>
-                            <li>Keep your head centered, facing directly into the camera.</li>
-                            <li>Remove glasses, hats, and headphones so your face is fully visible.</li>
-                            <li>Keep your whole face in the frame, from the top of your forehead to your chin.</li>
-                            <li>Use a neutral facial expression without a smile or any exaggerated expression.</li>
-                            <li>If the hair is covering your jawline, just pull it back or away from your face.</li>
-                            <li>Take the photo in portrait mode for best clarity.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 className="font-semibold text-lg text-red-600 mb-3">Avoid This</h3>
-                        <ul className="list-disc pl-5 space-y-2">
-                            <li>Taking pictures in dim or uneven lighting conditions.</li>
-                            <li>Tilting or turning your head at an angle.</li>
-                            <li>Using filters, beauty effects, or heavy makeup.</li>
-                            <li>Posting group photos or cropped images.</li>
-                            <li>Letting hair cover your face or cheekbones.</li>
-                            <li>Using outdated or blurry photographs.</li>
-                        </ul>
-                    </div>
-                </div>
-                <p className="mt-6 text-center text-muted-foreground">A clear, well-lit, front-facing image gives the AI the best chance to detect your true face shape accurately.</p>
-              </section>
-
               {/* NEW FACE SHAPE IMAGES SECTION */}
               <section id="face-shape-guide">
                 <h2 className="mb-2"><b>Face Shape Female Guide: Find Yours in 30 Seconds (With Pictures)</b></h2>
@@ -389,17 +362,17 @@ export default function FaceShapeCalculatorPage() {
                 
                 {/* Image with caption in the style you requested */}
 <div className="grid md:grid-cols-1 gap-8 my-8 not-prose">
-  <div className="p-4 border rounded-xl shadow-sm bg-card flex flex-col items-center">
-    <ClickableImage 
-      src="/face-shape-comparison.jpg" 
-      alt="Visual comparison of different face shapes showing oval, round, square, heart, diamond, and oblong shapes with their key characteristics." 
-      width={600} 
-      height={350} 
-      className="mx-auto rounded-lg"
+  <div className="overflow-hidden rounded-3xl border border-muted/60 bg-card shadow-sm transition-transform duration-300 hover:scale-[1.01] w-full">
+    <ClickableImage
+      src="/female-face-shape-comparison.jpg"
+      alt="Visual comparison of different female face shapes with oval, round, square, heart, diamond, and oblong examples."
+      width={1530}
+      height={1024}
+      className="w-full h-auto object-cover rounded-3xl"
+      containerClassName="w-full"
     />
-    <p className="text-center text-sm mt-3 text-muted-foreground">
-      Fig 1: Comparison of common face shapes and their distinctive features.
-    </p>
+    <p className="text-center text-sm mt-3 text-muted-foreground px-4 pb-4">
+      Fig 1: Comparison of female face shapes designed for responsive viewing and fullscreen zoom on click.</p>
   </div>
 </div>
 
@@ -446,7 +419,63 @@ export default function FaceShapeCalculatorPage() {
                   </p>
                 </div>
               </section>
-              
+          
+
+              <section id="male-face-shape-guide">
+                <h2 className="mb-2"><b>Face Shapes for Men: How to Find Yours</b></h2>
+                <p className="mt-6">Men can find their face shape with the same four measurements, but men's faces more often read as square, rectangle, or oblong because of a stronger, more angular jawline. <span className="text-emerald-600 font-semibold">Use your jaw as the deciding feature.</span></p>
+                  <div className="mt-6 overflow-hidden rounded-3xl border border-muted/60 bg-muted/10 shadow-sm transition-transform duration-300 hover:scale-[1.01]">
+                    <ClickableImage
+                      src="/men-face-shape-comparison.jpg"
+                      alt="Guide to men's face shapes with comparison illustration."
+                      width={1536}
+                      height={1024}
+                      className="w-full h-auto object-cover rounded-3xl"
+                      containerClassName="w-full"
+                    />
+                  </div>
+                <p className="mt-6"><strong>The most common male face shapes:</strong></p>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="border-b py-2 text-left font-semibold">Shape</th>
+                        <th className="border-b py-2 text-left font-semibold">Characteristics</th>
+                        <th className="border-b py-2 text-left font-semibold">Pairs with</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-t">
+                        <td className="p-2 font-bold">Square</td>
+                        <td className="p-2">strong, angular jaw with forehead, cheekbones, and jaw nearly equal in width. The most classic "masculine" shape.</td>
+                        <td className="p-2"><strong>Pairs with:</strong> short sides with textured top; a defined, sharp beard line.</td>
+                      </tr>
+                      <tr className="border-t bg-muted/50">
+                        <td className="p-2 font-bold">Oval</td>
+                        <td className="p-2">balanced proportions, slightly longer than wide. The most versatile shape for men.</td>
+                        <td className="p-2"><strong>Pairs with:</strong> almost any cut; light stubble to medium beard.</td>
+                      </tr>
+                      <tr className="border-t">
+                        <td className="p-2 font-bold">Rectangle (Oblong)</td>
+                        <td className="p-2">long face with an angular jaw.</td>
+                        <td className="p-2"><strong>Pairs with:</strong> fuller sides and shorter top to add width; a fuller beard on the sides, kept short at the chin.</td>
+                      </tr>
+                      <tr className="border-t bg-muted/50">
+                        <td className="p-2 font-bold">Round</td>
+                        <td className="p-2">soft jaw, face length close to width.</td>
+                        <td className="p-2"><strong>Pairs with:</strong> height on top and a defined beard to add angles and length.</td>
+                      </tr>
+                      <tr className="border-t">
+                        <td className="p-2 font-bold">Diamond / Heart</td>
+                        <td className="p-2">wide cheekbones or forehead with a narrow chin.</td>
+                        <td className="p-2"><strong>Pairs with:</strong> a fuller beard at the jaw to add width and balance the lower face.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-6"><strong><Link href="/blog/best-haircut-for-your-face-shape" className="text-primary hover:underline">Beard and haircut goal by shape:</Link></strong> square and rectangle faces suit beards that keep the jaw sharp; round faces suit beards that add length at the chin; oval faces suit nearly any style. Match volume to the feature you want to balance, not exaggerate.</p>
+              </section>
+
               <section id="shape-types">
                 <h2 className="mb-2"><b>The Main Types of Face Shapes Explained</b></h2>
                 <p>Our tool analyzes your features to classify your face into one of the common shapes. Each one has its own unique characteristics and styling considerations.</p>
@@ -460,6 +489,8 @@ export default function FaceShapeCalculatorPage() {
                       <tr className="border-t bg-muted/50"><td className="p-2 font-bold">Oblong</td><td className="p-2">Face length is the greatest measurement. Forehead, cheekbones, and jawline are similar in width.</td><td className="p-2">Create an illusion of width with volume on the sides. Avoid adding height.</td></tr>
                       <tr className="border-t"><td className="p-2 font-bold">Heart</td><td className="p-2">Forehead is the widest, with a narrow jawline and a pointed chin.</td><td className="p-2">Add volume to the lower part of the face to balance the wider forehead.</td></tr>
                       <tr className="border-t bg-muted/50"><td className="p-2 font-bold">Diamond</td><td className="p-2">Cheekbones are the widest part of the face. Forehead and jawline are narrow and similar in width.</td><td className="p-2">Soften the cheekbones and add fullness to the forehead and chin areas.</td></tr>
+                      <tr className="border-t"><td className="p-2 font-bold">Rectangle</td><td className="p-2">Face length is greatest; jawline is sharp and angular. Forehead, cheekbones, and jaw are similar in width.</td><td className="p-2">Add width at the sides; avoid further lengthening.</td></tr>
+                      <tr className="border-t bg-muted/50"><td className="p-2 font-bold">Triangle (Pear)</td><td className="p-2">Jawline is the widest part of the face; forehead is narrowest.</td><td className="p-2">Add volume at the forehead and temples to balance the jaw.</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -536,8 +567,10 @@ export default function FaceShapeCalculatorPage() {
               Curious about other health metrics? Check out our{" "}
               <Link href="/health/golden-ratio-face-calculator" className="text-primary hover:underline">
                 Golden Ratio Face Calculator
-              </Link> to understand your facial proportions.
+              </Link>{" "}for a related, different metric: facial proportions versus facial symmetry.
             </p>
+            <p className="text-sm text-muted-foreground text-center mt-6">
+Disclaimer: AI can make mistakes and may provide inaccurate information. Please verify any critical, medical, health, beauty, financial, legal, or other sensitive information with qualified professionals before making decisions or taking action.            </p>
           </div>
         </div>
       </main>
