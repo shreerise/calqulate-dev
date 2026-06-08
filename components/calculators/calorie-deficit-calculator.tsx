@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,9 +12,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, RefreshCw, Loader2, Flame, AlertTriangle, Calendar, Apple } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  Calculator, RefreshCw, Loader2, Flame, AlertTriangle, Calendar, Apple,
+  Save, History, ChevronRight, Award, AlertCircle, Brain, ArrowRight,
+  CheckCircle2, BarChart3, TrendingDown, TrendingUp, Info, Scale, Zap
+} from "lucide-react";
 
-// --- FORM SCHEMA ---
+// ─── VALIDATION SCHEMA ────────────────────────────────────────────────────────
 const formSchema = z.object({
   units: z.enum(["metric", "imperial"]),
   gender: z.enum(["male", "female"], { required_error: "Please select a gender." }),
@@ -27,6 +33,7 @@ const formSchema = z.object({
 
 type UnitSystem = "metric" | "imperial";
 
+// ─── INTERFACES ───────────────────────────────────────────────────────────────
 interface MacroSplit {
   protein: number;
   fat: number;
@@ -44,22 +51,132 @@ interface CalculationResult {
   warning: string | null;
   macros: MacroSplit;
   zigZag: { day: string; calories: number }[];
+  headline: string;
+  nextSteps: string[];
+  deficitFact: string;
 }
 
-// --- VISUAL COMPONENTS ---
+interface SavedEntry {
+  date: string;
+  bmr: number;
+  tdee: number;
+  targetCalories: number;
+  weight: number;
+  units: string;
+  gender: string;
+  goal: string;
+  macroSplit: string;
+}
 
+// ─── LOCAL STORAGE KEY & CONFIGS ──────────────────────────────────────────────
+const STORAGE_KEY = "calqulate_deficit_history";
+
+const brand = {
+  primary: "#15803d", // emerald-700
+  primaryBg: "#f0fdf4", // emerald-50
+  primaryBorder: "#bbf7d0", // emerald-200
+};
+
+// ─── LOCAL STORAGE HELPERS ────────────────────────────────────────────────────
+function getDeficitStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveDeficitEntry(entry: SavedEntry) {
+  try {
+    const existing = getDeficitStorage();
+    existing.unshift(entry);
+    const trimmed = existing.slice(0, 10); // Keep last 10 records
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    /* ignore */
+  }
+}
+
+function getCalorieDeltaLabel(delta: number): { label: string; improving: boolean } {
+  if (Math.abs(delta) < 10) {
+    return { label: "Your daily target deficit calories remain stable compared to your last calculation.", improving: true };
+  }
+  if (delta < 0) {
+    return { label: `Your daily target calories decreased by ${Math.abs(delta)} kcal based on your updated dimensions.`, improving: true };
+  }
+  return { label: `Your daily target calories increased by ${delta} kcal since your last evaluation.`, improving: false };
+}
+
+// Determines the true prior entry for active comparisons (prevents self-comparison right after save)
+function getPreviousEntry(currentTarget: number, history: SavedEntry[]): SavedEntry | null {
+  if (history.length === 0) return null;
+  const latestSaved = history[0];
+  const isDuplicate = Math.abs(latestSaved.targetCalories - currentTarget) < 5;
+  if (isDuplicate) {
+    return history[1] || null;
+  }
+  return latestSaved;
+}
+
+// ─── PERSONALIZATION ENGINE ───────────────────────────────────────────────────
+function generateDeficitInsights(goal: string, macroSplit: string, activity: string): { headline: string; nextSteps: string[]; deficitFact: string } {
+  let headline = "";
+  let nextSteps: string[] = [];
+  let deficitFact = "";
+
+  // Goal-based customizations
+  if (goal === "maintain") {
+    headline = "Optimizing cellular maintenance and baseline physiological stabilization";
+    nextSteps.push("Prioritize metabolic health: Focus on diet diversity and high-quality micronutrients to sustain cell turnover without calorie deficits.");
+    deficitFact = "Maintenance Focus: Eating at maintenance allows your endocrine system to stabilize and supports recovery after extended restriction phases [1].";
+  } else if (goal === "extreme" || goal === "aggressive") {
+    headline = "Managing safe muscular retention during heightened calorie deficits";
+    nextSteps.push("Protect lean tissue: Ensure your protein intake matches your target to minimize muscular breakdown during this rapid deficit phase.");
+    nextSteps.push("Evaluate recovery metrics: Restrict intensive activity if you experience severe brain fog or extended physical fatigue.");
+    deficitFact = "Safety Parameter: Larger deficits increase the risk of lean tissue loss. High-protein splits are strongly recommended to protect structural mass [1].";
+  } else {
+    headline = "Achieving sustainable fat loss through moderate recomposition thresholds";
+    nextSteps.push("Support energy levels: Consistently track daily protein and essential fatty acids to preserve athletic capacity and metabolic rate.");
+    deficitFact = "Thermodynamic Rule: A steady daily deficit of 250-500 calories encourages gradual fat loss while preserving skeletal muscle integrity [1].";
+  }
+
+  // Macro preference additions
+  if (macroSplit === "high_protein") {
+    nextSteps.push("Optimize protein timing: Distribute protein intake evenly across 3-4 meals to continuously support muscle protein synthesis.");
+  } else if (macroSplit === "low_carb") {
+    nextSteps.push("Monitor essential minerals: Low-carb diets can accelerate sodium and water excretion. Keep hydrated and ensure adequate intake of sodium and magnesium.");
+  } else {
+    nextSteps.push("Fuel systemic output: Time your carbohydrate intake around training windows to maximize cognitive focus and muscle glycogen resynthesis.");
+  }
+
+  // Activity additions
+  if (activity === "sedentary" && goal !== "maintain") {
+    nextSteps.push("Incorporate low-impact movement: Introduce a 15-minute walk after meals. This simple change improves insulin sensitivity and burns calories without stressing joints.");
+  } else if (activity === "active" || activity === "very_active") {
+    nextSteps.push("Incorporate structured carbohydrate meals: Ensure you are refueling glycogen reserves after heavy training to support joint and structural recovery.");
+  }
+
+  return {
+    headline,
+    nextSteps: nextSteps.slice(0, 3), // return top 3 curated steps
+    deficitFact
+  };
+}
+
+// ─── ORIGINAL SUB-COMPONENTS ──────────────────────────────────────────────────
 const CalorieBar = ({ target, tdee }: { target: number, tdee: number }) => {
   const percentage = Math.min(100, Math.max(0, (target / tdee) * 100));
   
   return (
-    <div className="space-y-2 mt-4">
+    <div className="space-y-2 mt-4 text-left">
       <div className="flex justify-between text-sm font-medium">
-        <span className="text-primary font-bold">Deficit: {target} kcal</span>
+        <span className="text-emerald-700 font-bold">Deficit: {target} kcal</span>
         <span className="text-muted-foreground">Maintenance: {tdee} kcal</span>
       </div>
       <div className="relative w-full h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
         <div 
-          className="absolute top-0 left-0 h-full bg-primary transition-all duration-1000 ease-out"
+          className="absolute top-0 left-0 h-full bg-emerald-600 transition-all duration-1000 ease-out"
           style={{ width: `${percentage}%` }}
         />
         <div 
@@ -76,7 +193,7 @@ const CalorieBar = ({ target, tdee }: { target: number, tdee: number }) => {
 
 const MacroChart = ({ macros }: { macros: MacroSplit }) => {
   return (
-    <div className="w-full">
+    <div className="w-full text-left">
       <div className="flex h-4 w-full rounded-full overflow-hidden mb-3">
         <div style={{ width: `${macros.proteinPercent}%` }} className="bg-blue-500" title="Protein" />
         <div style={{ width: `${macros.fatPercent}%` }} className="bg-amber-400" title="Fat" />
@@ -86,30 +203,30 @@ const MacroChart = ({ macros }: { macros: MacroSplit }) => {
         <div className="bg-blue-50 dark:bg-blue-950 p-2 rounded-lg border border-blue-100 dark:border-blue-900">
           <p className="font-semibold text-blue-700 dark:text-blue-400">{macros.proteinPercent}%</p>
           <p className="text-xs text-muted-foreground">Protein</p>
-          <p className="font-bold">{macros.protein}g</p>
+          <p className="font-bold text-slate-800 dark:text-slate-100">{macros.protein}g</p>
         </div>
         <div className="bg-amber-50 dark:bg-amber-950 p-2 rounded-lg border border-amber-100 dark:border-amber-900">
           <p className="font-semibold text-amber-700 dark:text-amber-400">{macros.fatPercent}%</p>
           <p className="text-xs text-muted-foreground">Fats</p>
-          <p className="font-bold">{macros.fat}g</p>
+          <p className="font-bold text-slate-800 dark:text-slate-100">{macros.fat}g</p>
         </div>
         <div className="bg-green-50 dark:bg-green-950 p-2 rounded-lg border border-green-100 dark:border-green-900">
           <p className="font-semibold text-green-700 dark:text-green-400">{macros.carbsPercent}%</p>
           <p className="text-xs text-muted-foreground">Carbs</p>
-          <p className="font-bold">{macros.carbs}g</p>
+          <p className="font-bold text-slate-800 dark:text-slate-100">{macros.carbs}g</p>
         </div>
       </div>
     </div>
   );
-}
+};
 
-// --- CALCULATION LOGIC ---
+// ─── CONSTANT DATA COEFFICIENTS ───────────────────────────────────────────────
 const activityMultipliers: Record<string, number> = {
-  "sedentary": 1.2,       // Little or no exercise
-  "light": 1.375,         // Light exercise/sports 1-3 days/week
-  "moderate": 1.55,       // Moderate exercise/sports 3-5 days/week
-  "active": 1.725,        // Hard exercise/sports 6-7 days a week
-  "very_active": 1.9,     // Very hard exercise/physical job
+  "sedentary": 1.2,
+  "light": 1.375,
+  "moderate": 1.55,
+  "active": 1.725,
+  "very_active": 1.9,
 };
 
 const deficitAmounts: Record<string, number> = {
@@ -140,22 +257,15 @@ const getMacros = (calories: number, splitType: string): MacroSplit => {
     proteinPercent: pPercent,
     fatPercent: fPercent,
     carbsPercent: cPercent,
-    protein: Math.round((calories * (pPercent / 100)) / 4), // 4 calories per gram of protein
-    fat: Math.round((calories * (fPercent / 100)) / 9),     // 9 calories per gram of fat
-    carbs: Math.round((calories * (cPercent / 100)) / 4),   // 4 calories per gram of carbs
+    protein: Math.round((calories * (pPercent / 100)) / 4),
+    fat: Math.round((calories * (fPercent / 100)) / 9),
+    carbs: Math.round((calories * (cPercent / 100)) / 4),
   };
 };
 
 const generateZigZag = (targetDaily: number): { day: string, calories: number }[] => {
-  // Simple Zig-Zag logic: 2 High days, 2 Low days, 3 Normal days to average out to targetDaily
-  // High = Target + 15%, Low = Target - 15%
   const high = Math.round(targetDaily * 1.15);
   const low = Math.round(targetDaily * 0.85);
-  
-  // To ensure the weekly average is exact:
-  // Weekly total = 7 * targetDaily
-  // Current total = (2 * high) + (2 * low) + (3 * normal)
-  // We solve for normal to make it precise.
   const requiredWeekly = targetDaily * 7;
   const normal = Math.round((requiredWeekly - (2 * high) - (2 * low)) / 3);
 
@@ -170,12 +280,158 @@ const generateZigZag = (targetDaily: number): { day: string, calories: number }[
   ];
 };
 
-// --- MAIN CALCULATOR COMPONENT ---
+// ─── PROGRESS CARD COMPONENT ──────────────────────────────────────────────────
+const ProgressCard = ({ current, history, unit }: { current: CalculationResult; history: SavedEntry[]; unit: string }) => {
+  const previous = getPreviousEntry(current.targetCalories, history);
+  if (!previous) return null;
 
+  const targetDelta = current.targetCalories - previous.targetCalories;
+  const info = getCalorieDeltaLabel(targetDelta);
+
+  const weightDeltaVal = previous.weight ? (history[0].weight - previous.weight) : 0;
+
+  return (
+    <div
+      className="rounded-xl p-5 border flex items-start gap-4 max-w-4xl mx-auto shadow-sm text-left"
+      style={{
+        background: info.improving ? brand.primaryBg : "#FEF3EE",
+        borderColor: info.improving ? brand.primaryBorder : "#F5C4B3",
+      }}
+    >
+      <div
+        className="p-2 rounded-lg flex-shrink-0"
+        style={{ background: info.improving ? brand.primaryBorder : "#F0997B" }}
+      >
+        {info.improving ? (
+          <Award className="w-5 h-5 text-emerald-700" />
+        ) : (
+          <AlertCircle className="w-5 h-5 text-orange-700" />
+        )}
+      </div>
+      <div className="space-y-2 w-full">
+        <div>
+          <p className="font-bold text-sm" style={{ color: info.improving ? brand.primary : "#993C1D" }}>
+            {info.improving ? "Tracking Update: Target configurations calculated." : "Calorie targets adjusted."}
+          </p>
+          <p className="text-xs mt-0.5 text-gray-600 dark:text-gray-400">
+            {info.label} · Evaluated against baseline on {new Date(previous.date).toLocaleDateString()}
+          </p>
+        </div>
+
+        {/* System parameters metrics */}
+        <div className="grid grid-cols-3 gap-2 pt-2 border-t border-dashed border-gray-300 dark:border-gray-700 text-xs">
+          <div>
+            <span className="text-gray-500 block">Target Delta</span>
+            <span className={`font-bold ${targetDelta <= 0 ? "text-emerald-700" : "text-orange-700"}`}>
+              {targetDelta <= 0 ? "" : "+"}{targetDelta} kcal
+            </span>
+          </div>
+          <div>
+            <span className="text-gray-500 block">TDEE Delta</span>
+            <span className={`font-bold ${current.tdee - previous.tdee <= 0 ? "text-emerald-700" : "text-orange-700"}`}>
+              {current.tdee - previous.tdee <= 0 ? "" : "+"}{current.tdee - previous.tdee} kcal
+            </span>
+          </div>
+          <div>
+            <span className="text-gray-500 block">Weight Delta</span>
+            <span className={`font-bold ${weightDeltaVal <= 0 ? "text-emerald-700" : "text-orange-700"}`}>
+              {weightDeltaVal <= 0 ? "" : "+"}{weightDeltaVal.toFixed(1)} {unit}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── HISTORY PANEL COMPONENT ──────────────────────────────────────────────────
+const HistoryPanel = ({ history, onClear, unit }: { history: SavedEntry[]; onClear: () => void; unit: string }) => {
+  if (history.length === 0) return null;
+
+  return (
+    <Card className="max-w-4xl mx-auto border shadow-md text-left">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <BarChart3 className="w-4 h-4 text-emerald-700" />
+          Your Deficit History Tracking
+        </CardTitle>
+        <CardDescription className="text-xs">
+          Saved locally inside your browser. Personal metrics privacy remains completely secured.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-2">
+          {history.map((entry, i) => {
+            const nextEntry = history[i + 1];
+            const delta = nextEntry ? entry.targetCalories - nextEntry.targetCalories : null;
+            return (
+              <div key={entry.date} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border-b last:border-0 border-gray-100 dark:border-gray-800 gap-2">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400"
+                  >
+                    #{history.length - i}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold capitalize">{entry.goal.replace("_", " ")} ({entry.targetCalories} kcal)</p>
+                    <p className="text-xs text-gray-400">
+                      {new Date(entry.date).toLocaleDateString()} at {new Date(entry.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="text-right text-xs">
+                    <span className="text-gray-500 font-medium">Weight: </span>
+                    <span className="font-semibold text-gray-800 dark:text-gray-200">{entry.weight.toFixed(1)} {unit}</span>
+                    <span className="mx-1 text-gray-300">|</span>
+                    <span className="text-gray-500 font-medium">BMR: </span>
+                    <span className="font-semibold text-gray-800 dark:text-gray-200">{entry.bmr} kcal</span>
+                    <span className="mx-1 text-gray-300">|</span>
+                    <span className="text-gray-500 font-medium">TDEE: </span>
+                    <span className="font-semibold text-gray-800 dark:text-gray-200">{entry.tdee} kcal</span>
+                  </div>
+
+                  {delta !== null && (
+                    <span
+                      className="text-xs font-bold px-2 py-0.5 rounded-full"
+                      style={{
+                        background: delta < 0 ? brand.primaryBg : "#FEF3EE",
+                        color: delta < 0 ? brand.primary : "#993C1D",
+                      }}
+                    >
+                      {delta < 0 ? "▼" : delta > 0 ? "▲" : "─"}{" "}
+                      {Math.abs(delta)} kcal Target
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <button
+          onClick={onClear}
+          className="mt-4 text-xs text-gray-400 hover:text-red-500 transition-colors block"
+        >
+          Clear history from session
+        </button>
+      </CardContent>
+    </Card>
+  );
+};
+
+// ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function CalorieDeficitCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
+  const [history, setHistory] = useState<SavedEntry[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setHistory(getDeficitStorage());
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -194,7 +450,6 @@ export default function CalorieDeficitCalculator() {
   const { getValues, setValue } = form;
   const units = form.watch("units");
 
-  // Handle unit conversion to keep inputs intact but translated
   const handleUnitChange = (newUnit: UnitSystem) => {
     const currentUnit = getValues("units");
     if (newUnit === currentUnit) return;
@@ -219,26 +474,27 @@ export default function CalorieDeficitCalculator() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
+    setResult(null);
+    setSaved(false);
     
     setTimeout(() => {
-      // 1. Convert everything to Metric for Mifflin-St Jeor formula
       const age = parseInt(values.age);
       const weightKg = values.units === 'metric' ? parseFloat(values.weight) : parseFloat(values.weight) / 2.20462;
       const heightCm = values.units === 'metric' ? parseFloat(values.height) : parseFloat(values.height) * 2.54;
 
-      // 2. Calculate BMR (Mifflin-St Jeor)
+      // 1. Calculate BMR (Mifflin-St Jeor)
       let bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age);
       bmr += values.gender === "male" ? 5 : -161;
       bmr = Math.round(bmr);
 
-      // 3. Calculate TDEE
+      // 2. Calculate TDEE
       const tdee = Math.round(bmr * activityMultipliers[values.activity]);
 
-      // 4. Calculate Target Deficit
+      // 3. Calculate Target Deficit
       const dailyDeficit = deficitAmounts[values.goal];
       let targetCalories = tdee - dailyDeficit;
 
-      // 5. Safety Checks
+      // 4. Safety Floor Corrections
       let warning = null;
       const safeFloor = values.gender === "male" ? 1500 : 1200;
       
@@ -246,13 +502,13 @@ export default function CalorieDeficitCalculator() {
         warning = `Your target dropped below the safe minimum of ${safeFloor} kcal/day for ${values.gender}s. We have adjusted your goal to ${safeFloor} kcal. Consider increasing your physical activity instead of eating less.`;
         targetCalories = safeFloor;
       } else if (targetCalories < bmr && values.goal !== "maintain") {
-        // Warning if eating below BMR (optional but good practice)
-        warning = "Your calorie target is below your Basal Metabolic Rate (BMR). While acceptable for short periods, extended time below BMR may cause fatigue. Monitor your energy levels.";
+        warning = "Your calorie target is below your Basal Metabolic Rate (BMR). While acceptable for short periods, extended time below BMR may cause metabolic adaptation and persistent fatigue.";
       }
 
-      // 6. Macros & ZigZag
       const macros = getMacros(targetCalories, values.macroSplit);
       const zigZag = generateZigZag(targetCalories);
+
+      const insights = generateDeficitInsights(values.goal, values.macroSplit, values.activity);
 
       setResult({
         bmr,
@@ -261,27 +517,98 @@ export default function CalorieDeficitCalculator() {
         weeklyDeficit: (tdee - targetCalories) * 7,
         warning,
         macros,
-        zigZag
+        zigZag,
+        headline: insights.headline,
+        nextSteps: insights.nextSteps,
+        deficitFact: insights.deficitFact
       });
       
       setIsLoading(false);
-      setTimeout(() => { resultsRef.current?.scrollIntoView({ behavior: 'smooth' }); }, 100);
-    }, 600);
+      setTimeout(() => { 
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+      }, 150);
+    }, 700);
   }
 
+  const handleSave = () => {
+    if (!result) return;
+    const values = form.getValues();
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      bmr: result.bmr,
+      tdee: result.tdee,
+      targetCalories: result.targetCalories,
+      weight: parseFloat(values.weight),
+      units: values.units,
+      gender: values.gender,
+      goal: values.goal,
+      macroSplit: values.macroSplit
+    };
+    saveDeficitEntry(entry);
+    setHistory(getDeficitStorage());
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setHistory([]);
+    setShowHistory(false);
+  };
+
+  const resultUnit = units === 'metric' ? 'kg' : 'lbs';
+
   return (
-    <>
+    <div className="space-y-8 text-left">
+      {/* ── HISTORICAL PROGRESS TRIGGER ────────────────────────────────────────── */}
+      {history.length > 0 && (
+        <div className="max-w-4xl mx-auto flex justify-between items-center bg-gray-50 dark:bg-slate-900 p-4 rounded-xl border border-gray-100 dark:border-gray-800">
+          <div className="flex items-center gap-2">
+            <History className="w-5 h-5 text-emerald-700" />
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Found {history.length} saved calorie {history.length === 1 ? "record" : "records"}
+            </span>
+          </div>
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:underline"
+          >
+            {showHistory ? "Collapse Tracking" : "Show Saved Entries"}
+            <ChevronRight className={`w-4 h-4 transition-transform ${showHistory ? "rotate-90" : ""}`} />
+          </button>
+        </div>
+      )}
+
+      {showHistory && (
+        <div className="space-y-4">
+          <HistoryPanel history={history} onClear={clearHistory} unit={resultUnit} />
+        </div>
+      )}
+
+      {/* ── CALCULATOR COMPONENT ───────────────────────────────────────────────── */}
       <Card className="max-w-4xl mx-auto shadow-sm" id="calculator">
-        <CardHeader className="bg-slate-50 dark:bg-slate-900 border-b rounded-t-xl">
-          <CardTitle className="flex items-center gap-2 text-2xl">
-            <Flame className="w-6 h-6 text-orange-500" /> 
-            Find Your Deficit
-          </CardTitle>
-          <CardDescription>
-            Enter your details below to calculate your ideal weight-loss calories and macronutrient breakdown.
-          </CardDescription>
+        <CardHeader className="bg-slate-50 dark:bg-slate-900 border-b rounded-t-xl" style={{ background: `linear-gradient(to bottom, ${brand.primaryBg}, white)` }}>
+          <div className="flex items-start justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-2xl">
+                <Flame className="w-6 h-6 text-emerald-700" /> 
+                Find Your Deficit
+              </CardTitle>
+              <CardDescription className="mt-1">
+                Calculate daily energy limits, baseline metabolic indicators, and customized macronutrient pathways [1].
+              </CardDescription>
+            </div>
+            {history.length > 0 && (
+              <div
+                className="hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-full items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                Browser Saving On
+              </div>
+            )}
+          </div>
         </CardHeader>
-        <CardContent className="pt-6">
+        <CardContent className="pt-8">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               
@@ -324,22 +651,22 @@ export default function CalorieDeficitCalculator() {
                 <FormField control={form.control} name="age" render={({ field }) => (
                   <FormItem>
                     <FormLabel>Age (years)</FormLabel>
-                    <FormControl><Input type="number" placeholder="e.g. 28" {...field} /></FormControl>
+                    <FormControl><Input type="number" placeholder="e.g. 28" {...field} className="h-11 text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={form.control} name="weight" render={({ field }) => (
                   <FormItem>
                     <FormLabel>Weight ({units === 'metric' ? 'kg' : 'lbs'})</FormLabel>
-                    <FormControl><Input type="number" step="0.1" placeholder={units === 'metric' ? "70" : "154"} {...field} /></FormControl>
+                    <FormControl><Input type="number" step="0.1" placeholder={units === 'metric' ? "70" : "154"} {...field} className="h-11 text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField control={form.control} name="height" render={({ field }) => (
                   <FormItem>
                     <FormLabel>Height ({units === 'metric' ? 'cm' : 'inches'})</FormLabel>
-                    <FormControl><Input type="number" step="0.1" placeholder={units === 'metric' ? "170" : "67"} {...field} /></FormControl>
-                    <p className="text-[10px] text-muted-foreground">{units === 'imperial' ? 'Enter total inches (e.g. 5\'10" = 70)' : ''}</p>
+                    <FormControl><Input type="number" step="0.1" placeholder={units === 'metric' ? "170" : "67"} {...field} className="h-11 text-base" /></FormControl>
+                    <p className="text-[10px] text-muted-foreground mt-1">{units === 'imperial' ? 'Enter total inches (e.g. 5\'10" = 70)' : ''}</p>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -351,7 +678,7 @@ export default function CalorieDeficitCalculator() {
                   <FormItem>
                     <FormLabel>Daily Activity Level</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl><SelectTrigger><SelectValue placeholder="Select activity" /></SelectTrigger></FormControl>
+                      <FormControl><SelectTrigger className="h-11 text-base"><SelectValue placeholder="Select activity" /></SelectTrigger></FormControl>
                       <SelectContent>
                         <SelectItem value="sedentary">Sedentary (Desk job, little exercise)</SelectItem>
                         <SelectItem value="light">Lightly Active (1-3 days/week)</SelectItem>
@@ -368,7 +695,7 @@ export default function CalorieDeficitCalculator() {
                   <FormItem>
                     <FormLabel>Weight Goal</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl><SelectTrigger><SelectValue placeholder="Select goal" /></SelectTrigger></FormControl>
+                      <FormControl><SelectTrigger className="h-11 text-base"><SelectValue placeholder="Select goal" /></SelectTrigger></FormControl>
                       <SelectContent>
                         <SelectItem value="maintain">Maintain Current Weight</SelectItem>
                         <SelectItem value="mild">Mild Weight Loss (0.5 lb / week)</SelectItem>
@@ -385,7 +712,7 @@ export default function CalorieDeficitCalculator() {
                   <FormItem>
                     <FormLabel>Diet Preference</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl><SelectTrigger><SelectValue placeholder="Select diet" /></SelectTrigger></FormControl>
+                      <FormControl><SelectTrigger className="h-11 text-base"><SelectValue placeholder="Select diet" /></SelectTrigger></FormControl>
                       <SelectContent>
                         <SelectItem value="balanced">Balanced (30% P / 30% F / 40% C)</SelectItem>
                         <SelectItem value="high_protein">High Protein (40% P / 30% F / 30% C)</SelectItem>
@@ -398,11 +725,11 @@ export default function CalorieDeficitCalculator() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
-                <Button type="submit" className="flex-1 text-lg py-6" disabled={isLoading}>
-                  {isLoading ? <Loader2 className="h-5 w-5 mr-2 animate-spin" /> : <Flame className="h-5 w-5 mr-2" />}
+                <Button type="submit" size="lg" className="flex-1 h-14 text-lg font-bold bg-emerald-700 hover:bg-emerald-800" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Flame className="mr-2 h-5 w-5" />}
                   {isLoading ? 'Crunching Numbers...' : 'Calculate My Deficit'}
                 </Button>
-                <Button type="button" variant="outline" className="py-6 px-8" onClick={() => { form.reset(); setResult(null); }} disabled={isLoading}>
+                <Button type="button" variant="outline" size="lg" className="sm:w-44 h-14" onClick={() => { form.reset(); setResult(null); setSaved(false); }} disabled={isLoading}>
                   <RefreshCw className="h-4 w-4 mr-2" /> Reset
                 </Button>
               </div>
@@ -411,95 +738,204 @@ export default function CalorieDeficitCalculator() {
         </CardContent>
       </Card>
 
-      <div ref={resultsRef}>
+      {/* ── UNIFIED RESULTS SECTION ────────────────────────────────────────────── */}
+      <div ref={resultsRef} className="scroll-mt-8">
         {result && (
-          <Card className="max-w-4xl mx-auto mt-8 border-primary/20 shadow-lg overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="bg-primary/5 p-8 text-center border-b border-primary/10">
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">Your Daily Target</p>
-              <div className="flex items-end justify-center gap-1">
-                <p className="text-6xl font-extrabold text-primary tracking-tight">{result.targetCalories}</p>
-                <p className="text-xl font-medium text-muted-foreground pb-2">kcal</p>
-              </div>
-              <p className="text-muted-foreground mt-2 max-w-lg mx-auto">
-                Consuming this amount consistently will put you in a weekly deficit of <span className="font-semibold text-foreground">{result.weeklyDeficit}</span> calories.
-              </p>
-              
-              <div className="max-w-md mx-auto mt-6">
-                <CalorieBar target={result.targetCalories} tdee={result.tdee} />
-              </div>
-            </div>
+          <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 text-left">
+            
+            {/* COMPARATIVE PROGRESS COMPONENT */}
+            <ProgressCard current={result} history={history} unit={resultUnit} />
 
+            {/* 1. MAIN HERO SHIELD TARGET */}
+            <Card className="border-primary/20 shadow-lg overflow-hidden border">
+              <div className="bg-emerald-500/10 p-8 text-center border-b border-emerald-500/10">
+                
+                {/* Visual Fact Strip */}
+                {result.deficitFact && (
+                  <div
+                    className="text-xs font-semibold px-4 py-2.5 rounded-lg mb-6 flex items-start text-left gap-2.5 bg-emerald-50 text-emerald-800 border border-emerald-200"
+                  >
+                    <Brain className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-700" />
+                    <span>{result.deficitFact}</span>
+                  </div>
+                )}
+
+                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">Your Daily Target</p>
+                <div className="flex items-end justify-center gap-1">
+                  <p className="text-6xl font-extrabold text-emerald-700 dark:text-emerald-400 tracking-tight">{result.targetCalories}</p>
+                  <p className="text-xl font-medium text-muted-foreground pb-2">kcal</p>
+                </div>
+                <p className="text-muted-foreground mt-2 max-w-lg mx-auto">
+                  Consuming this amount consistently places you in an estimated weekly deficit of <span className="font-semibold text-foreground">{result.weeklyDeficit}</span> calories.
+                </p>
+                
+                <div className="max-w-md mx-auto mt-6">
+                  <CalorieBar target={result.targetCalories} tdee={result.tdee} />
+                </div>
+              </div>
+            </Card>
+
+            {/* Warning Message strip */}
             {result.warning && (
-              <div className="bg-amber-50 border-y border-amber-200 p-4 flex gap-3 text-amber-800">
+              <div className="bg-amber-50 border-y border-amber-200 p-4 flex gap-3 text-amber-800 rounded-lg">
                 <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
                 <p className="text-sm font-medium leading-relaxed">{result.warning}</p>
               </div>
             )}
 
-            <CardContent className="p-0">
-              <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x border-b">
-                
-                {/* Macros Section */}
-                <div className="p-6 md:p-8 space-y-6">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 bg-primary/10 rounded-lg"><Apple className="w-5 h-5 text-primary" /></div>
-                    <h3 className="text-lg font-bold">Macronutrient Split</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Hit these targets daily to optimize fat loss while maintaining lean muscle.</p>
-                  <MacroChart macros={result.macros} />
+            {/* 2. DUAL-SECTION COMPOSITIONAL MATRIX */}
+            <Card className="border shadow-md overflow-hidden">
+              <CardContent className="p-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x border-b">
                   
-                  <div className="pt-4 border-t border-dashed mt-4 space-y-2 text-sm text-muted-foreground">
-                    <div className="flex justify-between">
-                      <span>Basal Metabolic Rate (BMR):</span>
-                      <span className="font-medium text-foreground">{result.bmr} kcal</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Maintenance (TDEE):</span>
-                      <span className="font-medium text-foreground">{result.tdee} kcal</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Zig Zag Section */}
-                <div className="p-6 md:p-8 space-y-6 bg-slate-50 dark:bg-slate-900/20">
-                  <div className="flex items-center justify-between">
+                  {/* Macros Column */}
+                  <div className="p-6 md:p-8 space-y-6">
                     <div className="flex items-center gap-2">
-                      <div className="p-2 bg-primary/10 rounded-lg"><Calendar className="w-5 h-5 text-primary" /></div>
-                      <h3 className="text-lg font-bold">Zig-Zag Schedule</h3>
+                      <div className="p-2 bg-emerald-50 text-emerald-700 rounded-lg"><Apple className="w-5 h-5" /></div>
+                      <h3 className="text-lg font-bold">Macronutrient Distribution</h3>
                     </div>
-                    <span className="text-xs font-semibold bg-primary/10 text-primary px-2 py-1 rounded-full">Pro Feature</span>
+                    <p className="text-sm text-muted-foreground">Formulated according to your physical requirements to defend muscle retention while reducing fat.</p>
+                    <MacroChart macros={result.macros} />
+                    
+                    <div className="pt-4 border-t border-dashed mt-4 space-y-2 text-sm text-muted-foreground">
+                      <div className="flex justify-between">
+                        <span>Basal Metabolic Rate (BMR):</span>
+                        <span className="font-semibold text-foreground">{result.bmr} kcal</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Total Daily Energy Expenditure (TDEE):</span>
+                        <span className="font-semibold text-foreground">{result.tdee} kcal</span>
+                      </div>
+                    </div>
                   </div>
-                  
-                  <p className="text-sm text-muted-foreground">Vary your daily intake to prevent metabolism slowdown while keeping the exact same weekly deficit.</p>
-                  
-                  <div className="space-y-2 mt-4">
-                    {result.zigZag.map((dayObj, i) => {
-                      const isHigh = dayObj.calories > result.targetCalories;
-                      const isLow = dayObj.calories < result.targetCalories;
-                      return (
-                        <div key={i} className="flex items-center justify-between p-2.5 rounded-md bg-white dark:bg-slate-800 border shadow-sm text-sm">
-                          <span className="font-medium w-24">{dayObj.day}</span>
-                          <span className="font-bold flex-1 text-right">{dayObj.calories} kcal</span>
-                          <div className="w-20 text-right">
-                            {isHigh ? (
-                              <span className="text-xs font-semibold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">High Day</span>
-                            ) : isLow ? (
-                              <span className="text-xs font-semibold text-blue-600 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">Low Day</span>
-                            ) : (
-                              <span className="text-xs font-semibold text-gray-600 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">Normal</span>
-                            )}
+
+                  {/* Zig-Zag Schedule Column */}
+                  <div className="p-6 md:p-8 space-y-6 bg-slate-50 dark:bg-slate-900/20">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="p-2 bg-emerald-50 text-emerald-700 rounded-lg"><Calendar className="w-5 h-5" /></div>
+                        <h3 className="text-lg font-bold">Zig-Zag Schedule</h3>
+                      </div>
+                      <Badge className="bg-emerald-700 text-white hover:bg-emerald-800">Advanced Option</Badge>
+                    </div>
+                    
+                    <p className="text-sm text-muted-foreground">Vary your intake across the week to prevent metabolic deceleration while preserving the identical weekly deficit [1].</p>
+                    
+                    <div className="space-y-2 mt-4">
+                      {result.zigZag.map((dayObj, i) => {
+                        const isHigh = dayObj.calories > result.targetCalories;
+                        const isLow = dayObj.calories < result.targetCalories;
+                        return (
+                          <div key={i} className="flex items-center justify-between p-2.5 rounded-md bg-white dark:bg-slate-800 border shadow-sm text-sm">
+                            <span className="font-medium w-24">{dayObj.day}</span>
+                            <span className="font-bold flex-1 text-right">{dayObj.calories} kcal</span>
+                            <div className="w-24 text-right">
+                              {isHigh ? (
+                                <span className="text-xs font-semibold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-0.5 rounded">High Day</span>
+                              ) : isLow ? (
+                                <span className="text-xs font-semibold text-blue-600 bg-blue-100 dark:bg-blue-900/30 px-2.5 py-0.5 rounded">Low Day</span>
+                              ) : (
+                                <span className="text-xs font-semibold text-gray-600 bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 rounded">Normal</span>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
+
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 3. HIGH-CTR PERSONALIZED ACTION RECOMMENDATIONS */}
+            <Card className="border-0 shadow-lg" style={{ background: brand.primaryBg, border: `1px solid ${brand.primaryBorder}` }}>
+              <CardContent className="p-8">
+                <div className="flex items-center gap-2.5 mb-5">
+                  <ArrowRight className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-lg font-black text-emerald-700">
+                    Your Personalized Recomposition Action Plan
+                  </h3>
+                </div>
+                <p className="text-sm font-bold text-slate-800 mb-4 uppercase tracking-wider">
+                  {result.headline}
+                </p>
+                <div className="space-y-3">
+                  {result.nextSteps.map((step, i) => (
+                    <div key={i} className="flex items-start gap-3 bg-white/80 dark:bg-slate-950/70 rounded-lg p-3.5 border border-emerald-100/50">
+                      <div
+                        className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 bg-emerald-700 text-white"
+                      >
+                        {i + 1}
+                      </div>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{step}</p>
+                    </div>
+                  ))}
                 </div>
 
-              </div>
-            </CardContent>
-          </Card>
+                {/* Core Cross-Links */}
+                <div className="mt-8 pt-4 border-t border-emerald-200">
+                  <p className="text-xs font-bold mb-3 text-emerald-700">Compare other key compositional indicators &rarr;</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { label: "Ideal Weight Calculator", href: "/health/ideal-body-weight-calculator" },
+                      { label: "Body Fat % Calculator", href: "/health/body-fat-calculator" },
+                      { label: "A Body Shape Index (ABSI)", href: "/health/absi-calculator" },
+                      { label: "Heart Rate Zones", href: "/health/heart-rate-calculator" },
+                    ].map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 transition-all hover:bg-white/95 border bg-white border-emerald-200 text-gray-700 hover:shadow-sm"
+                      >
+                        {link.label} <ChevronRight className="w-3 h-3" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 4. METHODOLOGY DISCLAIMER */}
+            <div className="text-[11px] text-gray-400 text-center max-w-2xl mx-auto leading-relaxed px-4">
+              <strong>Methodology Context:</strong> Energy requirements are calculated via the clinically validated Mifflin-St Jeor equation and adjusted based on metabolic activity indexes [1]. Estimated thresholds are predictions. Systemic responses can fluctuate based on genetic factors, sleep cycles, and physical history. Always seek professional advice before engaging in persistent weight adjustments or extreme deficit models.
+            </div>
+
+            {/* 5. SAVE RECORDS & ACTIONS CONSOLE */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pb-6">
+              <Button
+                onClick={handleSave}
+                disabled={saved}
+                className="font-bold px-8 w-full sm:w-auto h-12 bg-emerald-700 text-white hover:bg-emerald-800"
+                style={saved ? { background: brand.primaryBg, color: brand.primary, border: `1px solid ${brand.primaryBorder}` } : {}}
+              >
+                {saved ? (
+                  <>
+                    <CheckCircle2 className="w-4 h-4 mr-2" /> Saved in History
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4 mr-2" /> Save to Progress History
+                  </>
+                )}
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto h-12"
+                onClick={() => {
+                  form.reset();
+                  setResult(null);
+                  setSaved(false);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                <RefreshCw className="w-4 h-4 mr-2" /> New Evaluation
+              </Button>
+            </div>
+
+          </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
