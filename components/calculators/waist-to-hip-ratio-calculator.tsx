@@ -321,7 +321,7 @@ export default function WaistToHipRatioCalculator() {
       </Card>
 
       {/* Results Section */}
-      <div ref={resultsRef} className="scroll-mt-6">
+      <div ref={resultsRef} className="scroll-mt-16">
         {result && (
           <Card className="border-primary/20 shadow-2xl animate-in fade-in slide-in-from-bottom-8 duration-700 overflow-hidden">
             <CardHeader className={`text-center py-8 border-b ${result.colorClass.split(' ')[2]}`}> {/* Background color based on risk */}

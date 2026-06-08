@@ -3,8 +3,7 @@ import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SearchBar } from "@/components/search/search-bar"
-import { AdUnit } from "@/components/ads/ad-unit"
-import { NATIVE_AD, BANNER_300x250 } from "@/components/ads/ad-codes"
+
 import {
   Calculator,
   Wrench,
@@ -759,15 +758,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 300x250 In-Content Banner */}
-        <div className="bg-white border-b border-gray-100">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex justify-center">
-              <AdUnit html={BANNER_300x250} />
-            </div>
-          </div>
-        </div>
-
         {/* ── POPULAR CALCULATORS GRID ──────────────────────────────────────── */}
         <section id="calculators" className="py-16 bg-white">
           <div className="container mx-auto px-4">
@@ -924,15 +914,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-        {/* Native Ad Section */}
-        <div className="bg-gray-50 border-t border-gray-100">
-          <div className="container mx-auto px-4 py-8">
-            <div className="max-w-4xl mx-auto">
-              <AdUnit html={NATIVE_AD} />
-            </div>
-          </div>
-        </div>
 
         {/* ── VISUAL GALLERY ───────────────────────────────────────────────── */}
         <section className="py-16 bg-white">

@@ -530,7 +530,7 @@ export default function AgeCalculator() {
       </Card>
 
       {/* ── UNIFIED RESULTS SECTION ────────────────────────────────────────────── */}
-      <div ref={resultsRef} className="scroll-mt-8">
+      <div ref={resultsRef} className="scroll-mt-16">
         {result && (
           <div className="max-w-4xl mx-auto mt-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
             

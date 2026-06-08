@@ -7,8 +7,7 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { ClickableImage } from "@/components/ui/image-lightbox"
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
-import { AdUnit } from "@/components/ads/ad-unit"
-import { NATIVE_AD } from "@/components/ads/ad-codes"
+
 import {
   Scale, Info, Calculator as CalculatorIcon, User, Users,
   Utensils, Clock, AlertTriangle, CheckCircle2, Footprints,
@@ -102,11 +101,6 @@ export default function BMICalculatorPage() {
 
             {/* ── CALCULATOR ────────────────────────────────────────────────── */}
             <BMICalculator />
-
-            {/* ── AD ────────────────────────────────────────────────────────── */}
-            <div className="mt-10">
-              <AdUnit html={NATIVE_AD} />
-            </div>
 
             {/* ── CONTENT ───────────────────────────────────────────────────── */}
             <div className="max-w-none mt-12 space-y-14">

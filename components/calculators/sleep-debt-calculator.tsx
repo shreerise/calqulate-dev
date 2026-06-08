@@ -310,7 +310,7 @@ export default function SleepDebtCalculator() {
       </Card>
 
       {/* RESULTS DISPLAY */}
-      <div ref={resultsRef} className="scroll-mt-8 mt-8">
+      <div ref={resultsRef} className="scroll-mt-16 mt-8">
         {result && (
           <Card className="max-w-4xl mx-auto overflow-hidden shadow-xl border-primary/20">
             <div className={`h-2 w-full ${

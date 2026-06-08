@@ -21,8 +21,12 @@ import {
 
 export const metadata: Metadata = {
   title: "Privacy Policy - Calqulate.NET",
-  description: "Calqulate's privacy policy explaining how we collect, use, and protect your personal information.",
-  keywords: "privacy policy, data protection, Calqulate, calculators",
+  description:
+    "Calqulate.net's privacy policy explains how we collect, use, and protect your personal information when using our free health calculators and services.",
+  keywords: "privacy policy, data protection, Calqulate, calculators, GDPR, CCPA",
+  alternates: {
+    canonical: "https://calqulate.net/privacy-policy",
+  },
 };
 
 const SectionHeader = ({ id, title, icon: Icon }: { id: string; title: string; icon: React.ElementType }) => (
@@ -39,23 +43,69 @@ export default function PrivacyPolicyPage() {
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             {/* Header */}
-            <div className="mb-12">
+            <div className="mb-10">
               <h1 className="text-4xl md:text-5xl font-bold mb-3 text-left" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>Privacy Policy</h1>
-              <p className="text-muted-foreground text-left text-lg" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>Last updated: September 24, 2025</p>
+              <p className="text-muted-foreground text-left text-lg" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>Last updated: June 8, 2026</p>
             </div>
 
-            {/* Main Content */}
-            <div className="space-y-10">
+            <div className="lg:flex lg:gap-10">
+              {/* Sidebar - Desktop only */}
+              <nav className="hidden lg:block w-56 shrink-0">
+                <div className="sticky top-[76px] space-y-1 border-l-2 border-slate-200 pl-4">
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">On this page</p>
+                  <a href="#scope" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Scope</a>
+                  <a href="#information" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Information We Receive</a>
+                  <a href="#use" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">How We Use Info</a>
+                  <a href="#ads" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Ads & Partners</a>
+                  <a href="#sharing" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Data Sharing</a>
+                  <a href="#international" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">International</a>
+                  <a href="#rights" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Your Rights</a>
+                  <a href="#security" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Security</a>
+                  <a href="#links" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">External Links</a>
+                  <a href="#changes" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Changes</a>
+                  <a href="#contact" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Contact</a>
+                  <a href="#advertise" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Advertise</a>
+                  <a href="#values" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Our Values</a>
+                </div>
+              </nav>
+
+              {/* Content area */}
+              <div className="flex-1 min-w-0">
+                {/* Mobile TOC pills */}
+                <div className="lg:hidden mb-8 p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                  <p className="text-xs font-bold mb-2 flex items-center gap-2 text-slate-500">
+                    <ClipboardList className="w-3.5 h-3.5" />
+                    Jump to Section
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <a href="#scope" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Scope</a>
+                    <a href="#information" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Information We Receive</a>
+                    <a href="#use" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">How We Use Info</a>
+                    <a href="#ads" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Ads & Partners</a>
+                    <a href="#sharing" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Data Sharing</a>
+                    <a href="#international" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">International</a>
+                    <a href="#rights" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Your Rights</a>
+                    <a href="#security" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Security</a>
+                    <a href="#links" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">External Links</a>
+                    <a href="#changes" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Changes</a>
+                    <a href="#contact" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Contact</a>
+                    <a href="#advertise" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Advertise</a>
+                    <a href="#values" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Our Values</a>
+                  </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="space-y-10">
               <section className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-lg w-full max-w-none">
                 <h2 className="text-3xl font-bold mb-4 text-primary">
                   Introduction
                 </h2>
 
                 <div>
-                  <p className="text-lg mb-2"><strong>Begin date:</strong> 20 September 2025</p>
-                  <p className="text-lg mb-4"><strong>Last updated:</strong> September 24, 2025</p>
+                  <p className="text-lg mb-2"><strong>Begin date:</strong> September 20, 2025</p>
+                  <p className="text-lg mb-4"><strong>Last updated:</strong> June 8, 2026</p>
                   
                   <p className="text-lg leading-relaxed max-w-none">
                     Welcome to <strong>Calqulate</strong>. We are a tiny startup founded by two friends and co-founders — 
@@ -209,7 +259,7 @@ export default function PrivacyPolicyPage() {
               <Card className="rounded-lg p-6">
                 <CardContent className="p-0">
                   <p className="text-lg leading-relaxed">
-                    Email: <a href="mailto:shreerise@gmail.com" className="text-primary hover:underline">shreerise@gmail.com</a><br />
+                    Email: <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a><br />
                     Contact form: <a href="/contact-us" className="text-primary hover:underline">Contact Us</a>
                   </p>
                 </CardContent>
@@ -220,7 +270,7 @@ export default function PrivacyPolicyPage() {
                 <CardContent className="p-0">
                   <p className="text-lg leading-relaxed">
                     We welcome sponsors and advertisers. To advertise on Calqulate, email{" "}
-                    <a href="mailto:shreerise@gmail.com" className="text-primary hover:underline">shreerise@gmail.com</a>.
+                    <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a>.
                   </p>
                 </CardContent>
               </Card>
@@ -235,7 +285,9 @@ export default function PrivacyPolicyPage() {
                 </CardContent>
               </Card>
             </div>
+            </div>
           </div>
+        </div>
         </div>
       </main>
 

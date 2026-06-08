@@ -7,9 +7,6 @@ import "./globals.css";
 import { Suspense } from "react";
 import CalculatorPopup from "@/components/ui/calculator-popup";
 import ClarityProvider from "@/components/analytics/clarity-provider";
-import { CookieConsentProvider } from "@/components/analytics/cookie-consent-provider";
-import { AdUnit } from "@/components/ads/ad-unit";
-import { NATIVE_AD, BANNER_320x50, BANNER_720x90 } from "@/components/ads/ad-codes";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://calqulate.net"),
@@ -55,32 +52,26 @@ export default function RootLayout({
         {/* Google AdSense Verification */}
         <meta name="google-adsense-account" content="ca-pub-4361792190799561" />
 
+        {/* Google Tag Manager */}
+        <script dangerouslySetInnerHTML={{
+          __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MNCCJNHF');`
+        }} />
+
       </head>
 
       <body
-        className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased pb-[60px] md:pb-0`}
+        className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
-        {/* 720x90 Leaderboard - top of every page, desktop only */}
-        <div className="hidden md:block bg-gray-50 border-b border-gray-100">
-          <div className="container mx-auto px-4 py-3">
-            <div className="flex justify-center">
-              <AdUnit html={BANNER_720x90} />
-            </div>
-          </div>
-        </div>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNCCJNHF" height="0" width="0" style={{ display: "none", visibility: "hidden" }} />
+        </noscript>
 
         <ClarityProvider />
 
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 
         <CalculatorPopup />
-        
-        <CookieConsentProvider />
-
-        {/* 320x50 Mobile Sticky Banner - visible only on small screens */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
-          <AdUnit html={BANNER_320x50} className="mx-auto" />
-        </div>
       </body>
     </html>
   );

@@ -23,9 +23,13 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Terms and Conditions - Calqulate.NET",
-  description: "Terms and Conditions for Calqulate’s calculators, tools, and services.",
-  keywords: "terms, terms and conditions, terms of service, Calqulate",
+  title: "Terms & Conditions - Calqulate.NET",
+  description:
+    "Calqulate.net's Terms and Conditions governing the use of our free health calculators, custom development services, and website content. Last updated June 2026.",
+  keywords: "terms, terms and conditions, terms of service, Calqulate, calculator terms",
+  alternates: {
+    canonical: "https://calqulate.net/terms-and-conditions",
+  },
 };
 
 // Reusable Section Header Component
@@ -43,23 +47,77 @@ export default function TermsAndConditionsPage() {
 
       <main className="flex-1 bg-gray-50/50">
         <div className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             {/* Page Header */}
             <div className="mb-12 text-center">
               <h1 className="text-4xl md:text-5xl font-bold mb-3" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
                 Terms & Conditions
               </h1>
               <p className="text-muted-foreground text-lg" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-                Last updated: September 24, 2025
+                Last updated: June 8, 2026
               </p>
                <p className="text-sm mt-2">
-                Contact: <a href="mailto:shreerise@gmail.com" className="underline text-primary">shreerise@gmail.com</a> 
+                Contact: <a href="mailto:krushal.barasiya@calqulate.net" className="underline text-primary">krushal.barasiya@calqulate.net</a> 
                 {" "}or use our <a href="/contact-us" className="underline text-primary">Contact Us</a> form.
               </p>
             </div>
 
-            {/* Main Content */}
-            <div className="space-y-10">
+            <div className="lg:flex lg:gap-10">
+              {/* Sidebar - Desktop only */}
+              <nav className="hidden lg:block w-56 shrink-0">
+                <div className="sticky top-[76px] space-y-1 border-l-2 border-slate-200 pl-4">
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">On this page</p>
+                  <a href="#intro" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Introduction</a>
+                  <a href="#services" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Our Services</a>
+                  <a href="#orders" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Custom Orders</a>
+                  <a href="#ip" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Intellectual Property</a>
+                  <a href="#conduct" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">User Conduct</a>
+                  <a href="#privacy" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Privacy</a>
+                  <a href="#disclaimer" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Disclaimers</a>
+                  <a href="#liability" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Liability</a>
+                  <a href="#indemnification" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Indemnification</a>
+                  <a href="#changes" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Changes</a>
+                  <a href="#termination" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Termination</a>
+                  <a href="#thirdparty" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Third-Party Links</a>
+                  <a href="#law" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Governing Law</a>
+                  <a href="#modifications" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Modifications</a>
+                  <a href="#contact" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Contact</a>
+                  <a href="#agreement" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Complete Agreement</a>
+                  <a href="#legal" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Legal Advice</a>
+                </div>
+              </nav>
+
+              {/* Content area */}
+              <div className="flex-1 min-w-0">
+                {/* Mobile TOC pills */}
+                <div className="lg:hidden mb-8 p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                  <p className="text-xs font-bold mb-2 flex items-center gap-2 text-slate-500">
+                    <FileText className="w-3.5 h-3.5" />
+                    Jump to Section
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <a href="#intro" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Introduction</a>
+                    <a href="#services" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Our Services</a>
+                    <a href="#orders" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Custom Orders</a>
+                    <a href="#ip" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Intellectual Property</a>
+                    <a href="#conduct" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">User Conduct</a>
+                    <a href="#privacy" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Privacy</a>
+                    <a href="#disclaimer" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Disclaimers</a>
+                    <a href="#liability" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Liability</a>
+                    <a href="#indemnification" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Indemnification</a>
+                    <a href="#changes" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Changes</a>
+                    <a href="#termination" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Termination</a>
+                    <a href="#thirdparty" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Third-Party Links</a>
+                    <a href="#law" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Governing Law</a>
+                    <a href="#modifications" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Modifications</a>
+                    <a href="#contact" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Contact</a>
+                    <a href="#agreement" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Complete Agreement</a>
+                    <a href="#legal" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Legal Advice</a>
+                  </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="space-y-10">
               
               <SectionHeader id="intro" title="1. Introduction / Agreement to Terms" icon={FileText} />
               <Card className="border-l-4 border-primary rounded-lg">
@@ -80,7 +138,7 @@ export default function TermsAndConditionsPage() {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2.2 Custom Calculator & Development Services</h3>
                     <p className="text-lg leading-relaxed">
-                      We offer custom calculator development for entrepreneurs or organizations. Contact us via email at <a href="mailto:shreerise@gmail.com" className="text-primary hover:underline">shreerise@gmail.com</a> or through our <a href="/contact-us" className="text-primary hover:underline">Contact Us</a> page.
+                      We offer custom calculator development for entrepreneurs or organizations. Contact us via email at <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a> or through our <a href="/contact-us" className="text-primary hover:underline">Contact Us</a> page.
                     </p>
                   </div>
                   <div>
@@ -197,7 +255,7 @@ export default function TermsAndConditionsPage() {
                 <CardContent className="p-6 text-lg leading-relaxed">
                   <p>
                     For questions or notices, contact us at: <br />
-                    <strong>Email:</strong> <a href="mailto:shreerise@gmail.com" className="text-primary hover:underline">shreerise@gmail.com</a> <br />
+                    <strong>Email:</strong> <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a> <br />
                     <strong>Contact Form:</strong> <a href="/contact-us" className="text-primary hover:underline">Contact Us</a>
                   </p>
                 </CardContent>
@@ -218,7 +276,9 @@ export default function TermsAndConditionsPage() {
               </Card>
 
             </div>
+            </div>
           </div>
+        </div>
         </div>
       </main>
 
