@@ -90,7 +90,7 @@ export default function BMICalculatorPage() {
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 text-xs font-bold px-4 py-2 rounded-full mb-4">
                 <Activity className="w-3.5 h-3.5" />
-                Trusted by 50,000+ users · CDC & WHO Standards · Updated 2025
+                Trusted by 50,000+ users · CDC & WHO Standards · Updated 2026
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4 leading-tight">
                 BMI Calculator — Free, Accurate & Personalized for Men and Women

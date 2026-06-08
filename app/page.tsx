@@ -21,6 +21,10 @@ import {
   Users,
   Award,
   Sparkles,
+  History,
+  BarChart3,
+  Target,
+  Gift,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -360,6 +364,29 @@ const trustPoints = [
   },
 ]
 
+const productUpdateFeatures = [
+  {
+    icon: <Sparkles className="h-8 w-8 text-emerald-600" />,
+    title: "Personalized Results",
+    description: "Get accurate, personalized health insights instantly — no login or signup required.",
+  },
+  {
+    icon: <History className="h-8 w-8 text-emerald-600" />,
+    title: "Save Your Results",
+    description: "Save all your calculations securely and access them anytime you return.",
+  },
+  {
+    icon: <BarChart3 className="h-8 w-8 text-emerald-600" />,
+    title: "Progress Tracking",
+    description: "Track your complete history and monitor changes over time.",
+  },
+  {
+    icon: <Target className="h-8 w-8 text-emerald-600" />,
+    title: "Compare Results",
+    description: "Compare previous and current results to identify positive improvements and areas to focus on.",
+  },
+]
+
 // ─── Page Component ───────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -507,6 +534,72 @@ export default function HomePage() {
                 </div>
               </div>
 
+            </div>
+          </div>
+        </section>
+
+        {/* ── PRODUCT UPDATE SECTION ───────────────────────────────────────────────── */}
+        <section className="py-16 bg-gradient-to-br from-emerald-50 via-white to-emerald-50 border-b border-emerald-100">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 px-5 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold mb-4">
+                  <Gift className="h-5 w-5" />
+                  LATEST PRODUCT UPDATE
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
+                  Personalized Progress Tracking is Here
+                </h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  At <span className="font-semibold text-emerald-700">Calqulate.net</span>, we now make it easier than ever to track your health journey.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                {productUpdateFeatures.map((feature, index) => (
+                  <Card key={index} className="border-emerald-100 hover:border-emerald-200 transition-all hover:shadow-md group">
+                    <CardHeader className="pb-4">
+                      <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        {feature.icon}
+                      </div>
+                      <CardTitle className="text-xl text-gray-900">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-base text-gray-600 leading-relaxed">
+                        {feature.description}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              <div className="bg-white rounded-3xl border border-emerald-100 p-8 md:p-12 text-center shadow-sm">
+                <div className="flex justify-center mb-6">
+                  <div className="inline-flex items-center gap-3 bg-emerald-600 text-white px-6 py-3 rounded-2xl">
+                    <CheckCircle2 className="h-6 w-6" />
+                    <span className="font-semibold">Completely Free • No Hidden Charges</span>
+                  </div>
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                  Start tracking your health progress today
+                </h3>
+                <p className="text-gray-600 max-w-md mx-auto mb-8">
+                  Save your results, monitor your history, compare improvements, and celebrate your progress — all without any cost.
+                </p>
+                <Button
+                  size="lg"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-10 py-6 rounded-2xl text-lg shadow-lg"
+                  asChild
+                >
+                  <Link href="/search">
+                    Try Any Calculator Now
+                    <ArrowRight className="ml-3 h-5 w-5" />
+                  </Link>
+                </Button>
+                <p className="text-xs text-gray-500 mt-6">
+                  No signup required to get started. Save results anytime.
+                </p>
+              </div>
             </div>
           </div>
         </section>
