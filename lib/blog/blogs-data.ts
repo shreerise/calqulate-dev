@@ -2,7 +2,7 @@
 // Single source of truth for all blogs across the site.
 // Add new blogs here — /blog page and /blog/[slug] page both read from this list.
 
-export type BlogCategory = "Body Shape" | "Face Shape";
+export type BlogCategory = "Body Shape" | "Face Shape" | "Health";
 
 export interface Blog {
   slug: string;
@@ -105,6 +105,20 @@ export const blogs: Blog[] = [
     publishedAt: "2026-05-26",
     cta: "See Hairstyle Options",
     ctaHref: "/health/face-shape-calculator",
+  },
+  {
+    slug: "how-to-calculate-weight-loss-percentage",
+    title: "How to Calculate Your Weight Loss Percentage",
+    description:
+      "Learn how to calculate your weight loss percentage with the exact formula, what counts as a healthy rate, and how to track real progress beyond the scale — with a free embedded weight loss percentage calculator.",
+    category: "Health",
+    intent: "Track progress",
+    uspFeature: "Weight loss percentage calculator",
+    featuredImage: "/images/blogs/weight-loss-percentage-cover.png",
+    readTime: "9 min read",
+    publishedAt: "2026-06-09",
+    cta: "Open Weight Loss Calculator",
+    ctaHref: "/health/weight-loss-percentage-calculator",
   },
   {
     slug: "best-beard-styles-by-face-shape",

@@ -11,6 +11,7 @@ import BestGymPlanByBodyShapeBlog from "@/components/blog/BestGymPlanByBodyShape
 import GenericBlogPlaceholder from "@/components/blog/GenericBlogPlaceholder";
 import FindYourFaceShapeBlog from "@/components/blog/FindYourFaceShapeBlog";
 import BestHaircutFaceShapeBlog from "@/components/blog/BestHaircutFaceShapeBlog";
+import CalculateWeightLossPercentageBlog from "@/components/blog/CalculateWeightLossPercentageBlog";
 import RelatedBlogs from "@/components/blog/RelatedBlogs";
 
 interface Props {
@@ -67,10 +68,9 @@ export default function BlogSlugPage({ params }: Props) {
       case "find-your-face-shape":
         return <FindYourFaceShapeBlog blog={blog} />;
       case "best-haircut-for-your-face-shape":
-        // Some blog components may not have proper props typing exported.
-        // Cast to any to avoid TSX prop type errors while passing the blog.
-        const HaircutComp: any = BestHaircutFaceShapeBlog;
-        return <HaircutComp blog={blog} />;
+        return <BestHaircutFaceShapeBlog {...({ blog } as any)} />;
+      case "how-to-calculate-weight-loss-percentage":
+        return <CalculateWeightLossPercentageBlog blog={blog} />;
       default:
         return <GenericBlogPlaceholder blog={blog} />;
     }
