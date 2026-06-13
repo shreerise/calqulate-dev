@@ -7,7 +7,7 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
-import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 import { 
   Heart, 
   Activity, 
@@ -17,9 +17,7 @@ import {
   Users, 
   CheckCircle2, 
   Info, 
-  AlertTriangle,
-  Clock,
-  Zap
+  AlertTriangle
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -42,7 +40,7 @@ const faqs = [
   {
     question: "How to calculate blood pressure?",
     answer:
-      "Blood pressure cannot be calculated from a mathematical formula—it must be measured with a device like a digital monitor or manual sphygmomanometer.",
+      "Blood pressure cannot be calculated from a mathematical formula. It must be measured with a physical device like a digital monitor or manual sphygmomanometer.",
   },
   {
     question: "What is normal blood pressure by age?",
@@ -62,7 +60,7 @@ const faqs = [
   {
     question: "How often should I check my blood pressure?",
     answer:
-      "If your BP is normal, once every 1–2 months is usually sufficient. If you are high risk or have hypertension, you may need to check weekly or as advised by your doctor.",
+      "If your BP is normal, once every 1 to 2 months is usually sufficient. If you are high risk or have hypertension, you may need to check weekly or as advised by your doctor.",
   },
 ]
 
@@ -88,10 +86,10 @@ export default function BloodPressurePage() {
                 Blood Pressure Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                A blood pressure calculator helps you understand your BP reading by classifying it into levels such as Normal, Elevated, or Hypertension.
+                This tool classifies your blood pressure measurements using standard medical thresholds. It groups your readings into categories like normal, elevated, or high blood pressure to help you assess your cardiovascular risk.
               </p>
               <p className="text-base text-muted-foreground mt-3">
-                It does not just show numbers—it explains what those numbers mean for your health.
+                Tracking these numbers over time provides a clear picture of your arterial health and helps you take proactive steps with your doctor.
               </p>
             </div>
 
@@ -104,19 +102,23 @@ export default function BloodPressurePage() {
               <section className="py-8 border-b border-gray-100">
                 <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
                   <Info className="w-6 h-6 text-green-600" />
-                  Understanding Blood Pressure
+                  Understanding Blood Pressure Readings
                 </h2>
                 <p className="mb-6 text-gray-700 leading-relaxed">
-                  Blood pressure is the force of blood pushing against artery walls when the heart pumps. It is expressed in two numbers: <b>Systolic / Diastolic (mmHg)</b>.
+                  Blood pressure measures the force of blood against your artery walls as your heart pumps. The reading displays two numbers, written as systolic over diastolic pressure, measured in millimeters of mercury (mmHg).
                 </p>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="p-5 bg-green-50 rounded-2xl border border-green-100">
-                    <p className="font-bold text-green-900 mb-1">Systolic (Top Number)</p>
-                    <p className="text-sm text-green-800">The pressure in your arteries when your heart beats.</p>
+                    <p className="font-bold text-green-900 mb-1">Systolic Pressure (Top Number)</p>
+                    <p className="text-sm text-green-800">
+                      This represents the maximum pressure exerted in your arteries when your heart contracts to pump blood to the rest of your body.
+                    </p>
                   </div>
                   <div className="p-5 bg-green-50 rounded-2xl border border-green-100">
-                    <p className="font-bold text-green-900 mb-1">Diastolic (Bottom Number)</p>
-                    <p className="text-sm text-green-800">The pressure in your arteries when your heart rests between beats.</p>
+                    <p className="font-bold text-green-900 mb-1">Diastolic Pressure (Bottom Number)</p>
+                    <p className="text-sm text-green-800">
+                      This represents the lowest pressure in your arteries when your heart muscle rests between beats to refill with blood.
+                    </p>
                   </div>
                 </div>
               </section>
@@ -125,20 +127,23 @@ export default function BloodPressurePage() {
               <section className="bg-orange-50 p-6 rounded-2xl border border-orange-100">
                 <h3 className="text-xl font-bold text-orange-900 mb-3 flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-orange-600" />
-                  Blood Pressure Calculation Formula (Important Clarity)
+                  Why There is No Formula to Calculate Blood Pressure
                 </h3>
-                <p className="text-sm text-orange-800 font-bold mb-2 uppercase tracking-wide">How to Calculate Blood Pressure:</p>
+                <p className="text-sm text-orange-800 font-bold mb-2 uppercase tracking-wide">Measurement vs. Equation:</p>
                 <p className="text-gray-700 mb-4 leading-relaxed">
-                  ⚠️ There is <b>NO mathematical formula</b> to calculate blood pressure from age or weight. This is a major misconception. Blood pressure is <b>measured</b>, not calculated, using a digital monitor or manual sphygmomanometer.
+                  You cannot calculate blood pressure using a mathematical equation based on age, weight, or height. Unlike body mass index, blood pressure requires physical measurement with a digital monitor or a manual cuff. 
                 </p>
                 <p className="text-sm text-gray-600 italic">
-                  A blood pressure calculator formula is actually a classification system, not an equation.
+                  Online tools that claim to calculate blood pressure are actually classification systems. They take your physical measurements and map them to standard clinical guidelines.
                 </p>
               </section>
 
               {/* BP Level Chart */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Blood Pressure Calculator – BP Level Classification</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Blood Pressure Classification Table</h2>
+                <p className="text-gray-700 mb-4 leading-relaxed">
+                  This classification system is defined by the American Heart Association and the American College of Cardiology. It serves as the foundation for modern clinical assessments.
+                </p>
                 <Card className="not-prose border-green-200 overflow-hidden shadow-sm">
                   <table className="w-full text-sm">
                     <thead>
@@ -149,16 +154,40 @@ export default function BloodPressurePage() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                      <tr><td className="px-6 py-4 font-medium">Low BP</td><td className="px-6 py-4">&lt; 90</td><td className="px-6 py-4">&lt; 60</td></tr>
-                      <tr className="bg-green-50/50"><td className="px-6 py-4 font-bold text-green-700">Normal</td><td className="px-6 py-4">90–119</td><td className="px-6 py-4">60–79</td></tr>
-                      <tr><td className="px-6 py-4 font-medium text-orange-600">Elevated</td><td className="px-6 py-4">120–129</td><td className="px-6 py-4">&lt; 80</td></tr>
-                      <tr className="bg-orange-50/30"><td className="px-6 py-4 font-medium text-orange-700">High BP (Stage 1)</td><td className="px-6 py-4">130–139</td><td className="px-6 py-4">80–89</td></tr>
-                      <tr><td className="px-6 py-4 font-bold text-red-600">High BP (Stage 2)</td><td className="px-6 py-4">≥ 140</td><td className="px-6 py-4">≥ 90</td></tr>
-                      <tr className="bg-red-600 text-white"><td className="px-6 py-4 font-bold">Hypertensive Crisis</td><td className="px-6 py-4">≥ 180</td><td className="px-6 py-4">≥ 120</td></tr>
+                      <tr>
+                        <td className="px-6 py-4 font-medium text-blue-700">Low BP (Hypotension)</td>
+                        <td className="px-6 py-4">&lt; 90</td>
+                        <td className="px-6 py-4">&lt; 60</td>
+                      </tr>
+                      <tr className="bg-green-50/50">
+                        <td className="px-6 py-4 font-bold text-green-700">Normal</td>
+                        <td className="px-6 py-4">90–119</td>
+                        <td className="px-6 py-4">60–79</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-medium text-amber-600">Elevated</td>
+                        <td className="px-6 py-4">120–129</td>
+                        <td className="px-6 py-4">&lt; 80</td>
+                      </tr>
+                      <tr className="bg-orange-50/30">
+                        <td className="px-6 py-4 font-medium text-orange-700">Hypertension Stage 1</td>
+                        <td className="px-6 py-4">130–139</td>
+                        <td className="px-6 py-4">80–89</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-bold text-red-600">Hypertension Stage 2</td>
+                        <td className="px-6 py-4">≥ 140</td>
+                        <td className="px-6 py-4">≥ 90</td>
+                      </tr>
+                      <tr className="bg-red-600 text-white">
+                        <td className="px-6 py-4 font-bold">Hypertensive Crisis</td>
+                        <td className="px-6 py-4">≥ 180</td>
+                        <td className="px-6 py-4">≥ 120</td>
+                      </tr>
                     </tbody>
                   </table>
                 </Card>
-                <p className="mt-4 text-sm text-center text-gray-500 italic">👉 This classification powers every blood pressure calculator online.</p>
+                <p className="mt-4 text-sm text-center text-gray-500 italic">Note: If your systolic and diastolic numbers fall into different categories, the higher category determines your overall classification status.</p>
               </section>
 
               {/* BP By Age */}
@@ -167,7 +196,9 @@ export default function BloodPressurePage() {
                   <Calendar className="w-6 h-6 text-green-600" />
                   Normal Blood Pressure by Age
                 </h2>
-                <p className="text-gray-700 mb-6">Average readings rise slightly with age, but the medical definition of high BP remains the same.</p>
+                <p className="text-gray-700 mb-6">
+                  Blood vessels naturally stiffen over time, which often leads to higher average systolic readings as people age. However, the medical definition of high blood pressure does not change with age.
+                </p>
                 <div className="grid md:grid-cols-2 gap-8 items-start">
                   <Card className="not-prose border-green-100 overflow-hidden shadow-sm">
                     <table className="w-full text-sm">
@@ -187,21 +218,20 @@ export default function BloodPressurePage() {
                     </table>
                   </Card>
                   <div className="space-y-4">
-                    <h4 className="font-bold text-gray-800 uppercase tracking-widest text-sm">How to Use This Guidance:</h4>
-                    <ul className="space-y-3">
-                      <li className="flex gap-2 text-sm text-gray-600"><CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" /> Compare your reading to age trends.</li>
-                      <li className="flex gap-2 text-sm text-gray-600">
-                        <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
-                        Understand long-term{" "}
-                        <Link
-                          href="/health/ascvd-risk-calculator"
-                          className="font-medium hover:underline hover:text-green-700 transition-colors"
-                        >
-                          cardiovascular risk
-                        </Link>.
-                      </li>
-                      <li className="flex gap-2 text-sm text-red-600 font-bold"><AlertCircle className="w-4 h-4 shrink-0" /> Do NOT ignore high readings because of age. A BP of 140/90 is still high at age 65.</li>
-                    </ul>
+                    <h4 className="font-bold text-gray-800 uppercase tracking-widest text-sm">Understanding These Trends:</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      While your blood pressure might rise slightly as you get older, a reading of 140/90 mmHg remains high-risk for someone who is 65, just as it is for someone who is 30. Stiffened vessels put extra strain on your heart muscle. 
+                    </p>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      Monitoring both your pressure and your{" "}
+                      <Link
+                        href="/health/resting-heart-rate-calculator"
+                        className="font-medium text-green-700 hover:underline transition-colors"
+                      >
+                        resting heart rate
+                      </Link>{" "}
+                      can provide a more complete view of your cardiovascular adaptation.
+                    </p>
                   </div>
                 </div>
               </section>
@@ -210,32 +240,36 @@ export default function BloodPressurePage() {
               <section className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4 p-6 border border-gray-100 rounded-3xl bg-white shadow-sm hover:border-green-300 transition-colors">
                   <h3 className="text-xl font-bold flex items-center gap-2 text-gray-900">
-                    <Users className="text-green-600" /> Normal Range for Men
+                    <Users className="text-green-600" /> Statistical Ranges for Men
                   </h3>
                   <p className="text-sm font-bold text-green-700">Ideal: 110–120 / 70–80 mmHg</p>
-                  <p className="text-sm text-gray-600 leading-relaxed">Risk increases faster for men due to factors like smoking, alcohol, and visceral fat storage around the abdomen.</p>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Prior to middle age, men statistically develop high blood pressure at higher rates. Lifestyle choices, abdominal fat storage, and tobacco use often accelerate early cardiovascular risks in men.
+                  </p>
                 </div>
                 <div className="space-y-4 p-6 border border-gray-100 rounded-3xl bg-white shadow-sm hover:border-green-300 transition-colors">
                   <h3 className="text-xl font-bold flex items-center gap-2 text-gray-900">
-                    <Users className="text-green-600" /> Normal Range for Women
+                    <Users className="text-green-600" /> Statistical Ranges for Women
                   </h3>
                   <p className="text-sm font-bold text-green-700">Ideal: 105–115 / 65–75 mmHg</p>
-                  <p className="text-sm text-gray-600 leading-relaxed">Hormonal changes during pregnancy and menopause significantly affect BP. Women may develop high BP later in life, but complications can be severe.</p>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Women often maintain lower average readings than men until menopause. Hormonal shifts during pregnancy or menopause can trigger rapid changes in blood vessel elasticity, making regular checks essential.
+                  </p>
                 </div>
               </section>
 
               {/* Silent Killer Note */}
               <section className="bg-red-50 p-8 rounded-3xl border border-red-100">
                 <h2 className="text-2xl font-bold text-red-900 mb-4 flex items-center gap-2">
-                  <AlertCircle className="w-6 h-6 text-red-600" /> High Blood Pressure – The Silent Killer
+                  <AlertCircle className="w-6 h-6 text-red-600" /> High Blood Pressure: The Silent Killer
                 </h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <p className="font-bold text-red-800">Stage 1: 130–139 / 80–89</p>
-                    <p className="font-bold text-red-800">Stage 2: ≥ 140 / 90</p>
+                    <p className="font-bold text-red-800">Stage 1 Range: 130–139 / 80–89</p>
+                    <p className="font-bold text-red-800">Stage 2 Range: ≥ 140 / 90</p>
                   </div>
                   <p className="text-sm text-gray-700 leading-relaxed">
-                    High BP is often called the &quot;silent killer&quot; because there are <b>no early symptoms</b>. Damage to your heart and arteries happens quietly over time without you feeling it.
+                    High blood pressure rarely causes symptoms in its early stages. Arterial damage occurs quietly over years before complications arise. Unmanaged pressure strains the heart muscle, eventually increasing the risk of stroke or heart attack.
                   </p>
                 </div>
               </section>
@@ -246,16 +280,19 @@ export default function BloodPressurePage() {
                   <Stethoscope className="w-6 h-6 text-green-600" />
                   How to Measure Blood Pressure at Home
                 </h2>
+                <p className="text-gray-700 mb-6">
+                  For the most accurate assessment, physical preparation is key. Temporary factors like stress, physical activity, and caffeine can inflate your readings.
+                </p>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <h4 className="font-bold text-sm uppercase text-gray-500">Step-by-Step Protocol:</h4>
                     <div className="space-y-3">
                       {[
-                        "Sit quietly for 5 minutes before measuring.",
-                        "Feet flat on the floor, back supported.",
-                        "Arm supported at heart level.",
-                        "No caffeine or smoking 30 min before.",
-                        "Take 2 readings, 1 minute apart, and average them."
+                        "Rest quietly for five minutes before pressing start.",
+                        "Sit in a chair with back support, keeping feet flat on the floor.",
+                        "Position your arm on a flat surface so the cuff sits at heart level.",
+                        "Avoid caffeine, exercise, and smoking for at least thirty minutes prior.",
+                        "Measure twice, keeping a one-minute gap between tests, and average the numbers."
                       ].map((step, i) => (
                         <div key={i} className="flex gap-3 text-sm text-gray-700">
                           <span className="h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold shrink-0">{i+1}</span>
@@ -265,15 +302,15 @@ export default function BloodPressurePage() {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <h4 className="font-bold text-sm uppercase text-red-500">Common Mistakes (Avoid These):</h4>
+                    <h4 className="font-bold text-sm uppercase text-red-500">Common Mistakes to Avoid:</h4>
                     <ul className="grid grid-cols-1 gap-2 text-sm text-gray-600">
-                      <li className="flex items-center gap-2">❌ Talking during measurement</li>
-                      <li className="flex items-center gap-2">❌ Crossed legs</li>
-                      <li className="flex items-center gap-2">❌ Cuff over clothing</li>
-                      <li className="flex items-center gap-2">❌ Measuring immediately after exercise</li>
+                      <li className="flex items-center gap-2">❌ Talking or moving during your test</li>
+                      <li className="flex items-center gap-2">❌ Crossing your legs, which temporarily restricts blood flow</li>
+                      <li className="flex items-center gap-2">❌ Placing the cuff over thick clothing instead of bare skin</li>
+                      <li className="flex items-center gap-2">❌ Measuring immediately after physical exertion or stress</li>
                     </ul>
                     <p className="text-xs text-orange-600 font-medium p-3 bg-orange-50 rounded-lg">
-                      Note: These errors can raise your readings artificially by 10–20 mmHg.
+                      Note: These errors can raise your readings artificially by 10 to 20 mmHg, leading to unnecessary anxiety.
                     </p>
                   </div>
                 </div>
@@ -282,28 +319,43 @@ export default function BloodPressurePage() {
               {/* Trends vs Numbers */}
               <section className="border-l-4 border-green-600 pl-6 py-2">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  BP Level vs One-Time Reading
+                  One-Time Readings vs. Long-Term Trends
                 </h3>
 
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  One high reading does not automatically mean you have hypertension. 
-                  Diagnosis requires <b>multiple readings on different days</b>. 
-                  Trends matter far more than single numbers.
+                  A single high reading does not mean you have a chronic condition. Blood pressure fluctuates throughout the day due to stress, digestion, and activity. Diagnosing hypertension requires consistent measurements taken on different days.
+                </p>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  If you consistently record high readings, tracking metrics like your{" "}
+                  <Link
+                    href="/health/mean-arterial-pressure-calculator"
+                    className="font-medium text-green-700 hover:underline transition-colors"
+                  >
+                    mean arterial pressure
+                  </Link>{" "}
+                  or{" "}
+                  <Link
+                    href="/health/pulse-pressure-calculator"
+                    className="font-medium text-green-700 hover:underline transition-colors"
+                  >
+                    pulse pressure
+                  </Link>{" "}
+                  can help you and your doctor identify vascular stiffness.
                 </p>
 
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 mt-6">
                   {[
-                    { label: 'Age over 35' },
-                    { label: 'Diabetes', href: '/health/diabetes-risk-calculator' },
-                    { label: 'Overweight', href: '/health/bmi-calculator' },
-                    { label: 'Family History' },
-                    { label: 'Poor Sleep', href: '/health/sleep-debt-calculator' }
+                    { label: "Age over 35" },
+                    { label: "Diabetes Status", href: "/health/diabetes-risk-calculator" },
+                    { label: "Elevated BMI", href: "/health/bmi-calculator" },
+                    { label: "Family History" },
+                    { label: "Poor Sleep Patterns", href: "/health/sleep-debt-calculator" }
                   ].map((item) => (
                     <span
                       key={item.label}
                       className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-bold border border-green-100"
                     >
-                      Monitor Regularly if:{' '}
+                      Monitor Regularly:{" "}
                       {item.href ? (
                         <Link
                           href={item.href}
@@ -319,11 +371,29 @@ export default function BloodPressurePage() {
                 </div>
               </section>
 
+              {/* Heart rate integration */}
+              <section className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                <h3 className="text-xl font-bold text-slate-950 mb-3 flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-slate-600" />
+                  Understanding Your Complete Cardiovascular Profile
+                </h3>
+                <p className="text-sm text-slate-700 leading-relaxed">
+                  While blood pressure represents the force on your vessel walls, your heart rate measures how hard your heart is working. You can use our general{" "}
+                  <Link
+                    href="/health/heart-rate-calculator"
+                    className="font-medium text-green-700 hover:underline transition-colors"
+                  >
+                    heart rate calculator
+                  </Link>{" "}
+                  during physical activity to track how your cardiovascular system recovers from exertion. Combining both metrics offers a more comprehensive perspective on your physical fitness.
+                </p>
+              </section>
+
               {/* Final Note */}
               <section className="text-center pt-12 border-t border-gray-100">
                 <h2 className="text-3xl font-bold mb-4 text-gray-900">Your Heart Health Matters</h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Knowledge is the first step in prevention. By tracking your blood pressure and understanding what the levels mean, you are taking a proactive step toward a longer, healthier life.
+                  By tracking your blood pressure and understanding what the levels mean, you are taking a proactive step toward a longer, healthier life. Share your saved records with your primary care physician to make informed decisions about your health.
                 </p>
               </section>
 

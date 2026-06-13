@@ -33,7 +33,7 @@ import Link from "next/link"
 const calculators = [
   {
     title: "BMI Calculator",
-    description: "Standard weight scales don't tell the whole story. Decode what your numbers actually mean for your health and get a realistic, shame-free action plan.",
+    description: "Standard weight scales don't tell the whole story. Decode what your numbers mean for your health and get a realistic, shame-free action plan.",
     icon: <Scale className="h-5 w-5" />,
     href: "/health/bmi-calculator",
     category: "Body Composition",
@@ -42,7 +42,7 @@ const calculators = [
   },
   {
     title: "Body Shape Calculator",
-    description: "Tired of clothes that fit on the hanger but look off on you? Discover your exact frame shape to unlock flattering styling choices that match your natural proportions.",
+    description: "Many clothes look great on the hanger but fit poorly on your body. Discover your exact frame shape to find flattering styling choices that match your natural proportions.",
     icon: <Activity className="h-5 w-5" />,
     href: "/health/body-shape-calculator",
     category: "Body Composition",
@@ -69,7 +69,7 @@ const calculators = [
   },
   {
     title: "TDEE Calculator",
-    description: "Eating healthy but still not seeing results? Find the exact baseline calories your body burns daily so you can stop guessing and start eating with purpose.",
+    description: "Consistent healthy eating still requires proper portion control. Find the exact baseline calories your body burns daily so you can eat with clear purpose.",
     icon: <Zap className="h-5 w-5" />,
     href: "/health/tdee-calculator",
     category: "Nutrition",
@@ -87,7 +87,7 @@ const calculators = [
   },
   {
     title: "Heart Rate Calculator",
-    description: "Exhausting yourself during workouts without seeing fat loss? Identify your target cardio zones so you can build stamina without burning yourself out.",
+    description: "Working out to exhaustion without losing body fat is common when heart rate zones are off. Identify your target cardio zones to build stamina without burning yourself out.",
     icon: <Heart className="h-5 w-5" />,
     href: "/health/heart-rate-calculator",
     category: "Cardio Health",
@@ -105,7 +105,7 @@ const calculators = [
   },
   {
     title: "Sleep Cycle Calculator",
-    description: "Sleeping for eight hours but still waking up exhausted? Time your bedtime with your natural sleep cycles so you can wake up feeling clear-headed and energized.",
+    description: "Sleeping for eight hours can still leave you feeling tired if you wake up mid-cycle. Time your bedtime with your natural sleep cycles to wake up clear-headed.",
     icon: <Brain className="h-5 w-5" />,
     href: "/health/sleep-cycle-calculator",
     category: "Mental Wellness",
@@ -123,7 +123,7 @@ const calculators = [
   },
   {
     title: "Macro Calculator",
-    description: "Tracking calories but constantly feeling hungry or sluggish? Find the right daily balance of proteins, carbs, and fats to keep you full while preserving lean muscle.",
+    description: "Tracking calories without balancing proteins, carbs, and fats often leads to hunger and low energy. Find the right daily ratio to preserve lean muscle.",
     icon: <Zap className="h-5 w-5" />,
     href: "/health/macro-calculator",
     category: "Nutrition",
@@ -141,7 +141,7 @@ const calculators = [
   },
   {
     title: "Golden Ratio Face Calculator",
-    description: "Ever wonder why your face looks different in photos than in the mirror? Discover your structural symmetry using the classic Golden Ratio to highlight your natural balance.",
+    description: "Cameras distort features differently than a standard flat mirror. Discover your structural symmetry using the classic Golden Ratio to analyze your natural balance.",
     icon: <Sparkles className="h-5 w-5" />,
     href: "/health/golden-ratio-face-calculator",
     category: "Appearance",
@@ -159,7 +159,7 @@ const calculators = [
   },
   {
     title: "Weight loss percentage Calculator",
-    description: "When progress feels slow, focusing only on the scale can kill your motivation. Shift your focus to your total progress percentage to celebrate how far you’ve actually come.",
+    description: "When progress feels slow, focusing only on the scale can kill your motivation. Shift your focus to your total progress percentage to celebrate how far you have come.",
     icon: <TrendingUp className="h-5 w-5" />,
     href: "/health/weight-loss-percentage-calculator",
     category: "Body Composition",
@@ -168,7 +168,7 @@ const calculators = [
   },
   {
     title: "GLP-1 Dose Calculator",
-    description: "Navigating weight loss medications like Ozempic or Wegovy can feel overwhelming. Map out your typical dosing schedule to better understand your titration plan and manage side effects safely.",
+    description: "Titrating weight loss medications like Ozempic or Wegovy requires careful scheduling. Map out your typical dose progression to understand your plan and manage side effects.",
     icon: <Wrench className="h-5 w-5" />,
     href: "/health/glp-1-dose-calculator",
     category: "Disease Risk",
@@ -177,7 +177,7 @@ const calculators = [
   },
   {
     title: "Dress Size Calculator",
-    description: "Tired of inconsistent sizing across brands? Get a personalized dress size recommendation based on your unique body measurements to make online shopping less of a gamble.",
+    description: "Inconsistent sizing across apparel brands makes online shopping difficult. Get a personalized dress size recommendation based on your unique body measurements to reduce shopping errors.",
     icon: <Sparkles className="h-5 w-5" />,
     href: "/health/dress-size-calculator",
     category: "Appearance",
@@ -334,7 +334,7 @@ const trustPoints = [
   {
     icon: <CheckCircle2 className="h-5 w-5" />,
     title: "Clinically-Grounded Formulas",
-    desc: "Every calculator uses peer-reviewed, medically validated formulas — the same ones used by healthcare professionals.",
+    desc: "Every calculator uses peer-reviewed, medically validated formulas, which are the same tools used by healthcare professionals.",
   },
   {
     icon: <Users className="h-5 w-5" />,
@@ -359,7 +359,7 @@ const trustPoints = [
   {
     icon: <Zap className="h-5 w-5" />,
     title: "Instant, No-Friction Results",
-    desc: "no email gates, no confusing interfaces. Just enter your numbers and get your answer.",
+    desc: "No email gates, no confusing interfaces. Just enter your numbers and get your answer.",
   },
 ]
 
@@ -367,7 +367,7 @@ const productUpdateFeatures = [
   {
     icon: <Sparkles className="h-8 w-8 text-emerald-600" />,
     title: "Personalized Results",
-    description: "Get accurate, personalized health insights instantly — no login or signup required.",
+    description: "Get accurate, personalized health insights instantly. There is no login or signup required.",
   },
   {
     icon: <History className="h-8 w-8 text-emerald-600" />,
@@ -437,7 +437,7 @@ export default function HomePage() {
                 {/* Pill badge */}
                 <div className="inline-flex items-center gap-2 bg-emerald-800/60 border border-emerald-600/40 text-emerald-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
                   <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  50+ Free Health Calculators — No Login Required
+                  50+ Free Health Calculators. No Login Required
                 </div>
 
                             <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
@@ -550,7 +550,7 @@ export default function HomePage() {
                   Personalized Progress Tracking is Here
                 </h2>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  At <span className="font-semibold text-emerald-700">Calqulate.net</span>, we now make it easier than ever to track your health journey.
+                  At <span className="font-semibold text-emerald-700">Calqulate.net</span>, we now make it easier than ever to track your health metrics over time.
                 </p>
               </div>
 
@@ -583,7 +583,7 @@ export default function HomePage() {
                   Start tracking your health progress today
                 </h3>
                 <p className="text-gray-600 max-w-md mx-auto mb-8">
-                  Save your results, monitor your history, compare improvements, and celebrate your progress — all without any cost.
+                  Save your results, monitor your history, compare improvements, and celebrate your progress at zero cost.
                 </p>
                 <Button
                   size="lg"
@@ -612,14 +612,14 @@ export default function HomePage() {
                   <div className="text-4xl font-extrabold text-emerald-600 mb-1">50+</div>
                   <div className="text-sm font-semibold text-gray-700 mb-2">Health Calculators</div>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                    From BMI to cardiovascular risk — every health metric covered in one place.
+                    From BMI to cardiovascular risk, find every health metric covered in one place.
                   </p>
                 </div>
                 <div className="p-6 border-x border-gray-100">
                   <div className="text-4xl font-extrabold text-emerald-600 mb-1">100%</div>
                   <div className="text-sm font-semibold text-gray-700 mb-2">Actionable Insights</div>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                    We don't just show you a number. We explain it and tell you what to do next.
+                    Receive a clear explanation of your results alongside specific, practical recommendations.
                   </p>
                 </div>
                 <div className="p-6">
@@ -645,7 +645,7 @@ export default function HomePage() {
                 Discover Your Body & Face Shape
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                Two of our most-loved tools — used by hundreds of thousands to better understand their body and unlock personalized lifestyle guidance.
+                Two of our most-loved tools. Hundreds of thousands of people use them to understand their physical traits and receive personalized lifestyle guidance.
               </p>
             </div>
 
@@ -664,7 +664,7 @@ export default function HomePage() {
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3">Body Shape Calculator</h3>
                   <p className="text-gray-500 mb-2 leading-relaxed">
-                    Enter your bust, waist, and hip measurements to discover your body shape - hourglass, pear, apple, or rectangle.
+                    Enter your bust, waist, and hip measurements to discover your body shape, such as hourglass, pear, apple, or rectangle.
                   </p>
                   <ul className="space-y-1.5 mb-6">
                     {["Identify your exact body type", "Get fitness tips for your shape", "Find flattering clothing styles"].map((item) => (
@@ -700,7 +700,7 @@ export default function HomePage() {
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3">Face Shape Detector</h3>
                   <p className="text-gray-500 mb-2 leading-relaxed">
-                    Use precise facial measurements - forehead, cheekbones, jaw, and face length - to identify your exact face shape.
+                    Use precise facial measurements, including your forehead, cheekbones, jaw, and face length, to identify your exact face shape.
                   </p>
                   <ul className="space-y-1.5 mb-6">
                     {["Determine oval, round, square, heart, diamond, or oblong", "Get hairstyle recommendations", "Find the best glasses for your features"].map((item) => (
@@ -736,7 +736,7 @@ export default function HomePage() {
                 Every Aspect of Your Health, Covered
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                Eight specialized health categories so you always find exactly the calculator you need — fast.
+                Eight specialized health categories help you find the calculator you need quickly.
               </p>
             </div>
 
@@ -769,7 +769,7 @@ export default function HomePage() {
                 Popular Health Calculators
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                Clinically validated calculators — each one gives you a result plus the context to act on it.
+                Clinically validated calculators. Each tool provides a clear result alongside the context you need to take action.
               </p>
             </div>
 
@@ -841,17 +841,17 @@ export default function HomePage() {
                   Our Difference
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-                  Not Just Numbers.{" "}
-                  <span className="text-emerald-400">A Decision Engine for Your Health.</span>
+                  Go Beyond Raw Numbers.{" "}
+                  <span className="text-emerald-400">A Decision Guide for Your Health.</span>
                 </h2>
                 <p className="text-emerald-100/70 text-lg leading-relaxed mb-6">
-                  Most health calculators stop at a result. Calqulate goes further — every calculation comes
+                  Most health calculators stop at a result. Calqulate goes further. Every calculation comes
                   with an explanation of what your result means, how it compares to healthy ranges, and what
                   concrete steps you should take next.
                 </p>
                 <p className="text-emerald-100/70 leading-relaxed">
-                  Whether you're optimizing your fitness, managing a chronic condition, tracking weight loss,
-                  or simply curious about your body — Calqulate turns raw data into real decisions.
+                  You might want to optimize your fitness, manage a chronic condition, track weight loss,
+                  or understand your body. Calqulate turns raw data into real decisions.
                 </p>
               </div>
 
@@ -859,8 +859,8 @@ export default function HomePage() {
               <div className="space-y-4">
                 {[
                   { title: "Result + Interpretation", desc: "Every score includes a plain-English explanation of what it means for your health." },
-                  { title: "Healthy Range Benchmarks", desc: "See where you stand against clinical healthy ranges — not just a raw number." },
-                  { title: "Next-Step Recommendations", desc: "Actionable guidance for each result: what to eat, how to train, when to see a doctor." },
+                  { title: "Healthy Range Benchmarks", desc: "See where you stand compared to clinical benchmarks instead of looking at a raw number." },
+                  { title: "Actionable Recommendations", desc: "Actionable guidance for each result, telling you what to eat, how to train, and when to see a doctor." },
                   { title: "Multiple Validated Formulas", desc: "Where relevant, we show results from multiple clinical formulas side-by-side." },
                 ].map((feature) => (
                   <div
@@ -889,10 +889,10 @@ export default function HomePage() {
                 Why Calqulate
               </span>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Built on Trust. Designed for Clarity.
+                Built on Trust. Designed for Understanding.
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                We built Calqulate because health tools should help people make better decisions — not overwhelm or mislead them.
+                We built Calqulate because health tools should help people make better decisions, rather than overwhelming or misleading them.
               </p>
             </div>
 
@@ -926,7 +926,7 @@ export default function HomePage() {
                 Explore Health Visuals
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                Body shapes, face shapes, BMI charts, and more — click any image to explore detailed guides.
+                Body shapes, face shapes, and BMI charts are easier to understand visually. Click any image to explore detailed guides.
               </p>
             </div>
 
@@ -979,7 +979,7 @@ export default function HomePage() {
               Ready to Understand Your Health Better?
             </h2>
             <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto">
-              Start with any calculator below — no account, no friction, just clear health insights in seconds.
+              Start with any calculator below. There are no accounts to create and no forms to fill. You will get clear health insights in seconds.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
