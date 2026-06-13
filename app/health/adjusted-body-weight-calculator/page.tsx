@@ -92,43 +92,91 @@ export default function AdjustedBodyWeightCalculatorPage() {
 
               {/* --- Formulas & Example Calculation --- */}
               <section>
-                  <h2 className="mb-2"><b>The Formula for Adjusted Body Weight</b></h2>
-                  <p>The universally used AjBW formula used in hospitals is:</p>
-                  <div className="grid md:grid-cols-1 gap-8 items-start not-prose mt-6">
+                  <h2 className="mb-2"><b>The Formulas for Ideal and Adjusted Body Weight</b></h2>
+                  <p>To accurately compute Adjusted Body Weight (AjBW), we must first calculate the Ideal Body Weight (IBW). Clinical environments typically rely on the Robinson formula for IBW, followed by the standard body weight adjustment equation.</p>
+                  
+                  <div className="grid md:grid-cols-2 gap-8 items-start not-prose mt-6">
                       <Card>
                           <CardHeader>
-                              <CardTitle className="flex items-center gap-2"><FlaskConical className="w-5 h-5" /> AjBW Formula</CardTitle>
+                              <CardTitle className="flex items-center gap-2"><Scale className="w-5 h-5" /> Ideal Body Weight (Robinson Formula)</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                              <div className="p-4 bg-muted rounded-lg font-mono text-xs md:text-sm space-y-2">
+                                  <p className="font-bold">For Men:</p>
+                                  <p>IBW = 52 kg + 1.9 kg per inch over 5 feet</p>
+                                  <p className="font-bold mt-2">For Women:</p>
+                                  <p>IBW = 49 kg + 1.7 kg per inch over 5 feet</p>
+                              </div>
+                              <p className="text-xs text-muted-foreground mt-4">Note: 5 feet is equivalent to 60 inches (approx. 152.4 cm). This serves as the baseline stature for the calculation.</p>
+                          </CardContent>
+                      </Card>
+
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className="flex items-center gap-2"><FlaskConical className="w-5 h-5" /> Adjusted Body Weight Formula</CardTitle>
                           </CardHeader>
                           <CardContent>
                               <div className="p-4 bg-muted rounded-lg font-mono text-sm md:text-base space-y-2">
                                   <p>AjBW = IBW + 0.4 * (ABW - IBW)</p>
                               </div>
-                              <p className="text-sm text-muted-foreground mt-4">Where: <strong>AjBW</strong> refers to Adjusted Body Weight, <strong>IBW</strong> means Ideal Body Weight, and <strong>ABW</strong> stands for Actual Body Weight. The adjustment factor (0.4) shows that 40% of your excess body weight falls in the metabolically active range.</p>
-                          </CardContent>
-                      </Card>
-                      <Card>
-                          <CardHeader>
-                              <CardTitle className="flex items-center gap-2"><Scale className="w-5 h-5" /> Ideal Body Weight (IBW) Formula (Robinson Equation)</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                              <div className="p-4 bg-muted rounded-lg font-mono text-sm md:text-base space-y-2">
-                                  <p><strong>Men:</strong> 52 kg + (1.9 kg x (height in inches - 60))</p>
-                                  <p><strong>Women:</strong> 49 kg + (1.7 kg x (height in inches - 60))</p>
-                              </div>
+                              <p className="text-xs text-muted-foreground mt-4">Where: <strong>AjBW</strong> is Adjusted Body Weight, <strong>IBW</strong> is Ideal Body Weight, and <strong>ABW</strong> is Actual Body Weight. The correction factor (0.4) represents the metabolically active component of excess body fat.</p>
                           </CardContent>
                       </Card>
                   </div>
-                  <h3 className="font-bold text-lg mt-8 mb-4">Example Calculation</h3>
-                  <p>Let's calculate AjBW for an individual who stands at a height of 5'11'' (180 cm) and weighs 90 kg.</p>
+
+                  <h3 className="font-bold text-lg mt-8 mb-4">Step-by-Step Calculation: IBW vs. AjBW</h3>
+                  <p>Let&apos;s trace both calculations for a male individual who stands at a height of 5&apos;11&apos;&apos; (71 inches total / 180 cm) and has an actual weight (ABW) of 90 kg.</p>
+                  
                   <div className="not-prose my-6">
-                    <div className="bg-muted/50 border border-border rounded-lg p-4 font-mono text-sm">
-                        <p>IBW = 52 + 1.9 × (71 - 60) = 72.9 kg</p>
-                        <p>AjBW = 72.9 + 0.4 × (90 - 72.9)</p>
-                        <p>AjBW = 72.9 + 6.84 = 79.74 kg.</p>
-                        <p className="mt-2 font-sans"><strong>79.7 kg hai Adjusted Body Weight.</strong></p>
-                        <p className="mt-2 font-sans text-muted-foreground">For nutritional calculations or drug dosing, this person should be rounded at about 79.7 kg and not at the 90 kg level.</p>
+                    <div className="bg-muted/50 border border-border rounded-lg p-5 font-mono text-sm space-y-4">
+                        <div>
+                          <p className="font-bold text-primary">1. Ideal Body Weight (IBW) Calculation:</p>
+                          <p>• Height: 5 feet 11 inches = 71 inches total</p>
+                          <p>• Inches over 5 feet: 71 - 60 = 11 inches</p>
+                          <p>• Formula: 52 kg + (1.9 kg × 11)</p>
+                          <p>• Calculation: 52 + 20.9 = 72.9 kg</p>
+                          <p className="mt-1 font-sans"><strong>Ideal Body Weight (IBW) = 72.9 kg</strong></p>
+                        </div>
+                        
+                        <div className="border-t border-border pt-4">
+                          <p className="font-bold text-primary">2. Adjusted Body Weight (AjBW) Calculation:</p>
+                          <p>• Actual Weight (ABW) = 90 kg</p>
+                          <p>• Excess Weight: ABW - IBW = 90 - 72.9 = 17.1 kg</p>
+                          <p>• Formula: IBW + 0.4 × (ABW - IBW)</p>
+                          <p>• Calculation: 72.9 + 0.4 × 17.1 = 72.9 + 6.84</p>
+                          <p className="mt-1 font-sans"><strong>Adjusted Body Weight (AjBW) = 79.74 kg (rounded to 79.7 kg)</strong></p>
+                        </div>
                     </div>
                   </div>
+
+                  <h3 className="font-bold text-lg mt-8 mb-4">Comparing the Results: Why the Difference Matters</h3>
+                  <p>Analyzing these outcomes reveals how each weight metric serves a unique physiological purpose, especially when compared side by side:</p>
+                  
+                  <div className="grid sm:grid-cols-3 gap-4 not-prose my-6">
+                    <div className="p-4 rounded-lg border border-border bg-card">
+                      <p className="text-sm font-semibold text-muted-foreground">Actual Weight (ABW)</p>
+                      <p className="text-2xl font-bold text-destructive">90.0 kg</p>
+                      <p className="text-xs text-muted-foreground mt-2">Dosing based on this weight assumes fat tissue consumes drugs and nutrients at the same rate as muscle, which can lead to hazardous medication overdoses.</p>
+                    </div>
+                    <div className="p-4 rounded-lg border border-border bg-card">
+                      <p className="text-sm font-semibold text-muted-foreground">Ideal Weight (IBW)</p>
+                      <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">72.9 kg</p>
+                      <p className="text-xs text-muted-foreground mt-2">Dosing based on this weight completely ignores the extra physiological strain of excess tissue, potentially causing therapeutic underdosing.</p>
+                    </div>
+                    <div className="p-4 rounded-lg border border-primary/30 bg-primary/5">
+                      <p className="text-sm font-semibold text-primary">Adjusted Weight (AjBW)</p>
+                      <p className="text-2xl font-bold text-primary">79.7 kg</p>
+                      <p className="text-xs text-muted-foreground mt-2">The optimal middle ground. It adds exactly 40% of the excess weight (6.8 kg) back to the ideal baseline, accounting for the supportive fluid and vascularity in adipose tissue.</p>
+                    </div>
+                  </div>
+
+                  <h3 className="font-bold text-lg mt-8 mb-4">The Science of Dosing Weight: A Clinical Safety Mechanism</h3>
+                  <p>In pharmacology, this tool is often referred to as a &quot;dosing weight&quot; calculator rather than a standard fitness planner. Here is why this distinction is so vital:</p>
+                  <ul className="list-disc pl-5 space-y-3 mt-4">
+                    <li><strong>The Hydrophilic Drug Challenge:</strong> Many critical medications, such as aminoglycoside antibiotics (e.g., Gentamicin) and certain chemotherapy drugs, are hydrophilic (water-soluble). Since excess fat tissue contains very little water, these drugs do not distribute well into fat. If you dose based on Actual Weight, you risk serious toxicity (such as kidney damage). If you dose based on Ideal Weight, the concentration might be too low to fight infection. AjBW serves as the &quot;Goldilocks&quot; value.</li>
+                    <li><strong>The 40% Adipose Factor:</strong> Why 0.4? Clinical research demonstrates that roughly 40% of excess adipose tissue consists of blood vessels, extracellular fluid, and metabolic support structures. The 0.4 multiplier adjusts the volume of distribution accordingly to maintain safe drug concentrations.</li>
+                    <li><strong>Avoiding Overfeeding in TPN:</strong> For patients receiving Total Parenteral Nutrition (TPN) in intensive care units, calculating nutritional needs on actual weight can result in severe metabolic stress or hyperglycemia. AjBW helps design feeding regimens that supply sufficient energy without overtaxing the patient&apos;s system.</li>
+                  </ul>
               </section>
 
               {/* --- How to Use the Calculator --- */}

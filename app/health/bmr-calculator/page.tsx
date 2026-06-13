@@ -132,7 +132,7 @@ const faqs = [
   {
     question: "What is my BMR and how do I find it?",
     answer:
-      "Your BMR (Basal Metabolic Rate) is the number of calories your body burns at complete rest to sustain essential life functions — breathing, circulation, brain function, and organ operation. Use the calculator above to find it instantly by entering your age, weight, height, and sex.",
+      "Your BMR (Basal Metabolic Rate), also called your resting metabolic rate, is the number of calories your body burns at complete rest to sustain essential life functions. Use this free BMR calculator above to find your resting metabolic rate instantly by entering your age, weight, height, and sex. Knowing your base calorie burn is the foundation for any nutrition plan.",
   },
   {
     question: "Is BMR the same as calories burned daily?",
@@ -147,12 +147,12 @@ const faqs = [
   {
     question: "How to calculate metabolic rate for weight loss?",
     answer:
-      "Calculate your BMR using the Mifflin-St Jeor equation, then multiply by your activity level to get your TDEE (Total Daily Energy Expenditure). Subtract 300–500 kcal from your TDEE to create your weight loss calorie target. Recalculate every 4–6 weeks as your weight changes.",
+      "Find your resting metabolic rate or basal metabolic rate using our free metabolic rate calculator or the Mifflin-St Jeor equation. Multiply your base calorie burn (BMR) by your activity level to get your TDEE (Total Daily Energy Expenditure). Subtract 300–500 kcal from your TDEE to create your weight loss calorie target. Recalculate every 4–6 weeks as your weight changes. This approach ensures your calorie target stays accurate as your metabolism changes.",
   },
   {
     question: "What is resting metabolic rate and how does it differ from BMR?",
     answer:
-      "Resting Metabolic Rate (RMR) is measured under less strict conditions than BMR — not fully fasted and allowing light movement. RMR is typically 10–20 kcal higher than BMR. For practical fat loss and nutrition planning, the difference is negligible — use either interchangeably.",
+      "Resting Metabolic Rate (RMR) is measured under less strict conditions than BMR — not fully fasted and allowing light movement. Your resting metabolic rate is typically 10–20 kcal higher than BMR. For practical fat loss and nutrition planning, the difference is negligible — use either your basal metabolic rate or resting metabolic rate interchangeably. This free basal metabolic rate calculator provides both values.",
   },
   {
     question: "How often should I recalculate my BMR?",
@@ -240,10 +240,10 @@ export default function BMRCalculatorPage() {
                 Free · Instant · No sign-up required
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-                BMR Calculator: Find Your Basal Metabolic Rate & Daily Calorie Burn
+                Free BMR Calculator: Find Your Basal Metabolic Rate & Daily Calorie Burn
               </h1>
               <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Calculate your basal metabolic rate using the Mifflin-St Jeor equation and Harris-Benedict formula — the same methods used by dietitians and sports scientists. Find out exactly how many calories your body burns at rest, and your TDEE for weight loss planning.
+                Our free basal metabolic rate calculator uses the Mifflin-St Jeor equation and Harris-Benedict formula — the same methods dietitians and sports scientists rely on. Find out exactly how many calories your body burns at rest with this resting metabolic rate calculator, and determine your TDEE for accurate weight loss planning. Use this metabolic rate calculator to understand your body's energy needs and how fast your metabolism works.
               </p>
 
               {/* Aggregate Rating Display — matches schema above */}
@@ -274,7 +274,7 @@ export default function BMRCalculatorPage() {
                   What Is Basal Metabolic Rate (BMR)?
                 </h2>
                 <p className="mb-4 text-gray-700 leading-relaxed">
-                  Your <strong>basal metabolic rate (BMR)</strong> is the number of calories your body burns at complete rest to sustain essential life functions. It is the minimum amount of energy required simply to stay alive — no movement, no digestion, no physical activity included.
+                  Your <strong>basal metabolic rate (BMR)</strong>, also called your resting metabolic rate, is the number of calories your body burns at complete rest to sustain essential life functions. It is the minimum amount of energy required simply to stay alive — no movement, no digestion, no physical activity included. Understanding your resting metabolic rate tells you how fast your metabolism works at baseline.
                 </p>
                 <p className="mb-3 text-gray-700 leading-relaxed">
                   Think of BMR as your body's idle speed — the fuel cost of keeping the engine running with no load applied. Everything on top of BMR, from walking to exercise to digesting food, is calculated via your <strong>Total Daily Energy Expenditure (TDEE)</strong> using an activity level multiplier.
@@ -306,7 +306,7 @@ export default function BMRCalculatorPage() {
 
                 <h3 className="text-lg font-bold mt-6 mb-2 text-gray-800">BMR vs TDEE — What's the Difference?</h3>
                 <p className="text-gray-700 leading-relaxed">
-                  BMR is your calorie burn at complete rest. Your <strong>Total Daily Energy Expenditure (TDEE)</strong> is your actual daily calorie burn, including physical activity. TDEE is always higher than BMR — typically 20% to 90% higher depending on your activity level. Your TDEE is the number you should base your nutrition plan on, not your BMR.
+                  BMR is your calorie burn at complete rest — your metabolic baseline or base calorie number. Your <strong>Total Daily Energy Expenditure (TDEE)</strong> is your actual daily calorie burn, including physical activity and movement. TDEE is always higher than BMR — typically 20% to 90% higher depending on your activity level. Your TDEE is the true number you should base your nutrition plan on, not your basal metabolic rate alone.
                 </p>
 
                 <Card className="not-prose overflow-hidden border-orange-100 mt-6">
@@ -343,10 +343,10 @@ export default function BMRCalculatorPage() {
               <section className="py-8 border-b border-gray-100">
                 <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
                   <Calculator className="w-6 h-6 text-orange-500" />
-                  How to Calculate BMR — The Mifflin-St Jeor Equation
+                  How to Calculate Your Basal Metabolic Rate — The Mifflin-St Jeor Equation
                 </h2>
                 <p className="mb-4 text-gray-700 leading-relaxed">
-                  Three clinically validated formulas are used to calculate basal metabolic rate. The <strong>Mifflin-St Jeor equation</strong> is the gold standard for most adults — approximately 5% more accurate than the original Harris-Benedict formula for predicting actual metabolic rate in modern populations.
+                  Three clinically validated formulas calculate your basal metabolic rate and resting metabolic rate. The <strong>Mifflin-St Jeor equation</strong> is the gold standard for most adults — approximately 5% more accurate than the original Harris-Benedict formula for predicting actual metabolic rate in modern populations. This is the formula our free BMR calculator uses.
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-6 mt-6">
@@ -455,7 +455,7 @@ export default function BMRCalculatorPage() {
                   TDEE Activity Multipliers — Based on Your Activity Level
                 </h2>
                 <p className="mb-4 text-gray-700 leading-relaxed">
-                  Your <strong>Total Daily Energy Expenditure (TDEE)</strong> is calculated by multiplying your BMR by an activity level multiplier. Choosing the correct multiplier based on your activity level is crucial — most people overestimate their activity level, which leads to underestimating calorie needs and stalled fat loss.
+                  Your <strong>Total Daily Energy Expenditure (TDEE)</strong> is calculated by multiplying your basal metabolic rate by an activity level multiplier. This is where your resting metabolic rate transforms into your real-world calorie burn. Choosing the correct multiplier based on your actual activity level is crucial — most people overestimate their activity level, which leads to underestimating calorie needs and stalled fat loss.
                 </p>
 
                 <Card className="not-prose overflow-hidden border-orange-100 mt-6">
@@ -470,16 +470,16 @@ export default function BMRCalculatorPage() {
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       <tr>
-                        <td className="px-6 py-4 font-medium text-gray-700">Sedentary</td>
+                        <td className="px-6 py-4 font-medium text-gray-700">Sedentary (desk job, no exercise)</td>
                         <td className="px-6 py-4 font-bold text-orange-700">× 1.2</td>
-                        <td className="px-6 py-4 text-gray-600">Desk job, little or no exercise</td>
+                        <td className="px-6 py-4 text-gray-600">Little or no regular physical activity</td>
                         <td className="px-6 py-4 text-gray-700">1,800 kcal</td>
                       </tr>
                       <tr className="bg-orange-50/30">
                         <td className="px-6 py-4 font-medium text-gray-700">Lightly active</td>
                         <td className="px-6 py-4 font-bold text-orange-700">× 1.375</td>
                         <td className="px-6 py-4 text-gray-600">Light exercise 1–3 days/week</td>
-                        <td className="px-6 py-4 text-gray-700">2,063 kcal</td>
+                        <td className="px-6 py-4 text-gray-700"><strong>2,325 kcal</strong></td>
                       </tr>
                       <tr>
                         <td className="px-6 py-4 font-medium text-gray-700">Moderately active</td>
@@ -503,10 +503,10 @@ export default function BMRCalculatorPage() {
                   </table>
                 </Card>
 
-                <h3 className="text-lg font-bold mt-6 mb-2 text-gray-800">How to Use BMR to Lose Weight — 4 Steps</h3>
+                <h3 className="text-lg font-bold mt-6 mb-2 text-gray-800">How to Use Your Metabolic Rate Calculator Results for Fat Loss — 4 Steps</h3>
                 <div className="space-y-4 mt-4 not-prose">
                   {[
-                    { step: 1, title: "Calculate your BMR", desc: "Use the Mifflin-St Jeor equation or the calculator above. Enter your age, weight, height, and sex." },
+                    { step: 1, title: "Calculate your BMR and find your resting metabolic rate", desc: "Use this free BMR calculator with the Mifflin-St Jeor equation. Enter your age, weight, height, and sex to find your basal metabolic rate." },
                     { step: 2, title: "Find your TDEE", desc: "Multiply your BMR by your activity level multiplier (1.2–1.9). This is your total daily energy expenditure — your real daily calorie burn." },
                     { step: 3, title: "Apply a 300–500 kcal deficit", desc: "Subtract 300–500 kcal from your TDEE. This creates a sustainable calorie deficit that produces 0.3–0.5 kg of fat loss per week without muscle loss." },
                     { step: 4, title: "Never eat below your BMR", desc: "Eating below BMR triggers muscle breakdown, hormonal disruption, and metabolic adaptation that makes future fat loss harder. Stay above your BMR at all times." },
@@ -566,7 +566,7 @@ export default function BMRCalculatorPage() {
 
                 <h3 className="text-lg font-bold mt-8 mb-3 text-gray-800">BMR Calculator for Women</h3>
                 <p className="text-gray-700 mb-4 leading-relaxed">
-                  The −161 constant in the female Mifflin-St Jeor equation reflects women's higher essential body fat percentage (12–15%), which is metabolically less active than muscle tissue. Hormonal factors — pregnancy, menopause, thyroid conditions — can significantly affect actual BMR beyond what any formula predicts.
+                  The −161 constant in the female Mifflin-St Jeor equation reflects women's higher essential body fat percentage (12–15%), which is metabolically less active than muscle tissue. Hormonal factors such as pregnancy, menopause, and thyroid conditions can significantly affect your actual resting metabolic rate and basal metabolic rate beyond what any formula predicts.
                 </p>
                 <Card className="not-prose overflow-hidden border-pink-100 mt-4">
                   <table className="w-full text-sm">
@@ -595,7 +595,7 @@ export default function BMRCalculatorPage() {
                 </Card>
 
                 {/* Average BMR Table */}
-                <h3 className="text-lg font-bold mt-8 mb-3 text-gray-800">Average BMR — What Is a Normal Metabolic Rate?</h3>
+                <h3 className="text-lg font-bold mt-8 mb-3 text-gray-800">Average Basal Metabolic Rate — What Is Normal? How to Find Your Resting Metabolic Rate</h3>
                 <Card className="not-prose overflow-hidden border-orange-100 mt-4">
                   <table className="w-full text-sm">
                     <thead>
@@ -628,10 +628,10 @@ export default function BMRCalculatorPage() {
               <section className="py-8 border-b border-gray-100">
                 <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
                   <Dumbbell className="w-6 h-6 text-orange-500" />
-                  Why Muscle Mass Affects Your BMR — and How to Increase It
+                  Why Muscle Mass Affects Your Basal Metabolic Rate — and How to Increase It
                 </h2>
                 <p className="mb-4 text-gray-700 leading-relaxed">
-                  Muscle tissue burns approximately <strong>6 kcal/kg/day</strong> at rest. Fat tissue burns only <strong>2 kcal/kg/day</strong>. Two people of identical weight and height can have BMRs that differ by 200–300 kcal/day based purely on body composition. This is why resistance training is the most powerful long-term lever for increasing your metabolic rate — and why cardio alone rarely produces lasting fat loss results.
+                  Muscle tissue burns approximately <strong>6 kcal/kg/day</strong> at rest. Fat tissue burns only <strong>2 kcal/kg/day</strong>. Two people of identical weight and height can have basal metabolic rates and resting metabolic rates that differ by 200–300 kcal/day based purely on body composition. This is why resistance training is the most powerful long-term lever for increasing your metabolic rate — and why cardio alone rarely produces lasting fat loss results. A metabolic rate calculator shows you your baseline; strength training raises that baseline permanently.
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-6 mt-6">
@@ -681,9 +681,9 @@ export default function BMRCalculatorPage() {
                   </div>
                 </div>
 
-                <h3 className="text-lg font-bold mt-6 mb-2 text-gray-800">What Is Metabolic Age?</h3>
+                <h3 className="text-lg font-bold mt-6 mb-2 text-gray-800">What Is Metabolic Age? How Fast Is My Metabolism?</h3>
                 <p className="text-gray-700 leading-relaxed">
-                  Metabolic age compares your calculated BMR against the average basal metabolic rate for your chronological age group. If your BMR matches the average for a 28-year-old but you are 38, your metabolic age is 28 — a positive sign of lean muscle preservation and good body composition. The most effective way to lower your metabolic age is progressive resistance training to build and maintain muscle mass.
+                  Metabolic age compares your calculated basal metabolic rate against the average resting metabolic rate for your chronological age group. If your BMR matches the average for a 28-year-old but you are 38, your metabolic age is 28 — a positive sign of lean muscle preservation and good body composition. Asking "how fast is my metabolism" is essentially asking whether your calculated base calorie burn (your BMR) is higher than the average for your age. The most effective way to lower your metabolic age is progressive resistance training to build and maintain muscle mass.
                 </p>
               </section>
 
@@ -691,10 +691,10 @@ export default function BMRCalculatorPage() {
               <section className="py-8 border-b border-gray-100">
                 <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center gap-2">
                   <AlertTriangle className="w-6 h-6 text-orange-500" />
-                  Common BMR Mistakes — and How to Avoid Them
+                  Common Basal Metabolic Rate Mistakes — and How to Avoid Them
                 </h2>
                 <p className="mb-4 text-gray-700 leading-relaxed">
-                  These are the errors that quietly derail fat loss progress for most people. Understanding them is as important as calculating the right number.
+                  These are the errors that quietly derail fat loss progress for most people using a metabolic rate calculator. Understanding them is as important as calculating the right number.
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-4 mt-6">
@@ -795,19 +795,19 @@ export default function BMRCalculatorPage() {
               <section className="bg-white rounded-3xl p-8 border border-gray-200">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
                   <CheckCircle2 className="w-6 h-6 text-orange-500" />
-                  Is This BMR Calculator Accurate?
+                  Is This Free BMR Calculator Accurate? Validation & Science
                 </h2>
                 <p className="mb-4 text-gray-700">
-                  This calculator implements the Mifflin-St Jeor equation (published 1990, validated in multiple independent studies) and the revised Harris-Benedict formula. The Mifflin-St Jeor equation is recommended by the Academy of Nutrition and Dietetics as the most accurate BMR prediction formula for non-obese and obese adults alike.
+                  This calculator implements the Mifflin-St Jeor equation (published 1990, validated in multiple independent studies) and the revised Harris-Benedict formula. The Mifflin-St Jeor equation is recommended by the Academy of Nutrition and Dietetics as the most accurate basal metabolic rate prediction formula and resting metabolic rate formula for non-obese and obese adults alike. This is the gold standard for any free BMR calculator or metabolic rate calculator.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6 mt-6">
                   {[
-                    "Mifflin-St Jeor equation — validated for modern adults",
-                    "Harris-Benedict revised formula included",
+                    "Mifflin-St Jeor equation for basal metabolic rate — validated for modern adults",
+                    "Harris-Benedict revised formula for resting metabolic rate included",
                     "Katch-McArdle formula for lean body mass input",
                     "All TDEE activity multipliers are peer-reviewed",
                     "No data stored or tracked — fully private",
-                    "Not a substitute for registered dietitian advice",
+                    "Not a substitute for registered dietitian advice — use as a base calorie estimate",
                   ].map((item) => (
                     <div key={item} className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl">
                       <CheckCircle2 className="w-5 h-5 text-orange-500 shrink-0" />
@@ -816,21 +816,21 @@ export default function BMRCalculatorPage() {
                   ))}
                 </div>
                 <p className="mt-6 text-sm text-gray-600">
-                  BMR formulas carry an inherent margin of error of ±10%. For most healthy adults the Mifflin-St Jeor equation produces results within 10% of measured BMR. Athletes with unusually high muscle mass will get more accurate results from the Katch-McArdle formula.
+                  Basal metabolic rate formulas carry an inherent margin of error of ±10%. For most healthy adults the Mifflin-St Jeor equation produces results within 10% of measured BMR or resting metabolic rate. Athletes with unusually high muscle mass will get more accurate results from the Katch-McArdle formula. Use this metabolic rate calculator as your starting point, then adjust based on real-world results over 4 weeks.
                 </p>
               </section>
 
               {/* Limitations */}
               <section className="border-2 border-dashed border-orange-200 p-6 rounded-2xl bg-gray-50">
                 <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-gray-800 uppercase tracking-tight">
-                  <AlertTriangle className="w-5 h-5 text-orange-500" /> What Your BMR Result Does NOT Mean
+                  <AlertTriangle className="w-5 h-5 text-orange-500" /> What Your Basal Metabolic Rate Result Does NOT Mean
                 </h3>
                 <ul className="space-y-2 text-gray-700 mt-4">
                   {[
-                    "It does <strong>not</strong> mean you should eat exactly your BMR — always calculate TDEE first",
-                    "It is <strong>not</strong> a measurement — it is an estimate based on population formulas with ±10% accuracy",
-                    "It does <strong>not</strong> account for medical conditions such as hypothyroidism, PCOS, or diabetes that affect metabolic rate",
-                    "It is <strong>not</strong> a fixed number — your BMR changes as your weight, muscle mass, and age change",
+                    "It does <strong>not</strong> mean you should eat exactly your basal metabolic rate — always calculate TDEE first using this calculator's activity multiplier",
+                    "It is <strong>not</strong> a measurement of your resting metabolic rate under lab conditions — it is an estimate based on population formulas with ±10% accuracy",
+                    "It does <strong>not</strong> account for medical conditions such as hypothyroidism, PCOS, or diabetes that affect your metabolic rate",
+                    "It is <strong>not</strong> a fixed base calorie burn — your BMR changes as your weight, muscle mass, and age change",
                     "It does <strong>not</strong> replace a registered dietitian's personalised assessment for clinical nutrition needs",
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -847,7 +847,7 @@ export default function BMRCalculatorPage() {
                   <div className="space-y-2">
                     <h3 className="text-2xl font-bold text-gray-800">Know your BMR. Now find your body shape.</h3>
                     <p className="text-gray-600 max-w-md">
-                      Nutrition is only part of the picture. Understand your body type and get personalised fitness and styling guidance.
+                      Your metabolic rate calculator shows you how fast your metabolism works. Nutrition is only part of the picture. Understand your body type and get personalised fitness and styling guidance.
                     </p>
                   </div>
                   <Button asChild size="lg" className="whitespace-nowrap bg-orange-500 hover:bg-orange-600">
