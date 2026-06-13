@@ -392,6 +392,123 @@ export default function BodyShapeCalculatorPage() {
                 </Card>
               </section>
 
+              {/* Male Body Shape Calculator Section */}
+              <section>
+                <h2 className="mb-4 text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
+                  How to Use a Body Shape Calculator Male Calculator
+                </h2>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  Most men shop for clothes using general sizing labels like medium or large. These tags only account for volume, ignoring how your bones and muscles distribute that weight. A body shape calculator male tool solves this by analyzing the specific proportions of your torso.
+                </p>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  A male body shape calculator compares your shoulders, chest, waist, and hips to group your frame into one of five geometric categories. It doesn&apos;t focus on your weight or body mass index. Instead, it looks at the ratios between your upper and lower body to explain why some garments fit while others pull or billow.
+                </p>
+
+                <h3 className="text-xl font-medium text-gray-800 mt-6 mb-2">Why Your Proportions Matter</h3>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  Standard retail clothing is built using a single pattern template. Designers usually draft this baseline around a balanced trapezoid frame, which features broad shoulders and a slightly tapered waist. When your physical proportions deviate from this pattern, off-the-rack garments fit poorly.
+                </p>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  A man with wide shoulders might buy an extra-large jacket to prevent binding across his back. That same jacket will often have sleeves that are too long and a waist that requires heavy tailoring. Recognizing your specific shape lets you target brands that match your build, which saves money and prevents frustrating fitting room experiences.
+                </p>
+
+                <h3 className="text-xl font-medium text-gray-800 mt-6 mb-2">How to Take Your Measurements</h3>
+                <p className="mb-3 text-gray-700 leading-relaxed">
+                  You&apos;ll need a flexible measuring tape and a mirror to gather your metrics. Stand with a relaxed, upright posture. Keep the tape parallel to the floor and snug against your skin without pulling it tight enough to compress your flesh.
+                </p>
+                <ul className="list-disc pl-5 mb-3 text-gray-700 space-y-1">
+                  <li><strong>Shoulders:</strong> Wrap the tape around the absolute widest point of your upper arms and shoulders.</li>
+                  <li><strong>Chest:</strong> Measure the widest part of your chest by placing the tape directly under your armpits.</li>
+                  <li><strong>Waist:</strong> Wrap the tape around your natural waistline, which usually aligns with your belly button.</li>
+                  <li><strong>Hips:</strong> Place your feet together and measure around the widest part of your hips and buttocks.</li>
+                </ul>
+                <p className="text-gray-700 leading-relaxed">
+                  Entering these four numbers into a male body shape calculator reveals your geometric profile.
+                </p>
+
+                <h3 className="text-xl font-medium text-gray-800 mt-6 mb-2">The Five Male Body Shapes</h3>
+                <p className="mb-4 text-gray-700 leading-relaxed">
+                  Men fit into one of five distinct categories based on their torso ratios. Each shape requires different clothing strategies to create balanced proportions.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-6 mt-4">
+                  <Card className="not-prose">
+                    <CardHeader>
+                      <CardTitle>The Trapezoid</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm space-y-2">
+                      <p>
+                        A trapezoid shape features broad shoulders and a chest that tapers down to a moderately narrower waist and hips. Most clothing brands design their standard sizes for this build, making off-the-rack shopping relatively straightforward.
+                      </p>
+                      <p>
+                        <strong>Styling Tip:</strong> Choose slim-cut garments that highlight your natural symmetry without clinging too tightly.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="not-prose">
+                    <CardHeader>
+                      <CardTitle>The Rectangle</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm space-y-2">
+                      <p>
+                        Men with a rectangle shape have shoulders, chest, waist, and hips that are roughly the same width. This flat profile can make you look shorter or boxier than you are.
+                      </p>
+                      <p>
+                        <strong>Styling Tip:</strong> Use structured jackets with padded shoulders to create a wider upper line, then pair them with tapered trousers to narrow your lower half.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="not-prose">
+                    <CardHeader>
+                      <CardTitle>The Inverted Triangle</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm space-y-2">
+                      <p>
+                        An inverted triangle frame is common among athletes and weightlifters. The shoulders and chest are significantly wider than the waist and hips. Finding shirts that fit your shoulders without billowing at the waist is difficult.
+                      </p>
+                      <p>
+                        <strong>Styling Tip:</strong> Focus on slim-fit shirts made with elastane blends, or plan to have your shirts taken in at the waist by a tailor.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="not-prose">
+                    <CardHeader>
+                      <CardTitle>The Triangle</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm space-y-2">
+                      <p>
+                        The triangle shape features a lower torso and hips that are wider than the shoulders and chest. This shape often occurs naturally with age or reduced physical activity.
+                      </p>
+                      <p>
+                        <strong>Styling Tip:</strong> Avoid raglan sleeves, which make your shoulders look narrower. Choose structured blazers with strong shoulder lines to widen your upper body.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="not-prose md:col-span-2">
+                    <CardHeader>
+                      <CardTitle>The Oval</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm space-y-2">
+                      <p>
+                        An oval frame carries the majority of its visual weight in the center of the torso. The midsection is wider than both the shoulders and the hips.
+                      </p>
+                      <p>
+                        <strong>Styling Tip:</strong> You can create a longer, leaner line by wearing monochromatic outfits and vertical patterns. Avoid tight, clingy knits and boxy, oversized fits that add unnecessary bulk.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <h3 className="text-xl font-medium text-gray-800 mt-6 mb-2">Understanding Calculator Limitations</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  A body shape calculator provides a helpful baseline, but it cannot account for all physical realities. It does not measure your height, limb length, or posture, which also influence how clothing sits on your body. Use your calculator results as a starting guide rather than an absolute rule for your wardrobe.
+                </p>
+              </section>
+
               {/* Male Body Type Measurement & Shape Chart */}
               <section>
                 <Card className="not-prose">
@@ -892,4 +1009,3 @@ export default function BodyShapeCalculatorPage() {
     </div>
   )
 }
-
