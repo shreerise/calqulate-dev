@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Calculator, RefreshCw, Loader2, User, Baby } from "lucide-react"
+import { Calculator, RefreshCw, Loader2, User, Baby, CheckCircle2, History, ChevronRight } from "lucide-react"
 
 // Define validation schema
 const formSchema = z.object({
@@ -47,11 +47,81 @@ const childPiData = [
   { range: "> 3.0", status: "Overweight / Obese", notes: "Indicates higher body density — possible excess fat accumulation." },
 ];
 
+interface SavedEntry {
+  date: string
+  pi: number
+  category: string
+  interpretation: string
+  userType: UserType
+  unitLabel: string
+  weight: string
+  height: string
+  units: UnitSystem
+}
+
+const STORAGE_KEY = "calqulate_pi_history"
+
+function getStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch {
+    return []
+  }
+}
+
+function saveToStorage(entry: SavedEntry) {
+  try {
+    const existing = getStorage()
+    existing.unshift(entry)
+    const trimmed = existing.slice(0, 10)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed))
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getPiDeltaLabel(current: { pi: number; category: string }, previous: SavedEntry) {
+  const categoryWeights: Record<string, number> = {
+    "Underweight": 0,
+    "Normal Weight": 1,
+    "Overweight": 2,
+    "Overweight / Obese": 3,
+  }
+
+  const currentIndex = categoryWeights[current.category] ?? 1
+  const previousIndex = categoryWeights[previous.category] ?? 1
+
+  if (currentIndex < previousIndex) {
+    return { label: `Your current PI category improved from ${previous.category} to ${current.category}.`, positive: true }
+  }
+  if (currentIndex > previousIndex) {
+    return { label: `Your current PI category moved from ${previous.category} to ${current.category}.`, positive: false }
+  }
+
+  const delta = Number((current.pi - previous.pi).toFixed(3))
+  if (delta < 0) {
+    return { label: `Your PI decreased by ${Math.abs(delta)} compared to the last saved result.`, positive: true }
+  }
+  if (delta > 0) {
+    return { label: `Your PI increased by ${delta} compared to the last saved result.`, positive: false }
+  }
+
+  return { label: "No meaningful change from your last saved result.", positive: true }
+}
+
 const PonderalIndexCalculator = () => {
   const [result, setResult] = useState<CalculationResult | null>(null)
   const [units, setUnits] = useState<UnitSystem>("metric")
   const [isLoading, setIsLoading] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const [history, setHistory] = useState<SavedEntry[]>([])
+  const [showHistory, setShowHistory] = useState(false)
   const resultsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setHistory(getStorage())
+  }, [])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -150,10 +220,41 @@ const PonderalIndexCalculator = () => {
     }, 500);
   }
   
+  const handleSave = () => {
+    if (!result) return
+
+    const values = form.getValues()
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      pi: result.pi,
+      category: result.category,
+      interpretation: result.interpretation,
+      userType: result.userType,
+      unitLabel: result.unitLabel,
+      weight: values.weight,
+      height: values.height,
+      units: values.units,
+    }
+
+    saveToStorage(entry)
+    setHistory(getStorage())
+    setSaved(true)
+    setTimeout(() => setSaved(false), 3000)
+  }
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY)
+    setHistory([])
+    setShowHistory(false)
+  }
+
   const resetCalculator = () => {
     form.reset();
     setResult(null);
   }
+
+  const lastSaved = history[0]
+  const currentDeltaInfo = result && lastSaved ? getPiDeltaLabel({ pi: result.pi, category: result.category }, lastSaved) : null
 
   const getSpectrumPosition = () => {
     if (!result) return '0%';
@@ -258,57 +359,122 @@ const PonderalIndexCalculator = () => {
       <div ref={resultsRef}>
         {result && (
             <Card className="max-w-4xl mx-auto mt-8">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Your Ponderal Index Result</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                    <div className="text-center p-6 rounded-lg bg-muted border">
-                        <p className="text-base font-semibold text-muted-foreground">Your Ponderal Index ({result.unitLabel})</p>
-                        <p className="text-5xl font-bold text-primary my-2">{result.pi.toFixed(3)}</p>
-                        <p className={`text-2xl font-semibold ${result.categoryColor}`}>{result.category}</p>
-                    </div>
+              <CardHeader>
+                <CardTitle className="text-2xl">Your Ponderal Index Result</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Save this result to compare it with your previous Ponderal Index results.</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button onClick={handleSave} className="flex-1 sm:flex-none">
+                      <CheckCircle2 className="h-4 w-4 mr-2" /> Save Result
+                    </Button>
+                    <Button variant="secondary" onClick={() => setShowHistory((value) => !value)} className="flex-1 sm:flex-none">
+                      <History className="h-4 w-4 mr-2" /> {showHistory ? "Hide History" : "Show History"}
+                    </Button>
+                  </div>
+                </div>
 
-                    <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-md">
-                        <h3 className="text-lg font-semibold mb-2">Interpretation</h3>
-                        <p className="text-muted-foreground">{result.interpretation}</p>
-                    </div>
+                {saved && (
+                  <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+                    Saved successfully! Your latest Ponderal Index result is now stored locally.
+                  </div>
+                )}
 
-                    <div className="border-t pt-6">
-                        <h3 className="text-lg font-semibold mb-4 text-center">Ponderal Index Reference Chart ({result.userType === 'adult' ? 'Adults' : 'Children'})</h3>
-                         <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Ponderal Index (PI) Range</TableHead>
-                                    <TableHead>Weight Status</TableHead>
-                                    <TableHead className="hidden md:table-cell">Notes</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {(result.userType === 'adult' ? adultPiData : childPiData).map((row) => (
-                                    <TableRow key={row.status} className={result.category.includes(row.status.split(' ')[0]) ? "bg-primary/10" : ""}>
-                                        <TableCell className="font-medium">{row.range}</TableCell>
-                                        <TableCell>{row.status}</TableCell>
-                                        <TableCell className="hidden md:table-cell">{row.notes}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                {currentDeltaInfo && (
+                  <div className={`rounded-2xl border p-4 ${currentDeltaInfo.positive ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}`}>
+                    <p className="text-sm font-semibold">Comparison with last saved result</p>
+                    <p className="mt-2 text-sm">{currentDeltaInfo.label}</p>
+                  </div>
+                )}
+
+                {showHistory && (
+                  <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                      <div>
+                        <h4 className="text-base font-semibold">Saved Ponderal Index History</h4>
+                        <p className="text-sm text-muted-foreground">Review recent saved results and compare your latest PI value.</p>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={clearHistory}>
+                        Clear History
+                      </Button>
                     </div>
-                    
-                    <div className="border-t pt-6">
-                        <h3 className="text-lg font-semibold mb-4 text-center">Your Result on the Health Spectrum</h3>
-                        <div className="relative w-full h-4 bg-gradient-to-r from-blue-400 via-green-400 to-red-500 rounded-full">
-                            <div className="absolute top-1/2 h-6 w-6 rounded-full bg-white border-2 border-primary shadow-lg -translate-y-1/2 -translate-x-1/2" style={{ left: getSpectrumPosition() }} title={`Your PI: ${result.pi.toFixed(2)}`}>
-                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded">You</div>
+                    {history.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">No saved results yet. Save a result to build history.</p>
+                    ) : (
+                      <div className="space-y-3">
+                        {history.map((entry) => (
+                          <div key={entry.date} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <div className="flex justify-between gap-4">
+                              <div>
+                                <p className="text-sm font-semibold">{entry.category}</p>
+                                <p className="text-xs text-muted-foreground">{new Date(entry.date).toLocaleString()}</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-2xl font-bold text-gray-900">{entry.pi.toFixed(3)}</p>
+                                <p className="text-xs text-gray-500">{entry.unitLabel}</p>
+                              </div>
                             </div>
-                        </div>
-                        <div className="flex justify-between text-xs text-muted-foreground mt-2 px-1">
-                            <span>Underweight</span>
-                            <span>Normal</span>
-                            <span>Overweight</span>
+                            <div className="mt-3 grid grid-cols-2 gap-2 text-sm text-slate-600">
+                              <div>Weight: {entry.weight} {entry.units === 'metric' ? 'kg' : 'lbs'}</div>
+                              <div>Height: {entry.height} {entry.units === 'metric' ? 'cm' : 'in'}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="text-center p-6 rounded-lg bg-muted border">
+                    <p className="text-base font-semibold text-muted-foreground">Your Ponderal Index ({result.unitLabel})</p>
+                    <p className="text-5xl font-bold text-primary my-2">{result.pi.toFixed(3)}</p>
+                    <p className={`text-2xl font-semibold ${result.categoryColor}`}>{result.category}</p>
+                </div>
+
+                <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-md">
+                    <h3 className="text-lg font-semibold mb-2">Interpretation</h3>
+                    <p className="text-muted-foreground">{result.interpretation}</p>
+                </div>
+
+                <div className="border-t pt-6">
+                    <h3 className="text-lg font-semibold mb-4 text-center">Ponderal Index Reference Chart ({result.userType === 'adult' ? 'Adults' : 'Children'})</h3>
+                     <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Ponderal Index (PI) Range</TableHead>
+                                <TableHead>Weight Status</TableHead>
+                                <TableHead className="hidden md:table-cell">Notes</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {(result.userType === 'adult' ? adultPiData : childPiData).map((row) => (
+                                <TableRow key={row.status} className={result.category.includes(row.status.split(' ')[0]) ? "bg-primary/10" : ""}>
+                                    <TableCell className="font-medium">{row.range}</TableCell>
+                                    <TableCell>{row.status}</TableCell>
+                                    <TableCell className="hidden md:table-cell">{row.notes}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+                
+                <div className="border-t pt-6">
+                    <h3 className="text-lg font-semibold mb-4 text-center">Your Result on the Health Spectrum</h3>
+                    <div className="relative w-full h-4 bg-gradient-to-r from-blue-400 via-green-400 to-red-500 rounded-full">
+                        <div className="absolute top-1/2 h-6 w-6 rounded-full bg-white border-2 border-primary shadow-lg -translate-y-1/2 -translate-x-1/2" style={{ left: getSpectrumPosition() }} title={`Your PI: ${result.pi.toFixed(2)}`}>
+                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded">You</div>
                         </div>
                     </div>
-                </CardContent>
+                    <div className="flex justify-between text-xs text-muted-foreground mt-2 px-1">
+                        <span>Underweight</span>
+                        <span>Normal</span>
+                        <span>Overweight</span>
+                    </div>
+                </div>
+              </CardContent>
             </Card>
         )}
       </div>

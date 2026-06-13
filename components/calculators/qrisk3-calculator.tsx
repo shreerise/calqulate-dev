@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Activity, Calculator, RefreshCw, Loader2, Heart, AlertCircle, Info, TrendingUp } from "lucide-react";
+import { Activity, Calculator, RefreshCw, Loader2, Heart, AlertCircle, Info, TrendingUp, CheckCircle2, History, ChevronRight } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 // --- FORM SCHEMA ---
@@ -166,12 +166,81 @@ const calculateRisk = (values: z.infer<typeof formSchema>): QriskResult => {
   };
 };
 
+interface SavedEntry {
+  date: string;
+  score: number;
+  heartAge: number;
+  bmi: number;
+  riskLevel: "Low" | "Moderate" | "High";
+  riskColor: string;
+  recommendations: string[];
+  gender: string;
+  age: string;
+  ethnicity: string;
+  smokingStatus: string;
+  diabetes: string;
+  familyHistory: boolean;
+  ckd: boolean;
+  atrialFibrillation: boolean;
+  bpTreatment: boolean;
+  rheumatoidArthritis: boolean;
+  systolicBP: string;
+  cholesterolRatio: string;
+}
+
+const STORAGE_KEY = "calqulate_qrisk3_history";
+
+function getStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveToStorage(entry: SavedEntry) {
+  try {
+    const existing = getStorage();
+    existing.unshift(entry);
+    const trimmed = existing.slice(0, 10);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getQriskDeltaLabel(current: SavedEntry, previous: SavedEntry) {
+  if (current.riskLevel !== previous.riskLevel) {
+    return {
+      label: `Risk category changed from ${previous.riskLevel} to ${current.riskLevel}.`,
+      positive: current.riskLevel === "Low" || (current.riskLevel === "Moderate" && previous.riskLevel === "High"),
+    };
+  }
+
+  const delta = Number((current.score - previous.score).toFixed(1));
+  if (delta < 0) {
+    return { label: `Your risk improved by ${Math.abs(delta)} points compared to the last saved result.`, positive: true };
+  }
+  if (delta > 0) {
+    return { label: `Your risk increased by ${delta} points compared to the last saved result.`, positive: false };
+  }
+  return { label: "No meaningful change from your last saved result.", positive: true };
+}
+
 // --- COMPONENT ---
 
 export default function Qrisk3Calculator() {
   const [result, setResult] = useState<QriskResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [history, setHistory] = useState<SavedEntry[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setHistory(getStorage());
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -193,6 +262,44 @@ export default function Qrisk3Calculator() {
     },
   });
 
+  const handleSave = () => {
+    if (!result) return;
+
+    const values = form.getValues();
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      score: result.score,
+      heartAge: result.heartAge,
+      bmi: result.bmi,
+      riskLevel: result.riskLevel,
+      riskColor: result.riskColor,
+      recommendations: result.recommendations,
+      gender: values.gender,
+      age: values.age,
+      ethnicity: values.ethnicity,
+      smokingStatus: values.smokingStatus,
+      diabetes: values.diabetes,
+      familyHistory: values.familyHistory,
+      ckd: values.ckd,
+      atrialFibrillation: values.atrialFibrillation,
+      bpTreatment: values.bpTreatment,
+      rheumatoidArthritis: values.rheumatoidArthritis,
+      systolicBP: values.systolicBP,
+      cholesterolRatio: values.cholesterolRatio,
+    };
+
+    saveToStorage(entry);
+    setHistory(getStorage());
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setHistory([]);
+    setShowHistory(false);
+  };
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     // Simulate API delay
@@ -206,6 +313,29 @@ export default function Qrisk3Calculator() {
       }, 100);
     }, 800);
   }
+
+  const lastSaved = history[0];
+  const currentDeltaInfo = result && lastSaved ? getQriskDeltaLabel({
+    date: "",
+    score: result.score,
+    heartAge: result.heartAge,
+    bmi: result.bmi,
+    riskLevel: result.riskLevel,
+    riskColor: result.riskColor,
+    recommendations: result.recommendations,
+    gender: form.getValues('gender'),
+    age: form.getValues('age'),
+    ethnicity: form.getValues('ethnicity'),
+    smokingStatus: form.getValues('smokingStatus'),
+    diabetes: form.getValues('diabetes'),
+    familyHistory: form.getValues('familyHistory'),
+    ckd: form.getValues('ckd'),
+    atrialFibrillation: form.getValues('atrialFibrillation'),
+    bpTreatment: form.getValues('bpTreatment'),
+    rheumatoidArthritis: form.getValues('rheumatoidArthritis'),
+    systolicBP: form.getValues('systolicBP'),
+    cholesterolRatio: form.getValues('cholesterolRatio'),
+  }, lastSaved) : null;
 
   return (
     <>
@@ -519,7 +649,66 @@ export default function Qrisk3Calculator() {
             </CardHeader>
             
             <CardContent className="p-6 md:p-8 space-y-8">
-              
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Save this result to compare against your previous QRISK3 scores later.</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button onClick={handleSave} disabled={!result} className="flex-1 sm:flex-none">
+                    <CheckCircle2 className="h-4 w-4 mr-2" /> Save Result
+                  </Button>
+                  <Button variant="secondary" onClick={() => setShowHistory((current) => !current)} className="flex-1 sm:flex-none">
+                    <History className="h-4 w-4 mr-2" /> {showHistory ? 'Hide History' : 'Show History'}
+                  </Button>
+                </div>
+              </div>
+
+              {saved && (
+                <div className="rounded-2xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+                  Saved successfully! Your latest result is stored locally in your browser.
+                </div>
+              )}
+
+              {showHistory && (
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="flex items-center justify-between gap-4 mb-4">
+                    <div>
+                      <h4 className="text-base font-semibold">Saved QRISK3 History</h4>
+                      <p className="text-sm text-muted-foreground">Review your most recent saved scores and compare with the current result.</p>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={clearHistory}>
+                      Clear History
+                    </Button>
+                  </div>
+                  {history.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">No saved history yet. Save a result to build your history.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {history.map((entry, index) => (
+                        <div key={entry.date} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                            <div>
+                              <p className="text-sm font-semibold">{new Date(entry.date).toLocaleString()}</p>
+                              <p className="text-xs text-muted-foreground">{entry.riskLevel} risk — {entry.score}%</p>
+                            </div>
+                            <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+                              {entry.heartAge} heart age
+                              <ChevronRight className="h-4 w-4" />
+                            </div>
+                          </div>
+                          <div className="mt-3 grid grid-cols-2 gap-3 text-sm text-slate-600">
+                            <div>Age: {entry.age}</div>
+                            <div>BMI: {entry.bmi}</div>
+                            <div>Systolic BP: {entry.systolicBP}</div>
+                            <div>Chol/HDL: {entry.cholesterolRatio}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* PRIMARY SCORES */}
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 
@@ -567,6 +756,13 @@ export default function Qrisk3Calculator() {
                 </div>
                 <span className="font-bold text-xl text-blue-700 dark:text-blue-200">{result.bmi}</span>
               </div>
+
+              {currentDeltaInfo && (
+                <div className={`rounded-2xl p-4 ${currentDeltaInfo.positive ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'} border`}>
+                  <p className="text-sm font-semibold">Comparison with last saved result</p>
+                  <p className="mt-2 text-sm">{currentDeltaInfo.label}</p>
+                </div>
+              )}
 
               {/* RECOMMENDATIONS */}
               <div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -18,7 +18,10 @@ import {
   AlertTriangle, 
   Activity, 
   Info,
-  ArrowRight
+  ArrowRight,
+  CheckCircle2,
+  History,
+  ChevronRight
 } from "lucide-react"
 
 const formSchema = z.object({
@@ -26,29 +29,202 @@ const formSchema = z.object({
   diastolic: z.string().min(1, "Diastolic is required."),
 })
 
+type BPResult = {
+  category: string;
+  description: string;
+  map: number;
+  pulsePressure: number;
+  color: string;
+  bgColor: string;
+  advice: string[];
+}
+
+interface SavedEntry {
+  date: string;
+  systolic: number;
+  diastolic: number;
+  category: string;
+  description: string;
+  map: number;
+  pulsePressure: number;
+  advice: string[];
+}
+
+const STORAGE_KEY = "calqulate_bp_history"
+
+function getStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch {
+    return []
+  }
+}
+
+function saveToStorage(entry: SavedEntry) {
+  try {
+    const existing = getStorage()
+    existing.unshift(entry)
+    const trimmed = existing.slice(0, 10)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed))
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getBpDeltaLabel(current: { systolic: number; diastolic: number; category: string }, previous: SavedEntry) {
+  const severityOrder = [
+    "Normal",
+    "Elevated",
+    "Hypertension Stage 1",
+    "Hypertension Stage 2",
+    "Hypertensive Crisis",
+    "Low (Hypotension)",
+  ]
+
+  const currentIndex = severityOrder.indexOf(current.category)
+  const prevIndex = severityOrder.indexOf(previous.category)
+  const currentScore = current.systolic + current.diastolic
+  const prevScore = previous.systolic + previous.diastolic
+  const delta = Number((currentScore - prevScore).toFixed(1))
+
+  if (currentIndex < prevIndex) {
+    return { label: `Your latest reading is improved from ${previous.category} to ${current.category}.`, color: "#166534", icon: "down" as const }
+  }
+
+  if (currentIndex > prevIndex) {
+    return { label: `Your latest reading is worse than your last saved result.`, color: "#991B1B", icon: "up" as const }
+  }
+
+  if (delta < 0) {
+    return { label: `Your pressure is lower by ${Math.abs(delta)} mmHg compared to the last saved reading.`, color: "#166534", icon: "down" as const }
+  }
+
+  if (delta > 0) {
+    return { label: `Your pressure is higher by ${delta} mmHg compared to the last saved reading.`, color: "#991B1B", icon: "up" as const }
+  }
+
+  return { label: "No meaningful change from the last saved reading.", color: "#4B5563", icon: "same" as const }
+}
+
+const ProgressCard = ({ current, history }: { current: { systolic: number; diastolic: number; category: string }; history: SavedEntry[] }) => {
+  if (history.length === 0) return null
+  const last = history[0]
+  const deltaInfo = getBpDeltaLabel(current, last)
+  const improving = deltaInfo.icon === "down"
+
+  return (
+    <div className="rounded-xl p-4 border flex items-start gap-4" style={{ background: improving ? "#ECFDF5" : "#FEF3EE", borderColor: improving ? "#86EFAC" : "#FECACA" }}>
+      <div className="p-2 rounded-lg flex-shrink-0" style={{ background: improving ? "#DCFCE7" : "#FEE2E2" }}>
+        {improving ? <CheckCircle2 className="w-5 h-5 text-green-700" /> : <AlertTriangle className="w-5 h-5 text-red-700" />}
+      </div>
+      <div>
+        <p className="font-bold text-sm" style={{ color: improving ? "#166534" : "#991B1B" }}>
+          {improving ? "Your latest reading is better than your last saved result." : "Your latest reading is worse than your last saved result."}
+        </p>
+        <p className="text-xs mt-1" style={{ color: "#4B5563" }}>
+          {deltaInfo.label} · Last saved: {new Date(last.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+const HistoryPanel = ({ history, onClear }: { history: SavedEntry[]; onClear: () => void }) => {
+  if (history.length === 0) return null
+
+  return (
+    <Card className="max-w-3xl mx-auto border shadow-md mb-6">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <History className="w-4 h-4 text-green-600" />
+          Saved Blood Pressure Readings
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          {history.map((entry, index) => {
+            const previous = history[index + 1]
+            const delta = previous ? Number(((entry.systolic + entry.diastolic) - (previous.systolic + previous.diastolic)).toFixed(1)) : null
+            return (
+              <div key={entry.date} className="rounded-2xl border p-4 bg-white shadow-sm">
+                <div className="flex justify-between items-start gap-4">
+                  <div>
+                    <p className="text-sm font-semibold">{entry.category}</p>
+                    <p className="text-xs text-muted-foreground">{new Date(entry.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-gray-900">{entry.systolic}/{entry.diastolic}</p>
+                    <p className="text-xs text-gray-500">MAP {entry.map.toFixed(1)} mmHg</p>
+                  </div>
+                </div>
+                {delta !== null && (
+                  <div className="mt-3 text-sm font-medium" style={{ color: delta < 0 ? "#166534" : delta > 0 ? "#991B1B" : "#475569" }}>
+                    {delta < 0 ? `Improved by ${Math.abs(delta)} mmHg vs previous saved reading` : delta > 0 ? `Higher by ${delta} mmHg vs previous saved reading` : "No change from previous saved reading"}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+        <button onClick={onClear} className="mt-4 text-xs text-gray-500 hover:text-red-500 transition-colors">
+          Clear history
+        </button>
+      </CardContent>
+    </Card>
+  )
+}
+
 export default function BloodPressureCalculator() {
-  const [result, setResult] = useState<{
-    category: string;
-    description: string;
-    map: number;
-    pulsePressure: number;
-    color: string;
-    bgColor: string;
-    advice: string[];
-  } | null>(null)
+  const [result, setResult] = useState<BPResult | null>(null)
+  const [reading, setReading] = useState<{ systolic: number; diastolic: number } | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const [history, setHistory] = useState<SavedEntry[]>([])
+  const [showHistory, setShowHistory] = useState(false)
   const resultsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setHistory(getStorage())
+  }, [])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { systolic: "", diastolic: "" },
   })
 
+  const handleSave = () => {
+    if (!result || !reading) return
+
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      systolic: reading.systolic,
+      diastolic: reading.diastolic,
+      category: result.category,
+      description: result.description,
+      map: result.map,
+      pulsePressure: result.pulsePressure,
+      advice: result.advice,
+    }
+
+    saveToStorage(entry)
+    setHistory(getStorage())
+    setSaved(true)
+    setTimeout(() => setSaved(false), 3000)
+  }
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY)
+    setHistory([])
+    setShowHistory(false)
+  }
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true)
     setTimeout(() => {
       const s = parseInt(values.systolic)
       const d = parseInt(values.diastolic)
+      setReading({ systolic: s, diastolic: d })
 
       // Advanced metrics
       const map = d + (s - d) / 3
@@ -104,8 +280,25 @@ export default function BloodPressureCalculator() {
     }, 600)
   }
 
+  const lastSaved = history[0]
+  const currentDeltaInfo = result && reading && lastSaved ? getBpDeltaLabel({ systolic: reading.systolic, diastolic: reading.diastolic, category: result.category }, lastSaved) : null
+
   return (
     <div className="space-y-8">
+      {history.length > 0 && (
+        <div className="max-w-4xl mx-auto">
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            className="flex items-center gap-2 text-sm font-semibold transition-colors"
+            style={{ color: "#15803D" }}
+          >
+            <History className="w-4 h-4" />
+            {showHistory ? "Hide" : "View"} saved blood pressure readings ({history.length} {history.length === 1 ? "entry" : "entries"})
+            <ChevronRight className={`w-4 h-4 transition-transform ${showHistory ? "rotate-90" : ""}`} />
+          </button>
+        </div>
+      )}
+      {showHistory && <HistoryPanel history={history} onClear={clearHistory} />}
       <Card className="border-green-100 shadow-lg overflow-hidden">
         <CardHeader className="bg-green-50/50">
           <CardTitle className="flex items-center gap-2">
@@ -208,6 +401,27 @@ export default function BloodPressureCalculator() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              <div className="p-8 border-t bg-white">
+                <div className="grid gap-4 sm:grid-cols-[1fr_auto] items-start">
+                  <Button onClick={handleSave} className="w-full bg-green-600 hover:bg-green-700 text-white" size="lg">
+                    {saved ? "Saved to history" : "Save this reading"}
+                  </Button>
+                  {currentDeltaInfo && (
+                    <div className="rounded-2xl border p-4 bg-slate-50">
+                      <p className="text-sm font-semibold text-slate-900">Comparison to last saved reading</p>
+                      <p className={`mt-2 text-base font-bold ${currentDeltaInfo.icon === "down" ? "text-green-600" : currentDeltaInfo.icon === "up" ? "text-red-600" : "text-slate-700"}`}>
+                        {currentDeltaInfo.label}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                {history.length > 0 && reading && result && (
+                  <div className="mt-4">
+                    <ProgressCard current={{ systolic: reading.systolic, diastolic: reading.diastolic, category: result.category }} history={history} />
+                  </div>
+                )}
               </div>
 
               {result.pulsePressure > 60 && (

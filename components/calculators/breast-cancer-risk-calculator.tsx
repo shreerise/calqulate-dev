@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -33,6 +33,57 @@ interface CalculationResult {
   description: string;
   actionPlan: string[];
   doctorQuestions: string[];
+}
+
+interface SavedEntry {
+  date: string;
+  age: string;
+  menarcheAge: string;
+  firstBirthAge: string;
+  firstDegreeRelatives: string;
+  priorBiopsy: string;
+  atypicalHyperplasia?: string;
+  riskLevel: "Average" | "Moderate" | "High";
+  scoreMultiplier: number;
+}
+
+const STORAGE_KEY = "calqulate_breast_cancer_history";
+
+function getStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveToStorage(entry: SavedEntry) {
+  try {
+    const existing = getStorage();
+    existing.unshift(entry);
+    const trimmed = existing.slice(0, 10);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getRiskDeltaLabel(current: { riskLevel: string; scoreMultiplier: number }, previous: SavedEntry) {
+  if (current.riskLevel !== previous.riskLevel) {
+    return {
+      label: `Risk category changed from ${previous.riskLevel} to ${current.riskLevel}.`, positive: current.riskLevel !== 'High' || previous.riskLevel === 'Average'
+    };
+  }
+
+  const delta = Number((current.scoreMultiplier - previous.scoreMultiplier).toFixed(1));
+  if (delta > 0) {
+    return { label: `Your relative risk multiplier increased by ${delta} compared to the last saved result.`, positive: false };
+  }
+  if (delta < 0) {
+    return { label: `Your relative risk multiplier decreased by ${Math.abs(delta)} compared to the last saved result.`, positive: true };
+  }
+  return { label: "No meaningful change from the last saved result.", positive: true };
 }
 
 // --- VISUAL COMPONENTS ---
@@ -173,7 +224,14 @@ const calculateRisk = (data: FormData): CalculationResult => {
 export default function BreastCancerRiskCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [history, setHistory] = useState<SavedEntry[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setHistory(getStorage());
+  }, []);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -185,6 +243,37 @@ export default function BreastCancerRiskCalculator() {
   });
 
   const watchBiopsy = form.watch("priorBiopsy");
+
+  const lastSaved = history[0];
+  const currentDeltaInfo = result && lastSaved ? getRiskDeltaLabel({ riskLevel: result.riskLevel, scoreMultiplier: result.scoreMultiplier }, lastSaved) : null;
+
+  const handleSave = () => {
+    if (!result) return;
+
+    const values = form.getValues();
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      age: values.age,
+      menarcheAge: values.menarcheAge,
+      firstBirthAge: values.firstBirthAge,
+      firstDegreeRelatives: values.firstDegreeRelatives,
+      priorBiopsy: values.priorBiopsy,
+      atypicalHyperplasia: values.atypicalHyperplasia,
+      riskLevel: result.riskLevel,
+      scoreMultiplier: result.scoreMultiplier,
+    };
+
+    saveToStorage(entry);
+    setHistory(getStorage());
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setHistory([]);
+    setShowHistory(false);
+  };
 
   function onSubmit(values: FormData) {
     setIsLoading(true);
@@ -428,6 +517,76 @@ export default function BreastCancerRiskCalculator() {
           <div className="mt-12 space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-500">
             
             <Card className="max-w-4xl mx-auto overflow-hidden shadow-xl border-t-0">
+              <CardContent className="space-y-6">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Save this result so you can compare your breast cancer risk profile with earlier calculations.</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button onClick={handleSave} className="flex-1 sm:flex-none">
+                      <CheckCircle2 className="h-4 w-4 mr-2" /> Save Result
+                    </Button>
+                    <Button variant="secondary" onClick={() => setShowHistory((value) => !value)} className="flex-1 sm:flex-none">
+                      {showHistory ? 'Hide History' : 'Show History'}
+                    </Button>
+                  </div>
+                </div>
+
+                {saved && (
+                  <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+                    Saved successfully! Your risk profile is now stored locally in your browser.
+                  </div>
+                )}
+
+                {currentDeltaInfo && (
+                  <div className={`rounded-2xl border p-4 ${currentDeltaInfo.positive ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}`}>
+                    <p className="text-sm font-semibold">Comparison with last saved result</p>
+                    <p className="mt-2 text-sm">{currentDeltaInfo.label}</p>
+                  </div>
+                )}
+
+                {showHistory && (
+                  <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                      <div>
+                        <h4 className="text-base font-semibold">Saved Risk History</h4>
+                        <p className="text-sm text-muted-foreground">Review your latest saved breast cancer risk estimates.</p>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={clearHistory}>
+                        Clear History
+                      </Button>
+                    </div>
+                    {history.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">No saved results yet. Save a result to build history.</p>
+                    ) : (
+                      <div className="space-y-3">
+                        {history.map((entry) => (
+                          <div key={entry.date} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+                              <div>
+                                <p className="text-sm font-semibold">{entry.riskLevel} Risk</p>
+                                <p className="text-xs text-muted-foreground">{new Date(entry.date).toLocaleString()}</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-2xl font-bold text-gray-900">{entry.scoreMultiplier.toFixed(1)}x</p>
+                                <p className="text-xs text-gray-500">Relative Risk Multiplier</p>
+                              </div>
+                            </div>
+                            <div className="mt-4 grid grid-cols-2 gap-2 text-sm text-slate-600">
+                              <div>Age: {entry.age}</div>
+                              <div>Menarche Age: {entry.menarcheAge}</div>
+                              <div>First Birth Age: {entry.firstBirthAge}</div>
+                              <div>1st Degree Relatives: {entry.firstDegreeRelatives}</div>
+                              <div>Biopsy: {entry.priorBiopsy}</div>
+                              {entry.atypicalHyperplasia && <div>Atypical Hyperplasia: {entry.atypicalHyperplasia}</div>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </CardContent>
               <div className={`h-3 w-full ${result.riskLevel === 'High' ? 'bg-red-500' : result.riskLevel === 'Moderate' ? 'bg-yellow-500' : 'bg-green-500'}`}></div>
               <CardContent className="p-8">
                 

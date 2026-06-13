@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calculator, RefreshCw, Loader2, Sparkles, Shirt, AlertTriangle, CheckCircle2, Info, TrendingDown } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Sparkles, Shirt, AlertTriangle, CheckCircle2, Info, TrendingDown, History, ChevronRight } from "lucide-react";
 
 // ---------------------------------------------------------------------------
 // TYPES
@@ -339,6 +339,122 @@ function getBrandNote(brand: string): string {
   return found.note ? `${found.label} ${found.note}.` : "";
 }
 
+interface SavedEntry {
+  date: string;
+  primarySize: SizeResult;
+  altSize: SizeResult | null;
+  betweenSizes: BetweenSizesAdvice;
+  returnRisk: ReturnRisk;
+  returnRiskReason: string;
+  brand: string;
+  dressStyle: string;
+  fitPreference: string;
+  fabric: string;
+  measurements: { bust: number; waist: number; hips: number };
+}
+
+const STORAGE_KEY = "calqulate_dress_size_history";
+
+function getStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveToStorage(entry: SavedEntry) {
+  try {
+    const existing = getStorage();
+    existing.unshift(entry);
+    const trimmed = existing.slice(0, 10);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getDressSizeDeltaLabel(current: SavedEntry, previous: SavedEntry) {
+  const riskOrder: ReturnRisk[] = ["Low", "Medium", "High"];
+  const currentRiskIndex = riskOrder.indexOf(current.returnRisk);
+  const prevRiskIndex = riskOrder.indexOf(previous.returnRisk);
+
+  if (currentRiskIndex < prevRiskIndex) {
+    return { label: `Your predicted return risk improved from ${previous.returnRisk} to ${current.returnRisk}.`, positive: true };
+  }
+  if (currentRiskIndex > prevRiskIndex) {
+    return { label: `Your predicted return risk worsened from ${previous.returnRisk} to ${current.returnRisk}.`, positive: false };
+  }
+  if (current.primarySize.us !== previous.primarySize.us) {
+    return { label: `Recommended size changed from ${previous.primarySize.us} to ${current.primarySize.us}.`, positive: false };
+  }
+  if (current.altSize?.us !== previous.altSize?.us) {
+    return { label: `Alternative recommended size changed.`, positive: false };
+  }
+  return { label: "No meaningful change from your last saved result.", positive: true };
+}
+
+const ProgressCard = ({ current, history }: { current: SavedEntry; history: SavedEntry[] }) => {
+  if (history.length === 0) return null;
+  const last = history[0];
+  const delta = getDressSizeDeltaLabel(current, last);
+  return (
+    <div className={`rounded-xl p-4 border flex items-start gap-4 ${delta.positive ? "bg-emerald-50 border-emerald-200" : "bg-red-50 border-red-200"}`}>
+      <div className={`p-2 rounded-lg flex-shrink-0 ${delta.positive ? "bg-emerald-100" : "bg-red-100"}`}>
+        {delta.positive ? <CheckCircle2 className="w-5 h-5 text-emerald-700" /> : <AlertTriangle className="w-5 h-5 text-red-700" />}
+      </div>
+      <div>
+        <p className={`font-bold text-sm ${delta.positive ? "text-emerald-700" : "text-red-700"}`}>
+          {delta.positive ? "Your new recommendation is as good or better than your last saved result." : "There is a difference compared to your last saved result."}
+        </p>
+        <p className="text-xs mt-1 text-slate-600">{delta.label} · Last saved: {new Date(last.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
+      </div>
+    </div>
+  );
+};
+
+const HistoryPanel = ({ history, onClear }: { history: SavedEntry[]; onClear: () => void }) => {
+  if (history.length === 0) return null;
+  return (
+    <Card className="max-w-3xl mx-auto border shadow-md mb-6">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <History className="w-4 h-4 text-emerald-600" />
+          Saved Dress Size Results
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          {history.map((entry) => (
+            <div key={entry.date} className="rounded-2xl border p-4 bg-white shadow-sm">
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <p className="text-sm font-semibold">{entry.primarySize.us}</p>
+                  <p className="text-xs text-muted-foreground">{new Date(entry.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-semibold">Return risk: {entry.returnRisk}</p>
+                  <p className="text-xs text-gray-500">Brand: {entry.brand}</p>
+                </div>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
+                <div className="rounded-xl bg-slate-50 p-2">Bust: {entry.measurements.bust}</div>
+                <div className="rounded-xl bg-slate-50 p-2">Waist: {entry.measurements.waist}</div>
+                <div className="rounded-xl bg-slate-50 p-2">Hips: {entry.measurements.hips}</div>
+                <div className="rounded-xl bg-slate-50 p-2">Style: {entry.dressStyle}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button onClick={onClear} className="mt-4 text-xs text-gray-500 hover:text-red-500 transition-colors">
+          Clear history
+        </button>
+      </CardContent>
+    </Card>
+  );
+};
+
 // ---------------------------------------------------------------------------
 // SUB-COMPONENTS
 // ---------------------------------------------------------------------------
@@ -464,7 +580,14 @@ const ProportionChart = ({
 export default function DressSizeCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [history, setHistory] = useState<SavedEntry[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setHistory(getStorage());
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -501,6 +624,35 @@ export default function DressSizeCalculator() {
       }
     });
     setValue("units", newUnit);
+  };
+
+  const handleSave = () => {
+    if (!result) return;
+
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      primarySize: result.primarySize,
+      altSize: result.altSize,
+      betweenSizes: result.betweenSizes,
+      returnRisk: result.returnRisk,
+      returnRiskReason: result.returnRiskReason,
+      brand: getValues("brand"),
+      dressStyle: getValues("dressStyle"),
+      fitPreference: getValues("fitPreference"),
+      fabric: getValues("fabric"),
+      measurements: result.measurements,
+    };
+
+    saveToStorage(entry);
+    setHistory(getStorage());
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setHistory([]);
+    setShowHistory(false);
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -557,8 +709,37 @@ export default function DressSizeCalculator() {
     }, 600);
   }
 
+  const lastSaved = history[0];
+  const currentDeltaInfo = result && lastSaved ? getDressSizeDeltaLabel({
+    date: "",
+    primarySize: result.primarySize,
+    altSize: result.altSize,
+    betweenSizes: result.betweenSizes,
+    returnRisk: result.returnRisk,
+    returnRiskReason: result.returnRiskReason,
+    brand: getValues("brand"),
+    dressStyle: getValues("dressStyle"),
+    fitPreference: getValues("fitPreference"),
+    fabric: getValues("fabric"),
+    measurements: result.measurements,
+  }, lastSaved) : null;
+
   return (
     <>
+      {history.length > 0 && (
+        <div className="max-w-4xl mx-auto mb-6">
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            className="flex items-center gap-2 text-sm font-semibold transition-colors"
+            style={{ color: "#15803D" }}
+          >
+            <History className="w-4 h-4" />
+            {showHistory ? "Hide" : "View"} saved dress size results ({history.length} {history.length === 1 ? "entry" : "entries"})
+            <ChevronRight className={`w-4 h-4 transition-transform ${showHistory ? "rotate-90" : ""}`} />
+          </button>
+        </div>
+      )}
+      {showHistory && <HistoryPanel history={history} onClear={clearHistory} />}
       <Card className="max-w-4xl mx-auto" id="calculator">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -888,6 +1069,20 @@ export default function DressSizeCalculator() {
                   {result.primarySize.india}
                   {result.primarySize.plusSize ? ` · Plus: ${result.primarySize.plusSize}` : ""}
                 </p>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-[1fr_auto] items-start border-t pt-6">
+                <div>
+                  <Button onClick={handleSave} className="w-full bg-emerald-700 hover:bg-emerald-600 text-white" size="lg">
+                    {saved ? "Saved to history" : "Save this recommendation"}
+                  </Button>
+                </div>
+                {currentDeltaInfo && (
+                  <div className={`rounded-2xl border p-4 ${currentDeltaInfo.positive ? "bg-emerald-50 border-emerald-200" : "bg-red-50 border-red-200"}`}>
+                    <p className={`text-sm font-semibold ${currentDeltaInfo.positive ? "text-emerald-700" : "text-red-700"}`}>Comparison with last saved result</p>
+                    <p className="text-xs text-slate-600 mt-2">{currentDeltaInfo.label}</p>
+                  </div>
+                )}
               </div>
 
               {/* Size cards + alt */}

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Calculator, RefreshCw, Loader2, Sparkles, Shirt, HeartPulse } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Sparkles, Shirt, HeartPulse, CheckCircle2, History } from "lucide-react";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -35,6 +35,59 @@ interface CalculationResult {
   healthInsights: string;
   whr: number;
   measurements: { bust: number, waist: number, hips: number };
+}
+
+interface SavedEntry {
+  date: string;
+  bodyShape: string;
+  whr: number;
+  units: UnitSystem;
+  gender: Gender;
+  bust: string;
+  waist: string;
+  highHips: string;
+  hips: string;
+}
+
+const STORAGE_KEY = "calqulate_body_shape_history"
+
+function getStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveToStorage(entry: SavedEntry) {
+  try {
+    const existing = getStorage();
+    existing.unshift(entry);
+    const trimmed = existing.slice(0, 10);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getBodyShapeDeltaLabel(current: { bodyShape: string; whr: number }, previous: SavedEntry) {
+  if (current.bodyShape !== previous.bodyShape) {
+    return {
+      label: `Body shape changed from ${previous.bodyShape} to ${current.bodyShape}.`,
+      positive: true,
+    };
+  }
+
+  const delta = Number((current.whr - previous.whr).toFixed(2));
+  if (delta < 0) {
+    return { label: `Your WHR improved by ${Math.abs(delta)} compared to the last saved result.`, positive: true };
+  }
+  if (delta > 0) {
+    return { label: `Your WHR increased by ${delta} compared to the last saved result.`, positive: false };
+  }
+
+  return { label: "No meaningful WHR change from the last saved result.", positive: true };
 }
 
 // --- VISUAL COMPONENTS ---
@@ -143,7 +196,14 @@ export default function BodyShapeCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [highlightPear, setHighlightPear] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [history, setHistory] = useState<SavedEntry[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setHistory(getStorage());
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -153,6 +213,9 @@ export default function BodyShapeCalculator() {
   const { getValues, setValue } = form;
   const units = form.watch("units");
   const gender = form.watch("gender");
+
+  const lastSaved = history[0];
+  const currentDeltaInfo = result && lastSaved ? getBodyShapeDeltaLabel({ bodyShape: result.bodyShape, whr: result.whr }, lastSaved) : null;
 
   // --- NEW: Unit Conversion Handler ---
   const handleUnitChange = (newUnit: UnitSystem) => {
@@ -175,6 +238,34 @@ export default function BodyShapeCalculator() {
       }
     });
     setValue("units", newUnit);
+  };
+
+  const handleSave = () => {
+    if (!result) return;
+
+    const values = getValues();
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      bodyShape: result.bodyShape,
+      whr: result.whr,
+      units: values.units,
+      gender: values.gender,
+      bust: values.bust,
+      waist: values.waist,
+      highHips: values.highHips,
+      hips: values.hips,
+    };
+
+    saveToStorage(entry);
+    setHistory(getStorage());
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setHistory([]);
+    setShowHistory(false);
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -250,6 +341,75 @@ export default function BodyShapeCalculator() {
         {result && (
           <Card className="max-w-4xl mx-auto mt-8">
             <CardContent className="p-6 md:p-8 space-y-8">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Save this body-shape result and compare it with your previous measurements.</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button onClick={handleSave} className="flex-1 sm:flex-none">
+                    <CheckCircle2 className="h-4 w-4 mr-2" /> Save Result
+                  </Button>
+                  <Button variant="secondary" onClick={() => setShowHistory((value) => !value)} className="flex-1 sm:flex-none">
+                    <History className="h-4 w-4 mr-2" /> {showHistory ? 'Hide History' : 'Show History'}
+                  </Button>
+                </div>
+              </div>
+
+              {saved && (
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+                  Saved successfully! Your body shape result has been stored in your browser.
+                </div>
+              )}
+
+              {currentDeltaInfo && (
+                <div className={`rounded-2xl border p-4 ${currentDeltaInfo.positive ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}`}>
+                  <p className="text-sm font-semibold">Comparison with last saved result</p>
+                  <p className="mt-2 text-sm">{currentDeltaInfo.label}</p>
+                </div>
+              )}
+
+              {showHistory && (
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                    <div>
+                      <h4 className="text-base font-semibold">Saved Body Shape History</h4>
+                      <p className="text-sm text-muted-foreground">Review your last saved shape and WHR results.</p>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={clearHistory}>
+                      Clear History
+                    </Button>
+                  </div>
+                  {history.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">No saved results yet. Save a result to build history.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {history.map((entry) => (
+                        <div key={entry.date} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                          <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+                            <div>
+                              <p className="text-sm font-semibold">{entry.bodyShape}</p>
+                              <p className="text-xs text-muted-foreground">{new Date(entry.date).toLocaleString()}</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-2xl font-bold text-gray-900">{entry.whr.toFixed(2)}</p>
+                              <p className="text-xs text-gray-500">WHR</p>
+                            </div>
+                          </div>
+                          <div className="mt-4 grid grid-cols-2 gap-2 text-sm text-slate-600">
+                            <div>Gender: {entry.gender}</div>
+                            <div>Units: {entry.units === 'metric' ? 'cm' : 'in'}</div>
+                            <div>Bust: {entry.bust}</div>
+                            <div>Waist: {entry.waist}</div>
+                            <div>High Hips: {entry.highHips}</div>
+                            <div>Hips: {entry.hips}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               <div className="text-center">
                   <p className="text-sm font-semibold text-muted-foreground">Your Body Shape is</p>
                   <p className="text-5xl font-bold text-primary">{result.bodyShape}</p>

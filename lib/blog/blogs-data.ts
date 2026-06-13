@@ -121,6 +121,20 @@ export const blogs: Blog[] = [
     ctaHref: "/health/weight-loss-percentage-calculator",
   },
   {
+    slug: "how-to-calculate-resting-metabolic-rate-rmr",
+    title: "How to Calculate Your Resting Metabolic Rate",
+    description:
+      "Learn how to calculate your RMR with the Mifflin-St Jeor equation and other methods, and understand what it means for your health and fitness goals.",
+    category: "Health",
+    intent: "Health information",
+    uspFeature: "RMR calculator",
+    featuredImage: "/images/blogs/rmr-calculator-cover.png",
+    readTime: "8 min read",
+    publishedAt: "2026-06-09",
+    cta: "Open RMR Calculator",
+    ctaHref: "/health/bmr-calculator",
+  },
+  {
     slug: "best-beard-styles-by-face-shape",
     title: "Best Beard Styles by Face Shape",
     description:

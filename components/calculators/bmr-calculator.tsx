@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calculator, RefreshCw, Loader2, Flame, Activity, TrendingDown, Target, TrendingUp, Info } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Flame, Activity, TrendingDown, Target, TrendingUp, Info, CheckCircle2, History } from "lucide-react";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -44,6 +44,53 @@ interface CalculationResult {
   tdeeBreakdown: { label: string; value: number; multiplier: number }[];
 }
 
+interface SavedEntry {
+  date: string;
+  bmr: number;
+  tdee: number;
+  activityLevel: string;
+  formula: string;
+  gender: string;
+  age: string;
+  weight: string;
+  height: string;
+  units: UnitSystem;
+  bodyFat?: string;
+}
+
+const STORAGE_KEY = "calqulate_bmr_history"
+
+function getStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveToStorage(entry: SavedEntry) {
+  try {
+    const existing = getStorage();
+    existing.unshift(entry);
+    const trimmed = existing.slice(0, 10);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getBmrDeltaLabel(current: { tdee: number; activityLevel: string }, previous: SavedEntry) {
+  const delta = Number((current.tdee - previous.tdee).toFixed(0));
+  if (delta === 0) {
+    return { label: "Your TDEE is unchanged compared to the last saved result.", positive: true };
+  }
+  if (delta > 0) {
+    return { label: `Your calorie target increased by ${delta} kcal compared to the last saved result.`, positive: false };
+  }
+  return { label: `Your calorie target decreased by ${Math.abs(delta)} kcal compared to the last saved result.`, positive: true };
+}
+
 // Activity Multipliers
 const ACTIVITY_LEVELS = [
   { value: "sedentary", label: "Sedentary (Little or no exercise)", multiplier: 1.2 },
@@ -56,7 +103,14 @@ const ACTIVITY_LEVELS = [
 export default function BMRCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [history, setHistory] = useState<SavedEntry[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setHistory(getStorage());
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,6 +130,9 @@ export default function BMRCalculator() {
   const units = watch("units");
   const formula = watch("formula");
 
+  const lastSaved = history[0];
+  const currentDeltaInfo = result && lastSaved ? getBmrDeltaLabel({ tdee: result.tdee, activityLevel: result.activityLevel }, lastSaved) : null;
+
   // Handle Unit Conversions safely
   const handleUnitChange = (newUnit: UnitSystem) => {
     const currentUnit = getValues("units");
@@ -94,6 +151,36 @@ export default function BMRCalculator() {
       if (!isNaN(heightVal)) setValue("height", (heightVal * 2.54).toFixed(1));   // inches to cm
     }
     setValue("units", newUnit);
+  };
+
+  const handleSave = () => {
+    if (!result) return;
+
+    const values = getValues();
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      bmr: result.bmr,
+      tdee: result.tdee,
+      activityLevel: result.activityLevel,
+      formula: values.formula,
+      gender: values.gender,
+      age: values.age,
+      weight: values.weight,
+      height: values.height,
+      units: values.units,
+      bodyFat: values.bodyFat || undefined,
+    };
+
+    saveToStorage(entry);
+    setHistory(getStorage());
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setHistory([]);
+    setShowHistory(false);
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -316,7 +403,78 @@ export default function BMRCalculator() {
       <div ref={resultsRef}>
         {result && (
           <div className="max-w-4xl mx-auto mt-8 space-y-8 animate-in slide-in-from-bottom-6 duration-500">
-            
+            <Card>
+              <CardContent className="space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Save this result to compare with your previous daily calorie estimates.</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button onClick={handleSave} className="flex-1 sm:flex-none">
+                      <CheckCircle2 className="h-4 w-4 mr-2" /> Save Result
+                    </Button>
+                    <Button variant="secondary" onClick={() => setShowHistory((value) => !value)} className="flex-1 sm:flex-none">
+                      <History className="h-4 w-4 mr-2" /> {showHistory ? 'Hide History' : 'Show History'}
+                    </Button>
+                  </div>
+                </div>
+
+                {saved && (
+                  <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+                    Saved successfully! Your last BMR/TDEE result is now stored locally.
+                  </div>
+                )}
+
+                {currentDeltaInfo && (
+                  <div className={`rounded-2xl border p-4 ${currentDeltaInfo.positive ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}`}>
+                    <p className="text-sm font-semibold">Comparison with last saved result</p>
+                    <p className="mt-2 text-sm">{currentDeltaInfo.label}</p>
+                  </div>
+                )}
+
+                {showHistory && (
+                  <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                      <div>
+                        <h4 className="text-base font-semibold">Saved BMR/TDEE History</h4>
+                        <p className="text-sm text-muted-foreground">Review your most recently saved metabolic estimates.</p>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={clearHistory}>
+                        Clear History
+                      </Button>
+                    </div>
+                    {history.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">No saved results yet. Save a calculation to build history.</p>
+                    ) : (
+                      <div className="space-y-3">
+                        {history.map((entry) => (
+                          <div key={entry.date} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+                              <div>
+                                <p className="text-sm font-semibold">{entry.activityLevel}</p>
+                                <p className="text-xs text-muted-foreground">{new Date(entry.date).toLocaleString()}</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-2xl font-bold text-gray-900">{entry.tdee.toLocaleString()} kcal</p>
+                                <p className="text-xs text-gray-500">TDEE</p>
+                              </div>
+                            </div>
+                            <div className="mt-4 grid grid-cols-2 gap-2 text-sm text-slate-600">
+                              <div>Formula: {entry.formula}</div>
+                              <div>Gender: {entry.gender}</div>
+                              <div>Age: {entry.age}</div>
+                              <div>{entry.weight} {entry.units === 'metric' ? 'kg' : 'lbs'} / {entry.height} {entry.units === 'metric' ? 'cm' : 'in'}</div>
+                              {entry.bodyFat && <div>Body Fat: {entry.bodyFat}%</div>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
             {/* Top Stat Cards */}
             <div className="grid md:grid-cols-2 gap-6">
               <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">

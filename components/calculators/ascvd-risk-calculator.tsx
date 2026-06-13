@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, RefreshCw, Loader2, Info, Activity, HeartPulse, ArrowRight, CheckCircle2, TrendingUp, AlertCircle } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Info, Activity, HeartPulse, ArrowRight, CheckCircle2, History, ChevronRight, TrendingUp, AlertCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // --- FORM SCHEMA ---
@@ -45,10 +45,142 @@ interface ResultData {
   drivers: string[]; // What is driving the risk up?
 }
 
+interface SavedEntry {
+  date: string;
+  score: number;
+  optimalScore: number;
+  riskCategory: string;
+  recommendation: string;
+  drivers: string[];
+  age: string;
+  gender: string;
+  race: string;
+  treatmentHyp: string;
+  diabetes: string;
+  smoker: string;
+}
+
+const STORAGE_KEY = "calqulate_ascvd_history";
+
+function getStorage(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveToStorage(entry: SavedEntry) {
+  try {
+    const existing = getStorage();
+    existing.unshift(entry);
+    const trimmed = existing.slice(0, 10);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getScoreDeltaLabel(delta: number) {
+  if (Math.abs(delta) < 0.1) return { label: "No meaningful change since last saved result", color: "#4B5563", icon: "same" as const };
+  if (delta < 0) return { label: `Risk improved by ${Math.abs(delta)} points since your last saved result`, color: "#1D4ED8", icon: "down" as const };
+  return { label: `Risk rose by ${delta} points since your last saved result`, color: "#B91C1C", icon: "up" as const };
+}
+
+const ProgressCard = ({ current, history }: { current: ResultData; history: SavedEntry[] }) => {
+  if (history.length === 0) return null;
+  const last = history[0];
+  const delta = Number((current.score - last.score).toFixed(1));
+  const improving = delta < 0;
+  const info = getScoreDeltaLabel(delta);
+
+  return (
+    <div
+      className="rounded-xl p-4 border flex items-start gap-4"
+      style={{
+        background: improving ? "#ECFDF5" : "#FEF3EE",
+        borderColor: improving ? "#86EFAC" : "#FECACA",
+      }}
+    >
+      <div className="p-2 rounded-lg flex-shrink-0" style={{ background: improving ? "#DCFCE7" : "#FEE2E2" }}>
+        {improving ? <CheckCircle2 className="w-5 h-5 text-green-700" /> : <AlertCircle className="w-5 h-5 text-red-700" />}
+      </div>
+      <div>
+        <p className="font-bold text-sm" style={{ color: improving ? "#166534" : "#991B1B" }}>
+          {improving ? "Your latest risk score is lower than your last saved entry." : "Your latest risk score is higher than your last saved entry."}
+        </p>
+        <p className="text-xs mt-1" style={{ color: "#4B5563" }}>
+          {info.label} · Last saved: {new Date(last.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const HistoryPanel = ({ history, onClear }: { history: SavedEntry[]; onClear: () => void }) => {
+  if (history.length === 0) return null;
+
+  return (
+    <Card className="max-w-3xl mx-auto border shadow-md">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <History className="w-4 h-4 text-blue-600" />
+          Saved ASCVD Results
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          {history.map((entry, index) => {
+            const previous = history[index + 1];
+            const delta = previous ? Number((entry.score - previous.score).toFixed(1)) : null;
+            return (
+              <div key={entry.date} className="rounded-2xl border p-4 bg-white shadow-sm">
+                <div className="flex justify-between items-center gap-4">
+                  <div>
+                    <p className="text-sm font-semibold">{entry.riskCategory}</p>
+                    <p className="text-xs text-muted-foreground">{new Date(entry.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xl font-bold">{entry.score}%</p>
+                    <p className="text-xs text-gray-500">Optimal {entry.optimalScore}%</p>
+                  </div>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2 text-xs text-gray-600">
+                  <span className="px-2 py-1 rounded-full bg-slate-100">{entry.gender}</span>
+                  <span className="px-2 py-1 rounded-full bg-slate-100">{entry.race.replace("_", " ")}</span>
+                  <span className="px-2 py-1 rounded-full bg-slate-100">{entry.treatmentHyp === "yes" ? "Treated BP" : "Untreated BP"}</span>
+                  <span className="px-2 py-1 rounded-full bg-slate-100">{entry.diabetes === "yes" ? "Diabetes" : "No Diabetes"}</span>
+                  <span className="px-2 py-1 rounded-full bg-slate-100">{entry.smoker === "yes" ? "Smoker" : "Non-smoker"}</span>
+                </div>
+                {delta !== null && (
+                  <div className="mt-3 text-sm font-medium" style={{ color: delta < 0 ? "#166534" : "#991B1B" }}>
+                    {delta < 0 ? `Improved by ${Math.abs(delta)} points from the previous saved score` : delta > 0 ? `Increased by ${delta} points from the previous saved score` : "No change from previous saved score"}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <button onClick={onClear} className="mt-4 text-xs text-gray-500 hover:text-red-500 transition-colors">
+          Clear history
+        </button>
+      </CardContent>
+    </Card>
+  );
+};
+
 export default function AscvdRiskCalculator() {
   const [result, setResult] = useState<ResultData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [history, setHistory] = useState<SavedEntry[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setHistory(getStorage());
+  }, []);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -65,6 +197,37 @@ export default function AscvdRiskCalculator() {
       diastolicBP: "" // Kept for user convenience/pulse pressure internal logic if needed later
     },
   });
+
+  const handleSave = () => {
+    if (!result) return;
+
+    const values = form.getValues();
+    const entry: SavedEntry = {
+      date: new Date().toISOString(),
+      score: result.score,
+      optimalScore: result.optimalScore,
+      riskCategory: result.riskCategory,
+      recommendation: result.recommendation,
+      drivers: result.drivers,
+      gender: values.gender,
+      age: values.age,
+      race: values.race,
+      treatmentHyp: values.treatmentHyp,
+      diabetes: values.diabetes,
+      smoker: values.smoker,
+    };
+
+    saveToStorage(entry);
+    setHistory(getStorage());
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  const clearHistory = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setHistory([]);
+    setShowHistory(false);
+  };
 
   // --- CALCULATION LOGIC ---
   const calculateRisk = (data: FormData) => {
@@ -151,8 +314,25 @@ export default function AscvdRiskCalculator() {
     }, 800);
   }
 
+  const lastSaved = history[0];
+  const scoreDelta = result && lastSaved ? Number((result.score - lastSaved.score).toFixed(1)) : null;
+
   return (
     <>
+      {history.length > 0 && (
+        <div className="max-w-4xl mx-auto mb-6">
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            className="flex items-center gap-2 text-sm font-semibold transition-colors"
+            style={{ color: "#2563EB" }}
+          >
+            <History className="w-4 h-4" />
+            {showHistory ? "Hide" : "View"} your saved ASCVD results ({history.length} {history.length === 1 ? "entry" : "entries"})
+            <ChevronRight className={`w-4 h-4 transition-transform ${showHistory ? "rotate-90" : ""}`} />
+          </button>
+        </div>
+      )}
+      {showHistory && <HistoryPanel history={history} onClear={clearHistory} />}
       <Card className="max-w-4xl mx-auto shadow-lg border-t-4 border-t-blue-600" id="ascvd-calculator">
         <CardHeader className="bg-slate-50 dark:bg-slate-900/50">
           <CardTitle className="flex items-center gap-2 text-2xl">
@@ -424,6 +604,30 @@ export default function AscvdRiskCalculator() {
                         </div>
                     </CardContent>
                 </Card>
+            </div>
+
+            <div className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-[1fr_auto] items-start">
+                <Button onClick={handleSave} className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg">
+                  {saved ? "Saved to history" : "Save this result"}
+                </Button>
+                {scoreDelta !== null && lastSaved && (
+                  <div className="rounded-2xl border p-4 bg-slate-50">
+                    <p className="text-sm font-semibold text-slate-900">Compare with last saved score</p>
+                    <p className={`mt-2 text-base font-bold ${scoreDelta < 0 ? "text-green-600" : scoreDelta > 0 ? "text-red-600" : "text-slate-700"}`}>
+                      {scoreDelta < 0
+                        ? `Risk improved by ${Math.abs(scoreDelta)} points`
+                        : scoreDelta > 0
+                        ? `Risk rose by ${scoreDelta} points`
+                        : "No change from last saved score"}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Last saved: {new Date(lastSaved.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {lastSaved.score}%
+                    </p>
+                  </div>
+                )}
+              </div>
+              {history.length > 0 && result && <ProgressCard current={result} history={history} />}
             </div>
 
             {/* 3. Action Plan Card */}

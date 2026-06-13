@@ -12,6 +12,7 @@ import GenericBlogPlaceholder from "@/components/blog/GenericBlogPlaceholder";
 import FindYourFaceShapeBlog from "@/components/blog/FindYourFaceShapeBlog";
 import BestHaircutFaceShapeBlog from "@/components/blog/BestHaircutFaceShapeBlog";
 import CalculateWeightLossPercentageBlog from "@/components/blog/CalculateWeightLossPercentageBlog";
+import CalculateRmrBlog from "@/components/blog/CalculateRmrBlog";
 import RelatedBlogs from "@/components/blog/RelatedBlogs";
 
 interface Props {
@@ -71,6 +72,8 @@ export default function BlogSlugPage({ params }: Props) {
         return <BestHaircutFaceShapeBlog {...({ blog } as any)} />;
       case "how-to-calculate-weight-loss-percentage":
         return <CalculateWeightLossPercentageBlog blog={blog} />;
+      case "how-to-calculate-resting-metabolic-rate-rmr":
+        return <CalculateRmrBlog blog={blog} />;
       default:
         return <GenericBlogPlaceholder blog={blog} />;
     }
