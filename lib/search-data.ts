@@ -476,6 +476,15 @@ export const calculators: Calculator[] = [
     category: "Health",
     tags: ["ai attractiveness test", "attractiveness score", "beauty tips", "photo analysis", "aesthetics"],
     keywords: ["ai attractiveness test","attractiveness score","beauty analysis","photo evaluation","aesthetic assessment"]
+  },
+  {
+    id: "age calculator",
+    title: "Age Calculator",
+    description: "Calculate your exact age in years, months, and days based on your date of birth",   
+    href: "/health/age-calculator",
+    category: "Health",
+    tags: ["age calculator", "date of birth", "time", "years", "months", "days"],
+    keywords: ["age calculator","exact age","date of birth calculation","age in years","age in months","age in days"]
   }
   
 ]

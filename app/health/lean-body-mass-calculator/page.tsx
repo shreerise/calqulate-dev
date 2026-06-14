@@ -38,6 +38,9 @@ export const metadata: Metadata = {
     "Calculate your lean body mass (LBM) using Boer, James, and Hume formulas. Free LBM calculator shows muscle, bone, and organ mass. Find your lean body weight instantly.",
   keywords:
     "lean body mass calculator, lbm calculator, lean body mass, calculate lean body mass, lean body weight calculator, lean mass calculator, boer james hume formula, how to calculate lean body mass, lean body mass formula, what is my lean body mass",
+  alternates: {
+    canonical: "https://calqulate.net/health/lean-body-mass-calculator",
+  },
 }
 
 const faqs = [

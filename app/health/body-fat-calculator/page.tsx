@@ -35,6 +35,9 @@ export const metadata: Metadata = {
     "Calculate body fat percentage accurately using the U.S. Navy Method. Our free body fat calculator uses your measurements (waist, neck, hip, height) to estimate body fat for men and women.",
   keywords:
     "body fat calculator, body fat percentage calculator, calculate body fat, body fat calculator by measurements, body fat calculator for women, body fat calculator for men, accurate body fat calculator, bmi to body fat calculator",
+  alternates: {
+    canonical: "https://calqulate.net/health/body-fat-calculator",
+  },
 }
 
 // Long-tail GSC queries converted to FAQs

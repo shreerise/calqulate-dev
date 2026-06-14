@@ -1,0 +1,135 @@
+# calqulate.net
+
+Calqulate.net provides professional health calculators. Users can measure BMI, body fat, calories, and ideal weight instantly based on standard medical and mathematical formulas. 
+
+## Latest Product Update: Personalized Progress Tracking
+
+Calqulate.net now includes built-in progress tracking for all health metrics. You get accurate, personalized health insights instantly without creating an account. The system saves your calculations securely, allowing you to access them whenever you return to the site. You can track your complete history to monitor physiological changes over time. The tool lets you compare previous and current results so you can identify improvements and locate specific areas requiring attention.
+
+## Health Calculators
+
+[ABSI Calculator](https://calqulate.net/health/absi-calculator): Assess health risks associated with central obesity. This tool calculates your A Body Shape Index score using waist circumference, BMI, and height.
+
+[Adjusted Body Weight Calculator](https://calqulate.net/health/adjusted-body-weight-calculator): Determine your Adjusted Body Weight for accurate medicine dosing and nutritional planning. Dietitians and healthcare professionals use this tool to monitor metabolic health.
+
+[Age Calculator](https://calqulate.net/health/age-calculator): Find your exact age in years, months, and total days lived. This calculation helps individuals complete official forms and job applications accurately.
+
+[AI Attractiveness Test](https://calqulate.net/health/ai-attractiveness-test): Read an objective guide to facial analysis technology. Understand what a beauty score can and cannot measure, check for scoring bias, and try a free face shape analysis.
+
+[ASCVD Risk Calculator](https://calqulate.net/health/ascvd-risk-calculator): Calculate your 10-year risk of heart disease or stroke. The system uses the Pooled Cohort Equation and modern PREVENT guidelines to deliver accurate predictions.
+
+[Blood Pressure Calculator](https://calqulate.net/health/blood-pressure-calculator): Classify your blood pressure readings into specific medical brackets like Normal, Elevated, or Hypertension. Learn how age and gender influence your baseline numbers.
+
+[Body Shape Calculator](https://calqulate.net/health/body-shape-calculator): Discover your body shape category based on physical proportions. Get personalized styling recommendations after identifying if you fall into Hourglass, Pear, Apple, or Rectangle categories.
+
+[Body Fat Calculator](https://calqulate.net/health/body-fat-calculator): Estimate your body fat percentage using the U.S. Navy Method. Enter your waist, neck, hip, and height measurements to receive a specific body composition breakdown.
+
+[BMI Calculator](https://calqulate.net/health/bmi-calculator): Calculate your body mass index by age using kilograms or pounds. The results include a standard BMI chart, healthy weight ranges, and a structured walking plan.
+
+[BMR Calculator](https://calqulate.net/health/bmr-calculator): Find your basal metabolic rate using the Mifflin-St Jeor equation and Harris-Benedict formula. Estimate the calories your body burns at rest and set daily targets for weight loss.
+
+[Calorie Deficit Calculator](https://calqulate.net/health/calorie-deficit-calculator): Calculate your maintenance calories and the exact daily deficit needed to lose weight. Review the nutritional requirements for burning fat while preserving muscle mass.
+
+[Breast Cancer Risk Calculator](https://calqulate.net/health/breast-cancer-risk-calculator): Estimate breast cancer risk using validated Gail and Tyrer-Cuzick models. Receive a 5-year, 10-year, and lifetime risk score based entirely on clinical data.
+
+[Cholesterol Ratio Calculator](https://calqulate.net/health/cholesterol-ratio-calculator): Check your cholesterol ratios for HDL, LDL, and total volume. Evaluate your heart health status based on current medical standards.
+
+[Calories Burned Calculator](https://calqulate.net/health/calories-burned-calculator): Measure the exact calories burned during running, walking, or cycling. The tool uses Metabolic Equivalent of Task values and heart rate data to track energy expenditure.
+
+[Creatinine Clearance Calculator](https://calqulate.net/health/creatinine-clearance-calculator): Calculate creatinine clearance using the Cockcroft-Gault equation. View Chronic Kidney Disease staging and precise drug dosing guidance.
+
+[Draw Length Calculator](https://calqulate.net/health/draw-length-calculator): Find your ideal archery draw length using the wingspan method. Get accurate measurements to configure your bow safely.
+
+[Daily Water Intake Calculator](https://calqulate.net/health/daily-water-intake-calculator): Establish a personalized daily water intake target. The formula factors in your current weight, activity level, and local climate conditions.
+
+[Diabetes Risk Calculator](https://calqulate.net/health/diabetes-risk-calculator): Assess your risk of developing type 2 diabetes. The tool evaluates your lifestyle habits, family history, and body measurements to highlight potential warning signs.
+
+[Dress Size Calculator](https://calqulate.net/health/dress-size-calculator): Find your exact dress size by entering your bust, waist, and hip measurements. Get accurate size conversions for US, UK, India, and EU clothing brands.
+
+[Face Shape Calculator](https://calqulate.net/health/face-shape-calculator): Identify your facial structure using an AI-powered analyzer. The tool distinguishes between eight different face shapes and recommends complementary hairstyles.
+
+[eAG Calculator](https://calqulate.net/health/estimated-average-glucose-calculator): Convert your HbA1c percentage into Estimated Average Glucose. Track your daily blood sugar levels in mg/dL or mmol/L to manage diabetes effectively.
+
+[Fat Intake Calculator](https://calqulate.net/health/fat-intake-calculator): Set your daily fat intake limits for weight loss or muscle gain. The calculator separates your requirements into saturated, unsaturated, and trans fat categories.
+
+[Framingham Risk Calculator](https://calqulate.net/health/framingham-risk-score-calculator): Predict your 10-year cardiovascular health timeline. Estimate the likelihood of a heart attack based on parameters established by the Framingham Heart Study.
+
+[GLP-1 Dose Calculator](https://calqulate.net/health/glp-1-dose-calculator): Determine the exact number of units to draw on an insulin syringe. This tool calculates accurate doses for compounded semaglutide and tirzepatide.
+
+[Heart Age Calculator](https://calqulate.net/health/heart-age-calculator): Find out if your cardiovascular system is older or younger than your biological age. The tool assesses risk based on blood pressure, cholesterol, and daily habits.
+
+[Golden Ratio Face Calculator](https://calqulate.net/health/golden-ratio-face-calculator): Measure how closely your facial proportions match the Golden Ratio of 1.618. The tool analyzes key distances between your eyes, nose, and lips to provide a harmony score.
+
+[Ideal Body Weight Calculator](https://calqulate.net/health/ideal-body-weight-calculator): Find your healthy weight range based on your height and gender. The tool calculates results using the Devine formula in both metric and imperial units.
+
+[Macro Calculator](https://calqulate.net/health/macro-calculator): Calculate your daily macronutrient targets. Build a science-backed nutrition plan tailored for weight loss, muscle gain, or maintenance.
+
+[Lean Body Mass Calculator](https://calqulate.net/health/lean-body-mass-calculator): Calculate your lean body mass using the Boer, James, and Hume formulas. View your muscle, bone, and organ mass independently from your body fat.
+
+[Heart Rate Calculator](https://calqulate.net/health/heart-rate-calculator): Identify your maximum heart rate and target zones using the Karvonen formula. Pinpoint your exact Zone 2 bracket for optimal cardiovascular training.
+
+[IVF Pregnancy Due Date Calculator](https://calqulate.net/health/ivf-pregnancy-due-date-calculator): Calculate your expected due date based on your IVF embryo transfer. The tool accommodates Day 3, Day 5, Day 6, and Frozen Embryo Transfers.
+
+[Karvonen Formula Calculator](https://calqulate.net/health/karvonen-formula-calculator): Find your target heart rate zones to improve endurance safely. Plan your fitness routines around your personalized physiological data.
+
+[Obesity Risk Calculator](https://calqulate.net/health/obesity-risk-calculator): Check your metabolic risk profile. The system analyzes your Waist-to-Height Ratio alongside lifestyle factors to provide health insights that go beyond a basic BMI score.
+
+[Ovulation Calculator](https://calqulate.net/health/ovulation-calculator): Estimate your ovulation date and primary fertile window. Identify the highest probability days to conceive based on your cycle length and last menstrual period.
+
+[One Rep Max Calculator](https://calqulate.net/health/one-rep-max-calculator): Calculate your estimated One Rep Max for the bench press, squat, and deadlift. Use these numbers to program your strength training safely.
+
+[Mean Arterial Pressure Calculator](https://calqulate.net/health/mean-arterial-pressure-calculator): Calculate your mean arterial pressure using standard clinical formulas. Check if your current results fall within the normal range of 70 to 100 mmHg.
+
+[Ponderal Index Calculator](https://calqulate.net/health/ponderal-index-calculator): Calculate your Corpulence Index to evaluate physical development. Review reference charts applicable to adults, children, and infants.
+
+[Pulse Pressure Calculator](https://calqulate.net/health/pulse-pressure-calculator): Learn what pulse pressure reveals about your arterial stiffness. Identify whether your cardiovascular numbers fall into narrow or wide risk categories.
+
+[Sleep Debt Calculator](https://calqulate.net/health/sleep-debt-calculator): Calculate your accumulated sleep deficit. Generate a science-backed recovery schedule to restore your energy levels based on your specific age group.
+
+[Period Cycle Calculator](https://calqulate.net/health/period-cycle-calculator): Predict your next period date and fertile window. The tool accounts for irregular cycles, distinct menstrual phases, and predictable PMS timelines.
+
+[Pregnancy Weight Gain Calculator](https://calqulate.net/health/pregnancy-weight-gain-calculator): Track expected weight gain milestones based on your pre-pregnancy BMI. Review trimester targets and learn how weight distributes throughout the body.
+
+[RFM Calculator](https://calqulate.net/health/rfm-calculator): Calculate your Relative Fat Mass score using only height and waist measurements. Get a rapid body fat estimate followed by practical health advice.
+
+[QRISK3 Calculator](https://calqulate.net/health/qrisk3-calculator): Calculate your 10-year risk of a heart attack or stroke using the official UK QRISK3 algorithm. Medical professionals use this standard for official cardiovascular risk assessments.
+
+[Running Pace Calculator](https://calqulate.net/health/running-pace-calculator): Convert your running pace between kilometers and miles. Estimate finish times for a 5K, 10K, or full marathon to refine your race strategy.
+
+[Sleep Cycle Calculator](https://calqulate.net/health/sleep-cycle-calculator): Pinpoint your ideal bedtime and wake time. Learn how to sequence full 90-minute sleep cycles so you wake up feeling completely rested.
+
+[Resting Heart Rate Calculator](https://calqulate.net/health/resting-heart-rate-calculator): Measure your resting heart rate using a manual tap-tracking tool. Compare your current beats-per-minute against established medical standards.
+
+[Stress Level Calculator](https://calqulate.net/health/stress-level-calculator): Quantify your mental load using the clinically validated Perceived Stress Scale. Discover your immediate burnout risk and review individual psychological sub-scores.
+
+[TDEE Calculator](https://calqulate.net/health/tdee-calculator): Calculate your Total Daily Energy Expenditure. See exactly how your body consumes energy through basal metabolism, daily movement, and food digestion.
+
+[VO2 Max Calculator](https://calqulate.net/health/vo2-max-calculator): Estimate your maximum oxygen consumption using the Cooper or Rockport physical tests. Interpret your cardiovascular fitness score to track athletic progress.
+
+[Waist to Height Ratio Calculator](https://calqulate.net/health/waist-to-height-ratio-calculator): Measure your waist-to-height ratio to evaluate abdominal fat levels. Keeping your waist measurement strictly below half your height significantly reduces metabolic risks.
+
+[Wilks Calculator](https://calqulate.net/health/wilks-calculator): Calculate your Wilks score to compare absolute physical strength across different body weights. Powerlifters rely on this formula when preparing for formal competitions.
+
+[Waist to Hip Ratio Calculator](https://calqulate.net/health/waist-to-hip-ratio-calculator): Measure your body fat distribution to spot hidden health issues. Evaluate your current metabolic status using standard circumference data.
+
+[Weight Loss Percentage Calculator](https://calqulate.net/health/weight-loss-percentage-calculator): Calculate the exact mathematical percentage of body weight you have lost. Track your remaining progress toward your target weight and review your weekly averages.
+
+## Site Structure and Policies
+
+[Blog](https://calqulate.net/blog): Read interactive guides covering body shapes, face shapes, fitness, and medical topics. We base all personalized recommendations on data generated by our calculators.
+
+[Gallery](https://calqulate.net/gallery): Browse interactive visual health guides. Explore body shape charts, BMI graphs, and sleep cycle diagrams linked directly to specific calculator tools.
+
+[Search](https://calqulate.net/search): Search the entire Calqulate.net database to find specific health and physical proportion calculators.
+
+[About Us](https://calqulate.net/about-us): Review our organizational mission to build accurate, user-friendly calculators supported by clear explanations and verifiable formulas.
+
+[Contact Us](https://calqulate.net/contact-us): Reach out to our team for support regarding our calculators and health metrics tools.
+
+[Cookie Policy](https://calqulate.net/cookie-policy): Review our policy regarding tracking technologies, including how we implement Google AdSense, Analytics, and Microsoft Clarity.
+
+[Privacy Policy](https://calqulate.net/privacy-policy): Read our detailed privacy policy. Understand exactly how we collect, use, and protect your personal data when you use our services.
+
+[Terms and Conditions](https://calqulate.net/terms-and-conditions): Read the legal terms governing the use of our health tools, custom development services, and general website content.
+
+[Disclaimer](https://calqulate.net/disclaimer): Read our medical disclaimer. Our calculators provide data estimates for informational purposes only and do not replace formal medical diagnoses or professional advice.

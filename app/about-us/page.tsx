@@ -15,9 +15,12 @@ import {
 export const metadata: Metadata = {
   title: "About Us - Calqulate.NET",
   description:
-    "Learn about Calqulate.NET's mission to provide accurate, user-friendly calculators with clear explanations and real-world usability.",
+    "Learn about Calqulate.net's mission to provide accurate, user-friendly and Personalized calculators with clear explanations and real-world usability.",
   keywords:
-    "about Calqulate, online calculators, free calculation tools, Meet Akabari, SEO expert, calculator website",
+    "about Calqulate, online calculators, free calculation tools, calculator website",
+  alternates: {
+    canonical: "https://calqulate.net/about-us",
+  },
 }
 
 const SectionHeader = ({ id, title, icon: Icon }: any) => (
