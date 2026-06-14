@@ -43,7 +43,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "What Is My Real Face Shape? Free AI Face Shape Calculator for Men & Women · 8 face shapes",
+  title: "AI Face Shape Calculator - Free for Men & Women",
   description:
     "Confused about your face shape and tired of hairstyles, glasses, or makeup that just don’t look right? Discover your real face shape instantly with our free AI-powered Face Shape Calculator for men and women. Covers 8 face shapes.",
   keywords:
@@ -242,7 +242,7 @@ export default function FaceShapeCalculatorPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <CalculatorSchema
-        name="AI Face Shape Calculator"
+        name="AI Face Shape Calculator - Free for Men & Women"
         description="Instantly determine your face shape with AI for personalized style advice."
         url="https://calqulate.net/health/face-shape-calculator"
       />
@@ -256,7 +256,7 @@ export default function FaceShapeCalculatorPage() {
             <div>
               <div className="text-center mb-8">
                 <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-                  AI Face Shape Calculator
+                  AI Face Shape Calculator - Free for Men & Women
                 </h1>
                 <p className="text-lg text-muted-foreground text-pretty">
                   Your face tells a story, and understanding its shape helps in picking up the perfect hairstyle, glasses, or even the right makeup look.
