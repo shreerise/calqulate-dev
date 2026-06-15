@@ -150,7 +150,7 @@ export default function FraminghamRiskCalculatorPage() {
                     </div>
                     <div className="flex flex-col items-center gap-3">
                       <ClickableImage
-                        src="/framingham-heart-study-chart.png"
+                        src="/framingham-heart-study-chart.webp"
                         alt="Framingham Heart Study Evolution"
                         width={320}
                         height={220}

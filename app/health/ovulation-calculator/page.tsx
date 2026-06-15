@@ -263,7 +263,7 @@ export default function OvulationCalculatorPage() {
                 </h2>
                 <div className="mb-6 flex justify-center">
                   <ClickableImage
-                    src="/signs-and-symptoms-of-ovulation-infograpic.png"
+                    src="/signs-and-symptoms-of-ovulation-infograpic.webp"
                     alt="Signs and Symptoms of Ovulation infographic"
                     width={420}
                     height={190}

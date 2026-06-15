@@ -191,50 +191,50 @@ export default function FaceShapeCalculatorPage() {
     {
       name: "Oval",
       description: "Face length is longer than the width of the cheekbones; forehead is wider than the jawline. Considered balanced.",
-      image: "/face-shapes/oval.png",
+      image: "/face-shapes/oval.webp",
       styling: "Most styles work well; avoid covering up balanced features."
     },
     {
       name: "Round",
       description: "Face length and cheekbone width are similar. Soft, curved jawline.",
-      image: "/face-shapes/round.png",
+      image: "/face-shapes/round.webp",
       styling: "Add height and length to elongate the face. Avoid width at the cheeks."
     },
     {
       name: "Square",
       description: "All measurements are fairly similar. Jawline is sharp and angular.",
-      image: "/face-shapes/square.png",
+      image: "/face-shapes/square.webp",
       styling: "Soften the strong angles with texture, waves, or round frames."
     },
     {
       name: "Oblong",
       description: "Face length is the greatest measurement. Forehead, cheekbones, and jawline are similar in width.",
-      image: "/face-shapes/oblong.png",
+      image: "/face-shapes/oblong.webp",
       styling: "Create an illusion of width with volume on the sides. Avoid adding height."
     },
     {
       name: "Heart",
       description: "Forehead is the widest, with a narrow jawline and a pointed chin.",
-      image: "/face-shapes/heart.png",
+      image: "/face-shapes/heart.webp",
       styling: "Add volume to the lower part of the face to balance the wider forehead."
     },
     {
       name: "Diamond",
       description: "Cheekbones are the widest part of the face. Forehead and jawline are narrow and similar in width.",
-      image: "/face-shapes/diamond.png",
+      image: "/face-shapes/diamond.webp",
       styling: "Soften the cheekbones and add fullness to the forehead and chin areas."
     }
     ,
     {
       name: "Rectangle",
       description: "Face length is the greatest measurement, and the jawline is sharp and angular. Like a square but longer — forehead, cheekbones, and jaw are similar in width with defined corners.",
-      image: "/face-shapes/rectangle.jpg",
+      image: "/face-shapes/rectangle.webp",
       styling: "Add width and softness at the sides; avoid styles that lengthen the face further."
     },
     {
       name: "Triangle (Pear)",
       description: "The jawline is the widest part of the face, with a narrower forehead. The opposite of a heart shape.",
-      image: "/face-shapes/triangle.jpg",
+      image: "/face-shapes/triangle.webp",
       styling: "Add volume and width at the forehead and temples to balance the wider jaw."
     }
   ];
@@ -364,7 +364,7 @@ export default function FaceShapeCalculatorPage() {
 <div className="grid md:grid-cols-1 gap-8 my-8 not-prose">
   <div className="overflow-hidden rounded-3xl border border-muted/60 bg-card shadow-sm transition-transform duration-300 hover:scale-[1.01] w-full">
     <ClickableImage
-      src="/female-face-shape-comparison.jpg"
+      src="/female-face-shape-comparison.webp"
       alt="Visual comparison of different female face shapes with oval, round, square, heart, diamond, and oblong examples."
       width={1530}
       height={1024}
@@ -426,7 +426,7 @@ export default function FaceShapeCalculatorPage() {
                 <p className="mt-6">Men can find their face shape with the same four measurements, but men's faces more often read as square, rectangle, or oblong because of a stronger, more angular jawline. <span className="text-emerald-600 font-semibold">Use your jaw as the deciding feature.</span></p>
                   <div className="mt-6 overflow-hidden rounded-3xl border border-muted/60 bg-muted/10 shadow-sm transition-transform duration-300 hover:scale-[1.01]">
                     <ClickableImage
-                      src="/men-face-shape-comparison.jpg"
+                      src="/men-face-shape-comparison.webp"
                       alt="Guide to men's face shapes with comparison illustration."
                       width={1536}
                       height={1024}

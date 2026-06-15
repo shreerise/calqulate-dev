@@ -500,7 +500,7 @@ export default function HomePage() {
                 <div className="relative w-full max-w-2xl lg:max-w-none ml-auto bg-emerald-800/40 border border-emerald-600/30 p-4 rounded-[2.5rem] shadow-2xl backdrop-blur-sm">
                   <div className="relative w-full h-[480px] overflow-hidden rounded-[1.8rem] shadow-inner">
                     <Image
-                      src="/Health-personalized-dashboard-calqulate.net.png"
+                      src="/Health-personalized-dashboard-calqulate.net.webp"
                       alt="Health Metrics and Analytics Graphic"
                       fill
                       priority
@@ -932,10 +932,10 @@ export default function HomePage() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
               {[
-                { title: "Body Shapes", href: "/gallery#pear-shape", image: "/images/body-shapes/pear-shape.png", color: "bg-rose-50" },
-                { title: "Face Shapes", href: "/gallery#face-shape-comparison", image: "/face-shape-comparison.jpg", color: "bg-blue-50" },
-                { title: "BMI Chart", href: "/gallery#bmi-chart", image: "/bmi-chart.jpeg", color: "bg-emerald-50" },
-                { title: "Sleep Guide", href: "/gallery#sleep-cycle", image: "/recommendation-sleep-cycle-by-age-infographic.png", color: "bg-violet-50" },
+                { title: "Body Shapes", href: "/gallery#pear-shape", image: "/images/body-shapes/pear-shape.webp", color: "bg-rose-50" },
+                { title: "Face Shapes", href: "/gallery#face-shape-comparison", image: "/face-shape-comparison.webp", color: "bg-blue-50" },
+                { title: "BMI Chart", href: "/gallery#bmi-chart", image: "/bmi-chart.webp", color: "bg-emerald-50" },
+                { title: "Sleep Guide", href: "/gallery#sleep-cycle", image: "/recommendation-sleep-cycle-by-age-infographic.webp", color: "bg-violet-50" },
               ].map((item) => (
                 <Link
                   key={item.title}

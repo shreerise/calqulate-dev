@@ -2,6 +2,7 @@
 import fs from "fs";
 import path from "path";
 import type { MetadataRoute } from "next";
+import { blogs } from "@/lib/blog/blogs-data";
 
 const baseUrl = "https://calqulate.net";
 
@@ -16,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       if (!entry.isDirectory()) continue;
       if (entry.name.startsWith("_")) continue;
       if (entry.name.startsWith("@")) continue;
+      if (entry.name.startsWith("[")) continue; // skip dynamic route segments
       if (["api"].includes(entry.name)) continue;
 
       const isRouteGroup = entry.name.startsWith("(") && entry.name.endsWith(")");
@@ -54,6 +56,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   scanDir(appDir);
+
+  // Blog posts — add each individual slug
+  for (const blog of blogs) {
+    urls.push({
+      url: `${baseUrl}/blog/${blog.slug}`,
+      lastModified: new Date(blog.publishedAt),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
+  }
 
   return urls;
 }

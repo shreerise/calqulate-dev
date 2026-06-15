@@ -166,12 +166,11 @@ export default function BMICalculatorPage() {
               <section className="pb-10 border-b border-gray-100">
                 <div className="mb-6 flex justify-center">
                   <ClickableImage
-                    src="/bmi-chart.jpeg"
+                    src="/bmi-chart.webp"
                     alt="BMI chart showing weight categories for men and women by height"
                     width={900}
                     height={500}
                     className="rounded-xl shadow-sm border border-gray-100"
-                    priority
                   />
                 </div>
 

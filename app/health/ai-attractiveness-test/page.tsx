@@ -123,7 +123,7 @@ const articleSchema = {
     "@type": "Organization",
     name: "Calqulate.net",
     url: "https://calqulate.net",
-    logo: { "@type": "ImageObject", url: "https://calqulate.net/logo.png" },
+    logo: { "@type": "ImageObject", url: "https://calqulate.net/logo.webp" },
   },
   about: [
     { "@type": "Thing", name: "Facial symmetry" },

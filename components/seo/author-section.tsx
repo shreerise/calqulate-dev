@@ -7,13 +7,13 @@ export function AuthorSection() {
     <div className="mt-16 mb-8 max-w-2xl mx-auto">
       <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-sm">
         <a
-          href="/meet.akabari.jpeg"
+          href="/meet.akabari.webp"
           target="_blank"
           rel="noopener noreferrer"
             className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden shrink-0 border-4 border-white shadow-md ring-1 ring-slate-200 hover:ring-green-400 transition-colors"
         >
           <Image
-            src="/meet.akabari.jpeg"
+            src="/meet.akabari.webp"
             alt="Meet Akabari"
             width={112}
             height={112}

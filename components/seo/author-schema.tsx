@@ -11,7 +11,7 @@ export function AuthorSchema() {
           sameAs: [
             "https://www.linkedin.com/in/meet-akabari/",
           ],
-          image: "https://calqulate.net/meet.akabari.jpeg",
+          image: "https://calqulate.net/meet.akabari.webp",
           jobTitle: "Web Developer & Health Enthusiast",
           description:
             "Meet Akabari is a web developer and health enthusiast creating accurate, privacy-first health and fitness calculators at Calqulate.net.",

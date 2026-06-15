@@ -173,7 +173,7 @@ export default function AgeCalculatorPage() {
                   <CardContent className="pt-6">
                     <div className="mb-8 flex justify-center">
                       <ClickableImage
-                        src="/age-calculator.png"
+                        src="/age-calculator.webp"
                         alt="Age calculator process showing date selection and calculate button click"
                         width={700}
                         height={400}

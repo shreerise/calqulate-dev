@@ -27,6 +27,12 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
 
+      // Perplexity AI
+      {
+        userAgent: "PerplexityBot",
+        allow: "/",
+      },
+
       // Common AI crawlers
       {
         userAgent: "CCBot", // Common Crawl (used by many AI models)
@@ -34,5 +40,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: "https://calqulate.net/sitemap.xml",
+    llmsTxt: "https://calqulate.net/llms.txt",
   }
 }

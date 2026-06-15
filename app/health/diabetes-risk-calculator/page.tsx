@@ -288,7 +288,7 @@ export default function DiabetesRiskCalculatorPage() {
                     {/* Image */}
                     <div className="mb-8 flex justify-center">
                       <ClickableImage
-                        src="/diabetes-risk-calculator.png"
+                        src="/diabetes-risk-calculator.webp"
                         alt="Lifestyle changes to reduce diabetes risk including walking, healthy diet, weight loss and proper sleep"
                         width={800}
                         height={450}

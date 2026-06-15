@@ -140,7 +140,7 @@ export default function BestJeansBodyShapeBlog({ blog }: Props) {
           <figure className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-[#f5f0eb]">
             <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
               <Image
-                src="/blogs/jeans/hero.png"
+                src="/blogs/jeans/hero.webp"
                 alt="Different body shapes wearing different jeans cuts — side-by-side comparison"
                 fill
                 className="object-contain"

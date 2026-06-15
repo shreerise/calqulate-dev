@@ -15,21 +15,21 @@ export default function App() {
   const [activeStep, setActiveStep] = useState<number>(1);
 
   const haircutImageByShape: Record<string, string> = {
-    round: "/images/haircuts/round-women-1.jpg",
-    oval: "/images/haircuts/oval-women-1.jpg",
-    square: "/images/haircuts/square-women-1.jpg",
-    heart: "/images/haircuts/heart-women-1.jpg",
-    diamond: "/images/haircuts/diamond-women-1.jpg",
-    oblong: "/images/haircuts/oblong-women-1.jpg",
+    round: "/images/haircuts/round-women-1.webp",
+    oval: "/images/haircuts/oval-women-1.webp",
+    square: "/images/haircuts/square-women-1.webp",
+    heart: "/images/haircuts/heart-women-1.webp",
+    diamond: "/images/haircuts/diamond-women-1.webp",
+    oblong: "/images/haircuts/oblong-women-1.webp",
   };
 
   const menHaircutImageByShape: Record<string, string> = {
-    round: "/images/haircuts/round-men-1.jpg",
-    oval: "/images/haircuts/oval-men-1.jpg",
-    square: "/images/haircuts/square-men-1.jpg",
-    heart: "/images/haircuts/heart-men-1.jpg",
-    diamond: "/images/haircuts/diamond-men-1.jpg",
-    oblong: "/images/haircuts/oblong-men-1.jpg",
+    round: "/images/haircuts/round-men-1.webp",
+    oval: "/images/haircuts/oval-men-1.webp",
+    square: "/images/haircuts/square-men-1.webp",
+    heart: "/images/haircuts/heart-men-1.webp",
+    diamond: "/images/haircuts/diamond-men-1.webp",
+    oblong: "/images/haircuts/oblong-men-1.webp",
   };
 
   return (

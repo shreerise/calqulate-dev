@@ -144,7 +144,7 @@ export default function DrawLengthCalculator() {
                 {/* Column 2: Informative Image */}
                 <div className=" flex flex-col items-center">
                   <ClickableImage 
-                    src="/draw-length-visual.png"
+                    src="/draw-length-visual.webp"
                     alt="Diagram showing how to measure wingspan for archery draw length"
                     width={300}
                     height={200}

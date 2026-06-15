@@ -91,7 +91,7 @@ export default function ObesityRiskCalculatorPage() {
             {/* Hero Image */}
             <div className="mt-10 flex justify-center">
               <ClickableImage
-                src="/obesity-risk-calculator.png"
+                src="/obesity-risk-calculator.webp"
                 alt="Obesity risk calculator chart showing BMI and waist to height ratio health risk levels"
                 width={950}
                 height={520}

@@ -141,7 +141,7 @@ export default function AboutUsPage() {
               <CardContent className="p-0 text-lg">
 
                 <img
-                  src="/gsc-report.png"
+                  src="/gsc-report.webp"
                   alt="Google Search Console performance"
                   className="mb-6 rounded-lg shadow-md"
                 />
@@ -164,7 +164,7 @@ export default function AboutUsPage() {
             <Card className="p-6 mb-10">
               <CardContent className="flex items-start md:items-center gap-4">
                 <img
-                  src="/meet.akabari.jpeg"
+                  src="/meet.akabari.webp"
                   alt="Meet Akabari"
                   className="w-16 h-16 rounded-full object-cover mt-1 md:mt-0"
                 />
@@ -208,7 +208,7 @@ export default function AboutUsPage() {
             sameAs: [
               "https://www.linkedin.com/in/meet-akabari/"
             ],
-            image: "/meet.akabari.jpeg",
+            image: "/meet.akabari.webp",
             jobTitle: "Web Developer & health enthusiast",
             worksFor: {
               "@type": "Organization",

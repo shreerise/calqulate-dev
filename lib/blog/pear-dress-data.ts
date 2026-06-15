@@ -36,7 +36,7 @@ export const pearDresses: PearDress[] = [
     occasions: ["office", "brunch", "date-night"],
     fabricTip: "Pick a structured cotton blend or ponte knit — it drapes without clinging.",
     fitScore: 95,
-    image: "/images/pear-dresses/a-line.png",
+    image: "/images/pear-dresses/a-line.webp",
     brandColor: "#E76F51",
   },
   {
@@ -46,7 +46,7 @@ export const pearDresses: PearDress[] = [
     occasions: ["wedding", "party", "date-night"],
     fabricTip: "A heavier crepe or scuba fabric holds the flare shape best.",
     fitScore: 92,
-    image: "/images/pear-dresses/fit-and-flare.png",
+    image: "/images/pear-dresses/fit-and-flare.webp",
     brandColor: "#F4A261",
   },
   {
@@ -56,7 +56,7 @@ export const pearDresses: PearDress[] = [
     occasions: ["office", "brunch", "date-night"],
     fabricTip: "Jersey or silk crepe — soft drape that wraps without bulk at the hip.",
     fitScore: 90,
-    image: "/images/pear-dresses/wrap-dress.png",
+    image: "/images/pear-dresses/wrap-dress.webp",
     brandColor: "#2A9D8F",
   },
   {
@@ -66,7 +66,7 @@ export const pearDresses: PearDress[] = [
     occasions: ["casual", "date-night", "party"],
     fabricTip: "Pair a fitted off-shoulder knit with high-waist linen or wool-blend trousers.",
     fitScore: 88,
-    image: "/images/pear-dresses/off-shoulder-set.png",
+    image: "/images/pear-dresses/off-shoulder-set.webp",
     brandColor: "#264653",
   },
   {
@@ -76,7 +76,7 @@ export const pearDresses: PearDress[] = [
     occasions: ["office", "wedding", "brunch"],
     fabricTip: "Structured fabrics like mikado or heavy cotton hold the neckline open.",
     fitScore: 86,
-    image: "/images/pear-dresses/boat-neck.png",
+    image: "/images/pear-dresses/boat-neck.webp",
     brandColor: "#9D4EDD",
   },
   {
@@ -86,7 +86,7 @@ export const pearDresses: PearDress[] = [
     occasions: ["office", "party"],
     fabricTip: "Choose a peplum that ends at the high-hip, not low-hip — that's the magic line.",
     fitScore: 82,
-    image: "/images/pear-dresses/peplum.png",
+    image: "/images/pear-dresses/peplum.webp",
     brandColor: "#E9C46A",
   },
 ];

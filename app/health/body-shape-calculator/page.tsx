@@ -138,7 +138,7 @@ export default function BodyShapeCalculatorPage() {
                     {/* Female Body Shapes */}
                     <div className="flex flex-col items-center gap-3">
                       <ClickableImage
-                        src="/body-shape-female.png"
+                        src="/body-shape-female.webp"
                         alt="Female body shapes chart showing apple pear hourglass rectangle and diamond body types"
                         width={800}
                         height={500}
@@ -153,7 +153,7 @@ export default function BodyShapeCalculatorPage() {
                     {/* Male Body Shapes */}
                     <div className="flex flex-col items-center gap-3">
                       <ClickableImage
-                        src="/male-body-shapes.png"
+                        src="/male-body-shapes.webp"
                         alt="Male body shapes chart showing rectangle triangle inverted triangle oval and trapezoid"
                         width={800}
                         height={500}

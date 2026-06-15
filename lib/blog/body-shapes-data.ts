@@ -35,7 +35,7 @@ export const bodyShapes: BodyShape[] = [
     id: "pear",
     name: "Pear",
     alsoKnownAs: "Triangle / A-Shape",
-    illustration: "/images/body-shapes/pear-shape.png",
+    illustration: "/images/body-shapes/pear-shape.webp",
     ratioRule: "Hips > Bust by 5% or more",
     description:
       "Your hips are wider than your shoulders and bust, with a beautifully defined waist. The lower body carries more weight than the upper.",
@@ -81,7 +81,7 @@ export const bodyShapes: BodyShape[] = [
     id: "apple",
     name: "Apple",
     alsoKnownAs: "Round / O-Shape",
-    illustration: "/images/body-shapes/apple-shape.png",
+    illustration: "/images/body-shapes/apple-shape.webp",
     ratioRule: "Bust > Hips, undefined waistline",
     description:
       "You carry weight around the midsection with a fuller bust and slimmer legs. Your silhouette is rounded through the torso.",
@@ -127,7 +127,7 @@ export const bodyShapes: BodyShape[] = [
     id: "hourglass",
     name: "Hourglass",
     alsoKnownAs: "X-Shape",
-    illustration: "/images/body-shapes/hourglass-shape.png",
+    illustration: "/images/body-shapes/hourglass-shape.webp",
     ratioRule: "Bust ≈ Hips, Waist 25%+ smaller",
     description:
       "Your bust and hips are roughly equal in measurement, with a clearly defined narrow waist. The classic balanced silhouette.",
@@ -173,7 +173,7 @@ export const bodyShapes: BodyShape[] = [
     id: "rectangle",
     name: "Rectangle",
     alsoKnownAs: "Athletic / Straight / Banana",
-    illustration: "/images/body-shapes/rectangle-shape.png",
+    illustration: "/images/body-shapes/rectangle-shape.webp",
     ratioRule: "Bust ≈ Waist ≈ Hips (within 5%)",
     description:
       "Your shoulders, waist, and hips are roughly the same width. A lean, athletic silhouette with minimal waist definition.",
@@ -219,7 +219,7 @@ export const bodyShapes: BodyShape[] = [
     id: "inverted-triangle",
     name: "Inverted Triangle",
     alsoKnownAs: "V-Shape / Athletic",
-    illustration: "/images/body-shapes/inverted-triangle-shape.png",
+    illustration: "/images/body-shapes/inverted-triangle-shape.webp",
     ratioRule: "Shoulders/Bust > Hips by 5%+",
     description:
       "Your shoulders and bust are wider than your hips. Strong, broad upper body with a slimmer lower half.",

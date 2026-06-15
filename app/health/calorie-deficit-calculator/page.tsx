@@ -209,7 +209,7 @@ export default function CalorieDeficitPage() {
                     {/* Image */}
                     <div className="mb-8 flex justify-center">
                       <ClickableImage
-                        src="/calorie-deficit-calculator.png"
+                        src="/calorie-deficit-calculator.webp"
                         alt="Calorie deficit chart showing daily calorie deficit and expected weekly fat loss results"
                         width={800}
                         height={450}

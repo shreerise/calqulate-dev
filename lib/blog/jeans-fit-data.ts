@@ -84,7 +84,7 @@ export const jeansCards: JeansCard[] = [
     styleTip: "Tuck in a fitted top or pair with a cropped jacket to highlight the waistline.",
     goals: ["define-waist", "balance-hips", "office-casual", "daily-comfort"],
     badge: "most-versatile",
-    image: "/blogs/jeans/high-rise-straight.jpg",
+    image: "/blogs/jeans/high-rise-straight.webp",
     imageAlt: "Woman wearing classic high-rise straight-leg blue jeans",
   },
   {
@@ -99,7 +99,7 @@ export const jeansCards: JeansCard[] = [
       "The subtle flare from the knee down balances wider hips and thighs, and a higher rise smooths the waist.",
     styleTip: "Wear with heeled boots or platform sneakers so the hem skims the floor.",
     goals: ["balance-hips", "look-taller", "office-casual"],
-    image: "/blogs/jeans/bootcut.jpg",
+    image: "/blogs/jeans/bootcut.webp",
     imageAlt: "Dark wash bootcut jeans flaring from the knee",
   },
   {
@@ -114,7 +114,7 @@ export const jeansCards: JeansCard[] = [
       "A wider leg opening hides hip and thigh fullness, while the high rise nips in at the waist for shape.",
     styleTip: "Pair with a tucked-in tee or fitted knit to keep the silhouette balanced.",
     goals: ["balance-hips", "look-taller", "weekend"],
-    image: "/blogs/jeans/wide-leg.jpg",
+    image: "/blogs/jeans/wide-leg.webp",
     imageAlt: "Wide-leg high-rise jeans styled with a tucked-in top",
   },
   {
@@ -129,7 +129,7 @@ export const jeansCards: JeansCard[] = [
       "Hugs your natural curves through the hip and thigh and locks in at the waist — no gapping at the back.",
     styleTip: "Layer with a longer top or blazer for the office. Cuff once at the ankle for a relaxed weekend look.",
     goals: ["define-waist", "slim-legs", "daily-comfort"],
-    image: "/blogs/jeans/skinny-high-rise.jpg",
+    image: "/blogs/jeans/skinny-high-rise.webp",
     imageAlt: "High-rise stretch skinny jeans in dark indigo",
   },
   {
@@ -144,7 +144,7 @@ export const jeansCards: JeansCard[] = [
       "The high waistband and slightly tapered leg add visual curves at the hips and shorten the leg in a flattering way.",
     styleTip: "Try a half-tuck and a belt to mark the smallest part of your waist.",
     goals: ["add-curves", "define-waist", "weekend"],
-    image: "/blogs/jeans/mom-jeans.jpg",
+    image: "/blogs/jeans/mom-jeans.webp",
     imageAlt: "Classic rigid mom jeans with a half-tucked t-shirt",
   },
   {
@@ -159,7 +159,7 @@ export const jeansCards: JeansCard[] = [
       "The dramatic flare from the thigh down creates curves you may not naturally have and elongates the leg.",
     styleTip: "Always pair with a slim or tucked top so the lower half is the focus.",
     goals: ["add-curves", "look-taller", "weekend"],
-    image: "/blogs/jeans/flared.jpg",
+    image: "/blogs/jeans/flared.webp",
     imageAlt: "Retro 70s style flared jeans in mid wash",
   },
   {
@@ -175,7 +175,7 @@ export const jeansCards: JeansCard[] = [
     styleTip: "Look for the word 'curvy' on the label — it's a fit, not a size.",
     goals: ["define-waist", "plus-size-comfort", "daily-comfort"],
     badge: "comfort-pick",
-    image: "/blogs/jeans/curvy-fit.jpg",
+    image: "/blogs/jeans/curvy-fit.webp",
     imageAlt: "Curvy-fit stretch jeans designed for fuller hips",
   },
   {
@@ -190,7 +190,7 @@ export const jeansCards: JeansCard[] = [
       "Ends right at or above the ankle, which keeps the leg from looking shortened by extra fabric pooling on top of the shoe.",
     styleTip: "Show a sliver of ankle and pair with low-vamp flats or pointed mules to look taller.",
     goals: ["look-taller", "office-casual"],
-    image: "/blogs/jeans/cropped-ankle.jpg",
+    image: "/blogs/jeans/cropped-ankle.webp",
     imageAlt: "Cropped ankle jeans with pointed flats",
   },
   {
@@ -205,7 +205,7 @@ export const jeansCards: JeansCard[] = [
       "Close to the leg without being painted on — adds shape to slimmer legs and creates a clean modern line.",
     styleTip: "Avoid extra-skinny if your legs are very thin; aim for slim, not compressed.",
     goals: ["daily-comfort", "office-casual"],
-    image: "/blogs/jeans/slim-fit-men.jpg",
+    image: "/blogs/jeans/slim-fit-men.webp",
     imageAlt: "Men's slim-fit dark wash jeans with white sneakers",
   },
   {
@@ -221,7 +221,7 @@ export const jeansCards: JeansCard[] = [
     styleTip: "Pair with low-top sneakers and a fitted tee to keep the proportions clean.",
     goals: ["daily-comfort", "weekend"],
     badge: "comfort-pick",
-    image: "/blogs/jeans/athletic-tapered.jpg",
+    image: "/blogs/jeans/athletic-tapered.webp",
     imageAlt: "Men's athletic tapered jeans with extra room in the thigh",
   },
   {
@@ -237,7 +237,7 @@ export const jeansCards: JeansCard[] = [
     styleTip: "Choose a darker wash to keep the look smart-casual instead of work-wear.",
     goals: ["daily-comfort", "plus-size-comfort", "travel"],
     badge: "comfort-pick",
-    image: "/blogs/jeans/relaxed-straight-men.jpg",
+    image: "/blogs/jeans/relaxed-straight-men.webp",
     imageAlt: "Men's relaxed straight jeans in dark indigo",
   },
   {
@@ -253,7 +253,7 @@ export const jeansCards: JeansCard[] = [
     styleTip: "If you're shorter, choose a 30 or 32 inch inseam to avoid stacking at the ankle.",
     goals: ["daily-comfort", "office-casual", "weekend"],
     badge: "most-versatile",
-    image: "/blogs/jeans/straight-leg-men.jpg",
+    image: "/blogs/jeans/straight-leg-men.webp",
     imageAlt: "Classic straight-leg men's jeans in mid wash",
   },
   {
@@ -268,7 +268,7 @@ export const jeansCards: JeansCard[] = [
       "Slim through the thigh, straight from the knee — a modern alternative to skinny that flatters most builds.",
     styleTip: "Skip the ankle stacking. A clean break at the shoe makes you look taller.",
     goals: ["look-taller", "office-casual", "daily-comfort"],
-    image: "/blogs/jeans/slim-straight-men.jpg",
+    image: "/blogs/jeans/slim-straight-men.webp",
     imageAlt: "Slim straight jeans for men with a clean ankle break",
   },
 ];

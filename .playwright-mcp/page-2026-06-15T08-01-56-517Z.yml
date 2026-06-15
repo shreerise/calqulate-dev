@@ -1,0 +1,794 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "Calqulate.NET" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: Calqulate.NET
+        - navigation [ref=e11]:
+          - button "Body Composition" [ref=e12]:
+            - text: Body Composition
+            - img [ref=e13]
+          - button "Cardio Health" [ref=e15]:
+            - text: Cardio Health
+            - img [ref=e16]
+          - button "Nutrition & Weight" [ref=e18]:
+            - text: Nutrition & Weight
+            - img [ref=e19]
+          - button "Fitness Performance" [ref=e21]:
+            - text: Fitness Performance
+            - img [ref=e22]
+          - button "Disease Risk" [ref=e24]:
+            - text: Disease Risk
+            - img [ref=e25]
+          - button "More" [ref=e28]:
+            - text: More
+            - img [ref=e29]
+        - generic [ref=e31]:
+          - button "Search" [ref=e32]:
+            - img [ref=e33]
+          - link "Blog" [ref=e36] [cursor=pointer]:
+            - /url: /blog
+          - link "Gallery" [ref=e37] [cursor=pointer]:
+            - /url: /gallery
+          - link "About" [ref=e38] [cursor=pointer]:
+            - /url: /about-us
+    - main [ref=e39]:
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - img [ref=e44]
+            - text: Trusted by 50,000+ users · CDC & WHO Standards · Updated 2026
+          - heading "BMI Calculator — Free, Accurate & Personalized for Men and Women" [level=1] [ref=e46]
+          - paragraph [ref=e47]: Calculate your Body Mass Index (BMI) instantly in kg or lbs. See your BMI scale result, understand what it means for your age and sex, and get a personalized walking plan and action steps — no signup needed.
+        - generic [ref=e49]:
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - img [ref=e54]
+              - text: BMI Calculator
+            - generic [ref=e58]: Body Mass Index · Ponderal Index · Weight Goals · Personalized Insights
+          - generic [ref=e60]:
+            - generic [ref=e61]:
+              - generic [ref=e62]:
+                - generic [ref=e63]: Sex assigned at birth
+                - radiogroup [ref=e64]:
+                  - generic [ref=e65]:
+                    - radio "female" [checked] [ref=e66]:
+                      - img [ref=e67]
+                    - radio [checked]
+                    - generic [ref=e69] [cursor=pointer]: female
+                  - generic [ref=e70]:
+                    - radio "male" [ref=e71]
+                    - radio
+                    - generic [ref=e72] [cursor=pointer]: male
+              - generic [ref=e74]:
+                - generic [ref=e75]: Units
+                - radiogroup [ref=e76]:
+                  - generic [ref=e77]:
+                    - radio "🇺🇸 lbs / ft" [checked] [ref=e78]:
+                      - img [ref=e79]
+                    - radio [checked]
+                    - generic [ref=e81] [cursor=pointer]: 🇺🇸 lbs / ft
+                  - generic [ref=e82]:
+                    - radio "kg / cm" [ref=e83]
+                    - radio
+                    - generic [ref=e84] [cursor=pointer]: kg / cm
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - generic [ref=e87]: Age (years)
+                - spinbutton "Age (years)" [ref=e88]: "30"
+              - generic [ref=e89]:
+                - generic [ref=e90]: Height
+                - generic [ref=e91]:
+                  - generic [ref=e93]:
+                    - spinbutton [ref=e94]
+                    - generic [ref=e95]: ft
+                  - generic [ref=e97]:
+                    - spinbutton [ref=e98]
+                    - generic [ref=e99]: in
+              - generic [ref=e100]:
+                - generic [ref=e101]: Weight (lbs)
+                - generic [ref=e102]:
+                  - spinbutton [ref=e103]
+                  - generic [ref=e104]: lbs
+            - button "Calculate My BMI" [ref=e105]:
+              - img
+              - text: Calculate My BMI
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - heading "What Is BMI? The Body Mass Index Explained Simply" [level=2] [ref=e108]:
+              - img [ref=e109]
+              - text: What Is BMI? The Body Mass Index Explained Simply
+            - paragraph [ref=e111]: BMI — or Body Mass Index — is a number calculated from your height and weight. It was developed in the 1830s by Belgian mathematician Adolphe Quetelet and later adopted by the WHO as a population-level screening tool. Today, the CDC adult BMI calculator and NHLBI both use the same formula to classify adults into four weight categories.
+            - paragraph [ref=e112]:
+              - text: "Here's the honest truth most websites skip:"
+              - strong [ref=e113]: BMI is a starting point, not a verdict.
+              - text: In 2023, the American Medical Association (AMA) updated its official policy to clarify that BMI should not be used as a sole diagnostic measure — especially considering differences across gender, age, and ethnicity, including documented differences in African American BMI chart interpretation versus Asian populations. What BMI does well is give you a fast, free, and reasonably reliable signal about your weight category so you can take the right next step.
+            - generic [ref=e114]:
+              - generic [ref=e116]:
+                - img [ref=e117]
+                - text: BMI Formula — How to Calculate BMI in kg and lbs
+              - generic [ref=e119]:
+                - generic [ref=e120]:
+                  - generic [ref=e121]:
+                    - heading "Metric Formula (kg/cm):" [level=3] [ref=e122]
+                    - paragraph [ref=e123]: BMI = Weight (kg) ÷ Height² (m)
+                  - generic [ref=e124]:
+                    - heading "Imperial Formula (lbs/inches):" [level=3] [ref=e125]
+                    - paragraph [ref=e126]: BMI = [Weight (lbs) ÷ Height² (in)] × 703
+                  - paragraph [ref=e127]: The 703 factor converts pounds/inches to the metric equivalent. This is why the CDC BMI calculator and NHLBI BMI calculator produce identical results to our tool.
+                - generic [ref=e128]:
+                  - generic [ref=e129]:
+                    - heading "Example — Calculate my BMI in kg:" [level=3] [ref=e130]
+                    - generic [ref=e131]:
+                      - paragraph [ref=e132]:
+                        - strong [ref=e133]: "Weight:"
+                        - text: 70 kg ·
+                        - strong [ref=e134]: "Height:"
+                        - text: 1.70 m
+                      - paragraph [ref=e135]:
+                        - strong [ref=e136]: "Math:"
+                        - text: 70 ÷ (1.70²) = 70 ÷ 2.89
+                      - paragraph [ref=e137]: BMI = 24.2 → Normal Weight
+                  - generic [ref=e138]:
+                    - heading "Example — 5'4\" female, 155 lbs:" [level=3] [ref=e139]
+                    - generic [ref=e140]:
+                      - paragraph [ref=e141]:
+                        - strong [ref=e142]: "Math:"
+                        - text: "[155 ÷ (64²)] × 703"
+                      - paragraph [ref=e143]: BMI = 26.6 → Overweight
+          - generic [ref=e144]:
+            - img "BMI chart showing weight categories for men and women by height" [ref=e147]
+            - heading "BMI Chart for Men and Women — What Your Number Actually Means" [level=2] [ref=e148]
+            - paragraph [ref=e149]: The BMI scale ranges from underweight to severe obesity. Here's what each category means in real life — not just clinical terms — plus the health risks the CDC and NIH associate with each range.
+            - table [ref=e153]:
+              - rowgroup [ref=e154]:
+                - row "BMI Range Category What It Feels Like Health Risk" [ref=e155]:
+                  - columnheader "BMI Range" [ref=e156]
+                  - columnheader "Category" [ref=e157]
+                  - columnheader "What It Feels Like" [ref=e158]
+                  - columnheader "Health Risk" [ref=e159]
+              - rowgroup [ref=e160]:
+                - row "Below 18.5 Underweight Fatigue, frequent illness, poor stamina, difficulty gaining muscle Moderate — nutritional deficiencies, bone loss" [ref=e161]:
+                  - cell "Below 18.5" [ref=e162]
+                  - cell "Underweight" [ref=e163]
+                  - cell "Fatigue, frequent illness, poor stamina, difficulty gaining muscle" [ref=e164]
+                  - cell "Moderate — nutritional deficiencies, bone loss" [ref=e165]
+                - row "18.5 – 24.9 Normal Weight Good energy, lower doctor visits, clothes fit consistently, easier physical activity Low — maintain with consistent habits" [ref=e166]:
+                  - cell "18.5 – 24.9" [ref=e167]
+                  - cell "Normal Weight" [ref=e168]
+                  - cell "Good energy, lower doctor visits, clothes fit consistently, easier physical activity" [ref=e169]
+                  - cell "Low — maintain with consistent habits" [ref=e170]
+                - row "25.0 – 29.9 Overweight Sluggish after meals, slight joint discomfort, clothes getting tighter, tired faster during cardio Increased — high blood pressure, prediabetes" [ref=e171]:
+                  - cell "25.0 – 29.9" [ref=e172]
+                  - cell "Overweight" [ref=e173]
+                  - cell "Sluggish after meals, slight joint discomfort, clothes getting tighter, tired faster during cardio" [ref=e174]
+                  - cell "Increased — high blood pressure, prediabetes" [ref=e175]
+                - row "30.0 – 34.9 Obese (Class I) Breathlessness on stairs, joint pain, sleep disturbances, lower energy throughout day High — type 2 diabetes, sleep apnea, heart disease" [ref=e176]:
+                  - cell "30.0 – 34.9" [ref=e177]
+                  - cell "Obese (Class I)" [ref=e178]
+                  - cell "Breathlessness on stairs, joint pain, sleep disturbances, lower energy throughout day" [ref=e179]
+                  - cell "High — type 2 diabetes, sleep apnea, heart disease" [ref=e180]
+                - row "35.0 – 39.9 Obese (Class II) Significant physical limitations, chronic fatigue, higher medication dependence Very High — medical intervention often needed" [ref=e181]:
+                  - cell "35.0 – 39.9" [ref=e182]
+                  - cell "Obese (Class II)" [ref=e183]
+                  - cell "Significant physical limitations, chronic fatigue, higher medication dependence" [ref=e184]
+                  - cell "Very High — medical intervention often needed" [ref=e185]
+                - row "40+ Obese (Class III) Severe mobility issues, multiple comorbidities, highest cardiovascular burden Extreme — consult bariatric specialist" [ref=e186]:
+                  - cell "40+" [ref=e187]
+                  - cell "Obese (Class III)" [ref=e188]
+                  - cell "Severe mobility issues, multiple comorbidities, highest cardiovascular burden" [ref=e189]
+                  - cell "Extreme — consult bariatric specialist" [ref=e190]
+            - paragraph [ref=e191]: "Source: CDC Adult BMI Categories · WHO Global Database on Body Mass Index · NHLBI Clinical Guidelines"
+          - generic [ref=e192]:
+            - heading "BMI Chart by Height — Quick Reference for Common US Heights" [level=2] [ref=e193]
+            - paragraph [ref=e194]: One of the most searched questions on this topic is "what does my BMI mean at my exact height?" Here are the healthy weight ranges, overweight thresholds, and obesity cutoffs for the most common US heights — for both women and men. These numbers match the NHLBI BMI table exactly.
+            - table [ref=e198]:
+              - rowgroup [ref=e199]:
+                - row "Height Healthy (BMI 18.5–24.9) Overweight (BMI 25–29.9) Obese (BMI 30+)" [ref=e200]:
+                  - columnheader "Height" [ref=e201]
+                  - columnheader "Healthy (BMI 18.5–24.9)" [ref=e202]
+                  - columnheader "Overweight (BMI 25–29.9)" [ref=e203]
+                  - columnheader "Obese (BMI 30+)" [ref=e204]
+              - rowgroup [ref=e205]:
+                - row "5'0\" (152 cm) 97–127 lbs 128–152 lbs 153+ lbs" [ref=e206]:
+                  - cell "5'0\" (152 cm)" [ref=e207]
+                  - cell "97–127 lbs" [ref=e208]
+                  - cell "128–152 lbs" [ref=e209]
+                  - cell "153+ lbs" [ref=e210]
+                - row "5'2\" (157 cm) 104–135 lbs 136–163 lbs 164+ lbs" [ref=e211]:
+                  - cell "5'2\" (157 cm)" [ref=e212]
+                  - cell "104–135 lbs" [ref=e213]
+                  - cell "136–163 lbs" [ref=e214]
+                  - cell "164+ lbs" [ref=e215]
+                - row "5'3\" (160 cm) 107–140 lbs 141–168 lbs 169+ lbs" [ref=e216]:
+                  - cell "5'3\" (160 cm)" [ref=e217]
+                  - cell "107–140 lbs" [ref=e218]
+                  - cell "141–168 lbs" [ref=e219]
+                  - cell "169+ lbs" [ref=e220]
+                - row "5'4\" (163 cm) 110–144 lbs 145–173 lbs 174+ lbs" [ref=e221]:
+                  - cell "5'4\" (163 cm)" [ref=e222]
+                  - cell "110–144 lbs" [ref=e223]
+                  - cell "145–173 lbs" [ref=e224]
+                  - cell "174+ lbs" [ref=e225]
+                - row "5'5\" (165 cm) 114–149 lbs 150–179 lbs 180+ lbs" [ref=e226]:
+                  - cell "5'5\" (165 cm)" [ref=e227]
+                  - cell "114–149 lbs" [ref=e228]
+                  - cell "150–179 lbs" [ref=e229]
+                  - cell "180+ lbs" [ref=e230]
+                - row "5'6\" (168 cm) 118–154 lbs 155–185 lbs 186+ lbs" [ref=e231]:
+                  - cell "5'6\" (168 cm)" [ref=e232]
+                  - cell "118–154 lbs" [ref=e233]
+                  - cell "155–185 lbs" [ref=e234]
+                  - cell "186+ lbs" [ref=e235]
+                - row "5'7\" (170 cm) 121–158 lbs 159–190 lbs 191+ lbs" [ref=e236]:
+                  - cell "5'7\" (170 cm)" [ref=e237]
+                  - cell "121–158 lbs" [ref=e238]
+                  - cell "159–190 lbs" [ref=e239]
+                  - cell "191+ lbs" [ref=e240]
+                - row "5'9\" (175 cm) 128–168 lbs 169–202 lbs 203+ lbs" [ref=e241]:
+                  - cell "5'9\" (175 cm)" [ref=e242]
+                  - cell "128–168 lbs" [ref=e243]
+                  - cell "169–202 lbs" [ref=e244]
+                  - cell "203+ lbs" [ref=e245]
+                - row "6'0\" (183 cm) 140–183 lbs 184–220 lbs 221+ lbs" [ref=e246]:
+                  - cell "6'0\" (183 cm)" [ref=e247]
+                  - cell "140–183 lbs" [ref=e248]
+                  - cell "184–220 lbs" [ref=e249]
+                  - cell "221+ lbs" [ref=e250]
+                - row "6'1\" (185 cm) 144–188 lbs 189–226 lbs 227+ lbs" [ref=e251]:
+                  - cell "6'1\" (185 cm)" [ref=e252]
+                  - cell "144–188 lbs" [ref=e253]
+                  - cell "189–226 lbs" [ref=e254]
+                  - cell "227+ lbs" [ref=e255]
+                - row "6'5\" (196 cm) 160–209 lbs 210–251 lbs 252+ lbs" [ref=e256]:
+                  - cell "6'5\" (196 cm)" [ref=e257]
+                  - cell "160–209 lbs" [ref=e258]
+                  - cell "210–251 lbs" [ref=e259]
+                  - cell "252+ lbs" [ref=e260]
+            - paragraph [ref=e261]: "Calculated using standard WHO BMI formula. Values apply to adults 20+. Source: NHLBI."
+            - generic [ref=e262]:
+              - heading "Common specific BMI questions — answered:" [level=3] [ref=e263]
+              - generic [ref=e264]:
+                - paragraph [ref=e265]:
+                  - strong [ref=e266]: "5'2\" female, 170 lbs:"
+                  - text: BMI ≈ 31.1 → Obese Class I
+                - paragraph [ref=e267]:
+                  - strong [ref=e268]: "5'7\" male, 180 lbs:"
+                  - text: BMI ≈ 28.2 → Overweight
+                - paragraph [ref=e269]:
+                  - strong [ref=e270]: "5'4\" female, 130 lbs:"
+                  - text: BMI ≈ 22.3 → Normal Weight ✓
+                - paragraph [ref=e271]:
+                  - strong [ref=e272]: "5'3\" female, 155 lbs:"
+                  - text: BMI ≈ 27.4 → Overweight
+                - paragraph [ref=e273]:
+                  - strong [ref=e274]: "6'1\" male, 220 lbs:"
+                  - text: BMI ≈ 29.0 → Overweight
+                - paragraph [ref=e275]:
+                  - strong [ref=e276]: "5'5\" female, 180 lbs:"
+                  - text: BMI ≈ 30.0 → Obese Class I
+          - generic [ref=e277]:
+            - heading "BMI Calculator for Women — What No One Tells You" [level=2] [ref=e278]:
+              - img [ref=e279]
+              - text: BMI Calculator for Women — What No One Tells You
+            - paragraph [ref=e284]:
+              - text: "Women checking their BMI face a unique challenge: the standard BMI chart was built primarily on male population data. While the categories apply equally,"
+              - strong [ref=e285]: what those numbers mean in your body is different.
+            - paragraph [ref=e286]: Women naturally carry 6–11% more body fat than men at the same BMI — this is biological and normal, driven by estrogen, reproductive function, and fat distribution patterns. This means a woman with a BMI of 24 may have a higher body fat percentage than a man with the same BMI, yet still be in excellent metabolic health.
+            - generic [ref=e287]:
+              - generic [ref=e288]:
+                - heading "Healthy BMI for Women by Age" [level=3] [ref=e289]
+                - table [ref=e290]:
+                  - rowgroup [ref=e291]:
+                    - row "Age Group Healthy BMI Range" [ref=e292]:
+                      - columnheader "Age Group" [ref=e293]
+                      - columnheader "Healthy BMI Range" [ref=e294]
+                  - rowgroup [ref=e295]:
+                    - row "20–29 18.5 – 23.5" [ref=e296]:
+                      - cell "20–29" [ref=e297]
+                      - cell "18.5 – 23.5" [ref=e298]
+                    - row "30–39 18.5 – 24.9" [ref=e299]:
+                      - cell "30–39" [ref=e300]
+                      - cell "18.5 – 24.9" [ref=e301]
+                    - row "40–49 19.0 – 25.5" [ref=e302]:
+                      - cell "40–49" [ref=e303]
+                      - cell "19.0 – 25.5" [ref=e304]
+                    - row "50–59 19.5 – 26.5" [ref=e305]:
+                      - cell "50–59" [ref=e306]
+                      - cell "19.5 – 26.5" [ref=e307]
+                    - row "60+ 20.0 – 27.0" [ref=e308]:
+                      - cell "60+" [ref=e309]
+                      - cell "20.0 – 27.0" [ref=e310]
+                - paragraph [ref=e311]: "Note: These are evidence-informed ranges, not official CDC thresholds. Consult your doctor for individual guidance."
+              - generic [ref=e312]:
+                - heading "BMI for Women — Situations Where It's Misleading:" [level=3] [ref=e313]
+                - generic [ref=e314]:
+                  - img [ref=e315]
+                  - generic [ref=e318]:
+                    - paragraph [ref=e319]: PCOS & Thyroid Conditions
+                    - paragraph [ref=e320]: Both conditions directly alter fat storage and weight. Women with PCOS may have a higher BMI at the same calorie intake as unaffected women. Your BMI number is not a reflection of effort or willpower.
+                - generic [ref=e321]:
+                  - img [ref=e322]
+                  - generic [ref=e325]:
+                    - paragraph [ref=e326]: Hormonal Weight Fluctuations
+                    - paragraph [ref=e327]: Your weight can vary 2–5 lbs across your menstrual cycle due to water retention. A BMI test taken during your period may read 0.5–1 point higher — this is temporary and normal.
+                - generic [ref=e328]:
+                  - img [ref=e329]
+                  - generic [ref=e332]:
+                    - paragraph [ref=e333]: Post-Pregnancy Weight
+                    - paragraph [ref=e334]: It takes the average woman 6–18 months to return to pre-pregnancy weight. BMI during this period should be interpreted with extra context, not urgency.
+                - generic [ref=e335]:
+                  - img [ref=e336]
+                  - generic [ref=e339]:
+                    - paragraph [ref=e340]: Menopause & After 50
+                    - paragraph [ref=e341]: Estrogen decline shifts fat from hips to abdomen. Even with a normal BMI, waist circumference above 35 inches signals elevated metabolic risk post-menopause.
+            - generic [ref=e342]:
+              - heading "Obesity Scale for Women — Understanding BMI 30–45+" [level=3] [ref=e343]
+              - generic [ref=e344]:
+                - generic [ref=e345]:
+                  - paragraph [ref=e346]: 30–34.9
+                  - paragraph [ref=e347]: BMI 33–35 female
+                  - paragraph [ref=e348]: Class I — Actionable with lifestyle change
+                - generic [ref=e349]:
+                  - paragraph [ref=e350]: 35–39.9
+                  - paragraph [ref=e351]: BMI 35–36 female
+                  - paragraph [ref=e352]: Class II — Medical guidance recommended
+                - generic [ref=e353]:
+                  - paragraph [ref=e354]: 40–44.9
+                  - paragraph [ref=e355]: BMI 40–44 female
+                  - paragraph [ref=e356]: Class III — Consult bariatric specialist
+                - generic [ref=e357]:
+                  - paragraph [ref=e358]: 45+
+                  - paragraph [ref=e359]: BMI 45 female
+                  - paragraph [ref=e360]: Class III Severe — Urgent medical support
+          - generic [ref=e361]:
+            - heading "BMI Calculator for Men — The Muscle Problem" [level=2] [ref=e362]:
+              - img [ref=e363]
+              - text: BMI Calculator for Men — The Muscle Problem
+            - paragraph [ref=e366]: If you lift weights, play sports, or have a physically active job, your BMI calculator result may show "overweight" or even "obese" — while your actual body fat is perfectly healthy. This is BMI's most well-known limitation for men.
+            - paragraph [ref=e367]:
+              - text: "Here's a real example: a 5'11\" man who weighs 195 lbs has a BMI of 27.2 — technically overweight by the BMI scale. But if his waist is 32 inches and he can run a 10-minute mile, he's in better cardiovascular health than someone with a BMI of 23 who sits all day."
+              - strong [ref=e368]: For men, BMI is most accurate when combined with waist circumference.
+            - generic [ref=e369]:
+              - generic [ref=e370]:
+                - heading "Healthy BMI for Men by Age" [level=3] [ref=e371]
+                - table [ref=e372]:
+                  - rowgroup [ref=e373]:
+                    - row "Age Target BMI Waist Target" [ref=e374]:
+                      - columnheader "Age" [ref=e375]
+                      - columnheader "Target BMI" [ref=e376]
+                      - columnheader "Waist Target" [ref=e377]
+                  - rowgroup [ref=e378]:
+                    - row "20–29 20.0–24.9 Under 32 in" [ref=e379]:
+                      - cell "20–29" [ref=e380]
+                      - cell "20.0–24.9" [ref=e381]
+                      - cell "Under 32 in" [ref=e382]
+                    - row "30–39 21.0–25.9 Under 34 in" [ref=e383]:
+                      - cell "30–39" [ref=e384]
+                      - cell "21.0–25.9" [ref=e385]
+                      - cell "Under 34 in" [ref=e386]
+                    - row "40–49 22.0–26.5 Under 36 in" [ref=e387]:
+                      - cell "40–49" [ref=e388]
+                      - cell "22.0–26.5" [ref=e389]
+                      - cell "Under 36 in" [ref=e390]
+                    - row "50–59 22.5–27.0 Under 38 in" [ref=e391]:
+                      - cell "50–59" [ref=e392]
+                      - cell "22.5–27.0" [ref=e393]
+                      - cell "Under 38 in" [ref=e394]
+                    - row "60+ 23.0–28.0 Under 40 in" [ref=e395]:
+                      - cell "60+" [ref=e396]
+                      - cell "23.0–28.0" [ref=e397]
+                      - cell "Under 40 in" [ref=e398]
+              - generic [ref=e399]:
+                - 'heading "For Men Who Train: BMI vs Reality" [level=3] [ref=e400]'
+                - paragraph [ref=e401]: "The BMI calculator for bodybuilding context is especially unreliable. If you strength train regularly, use these secondary checks alongside BMI:"
+                - generic [ref=e402]:
+                  - img [ref=e403]
+                  - text: Waist under 35 in with BMI 25–28 = likely muscle, not fat
+                - generic [ref=e406]:
+                  - img [ref=e407]
+                  - text: Waist over 40 in with any BMI = elevated cardiovascular risk
+                - generic [ref=e410]:
+                  - img [ref=e411]
+                  - text: Resting heart rate under 65 bpm = strong cardiovascular health signal
+                - generic [ref=e414]:
+                  - img [ref=e415]
+                  - text: Body fat under 20% at BMI 27 = fit, not overweight
+                - generic [ref=e418]:
+                  - img [ref=e419]
+                  - text: "5'7\" male BMI chart: healthy weight is 121–158 lbs"
+          - generic [ref=e422]:
+            - heading "Walking Plan According to Your BMI — The Best Starting Point" [level=2] [ref=e423]:
+              - img [ref=e424]
+              - text: Walking Plan According to Your BMI — The Best Starting Point
+            - paragraph [ref=e427]: "Walking is the most underrated fat-loss tool. Research published in the Journal of the American Medical Association (JAMA) found that walking 7,000–9,000 steps daily reduces all-cause mortality by 50–70%. It doesn't spike cortisol, doesn't require equipment, and works at any BMI level. Here's a personalized walking plan based on your BMI result:"
+            - generic [ref=e428]:
+              - generic [ref=e429]:
+                - heading "BMI 18.5–24.9 (Normal)" [level=3] [ref=e430]
+                - paragraph [ref=e431]: "Maintenance: 7,000–10,000 steps/day. Add 2 strength sessions/week to maintain lean mass. Walk after dinner — it lowers blood sugar spikes by up to 30%."
+              - generic [ref=e432]:
+                - heading "BMI 25–29.9 (Overweight)" [level=3] [ref=e433]
+                - paragraph [ref=e434]: "Week 1–2: 5,000 steps/day. Week 3–4: 7,000 steps. Week 5+: 10,000 steps. Brisk pace (3–4 mph). This pace burns 200–300 calories/hour and lowers blood pressure measurably within 8 weeks."
+              - generic [ref=e435]:
+                - heading "BMI 30–35 (Obese Class I)" [level=3] [ref=e436]
+                - paragraph [ref=e437]: "Start with 15-min walks twice daily. Build to 30 min continuous by week 4. Flat terrain first — reduce joint impact. Target: 6,000–8,000 steps/day by week 6. Small increments = sustainable results."
+              - generic [ref=e438]:
+                - heading "BMI 35+ (Obese Class II–III)" [level=3] [ref=e439]
+                - paragraph [ref=e440]: Consult your doctor before starting. Water walking or pool walking removes 90% of joint impact. Start with 10 min/day and add 2 min per week. Walking 45–60 min daily at this level can produce 1–2 lb/week loss.
+            - generic [ref=e441]:
+              - strong [ref=e442]: "Pro tip:"
+              - text: A 10-minute walk after each meal (breakfast, lunch, dinner) totals 30 minutes with none of the mental barrier of "going to exercise." Studies show this routine specifically reduces postmeal blood sugar spikes — a key factor in preventing type 2 diabetes regardless of BMI.
+          - generic [ref=e443]:
+            - heading "BMI Calculator by Age — How Your Number Changes Over Time" [level=2] [ref=e444]:
+              - img [ref=e445]
+              - text: BMI Calculator by Age — How Your Number Changes Over Time
+            - paragraph [ref=e448]: The BMI formula itself doesn't change with age — but what your BMI means does. As you get older, your muscle mass naturally declines (a process called sarcopenia), your metabolism slows, and fat redistributes toward the abdomen. Two people can have identical BMIs at age 25 and 55 but wildly different health profiles.
+            - generic [ref=e449]:
+              - generic [ref=e450]:
+                - paragraph [ref=e451]: Your 20s
+                - paragraph [ref=e452]: BMI is most straightforward
+                - paragraph [ref=e453]: Metabolism is high, muscle mass is naturally elevated. A BMI of 22–24 is genuinely ideal. Watch for the 'freshman 15' or post-college weight gain as activity levels drop.
+              - generic [ref=e454]:
+                - paragraph [ref=e455]: Your 30s–40s
+                - paragraph [ref=e456]: BMI can creep up silently
+                - paragraph [ref=e457]: Muscle loss begins around age 30 at ~0.5–1% per year. Weight on the scale may stay constant, but body composition shifts toward more fat. Resistance training becomes critical to keep BMI meaningful.
+              - generic [ref=e458]:
+                - paragraph [ref=e459]: 50s and Beyond
+                - paragraph [ref=e460]: Context matters most
+                - paragraph [ref=e461]: Post-menopausal women and older men often have a 'healthy' BMI but elevated visceral fat. Some research suggests a BMI of 25–27 in adults over 65 is associated with better outcomes than a BMI under 22.
+          - generic [ref=e463]:
+            - heading "When BMI Is Misleading — And What to Use Instead" [level=2] [ref=e464]:
+              - img [ref=e465]
+              - text: When BMI Is Misleading — And What to Use Instead
+            - paragraph [ref=e467]: The AMA, in its 2023 policy update, explicitly stated that BMI alone should not be used to make clinical decisions. This isn't a reason to dismiss BMI — it's a reason to use it correctly. BMI is a screening tool, like a warning light on your dashboard. It tells you to look further. It doesn't tell you exactly what's wrong.
+            - paragraph [ref=e468]: "BMI is least accurate for these groups:"
+            - generic [ref=e469]:
+              - generic [ref=e470]:
+                - paragraph [ref=e471]: Athletes & bodybuilders
+                - paragraph [ref=e472]: High muscle mass inflates BMI
+              - generic [ref=e473]:
+                - paragraph [ref=e474]: Pregnant women
+                - paragraph [ref=e475]: Weight gain is normal and healthy
+              - generic [ref=e476]:
+                - paragraph [ref=e477]: Adults over 65
+                - paragraph [ref=e478]: Muscle loss makes BMI overestimate fat
+              - generic [ref=e479]:
+                - paragraph [ref=e480]: Children & teens
+                - paragraph [ref=e481]: Use CDC BMI-for-age percentiles instead
+              - generic [ref=e482]:
+                - paragraph [ref=e483]: Very tall or short people
+                - paragraph [ref=e484]: Traditional formula distorts at extremes
+              - generic [ref=e485]:
+                - paragraph [ref=e486]: Different ethnicities
+                - paragraph [ref=e487]: Asian populations have higher health risk at lower BMIs
+            - generic [ref=e488]:
+              - heading "Better Than BMI Alone — A Complete Picture:" [level=3] [ref=e489]
+              - generic [ref=e490]:
+                - paragraph [ref=e491]:
+                  - strong [ref=e492]: "Waist-to-Height Ratio:"
+                  - text: Waist (inches) ÷ Height (inches). Under 0.5 = low risk. Simple and fast.
+                - paragraph [ref=e493]:
+                  - strong [ref=e494]: "Body Fat %:"
+                  - text: Measured by DEXA scan, hydrostatic weighing, or skinfold calipers. Gold standard.
+                - paragraph [ref=e495]:
+                  - strong [ref=e496]: "Waist Circumference:"
+                  - text: Under 35 in (women), under 40 in (men) = low metabolic risk.
+                - paragraph [ref=e497]:
+                  - strong [ref=e498]: "Ponderal Index:"
+                  - text: Weight ÷ Height³. Better for very tall or short individuals (shown in our results).
+          - generic [ref=e499]:
+            - heading "Practical Diet Changes to Improve Your BMI" [level=2] [ref=e500]:
+              - img [ref=e501]
+              - text: Practical Diet Changes to Improve Your BMI
+            - paragraph [ref=e504]: "You don't need a meal plan overhaul. Research consistently shows that small, consistent substitutions outperform drastic diet changes for long-term BMI improvement. Here are realistic swaps for both US and Indian eating patterns:"
+            - generic [ref=e505]:
+              - generic [ref=e506]:
+                - heading "🇺🇸 For US Eating Patterns" [level=3] [ref=e508]
+                - table [ref=e509]:
+                  - rowgroup [ref=e510]:
+                    - row "Instead of Switch to" [ref=e511]:
+                      - columnheader "Instead of" [ref=e512]
+                      - columnheader "Switch to" [ref=e513]
+                  - rowgroup [ref=e514]:
+                    - row "16 oz soda (200 cal) Sparkling water + lemon (0 cal)" [ref=e515]:
+                      - cell "16 oz soda (200 cal)" [ref=e516]
+                      - cell "Sparkling water + lemon (0 cal)" [ref=e517]
+                    - row "Fast food lunch daily Meal-prepped protein bowl 4x/week" [ref=e518]:
+                      - cell "Fast food lunch daily" [ref=e519]
+                      - cell "Meal-prepped protein bowl 4x/week" [ref=e520]
+                    - row "Chips as snack Apple + 2 tbsp peanut butter" [ref=e521]:
+                      - cell "Chips as snack" [ref=e522]
+                      - cell "Apple + 2 tbsp peanut butter" [ref=e523]
+                    - row "White bread sandwich Whole grain or lettuce wrap" [ref=e524]:
+                      - cell "White bread sandwich" [ref=e525]
+                      - cell "Whole grain or lettuce wrap" [ref=e526]
+                    - row "Ranch dressing Olive oil + vinegar (50% less fat)" [ref=e527]:
+                      - cell "Ranch dressing" [ref=e528]
+                      - cell "Olive oil + vinegar (50% less fat)" [ref=e529]
+                    - row "Dinner plate = full Half plate vegetables, always" [ref=e530]:
+                      - cell "Dinner plate = full" [ref=e531]
+                      - cell "Half plate vegetables, always" [ref=e532]
+              - generic [ref=e533]:
+                - heading "🇮🇳 For Indian Eating Patterns" [level=3] [ref=e535]
+                - table [ref=e536]:
+                  - rowgroup [ref=e537]:
+                    - row "Instead of Switch to" [ref=e538]:
+                      - columnheader "Instead of" [ref=e539]
+                      - columnheader "Switch to" [ref=e540]
+                  - rowgroup [ref=e541]:
+                    - row "Fried namkeen as evening snack Roasted chana or makhana" [ref=e542]:
+                      - cell "Fried namkeen as evening snack" [ref=e543]
+                      - cell "Roasted chana or makhana" [ref=e544]
+                    - row "3–4 cups sugary chai 1–2 cups with half sugar" [ref=e545]:
+                      - cell "3–4 cups sugary chai" [ref=e546]
+                      - cell "1–2 cups with half sugar" [ref=e547]
+                    - row "White rice daily Mix brown rice or millets" [ref=e548]:
+                      - cell "White rice daily" [ref=e549]
+                      - cell "Mix brown rice or millets" [ref=e550]
+                    - row "Deep-fried puri/bhatura Whole wheat roti (baked)" [ref=e551]:
+                      - cell "Deep-fried puri/bhatura" [ref=e552]
+                      - cell "Whole wheat roti (baked)" [ref=e553]
+                    - row "Maida-based sweets daily 1–2 pieces maximum, post-lunch" [ref=e554]:
+                      - cell "Maida-based sweets daily" [ref=e555]
+                      - cell "1–2 pieces maximum, post-lunch" [ref=e556]
+                    - row "Packaged biscuits Banana or handful of dates" [ref=e557]:
+                      - cell "Packaged biscuits" [ref=e558]
+                      - cell "Banana or handful of dates" [ref=e559]
+            - paragraph [ref=e560]: Each swap saves 150–300 calories. At 200 calories saved per day, that's ~1.7 lbs of fat lost per month — without a single gym visit.
+          - generic [ref=e561]:
+            - 'heading "Realistic Timeline: How Long Does It Take to Lower BMI?" [level=2] [ref=e562]':
+              - img [ref=e563]
+              - text: "Realistic Timeline: How Long Does It Take to Lower BMI?"
+            - paragraph [ref=e566]: "This is the question everyone really wants answered. Here's the honest, research-based timeline — no false promises:"
+            - generic [ref=e567]:
+              - generic [ref=e568]:
+                - paragraph [ref=e569]: BMI Drop
+                - paragraph [ref=e570]: 0.5–1 Point
+                - paragraph [ref=e571]: 3–4 Weeks
+                - paragraph [ref=e573]: Cutting 500 cal/day from diet only
+              - generic [ref=e574]:
+                - paragraph [ref=e575]: BMI Drop
+                - paragraph [ref=e576]: 1–2 Points
+                - paragraph [ref=e577]: 6–8 Weeks
+                - paragraph [ref=e579]: Diet + 30-min daily walking
+              - generic [ref=e580]:
+                - paragraph [ref=e581]: BMI Drop
+                - paragraph [ref=e582]: 3–5 Points
+                - paragraph [ref=e583]: 3–5 Months
+                - paragraph [ref=e585]: Consistent deficit + exercise combo
+              - generic [ref=e586]:
+                - paragraph [ref=e587]: BMI Drop
+                - paragraph [ref=e588]: 5+ Points
+                - paragraph [ref=e589]: 6–12 Months
+                - paragraph [ref=e591]: Structured program with medical guidance
+            - generic [ref=e592]:
+              - strong [ref=e593]: "Important:"
+              - text: BMI loss faster than 0.5 points/month typically means muscle loss, not just fat loss. Crash diets can lower your BMI number while actually worsening your body composition. Slow, consistent progress is the only kind that lasts.
+          - generic [ref=e594]:
+            - heading "What to Do Right Now — Based on Your BMI Result" [level=2] [ref=e595]
+            - paragraph [ref=e596]: Pick your category and follow the next steps. Bookmark this page — you'll want to come back and track your progress.
+            - generic [ref=e597]:
+              - generic [ref=e598]:
+                - link "Underweight (BMI under 18.5) →" [ref=e599] [cursor=pointer]:
+                  - /url: /health/ideal-body-weight-calculator
+                - list [ref=e600]:
+                  - listitem [ref=e601]:
+                    - generic [ref=e602]: ✓
+                    - text: Calculate your TDEE → eat 300–500 calories above it
+                  - listitem [ref=e603]:
+                    - generic [ref=e604]: ✓
+                    - text: "Prioritize protein: eggs, lentils, Greek yogurt, paneer, chicken"
+                  - listitem [ref=e605]:
+                    - generic [ref=e606]: ✓
+                    - text: Start light resistance training 3x/week — muscle > fat for weight gain
+                  - listitem [ref=e607]:
+                    - generic [ref=e608]: ✓
+                    - text: "Rule out underlying causes: thyroid, GI issues, eating disorders"
+                  - listitem [ref=e609]:
+                    - generic [ref=e610]: ✓
+                    - text: Sleep 8–9 hours — growth hormone peaks during deep sleep
+              - generic [ref=e611]:
+                - link "Normal Weight (BMI 18.5–24.9) →" [ref=e612] [cursor=pointer]:
+                  - /url: /health/daily-water-intake-calculator
+                - list [ref=e613]:
+                  - listitem [ref=e614]:
+                    - generic [ref=e615]: ✓
+                    - text: Don't ignore it — 'normal BMI' doesn't mean no risks
+                  - listitem [ref=e616]:
+                    - generic [ref=e617]: ✓
+                    - text: Check your waist circumference every 3 months
+                  - listitem [ref=e618]:
+                    - generic [ref=e619]: ✓
+                    - text: Aim for 150 min moderate exercise per week (CDC guideline)
+                  - listitem [ref=e620]:
+                    - generic [ref=e621]: ✓
+                    - text: Recheck your BMI every 2–3 months — use our save feature
+                  - listitem [ref=e622]:
+                    - generic [ref=e623]: ✓
+                    - text: Your best tool now is consistency, not change
+              - generic [ref=e624]:
+                - link "Overweight (BMI 25–29.9) →" [ref=e625] [cursor=pointer]:
+                  - /url: /health/calorie-deficit-calculator
+                - list [ref=e626]:
+                  - listitem [ref=e627]:
+                    - generic [ref=e628]: ✓
+                    - text: "Calculate your calorie deficit: 500 cal/day = ~1 lb/week loss"
+                  - listitem [ref=e629]:
+                    - generic [ref=e630]: ✓
+                    - text: Start with 30-min brisk walks daily — no gym needed
+                  - listitem [ref=e631]:
+                    - generic [ref=e632]: ✓
+                    - text: Cut one ultra-processed food per week, not everything at once
+                  - listitem [ref=e633]:
+                    - generic [ref=e634]: ✓
+                    - text: Track sleep — under 6 hrs raises hunger hormone (ghrelin) by 24%
+                  - listitem [ref=e635]:
+                    - generic [ref=e636]: ✓
+                    - text: Use our TDEE calculator to find your exact maintenance calories
+              - generic [ref=e637]:
+                - link "Obese (BMI 30+) →" [ref=e638] [cursor=pointer]:
+                  - /url: /health/obesity-risk-calculator
+                - list [ref=e639]:
+                  - listitem [ref=e640]:
+                    - generic [ref=e641]: ✓
+                    - text: Talk to your doctor before intense exercise — protect your joints
+                  - listitem [ref=e642]:
+                    - generic [ref=e643]: ✓
+                    - text: Start with 10-min walks twice daily, then build from there
+                  - listitem [ref=e644]:
+                    - generic [ref=e645]: ✓
+                    - text: Focus on reducing processed sugar and liquid calories first
+                  - listitem [ref=e646]:
+                    - generic [ref=e647]: ✓
+                    - text: "Know this: people who start at BMI 35+ see the fastest early results"
+                  - listitem [ref=e648]:
+                    - generic [ref=e649]: ✓
+                    - text: GLP-1 medications (Ozempic, etc.) are now FDA-approved for BMI 30+ with risk factors
+          - generic [ref=e650]:
+            - img [ref=e652]
+            - heading "Your BMI is a signal — not a sentence." [level=2] [ref=e654]
+            - paragraph [ref=e655]: The number you just calculated took 2 seconds to produce. Changing it takes weeks and months of consistent small decisions — not one dramatic overhaul. The people who succeed are not those with the most willpower. They're the ones who made the habits boring and automatic.
+            - paragraph [ref=e656]: Save your result above. Come back in 6–8 weeks. Recalculate. The delta between those two numbers — that's your real progress indicator, not what you see in the mirror day-to-day.
+            - generic [ref=e657]:
+              - link "Calculate TDEE →" [ref=e658] [cursor=pointer]:
+                - /url: /health/tdee-calculator
+              - link "Ideal Body Weight Calculator →" [ref=e659] [cursor=pointer]:
+                - /url: /health/ideal-body-weight-calculator
+              - link "Calorie Deficit Calculator →" [ref=e660] [cursor=pointer]:
+                - /url: /health/calorie-deficit-calculator
+              - link "Body Fat % Calculator →" [ref=e661] [cursor=pointer]:
+                - /url: /health/body-fat-calculator
+          - generic [ref=e662]:
+            - heading "Sources & References" [level=3] [ref=e663]
+            - generic [ref=e664]:
+              - paragraph [ref=e665]:
+                - strong [ref=e666]: "CDC:"
+                - text: Adult BMI Categories — cdc.gov/bmi
+              - paragraph [ref=e667]:
+                - strong [ref=e668]: "NHLBI / NIH:"
+                - text: Calculate Your BMI — nhlbi.nih.gov/calculate-your-bmi
+              - paragraph [ref=e669]:
+                - strong [ref=e670]: "WHO:"
+                - text: Global Database on Body Mass Index — who.int
+              - paragraph [ref=e671]:
+                - strong [ref=e672]: "AMA:"
+                - text: AMA Policy on BMI as a Measure in Medicine (2023) — ama-assn.org
+              - paragraph [ref=e673]:
+                - strong [ref=e674]: "PMC / NIH:"
+                - text: BMI Interpretation across Age Groups — pmc.ncbi.nlm.nih.gov/articles/PMC9396052
+              - paragraph [ref=e675]:
+                - strong [ref=e676]: "JAMA:"
+                - text: Steps/Day and Mortality — jamanetwork.com (2021)
+              - paragraph [ref=e677]:
+                - strong [ref=e678]: "Trefethen, Oxford:"
+                - text: New BMI Formula Proposal — people.maths.ox.ac.uk
+              - paragraph [ref=e679]:
+                - strong [ref=e680]: "MedicalNewsToday:"
+                - text: Healthy Weight by Height — medicalnewstoday.com
+        - generic [ref=e682]:
+          - generic [ref=e683]:
+            - heading "Frequently Asked Questions" [level=2] [ref=e684]
+            - generic [ref=e685]: Common questions and answers about our calculator
+          - generic [ref=e686]:
+            - button "Is BMI accurate for men who go to the gym?" [ref=e688]:
+              - heading "Is BMI accurate for men who go to the gym?" [level=3] [ref=e689]
+              - img [ref=e690]
+            - button "What is a healthy BMI for women by age?" [ref=e693]:
+              - heading "What is a healthy BMI for women by age?" [level=3] [ref=e694]
+              - img [ref=e695]
+            - button "Why is my BMI normal but I still have belly fat?" [ref=e698]:
+              - heading "Why is my BMI normal but I still have belly fat?" [level=3] [ref=e699]
+              - img [ref=e700]
+            - button "How do I calculate BMI in kg?" [ref=e703]:
+              - heading "How do I calculate BMI in kg?" [level=3] [ref=e704]
+              - img [ref=e705]
+            - button "Is the new BMI formula more accurate than the old one?" [ref=e708]:
+              - heading "Is the new BMI formula more accurate than the old one?" [level=3] [ref=e709]
+              - img [ref=e710]
+            - button "How often should I check my BMI?" [ref=e713]:
+              - heading "How often should I check my BMI?" [level=3] [ref=e714]
+              - img [ref=e715]
+            - button "What BMI is considered obese for women?" [ref=e718]:
+              - heading "What BMI is considered obese for women?" [level=3] [ref=e719]
+              - img [ref=e720]
+            - button "Does BMI differ for women after 40?" [ref=e723]:
+              - heading "Does BMI differ for women after 40?" [level=3] [ref=e724]
+              - img [ref=e725]
+        - generic [ref=e728]:
+          - link "Meet Akabari" [ref=e729] [cursor=pointer]:
+            - /url: /meet.akabari.jpeg
+            - img "Meet Akabari" [ref=e730]
+          - generic [ref=e731]:
+            - heading "Meet Akabari" [level=3] [ref=e732]
+            - paragraph [ref=e733]: Web Developer & Health Enthusiast
+            - paragraph [ref=e734]: Meet is the creator of Calqulate.net, dedicated to building accurate, privacy-first health and fitness tools that help users make informed decisions about their well-being. With expertise in web development and a passion for health science, Meet combines technical excellence with practical health knowledge to deliver tools you can trust.
+            - generic [ref=e735]:
+              - link "Read more about the author" [ref=e736] [cursor=pointer]:
+                - /url: https://calqulate.net/about-us
+                - text: Read more about the author
+                - img [ref=e737]
+              - link "Meet Akabari on LinkedIn" [ref=e739] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/meet-akabari/
+                - img [ref=e740]
+                - text: LinkedIn
+    - contentinfo [ref=e744]:
+      - generic [ref=e745]:
+        - generic [ref=e746]:
+          - generic [ref=e747]:
+            - link "Calqulate" [ref=e748] [cursor=pointer]:
+              - /url: /
+              - img [ref=e749]
+              - generic [ref=e751]: Calqulate
+            - paragraph [ref=e752]: Professional-grade health calculators to improve your lifestyle - get accurate insights, track progress, and make smarter wellness decisions every day.
+            - generic [ref=e754]:
+              - img [ref=e755]
+              - link "krushal.barasiya@calqulate.net" [ref=e758] [cursor=pointer]:
+                - /url: mailto:krushal.barasiya@calqulate.net
+          - generic [ref=e759]:
+            - heading "Popular Calculators" [level=3] [ref=e760]
+            - list [ref=e761]:
+              - listitem [ref=e762]:
+                - link "ABSI Calculator" [ref=e763] [cursor=pointer]:
+                  - /url: /health/absi-calculator
+              - listitem [ref=e764]:
+                - link "Lean Body Mass Calculator" [ref=e765] [cursor=pointer]:
+                  - /url: /health/lean-body-mass-calculator
+              - listitem [ref=e766]:
+                - link "RFM Calculator" [ref=e767] [cursor=pointer]:
+                  - /url: /health/rfm-calculator
+              - listitem [ref=e768]:
+                - link "View All Calculators" [ref=e769] [cursor=pointer]:
+                  - /url: /search
+          - generic [ref=e770]:
+            - heading "Company" [level=3] [ref=e771]
+            - list [ref=e772]:
+              - listitem [ref=e773]:
+                - link "About Us" [ref=e774] [cursor=pointer]:
+                  - /url: /about-us
+              - listitem [ref=e775]:
+                - link "Contact Us" [ref=e776] [cursor=pointer]:
+                  - /url: /contact-us
+              - listitem [ref=e777]:
+                - link "Privacy Policy" [ref=e778] [cursor=pointer]:
+                  - /url: /privacy-policy
+              - listitem [ref=e779]:
+                - link "Sitemap" [ref=e780] [cursor=pointer]:
+                  - /url: /sitemap.xml
+          - generic [ref=e781]:
+            - heading "Legal & Support" [level=3] [ref=e782]
+            - list [ref=e783]:
+              - listitem [ref=e784]:
+                - link "Terms & Conditions" [ref=e785] [cursor=pointer]:
+                  - /url: /terms-and-conditions
+              - listitem [ref=e786]:
+                - link "Disclaimer" [ref=e787] [cursor=pointer]:
+                  - /url: /disclaimer
+              - listitem [ref=e788]:
+                - link "Cookie Policy" [ref=e789] [cursor=pointer]:
+                  - /url: /cookie-policy
+              - listitem [ref=e790]: 24/7 Support
+              - listitem [ref=e791]: Free to Use
+        - paragraph [ref=e793]: © 2026 Calqulate.NET All rights reserved.
+  - alert [ref=e794]

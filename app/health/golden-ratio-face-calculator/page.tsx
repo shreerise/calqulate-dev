@@ -130,7 +130,7 @@ export default function GoldenRatioFacePage() {
               {/* Golden Ratio Face Image */}
               <section className="flex justify-center my-8">
                 <img
-                  src="/face-shape-golden-ratio-image.png"
+                  src="/face-shape-golden-ratio-image.webp"
                   alt="Golden ratio face proportions visualization"
                   className="w-full max-w-[700px] h-auto rounded-lg shadow-md mx-auto"
                 />

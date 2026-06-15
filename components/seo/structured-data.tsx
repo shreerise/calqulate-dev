@@ -66,15 +66,14 @@ export function FAQSchema({ faqs }: { faqs: Array<{ question: string; answer: st
 export function OrganizationSchema() {
   const data = {
     name: "Calqulate",
-    description: "Professional calculators for home improvement and financial planning",
+    description: "Professional health calculators — BMI, body fat, calorie, face shape, and body composition tools.",
     url: "https://calqulate.net/",
-    logo: "https://calculatorhub.com/logo.png",
+    logo: "https://calqulate.net/logo.webp",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+91 9265745667",
+      email: "krushal.barasiya@calqulate.net",
       contactType: "customer service",
     },
-    sameAs: ["https://facebook.com/calculatorhub", "https://twitter.com/calculatorhub"],
   }
 
   return <StructuredData type="Organization" data={data} />

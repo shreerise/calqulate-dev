@@ -810,14 +810,14 @@ const hairstyleDatabase: Record<FaceShape, Record<Gender, HairstyleRecommendatio
 };
 
 const femaleFaceShapeImage: Record<FaceShape, string> = {
-  oval: "/blog/face-shape/shape-oval.jpg",
-  round: "/blog/face-shape/shape-round.jpg",
-  square: "/blog/face-shape/shape-square.jpg",
-  heart: "/blog/face-shape/shape-heart.jpg",
-  diamond: "/blog/face-shape/shape-diamond.jpg",
-  oblong: "/blog/face-shape/shape-oblong.jpg",
-  rectangle: "/blog/face-shape/shape-rectangle.jpg",
-  triangle: "/blog/face-shape/shape-triangle.jpg"
+  oval: "/blog/face-shape/shape-oval.webp",
+  round: "/blog/face-shape/shape-round.webp",
+  square: "/blog/face-shape/shape-square.webp",
+  heart: "/blog/face-shape/shape-heart.webp",
+  diamond: "/blog/face-shape/shape-diamond.webp",
+  oblong: "/blog/face-shape/shape-oblong.webp",
+  rectangle: "/blog/face-shape/shape-rectangle.webp",
+  triangle: "/blog/face-shape/shape-triangle.webp"
 };
 
 // --- 3D HAIRSTYLE VIEWER COMPONENT ---
@@ -1553,7 +1553,7 @@ export default function FaceShapeCalculator() {
         tips: []
       };
 
-      const logoDataUrl = await fetchImageDataUrl("/logo.png");
+      const logoDataUrl = await fetchImageDataUrl("/logo.webp");
       const userPhotoType = getImageType(result.imageData);
       const logoType = getImageType(logoDataUrl);
       const hairstyleImageUrl = leadingRecommendation.images[0] || femaleFaceShapeImage[result.faceAnalysis.faceShape];

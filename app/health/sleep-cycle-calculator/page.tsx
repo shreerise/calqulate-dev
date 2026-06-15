@@ -442,9 +442,9 @@ export default function SleepCycleCalculatorPage() {
 
                 {/* Infographic Image */}
                 <div className="mb-6 flex justify-center">
-                  <a href="/recommendation-sleep-cycle-by-age-infographic.png" target="_blank" rel="noopener noreferrer">
+                  <a href="/recommendation-sleep-cycle-by-age-infographic.webp" target="_blank" rel="noopener noreferrer">
                     <ClickableImage
-                      src="/recommendation-sleep-cycle-by-age-infographic.png"
+                      src="/recommendation-sleep-cycle-by-age-infographic.webp"
                       alt="How Much Sleep Do I Need? Infographic showing recommended sleep hours by age group"
                       width={400}
                       height={200}
