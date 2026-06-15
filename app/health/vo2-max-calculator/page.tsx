@@ -33,6 +33,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/vo2-max-calculator",
   },
+  openGraph: {
+    title: "VO2 Max Calculator: Accurate Estimates & Real-World Interpretation",
+    description: "Estimate your VO2 max using the Cooper or Rockport tests. Learn how to calculate VO2 max, interpret your score, and improve your cardiovascular fitness.",
+    url: "https://calqulate.net/health/vo2-max-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VO2 Max Calculator: Accurate Estimates & Real-World Interpretation",
+    description: "Estimate your VO2 max using the Cooper or Rockport tests. Learn how to calculate VO2 max, interpret your score, and improve your cardiovascular fitness.",
+  },
 }
 
 const faqs = [

@@ -32,6 +32,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/tdee-calculator",
   },
+  openGraph: {
+    title: "TDEE Calculator – Understand Your Daily Energy, Not Just Calories",
+    description: "Calculate your Total Daily Energy Expenditure (TDEE). Understand how your body uses energy through BMR, movement, food processing, and adaptation.",
+    url: "https://calqulate.net/health/tdee-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TDEE Calculator – Understand Your Daily Energy, Not Just Calories",
+    description: "Calculate your Total Daily Energy Expenditure (TDEE). Understand how your body uses energy through BMR, movement, food processing, and adaptation.",
+  },
 }
 
 const faqs = [

@@ -30,6 +30,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/golden-ratio-face-calculator",
   },
+  openGraph: {
+    title: "Golden Ratio Face Calculator: How Close Is Your Face to Perfect?",
+    description: "Think your face is balanced and symmetrical? Find out how close your facial proportions are to the Golden Ratio (1.618) — the mathematical standard of beauty. Our free Golden Ratio Face Calculator analyzes key measurements like eyes, nose, lips, and face thirds to give you an accurate harmony score. Discover your real facial strengths, weaknesses, and which angles make you look your best.",
+    url: "https://calqulate.net/health/golden-ratio-face-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Golden Ratio Face Calculator: How Close Is Your Face to Perfect?",
+    description: "Think your face is balanced and symmetrical? Find out how close your facial proportions are to the Golden Ratio (1.618) — the mathematical standard of beauty. Our free Golden Ratio Face Calculator analyzes key measurements like eyes, nose, lips, and face thirds to give you an accurate harmony score. Discover your real facial strengths, weaknesses, and which angles make you look your best.",
+  },
 }
 
 const faqs =[

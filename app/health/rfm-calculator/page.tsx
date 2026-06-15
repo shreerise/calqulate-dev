@@ -17,6 +17,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/rfm-calculator",
   },
+  openGraph: {
+    title: "RFM Calculator — Estimate Body Fat % Fast (Free)",
+    description: "Quickly calculate your RFM score from height & waist. Get an easy body-fat %, clear interpretation, and practical next steps — free and instant. Try it now!",
+    url: "https://calqulate.net/health/rfm-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RFM Calculator — Estimate Body Fat % Fast (Free)",
+    description: "Quickly calculate your RFM score from height & waist. Get an easy body-fat %, clear interpretation, and practical next steps — free and instant. Try it now!",
+  },
 }
 
 // Updated FAQ data from your new content

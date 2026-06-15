@@ -39,7 +39,19 @@ export const metadata: Metadata = {
     "ponderal index calculator, ponderal index normal range, ponderal index normal range adults 11 15, rohrer index normal values, corpulence index, ponderal index formula, ponderal index chart, fetal ponderal index, ponderal index newborn, ponderal index vs bmi, what is ponderal index, rohrer index, ponderal index definition",
   alternates: {
     canonical: "https://calqulate.net/health/ponderal-index-calculator",
-  }
+  },
+  openGraph: {
+    title: "Ponderal Index Calculator – Normal Range 11–15 for Adults & Children | Rohrer's Index",
+    description: "Calculate your Ponderal Index (Corpulence Index / Rohrer's Index) free. Normal range for adults is 11–15 kg/m³. Includes adult, child, and newborn/fetal PI formulas with reference charts.",
+    url: "https://calqulate.net/health/ponderal-index-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ponderal Index Calculator – Normal Range 11–15 for Adults & Children | Rohrer's Index",
+    description: "Calculate your Ponderal Index (Corpulence Index / Rohrer's Index) free. Normal range for adults is 11–15 kg/m³. Includes adult, child, and newborn/fetal PI formulas with reference charts.",
+  },
 }
 
 // ─────────────────────────────────────────────

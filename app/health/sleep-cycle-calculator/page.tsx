@@ -33,6 +33,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/sleep-cycle-calculator",
   },
+  openGraph: {
+    title: "Sleep Cycle Calculator: Find the Best Time to Sleep and Wake Up",
+    description: "Use our sleep cycle calculator to find your ideal bedtime and wake up time. Learn how to complete full sleep cycles and wake up feeling refreshed every day.",
+    url: "https://calqulate.net/health/sleep-cycle-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sleep Cycle Calculator: Find the Best Time to Sleep and Wake Up",
+    description: "Use our sleep cycle calculator to find your ideal bedtime and wake up time. Learn how to complete full sleep cycles and wake up feeling refreshed every day.",
+  },
 }
 
 const faqs = [

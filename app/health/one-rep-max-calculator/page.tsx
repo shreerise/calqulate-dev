@@ -20,6 +20,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/one-rep-max-calculator",
   },
+  openGraph: {
+    title: "One Rep Max Calculator (Accurate, Safe & Trainer‑Approved) | calqulate.net",
+    description: "Calculate your estimated One Rep Max (1RM) for bench press, squat, and deadlift. Safe, accurate, and science-backed strength tools from calqulate.net.",
+    url: "https://calqulate.net/health/one-rep-max-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "One Rep Max Calculator (Accurate, Safe & Trainer‑Approved) | calqulate.net",
+    description: "Calculate your estimated One Rep Max (1RM) for bench press, squat, and deadlift. Safe, accurate, and science-backed strength tools from calqulate.net.",
+  },
 }
 
 const faqs = [

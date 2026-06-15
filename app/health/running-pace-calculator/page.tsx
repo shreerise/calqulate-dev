@@ -35,6 +35,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/running-pace-calculator",
   },
+  openGraph: {
+    title: "Running Pace Calculator: Accurate Run Pace, Split & Finish Time Estimator",
+    description: "Plan your race strategy with our running pace calculator. Convert pace between km and miles, estimate finish times for 5K, 10K, and Marathons, and track performance.",
+    url: "https://calqulate.net/health/running-pace-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Running Pace Calculator: Accurate Run Pace, Split & Finish Time Estimator",
+    description: "Plan your race strategy with our running pace calculator. Convert pace between km and miles, estimate finish times for 5K, 10K, and Marathons, and track performance.",
+  },
 }
 
 const faqs = [

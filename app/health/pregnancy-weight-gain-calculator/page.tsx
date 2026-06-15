@@ -30,6 +30,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/pregnancy-weight-gain-calculator",
   },
+  openGraph: {
+    title: "Pregnancy Weight Gain Calculator: Healthy Week-by-Week Guide",
+    description: "Track your healthy pregnancy weight gain with our calculator guide based on BMI. Learn where the weight goes, IOM vs. French guidelines, and trimester targets. (Kg & Lbs).",
+    url: "https://calqulate.net/health/pregnancy-weight-gain-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pregnancy Weight Gain Calculator: Healthy Week-by-Week Guide",
+    description: "Track your healthy pregnancy weight gain with our calculator guide based on BMI. Learn where the weight goes, IOM vs. French guidelines, and trimester targets. (Kg & Lbs).",
+  },
 }
 
 const faqs = [

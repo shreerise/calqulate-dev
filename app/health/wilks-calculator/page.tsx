@@ -19,6 +19,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/wilks-calculator",
   },
+  openGraph: {
+    title: "Wilks Calculator (Powerlifting Score Explained Clearly)",
+    description: "Coach-level explanation for lifters in India, UK & USA — accurate, transparent, and competition-aware. Learn how to calculate Wilks score and compare strength.",
+    url: "https://calqulate.net/health/wilks-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wilks Calculator (Powerlifting Score Explained Clearly)",
+    description: "Coach-level explanation for lifters in India, UK & USA — accurate, transparent, and competition-aware. Learn how to calculate Wilks score and compare strength.",
+  },
 }
 
 const faqs = [

@@ -18,6 +18,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/adjusted-body-weight-calculator",
   },
+  openGraph: {
+    title: "Adjusted Body Weight (AjBW) Calculator: Accurate Dosing for Obese Patients",
+    description: "Calculate your Adjusted Body Weight (AjBW) for accurate medicine dosing, nutritional planning, and metabolic health monitoring. An essential tool for healthcare professionals, dietitians, and individuals managing their health.",
+    url: "https://calqulate.net/health/adjusted-body-weight-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Adjusted Body Weight (AjBW) Calculator: Accurate Dosing for Obese Patients",
+    description: "Calculate your Adjusted Body Weight (AjBW) for accurate medicine dosing, nutritional planning, and metabolic health monitoring. An essential tool for healthcare professionals, dietitians, and individuals managing their health.",
+  },
 }
 
 const faqs = [

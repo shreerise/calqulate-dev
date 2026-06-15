@@ -29,6 +29,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/blood-pressure-calculator",
   },
+  openGraph: {
+    title: "Blood Pressure Calculator: Is Your BP Normal? Check Your Risk of Heart Attack",
+    description: "Use our blood pressure calculator to classify your BP readings into levels like Normal, Elevated, or Hypertension. Learn how age and gender affect your BP.",
+    url: "https://calqulate.net/health/blood-pressure-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blood Pressure Calculator: Is Your BP Normal? Check Your Risk of Heart Attack",
+    description: "Use our blood pressure calculator to classify your BP readings into levels like Normal, Elevated, or Hypertension. Learn how age and gender affect your BP.",
+  },
 }
 
 const faqs = [

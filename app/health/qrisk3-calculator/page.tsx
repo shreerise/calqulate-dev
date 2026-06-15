@@ -33,6 +33,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/qrisk3-calculator",
   },
+  openGraph: {
+    title: "QRISK3 Calculator: NHS Heart Disease 10-Year Risk Score",
+    description: "Calculate your heart age and 10-year risk of heart attack or stroke using the official UK QRISK3 calculator. The gold standard cardiovascular risk calculator for NHS health checks.",
+    url: "https://calqulate.net/health/qrisk3-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "QRISK3 Calculator: NHS Heart Disease 10-Year Risk Score",
+    description: "Calculate your heart age and 10-year risk of heart attack or stroke using the official UK QRISK3 calculator. The gold standard cardiovascular risk calculator for NHS health checks.",
+  },
 }
 
 const faqs = [

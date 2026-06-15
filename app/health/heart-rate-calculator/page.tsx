@@ -39,6 +39,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/heart-rate-calculator",
   },
+  openGraph: {
+    title: "Target & Max Heart Rate Calculator | Find Your Training Zones",
+    description: "Estimate maximum heart rate and find your target training zones. Use our calculator to determine optimal beats per minute for fat loss, endurance, and cardio.",
+    url: "https://calqulate.net/health/heart-rate-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Target & Max Heart Rate Calculator | Find Your Training Zones",
+    description: "Estimate maximum heart rate and find your target training zones. Use our calculator to determine optimal beats per minute for fat loss, endurance, and cardio.",
+  },
 }
 
 const faqs = [

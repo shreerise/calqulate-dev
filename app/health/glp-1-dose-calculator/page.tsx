@@ -35,6 +35,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/glp-1-dose-calculator",
   },
+  openGraph: {
+    title: "GLP-1 Dose Calculator | Exact Syringe Units for Semaglutide & Tirzepatide",
+    description: "Free GLP-1 dose calculator. Get the exact number of units to draw on your insulin syringe for compounded semaglutide and tirzepatide. Simple, accurate, and built for real people.",
+    url: "https://calqulate.net/health/glp-1-dose-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GLP-1 Dose Calculator | Exact Syringe Units for Semaglutide & Tirzepatide",
+    description: "Free GLP-1 dose calculator. Get the exact number of units to draw on your insulin syringe for compounded semaglutide and tirzepatide. Simple, accurate, and built for real people.",
+  },
 }
 
 const faqs = [

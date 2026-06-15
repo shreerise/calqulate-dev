@@ -35,11 +35,18 @@ export const metadata: Metadata = {
     "ai attractiveness test, beauty score calculator, face attractiveness analyzer, facial symmetry test, face shape detector, golden ratio face, face beauty analyzer, attractiveness calculator, facial harmony, are ai beauty tests accurate",
   alternates: { canonical: PAGE_URL },
   openGraph: {
-    title: "AI Attractiveness Test: What Your Beauty Score Really Means",
+    title: "AI Attractiveness Test: What Your Beauty Score Really Means | Calqulate.net",
     description:
-      "What a face beauty score can and cannot tell you, plus a free, private face shape and style analysis from Calqulate.net.",
+      "Honest guide to AI attractiveness tests. See what a face beauty score can and cannot measure, why the golden ratio is a myth, whether the scores are biased, and try Calqulate.net's free face shape and style analysis.",
     url: PAGE_URL,
+    siteName: "Calqulate",
     type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Attractiveness Test: What Your Beauty Score Really Means | Calqulate.net",
+    description:
+      "Honest guide to AI attractiveness tests. See what a face beauty score can and cannot measure, why the golden ratio is a myth, whether the scores are biased, and try Calqulate.net's free face shape and style analysis.",
   },
 }
 

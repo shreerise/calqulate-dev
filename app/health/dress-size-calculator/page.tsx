@@ -20,6 +20,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/dress-size-calculator",
   },
+  openGraph: {
+    title: "Dress Size Calculator – Find Your Perfect Fit in Seconds",
+    description: "Find your perfect dress size instantly with our free dress size calculator. Enter bust, waist & hip measurements and get accurate sizes for US, UK, India & EU brands. Stop guessing and avoid costly returns!",
+    url: "https://calqulate.net/health/dress-size-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dress Size Calculator – Find Your Perfect Fit in Seconds",
+    description: "Find your perfect dress size instantly with our free dress size calculator. Enter bust, waist & hip measurements and get accurate sizes for US, UK, India & EU brands. Stop guessing and avoid costly returns!",
+  },
 }
 
 const faqs = [

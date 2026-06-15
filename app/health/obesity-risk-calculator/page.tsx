@@ -18,6 +18,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/obesity-risk-calculator",
   },
+  openGraph: {
+    title: "Obesity Risk Calculator: Assess Your Health Profile Instantly",
+    description: "Check your obesity and metabolic risk instantly. Our advanced Obesity Risk Calculator goes beyond BMI by analyzing your Waist-to-Height Ratio (WHtR) and lifestyle for accurate health insights.",
+    url: "https://calqulate.net/health/obesity-risk-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Obesity Risk Calculator: Assess Your Health Profile Instantly",
+    description: "Check your obesity and metabolic risk instantly. Our advanced Obesity Risk Calculator goes beyond BMI by analyzing your Waist-to-Height Ratio (WHtR) and lifestyle for accurate health insights.",
+  },
 };
 
 const faqs = [

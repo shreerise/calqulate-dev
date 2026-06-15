@@ -21,6 +21,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/stress-level-calculator",
   },
+  openGraph: {
+    title: "Stress Level Calculator: Clinically Validated PSS Test Online",
+    description: "Measure your mental load with our clinically validated Stress Level Calculator. Based on the Perceived Stress Scale (PSS), discover your burnout risk, psychological sub-scores, and actionable health insights.",
+    url: "https://calqulate.net/health/stress-level-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Stress Level Calculator: Clinically Validated PSS Test Online",
+    description: "Measure your mental load with our clinically validated Stress Level Calculator. Based on the Perceived Stress Scale (PSS), discover your burnout risk, psychological sub-scores, and actionable health insights.",
+  },
 }
 
 const faqs = [

@@ -34,6 +34,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/sleep-debt-calculator",
   },
+  openGraph: {
+    title: "Sleep Debt Calculator: Calculate Your Sleep Deficit | Free Tool",
+    description: "Feeling tired despite sleeping? Calculate your sleep debt accurately. Find your sleep deficit by age and get a science-backed recovery plan to restore your energy.",
+    url: "https://calqulate.net/health/sleep-debt-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sleep Debt Calculator: Calculate Your Sleep Deficit | Free Tool",
+    description: "Feeling tired despite sleeping? Calculate your sleep debt accurately. Find your sleep deficit by age and get a science-backed recovery plan to restore your energy.",
+  },
 }
 
 const faqs = [

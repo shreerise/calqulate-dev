@@ -34,6 +34,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/mean-arterial-pressure-calculator",
   },
+  openGraph: {
+    title: "Mean Arterial Pressure Calculator: MAP Formula & Normal Range | Clinical Tool",
+    description: "Calculate mean arterial pressure (MAP) instantly with our clinical-grade MAP calculator. Uses the standard MAP formula [SBP + (2 × DBP)] / 3. Check if your MAP is in the normal range (70-100 mmHg).",
+    url: "https://calqulate.net/health/mean-arterial-pressure-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mean Arterial Pressure Calculator: MAP Formula & Normal Range | Clinical Tool",
+    description: "Calculate mean arterial pressure (MAP) instantly with our clinical-grade MAP calculator. Uses the standard MAP formula [SBP + (2 × DBP)] / 3. Check if your MAP is in the normal range (70-100 mmHg).",
+  },
 }
 
 // Long-tail GSC queries converted to FAQs for low-hanging fruit capture

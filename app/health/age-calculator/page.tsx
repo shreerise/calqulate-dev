@@ -34,6 +34,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/age-calculator",
   },
+  openGraph: {
+    title: "Age Calculator & Online Age Converter: Exact Years, Months & Days",
+    description: "Calculate the exact age of a person from their date of birth. Find your age in years, months, and days using this free online age converter.",
+    url: "https://calqulate.net/health/age-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Age Calculator & Online Age Converter: Exact Years, Months & Days",
+    description: "Calculate the exact age of a person from their date of birth. Find your age in years, months, and days using this free online age converter.",
+  },
 }
 
 const faqs = [

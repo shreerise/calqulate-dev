@@ -20,6 +20,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/draw-length-calculator",
   },
+  openGraph: {
+    title: "Draw Length Calculator: Find Your Perfect Archery Fit",
+    description: "Find your ideal archery draw length using our wingspan method. Get accurate, safe, and comfortable results for your bow setup—fast and easy.",
+    url: "https://calqulate.net/health/draw-length-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Draw Length Calculator: Find Your Perfect Archery Fit",
+    description: "Find your ideal archery draw length using our wingspan method. Get accurate, safe, and comfortable results for your bow setup—fast and easy.",
+  },
 }
 
 const faqs = [

@@ -19,6 +19,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/absi-calculator",
   },
+  openGraph: {
+    title: "ABSI Calculator: Is Your Body Shape Killing You?",
+    description: "Calculate your A Body Shape Index (ABSI) score to assess health risks associated with central obesity. Use the formula: ABSI = (Waist Circumference) / [(BMI2/3) * (Height1/2)].",
+    url: "https://calqulate.net/health/absi-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ABSI Calculator: Is Your Body Shape Killing You?",
+    description: "Calculate your A Body Shape Index (ABSI) score to assess health risks associated with central obesity. Use the formula: ABSI = (Waist Circumference) / [(BMI2/3) * (Height1/2)].",
+  },
 }
 
 // New FAQ data based on your provided content

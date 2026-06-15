@@ -25,6 +25,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/bmi-calculator",
   },
+  openGraph: {
+    title: "BMI Calculator for Men & Women – Accurate Body Mass Index by Age, Height & Weight (kg/lbs)",
+    description: "Free accurate BMI calculator for women and men. Calculate body mass index by age in kg or lbs. Includes BMI chart, healthy BMI ranges, walking plan by BMI, and what your number means for your real life.",
+    url: "https://calqulate.net/health/bmi-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BMI Calculator for Men & Women – Accurate Body Mass Index by Age, Height & Weight (kg/lbs)",
+    description: "Free accurate BMI calculator for women and men. Calculate body mass index by age in kg or lbs. Includes BMI chart, healthy BMI ranges, walking plan by BMI, and what your number means for your real life.",
+  },
 }
 
 const faqs = [

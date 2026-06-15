@@ -36,6 +36,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/calorie-deficit-calculator",
   },
+  openGraph: {
+    title: "What Is Your Calorie Deficit for Weight Loss? Free Calculator",
+    description: "Calculate your maintenance calories and daily calorie deficit needed to lose weight safely. Learn the exact formula for fat loss and muscle preservation.",
+    url: "https://calqulate.net/health/calorie-deficit-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "What Is Your Calorie Deficit for Weight Loss? Free Calculator",
+    description: "Calculate your maintenance calories and daily calorie deficit needed to lose weight safely. Learn the exact formula for fat loss and muscle preservation.",
+  },
 }
 
 const faqs = [

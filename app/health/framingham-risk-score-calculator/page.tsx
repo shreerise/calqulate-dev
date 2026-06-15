@@ -32,6 +32,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/framingham-risk-score-calculator",
   },
+  openGraph: {
+    title: "Framingham Risk Calculator: Predict Your 10-Year Heart Health",
+    description: "Predict your 10-year heart health with the Framingham Risk Score Calculator. Estimate your risk of heart attack or stroke based on the Framingham Heart Study.",
+    url: "https://calqulate.net/health/framingham-risk-score-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Framingham Risk Calculator: Predict Your 10-Year Heart Health",
+    description: "Predict your 10-year heart health with the Framingham Risk Score Calculator. Estimate your risk of heart attack or stroke based on the Framingham Heart Study.",
+  },
 }
 
 const faqs = [

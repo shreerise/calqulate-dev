@@ -17,6 +17,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/resting-heart-rate-calculator",
   },
+  openGraph: {
+    title: "Resting Heart Rate Calculator: Check Your Heart Health Instantly",
+    description: "Calculate your resting heart rate (RHR) and see how you compare to health standards. Use our interactive tap-to-measure tool for accurate results and personalized health insights.",
+    url: "https://calqulate.net/health/resting-heart-rate-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Resting Heart Rate Calculator: Check Your Heart Health Instantly",
+    description: "Calculate your resting heart rate (RHR) and see how you compare to health standards. Use our interactive tap-to-measure tool for accurate results and personalized health insights.",
+  },
 }
 
 const faqs = [

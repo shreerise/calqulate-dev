@@ -32,7 +32,19 @@ export const metadata: Metadata = {
     "ideal body weight calculator, ideal weight calculator, weight calculator, healthy weight calculator, body weight calculator, calculate ideal body weight, ideal body weight formula, weight calculator for men, ideal weight calculator female, ideal weight calculator in kg, height weight calculator, age and weight calculator",
   alternates: {
     canonical: "https://calqulate.net/health/ideal-body-weight-calculator",
-    }
+    },
+  openGraph: {
+    title: "Ideal Body Weight Calculator – Free IBW Tool for Men & Women",
+    description: "Use our free ideal body weight calculator to find your healthy weight by height and gender. Supports metric & imperial with Devine formula results in kg and lbs.",
+    url: "https://calqulate.net/health/ideal-body-weight-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ideal Body Weight Calculator – Free IBW Tool for Men & Women",
+    description: "Use our free ideal body weight calculator to find your healthy weight by height and gender. Supports metric & imperial with Devine formula results in kg and lbs.",
+  },
 }
 
 const faqs = [

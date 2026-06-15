@@ -36,6 +36,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/diabetes-risk-calculator",
   },
+  openGraph: {
+    title: "Diabetes Risk Calculator: Type 2 Diabetes Screening | Fast & Free",
+    description: "Assess your risk of developing type 2 diabetes with our free calculator. Based on lifestyle, family history, and body measurements. Fast, accurate, and private.",
+    url: "https://calqulate.net/health/diabetes-risk-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Diabetes Risk Calculator: Type 2 Diabetes Screening | Fast & Free",
+    description: "Assess your risk of developing type 2 diabetes with our free calculator. Based on lifestyle, family history, and body measurements. Fast, accurate, and private.",
+  },
 }
 
 const faqs = [

@@ -37,6 +37,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/weight-loss-percentage-calculator",
   },
+  openGraph: {
+    title: "Weight Loss Percentage Calculator | Track % of Body Weight Lost",
+    description: "Free weight loss percentage calculator. Calculate the percentage of weight loss instantly in lbs or kg, track progress to your goal, and see your weekly average.",
+    url: "https://calqulate.net/health/weight-loss-percentage-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Weight Loss Percentage Calculator | Track % of Body Weight Lost",
+    description: "Free weight loss percentage calculator. Calculate the percentage of weight loss instantly in lbs or kg, track progress to your goal, and see your weekly average.",
+  },
 }
 
 const faqs = [

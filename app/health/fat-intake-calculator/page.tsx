@@ -38,8 +38,16 @@ export const metadata: Metadata = {
     canonical: "https://calqulate.net/health/fat-intake-calculator",
   },
   openGraph: {
-    title: "Fat Intake Calculator — Calqulate",
-    description: "Calculate daily fat needs (grams) and get a visual, practical breakdown for healthy eating.",
+    title: "Fat Intake Calculator: How Many Grams of Fat Per Day?",
+    description: "Calculate your ideal daily fat intake for weight loss, keto, or muscle gain. Our accurate Fat Intake Calculator breaks down saturated, unsaturated, and trans fats.",
+    url: "https://calqulate.net/health/fat-intake-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fat Intake Calculator: How Many Grams of Fat Per Day?",
+    description: "Calculate your ideal daily fat intake for weight loss, keto, or muscle gain. Our accurate Fat Intake Calculator breaks down saturated, unsaturated, and trans fats.",
   },
 };
 

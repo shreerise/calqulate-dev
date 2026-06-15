@@ -40,6 +40,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/bmr-calculator",
   },
+  openGraph: {
+    title: "BMR Calculator: Basal Metabolic Rate & Calories Burned at Rest",
+    description: "Calculate your basal metabolic rate free using the Mifflin-St Jeor equation & Harris-Benedict formula. Find calories burned at rest, your TDEE, and daily calorie target for weight loss — for men and women.",
+    url: "https://calqulate.net/health/bmr-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BMR Calculator: Basal Metabolic Rate & Calories Burned at Rest",
+    description: "Calculate your basal metabolic rate free using the Mifflin-St Jeor equation & Harris-Benedict formula. Find calories burned at rest, your TDEE, and daily calorie target for weight loss — for men and women.",
+  },
 }
 
 // ─── Aggregate Rating Schema ────────────────────────────────────────────────

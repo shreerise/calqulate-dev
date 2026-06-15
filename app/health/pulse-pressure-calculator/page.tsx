@@ -31,6 +31,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/pulse-pressure-calculator",
   },
+  openGraph: {
+    title: "Pulse Pressure Calculator: How to Calculate & Interpret Your Results",
+    description: "Learn how to calculate pulse pressure and what it reveals about your heart health. Our pulse pressure calculator helps you identify narrow or wide ranges for better cardiovascular awareness.",
+    url: "https://calqulate.net/health/pulse-pressure-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pulse Pressure Calculator: How to Calculate & Interpret Your Results",
+    description: "Learn how to calculate pulse pressure and what it reveals about your heart health. Our pulse pressure calculator helps you identify narrow or wide ranges for better cardiovascular awareness.",
+  },
 }
 
 const faqs = [

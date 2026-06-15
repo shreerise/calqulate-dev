@@ -51,6 +51,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/face-shape-calculator",
   },
+  openGraph: {
+    title: "AI Face Shape Calculator - Free for Men & Women",
+    description: "Confused about your face shape and tired of hairstyles, glasses, or makeup that just don’t look right? Discover your real face shape instantly with our free AI-powered Face Shape Calculator for men and women. Covers 8 face shapes.",
+    url: "https://calqulate.net/health/face-shape-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Face Shape Calculator - Free for Men & Women",
+    description: "Confused about your face shape and tired of hairstyles, glasses, or makeup that just don’t look right? Discover your real face shape instantly with our free AI-powered Face Shape Calculator for men and women. Covers 8 face shapes.",
+  },
 };
 
 const faqs = [

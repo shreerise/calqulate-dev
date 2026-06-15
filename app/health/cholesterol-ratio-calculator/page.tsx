@@ -20,6 +20,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/cholesterol-ratio-calculator",
   },
+  openGraph: {
+    title: "Cholesterol Ratio Calculator: Is Your Heart at Risk?",
+    description: "Instantly check your cholesterol ratios (HDL, LDL, TC) and heart health risk. Simple, accurate, and free—see how balanced your numbers really are.",
+    url: "https://calqulate.net/health/cholesterol-ratio-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cholesterol Ratio Calculator: Is Your Heart at Risk?",
+    description: "Instantly check your cholesterol ratios (HDL, LDL, TC) and heart health risk. Simple, accurate, and free—see how balanced your numbers really are.",
+  },
 }
 
 const faqs = [

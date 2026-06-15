@@ -32,6 +32,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/waist-to-height-ratio-calculator",
   },
+  openGraph: {
+    title: "Waist to Height Ratio Calculator: Simple & Accurate Health Risk Check",
+    description: "Measure your waist to height ratio (WHtR) to assess abdominal fat and metabolic health. Learn why keeping your waist less than half your height is vital.",
+    url: "https://calqulate.net/health/waist-to-height-ratio-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Waist to Height Ratio Calculator: Simple & Accurate Health Risk Check",
+    description: "Measure your waist to height ratio (WHtR) to assess abdominal fat and metabolic health. Learn why keeping your waist less than half your height is vital.",
+  },
 }
 
 const faqs = [

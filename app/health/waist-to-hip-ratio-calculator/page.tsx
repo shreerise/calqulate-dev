@@ -35,6 +35,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/waist-to-hip-ratio-calculator",
   },
+  openGraph: {
+    title: "Waist to Hip Ratio Calculator (WHR): Check Health Risks",
+    description: "Check your hidden health risk in seconds. Our free Waist to Hip Ratio Calculator accurately measures your body fat distribution and metabolic health risk.",
+    url: "https://calqulate.net/health/waist-to-hip-ratio-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Waist to Hip Ratio Calculator (WHR): Check Health Risks",
+    description: "Check your hidden health risk in seconds. Our free Waist to Hip Ratio Calculator accurately measures your body fat distribution and metabolic health risk.",
+  },
 }
 
 const faqs =[

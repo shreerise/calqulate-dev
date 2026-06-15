@@ -30,6 +30,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/ascvd-risk-calculator",
   },
+  openGraph: {
+    title: "ASCVD Risk Calculator: What's Your 10-Year Heart Attack & Stroke Risk?",
+    description: "Calculate your 10-year risk of heart disease or stroke. Our ASCVD score calculator uses the Pooled Cohort Equation (PCE) and modern PREVENT guidelines for accurate prediction.",
+    url: "https://calqulate.net/health/ascvd-risk-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ASCVD Risk Calculator: What's Your 10-Year Heart Attack & Stroke Risk?",
+    description: "Calculate your 10-year risk of heart disease or stroke. Our ASCVD score calculator uses the Pooled Cohort Equation (PCE) and modern PREVENT guidelines for accurate prediction.",
+  },
 }
 
 const faqs = [

@@ -32,6 +32,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/ovulation-calculator",
   },
+  openGraph: {
+    title: "Ovulation Calculator: Find Your Fertile Window Fast",
+    description: "Trying to conceive? Use our ovulation calculator to estimate your ovulation date, fertile window, and best days to get pregnant based on your last period and cycle length.",
+    url: "https://calqulate.net/health/ovulation-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ovulation Calculator: Find Your Fertile Window Fast",
+    description: "Trying to conceive? Use our ovulation calculator to estimate your ovulation date, fertile window, and best days to get pregnant based on your last period and cycle length.",
+  },
 }
 
 const faqs = [

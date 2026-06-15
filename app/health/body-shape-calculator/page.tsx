@@ -22,6 +22,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/body-shape-calculator",
   },
+  openGraph: {
+    title: "What Body Shape Are You? Free Body Type Calculator for Women & Men",
+    description: "Instantly discover your body shape (Hourglass, Pear, Apple, Rectangle, etc.) with our free accurate calculator for women and men. Get personalized styling tips that actually work.",
+    url: "https://calqulate.net/health/body-shape-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "What Body Shape Are You? Free Body Type Calculator for Women & Men",
+    description: "Instantly discover your body shape (Hourglass, Pear, Apple, Rectangle, etc.) with our free accurate calculator for women and men. Get personalized styling tips that actually work.",
+  },
 }
 
 const faqs = [

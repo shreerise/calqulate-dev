@@ -33,6 +33,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/daily-water-intake-calculator",
   },
+  openGraph: {
+    title: "Daily Water Intake Calculator: How Much Water Should You Drink?",
+    description: "Calculate your personalized daily water intake based on weight, activity level, and climate. Get specific hydration advice for Indian weather conditions.",
+    url: "https://calqulate.net/health/daily-water-intake-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Daily Water Intake Calculator: How Much Water Should You Drink?",
+    description: "Calculate your personalized daily water intake based on weight, activity level, and climate. Get specific hydration advice for Indian weather conditions.",
+  },
 }
 
 const faqs = [

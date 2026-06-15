@@ -35,7 +35,19 @@ export const metadata: Metadata = {
     "creatinine clearance calculator, cockcroft gault calculator, crcl calculator, creatinine clearance formula, cockcroft gault normal range, kidney function calculator, gfr clearance calculator, drug dosing renal",
   alternates: {
     canonical: "https://calqulate.net/health/creatinine-clearance-calculator",
-  }
+  },
+  openGraph: {
+    title: "Creatinine Clearance Calculator (Cockcroft-Gault): IBW vs ABW",
+    description: "Calculate creatinine clearance using the Cockcroft-Gault equation with actual, ideal, and adjusted body weight. Includes CKD staging, drug dosing guidance, and clinical decision support.",
+    url: "https://calqulate.net/health/creatinine-clearance-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Creatinine Clearance Calculator (Cockcroft-Gault): IBW vs ABW",
+    description: "Calculate creatinine clearance using the Cockcroft-Gault equation with actual, ideal, and adjusted body weight. Includes CKD staging, drug dosing guidance, and clinical decision support.",
+  },
 }
 
 const faqs = [

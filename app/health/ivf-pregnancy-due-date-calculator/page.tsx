@@ -36,6 +36,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/ivf-due-date-calculator",
   },
+  openGraph: {
+    title: "IVF Pregnancy Due Date Calculator | Day 3, 5, FET | Calqulate",
+    description: "Accurately calculate your pregnancy due date based on your IVF embryo transfer date. Supports Day 3, Day 5, Day 6, and Frozen Embryo Transfers (FET).",
+    url: "https://calqulate.net/health/ivf-due-date-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IVF Pregnancy Due Date Calculator | Day 3, 5, FET | Calqulate",
+    description: "Accurately calculate your pregnancy due date based on your IVF embryo transfer date. Supports Day 3, Day 5, Day 6, and Frozen Embryo Transfers (FET).",
+  },
 }
 
 // Extracted FAQs directly from your content

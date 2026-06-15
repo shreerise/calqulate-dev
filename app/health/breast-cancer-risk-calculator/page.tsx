@@ -38,7 +38,19 @@ export const metadata: Metadata = {
     "breast cancer risk calculator, breast cancer risk assessment, gail model calculator, tyrer cuzick calculator, lifetime risk of breast cancer calculator, family history breast cancer risk calculator, high risk breast cancer calculator, ibis breast cancer risk calculator",
     alternates: {
       canonical: "https://calqulate.net/health/breast-cancer-risk-calculator",
-    }
+    },
+  openGraph: {
+    title: "What Is Your Breast Cancer Risk? Free Gail & Tyrer-Cuzick Calculator",
+    description: "Calculate your breast cancer risk using validated Gail and Tyrer-Cuzick models. Get your 5-year, 10-year, and lifetime risk score. Free, private, clinically-based.",
+    url: "https://calqulate.net/health/breast-cancer-risk-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "What Is Your Breast Cancer Risk? Free Gail & Tyrer-Cuzick Calculator",
+    description: "Calculate your breast cancer risk using validated Gail and Tyrer-Cuzick models. Get your 5-year, 10-year, and lifetime risk score. Free, private, clinically-based.",
+  },
 }
 
 const faqs = [

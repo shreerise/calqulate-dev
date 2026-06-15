@@ -1,0 +1,22 @@
+User-Agent: *
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+
+User-Agent: GPTBot
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: CCBot
+Allow: /
+
+llmsTxt: https://calqulate.net/llms.txt
+Sitemap: https://calqulate.net/sitemap.xml

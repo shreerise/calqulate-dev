@@ -17,6 +17,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/karvonen-formula-calculator",
   },
+  openGraph: {
+    title: "Karvonen Formula Calculator: Find Your Ideal Heart Rate",
+    description: "Find your perfect heart rate zones using the Karvonen Formula. Boost fat burn, endurance, and fitness safely with your personalized numbers.",
+    url: "https://calqulate.net/health/karvonen-formula-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Karvonen Formula Calculator: Find Your Ideal Heart Rate",
+    description: "Find your perfect heart rate zones using the Karvonen Formula. Boost fat burn, endurance, and fitness safely with your personalized numbers.",
+  },
 }
 
 const faqs = [

@@ -33,6 +33,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/estimated-average-glucose-calculator",
   },
+  openGraph: {
+    title: "eAG Calculator: Convert HbA1c to Estimated Average Glucose",
+    description: "Easily convert your HbA1c percentage into Estimated Average Glucose (eAG). Understand your daily blood sugar levels in mg/dL or mmol/L for better diabetes management.",
+    url: "https://calqulate.net/health/estimated-average-glucose-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "eAG Calculator: Convert HbA1c to Estimated Average Glucose",
+    description: "Easily convert your HbA1c percentage into Estimated Average Glucose (eAG). Understand your daily blood sugar levels in mg/dL or mmol/L for better diabetes management.",
+  },
 }
 
 const faqs = [

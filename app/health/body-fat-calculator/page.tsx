@@ -38,6 +38,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/body-fat-calculator",
   },
+  openGraph: {
+    title: "Body Fat Calculator: Check Your Real Body Fat %",
+    description: "Calculate body fat percentage accurately using the U.S. Navy Method. Our free body fat calculator uses your measurements (waist, neck, hip, height) to estimate body fat for men and women.",
+    url: "https://calqulate.net/health/body-fat-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Body Fat Calculator: Check Your Real Body Fat %",
+    description: "Calculate body fat percentage accurately using the U.S. Navy Method. Our free body fat calculator uses your measurements (waist, neck, hip, height) to estimate body fat for men and women.",
+  },
 }
 
 // Long-tail GSC queries converted to FAQs

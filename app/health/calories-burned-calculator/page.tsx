@@ -20,6 +20,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/calories-burned-calculator",
   },
+  openGraph: {
+    title: "How Many Calories Do You Actually Burn? Free Calories Burned Calculator",
+    description: "Calculate exact calories burned during running, walking, cycling, or any workout. Use our advanced Activity (MET) and Heart Rate formulas to track your fat loss accurately.",
+    url: "https://calqulate.net/health/calories-burned-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "How Many Calories Do You Actually Burn? Free Calories Burned Calculator",
+    description: "Calculate exact calories burned during running, walking, cycling, or any workout. Use our advanced Activity (MET) and Heart Rate formulas to track your fat loss accurately.",
+  },
 }
 
 const faqs = [

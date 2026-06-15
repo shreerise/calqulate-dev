@@ -36,6 +36,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://calqulate.net/health/heart-age-calculator",
   },
+  openGraph: {
+    title: "Heart Age Calculator: Estimate Your Cardiovascular Risk Age",
+    description: "Find out if your heart is older or younger than your actual age. Use our heart age calculator based on blood pressure, cholesterol, and lifestyle factors to assess cardiovascular risk.",
+    url: "https://calqulate.net/health/heart-age-calculator",
+    siteName: "Calqulate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Heart Age Calculator: Estimate Your Cardiovascular Risk Age",
+    description: "Find out if your heart is older or younger than your actual age. Use our heart age calculator based on blood pressure, cholesterol, and lifestyle factors to assess cardiovascular risk.",
+  },
 }
 
 const faqs = [
