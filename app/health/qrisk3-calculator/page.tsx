@@ -22,6 +22,8 @@ import {
 } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { AuthorSection } from "@/components/seo/author-section"
 
 export const metadata: Metadata = {
@@ -79,13 +81,13 @@ export default function Qrisk3CalculatorPage() {
         url="https://calqulate.net/health/qrisk3-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
       <main className="max-w-5xl mx-auto px-6 py-12">
         {/* UK Clinical Header */}
-        <header className="mb-16 border-b border-slate-100 pb-12">
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+        <header className="mb-16 border-b border-slate-100 pb-12">          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
             QRISK®3 Calculator: <span className="text-blue-600">Your 10-Year Heart Score.</span>
           </h1>
           <p className="text-xl text-slate-600 leading-relaxed max-w-3xl">
@@ -276,7 +278,8 @@ export default function Qrisk3CalculatorPage() {
 
         {/* Author Badge Section */}
         <div className="mt-8">
-          <AuthorSection />
+          <MedicalReviewerSection />
+            <AuthorSection />
         </div>
       </main>
 

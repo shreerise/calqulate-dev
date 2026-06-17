@@ -30,3 +30,4 @@ next-env.d.ts
 opencode.json
 /.playwright-mcp/
 /scripts/
+/Calqulate.NET/

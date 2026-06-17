@@ -8,6 +8,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 
 export const metadata: Metadata = {
@@ -70,6 +72,7 @@ export default function WilksCalculatorPage() {
         url="https://calqulate.net/health/wilks-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -77,8 +80,7 @@ export default function WilksCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Hero */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Wilks Calculator (Powerlifting Score Explained Clearly)
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
@@ -312,6 +314,7 @@ export default function WilksCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

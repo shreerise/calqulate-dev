@@ -6,6 +6,8 @@ import SleepDebtCalculator from "@/components/calculators/sleep-debt-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import {
   Brain,
@@ -20,7 +22,8 @@ import {
   ShieldAlert,
   Table,
   Activity,
-  Zap
+  Zap,
+  Stethoscope,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AuthorSection } from "@/components/seo/author-section"
@@ -85,6 +88,7 @@ export default function SleepDebtCalculatorPage() {
         url="https://calqulate.net/health/sleep-debt-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -92,8 +96,7 @@ export default function SleepDebtCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Sleep Debt Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
@@ -358,6 +361,7 @@ export default function SleepDebtCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

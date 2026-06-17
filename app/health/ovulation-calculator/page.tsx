@@ -19,9 +19,12 @@ import {
   Thermometer,
   Baby,
   Activity,
+  Stethoscope,
 } from "lucide-react"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 
 export const metadata: Metadata = {
   title: "Ovulation Calculator: Find Your Fertile Window Fast",
@@ -93,6 +96,7 @@ export default function OvulationCalculatorPage() {
         url="https://calqulate.net/health/ovulation-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -101,8 +105,7 @@ export default function OvulationCalculatorPage() {
           <div className="max-w-4xl mx-auto">
 
             {/* Hero */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Ovulation Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
@@ -501,6 +504,7 @@ export default function OvulationCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

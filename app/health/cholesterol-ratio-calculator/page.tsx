@@ -6,9 +6,11 @@ import { Footer } from "@/components/layout/footer"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
-import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIcon, Droplets } from "lucide-react"
+import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIcon, Droplets , Stethoscope } from "lucide-react"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import CholesterolRatioCalculator from "@/components/calculators/cholesterol-ratio-calculator"
 
 export const metadata: Metadata = {
@@ -70,6 +72,7 @@ export default function CholesterolCalculatorPage() {
         url="https://calqulate.net/health/cholesterol-ratio-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -77,8 +80,7 @@ export default function CholesterolCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Hero */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Check Your Heart Health Instantly: What Your Cholesterol Says About You
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
@@ -312,6 +314,7 @@ export default function CholesterolCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

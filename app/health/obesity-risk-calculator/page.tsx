@@ -8,6 +8,8 @@ import ObesityRiskCalculator from "@/components/calculators/obesity-risk-calcula
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data";
 import { FAQSection } from "@/components/seo/faq-section";import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 import { Activity, HeartPulse, Scale, Shield, Stethoscope, AlertTriangle, ArrowRight, Apple } from "lucide-react";
 
@@ -68,6 +70,7 @@ export default function ObesityRiskCalculatorPage() {
         url="https://calqulate.net/health/obesity-risk-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -81,9 +84,7 @@ export default function ObesityRiskCalculatorPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
               <Stethoscope className="w-4 h-4" />
               <span>Advanced Medical Standards</span>
-            </div>
-
-            <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+            </div>            <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
               Obesity Risk Calculator
             </h1>
 
@@ -284,6 +285,7 @@ export default function ObesityRiskCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

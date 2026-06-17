@@ -8,8 +8,10 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen } from "lucide-react"
+import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen , Stethoscope } from "lucide-react"
 import Link from "next/link"
 
 export const metadata: Metadata = {
@@ -108,14 +110,14 @@ export default function ABSICalculatorPage() {
         url="https://calqulate.net/health/absi-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">ABSI Calculator</h1>
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">ABSI Calculator</h1>
               <p className="text-lg text-muted-foreground text-pretty">
                 ABSI (A Body Shape Index) measures abdominal risk using waist, height and weight. Use our absi calculator to get an absi score instantly; the number helps estimate whether your body shape puts you at higher cardiometabolic risk than BMI alone.
               </p>
@@ -317,7 +319,6 @@ export default function ABSICalculatorPage() {
             </div>
                     
             <FAQSection faqs={faqs} />
-            <AuthorSchema />
             <p className="text-sm text-muted-foreground text-center mt-12">
               Want to go one step further? Estimate your body fat directly with our{" "}
               <Link href="/health/rfm-calculator" className="text-primary hover:underline">
@@ -325,7 +326,8 @@ export default function ABSICalculatorPage() {
               </Link>.
             </p>
           </div>
-          <AuthorSection />
+          <MedicalReviewerSection />
+            <AuthorSection />
         </div>
       </main>
       <AuthorSchema />

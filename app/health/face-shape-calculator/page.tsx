@@ -8,6 +8,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data";
 import { FAQSection } from "@/components/seo/faq-section";
 import { AuthorSection } from "@/components/seo/author-section";
 import { AuthorSchema } from "@/components/seo/author-schema";
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema";
 import {
   Card,
   CardContent,
@@ -37,10 +39,12 @@ import {
   ShieldCheck,
   Cpu,
   Palette,
-  Smile, // Added for consistency
+  Smile, // Added for consistency,
+  Stethoscope,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+
 export const metadata: Metadata = {
   title: "Face Shape Calculator – AI Detector for Men & Women",
   description:
@@ -263,6 +267,7 @@ export default function FaceShapeCalculatorPage() {
         url="https://calqulate.net/health/face-shape-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
       <Header />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
@@ -558,6 +563,7 @@ export default function FaceShapeCalculatorPage() {
             </div>
             <FAQSection faqs={faqs} />
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
             <p className="text-sm text-muted-foreground text-center mt-12">
               Curious about other health metrics? Check out our{" "}

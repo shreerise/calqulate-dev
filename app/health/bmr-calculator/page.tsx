@@ -7,6 +7,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Flame,
@@ -28,6 +30,7 @@ import {
   Brain,
   Thermometer,
   Star,
+  Stethoscope,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -195,6 +198,7 @@ export default function BMRCalculatorPage() {
         url="https://calqulate.net/health/bmr-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       {/* Aggregate Rating + SoftwareApplication Schema */}
       <script
@@ -250,8 +254,7 @@ export default function BMRCalculatorPage() {
               <div className="inline-flex items-center gap-2 bg-orange-50 text-orange-700 text-sm font-medium px-4 py-1.5 rounded-full border border-orange-200 mb-4">
                 <Flame className="w-4 h-4" />
                 Free · Instant · No sign-up required
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+              </div>              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Free BMR Calculator: Find Your Basal Metabolic Rate & Daily Calorie Burn
               </h1>
               <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
@@ -878,6 +881,7 @@ export default function BMRCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

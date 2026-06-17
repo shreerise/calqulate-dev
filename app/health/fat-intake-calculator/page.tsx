@@ -7,7 +7,9 @@ import FatIntakeCalculator from "@/components/calculators/fat-intake-calculator"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data";
 import { FAQSection } from "@/components/seo/faq-section";
 import { AuthorSection } from "@/components/seo/author-section";
-import { AuthorSchema } from "@/components/seo/author-schema";
+import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema";
 import {
   Card,
   CardContent,
@@ -26,6 +28,7 @@ import {
   AlertTriangle,
   BrainCircuit,
   Zap,
+  Stethoscope,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -88,6 +91,7 @@ export default function FatIntakeCalculatorPage() {
         url="https://calqulate.net/health/fat-intake-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -95,8 +99,7 @@ export default function FatIntakeCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-5xl mx-auto">{/* slightly wider for comfort */}
             {/* Hero Section - subtle card for contrast */}
-             <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+             <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Fat Intake Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
@@ -352,7 +355,8 @@ export default function FatIntakeCalculatorPage() {
                 </Link>{" "}to see how your training is paying off.
               </p>
             </div>
-           <AuthorSection />
+           <MedicalReviewerSection />
+            <AuthorSection />
           </div>
         </div>
       </main>

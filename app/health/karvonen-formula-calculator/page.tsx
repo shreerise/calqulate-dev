@@ -5,9 +5,11 @@ import KarvonenFormulaCalculator from "@/components/calculators/karvonen-formula
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { AuthorSection } from "@/components/seo/author-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Calculator, HeartPulse, CheckCircle, Target, BarChart, Users, Globe, BookOpen, Award, Flame, TrendingUp, Zap } from "lucide-react"
+import { Calculator, HeartPulse, CheckCircle, Target, BarChart, Users, Globe, BookOpen, Award, Flame, TrendingUp, Zap , Stethoscope } from "lucide-react"
 import Link from "next/link"
 
 export const metadata: Metadata = {
@@ -90,14 +92,14 @@ export default function KarvonenCalculatorPage() {
         url="https://calqulate.net/health/karvonen-formula-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">Karvonen Formula Calculator</h1>
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">Karvonen Formula Calculator</h1>
               <p className="text-lg text-muted-foreground text-pretty">
                 Calculate your ideal heart rate zones in seconds for smarter, safer, and more effective workouts. Our Karvonen Formula Calculator helps you find your personalized target heart rate based on your age, resting heart rate, and workout intensity.
               </p>
@@ -306,6 +308,7 @@ export default function KarvonenCalculatorPage() {
                 ABSI Calculator
               </Link>.
             </p>
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

@@ -7,6 +7,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Scale,
@@ -25,7 +27,8 @@ import {
   ArrowRight,
   X,
   Check,
-  Zap
+  Zap,
+  Stethoscope,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -105,6 +108,7 @@ export default function BodyFatCalculatorPage() {
         url="https://calqulate.net/health/body-fat-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -117,8 +121,7 @@ export default function BodyFatCalculatorPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-sm font-medium mb-3 sm:mb-4">
                 <Ruler className="w-4 h-4" />
                 U.S. Navy Method • Clinically Validated
-              </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-balance mb-3 sm:mb-4">
+              </div>              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-balance mb-3 sm:mb-4">
                 Body Fat Calculator
               </h1>
               <p className="text-sm sm:text-lg text-muted-foreground text-pretty px-2 sm:px-0">
@@ -634,6 +637,7 @@ export default function BodyFatCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

@@ -7,6 +7,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   CalendarDays,
@@ -23,6 +25,7 @@ import {
   AlertTriangle,
   UserCheck,
   Clock,
+  Stethoscope,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -115,6 +118,7 @@ export default function PeriodCycleCalculatorPage() {
         url="https://calqulate.net/health/period-cycle-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -123,8 +127,7 @@ export default function PeriodCycleCalculatorPage() {
           <div className="max-w-4xl mx-auto">
 
             {/* ── HERO ── */}
-            <div className="text-center mb-6 sm:mb-8">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-balance mb-3 sm:mb-4">
+            <div className="text-center mb-6 sm:mb-8">              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-balance mb-3 sm:mb-4">
                 Period Cycle Calculator
               </h1>
               <p className="text-sm sm:text-lg text-muted-foreground text-pretty px-2 sm:px-0">
@@ -700,6 +703,7 @@ export default function PeriodCycleCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

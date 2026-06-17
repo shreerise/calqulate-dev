@@ -7,6 +7,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Heart,
@@ -101,6 +103,7 @@ export default function MAPCalculatorPage() {
         url="https://calqulate.net/health/mean-arterial-pressure-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -113,8 +116,7 @@ export default function MAPCalculatorPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-700 rounded-full text-sm font-medium mb-4">
                 <Stethoscope className="w-4 h-4" />
                 Clinical Grade Tool • Updated 2025
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+              </div>              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Mean Arterial Pressure Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
@@ -508,6 +510,7 @@ export default function MAPCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

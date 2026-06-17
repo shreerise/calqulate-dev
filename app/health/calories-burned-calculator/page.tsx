@@ -7,8 +7,10 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Activity, Flame, HeartPulse, Trophy, Info, Calculator as CalculatorIcon } from "lucide-react"
+import { Activity, Flame, HeartPulse, Trophy, Info, Calculator as CalculatorIcon , Stethoscope } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
@@ -76,6 +78,7 @@ export default function CaloriesBurnedCalculatorPage() {
         url="https://calqulate.net/health/calories-burned-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -87,8 +90,7 @@ export default function CaloriesBurnedCalculatorPage() {
             <div className="text-center mb-10">
               <div className="inline-flex items-center justify-center p-3 bg-orange-100 dark:bg-orange-900/30 rounded-full mb-4">
                 <Flame className="w-8 h-8 text-orange-600 dark:text-orange-400" />
-              </div>
-              <h1 className="text-3xl md:text-5xl font-extrabold text-balance mb-4 text-slate-900 dark:text-white">
+              </div>              <h1 className="text-3xl md:text-5xl font-extrabold text-balance mb-4 text-slate-900 dark:text-white">
                 Calories Burned Calculator
               </h1>
               <p className="text-lg text-slate-600 dark:text-slate-300 text-pretty max-w-2xl mx-auto">
@@ -290,6 +292,7 @@ export default function CaloriesBurnedCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

@@ -11,10 +11,13 @@ import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import {
   Scale, Info, Calculator as CalculatorIcon, User, Users,
   Utensils, Clock, AlertTriangle, CheckCircle2, Footprints,
-  TrendingDown, Activity, Heart, Brain
+  TrendingDown, Activity, Heart, Brain, Stethoscope
 } from "lucide-react"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema, MedicalWebPageSchema } from "@/components/seo/medical-reviewer-schema"
 
 export const metadata: Metadata = {
   title: "BMI Calculator for Men & Women – Accurate Body Mass Index by Age, Height & Weight (kg/lbs)",
@@ -90,7 +93,13 @@ export default function BMICalculatorPage() {
         description="Free accurate BMI calculator for women and men. Calculate body mass index by age in kg or lbs with personalized insights and progress tracking."
         url="https://calqulate.net/health/bmi-calculator"
       />
+      <MedicalWebPageSchema
+        name="BMI Calculator – Medically Reviewed"
+        description="Free accurate BMI calculator for women and men. Medically reviewed by Dr. Jaydeep Sanghani, MD Anaesthesiology & Critical Care."
+        url="https://calqulate.net/health/bmi-calculator"
+      />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
       <Header />
 
       <main className="flex-1">
@@ -99,9 +108,10 @@ export default function BMICalculatorPage() {
 
             {/* ── HERO ──────────────────────────────────────────────────────── */}
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 text-xs font-bold px-4 py-2 rounded-full mb-4">
-                <Activity className="w-3.5 h-3.5" />
-                Trusted by 50,000+ users · CDC & WHO Standards · Updated 2026
+              <div className="flex flex-wrap items-center justify-center gap-2 mb-4">                <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 text-xs font-bold px-4 py-2 rounded-full">
+                  <Activity className="w-3.5 h-3.5" />
+                  Trusted by 50,000+ users · CDC & WHO Standards · Updated 2026
+                </div>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4 leading-tight">
                 BMI Calculator — Free, Accurate & Personalized for Men and Women
@@ -828,6 +838,7 @@ export default function BMICalculatorPage() {
               <FAQSection faqs={faqs} />
             </div>
 
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

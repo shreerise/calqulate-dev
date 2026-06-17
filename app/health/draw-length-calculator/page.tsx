@@ -9,9 +9,11 @@ import DrawLengthCalculator from "@/components/calculators/draw-length-calculato
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Calculator, Ruler, Target, HeartPulse, ShieldCheck, Zap, Info } from "lucide-react"
+import { Calculator, Ruler, Target, HeartPulse, ShieldCheck, Zap, Info , Stethoscope } from "lucide-react"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 
 export const metadata: Metadata = {
   title: "Draw Length Calculator: Find Your Perfect Archery Fit",
@@ -84,13 +86,13 @@ export default function DrawLengthCalculatorPage() {
         url="https://calqulate.net/archery/draw-length-calculator" 
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
       <Header />
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">Draw Length Calculator</h1>
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">Draw Length Calculator</h1>
               <p className="text-lg text-muted-foreground text-pretty">Getting this measurement right ensures comfort, accuracy, and power in every shot. Our calculator uses the most popular method to give you an accurate and reliable estimate in seconds.</p>
             </div>
 
@@ -261,6 +263,7 @@ export default function DrawLengthCalculatorPage() {
                           <FAQSection faqs={faqs} />
                         </div>
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

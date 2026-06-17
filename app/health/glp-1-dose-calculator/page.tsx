@@ -6,6 +6,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   FlaskConical,
@@ -91,6 +93,7 @@ export default function GLP1DoseCalculatorPage() {
         url="https://calqulate.net/health/glp-1-dose-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -99,8 +102,7 @@ export default function GLP1DoseCalculatorPage() {
           <div className="max-w-4xl mx-auto">
 
             {/* H1 and Hero Section */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-5xl font-bold text-balance mb-4 text-slate-900">
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-5xl font-bold text-balance mb-4 text-slate-900">
                 GLP-1 Dose Calculator
               </h1>
               <h2 className="text-xl md:text-2xl font-medium text-slate-700 mb-4 max-w-3xl mx-auto">
@@ -629,6 +631,7 @@ export default function GLP1DoseCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

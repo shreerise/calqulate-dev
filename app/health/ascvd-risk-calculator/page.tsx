@@ -6,6 +6,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { 
   Heart, 
   Stethoscope, 
@@ -76,13 +78,13 @@ export default function AscvdRiskPage() {
         url="https://calqulate.net/health/ascvd-risk-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
       <main className="max-w-5xl mx-auto px-6 py-12">
         {/* Editorial Header */}
-        <header className="mb-16 border-b border-slate-100 pb-12">
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+        <header className="mb-16 border-b border-slate-100 pb-12">          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
             ASCVD Risk Calculator: <span className="text-red-600">The Heart Math.</span>
           </h1>
           <p className="text-xl text-slate-600 leading-relaxed max-w-3xl">
@@ -253,7 +255,8 @@ export default function AscvdRiskPage() {
         <div className="mt-20">
           <FAQSection faqs={faqs} />
         </div>
-        <AuthorSection />
+        <MedicalReviewerSection />
+            <AuthorSection />
       </main>
       <AuthorSchema />
       <Footer />

@@ -8,9 +8,11 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Activity, Brain, Shield, Zap, BatteryWarning, ArrowRight } from "lucide-react"
+import { Activity, Brain, Shield, Zap, BatteryWarning, ArrowRight , Stethoscope } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Stress Level Calculator: Clinically Validated PSS Test Online",
@@ -77,6 +79,7 @@ export default function StressLevelCalculatorPage() {
         url="https://calqulate.net/health/stress-level-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -84,8 +87,7 @@ export default function StressLevelCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Hero */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Stress Level Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
@@ -298,7 +300,8 @@ export default function StressLevelCalculatorPage() {
                       <div className="mt-12">
                         <FAQSection faqs={faqs} />
                       </div>
-                      <AuthorSection />
+            <MedicalReviewerSection />
+            <AuthorSection />
                     </div>
                   </div>
                 </main>

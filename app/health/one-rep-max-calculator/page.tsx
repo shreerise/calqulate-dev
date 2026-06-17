@@ -9,6 +9,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 
 export const metadata: Metadata = {
@@ -76,6 +78,7 @@ export default function OneRepMaxCalculatorPage() {
         url="https://calqulate.net/health/one-rep-max-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -86,8 +89,7 @@ export default function OneRepMaxCalculatorPage() {
             <div className="text-center mb-8">
               <div className="inline-block px-4 py-1.5 mb-6 text-sm font-semibold tracking-wide text-blue-800 uppercase bg-blue-50 rounded-full">
                 Professional Strength Tools
-              </div>
-              <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
+              </div>              <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
                 One Rep Max Calculator (Accurate, Safe & Trainer‑Approved)
               </h1>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -392,6 +394,7 @@ export default function OneRepMaxCalculatorPage() {
               <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">FAQs – One Rep Max Calculator</h2>
               <FAQSection faqs={faqs} />
             </div>
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

@@ -10,6 +10,8 @@ import {
   TrendingUp,
   FlaskConical,
   Linkedin,
+  Stethoscope,
+  ExternalLink,
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -157,6 +159,58 @@ export default function AboutUsPage() {
                   This growth is completely organic, driven by users searching for real solutions.
                 </p>
 
+              </CardContent>
+            </Card>
+
+            {/* Medical Reviewer Section */}
+            <SectionHeader id="dr-jaydeep-sanghani" title="Medical Reviewer" icon={Stethoscope} />
+            <Card className="p-6 mb-10">
+              <CardContent className="flex flex-col md:flex-row items-start gap-6">
+                <img
+                  src="/dr-jaydeep-sanghani.webp"
+                  alt="Dr. Jaydeep Sanghani"
+                  className="w-24 h-24 rounded-full object-cover shrink-0"
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="font-semibold text-lg">Dr. Jaydeep Sanghani</p>
+                    <a
+                      href="https://www.docindia.org/doctors/rajkot/dr-jaydeep-sanghani-anesthesiology"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-blue-600 transition-colors"
+                      aria-label="Dr. Jaydeep Sanghani on DocIndia"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                  <p className="font-medium text-blue-700 text-sm">MBBS, MD, DNB(Anaesth.), PDCC(CCM), DrNB(CCM)</p>
+                  <p className="text-xs text-blue-600/70 mb-3">AIIMS Bhubaneswar · AIIMS Rishikesh · GMERS Patan</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    Dr. Jaydeep Sanghani is a critical care specialist and anesthesiologist with advanced training from AIIMS Bhubaneswar (MD) and AIIMS Rishikesh (DrNB, PDCC). His training across premier institutions — GMERS Patan, AIIMS Bhubaneswar, and AIIMS Rishikesh — has given him extensive experience in critical care medicine, emergency medicine, airway management, and perioperative care.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      href="https://www.docindia.org/doctors/rajkot/dr-jaydeep-sanghani-anesthesiology"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" /> Verified Medical Profile
+                    </a>
+                    <a
+                      href="https://www.urbanpro.com/rajkot/jaydeep-sanghani-anesthesiologist-and-critical-care-specialist-from-aiims-bhubaneswar"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" /> Professional Profile
+                    </a>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-3">
+                    At Calqulate.net, Dr. Sanghani medically reviews health calculators to ensure clinical accuracy and evidence-based standards.
+                  </p>
+                </div>
               </CardContent>
             </Card>
 

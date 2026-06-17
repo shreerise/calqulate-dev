@@ -7,6 +7,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   TrendingDown,
@@ -93,6 +95,7 @@ export default function WeightLossPercentageCalculatorPage() {
         url="https://calqulate.net/health/weight-loss-percentage-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -101,8 +104,7 @@ export default function WeightLossPercentageCalculatorPage() {
           <div className="max-w-4xl mx-auto">
 
             {/* H1 & Hero section */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-5xl font-bold text-balance mb-4 text-slate-900">
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-5xl font-bold text-balance mb-4 text-slate-900">
                 Weight Loss Percentage Calculator
               </h1>
               <h2 className="text-xl md:text-2xl font-medium text-slate-700 mb-4 max-w-3xl mx-auto">
@@ -587,7 +589,8 @@ export default function WeightLossPercentageCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
-            <AuthorSection />
+            <MedicalReviewerSection />
+            
 
             {/* Structured FAQ UI */}
             <div className="mt-12 pt-8 border-t border-slate-100">

@@ -7,6 +7,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import {
   Heart,
@@ -26,7 +28,8 @@ import {
   Clock,
   User,
   Users,
-  Dumbbell
+  Dumbbell,
+  Stethoscope,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -100,6 +103,7 @@ export default function HeartRateCalculatorPage() {
         url="https://calqulate.net/health/heart-rate-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -111,8 +115,7 @@ export default function HeartRateCalculatorPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm font-medium mb-4">
                 <Activity className="w-4 h-4" />
                 Karvonen Method Included
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+              </div>              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
                 Target & Max Heart Rate Calculator
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
@@ -545,6 +548,7 @@ export default function HeartRateCalculatorPage() {
             <div className="mt-12">
               <FAQSection faqs={faqs} />
             </div>
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

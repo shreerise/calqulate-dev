@@ -7,6 +7,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -111,6 +113,7 @@ export default function IVFDdueDateCalculatorPage() {
         url="https://calqulate.net/health/ivf-due-date-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -123,8 +126,7 @@ export default function IVFDdueDateCalculatorPage() {
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 text-green-700 rounded-full text-sm font-semibold mb-6 shadow-sm border border-green-100">
                 <Baby className="w-4 h-4" />
                 Updated for 2026 • Evidence-Based Math
-              </div>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight text-balance mb-6">
+              </div>              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight text-balance mb-6">
                 IVF Pregnancy Due Date Calculator
               </h1>
               <p className="text-lg text-gray-600 text-pretty max-w-2xl mx-auto leading-relaxed">
@@ -472,6 +474,7 @@ export default function IVFDdueDateCalculatorPage() {
               <h2 className="text-3xl font-bold text-gray-900 mb-8">Frequently Asked Questions</h2>
               <FAQSection faqs={faqs} />
             </div>
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

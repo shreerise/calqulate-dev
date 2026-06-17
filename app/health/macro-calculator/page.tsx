@@ -9,6 +9,8 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { 
   Beef, 
@@ -23,7 +25,8 @@ import {
   Globe,
   CheckCircle2,
   Target,
-  TrendingDown
+  TrendingDown,
+  Stethoscope,
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -86,6 +89,7 @@ export default function MacroCalculatorPage() {
         url="https://calqulate.net/health/macro-calculator"
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
 
       <Header />
 
@@ -96,8 +100,7 @@ export default function MacroCalculatorPage() {
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-4">
                 <Target className="w-4 h-4" /> Trusted by beginners and professionals across USA, UK & India
-              </div>
-              <h1 className="text-3xl md:text-5xl font-extrabold text-balance mb-6 tracking-tight text-gray-900">
+              </div>              <h1 className="text-3xl md:text-5xl font-extrabold text-balance mb-6 tracking-tight text-gray-900">
                 Macro Calculator (Free & Accurate) – Calculate Macros for Weight Loss, Muscle Gain & Maintenance
               </h1>
               <p className="text-xl text-muted-foreground text-pretty max-w-2xl mx-auto">
@@ -376,6 +379,7 @@ export default function MacroCalculatorPage() {
               <h2 className="text-2xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
               <FAQSection faqs={faqs} />
             </div>
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

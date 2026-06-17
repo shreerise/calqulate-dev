@@ -7,9 +7,11 @@ import AdjustedBodyWeightCalculator from "@/components/calculators/adjusted-body
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Calculator, Scale, HeartPulse, ShieldCheck, Clock, Users, FlaskConical, AlertTriangle, CheckCircle } from "lucide-react"
+import { Calculator, Scale, HeartPulse, ShieldCheck, Clock, Users, FlaskConical, AlertTriangle, CheckCircle , Stethoscope } from "lucide-react"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
+import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 
 export const metadata: Metadata = {
   title: "Adjusted Body Weight (AjBW) Calculator: Accurate Dosing for Obese Patients",
@@ -83,13 +85,13 @@ export default function AdjustedBodyWeightCalculatorPage() {
         url="https://calqulate.net/health/adjusted-body-weight-calculator" 
       />
       <FAQSchema faqs={faqs} />
+      <MedicalReviewerSchema />
       <Header />
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">Adjusted Body Weight (AjBW) Calculator</h1>
+            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">Adjusted Body Weight (AjBW) Calculator</h1>
               <p className="text-lg text-muted-foreground text-pretty">You can also easily determine your Adjusted Body Weight (AjBW). It's the medical method used to estimate the optimal weight for accurate medicine dosing, food planning, and monitoring your metabolic health. This is a very handy calculator for health professionals, dietitians, and others concerned with obesity or muscular-weight differences.</p>
             </div>
 
@@ -259,6 +261,7 @@ export default function AdjustedBodyWeightCalculatorPage() {
             </div>
 
             {/* Author Badge Section */}
+            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>
