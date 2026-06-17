@@ -6,8 +6,6 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
-import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
-import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardContent } from "@/components/ui/card"
 import { 
   ScanFace, 
@@ -21,7 +19,6 @@ import {
   Sparkles,
   Focus,
   Check,
-  Stethoscope,
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -99,8 +96,6 @@ export default function GoldenRatioFacePage() {
         url="https://calqulate.net/tools/golden-ratio-face-calculator"
       />
       <FAQSchema faqs={faqs} />
-      <MedicalReviewerSchema />
-
       <Header />
 
       <main className="flex-1">
@@ -452,7 +447,6 @@ export default function GoldenRatioFacePage() {
             </div>
 
             {/* Author Badge Section */}
-            <MedicalReviewerSection />
             <AuthorSection />
           </div>
         </div>

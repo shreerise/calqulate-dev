@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://calqulate.net/blog" },
 };
 
-const categories = ["All", "Body Shape", "Face Shape"] as const;
+const categories = ["All", "Body Shape", "Face Shape", "Face & Aesthetics"] as const;
 
 export default function BlogListingPage() {
   return (

@@ -2,7 +2,7 @@
 // Single source of truth for all blogs across the site.
 // Add new blogs here — /blog page and /blog/[slug] page both read from this list.
 
-export type BlogCategory = "Body Shape" | "Face Shape" | "Health";
+export type BlogCategory = "Body Shape" | "Face Shape" | "Health" | "Face & Aesthetics";
 
 export interface Blog {
   slug: string;
@@ -16,6 +16,7 @@ export interface Blog {
   publishedAt: string;          // ISO date
   cta: string;                  // CTA button label
   ctaHref: string;              // Where the CTA points
+  tags?: string[];              // SEO keywords
 }
 
 export const blogs: Blog[] = [
@@ -175,6 +176,31 @@ export const blogs: Blog[] = [
     publishedAt: "2026-05-08",
     cta: "Open Gallery",
     ctaHref: "/health/face-shape-calculator",
+  },
+
+  // ── Face & Aesthetics ─────────────────────────────────────────────
+  {
+    slug: "mathematics-of-beauty-facial-harmony-calculator",
+    title: "The Mathematics of Beauty: Calculate Your Facial Harmony",
+    description:
+      "See the math behind facial harmony: the golden ratio, facial thirds, and the six key angles that shape a balanced face. Includes a free facial harmony calculator with photo upload, manual input, and saved-result tracking.",
+    category: "Face & Aesthetics",
+    intent: "Understand facial proportions",
+    uspFeature: "Interactive photo-based facial harmony calculator with save/compare",
+    featuredImage: "/images/blogs/facial-harmony-cover.png",
+    readTime: "10 min read",
+    publishedAt: "2026-06-15",
+    cta: "Open Facial Harmony Calculator",
+    ctaHref: "/health/facial-harmony-calculator",
+    tags: [
+      "facial harmony calculator",
+      "golden ratio face",
+      "gonial angle",
+      "canthal tilt",
+      "nasolabial angle",
+      "facial symmetry",
+      "facial attractiveness",
+    ],
   },
 ];
 
