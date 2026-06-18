@@ -14,7 +14,7 @@ import { Ruler, HeartPulse, UserCheck, Shield, BookOpen, Calculator as Calculato
 import { Sparkles, Activity, Shirt, Dumbbell, Smile } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "What Body Shape Are You? Free Body Type Calculator for Women & Men",
+  title: "Body Shape Calculator (Female & Male) - Find Your Body Type Free",
   description:
     "Instantly discover your body shape (Hourglass, Pear, Apple, Rectangle, etc.) with our free accurate calculator for women and men. Get personalized styling tips that actually work.",
   keywords:
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     canonical: "https://calqulate.net/health/body-shape-calculator",
   },
   openGraph: {
-    title: "What Body Shape Are You? Free Body Type Calculator for Women & Men",
+    title: "Body Shape Calculator (Female & Male) - Find Your Body Type Free",
     description: "Instantly discover your body shape (Hourglass, Pear, Apple, Rectangle, etc.) with our free accurate calculator for women and men. Get personalized styling tips that actually work.",
     url: "https://calqulate.net/health/body-shape-calculator",
     siteName: "Calqulate",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "What Body Shape Are You? Free Body Type Calculator for Women & Men",
+    title: "Body Shape Calculator (Female & Male) - Find Your Body Type Free",
     description: "Instantly discover your body shape (Hourglass, Pear, Apple, Rectangle, etc.) with our free accurate calculator for women and men. Get personalized styling tips that actually work.",
   },
 }
@@ -89,14 +89,13 @@ export default function BodyShapeCalculatorPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Hero */}
-            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-                Body Shape Calculator
+            <div className="text-center mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+               Body Shape Calculator: Find Your Body Type (Female & Male)
               </h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Uncover your true body shape and what it means for both style, fitness, and health. Our
-                Body Shape Calculator works out your body measurements to determine whether you're an
-                hourglass, pear, apple, rectangle, or inverted triangle and gives you a personalized
-                understanding of your proportions.
+                A body shape calculator identifies your body type by comparing your bust (or chest), waist and hip measurements. Enter your measurements above and you'll instantly see whether you're an hourglass, pear (triangle), apple (round), rectangle or inverted triangle — plus what the result means and how to dress for it.
+                The main female body shapes are hourglass, pear, apple, rectangle and inverted triangle; common male body types are rectangle, triangle, inverted triangle, oval and trapezoid. Your shape is decided by the ratio between your shoulders/bust, waist and hips — not your weight.
               </p>
               <p className="text-base text-muted-foreground mt-3">
                 Be it &quot;What is my body shape?&quot; or a female body shape calculator that's actually

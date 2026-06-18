@@ -23,7 +23,7 @@ export function AuthorSection() {
         </a>
         <div className="text-center sm:text-left flex-1">
           <h3 className="text-xl font-bold text-slate-900">Meet Akabari</h3>
-          <p className="text-green-700 font-medium text-sm mb-3">Web Developer & Health Enthusiast</p>
+          <p className="text-green-700 font-medium text-sm mb-3">co-founder @calqulate.net & Health Enthusiast</p>
           <p className="text-slate-600 text-sm leading-relaxed mb-4">
          Meet is the co-founder of Calqulate.net, dedicated to building accurate, privacy-first, personalized, and evidence-based health, beauty, and fitness tools that help users make informed decisions about their well-being and appearance. With expertise in web development and a passion for health science, Meet combines technical excellence with practical health knowledge to deliver tools you can trust.
           </p>

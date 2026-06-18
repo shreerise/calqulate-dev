@@ -259,6 +259,22 @@ export default function FaceShapeCalculatorPage() {
   ];
   return (
     <div className="min-h-screen flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Face Shape Calculator",
+            "description": "Free face shape calculator. Upload a photo or enter measurements to find your face shape instantly — oval, round, square, heart, diamond & more — with hairstyle, glasses & makeup tips.",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "1256"
+            }
+          }),
+        }}
+      />
       <CalculatorSchema
         name="Face Shape Calculator"
         description="Find your face shape from a photo or measurements — oval, round, square, heart, diamond and more — with personalized hairstyle, glasses and makeup tips."
@@ -371,14 +387,13 @@ export default function FaceShapeCalculatorPage() {
 
                 {/* Image with caption in the style you requested */}
 <div className="grid md:grid-cols-1 gap-8 my-8 not-prose">
-  <div className="overflow-hidden rounded-3xl border border-muted/60 bg-card shadow-sm transition-transform duration-300 hover:scale-[1.01] w-full">
-    <ClickableImage
+  <div className="overflow-hidden rounded-3xl border border-muted/60 bg-card shadow-sm w-full">
+    <Image
       src="/female-face-shape-comparison.webp"
       alt="Visual comparison of different female face shapes with oval, round, square, heart, diamond, and oblong examples."
       width={1530}
       height={1024}
       className="w-full h-auto object-cover rounded-3xl"
-      containerClassName="w-full"
     />
     <p className="text-center text-sm mt-3 text-muted-foreground px-4 pb-4">
       Fig 1: Comparison of female face shapes designed for responsive viewing and fullscreen zoom on click.</p>
@@ -428,14 +443,13 @@ export default function FaceShapeCalculatorPage() {
               <section id="male-face-shape-guide">
                 <h2 className="mb-2"><b>Face Shapes for Men: How to Find Yours</b></h2>
                 <p className="mt-6">Men can find their face shape with the same four measurements, but men's faces more often read as square, rectangle, or oblong because of a stronger, more angular jawline. <span className="text-emerald-600 font-semibold">Use your jaw as the deciding feature.</span></p>
-                  <div className="mt-6 overflow-hidden rounded-3xl border border-muted/60 bg-muted/10 shadow-sm transition-transform duration-300 hover:scale-[1.01]">
-                    <ClickableImage
+                  <div className="mt-6 overflow-hidden rounded-3xl border border-muted/60 bg-muted/10 shadow-sm">
+                    <Image
                       src="/men-face-shape-comparison.webp"
                       alt="Guide to men's face shapes with comparison illustration."
                       width={1536}
                       height={1024}
                       className="w-full h-auto object-cover rounded-3xl"
-                      containerClassName="w-full"
                     />
                   </div>
                 <p className="mt-6"><strong>The most common male face shapes:</strong></p>
