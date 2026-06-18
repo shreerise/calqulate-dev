@@ -12,9 +12,8 @@ import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-sectio
 import { AuthorSection } from "@/components/seo/author-section";
 import { facialMetrics, photoTips, accuracyHabits } from "@/lib/blog/facial-harmony-data";
 import { ShieldCheck, Camera, Ruler, BarChart3, History, Lock } from "lucide-react";
-
 export const metadata: Metadata = {
-  title: "Facial Harmony Calculator — Measure Your Facial Proportions with AI | Calqulate",
+  title: "Is Your Face Symmetrical? Free AI Facial Harmony Calculator",
   description:
     "Free facial harmony calculator. Upload a photo or enter angles to score your gonial, nasolabial, canthal, nasofrontal, mentolabial angles and golden ratio. Save and compare results over time — 100% private.",
   keywords: [
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
   ].join(", "),
   alternates: { canonical: "https://calqulate.net/health/facial-harmony-calculator" },
   openGraph: {
-    title: "Facial Harmony Calculator — Measure Your Facial Proportions with AI",
+    title: "Is Your Face Symmetrical? Free AI Facial Harmony Calculator",
     description:
       "Free facial harmony calculator. Upload a photo or enter angles to score your gonial, nasolabial, canthal, nasofrontal, mentolabial angles and golden ratio. Save and compare results over time.",
     url: "https://calqulate.net/health/facial-harmony-calculator",
@@ -107,6 +106,147 @@ const howToSteps = [
   },
 ];
 
+const measurementGuide = [
+  {
+    id: "jawline",
+    number: 1,
+    title: "Jawline (Gonial Angle)",
+    photoType: "Side profile",
+    intro:
+      "This one needs a side profile photo. You are marking the curve of the jaw from the ear to the chin, so the angle between those two lines can be measured.",
+    points: [
+      {
+        label: "Top of jaw near the ear (condylion)",
+        detail:
+          "This sits just below your earlobe, where the jawbone hinges.",
+      },
+      {
+        label: "Jaw corner (gonion)",
+        detail:
+          "The sharpest bend in your jawline, where the back edge turns into the bottom edge.",
+      },
+      {
+        label: "Tip of chin (menton)",
+        detail: "The lowest point of your chin in profile.",
+      },
+    ],
+  },
+  {
+    id: "nose-to-lip",
+    number: 2,
+    title: "Nose to Lip (Nasolabial Angle)",
+    photoType: "Side profile",
+    intro:
+      "This measurement also needs a side profile. It captures the angle where the bottom of the nose meets the top of the upper lip. It is one of the few angles with a different balanced range for men and women.",
+    points: [
+      {
+        label: "Base of the nose (columella)",
+        detail:
+          "The soft tissue strip between the nostrils, right above the upper lip.",
+      },
+      {
+        label: "Point under the nose (subnasale)",
+        detail: "Where the nose ends and the upper lip skin begins.",
+      },
+      {
+        label: "Upper lip edge (labrale superius)",
+        detail: "The most forward point of your upper lip.",
+      },
+    ],
+  },
+  {
+    id: "eye-angle",
+    number: 3,
+    title: "Eye Angle (Canthal Tilt)",
+    photoType: "Front-facing",
+    intro:
+      "This one uses your front-facing photo. Only two points are needed, since canthal tilt is simply the line between the two corners of one eye.",
+    points: [
+      {
+        label: "Inner eye corner (medial canthus)",
+        detail: "Where your eye meets the bridge of your nose.",
+      },
+      {
+        label: "Outer eye corner (lateral canthus)",
+        detail: "Where your eye meets your temple.",
+      },
+    ],
+  },
+  {
+    id: "forehead-to-nose",
+    number: 4,
+    title: "Forehead to Nose (Nasofrontal Angle)",
+    photoType: "Side profile",
+    intro:
+      "This needs a side profile. It measures how the forehead transitions into the nose, which surgeons use to judge whether the nose bridge sits high or low relative to the brow.",
+    points: [
+      {
+        label: "Mid forehead (glabella)",
+        detail: "The smooth area just above and between your eyebrows.",
+      },
+      {
+        label: "Deepest point at top of nose (nasion)",
+        detail:
+          "The small dip where your forehead ends and your nose bridge starts.",
+      },
+      {
+        label: "Bridge of the nose (rhinion)",
+        detail:
+          "The point partway down the nose where the bone ends and the cartilage begins.",
+      },
+    ],
+  },
+  {
+    id: "lip-to-chin",
+    number: 5,
+    title: "Lip to Chin (Mentolabial Angle)",
+    photoType: "Side profile",
+    intro:
+      "This measurement, taken from a side profile, looks at the fold between your lower lip and chin. It is a good indicator of chin projection.",
+    points: [
+      {
+        label: "Lower lip edge (labrale inferius)",
+        detail: "The most forward point of your bottom lip.",
+      },
+      {
+        label: "Deepest fold below lip (mentolabial sulcus)",
+        detail: "The crease between your lower lip and chin.",
+      },
+      {
+        label: "Tip of chin (pogonion)",
+        detail: "The most forward point of your chin in profile.",
+      },
+    ],
+  },
+  {
+    id: "length-to-width",
+    number: 6,
+    title: "Length to Width (Golden Ratio)",
+    photoType: "Front-facing",
+    intro:
+      "This needs a front-facing photo and four points instead of three, since it compares the full height of your face against the full width.",
+    points: [
+      {
+        label: "Hairline center (trichion)",
+        detail:
+          "The midpoint of your hairline, directly above the center of your forehead.",
+      },
+      {
+        label: "Tip of chin (menton)",
+        detail: "Same point used in the jawline measurement.",
+      },
+      {
+        label: "Left cheekbone edge",
+        detail: "The widest point of your face on the left side.",
+      },
+      {
+        label: "Right cheekbone edge",
+        detail: "The widest point of your face on the right side.",
+      },
+    ],
+  },
+];
+
 const features = [
   {
     icon: Camera,
@@ -153,14 +293,33 @@ export default function FacialHarmonyCalculatorPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "HowTo",
-            name: "How to Measure Facial Harmony",
-            description: "Upload a photo, tap landmark points, review your harmony scores, and save results to compare over time.",
-            step: howToSteps.map((s) => ({
+            name: "How to Check Facial Harmony",
+            description:
+              "Click the landmark points the calculator highlights for each of the six measurements: jawline, nose to lip, eye angle, forehead to nose, lip to chin, and length to width.",
+            step: measurementGuide.map((g) => ({
               "@type": "HowToStep",
-              position: s.step,
-              name: s.title,
-              text: s.desc,
+              position: g.number,
+              name: g.title,
+              text: `${g.intro} Click points in order: ${g.points
+                .map((p) => p.label)
+                .join(", ")}.`,
             })),
+          }),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "VideoObject",
+            name: "How to Check Facial Harmony: Step-by-Step Guide",
+            description:
+              "A practical walkthrough of all six facial harmony measurements, showing exactly where to click for the jawline, nose to lip, eye angle, forehead to nose, lip to chin, and length to width.",
+            thumbnailUrl: "https://calqulate.net/videos/facial-harmony-step-by-step-poster.jpg",
+            uploadDate: "2026-06-18",
+            contentUrl: "https://calqulate.net/videos/facial-harmony-step-by-step-guide.mp4",
           }),
         }}
       />
@@ -211,7 +370,7 @@ export default function FacialHarmonyCalculatorPage() {
                 Free · Instant · No sign-up required
               </div>
               <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
-                Facial Harmony Calculator
+                  Is Your Face Symmetrical?Facial Harmony Calculator
               </h1>
               <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
                 Measure your facial proportions — gonial angle, canthal tilt, golden ratio, and more.
@@ -363,8 +522,71 @@ export default function FacialHarmonyCalculatorPage() {
               </div>
             </section>
 
+            {/* ── SECTION 2B : Detailed Step-by-Step Guide ── */}
+            <section id="step-by-step-guide" className="scroll-mt-20 py-16 md:py-20">
+              <div className="mx-auto max-w-4xl px-6">
+                <div className="grid gap-3 items-center mb-8">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9 11l3 3L22 4" />
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                      </svg>
+                    </span>
+                    <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">How to Check Facial Harmony: A Step-by-Step Guide</h2>
+                  </div>
+                  <div className="h-1 w-16 rounded-full bg-emerald-500" />
+                </div>
+
+
+                <p className="mb-8 text-base leading-relaxed text-slate-600">
+                  Each measurement asks you to click a small set of points on your photo. The
+                  calculator highlights where to click and connects the dots automatically. Here
+                  is what each point means and where to find it on your face, so you know exactly
+                  what you are clicking before you click it.
+                </p>
+
+                <div className="space-y-6">
+                  {measurementGuide.map((g) => (
+                    <div key={g.id} className="rounded-xl bg-white p-6 ring-1 ring-slate-200 shadow-sm">
+                      <div className="flex flex-wrap items-center gap-3 mb-4">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-sm font-bold text-white">
+                          {g.number}
+                        </span>
+                        <h3 className="text-lg font-bold text-slate-900">{g.title}</h3>
+                        <span className="ml-auto rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                          {g.photoType}
+                        </span>
+                      </div>
+                      <p className="text-sm text-slate-600 leading-relaxed mb-4">{g.intro}</p>
+                      <ol className="space-y-2">
+                        {g.points.map((p, i) => (
+                          <li key={p.label} className="flex gap-3 text-sm text-slate-700">
+                            <span className="font-bold text-emerald-700 shrink-0">{i + 1}.</span>
+                            <span>
+                              Click the <strong>{p.label}</strong>. {p.detail}
+                            </span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+                  <p className="text-sm text-slate-700 leading-relaxed">
+                    <strong>A quick tip:</strong> the jawline, nose to lip, forehead to nose, and
+                    lip to chin measurements all need a clean side profile. The eye angle and
+                    length to width measurements need a front-facing shot. Marking profile points
+                    on a front-facing photo, or the other way around, is the most common reason
+                    people end up with a low confidence score.
+                  </p>
+                </div>
+              </div>
+            </section>
+
             {/* ── SECTION 3 : The 6 Measurements ───────── */}
-            <section id="six-key-measurements" className="scroll-mt-20 py-16 md:py-20">
+            <section id="six-key-measurements" className="scroll-mt-20 bg-slate-50 py-16 md:py-20">
               <div className="mx-auto max-w-4xl px-6">
                 <div className="grid gap-3 items-center mb-8">
                   <div className="flex items-center gap-3">
@@ -429,7 +651,7 @@ export default function FacialHarmonyCalculatorPage() {
             </section>
 
             {/* ── SECTION 4 : Photo Tips ───────────────── */}
-            <section id="photo-tips" className="scroll-mt-20 bg-slate-50 py-16 md:py-20">
+            <section id="photo-tips" className="scroll-mt-20 py-16 md:py-20">
               <div className="mx-auto max-w-4xl px-6">
                 <div className="grid gap-3 items-center mb-8">
                   <div className="flex items-center gap-3">
@@ -466,7 +688,7 @@ export default function FacialHarmonyCalculatorPage() {
             </section>
 
             {/* ── SECTION 5 : Accuracy Habits ──────────── */}
-            <section id="accuracy-habits" className="scroll-mt-20 py-16 md:py-20">
+            <section id="accuracy-habits" className="scroll-mt-20 bg-slate-50 py-16 md:py-20">
               <div className="mx-auto max-w-4xl px-6">
                 <div className="grid gap-3 items-center mb-8">
                   <div className="flex items-center gap-3">
@@ -514,7 +736,7 @@ export default function FacialHarmonyCalculatorPage() {
             </section>
 
             {/* ── SECTION 6 : Features ─────────────────── */}
-            <section id="why-use" className="scroll-mt-20 bg-slate-50 py-16 md:py-20">
+            <section id="why-use" className="scroll-mt-20 py-16 md:py-20">
               <div className="mx-auto max-w-4xl px-6">
                 <div className="grid gap-3 items-center mb-8">
                   <div className="flex items-center gap-3">
@@ -546,7 +768,7 @@ export default function FacialHarmonyCalculatorPage() {
             </section>
 
             {/* ── SECTION 7 : Related Tools ────────────── */}
-            <section id="related-tools" className="scroll-mt-20 py-16 md:py-20">
+            <section id="related-tools" className="scroll-mt-20 bg-slate-50 py-16 md:py-20">
               <div className="mx-auto max-w-4xl px-6">
                 <div className="grid gap-3 items-center mb-8">
                   <div className="flex items-center gap-3">
