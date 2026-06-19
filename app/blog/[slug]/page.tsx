@@ -14,6 +14,9 @@ import BestHaircutFaceShapeBlog from "@/components/blog/BestHaircutFaceShapeBlog
 import CalculateWeightLossPercentageBlog from "@/components/blog/CalculateWeightLossPercentageBlog";
 import CalculateRmrBlog from "@/components/blog/CalculateRmrBlog";
 import FacialHarmonyBlog from "@/components/blog/FacialHarmonyBlog";
+import IdealWeightByHeightAgeBlog from "@/components/blog/IdealWeightByHeightAgeBlog";
+import BmrVsTdeeBlog from "@/components/blog/BmrVsTdeeBlog";
+import MensBodyShapeBlog from "@/components/blog/MensBodyShapeBlog";
 import RelatedBlogs from "@/components/blog/RelatedBlogs";
 
 interface Props {
@@ -73,10 +76,16 @@ export default function BlogSlugPage({ params }: Props) {
         return <BestHaircutFaceShapeBlog {...({ blog } as any)} />;
       case "how-to-calculate-weight-loss-percentage":
         return <CalculateWeightLossPercentageBlog blog={blog} />;
+      case "ideal-weight-by-height-and-age":
+        return <IdealWeightByHeightAgeBlog blog={blog} />;
       case "how-to-calculate-resting-metabolic-rate-rmr":
         return <CalculateRmrBlog blog={blog} />;
       case "mathematics-of-beauty-facial-harmony-calculator":
         return <FacialHarmonyBlog blog={blog} />;
+      case "bmr-vs-tdee-difference":
+        return <BmrVsTdeeBlog blog={blog} />;
+      case "body-shape-calculator-for-men":
+        return <MensBodyShapeBlog blog={blog} />;
       default:
         return <GenericBlogPlaceholder blog={blog} />;
     }
