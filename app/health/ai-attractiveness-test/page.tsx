@@ -177,53 +177,60 @@ export default function AiAttractivenessTestPage() {
       <ImproveParagraphs />
 
       <main className="flex-1">
+        {/* HERO */}
+        <section className="bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-b border-slate-200">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-20">
+            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-4 py-1.5 text-xs font-bold text-emerald-700 mb-5">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+              Free · Instant · No sign-up required
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
+              AI Attractiveness Test: What Your Beauty Score Really Means
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
+              Thinking about uploading a selfie to find out how attractive you are? Before you do, here is the honest version from Calqulate.net: what these tools actually measure, what they get wrong, and a free face shape analysis that gives you something useful instead of a number that ranks your looks.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <a
+                href="#calculator"
+                className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+              >
+                Try the Calculator ↓
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS DASHBOARD */}
+        <section className="border-b border-slate-200 bg-slate-50">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-px bg-slate-200 md:grid-cols-5">
+            {[
+              { value: "AI", label: "Analysis" },
+              { value: "Free", label: "Price" },
+              { value: "No", label: "Sign-up" },
+              { value: "Instant", label: "Results" },
+              { value: "Private", label: "In-browser" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white p-5 text-center">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900">{s.value}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CALCULATOR */}
+        <section id="calculator" className="scroll-mt-20">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
+            <FaceShapeStyleFinder />
+          </div>
+        </section>
+
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            {/* Title */}
-            <div className="text-center mb-6">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-                AI Attractiveness Test: What Your Beauty Score Really Means
-              </h1>
-              <p className="text-lg text-muted-foreground text-pretty">
-                Thinking about uploading a selfie to find out how attractive you are? Before you do, here is the
-                honest version from Calqulate.net: what these tools actually measure, what they get wrong, and a
-                free face shape analysis that gives you something useful instead of a number that ranks your looks.
-              </p>
-              {/* Freshness + authorship signals for E-E-A-T */}
-              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <UserCheck className="w-4 h-4 text-primary" /> By the Calqulate.net Editorial Team
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CalendarDays className="w-4 h-4 text-primary" /> Updated June 2, 2026
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Microscope className="w-4 h-4 text-primary" /> Reviewed against peer-reviewed sources
-                </span>
-              </div>
-            </div>
-
-            {/* TLDR / AI-overview answer block */}
-            <Card className="mb-10 border-primary/40 bg-primary/5">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2 text-primary">
-                  <Info className="w-5 h-5" /> TL;DR
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm md:text-base text-foreground/90">
-                  An AI attractiveness test does not measure how beautiful you are. It measures facial geometry,
-                  such as symmetry and proportion, from one photo and turns it into a beauty score. There is no
-                  scientific formula for beauty. A 2024 peer-reviewed review found no convincing evidence that the
-                  golden ratio drives facial beauty, the scores shift with lighting and angle, and they can inherit
-                  bias from their training data. Calqulate.net skips the ranking. The free tool below detects your
-                  face shape and gives practical style tips, processed privately in your browser.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* The actual tool */}
-            <FaceShapeStyleFinder />
 
             {/* Article body */}
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">

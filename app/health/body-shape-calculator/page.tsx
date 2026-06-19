@@ -86,25 +86,60 @@ export default function BodyShapeCalculatorPage() {
       <Header />
 
       <main className="flex-1">
+        {/* HERO */}
+        <section className="bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-b border-slate-200">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-20">
+            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-4 py-1.5 text-xs font-bold text-emerald-700 mb-5">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+              Free · Instant · No sign-up required
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
+              Body Shape Calculator: Find Your Body Type (Female & Male)
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
+              A body shape calculator identifies your body type by comparing your bust (or chest), waist and hip measurements. Enter your measurements above and you'll instantly see whether you're an hourglass, pear (triangle), apple (round), rectangle or inverted triangle — plus what the result means and how to dress for it. The main female body shapes are hourglass, pear, apple, rectangle and inverted triangle; common male body types are rectangle, triangle, inverted triangle, oval and trapezoid. Your shape is decided by the ratio between your shoulders/bust, waist and hips — not your weight.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <a
+                href="#calculator"
+                className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+              >
+                Try the Calculator ↓
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS DASHBOARD */}
+        <section className="border-b border-slate-200 bg-slate-50">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-px bg-slate-200 md:grid-cols-5">
+            {[
+              { value: "5", label: "Body shapes" },
+              { value: "Free", label: "Price" },
+              { value: "No", label: "Sign-up" },
+              { value: "Instant", label: "Results" },
+              { value: "Private", label: "In-browser" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white p-5 text-center">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900">{s.value}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CALCULATOR */}
+        <section id="calculator" className="scroll-mt-20">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
+            <BodyShapeCalculator />
+          </div>
+        </section>
+
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            {/* Hero */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-               Body Shape Calculator: Find Your Body Type (Female & Male)
-              </h1>
-              <p className="text-lg text-muted-foreground text-pretty">
-                A body shape calculator identifies your body type by comparing your bust (or chest), waist and hip measurements. Enter your measurements above and you'll instantly see whether you're an hourglass, pear (triangle), apple (round), rectangle or inverted triangle — plus what the result means and how to dress for it.
-                The main female body shapes are hourglass, pear, apple, rectangle and inverted triangle; common male body types are rectangle, triangle, inverted triangle, oval and trapezoid. Your shape is decided by the ratio between your shoulders/bust, waist and hips — not your weight.
-              </p>
-              <p className="text-base text-muted-foreground mt-3">
-                Be it &quot;What is my body shape?&quot; or a female body shape calculator that's actually
-                accurate, our tool helps you get results in an instant.
-              </p>
-            </div>
-
-            {/* Calculator Component */}
-            <BodyShapeCalculator />
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
               {/* What is a body shape calculator? */}

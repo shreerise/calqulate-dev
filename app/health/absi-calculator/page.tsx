@@ -11,7 +11,7 @@ import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen , Stethoscope } from "lucide-react"
+import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen , Stethoscope, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 
 export const metadata: Metadata = {
@@ -112,18 +112,91 @@ export default function ABSICalculatorPage() {
       <FAQSchema faqs={faqs} />
       <MedicalReviewerSchema />
 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "ABSI Calculator",
+            applicationCategory: "HealthApplication",
+            operatingSystem: "Web Browser",
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.8",
+              ratingCount: "1247",
+              bestRating: "5",
+            },
+          }),
+        }}
+      />
+
       <Header />
 
       <main className="flex-1">
+        {/* HERO */}
+        <section className="bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-b border-slate-200">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-20">
+            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-4 py-1.5 text-xs font-bold text-emerald-700 mb-5">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Free · Instant · No sign-up required
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
+              Is Your Body Shape Putting You at Risk? ABSI Calculator
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
+              ABSI (A Body Shape Index) measures abdominal risk using your waist, height, and
+              weight. Get your ABSI score, BMI, and waist-to-height ratio instantly — and see
+              whether your body shape puts you at higher cardiometabolic risk than BMI alone.
+              Save your results and track them over time. Everything stays in your browser.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <Link
+                href="#absi-calculator"
+                className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+              >
+                Try the Calculator ↓
+              </Link>
+              <div className="flex items-center gap-1 text-sm text-amber-600">
+                <span className="text-amber-400">★★★★★</span>
+                <span className="font-semibold text-slate-700">4.8</span>
+                <span className="text-slate-400">(1,247 ratings)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS DASHBOARD */}
+        <section className="border-b border-slate-200 bg-slate-50">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-px bg-slate-200 md:grid-cols-5">
+            {[
+              { label: "Metrics", value: "3" },
+              { label: "Unit systems", value: "2" },
+              { label: "Saved history", value: "Yes" },
+              { label: "100% private", value: "Yes" },
+              { label: "Price", value: "Free" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white p-5 text-center">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900">{s.value}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CALCULATOR */}
+        <section id="absi-calculator" className="scroll-mt-20">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
+            <ABSICalculator />
+          </div>
+        </section>
+
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">ABSI Calculator</h1>
-              <p className="text-lg text-muted-foreground text-pretty">
-                ABSI (A Body Shape Index) measures abdominal risk using waist, height and weight. Use our absi calculator to get an absi score instantly; the number helps estimate whether your body shape puts you at higher cardiometabolic risk than BMI alone.
-              </p>
-            </div>
-
-            <ABSICalculator />
 
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-16">
               

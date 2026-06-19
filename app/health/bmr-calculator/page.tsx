@@ -246,38 +246,65 @@ export default function BMRCalculatorPage() {
       <Header />
 
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto">
+        {/* HERO */}
+        <section className="bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-b border-slate-200">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-20">
+            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-4 py-1.5 text-xs font-bold text-emerald-700 mb-5">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+              Free · Instant · No sign-up required
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
+              Free BMR Calculator: Find Your Basal Metabolic Rate & Daily Calorie Burn
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
+              Our free basal metabolic rate calculator uses the Mifflin-St Jeor equation and Harris-Benedict formula — the same methods dietitians and sports scientists rely on. Find out exactly how many calories your body burns at rest with this resting metabolic rate calculator, and determine your TDEE for accurate weight loss planning. Use this metabolic rate calculator to understand your body's energy needs and how fast your metabolism works.
+            </p>
 
-            {/* ── Hero ── */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 bg-orange-50 text-orange-700 text-sm font-medium px-4 py-1.5 rounded-full border border-orange-200 mb-4">
-                <Flame className="w-4 h-4" />
-                Free · Instant · No sign-up required
-              </div>              <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
-                Free BMR Calculator: Find Your Basal Metabolic Rate & Daily Calorie Burn
-              </h1>
-              <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Our free basal metabolic rate calculator uses the Mifflin-St Jeor equation and Harris-Benedict formula — the same methods dietitians and sports scientists rely on. Find out exactly how many calories your body burns at rest with this resting metabolic rate calculator, and determine your TDEE for accurate weight loss planning. Use this metabolic rate calculator to understand your body's energy needs and how fast your metabolism works.
-              </p>
-
-              {/* Aggregate Rating Display — matches schema above */}
-              <div className="flex items-center justify-center gap-2 mt-4">
-                <div className="flex items-center gap-0.5">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      className={`w-4 h-4 ${star <= 4 ? "fill-orange-400 text-orange-400" : "fill-orange-200 text-orange-200"}`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm font-medium text-gray-700">4.8</span>
-                <span className="text-sm text-muted-foreground">· 2,847 ratings</span>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <a
+                href="#calculator"
+                className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+              >
+                Try the Calculator ↓
+              </a>
+              <div className="flex items-center gap-1 text-sm text-amber-600">
+                <span className="text-amber-400">★★★★★</span>
+                <span className="font-semibold text-slate-700">4.8</span>
+                <span className="text-slate-400">(2,847 ratings)</span>
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* ── Calculator Component ── */}
+        {/* STATS DASHBOARD */}
+        <section className="border-b border-slate-200 bg-slate-50">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-px bg-slate-200 md:grid-cols-5">
+            {[
+              { value: "3", label: "Formulas" },
+              { value: "Free", label: "Price" },
+              { value: "No", label: "Sign-up" },
+              { value: "Instant", label: "Results" },
+              { value: "Private", label: "In-browser" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white p-5 text-center">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900">{s.value}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CALCULATOR */}
+        <section id="calculator" className="scroll-mt-20">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
             <BMRCalculator />
+          </div>
+        </section>
+
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
 
             {/* ── Content Sections ── */}
             <div className="prose prose-gray dark:prose-invert max-w-none mt-12 space-y-12">

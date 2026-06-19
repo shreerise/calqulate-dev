@@ -118,26 +118,60 @@ export default function IVFDdueDateCalculatorPage() {
       <Header />
 
       <main className="flex-1">
+        {/* HERO */}
+        <section className="bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-b border-slate-200">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-20">
+            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-4 py-1.5 text-xs font-bold text-emerald-700 mb-5">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+              Free · Instant · No sign-up required
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
+              IVF Pregnancy Due Date Calculator
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
+              Know your exact due date from your transfer date — accurately calibrated for Day 3, Day 5, Day 6, and frozen embryo transfers.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <a
+                href="#calculator"
+                className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+              >
+                Try the Calculator ↓
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS DASHBOARD */}
+        <section className="border-b border-slate-200 bg-slate-50">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-px bg-slate-200 md:grid-cols-5">
+            {[
+              { value: "3 / 5-day", label: "Transfer" },
+              { value: "Free", label: "Price" },
+              { value: "No", label: "Sign-up" },
+              { value: "Instant", label: "Results" },
+              { value: "Private", label: "In-browser" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white p-5 text-center">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900">{s.value}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CALCULATOR */}
+        <section id="calculator" className="scroll-mt-20">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
+            <IVFCalculator />
+          </div>
+        </section>
+
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            
-            {/* Hero Section */}
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 text-green-700 rounded-full text-sm font-semibold mb-6 shadow-sm border border-green-100">
-                <Baby className="w-4 h-4" />
-                Updated for 2026 • Evidence-Based Math
-              </div>              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight text-balance mb-6">
-                IVF Pregnancy Due Date Calculator
-              </h1>
-              <p className="text-lg text-gray-600 text-pretty max-w-2xl mx-auto leading-relaxed">
-                Know your exact due date from your transfer date — accurately calibrated for Day 3, Day 5, Day 6, and frozen embryo transfers.
-              </p>
-            </div>
-
-            {/* Calculator Component Block */}
-            <div className="mb-16">
-              <IVFCalculator />
-            </div>
 
             {/* Main Content Area */}
             <div className="prose prose-lg prose-gray max-w-none space-y-12">

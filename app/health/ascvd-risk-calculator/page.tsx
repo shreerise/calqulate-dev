@@ -84,18 +84,48 @@ export default function AscvdRiskPage() {
 
       <main className="max-w-5xl mx-auto px-6 py-12">
         {/* Editorial Header */}
-        <header className="mb-16 border-b border-slate-100 pb-12">          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+        {/* HERO */}
+        <div className="mb-10 overflow-hidden rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-lime-50 p-8 md:p-12">
+          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-4 py-1.5 text-xs font-bold text-emerald-700 mb-5">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+            Free · Instant · No sign-up required
+          </div>
+          <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
             ASCVD Risk Calculator: <span className="text-red-600">The Heart Math.</span>
           </h1>
-          <p className="text-xl text-slate-600 leading-relaxed max-w-3xl">
-            Heart attacks and strokes aren't just random events. They are the result of decades of cumulative pressure. 
-            Our <b>ascvd calculator</b> uses the industry-standard <b><a href="/health/pulse-pressure-calculator" className="no-underline hover:underline hover:text-blue-700">Pooled Cohort Equation</a></b> to turn your 
-            clinical data into a 10-year survival prediction.
+          <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
+            Heart attacks and strokes aren't just random events. They are the result of decades of cumulative pressure. Our <b>ascvd calculator</b> uses the industry-standard <b><a href="/health/pulse-pressure-calculator" className="no-underline hover:underline hover:text-blue-700">Pooled Cohort Equation</a></b> to turn your clinical data into a 10-year survival prediction.
           </p>
-        </header>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <a
+              href="#calculator"
+              className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+            >
+              Try the Calculator ↓
+            </a>
+          </div>
+        </div>
+
+        {/* STATS DASHBOARD */}
+        <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+          {[
+            { value: "10-yr", label: "Risk window" },
+            { value: "PCE", label: "Equation" },
+            { value: "Free", label: "Price" },
+            { value: "No", label: "Sign-up" },
+            { value: "Instant", label: "Results" },
+          ].map((s) => (
+            <div key={s.label} className="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+              <p className="text-2xl font-bold text-slate-900">{s.value}</p>
+              <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
 
         {/* Calculator UI */}
-        <div className="mb-20">
+        <div id="calculator" className="mb-20 scroll-mt-20">
           <AscvdRiskCalculator />
         </div>
 

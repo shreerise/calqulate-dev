@@ -98,38 +98,60 @@ export default function GLP1DoseCalculatorPage() {
       <Header />
 
       <main className="flex-1">
+        {/* HERO */}
+        <section className="bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-b border-slate-200">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-20">
+            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-4 py-1.5 text-xs font-bold text-emerald-700 mb-5">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+              Free · Instant · No sign-up required
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
+              GLP-1 Dose Calculator
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
+              After more than 20 years studying metabolic health and watching how these medications work in everyday life, one thing stands out above everything else: getting the dose right matters a lot. That is why we built this straightforward tool for you. Just plug in your prescribed dose and the concentration on your vial, and it tells you exactly how many units to draw on a standard U-100 insulin syringe.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <a
+                href="#calculator"
+                className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+              >
+                Try the Calculator ↓
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS DASHBOARD */}
+        <section className="border-b border-slate-200 bg-slate-50">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-px bg-slate-200 md:grid-cols-5">
+            {[
+              { value: "Titration", label: "Schedule" },
+              { value: "Free", label: "Price" },
+              { value: "No", label: "Sign-up" },
+              { value: "Instant", label: "Results" },
+              { value: "Private", label: "In-browser" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white p-5 text-center">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900">{s.value}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CALCULATOR */}
+        <section id="calculator" className="scroll-mt-20">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
+            <GLP1DoseCalculator />
+          </div>
+        </section>
+
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-
-            {/* H1 and Hero Section */}
-            <div className="text-center mb-8">              <h1 className="text-3xl md:text-5xl font-bold text-balance mb-4 text-slate-900">
-                GLP-1 Dose Calculator
-              </h1>
-              <h2 className="text-xl md:text-2xl font-medium text-slate-700 mb-4 max-w-3xl mx-auto">
-                Simple, Accurate Syringe Units in Seconds for Semaglutide and Tirzepatide
-              </h2>
-
-              <div className="mt-6 mb-8 inline-block bg-blue-100 border border-blue-200 text-blue-900 font-bold px-6 py-3 rounded-full text-lg shadow-sm">
-                Enter your dose and vial concentration. Get the exact units to draw. No math, no guesswork.
-              </div>
-            </div>
-
-            {/* Intro Paragraph */}
-            <div className="prose prose-gray max-w-none mb-10">
-              <p className="text-lg text-slate-700 leading-relaxed text-center max-w-3xl mx-auto">
-                After more than 20 years studying metabolic health and watching how these medications work in everyday life,
-                one thing stands out above everything else: getting the dose right matters a lot. That is why we built this
-                straightforward tool for you. Just plug in your prescribed dose and the concentration on your vial, and it
-                tells you exactly how many units to draw on a standard U-100 insulin syringe.
-              </p>
-              <p className="text-sm text-center text-slate-500 mt-3">
-                <strong>Important:</strong> This tool is for informational purposes only and is not a substitute for your
-                doctor&apos;s advice. Always follow the instructions from your healthcare provider.
-              </p>
-            </div>
-
-            {/* Calculator Component */}
-            <GLP1DoseCalculator />
 
             <p className="text-center text-sm font-medium text-gray-500 mt-6 flex items-center justify-center gap-2">
               <ShieldCheck className="w-5 h-5 text-blue-600" />

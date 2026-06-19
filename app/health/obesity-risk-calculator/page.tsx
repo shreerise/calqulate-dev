@@ -75,48 +75,60 @@ export default function ObesityRiskCalculatorPage() {
       <Header />
 
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto">
-            
-              {/* Hero Section */}
-          <div className="text-center mb-12">
-
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
-              <Stethoscope className="w-4 h-4" />
-              <span>Advanced Medical Standards</span>
-            </div>            <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+        {/* HERO */}
+        <section className="bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-b border-slate-200">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-20">
+            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-4 py-1.5 text-xs font-bold text-emerald-700 mb-5">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+              Free · Instant · No sign-up required
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold text-balance leading-tight text-slate-900">
               Obesity Risk Calculator
             </h1>
-
-            <p className="text-lg text-muted-foreground text-pretty max-w-3xl mx-auto">
-              Discover your true metabolic health profile. Unlike standard calculators, our tool combines 
-              Body Mass Index (BMI), Waist-to-Height Ratio (
-              <Link
-                href="/health/waist-to-height-ratio-calculator"
-                className="font-medium hover:underline hover:text-green-700 transition-colors"
-              >
-                WHtR
-              </Link>
-              ), and lifestyle factors to give you 
-              a highly accurate, personalized obesity risk assessment.
+            <p className="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl text-pretty">
+              Discover your true metabolic health profile. Unlike standard calculators, our tool combines Body Mass Index (BMI), Waist-to-Height Ratio ( <Link href="/health/waist-to-height-ratio-calculator" className="font-medium hover:underline hover:text-green-700 transition-colors" > WHtR </Link> ), and lifestyle factors to give you a highly accurate, personalized obesity risk assessment.
             </p>
 
-            {/* Hero Image */}
-            <div className="mt-10 flex justify-center">
-              <ClickableImage
-                src="/obesity-risk-calculator.webp"
-                alt="Obesity risk calculator chart showing BMI and waist to height ratio health risk levels"
-                width={950}
-                height={520}
-                className="rounded-2xl shadow-xl border border-blue-100"
-                priority
-              />
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <a
+                href="#calculator"
+                className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+              >
+                Try the Calculator ↓
+              </a>
             </div>
-
           </div>
+        </section>
 
-            {/* Main Calculator Component */}
+        {/* STATS DASHBOARD */}
+        <section className="border-b border-slate-200 bg-slate-50">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-px bg-slate-200 md:grid-cols-5">
+            {[
+              { value: "BMI +", label: "Factors" },
+              { value: "Free", label: "Price" },
+              { value: "No", label: "Sign-up" },
+              { value: "Instant", label: "Results" },
+              { value: "Private", label: "In-browser" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white p-5 text-center">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900">{s.value}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CALCULATOR */}
+        <section id="calculator" className="scroll-mt-20">
+          <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
             <ObesityRiskCalculator />
+          </div>
+        </section>
+
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
 
             {/* SEO Content & Article */}
             <div className="prose prose-gray dark:prose-invert max-w-none mt-16 space-y-16">
