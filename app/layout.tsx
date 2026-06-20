@@ -8,6 +8,7 @@ import "./globals.css";
 import { Suspense } from "react";
 import CalculatorPopup from "@/components/ui/calculator-popup";
 import ClarityProvider from "@/components/analytics/clarity-provider";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://calqulate.net"),
@@ -83,6 +84,7 @@ export default function RootLayout({
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 
         <CalculatorPopup />
+        <ChatWidget />
       </body>
     </html>
   );
