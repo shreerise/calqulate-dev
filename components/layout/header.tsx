@@ -2,8 +2,21 @@
 
 import { useState, useRef, useEffect, useCallback } from "react"
 import Link from "next/link"
-import { Menu, X, Calculator, ChevronDown, Search, ArrowRight } from "lucide-react"
+import { Menu, X, HeartPulse, ChevronDown, Search, ArrowRight, Activity, LayoutDashboard, Settings, Download, LogOut, User } from "lucide-react"
 import { SearchBar } from "@/components/search/search-bar"
+import { createClient } from "@/lib/supabase/client"
+
+// ─── Vitals service links (the product — listed first) ───────────────────────
+
+const vitalsLinks = [
+  { name: "Metabolic Health Tracker", href: "/service/metabolic-health-tracker", desc: "Composite score + heart age + 10-yr risk" },
+  { name: "Heart Age Tracker", href: "/service/heart-age-tracker", desc: "Your vascular age vs. your real age" },
+  { name: "GLP-1 Progress Tracker", href: "/service/glp1-progress-tracker", desc: "Track results beyond the scale" },
+  { name: "How Vitals works", href: "/how-it-works", desc: "From a one-time number to a trajectory" },
+  { name: "Pricing", href: "/#pricing", desc: "Free · Plus · Pro" },
+]
+
+// ─── Calculator categories (free snapshot tools that feed the service) ───────
 
 const categories = [
   {
@@ -121,41 +134,77 @@ const categories = [
   },
 ]
 
-const PRIMARY_COUNT = 5
-const primaryCategories = categories.slice(0, PRIMARY_COUNT)
-const moreCategories = categories.slice(PRIMARY_COUNT)
-
 type Category = (typeof categories)[0]
 
-// ─── Mega Menu ───────────────────────────────────────────────────────────────
+// ─── Vitals mega dropdown ─────────────────────────────────────────────────────
 
-function MegaMenu({ category, onClose }: { category: Category; onClose: () => void }) {
+function VitalsMenu({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="absolute left-0 top-full mt-2 w-80 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden py-2">
+      <div className="px-4 pt-2 pb-1.5 flex items-center gap-2">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600">The service</span>
+      </div>
+      {vitalsLinks.map((l) => (
+        <Link
+          key={l.href}
+          href={l.href}
+          onClick={onClose}
+          className="flex flex-col px-4 py-2 hover:bg-emerald-50 transition-colors group"
+        >
+          <span className="text-sm font-semibold text-gray-800 group-hover:text-emerald-700">{l.name}</span>
+          <span className="text-xs text-gray-400">{l.desc}</span>
+        </Link>
+      ))}
+    </div>
+  )
+}
+
+// ─── Calculators mega menu (all 8 categories) ────────────────────────────────
+
+function CalculatorsMenu({ onClose }: { onClose: () => void }) {
   return (
     <div className="absolute top-full left-0 right-0 z-50 bg-white border-t border-gray-100 shadow-xl">
-      <div className="container mx-auto px-6 py-5">
-        {/* Header */}
+      <div className="container mx-auto px-6 py-6">
         <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <span className="text-base font-semibold text-gray-900">{category.name}</span>
-            <span className="text-xs text-gray-400 hidden sm:inline">{category.description}</span>
-          </div>
-          <span className="text-xs font-medium text-green-700 bg-green-50 border border-green-100 px-2.5 py-1 rounded-full flex-shrink-0">
-            {category.count} calculators
+          <span className="text-base font-semibold text-gray-900">
+            Free snapshot tools <span className="text-sm font-normal text-gray-400">— the free entry point into Calqulate Vitals</span>
           </span>
+          <Link href="/search" onClick={onClose} className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+            View all →
+          </Link>
         </div>
-
-        {/* Grid — no footer/view-all link */}
-        <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-0">
-          {category.calculators.map((calc) => (
-            <Link
-              key={calc.href}
-              href={calc.href}
-              onClick={onClose}
-              className="group flex items-center gap-2 py-2 px-2 text-sm text-gray-600 rounded-md hover:text-green-700 hover:bg-green-50 transition-colors duration-100"
-            >
-              <span className="w-1 h-1 rounded-full bg-gray-300 group-hover:bg-green-500 flex-shrink-0 transition-colors" />
-              {calc.name}
-            </Link>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-5">
+          {categories.map((cat) => (
+            <div key={cat.name}>
+              <Link
+                href={cat.slug}
+                onClick={onClose}
+                className="flex items-center justify-between text-sm font-semibold text-gray-900 hover:text-emerald-700 mb-1.5"
+              >
+                {cat.name}
+                <span className="text-[11px] font-medium text-gray-300">{cat.count}</span>
+              </Link>
+              <ul className="space-y-0.5">
+                {cat.calculators.slice(0, 5).map((calc) => (
+                  <li key={calc.href}>
+                    <Link
+                      href={calc.href}
+                      onClick={onClose}
+                      className="block text-[13px] text-gray-500 hover:text-emerald-700 py-0.5 transition-colors"
+                    >
+                      {calc.name}
+                    </Link>
+                  </li>
+                ))}
+                {cat.calculators.length > 5 && (
+                  <li>
+                    <Link href={cat.slug} onClick={onClose} className="block text-[12px] font-semibold text-emerald-600 hover:text-emerald-700 py-0.5">
+                      +{cat.calculators.length - 5} more
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </div>
           ))}
         </div>
       </div>
@@ -163,63 +212,19 @@ function MegaMenu({ category, onClose }: { category: Category; onClose: () => vo
   )
 }
 
-// ─── More Dropdown ────────────────────────────────────────────────────────────
-
-function MoreDropdown({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="absolute right-0 top-full mt-2 w-72 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden py-2">
-      {moreCategories.map((cat, idx) => (
-        <div key={cat.name}>
-          <div className="px-4 pt-3 pb-1.5 flex items-center justify-between">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-              {cat.name}
-            </span>
-            <span className="text-[11px] text-gray-300">{cat.count}</span>
-          </div>
-
-          {cat.calculators.map((calc) => (
-            <Link
-              key={calc.href}
-              href={calc.href}
-              onClick={onClose}
-              className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-600 hover:text-green-700 hover:bg-green-50 transition-colors group"
-            >
-              <span className="w-1 h-1 rounded-full bg-gray-300 group-hover:bg-green-500 flex-shrink-0 transition-colors" />
-              {calc.name}
-            </Link>
-          ))}
-
-          {idx < moreCategories.length - 1 && (
-            <div className="mx-4 mt-2 border-t border-gray-100" />
-          )}
-        </div>
-      ))}
-    </div>
-  )
-}
-
-// ─── Mobile Accordion Item ────────────────────────────────────────────────────
+// ─── Mobile accordion item ────────────────────────────────────────────────────
 
 function MobileCategory({ category, onLinkClick }: { category: Category; onLinkClick: () => void }) {
   const [open, setOpen] = useState(false)
-
   return (
     <div className="border-b border-gray-100 last:border-0">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-4 py-3.5 text-left"
-      >
+      <button onClick={() => setOpen((v) => !v)} className="w-full flex items-center justify-between px-4 py-3 text-left">
         <div>
           <p className="text-sm font-semibold text-gray-900">{category.name}</p>
           <p className="text-xs text-gray-400 mt-0.5">{category.count} calculators</p>
         </div>
-        <ChevronDown
-          className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
-            open ? "rotate-180 text-green-600" : "text-gray-400"
-          }`}
-        />
+        <ChevronDown className={`h-4 w-4 flex-shrink-0 transition-transform ${open ? "rotate-180 text-emerald-600" : "text-gray-400"}`} />
       </button>
-
       {open && (
         <div className="bg-gray-50 pb-1">
           {category.calculators.map((calc) => (
@@ -227,13 +232,12 @@ function MobileCategory({ category, onLinkClick }: { category: Category; onLinkC
               key={calc.href}
               href={calc.href}
               onClick={onLinkClick}
-              className="flex items-center gap-2.5 px-6 py-2 text-sm text-gray-600 hover:text-green-700 hover:bg-green-50 transition-colors"
+              className="flex items-center gap-2.5 px-6 py-2 text-sm text-gray-600 hover:text-emerald-700 hover:bg-emerald-50 transition-colors"
             >
-              <span className="w-1 h-1 rounded-full bg-green-400 flex-shrink-0" />
+              <span className="w-1 h-1 rounded-full bg-emerald-400 flex-shrink-0" />
               {calc.name}
             </Link>
           ))}
-          {/* ← "View all" link removed */}
         </div>
       )}
     </div>
@@ -243,22 +247,50 @@ function MobileCategory({ category, onLinkClick }: { category: Category; onLinkC
 // ─── Header ──────────────────────────────────────────────────────────────────
 
 export function Header() {
-  const [activeCat, setActiveCat] = useState<Category | null>(null)
-  const [moreOpen, setMoreOpen] = useState(false)
+  const [activeMenu, setActiveMenu] = useState<"vitals" | "calculators" | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [mobileVitalsOpen, setMobileVitalsOpen] = useState(true)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [authReady, setAuthReady] = useState(false)
+  const [avatarOpen, setAvatarOpen] = useState(false)
 
   const headerRef = useRef<HTMLElement>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  // Session-aware: resolve auth state in the browser (drop-in for every page).
+  useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!url || !key) {
+      setAuthReady(true)
+      return
+    }
+    let sub: { unsubscribe: () => void } | undefined
+    try {
+      const supabase = createClient()
+      supabase.auth.getUser().then(({ data }) => {
+        setUserEmail(data.user?.email ?? null)
+        setAuthReady(true)
+      })
+      const { data } = supabase.auth.onAuthStateChange((_e, session) => {
+        setUserEmail(session?.user?.email ?? null)
+      })
+      sub = data.subscription
+    } catch {
+      setAuthReady(true)
+    }
+    return () => sub?.unsubscribe()
+  }, [])
+
   useEffect(() => {
     const onOutside = (e: MouseEvent) => {
       if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
-        setActiveCat(null)
-        setMoreOpen(false)
+        setActiveMenu(null)
+        setAvatarOpen(false)
       }
     }
-    const onScroll = () => { setActiveCat(null); setMoreOpen(false) }
+    const onScroll = () => setActiveMenu(null)
     document.addEventListener("mousedown", onOutside)
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => {
@@ -268,151 +300,140 @@ export function Header() {
   }, [])
 
   const startClose = useCallback(() => {
-    closeTimer.current = setTimeout(() => setActiveCat(null), 180)
+    closeTimer.current = setTimeout(() => setActiveMenu(null), 180)
   }, [])
-
   const cancelClose = useCallback(() => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
   }, [])
-
   const closeAll = useCallback(() => {
-    setActiveCat(null)
-    setMoreOpen(false)
+    setActiveMenu(null)
     setMobileOpen(false)
     setSearchOpen(false)
+    setAvatarOpen(false)
   }, [])
 
+  const loggedIn = !!userEmail
+
   return (
-    <header
-      ref={headerRef}
-      className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm"
-    >
+    <header ref={headerRef} className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
       {/* ── Main bar ── */}
       <div className="container mx-auto px-4 lg:px-6">
         <div className="flex h-[60px] items-center gap-4 lg:gap-6">
-
           {/* Logo */}
           <Link href="/" onClick={closeAll} className="flex items-center gap-2 flex-shrink-0 group">
-            <div className="w-8 h-8 rounded-lg bg-green-600 group-hover:bg-green-700 transition-colors flex items-center justify-center shadow-sm">
-              <Calculator className="h-[18px] w-[18px] text-white" />
+            <div className="w-8 h-8 rounded-lg bg-emerald-600 group-hover:bg-emerald-700 transition-colors flex items-center justify-center shadow-sm">
+              <HeartPulse className="h-[18px] w-[18px] text-white" />
             </div>
-            <span className="text-[17px] font-bold tracking-tight text-gray-900">
-              Calqulate<span className="text-green-600">.NET</span>
+            <span className="flex flex-col leading-none">
+              <span className="text-[17px] font-bold tracking-tight text-gray-900">
+                Calqulate<span className="text-emerald-600">.NET</span>
+              </span>
+              <span className="hidden xl:block text-[10px] text-gray-400 font-medium mt-0.5">
+                Risk-reversal for metabolic &amp; heart health
+              </span>
             </span>
           </Link>
 
-          {/* ── Desktop nav: 5 categories + More ── */}
-          <nav
-            className="hidden lg:flex items-center gap-0.5 flex-1"
-            onMouseLeave={startClose}
-            onMouseEnter={cancelClose}
-          >
-            {primaryCategories.map((cat) => {
-              const active = activeCat?.name === cat.name
-              return (
-                <button
-                  key={cat.name}
-                  onMouseEnter={() => { cancelClose(); setActiveCat(cat); setMoreOpen(false) }}
-                  onClick={() => { setActiveCat(active ? null : cat); setMoreOpen(false) }}
-                  className={`
-                    relative flex items-center gap-1 px-3.5 py-2 text-[13.5px] font-medium rounded-md
-                    whitespace-nowrap transition-colors duration-100
-                    ${active
-                      ? "text-green-700 bg-green-50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                    }
-                  `}
-                >
-                  {cat.name}
-                  <ChevronDown
-                    className={`h-3.5 w-3.5 transition-transform duration-150
-                      ${active ? "rotate-180 text-green-600" : "text-gray-400"}`}
-                  />
-                  {active && (
-                    <span className="absolute bottom-0 left-3 right-3 h-[2px] rounded-full bg-green-500" />
-                  )}
-                </button>
-              )
-            })}
-
-            {/* More */}
+          {/* ── Desktop nav ── */}
+          <nav className="hidden lg:flex items-center gap-0.5 flex-1" onMouseLeave={startClose} onMouseEnter={cancelClose}>
+            {/* Vitals (the product) */}
             <div className="relative">
               <button
-                onClick={() => { setMoreOpen((v) => !v); setActiveCat(null) }}
-                className={`
-                  flex items-center gap-1 px-3.5 py-2 text-[13.5px] font-medium rounded-md
-                  whitespace-nowrap transition-colors duration-100
-                  ${moreOpen ? "text-green-700 bg-green-50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}
-                `}
+                onMouseEnter={() => { cancelClose(); setActiveMenu("vitals") }}
+                onClick={() => setActiveMenu(activeMenu === "vitals" ? null : "vitals")}
+                className={`flex items-center gap-1 px-3.5 py-2 text-[13.5px] font-semibold rounded-md whitespace-nowrap transition-colors
+                  ${activeMenu === "vitals" ? "text-emerald-700 bg-emerald-50" : "text-emerald-700 hover:bg-emerald-50"}`}
               >
-                More
-                <ChevronDown
-                  className={`h-3.5 w-3.5 transition-transform duration-150
-                    ${moreOpen ? "rotate-180 text-green-600" : "text-gray-400"}`}
-                />
+                <Activity className="h-4 w-4" />
+                Vitals
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeMenu === "vitals" ? "rotate-180 text-emerald-600" : "text-emerald-400"}`} />
               </button>
-              {moreOpen && <MoreDropdown onClose={closeAll} />}
+              {activeMenu === "vitals" && <VitalsMenu onClose={closeAll} />}
             </div>
+
+            {/* Calculators (free snapshot tools) */}
+            <button
+              onMouseEnter={() => { cancelClose(); setActiveMenu("calculators") }}
+              onClick={() => setActiveMenu(activeMenu === "calculators" ? null : "calculators")}
+              className={`flex items-center gap-1 px-3.5 py-2 text-[13.5px] font-medium rounded-md whitespace-nowrap transition-colors
+                ${activeMenu === "calculators" ? "text-emerald-700 bg-emerald-50" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`}
+            >
+              Calculators
+              <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeMenu === "calculators" ? "rotate-180 text-emerald-600" : "text-gray-400"}`} />
+            </button>
+
+            <Link href="/how-it-works" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
+              How it works
+            </Link>
+            <Link href="/blog" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
+              Blog
+            </Link>
+            <Link href="/about-us" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
+              About
+            </Link>
           </nav>
 
-          {/* ── Desktop right: search + Blog + About ── */}
-          <div className="hidden lg:flex items-center gap-1 ml-auto flex-shrink-0">
+          {/* ── Desktop right: search + auth/CTA ── */}
+          <div className="hidden lg:flex items-center gap-2 ml-auto flex-shrink-0">
             <button
               onClick={() => setSearchOpen((v) => !v)}
               aria-label="Search"
-              className={`p-2 rounded-md transition-colors ${
-                searchOpen ? "bg-green-50 text-green-700" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-              }`}
+              className={`p-2 rounded-md transition-colors ${searchOpen ? "bg-emerald-50 text-emerald-700" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}
             >
               <Search className="h-[18px] w-[18px]" />
             </button>
-            <Link
-              href="/blog"
-              onClick={closeAll}
-              className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-            >
-              Blog
-            </Link>
-            <Link
-              href="/gallery"
-              onClick={closeAll}
-              className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-            >
-              Gallery
-            </Link>
-            <Link
-              href="/about-us"
-              className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-            >
-              About
-            </Link>
+
+            {loggedIn ? (
+              <div className="relative">
+                <button
+                  onClick={() => setAvatarOpen((v) => !v)}
+                  className="flex items-center gap-2 rounded-md px-2 py-1.5 text-[13.5px] font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                    <User className="h-4 w-4" />
+                  </span>
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${avatarOpen ? "rotate-180" : ""} text-gray-400`} />
+                </button>
+                {avatarOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden py-1.5">
+                    <div className="px-4 py-2 text-xs text-gray-400 truncate">{userEmail}</div>
+                    <Link href="/dashboard" onClick={closeAll} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700">
+                      <LayoutDashboard className="h-4 w-4" /> Dashboard
+                    </Link>
+                    <Link href="/dashboard/settings" onClick={closeAll} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700">
+                      <Settings className="h-4 w-4" /> Settings
+                    </Link>
+                    <a href="/api/account/export" className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700">
+                      <Download className="h-4 w-4" /> Download my data
+                    </a>
+                    <form action="/auth/signout" method="post" className="border-t border-gray-100 mt-1 pt-1">
+                      <button type="submit" className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600">
+                        <LogOut className="h-4 w-4" /> Sign out
+                      </button>
+                    </form>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link href="/login" onClick={closeAll} className="px-3 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 rounded-md transition-colors">
+                  Log in
+                </Link>
+                <Link
+                  href="/service/metabolic-health-tracker"
+                  onClick={closeAll}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-emerald-700 transition-colors shadow-sm"
+                >
+                  Get my score
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </>
+            )}
           </div>
 
-          {/* ── Tablet: All Calculators + search ── */}
-          <div className="hidden md:flex lg:hidden items-center gap-2 ml-auto">
-            <button
-              onClick={() => setSearchOpen((v) => !v)}
-              aria-label="Search"
-              className="p-2 rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-            >
-              <Search className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => setMobileOpen((v) => !v)}
-              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
-            >
-              All Calculators
-              <ChevronDown className={`h-4 w-4 transition-transform ${mobileOpen ? "rotate-180" : ""}`} />
-            </button>
-          </div>
-
-          {/* ── Mobile: search + hamburger ── */}
-          <div className="flex md:hidden items-center gap-1 ml-auto">
-            <button
-              onClick={() => { setSearchOpen((v) => !v); setMobileOpen(false) }}
-              aria-label="Search"
-              className="p-2 rounded-md text-gray-500 hover:bg-gray-50 transition-colors"
-            >
+          {/* ── Mobile/tablet right ── */}
+          <div className="flex lg:hidden items-center gap-1 ml-auto">
+            <button onClick={() => { setSearchOpen((v) => !v); setMobileOpen(false) }} aria-label="Search" className="p-2 rounded-md text-gray-500 hover:bg-gray-50 transition-colors">
               <Search className="h-5 w-5" />
             </button>
             <button
@@ -433,64 +454,84 @@ export function Header() {
         )}
       </div>
 
-      {/* ── Desktop mega menu ── */}
-      <div
-        className="hidden lg:block"
-        onMouseEnter={cancelClose}
-        onMouseLeave={startClose}
-      >
-        {activeCat && <MegaMenu category={activeCat} onClose={closeAll} />}
+      {/* ── Desktop dropdowns ── */}
+      <div className="hidden lg:block" onMouseEnter={cancelClose} onMouseLeave={startClose}>
+        {activeMenu === "calculators" && <CalculatorsMenu onClose={closeAll} />}
       </div>
-
-      {/* ── Tablet dropdown ── */}
-      {mobileOpen && (
-        <div className="hidden md:block lg:hidden border-t border-gray-100 bg-white shadow-lg">
-          <div className="container mx-auto px-6 py-5 grid grid-cols-2 gap-x-8 gap-y-5 max-h-[65vh] overflow-y-auto">
-            {categories.map((cat) => (
-              <div key={cat.name}>
-                <Link href={cat.slug} onClick={closeAll} className="text-sm font-semibold text-gray-900 hover:text-green-700 transition-colors">
-                  {cat.name}
-                </Link>
-                <p className="text-xs text-gray-400 mb-2 mt-0.5">{cat.description}</p>
-                <ul className="space-y-1">
-                  {cat.calculators.slice(0, 4).map((c) => (
-                    <li key={c.href}>
-                      <Link href={c.href} onClick={closeAll} className="text-xs text-gray-500 hover:text-green-700 transition-colors">
-                        {c.name}
-                      </Link>
-                    </li>
-                  ))}
-                  {cat.calculators.length > 4 && (
-                    <li>
-                      <Link href={cat.slug} onClick={closeAll} className="text-xs font-semibold text-green-600 hover:text-green-700">
-                        +{cat.calculators.length - 4} more →
-                      </Link>
-                    </li>
-                  )}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* ── Mobile/tablet search bar ── */}
       {searchOpen && (
         <div className="lg:hidden border-t border-gray-100 px-4 py-3 bg-white">
-          <SearchBar placeholder="Search calculators…" className="w-full"/>
+          <SearchBar placeholder="Search calculators…" className="w-full" />
         </div>
       )}
 
-      {/* ── Mobile accordion ── */}
+      {/* ── Mobile drawer ── */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white max-h-[75vh] overflow-y-auto">
-          {categories.map((cat) => (
-            <MobileCategory key={cat.name} category={cat} onLinkClick={closeAll} />
-          ))}
-          <div className="border-t border-gray-100 px-4 py-3 flex gap-4">
-            <Link href="/blog" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">Blog</Link>
-            <Link href="/gallery" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">Gallery</Link>
-            <Link href="/about-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-green-700">About</Link>
+        <div className="lg:hidden border-t border-gray-100 bg-white flex flex-col max-h-[85vh]">
+          <div className="overflow-y-auto flex-1">
+            {/* Vitals (first) */}
+            <div className="border-b border-gray-100">
+              <button
+                onClick={() => setMobileVitalsOpen((v) => !v)}
+                className="w-full flex items-center justify-between px-4 py-3 text-left"
+              >
+                <div className="flex items-center gap-2">
+                  <Activity className="h-4 w-4 text-emerald-600" />
+                  <span className="text-sm font-semibold text-emerald-700">Vitals — the service</span>
+                </div>
+                <ChevronDown className={`h-4 w-4 transition-transform ${mobileVitalsOpen ? "rotate-180 text-emerald-600" : "text-gray-400"}`} />
+              </button>
+              {mobileVitalsOpen && (
+                <div className="bg-emerald-50/40 pb-1">
+                  {vitalsLinks.map((l) => (
+                    <Link key={l.href} href={l.href} onClick={closeAll} className="flex items-center gap-2.5 px-6 py-2 text-sm text-gray-700 hover:text-emerald-700">
+                      <span className="w-1 h-1 rounded-full bg-emerald-500 flex-shrink-0" />
+                      {l.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Calculator categories */}
+            <div className="px-4 pt-3 pb-1">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">Free snapshot tools</span>
+            </div>
+            {categories.map((cat) => (
+              <MobileCategory key={cat.name} category={cat} onLinkClick={closeAll} />
+            ))}
+
+            <div className="px-4 py-3 flex flex-wrap gap-4">
+              <Link href="/how-it-works" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">How it works</Link>
+              <Link href="/blog" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">Blog</Link>
+              <Link href="/about-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">About</Link>
+            </div>
+          </div>
+
+          {/* Auth / CTA pinned to bottom */}
+          <div className="border-t border-gray-100 p-4 bg-white">
+            {loggedIn ? (
+              <div className="flex flex-col gap-2">
+                <Link href="/dashboard" onClick={closeAll} className="flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700">
+                  <LayoutDashboard className="h-4 w-4" /> Go to Dashboard
+                </Link>
+                <form action="/auth/signout" method="post">
+                  <button type="submit" className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
+                    Sign out
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <Link href="/service/metabolic-health-tracker" onClick={closeAll} className="flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700">
+                  Get my score <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/login" onClick={closeAll} className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-center text-sm font-medium text-gray-600 hover:bg-gray-50">
+                  Log in
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

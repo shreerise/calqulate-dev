@@ -1,10 +1,50 @@
 # calqulate.net
 
-Calqulate.net provides professional health calculators. Users can measure BMI, body fat, calories, and ideal weight instantly based on standard medical and mathematical formulas. 
+Calqulate.net is a metabolic and cardiovascular risk-reversal service. It turns a person's numbers and lab values into a tracked Metabolic Health Score plus validated clinical risk scores — 10-year ASCVD heart-attack risk, heart age (Framingham), and type-2 diabetes risk (FINDRISC) — follows them over time, and tells the user the single highest-impact change to make next. The site also offers 50+ free, no-login health calculators (BMI, body fat, ASCVD, diabetes risk, heart age, cholesterol, and more) that act as the free entry point into the service.
 
-## Latest Product Update: Personalized Progress Tracking
+Brand name: Calqulate.net (also "Calqulate Vitals" for the paid service). Educational decision-support only — not medical advice.
 
-Calqulate.net now includes built-in progress tracking for all health metrics. You get accurate, personalized health insights instantly without creating an account. The system saves your calculations securely, allowing you to access them whenever you return to the site. You can track your complete history to monitor physiological changes over time. The tool lets you compare previous and current results so you can identify improvements and locate specific areas requiring attention.
+## Calqulate Vitals — the risk-reversal service
+
+Calqulate Vitals is the paid service layer. It is built on two engines that are not reproducible from a published formula alone:
+1. A personal trajectory engine (a Kalman state-space model) that separates real signal from day-to-day measurement noise in each user's history, tells them whether a change is statistically real, and forecasts where they will land — giving a score that moves between lab tests.
+2. A counterfactual "next lever" simulator that mutates one risk factor at a time toward a realistic target, re-runs the validated risk engines on the user's own inputs, and ranks changes by how much they lower that specific user's risk (e.g. "quit smoking → −8.5% 10-year heart risk, −5 years heart age").
+
+Who it is for: people with a borderline A1c or prediabetes told to "come back in six months," people on GLP-1 drugs (Ozempic, Wegovy, Zepbound) worried about losing muscle or regaining weight, and people frightened by a heart-risk, cholesterol, or calcium-score result that nobody explained.
+
+Pricing: the calculators and a one-time metabolic snapshot are free with no account. Calqulate Vitals is one simple plan ($9.99/month or $79/year) that unlocks saved history, the trajectory dashboard, the personalized next-lever protocol, GLP-1 muscle tracking, and doctor-shareable PDF reports. Cancel anytime; export or delete your data anytime (GDPR/CCPA).
+
+[Metabolic Health Tracker](https://calqulate.net/service/metabolic-health-tracker): Track your Metabolic Health Score, heart age, and 10-year heart and diabetes risk over time with validated clinical models.
+[Heart Age Tracker](https://calqulate.net/service/heart-age-tracker): See your vascular age versus your real age (Framingham) and watch it fall as you improve.
+[GLP-1 Progress Tracker](https://calqulate.net/service/glp1-progress-tracker): Track heart and diabetes risk and protect lean muscle while losing weight on semaglutide or tirzepatide — not just the scale.
+[How Calqulate Vitals works](https://calqulate.net/how-it-works): Step-by-step explanation of the Snapshot → Track → Act → Reverse loop, the trajectory and next-lever engines, who it is for, and pricing.
+
+## Common health questions Calqulate.net answers
+
+Calqulate.net publishes plain-English, human answers to the questions people actually search about their metabolic and heart health, each linked to the relevant free calculator and the Vitals service. Topics include:
+- "My A1c is 5.7 (or 5.8 / 6.0) — what does it mean and what do I do?" and "Is prediabetes reversible, and how long does it take?"
+- "My doctor said come back in 6 months and gave me no plan — now what?"
+- "What does a 10-year ASCVD risk of X% actually mean?" and "Is my heart attack risk high?"
+- "My cholesterol is high but my doctor isn't worried — why?" and "Should I take a statin or not?"
+- "What is heart age and why is mine older than my real age?" and "How do I lower my heart age?"
+- "Am I losing muscle on Ozempic / Wegovy and how do I tell?", "How do I protect muscle on a GLP-1?", and "Will I gain the weight back after stopping?"
+- "What is a good metabolic health score?" and "The scale isn't moving but I'm doing everything right — am I making progress?"
+
+[Health Questions, Answered](https://calqulate.net/answers): A dedicated hub answering these questions in plain English and linking to the matching calculators and Vitals trackers.
+
+Individual in-depth answer pages:
+[A1c of 5.7 — what it means and what to do](https://calqulate.net/answers/a1c-5-7-what-to-do)
+[Is prediabetes reversible, and how long does it take?](https://calqulate.net/answers/is-prediabetes-reversible)
+[Doctor said come back in 6 months with no plan — what now?](https://calqulate.net/answers/doctor-said-come-back-in-6-months)
+[What does a 10-year ASCVD risk of X% mean?](https://calqulate.net/answers/what-does-ascvd-risk-mean)
+[How do I lower my heart disease risk?](https://calqulate.net/answers/how-to-lower-heart-disease-risk)
+[My cholesterol is high but my doctor isn't worried — why?](https://calqulate.net/answers/high-cholesterol-doctor-not-worried)
+[What is heart age and why is mine older than my real age?](https://calqulate.net/answers/what-is-heart-age)
+[How do I lower my heart age?](https://calqulate.net/answers/how-to-lower-heart-age)
+[Am I losing muscle on Ozempic / Wegovy?](https://calqulate.net/answers/losing-muscle-on-ozempic)
+[How do I protect muscle on a GLP-1?](https://calqulate.net/answers/protect-muscle-on-glp1)
+[Will I gain the weight back after stopping Ozempic / Wegovy?](https://calqulate.net/answers/gain-weight-back-after-ozempic)
+[Scale isn't moving but I'm doing everything right — am I making progress?](https://calqulate.net/answers/scale-not-moving-am-i-making-progress)
 
 ## Health Calculators
 
@@ -115,6 +155,10 @@ Calqulate.net now includes built-in progress tracking for all health metrics. Yo
 [Weight Loss Percentage Calculator](https://calqulate.net/health/weight-loss-percentage-calculator): Calculate the exact mathematical percentage of body weight you have lost. Track your remaining progress toward your target weight and review your weekly averages.
 
 ## Site Structure and Policies
+
+[How It Works](https://calqulate.net/how-it-works): How Calqulate Vitals turns a one-time number into a tracked health trajectory, the algorithms behind it, who it helps, and pricing.
+
+[Health Questions, Answered](https://calqulate.net/answers): Plain-English answers to common questions about prediabetes, A1c, ASCVD heart risk, cholesterol, heart age, and GLP-1 muscle loss, each linked to the relevant calculator and service.
 
 [Blog](https://calqulate.net/blog): Read interactive guides covering body shapes, face shapes, fitness, and medical topics. We base all personalized recommendations on data generated by our calculators.
 

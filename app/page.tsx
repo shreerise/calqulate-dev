@@ -1,14 +1,16 @@
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SearchBar } from "@/components/search/search-bar"
+import { ScoreGauge } from "@/components/vitals/ScoreGauge"
+import { SinglePlan } from "@/components/vitals/SinglePlan"
 
 import {
   Calculator,
   Wrench,
   TrendingUp,
   Heart,
+  HeartPulse,
   Activity,
   Scale,
   Brain,
@@ -20,10 +22,9 @@ import {
   Users,
   Award,
   Sparkles,
-  History,
-  BarChart3,
   Target,
-  Gift,
+  LineChart,
+  Lock,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -361,36 +362,80 @@ const trustPoints = [
     title: "Instant, No-Friction Results",
     desc: "No email gates, no confusing interfaces. Just enter your numbers and get your answer.",
   },
+  {
+    icon: <LineChart className="h-5 w-5" />,
+    title: "Track Change Over Time",
+    desc: "See your trajectory, not a one-off number. Watch your Metabolic Health Score and risk fall month over month.",
+  },
+  {
+    icon: <Lock className="h-5 w-5" />,
+    title: "Privacy-First Paid Tier",
+    desc: "GDPR/CCPA data export and permanent delete, anytime. Your health data is yours to take or erase.",
+  },
 ]
 
-const productUpdateFeatures = [
+// ─── Calqulate Vitals services ────────────────────────────────────────────────
+
+const vitalsServices = [
   {
-    icon: <Sparkles className="h-8 w-8 text-emerald-600" />,
-    title: "Personalized Results",
-    description: "Get accurate, personalized health insights instantly. There is no login or signup required.",
+    icon: <Activity className="h-6 w-6" />,
+    title: "Metabolic Health Tracker",
+    desc: "A composite Metabolic Health Score plus heart age and 10-year ASCVD risk, tracked over time.",
+    href: "/service/metabolic-health-tracker",
   },
   {
-    icon: <History className="h-8 w-8 text-emerald-600" />,
-    title: "Save Your Results",
-    description: "Save all your calculations securely and access them anytime you return.",
+    icon: <Heart className="h-6 w-6" />,
+    title: "Heart Age Tracker",
+    desc: "See your vascular age versus your real age with the validated Framingham model — and watch it fall.",
+    href: "/service/heart-age-tracker",
   },
   {
-    icon: <BarChart3 className="h-8 w-8 text-emerald-600" />,
-    title: "Progress Tracking",
-    description: "Track your complete history and monitor changes over time.",
-  },
-  {
-    icon: <Target className="h-8 w-8 text-emerald-600" />,
-    title: "Compare Results",
-    description: "Compare previous and current results to identify positive improvements and areas to focus on.",
+    icon: <TrendingUp className="h-6 w-6" />,
+    title: "GLP-1 Progress Tracker",
+    desc: "On semaglutide or Ozempic? Track results that matter beyond the scale — risk, not just pounds.",
+    href: "/service/glp1-progress-tracker",
   },
 ]
+
 
 // ─── Page Component ───────────────────────────────────────────────────────────
+
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "Calqulate.NET",
+      url: "https://calqulate.net",
+      description:
+        "A metabolic and cardiovascular risk-reversal service. Know your score, track your trend, lower your risk.",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: { "@type": "EntryPoint", urlTemplate: "https://calqulate.net/search?q={search_term_string}" },
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "Product",
+      name: "Calqulate Vitals",
+      description:
+        "Track your Metabolic Health Score, heart age, and 10-year disease risk over time — and get the one change that moves it most.",
+      brand: { "@type": "Brand", name: "Calqulate" },
+      offers: {
+        "@type": "AggregateOffer",
+        priceCurrency: "USD",
+        lowPrice: "0",
+        highPrice: "119",
+        offerCount: "3",
+      },
+    },
+  ],
+}
 
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }} />
       {/* Global CSS for floating animations */}
       <style>{`
         @keyframes float {
@@ -437,22 +482,22 @@ export default function HomePage() {
                 {/* Pill badge */}
                 <div className="inline-flex items-center gap-2 bg-emerald-800/60 border border-emerald-600/40 text-emerald-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
                   <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  50+ Free Health Calculators. No Login Required
+                  Metabolic &amp; cardiovascular risk-reversal · Built on validated clinical models
                 </div>
 
                             <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
-                  Decode your body. Define your look. Own your health.
+                  Stop calculating. <span className="text-emerald-400">Start reversing.</span>
                 </h1>
 
                 <p className="text-lg text-emerald-100/80 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                  From tracking your cardiovascular vitals to mapping your physical and facial proportions,
-                  Calqulate.net gives you the personalized data you need to live and look your best.
+                  Calqulate tracks your metabolic and cardiovascular risk over time — and tells you the
+                  single highest-impact change to make next.
                 </p>
 
                 {/* Hero Search */}
                 <div className="max-w-md mx-auto lg:mx-0 mb-8">
                   <SearchBar
-                    placeholder="Search calculators... e.g. BMI, body fat"
+                    placeholder="Search free snapshot tools... e.g. BMI, heart age"
                     className="h-13 text-base bg-white shadow-xl rounded-xl"
                   />
                 </div>
@@ -463,8 +508,8 @@ export default function HomePage() {
                     className="bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-8 py-3 rounded-xl shadow-lg shadow-emerald-900/40 transition-all duration-200 hover:shadow-emerald-500/30"
                     asChild
                   >
-                    <Link href="\search">
-                      Explore All Calculators
+                    <Link href="/service/metabolic-health-tracker">
+                      Get my Metabolic Health Score
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -474,19 +519,23 @@ export default function HomePage() {
                     className="border-emerald-500/50 text-emerald-200 hover:bg-emerald-800/50 hover:text-white px-8 py-3 rounded-xl transition-all duration-200"
                     asChild
                   >
-                    <Link href="/about-us">How It Works</Link>
+                    <Link href="/#how-it-works">See how it works</Link>
                   </Button>
                 </div>
 
-                {/* Social proof strip */}
+                {/* Trust chips */}
                 <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-emerald-300/70">
                   <span className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    Clinically validated formulas
+                    Validated clinical models
                   </span>
                   <span className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    No account needed
+                    Private by design
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    Cancel anytime
                   </span>
                 </div>
               </div>
@@ -537,69 +586,147 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── PRODUCT UPDATE SECTION ───────────────────────────────────────────────── */}
-        <section className="py-16 bg-gradient-to-br from-emerald-50 via-white to-emerald-50 border-b border-emerald-100">
+        {/* ── SECTION B: THE FREE ON-RAMP ──────────────────────────────────── */}
+        <section className="py-12 bg-white border-b border-gray-100">
           <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
-              <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 px-5 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold mb-4">
-                  <Gift className="h-5 w-5" />
-                  LATEST PRODUCT UPDATE
-                </div>
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                  Personalized Progress Tracking is Here
+            <div className="max-w-4xl mx-auto rounded-2xl border border-emerald-100 bg-emerald-50/50 p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6">
+              <div className="flex-1">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900">
+                  Start with a free snapshot — no account needed.
                 </h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  At <span className="font-semibold text-emerald-700">Calqulate.net</span>, we now make it easier than ever to track your health metrics over time.
+                <p className="mt-2 text-gray-600">
+                  Run every clinical engine once, free and stateless. Upgrade only when you want to
+                  save it, track it, and reverse it.
                 </p>
               </div>
+              <Link
+                href="/search"
+                className="inline-flex flex-shrink-0 items-center gap-2 rounded-xl border border-emerald-300 bg-white px-6 py-3 font-semibold text-emerald-700 hover:bg-emerald-100 transition-colors"
+              >
+                Browse all snapshot tools
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                {productUpdateFeatures.map((feature, index) => (
-                  <Card key={index} className="border-emerald-100 hover:border-emerald-200 transition-all hover:shadow-md group">
-                    <CardHeader className="pb-4">
-                      <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        {feature.icon}
-                      </div>
-                      <CardTitle className="text-xl text-gray-900">{feature.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-base text-gray-600 leading-relaxed">
-                        {feature.description}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
+        {/* ── SECTION C: INTRODUCING CALQULATE VITALS ──────────────────────── */}
+        <section id="how-it-works" className="py-16 bg-gradient-to-br from-emerald-50 via-white to-emerald-50 scroll-mt-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12 max-w-3xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-5 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold mb-4">
+                <HeartPulse className="h-5 w-5" />
+                Introducing Calqulate Vitals
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
+                From a one-time number to a health trajectory.
+              </h2>
+              <p className="text-lg text-gray-600">
+                Calqulate Vitals turns your numbers into a tracked score, validated risk models, and the
+                single highest-impact change to make next.
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
+              {/* 3-step how it works */}
+              <div className="lg:col-span-2 grid sm:grid-cols-3 gap-5">
+                {[
+                  { n: "1", icon: <Calculator className="h-5 w-5" />, title: "Compute", desc: "Run every clinical engine free and stateless — no login required." },
+                  { n: "2", icon: <LineChart className="h-5 w-5" />, title: "Save & track", desc: "Trend your Metabolic Health Score, heart age, and 10-yr ASCVD & diabetes risk over time." },
+                  { n: "3", icon: <Target className="h-5 w-5" />, title: "Act", desc: "A weighted risk-graph engine surfaces your single highest-impact 'next lever.'" },
+                ].map((step) => (
+                  <div key={step.n} className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white">{step.n}</span>
+                      <span className="text-emerald-600">{step.icon}</span>
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-1">{step.title}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
+                  </div>
                 ))}
               </div>
 
-              <div className="bg-white rounded-3xl border border-emerald-100 p-8 md:p-12 text-center shadow-sm">
-                <div className="flex justify-center mb-6">
-                  <div className="inline-flex items-center gap-3 bg-emerald-600 text-white px-6 py-3 rounded-2xl">
-                    <CheckCircle2 className="h-6 w-6" />
-                    <span className="font-semibold">Completely Free • No Hidden Charges</span>
-                  </div>
-                </div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                  Start tracking your health progress today
-                </h3>
-                <p className="text-gray-600 max-w-md mx-auto mb-8">
-                  Save your results, monitor your history, compare improvements, and celebrate your progress at zero cost.
-                </p>
-                <Button
-                  size="lg"
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-10 py-6 rounded-2xl text-lg shadow-lg"
-                  asChild
-                >
-                  <Link href="/search">
-                    Try Any Calculator Now
-                    <ArrowRight className="ml-3 h-5 w-5" />
-                  </Link>
-                </Button>
-                <p className="text-xs text-gray-500 mt-6">
-                  No signup required to get started. Save results anytime.
-                </p>
+              {/* Score gauge + trend illustration */}
+              <div className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm flex flex-col items-center">
+                <ScoreGauge score={82} grade="B" />
+                <svg viewBox="0 0 240 60" className="mt-4 w-full" role="img" aria-label="Sample improving score trend">
+                  <polyline
+                    points="0,48 40,44 80,46 120,36 160,30 200,22 240,14"
+                    fill="none"
+                    stroke="#10b981"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {[[0,48],[40,44],[80,46],[120,36],[160,30],[200,22],[240,14]].map(([x,y],i) => (
+                    <circle key={i} cx={x} cy={y} r="3" fill="#10b981" />
+                  ))}
+                </svg>
+                <p className="mt-2 text-xs text-gray-400 text-center">Sample score trending up over six measurements.</p>
               </div>
             </div>
+
+            <p className="mt-10 text-center text-sm text-gray-500 max-w-3xl mx-auto">
+              Built on validated, published models:{" "}
+              <span className="font-medium text-gray-700">Pooled Cohort Equations (ASCVD)</span>,{" "}
+              <span className="font-medium text-gray-700">Framingham (heart age)</span>, and{" "}
+              <span className="font-medium text-gray-700">FINDRISC (type-2 diabetes risk)</span>.{" "}
+              Educational decision-support — not medical advice.
+            </p>
+          </div>
+        </section>
+
+        {/* ── SECTION D: THE THREE VITALS SERVICES ─────────────────────────── */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-10">
+              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+                The Vitals services
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Pick the track that fits your goal
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {vitalsServices.map((svc) => (
+                <Link
+                  key={svc.href}
+                  href={svc.href}
+                  className="group block rounded-2xl border border-gray-100 bg-white p-6 hover:border-emerald-200 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
+                >
+                  <div className="p-3 bg-emerald-50 rounded-xl w-fit text-emerald-600 group-hover:bg-emerald-100 transition-colors mb-4">
+                    {svc.icon}
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">{svc.title}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed mb-4">{svc.desc}</p>
+                  <span className="inline-flex items-center text-sm font-semibold text-emerald-600 group-hover:text-emerald-500">
+                    Explore <ArrowRight className="ml-1.5 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SECTION E: PRICING ───────────────────────────────────────────── */}
+        <section id="pricing" className="py-16 bg-gray-50 border-y border-gray-100 scroll-mt-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-10 max-w-2xl mx-auto">
+              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+                Simple, honest pricing
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Free to start. Upgrade to track &amp; reverse.
+              </h2>
+              <p className="text-gray-600">
+                The free snapshot is genuinely free — run any engine once, nothing saved. One plan unlocks
+                saved history, the trajectory engine, your next-lever protocol, and doctor-shareable reports.
+              </p>
+            </div>
+            <SinglePlan />
+            <p className="mt-8 text-center text-xs text-gray-400">
+              Educational decision-support — not medical advice. Cancel anytime.
+            </p>
           </div>
         </section>
 
@@ -972,37 +1099,39 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── FINAL CTA STRIP ───────────────────────────────────────────────── */}
-        <section className="py-16 bg-emerald-50 border-t border-emerald-100">
+        {/* ── SECTION I: FINAL CTA (service-led, dual path) ────────────────── */}
+        <section className="py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Ready to Understand Your Health Better?
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Watch your disease risk drop, not just the scale.
             </h2>
-            <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto">
-              Start with any calculator below. There are no accounts to create and no forms to fill. You will get clear health insights in seconds.
+            <p className="text-emerald-100/80 text-lg mb-8 max-w-xl mx-auto">
+              Know your score, track your trend, lower your risk. Start free — upgrade only when you
+              want to save and reverse it.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
                 size="lg"
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-8 rounded-xl shadow-md shadow-emerald-200"
+                className="bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-8 rounded-xl shadow-lg shadow-emerald-900/40"
                 asChild
               >
-                <Link href="/health/bmi-calculator">
-                  Start with BMI Calculator
+                <Link href="/service/metabolic-health-tracker">
+                  Start your free Metabolic Health Score
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="border-emerald-200 text-emerald-700 hover:bg-emerald-100 px-8 rounded-xl font-semibold"
+                className="border-emerald-500/50 text-emerald-200 hover:bg-emerald-800/50 hover:text-white px-8 rounded-xl font-semibold"
                 asChild
               >
-                <Link href="/health/ovulation-calculator">
-                  Try Ovulation Calculator
-                </Link>
+                <Link href="/search">Or try any free snapshot</Link>
               </Button>
             </div>
+            <p className="mt-8 text-xs text-emerald-300/60">
+              Educational decision-support — not medical, legal, or financial advice.
+            </p>
           </div>
         </section>
 

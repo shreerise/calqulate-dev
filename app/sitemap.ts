@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import type { MetadataRoute } from "next";
 import { blogs } from "@/lib/blog/blogs-data";
+import { STANDALONE_QUESTIONS } from "@/app/answers/questions-data";
 
 const baseUrl = "https://calqulate.net";
 
@@ -56,6 +57,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   scanDir(appDir);
+
+  // Calqulate Vitals service landing pages (dynamic /service/[slug] route).
+  for (const slug of ["metabolic-health-tracker", "heart-age-tracker", "glp1-progress-tracker"]) {
+    urls.push({
+      url: `${baseUrl}/service/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    });
+  }
+
+  // Standalone health-question pages (dynamic /answers/[slug] route).
+  for (const q of STANDALONE_QUESTIONS) {
+    urls.push({
+      url: `${baseUrl}/answers/${q.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    });
+  }
 
   // Blog posts — add each individual slug
   for (const blog of blogs) {
