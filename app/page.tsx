@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/search/search-bar"
 import { ScoreGauge } from "@/components/vitals/ScoreGauge"
 import { SinglePlan } from "@/components/vitals/SinglePlan"
+import { SocialProof } from "@/components/marketing/SocialProof"
 
 import {
   Calculator,
@@ -386,13 +387,13 @@ const vitalsServices = [
   {
     icon: <Heart className="h-6 w-6" />,
     title: "Heart Age Tracker",
-    desc: "See your vascular age versus your real age with the validated Framingham model — and watch it fall.",
+    desc: "See your vascular age versus your real age with the validated Framingham model - and watch it fall.",
     href: "/service/heart-age-tracker",
   },
   {
     icon: <TrendingUp className="h-6 w-6" />,
     title: "GLP-1 Progress Tracker",
-    desc: "On semaglutide or Ozempic? Track results that matter beyond the scale — risk, not just pounds.",
+    desc: "On semaglutide or Ozempic? Track results that matter beyond the scale - risk, not just pounds.",
     href: "/service/glp1-progress-tracker",
   },
 ]
@@ -404,9 +405,21 @@ const homeJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebSite",
-      name: "Calqulate.NET",
+      "@type": "Organization",
+      "@id": "https://calqulate.net/#org",
+      name: "Calqulate.net",
       url: "https://calqulate.net",
+      email: "support@calqulate.net",
+      description:
+        "A USA metabolic and cardiovascular risk-reversal service. Track your Metabolic Health Score, Longevity Index, heart age and disease risk, and reverse it over time.",
+      sameAs: [] as string[],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://calqulate.net/#website",
+      name: "Calqulate.net",
+      url: "https://calqulate.net",
+      publisher: { "@id": "https://calqulate.net/#org" },
       description:
         "A metabolic and cardiovascular risk-reversal service. Know your score, track your trend, lower your risk.",
       potentialAction: {
@@ -416,18 +429,28 @@ const homeJsonLd = {
       },
     },
     {
-      "@type": "Product",
+      "@type": "SoftwareApplication",
       name: "Calqulate Vitals",
+      applicationCategory: "HealthApplication",
+      operatingSystem: "Web, iOS, Android (PWA)",
+      url: "https://calqulate.net/pricing",
       description:
-        "Track your Metabolic Health Score, heart age, and 10-year disease risk over time — and get the one change that moves it most.",
-      brand: { "@type": "Brand", name: "Calqulate" },
+        "Track your Metabolic Health Score, Longevity Index, biological age, heart age and 10-year disease risk over time. Run a Future You simulation and follow a GLP-1 protocol that protects muscle.",
       offers: {
-        "@type": "AggregateOffer",
+        "@type": "Offer",
+        price: "79",
         priceCurrency: "USD",
-        lowPrice: "0",
-        highPrice: "119",
-        offerCount: "3",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
       },
+      featureList: [
+        "Metabolic Health Score tracking",
+        "Longevity Index and biological age",
+        "Future You Monte-Carlo simulator",
+        "Heart age and 10-year ASCVD and diabetes risk",
+        "GLP-1 Autopilot protocol with muscle protection",
+        "Doctor-shareable PDF reports",
+      ],
     },
   ],
 }
@@ -454,131 +477,119 @@ export default function HomePage() {
 
       <main className="flex-1">
 
-        {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800 py-16 lg:py-24">
-
-          {/* Decorative background dots */}
-          <div className="absolute inset-0 opacity-10">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1.5" fill="white" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#dots)" />
-            </svg>
+        {/* ── HERO SECTION (premium redesign) ──────────────────────────────── */}
+        <section className="relative overflow-hidden bg-[#04140f] py-16 lg:py-24">
+          {/* Layered background: radial glow + grid + orbs */}
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(16,185,129,0.22),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(5,150,105,0.18),transparent_50%)]" />
+            <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:46px_46px]" />
+            <div className="absolute -top-40 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl" />
+            <div className="absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-teal-400/10 blur-3xl" />
           </div>
 
-          {/* Glowing orb accent */}
-          <div className="absolute -top-32 -right-32 w-96 h-96 bg-emerald-400 rounded-full opacity-10 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-emerald-300 rounded-full opacity-10 blur-3xl pointer-events-none" />
-
           <div className="relative container mx-auto px-4">
-            {/* Swapped to 12-column grid to increase image size and decrease gap */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-6 items-center">
-              
-              {/* LEFT SIDE: Content (Takes 5 columns out of 12) */}
-              <div className="lg:col-span-5 text-center lg:text-left mx-auto lg:mx-0 w-full max-w-2xl lg:max-w-none">
-                {/* Pill badge */}
-                <div className="inline-flex items-center gap-2 bg-emerald-800/60 border border-emerald-600/40 text-emerald-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
-                  <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  Metabolic &amp; cardiovascular risk-reversal · Built on validated clinical models
+            <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-8">
+
+              {/* LEFT: copy */}
+              <div className="lg:col-span-6 text-center lg:text-left">
+                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-300 backdrop-blur">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+                  Mission control for your metabolic health
                 </div>
 
-                            <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
-                  Stop calculating. <span className="text-emerald-400">Start reversing.</span>
+                <h1 className="text-balance text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl xl:text-7xl">
+                  Stop calculating.{" "}
+                  <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Start reversing.</span>
                 </h1>
 
-                <p className="text-lg text-emerald-100/80 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                  Calqulate tracks your metabolic and cardiovascular risk over time — and tells you the
-                  single highest-impact change to make next.
+                <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-emerald-100/75 lg:mx-0">
+                  Calqulate models your metabolic and cardiovascular risk over time, projects your future self,
+                  and tells you the single highest-impact change to make next. Built on validated clinical models,
+                  not guesswork.
                 </p>
 
-                {/* Hero Search */}
-                <div className="max-w-md mx-auto lg:mx-0 mb-8">
-                  <SearchBar
-                    placeholder="Search free snapshot tools... e.g. BMI, heart age"
-                    className="h-13 text-base bg-white shadow-xl rounded-xl"
-                  />
+                <div className="mx-auto mt-8 max-w-md lg:mx-0">
+                  <SearchBar placeholder="Search free tools... e.g. BMI, heart age" className="h-13 rounded-xl bg-white text-base shadow-xl" />
                 </div>
 
-                <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                  <Button
-                    size="lg"
-                    className="bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-8 py-3 rounded-xl shadow-lg shadow-emerald-900/40 transition-all duration-200 hover:shadow-emerald-500/30"
-                    asChild
-                  >
-                    <Link href="/service/metabolic-health-tracker">
-                      Get my Metabolic Health Score
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
+                <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
+                  <Button size="lg" className="rounded-xl bg-emerald-500 px-7 py-3 font-semibold text-emerald-950 shadow-lg shadow-emerald-900/40 transition hover:bg-emerald-400" asChild>
+                    <Link href="/service/metabolic-health-tracker">Get my free score<ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-emerald-500/50 text-emerald-200 hover:bg-emerald-800/50 hover:text-white px-8 py-3 rounded-xl transition-all duration-200"
-                    asChild
-                  >
-                    <Link href="/#how-it-works">See how it works</Link>
+                  <Button size="lg" variant="outline" className="rounded-xl border-emerald-500/40 bg-white/5 px-7 py-3 font-semibold text-emerald-100 backdrop-blur transition hover:bg-emerald-800/40 hover:text-white" asChild>
+                    <Link href="/how-it-works">See how it works</Link>
                   </Button>
                 </div>
 
-                {/* Trust chips */}
-                <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-emerald-300/70">
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    Validated clinical models
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    Private by design
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    Cancel anytime
-                  </span>
+                <div className="mt-9 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-emerald-300/70 lg:justify-start">
+                  {["Validated clinical models", "Private by design", "Free to start"].map((t) => (
+                    <span key={t} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-400" />{t}</span>
+                  ))}
                 </div>
               </div>
 
-              {/* RIGHT SIDE: Visual/Image Representation (Takes 7 columns out of 12) */}
-              <div className="lg:col-span-7 relative hidden lg:block w-full lg:pl-4 xl:pl-8">
-                {/* Soft backdrop glow behind image */}
-                <div className="absolute inset-0 bg-emerald-400 rounded-[2rem] blur-3xl opacity-20 animate-pulse" />
-                
-                {/* Main Image Container */}
-                <div className="relative w-full max-w-2xl lg:max-w-none ml-auto bg-emerald-800/40 border border-emerald-600/30 p-4 rounded-[2.5rem] shadow-2xl backdrop-blur-sm">
-                  <div className="relative w-full h-[480px] overflow-hidden rounded-[1.8rem] shadow-inner">
-                    <Image
-                      src="/Health-personalized-dashboard-calqulate.net.webp"
-                      alt="Health Metrics and Analytics Graphic"
-                      fill
-                      priority
-                      sizes="(min-width: 1024px) 720px, 100vw"
-                      className="object-contain"
-                    />
+              {/* RIGHT: live product preview card */}
+              <div className="relative lg:col-span-6">
+                <div className="absolute inset-0 rounded-[2.5rem] bg-emerald-400/20 blur-3xl" />
+                <div className="relative mx-auto w-full max-w-md rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 shadow-2xl backdrop-blur-xl">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-white">Your metabolic health</span>
+                    <span className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-300">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" /> LIVE
+                    </span>
                   </div>
 
-                  {/* Floating Concept UI Element 1: Insights (Animated) */}
-                  <div className="absolute -bottom-6 -left-4 xl:-left-8 bg-white p-4 rounded-2xl shadow-xl border border-emerald-100 flex items-center gap-4 animate-float">
-                    <div className="p-3 bg-emerald-100 rounded-full text-emerald-600">
-                      <Activity className="h-6 w-6" />
+                  {/* Longevity index */}
+                  <div className="mt-4 rounded-2xl bg-black/20 p-4">
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <div className="text-[11px] uppercase tracking-wide text-emerald-300/70">Longevity Index</div>
+                        <div className="text-3xl font-extrabold text-white">742<span className="text-sm font-medium text-white/40"> / 1000</span></div>
+                      </div>
+                      <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-bold text-emerald-300">Strong</span>
                     </div>
-                    <div className="pr-2">
-                      <div className="text-sm font-bold text-gray-900">Actionable Insights</div>
-                      <div className="text-xs text-gray-500 font-medium">Based on your numbers</div>
+                    <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/10">
+                      <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-300" style={{ width: "74%" }} />
                     </div>
                   </div>
 
-                  {/* Floating Concept UI Element 2: Value & Privacy (Animated) */}
-                  <div className="absolute -top-6 -right-2 xl:-right-6 bg-emerald-900/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-emerald-500/30 flex items-center gap-4 animate-float-delayed">
-                    <div className="p-3 bg-emerald-500/20 rounded-full text-emerald-300">
-                      <Shield className="h-6 w-6" />
+                  {/* Gauge + sparkline */}
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div className="rounded-2xl bg-black/20 p-3">
+                      <div className="rounded-xl bg-white p-2">
+                        <ScoreGauge score={88} grade="B" />
+                      </div>
                     </div>
-                    <div className="pr-2">
-                      <div className="text-sm font-bold text-white">100% Private</div>
-                      <div className="text-xs text-emerald-200/80 font-medium">No data stored</div>
+                    <div className="flex flex-col justify-between rounded-2xl bg-black/20 p-3">
+                      <div className="text-[11px] uppercase tracking-wide text-emerald-300/70">Score trend</div>
+                      <svg viewBox="0 0 120 48" className="w-full" aria-hidden>
+                        <polyline points="0,40 24,36 48,30 72,26 96,16 120,8" fill="none" stroke="#34d399" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                        {[[0,40],[24,36],[48,30],[72,26],[96,16],[120,8]].map(([x,y],i)=>(<circle key={i} cx={x} cy={y} r="2.5" fill="#34d399" />))}
+                      </svg>
+                      <div className="text-xs font-semibold text-emerald-300">+11 this quarter</div>
                     </div>
                   </div>
+
+                  {/* Risk tiles */}
+                  <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                    {[["Heart age","52"],["10-yr heart","5.4%"],["Diabetes","4%"]].map(([l,v]) => (
+                      <div key={l} className="rounded-xl bg-black/20 p-2.5">
+                        <div className="text-base font-bold text-white">{v}</div>
+                        <div className="text-[10px] text-white/50">{l}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* floating accents */}
+                <div className="absolute -bottom-5 -left-3 hidden rounded-2xl border border-emerald-100 bg-white p-3 shadow-xl sm:flex items-center gap-3 animate-float">
+                  <div className="rounded-full bg-emerald-100 p-2 text-emerald-600"><TrendingUp className="h-5 w-5" /></div>
+                  <div><div className="text-xs font-bold text-gray-900">Risk falling</div><div className="text-[11px] text-gray-500">month over month</div></div>
+                </div>
+                <div className="absolute -top-5 -right-3 hidden rounded-2xl border border-emerald-500/30 bg-emerald-900/90 p-3 shadow-xl backdrop-blur sm:flex items-center gap-3 animate-float-delayed">
+                  <div className="rounded-full bg-emerald-500/20 p-2 text-emerald-300"><Lock className="h-5 w-5" /></div>
+                  <div><div className="text-xs font-bold text-white">Private by design</div><div className="text-[11px] text-emerald-200/80">export or delete anytime</div></div>
                 </div>
               </div>
 
@@ -592,7 +603,7 @@ export default function HomePage() {
             <div className="max-w-4xl mx-auto rounded-2xl border border-emerald-100 bg-emerald-50/50 p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6">
               <div className="flex-1">
                 <h2 className="text-xl md:text-2xl font-bold text-gray-900">
-                  Start with a free snapshot — no account needed.
+                  Start with a free snapshot - no account needed.
                 </h2>
                 <p className="mt-2 text-gray-600">
                   Run every clinical engine once, free and stateless. Upgrade only when you want to
@@ -631,7 +642,7 @@ export default function HomePage() {
               {/* 3-step how it works */}
               <div className="lg:col-span-2 grid sm:grid-cols-3 gap-5">
                 {[
-                  { n: "1", icon: <Calculator className="h-5 w-5" />, title: "Compute", desc: "Run every clinical engine free and stateless — no login required." },
+                  { n: "1", icon: <Calculator className="h-5 w-5" />, title: "Compute", desc: "Run every clinical engine free and stateless - no login required." },
                   { n: "2", icon: <LineChart className="h-5 w-5" />, title: "Save & track", desc: "Trend your Metabolic Health Score, heart age, and 10-yr ASCVD & diabetes risk over time." },
                   { n: "3", icon: <Target className="h-5 w-5" />, title: "Act", desc: "A weighted risk-graph engine surfaces your single highest-impact 'next lever.'" },
                 ].map((step) => (
@@ -671,7 +682,7 @@ export default function HomePage() {
               <span className="font-medium text-gray-700">Pooled Cohort Equations (ASCVD)</span>,{" "}
               <span className="font-medium text-gray-700">Framingham (heart age)</span>, and{" "}
               <span className="font-medium text-gray-700">FINDRISC (type-2 diabetes risk)</span>.{" "}
-              Educational decision-support — not medical advice.
+              Educational decision-support - not medical advice.
             </p>
           </div>
         </section>
@@ -708,6 +719,43 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── ADVANCED PLATFORM (v2 capabilities) ──────────────────────────── */}
+        <section className="bg-gray-950 py-16 text-gray-100">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="text-center mb-12 max-w-2xl mx-auto">
+              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-3 block">
+                Mission control for your body
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">More than a tracker - a model of your future self</h2>
+              <p className="mt-3 text-gray-400">
+                First-principles health: break your biology into measurable systems, model reality, and get god-mode
+                control over your trajectory.
+              </p>
+            </div>
+            <div className="grid gap-5 md:grid-cols-3">
+              {[
+                { tag: "Live", t: "Longevity Index (0–1000)", d: "One number that rolls up cardiovascular, metabolic, body-composition, fitness and glucose control - with the exact levers to raise it." },
+                { tag: "Live", t: "Biological age", d: "A transparent biomarker-weighted estimate of how old your body really is, and the top drivers aging you faster." },
+                { tag: "Live", t: "“Future You” simulator", d: "A Monte-Carlo engine projects your weight, score and heart age 6–60 months out - across optimistic, realistic and pessimistic adherence, with honest confidence bands." },
+                { tag: "Soon", t: "3D body + organ systems", d: "An interactive avatar that morphs with your composition, plus per-organ biological-age gauges (heart, liver, pancreas, brain, muscle)." },
+                { tag: "Soon", t: "GLP-1 Autopilot", d: "An adaptive 12–24 week titration + protein + training protocol that adjusts to your logged side-effects and progress." },
+                { tag: "Soon", t: "Mobile + weekly email", d: "Opt-in mobile notifications and a week-on-week progress email so your trajectory stays top of mind." },
+              ].map((f) => (
+                <div key={f.t} className="rounded-2xl border border-gray-800 bg-gray-900/60 p-6">
+                  <span className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${f.tag === "Live" ? "bg-emerald-500/20 text-emerald-400" : "bg-gray-700 text-gray-300"}`}>
+                    {f.tag}
+                  </span>
+                  <h3 className="mt-3 text-lg font-bold text-white">{f.t}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-gray-400">{f.d}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-center text-xs text-gray-600">
+              All calculations are pure, transparent code - no black-box AI. Methodology is shown on every result.
+            </p>
+          </div>
+        </section>
+
         {/* ── SECTION E: PRICING ───────────────────────────────────────────── */}
         <section id="pricing" className="py-16 bg-gray-50 border-y border-gray-100 scroll-mt-20">
           <div className="container mx-auto px-4">
@@ -719,13 +767,13 @@ export default function HomePage() {
                 Free to start. Upgrade to track &amp; reverse.
               </h2>
               <p className="text-gray-600">
-                The free snapshot is genuinely free — run any engine once, nothing saved. One plan unlocks
+                The free snapshot is genuinely free - run any engine once, nothing saved. One plan unlocks
                 saved history, the trajectory engine, your next-lever protocol, and doctor-shareable reports.
               </p>
             </div>
             <SinglePlan />
             <p className="mt-8 text-center text-xs text-gray-400">
-              Educational decision-support — not medical advice. Cancel anytime.
+              Educational decision-support - not medical advice. Cancel anytime.
             </p>
           </div>
         </section>
@@ -1099,6 +1147,9 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── SOCIAL PROOF: testimonials, stats, success stories ───────────── */}
+        <SocialProof />
+
         {/* ── SECTION I: FINAL CTA (service-led, dual path) ────────────────── */}
         <section className="py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
           <div className="container mx-auto px-4 text-center">
@@ -1106,7 +1157,7 @@ export default function HomePage() {
               Watch your disease risk drop, not just the scale.
             </h2>
             <p className="text-emerald-100/80 text-lg mb-8 max-w-xl mx-auto">
-              Know your score, track your trend, lower your risk. Start free — upgrade only when you
+              Know your score, track your trend, lower your risk. Start free - upgrade only when you
               want to save and reverse it.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
@@ -1130,7 +1181,7 @@ export default function HomePage() {
               </Button>
             </div>
             <p className="mt-8 text-xs text-emerald-300/60">
-              Educational decision-support — not medical, legal, or financial advice.
+              Educational decision-support - not medical, legal, or financial advice.
             </p>
           </div>
         </section>

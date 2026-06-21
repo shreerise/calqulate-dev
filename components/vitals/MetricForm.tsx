@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import type { MeasurementInput, VitalsReport } from "@/types/vitals";
 import type { ProtocolItem } from "@/lib/protocol";
 import { ScoreGauge } from "./ScoreGauge";
 import { ProtocolCard } from "./ProtocolCard";
+import { lbToKg, inToCm, type UnitSystem } from "@/lib/units";
 
 const schema = z.object({
   age: z.coerce.number().min(18).max(100),
@@ -40,18 +41,33 @@ export function MetricForm({
   const [protocol, setProtocol] = useState<ProtocolItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [units, setUnits] = useState<UnitSystem>("us");
+
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? (localStorage.getItem("calq-units") as UnitSystem | null) : null;
+    if (saved === "us" || saved === "metric") setUnits(saved);
+  }, []);
+  function chooseUnits(u: UnitSystem) {
+    setUnits(u);
+    try { localStorage.setItem("calq-units", u); } catch {}
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
+    const num = (v: FormDataEntryValue | null) => (v != null && v !== "" ? Number(v) : undefined);
+    // Inputs are in the chosen display units; storage is always metric.
+    const wIn = num(fd.get("weightKg"));
+    const hIn = num(fd.get("heightCm"));
+    const waIn = num(fd.get("waistCm"));
     const raw = {
       age: fd.get("age"),
       sex: fd.get("sex"),
       race: fd.get("race") || undefined,
-      heightCm: fd.get("heightCm"),
-      weightKg: fd.get("weightKg"),
-      waistCm: fd.get("waistCm") || undefined,
+      heightCm: hIn != null ? (units === "us" ? inToCm(hIn) : hIn) : undefined,
+      weightKg: wIn != null ? (units === "us" ? lbToKg(wIn) : wIn) : undefined,
+      waistCm: waIn != null ? (units === "us" ? inToCm(waIn) : waIn) : undefined,
       systolicBp: fd.get("systolicBp") || undefined,
       totalCholesterol: fd.get("totalCholesterol") || undefined,
       hdl: fd.get("hdl") || undefined,
@@ -91,6 +107,20 @@ export function MetricForm({
   return (
     <div className="grid gap-8 lg:grid-cols-2">
       <form onSubmit={onSubmit} className="space-y-4 rounded-2xl border border-gray-200 p-6">
+        {/* Units toggle (USA default) */}
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-medium text-gray-500">Units</span>
+          <div className="inline-flex rounded-lg border border-gray-200 p-0.5 text-sm">
+            <button type="button" onClick={() => chooseUnits("us")}
+              className={`rounded-md px-3 py-1 font-medium ${units === "us" ? "bg-blue-600 text-white" : "text-gray-600"}`}>
+              US (lb/in)
+            </button>
+            <button type="button" onClick={() => chooseUnits("metric")}
+              className={`rounded-md px-3 py-1 font-medium ${units === "metric" ? "bg-blue-600 text-white" : "text-gray-600"}`}>
+              Metric (kg/cm)
+            </button>
+          </div>
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <label className="text-sm">Age<input name="age" type="number" required className={field} /></label>
           <label className="text-sm">Sex
@@ -99,9 +129,9 @@ export function MetricForm({
               <option value="female">Female</option>
             </select>
           </label>
-          <label className="text-sm">Height (cm)<input name="heightCm" type="number" required className={field} /></label>
-          <label className="text-sm">Weight (kg)<input name="weightKg" type="number" required className={field} /></label>
-          <label className="text-sm">Waist (cm)<input name="waistCm" type="number" className={field} /></label>
+          <label className="text-sm">Height ({units === "us" ? "in" : "cm"})<input name="heightCm" type="number" step="any" required className={field} placeholder={units === "us" ? "e.g. 70" : "e.g. 178"} /></label>
+          <label className="text-sm">Weight ({units === "us" ? "lb" : "kg"})<input name="weightKg" type="number" step="any" required className={field} placeholder={units === "us" ? "e.g. 200" : "e.g. 90"} /></label>
+          <label className="text-sm">Waist ({units === "us" ? "in" : "cm"})<input name="waistCm" type="number" step="any" className={field} /></label>
           <label className="text-sm">Systolic BP<input name="systolicBp" type="number" className={field} /></label>
           <label className="text-sm">Total chol (mg/dL)<input name="totalCholesterol" type="number" className={field} /></label>
           <label className="text-sm">HDL (mg/dL)<input name="hdl" type="number" className={field} /></label>

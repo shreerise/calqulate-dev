@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { applySecurityHeaders } from "@/lib/security/headers";
+import { resolveIsAdmin } from "@/lib/admin-core";
 
 /** Refreshes the auth session cookie and applies security headers. */
 export async function updateSession(request: NextRequest) {
@@ -26,12 +27,24 @@ export async function updateSession(request: NextRequest) {
   );
 
   const { data: { user } } = await supabase.auth.getUser();
+  const path = request.nextUrl.pathname;
 
-  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+  // Require sign-in for gated areas.
+  if (!user && (path.startsWith("/dashboard") || path.startsWith("/admin"))) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    url.searchParams.set("next", request.nextUrl.pathname);
+    url.searchParams.set("next", path);
     return applySecurityHeaders(NextResponse.redirect(url));
+  }
+
+  // Admin area: members only.
+  if (path.startsWith("/admin")) {
+    const isAdmin = await resolveIsAdmin(supabase, user);
+    if (!isAdmin) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return applySecurityHeaders(NextResponse.redirect(url));
+    }
   }
 
   return applySecurityHeaders(response);

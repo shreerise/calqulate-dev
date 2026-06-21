@@ -1,6 +1,6 @@
 import { getAccess, hasPaidAccess } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { ScoreGauge } from "@/components/vitals/ScoreGauge";
+import { TrackerCards } from "@/components/vitals/TrackerCards";
 import { TrendChart, type TrendPoint } from "@/components/vitals/TrendChart";
 import { MetricForm } from "@/components/vitals/MetricForm";
 import { Paywall } from "@/components/vitals/Paywall";
@@ -9,6 +9,9 @@ import { TrajectoryPanel, type TrajectorySummary } from "@/components/vitals/Tra
 import { NextLeversPanel } from "@/components/vitals/NextLeversPanel";
 import { fitTrajectory, forecast, isRealChange, METRIC_NOISE, type SeriesPoint } from "@/lib/vitals/trajectory";
 import { computeNextLevers, type LeverResult } from "@/lib/vitals/nextLever";
+import { calcLongevityIndex, calcBiologicalAge, type HealthInput, type LongevityResult, type BioAgeResult } from "@/lib/healthCalculations";
+import { LongevityHero } from "@/components/health/LongevityHero";
+import { BodyAvatarCard } from "@/components/health/BodyAvatarCard";
 import type { VitalsReport } from "@/types/vitals";
 
 export const dynamic = "force-dynamic";
@@ -65,9 +68,13 @@ export default async function DashboardPage() {
 
   // ── Counterfactual next-lever simulator on the latest saved measurement ───
   let levers: LeverResult[] = [];
+  let longevity: LongevityResult | null = null;
+  let bioAge: BioAgeResult | null = null;
   const latestReport = latest?.report_json as VitalsReport | undefined;
   if (latestReport?.input) {
     levers = computeNextLevers(latestReport.input, 4);
+    longevity = calcLongevityIndex(latestReport.input as HealthInput);
+    bioAge = calcBiologicalAge(latestReport.input as HealthInput);
   }
 
   return (
@@ -80,29 +87,37 @@ export default async function DashboardPage() {
         <DownloadReportButton enabled={access.isActive && access.tier === "pro"} />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="rounded-2xl border bg-white p-6">
-          {latest ? (
-            <ScoreGauge score={latest.composite_score ?? 0} grade={latest.composite_grade ?? "—"} />
-          ) : (
-            <p className="text-sm text-gray-500">No measurements yet. Add one below.</p>
-          )}
+      {paid && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/60 px-5 py-3 text-sm">
+          <span className="text-gray-700">
+            📱 Get your weekly score on your phone. Turn on mobile notifications and the weekly email.
+          </span>
+          <a href="/dashboard/settings" className="font-semibold text-emerald-700 hover:text-emerald-800">
+            Set up notifications →
+          </a>
         </div>
-        <div className="rounded-2xl border bg-white p-6">
-          <h3 className="mb-1 text-sm font-medium text-gray-500">Heart age</h3>
-          <p className="text-3xl font-bold">{latest?.heart_age ?? "—"}</p>
-          {latest?.heart_age_delta != null && (
-            <p className={`text-sm ${latest.heart_age_delta > 0 ? "text-red-600" : "text-green-600"}`}>
-              {latest.heart_age_delta > 0 ? "+" : ""}{latest.heart_age_delta} vs your real age
-            </p>
-          )}
+      )}
+
+      {paid && longevity && bioAge && <LongevityHero longevity={longevity} bioAge={bioAge} />}
+
+      {paid && latestReport && (
+        <BodyAvatarCard
+          score={latestReport.composite.score}
+          bodyFatPct={latestReport.body.navyBodyFatPercent ?? latestReport.body.rfmPercent}
+          waistToHeight={latestReport.body.waistToHeight}
+          leanMassKg={latestReport.body.leanBodyMassKg}
+          bmi={latestReport.body.bmi}
+          sex={latestReport.input.sex}
+        />
+      )}
+
+      {latest ? (
+        <TrackerCards history={history} />
+      ) : (
+        <div className="rounded-2xl border bg-white p-6 text-sm text-gray-500">
+          No measurements yet. Add one below to light up your trackers.
         </div>
-        <div className="rounded-2xl border bg-white p-6">
-          <h3 className="mb-1 text-sm font-medium text-gray-500">10-yr risk</h3>
-          <p className="text-sm">Heart: <strong>{latest?.ascvd_percent ?? "—"}%</strong></p>
-          <p className="text-sm">Diabetes: <strong>{latest?.diabetes_percent ?? "—"}%</strong></p>
-        </div>
-      </div>
+      )}
 
       <section className="rounded-2xl border bg-white p-6">
         <h2 className="mb-4 text-lg font-bold">Your trend</h2>

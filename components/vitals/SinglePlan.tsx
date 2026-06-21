@@ -8,12 +8,14 @@ import { Check } from "lucide-react";
  * than a 3-tier ladder for this category.
  */
 const FEATURES = [
-  "Your Metabolic Health Score, tracked over time (not a one-off number)",
-  "Personal trajectory engine — separates real progress from daily noise",
+  "Metabolic Health Score + Longevity Index (0–1000) & biological age",
+  "“Future You” simulator - Monte-Carlo projection of your next 6–60 months",
+  "Personal trajectory engine - separates real progress from daily noise",
   "Your single highest-impact 'next lever', quantified in your own risk",
-  "10-yr heart-attack & diabetes risk + heart age, trended month over month",
+  "Heart age, 10-yr heart-attack & diabetes risk, trended month over month",
   "GLP-1 lean-mass protection: track muscle, not just the scale",
-  "Doctor-shareable PDF report + full lab tracking",
+  "Doctor-shareable PDF report + full lab tracking (kg/lb · cm/in)",
+  "Weekly progress email + optional mobile notifications",
   "Private by design · export or delete your data anytime",
 ];
 
@@ -23,7 +25,7 @@ export function SinglePlan() {
 
   const price = cadence === "yearly" ? "$79" : "$9.99";
   const unit = cadence === "yearly" ? "/year" : "/month";
-  const sub = cadence === "yearly" ? "Billed annually — about $6.58/mo. Save ~34%." : "Billed monthly. Switch to yearly anytime.";
+  const sub = cadence === "yearly" ? "Billed annually - about $6.58/mo. Save ~34%." : "Billed monthly. Switch to yearly anytime.";
 
   async function subscribe() {
     setLoading(true);
@@ -90,7 +92,7 @@ export function SinglePlan() {
           {loading ? "Redirecting…" : "Start Calqulate Vitals"}
         </button>
         <p className="mt-3 text-center text-xs text-gray-400">
-          Free snapshot first — no card needed. Cancel anytime. Not medical advice.
+          Free snapshot first - no card needed. Cancel anytime. Not medical advice.
         </p>
       </div>
     </div>

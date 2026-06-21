@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import CalculatorPopup from "@/components/ui/calculator-popup";
 import ClarityProvider from "@/components/analytics/clarity-provider";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://calqulate.net"),
@@ -54,6 +55,11 @@ export default function RootLayout({
         {/* Google AdSense Verification */}
         <meta name="google-adsense-account" content="ca-pub-4361792190799561" />
 
+        {/* PWA */}
+        <meta name="theme-color" content="#059669" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Calqulate" />
+
         {/* Preconnect to critical third-party origins */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
@@ -85,6 +91,7 @@ export default function RootLayout({
 
         <CalculatorPopup />
         <ChatWidget />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

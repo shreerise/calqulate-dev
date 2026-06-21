@@ -12,6 +12,7 @@ export const config = {
   // works (no session/header rewriting on that request).
   matcher: [
     "/dashboard/:path*",
+    "/admin/:path*",
     "/service/:path*",
     "/login",
     "/signup",

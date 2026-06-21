@@ -16,8 +16,15 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </Link>
           <nav className="flex items-center gap-4 text-sm">
             <Link href="/dashboard" className="hover:text-blue-600">Overview</Link>
+            <Link href="/dashboard/future" className="hover:text-blue-600">Future You</Link>
+            <Link href="/dashboard/protocol" className="hover:text-blue-600">Autopilot</Link>
             <Link href="/dashboard/history" className="hover:text-blue-600">History</Link>
             <Link href="/dashboard/settings" className="hover:text-blue-600">Settings</Link>
+            {access.isAdmin && (
+              <Link href="/admin" className="rounded-full bg-gray-900 px-2.5 py-1 text-xs font-semibold text-white hover:bg-black">
+                Admin
+              </Link>
+            )}
             <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium uppercase">
               {access.tier}
             </span>

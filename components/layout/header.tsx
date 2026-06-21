@@ -13,7 +13,7 @@ const vitalsLinks = [
   { name: "Heart Age Tracker", href: "/service/heart-age-tracker", desc: "Your vascular age vs. your real age" },
   { name: "GLP-1 Progress Tracker", href: "/service/glp1-progress-tracker", desc: "Track results beyond the scale" },
   { name: "How Vitals works", href: "/how-it-works", desc: "From a one-time number to a trajectory" },
-  { name: "Pricing", href: "/#pricing", desc: "Free · Plus · Pro" },
+  { name: "Pricing", href: "/pricing", desc: "One simple plan, everything included" },
 ]
 
 // ─── Calculator categories (free snapshot tools that feed the service) ───────
@@ -365,6 +365,9 @@ export function Header() {
             <Link href="/how-it-works" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
               How it works
             </Link>
+            <Link href="/pricing" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
+              Pricing
+            </Link>
             <Link href="/blog" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
               Blog
             </Link>
@@ -504,6 +507,7 @@ export function Header() {
 
             <div className="px-4 py-3 flex flex-wrap gap-4">
               <Link href="/how-it-works" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">How it works</Link>
+              <Link href="/pricing" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">Pricing</Link>
               <Link href="/blog" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">Blog</Link>
               <Link href="/about-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">About</Link>
             </div>
