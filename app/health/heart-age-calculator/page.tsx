@@ -12,8 +12,11 @@ import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { 
-  Heart, 
+import { ServiceCTA } from "@/components/seo/service-cta"
+import { SourcesSection } from "@/components/seo/sources-section"
+import { RelatedCalculators } from "@/components/seo/related-calculators"
+import {
+  Heart,
   Activity, 
   Stethoscope, 
   TrendingDown, 
@@ -465,6 +468,80 @@ export default function HeartAgeCalculatorPage() {
                 </div>
                 <p className="mt-6 text-center text-sm font-bold">📉 Many people reduce their heart age by 5–10 years within one year of lifestyle changes.</p>
               </section>
+
+              {/* Paid service CTA */}
+              <ServiceCTA
+                eyebrow="Track it over time"
+                title="See your heart age fall, month after month"
+                body="A single result is a snapshot. The value shows up when you track it, because you can tell whether your changes are working instead of guessing. Calqulate Vitals follows your heart age, blood pressure and cholesterol over time and shows the one change that lowers it most for you."
+                bullets={[
+                  "Heart age trended month over month",
+                  "Your single highest-impact next change",
+                  "10-year heart and diabetes risk in one place",
+                  "Doctor-shareable PDF report",
+                ]}
+                href="/service/heart-age-tracker"
+                cta="Start the Heart Age Tracker"
+              />
+
+              {/* In-depth, practical guide */}
+              <section className="prose prose-slate max-w-none">
+                <h2 className="text-2xl font-bold text-gray-900">What your heart age actually tells you</h2>
+                <p className="text-gray-600 leading-relaxed">
+                  Heart age compares your cardiovascular risk to the risk of an average person at a given age. If you are
+                  45 and your result comes back as 55, your risk profile looks like a typical 55 year old. The gap matters
+                  more than the exact number, because it shows how much of your risk comes from things you can change.
+                </p>
+                <p className="text-gray-600 leading-relaxed">
+                  Most of that gap traces back to four inputs: blood pressure, cholesterol, smoking status, and blood
+                  sugar. Each one shifts the result in a predictable direction. Lower your systolic blood pressure or quit
+                  smoking, and the number responds, sometimes within a few months. That is why heart age works well as a
+                  motivator. You can watch it move.
+                </p>
+
+                <h3 className="text-xl font-bold text-gray-900 mt-6">How to use the result this week</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Start with the single factor that sits furthest from its target. For a lot of people that is blood
+                  pressure, and getting systolic toward 120 mmHg tends to move heart age faster than anything else. If you
+                  smoke, stopping does more than any supplement or pill. Pick one lever, give it a few weeks, then check
+                  again with the same inputs so the comparison is fair.
+                </p>
+                <p className="text-gray-600 leading-relaxed">
+                  A one-time number can mislead you on a bad reading day. Blood pressure swings with stress, sleep and
+                  salt, so a single high cuff reading can add years that are not really there. Tracking the trend smooths
+                  that out and tells you what is signal and what is noise.
+                </p>
+
+                <h3 className="text-xl font-bold text-gray-900 mt-6">Where this calculator fits, and where it does not</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  This tool estimates risk from validated population models like Framingham and the Pooled Cohort
+                  Equations. It does not replace a coronary calcium scan, a full lipid panel, or your doctor's judgment.
+                  Treat the number as a prompt. Use it to decide which labs to ask for and which questions to bring to
+                  your next appointment. If your result is high or you have a family history of early heart disease, book
+                  that visit rather than waiting.
+                </p>
+              </section>
+
+              <RelatedCalculators
+                items={[
+                  { label: "ASCVD Risk Calculator", href: "/health/ascvd-risk-calculator" },
+                  { label: "Framingham Risk Score", href: "/health/framingham-risk-score-calculator" },
+                  { label: "Blood Pressure Calculator", href: "/health/blood-pressure-calculator" },
+                  { label: "Cholesterol Ratio Calculator", href: "/health/cholesterol-ratio-calculator" },
+                  { label: "Diabetes Risk Calculator", href: "/health/diabetes-risk-calculator" },
+                  { label: "Heart Age Tracker (paid)", href: "/service/heart-age-tracker" },
+                ]}
+              />
+
+              <SourcesSection
+                items={[
+                  { label: "American Heart Association: Understanding your risk", href: "https://www.heart.org/en/health-topics/heart-attack/understand-your-risks-to-prevent-a-heart-attack" },
+                  { label: "CDC: Heart disease risk factors", href: "https://www.cdc.gov/heart-disease/risk-factors/" },
+                  { label: "Framingham Heart Study", href: "https://www.framinghamheartstudy.org/" },
+                  { label: "NHLBI (NIH): Heart-healthy living", href: "https://www.nhlbi.nih.gov/health/heart-healthy-living" },
+                  { label: "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease", href: "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000678" },
+                ]}
+              />
 
               {/* Final Note */}
               <section className="text-center pt-12 border-t border-gray-100">

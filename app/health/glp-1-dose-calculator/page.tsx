@@ -9,6 +9,9 @@ import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardContent } from "@/components/ui/card"
+import { ServiceCTA } from "@/components/seo/service-cta"
+import { SourcesSection } from "@/components/seo/sources-section"
+import { RelatedCalculators } from "@/components/seo/related-calculators"
 import {
   FlaskConical,
   CheckCircle2,
@@ -631,6 +634,76 @@ export default function GLP1DoseCalculatorPage() {
                   </div>
                 </div>
               </section>
+
+              {/* Paid service CTA */}
+              <ServiceCTA
+                eyebrow="Track results, not just the scale"
+                title="On a GLP-1? Prove it's working at the level that matters"
+                body="A dose schedule gets you started. What protects your results is losing fat without losing muscle, and watching your risk fall, not just the number on the scale. Calqulate Vitals tracks lean mass, builds an adaptive titration and protein plan, and flags when you're dropping weight too fast."
+                bullets={[
+                  "Adaptive titration that holds when side-effects spike",
+                  "Protein target and training to protect muscle",
+                  "Heart and diabetes risk trended over time",
+                  "Rebound-risk view for when you taper off",
+                ]}
+                href="/service/glp1-progress-tracker"
+                cta="Start the GLP-1 Progress Tracker"
+              />
+
+              {/* In-depth, practical guide */}
+              <section className="prose prose-slate max-w-none mt-12">
+                <h2 className="text-2xl font-bold text-slate-900">How GLP-1 dosing actually works</h2>
+                <p className="text-slate-600 leading-relaxed">
+                  GLP-1 medications start low and step up on a fixed schedule. The point of starting low is tolerance, not
+                  results. Your gut needs time to adjust, so the early doses exist to reduce nausea and let you stay on the
+                  drug long enough to benefit. Semaglutide and tirzepatide each follow their own ladder, and the steps are
+                  usually four weeks apart when you are handling the current dose well.
+                </p>
+                <p className="text-slate-600 leading-relaxed">
+                  Side-effects change that timeline. If nausea, reflux or fatigue get rough, holding the current dose for an
+                  extra few weeks is normal and often smarter than pushing higher. The goal is the lowest dose that keeps
+                  appetite in check, not the highest dose on the label. This calculator maps the standard schedule so you
+                  can see where you are and what the next step looks like.
+                </p>
+
+                <h3 className="text-xl font-bold text-slate-900 mt-6">The mistake most people make</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Watching only the scale hides the real risk, which is muscle loss. When weight comes off fast, a chunk of
+                  it can be lean tissue, especially if protein is low and you are not lifting. Lose too much muscle and your
+                  metabolism slows, which makes the weight easier to regain once you taper off. Two changes prevent most of
+                  this: eat enough protein, around 1.6 grams per kilogram of your goal weight, and do resistance training
+                  two or three times a week.
+                </p>
+
+                <h3 className="text-xl font-bold text-slate-900 mt-6">What this calculator does and does not do</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  This tool estimates a typical titration schedule and injection units from public prescribing information.
+                  It is educational. It does not set your dose, account for your full medical history, or replace your
+                  prescriber. Compounded products can differ in concentration, so always confirm units against your own vial
+                  and your clinician's instructions before you draw anything.
+                </p>
+              </section>
+
+              <RelatedCalculators
+                items={[
+                  { label: "Lean Body Mass Calculator", href: "/health/lean-body-mass-calculator" },
+                  { label: "Body Fat Calculator", href: "/health/body-fat-calculator" },
+                  { label: "Macro Calculator", href: "/health/macro-calculator" },
+                  { label: "Calorie Deficit Calculator", href: "/health/calorie-deficit-calculator" },
+                  { label: "Diabetes Risk Calculator", href: "/health/diabetes-risk-calculator" },
+                  { label: "GLP-1 Progress Tracker (paid)", href: "/service/glp1-progress-tracker" },
+                ]}
+              />
+
+              <SourcesSection
+                items={[
+                  { label: "FDA prescribing information: Wegovy (semaglutide)", href: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/215256s000lbl.pdf" },
+                  { label: "FDA prescribing information: Zepbound (tirzepatide)", href: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/217806s000lbl.pdf" },
+                  { label: "NEJM: STEP 1 trial of semaglutide for weight management", href: "https://www.nejm.org/doi/full/10.1056/NEJMoa2032183" },
+                  { label: "NEJM: SURMOUNT-1 trial of tirzepatide", href: "https://www.nejm.org/doi/full/10.1056/NEJMoa2206038" },
+                  { label: "NIDDK (NIH): Prescription medications to treat overweight and obesity", href: "https://www.niddk.nih.gov/health-information/weight-management/prescription-medications-treat-overweight-obesity" },
+                ]}
+              />
 
             </div>
 

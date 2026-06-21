@@ -20,7 +20,7 @@ function StructuredData() {
       "url": "https://calqulate.net",
       "contactPoint": {
         "@type": "ContactPoint",
-        "email": "krushal.barasiya@calqulate.net",
+        "email": "support@calqulate.net",
         "telephone": "+91-6351007253",
         "contactType": "customer support",
         "areaServed": "Worldwide",
@@ -83,8 +83,8 @@ function validateCountry(v: string) {
 
 function validateMessage(v: string) {
   const len = v.trim().length
-  if (len < 20) return `Too short — ${20 - len} more character(s) needed.`
-  if (len > 1000) return `Too long — please trim by ${len - 1000} character(s).`
+  if (len < 20) return `Too short. ${20 - len} more character(s) needed.`
+  if (len > 1000) return `Too long. Please trim by ${len - 1000} character(s).`
   return ""
 }
 
@@ -92,7 +92,7 @@ function validateMessage(v: string) {
 
 function FieldHint({ error, value, optional }: { error: string; value: string; optional?: boolean }) {
   if (error) return <p className="text-xs text-red-500 mt-1">{error}</p>
-  if (optional && !value.trim()) return <p className="text-xs text-muted-foreground mt-1">Optional — leave blank if not applicable.</p>
+  if (optional && !value.trim()) return <p className="text-xs text-muted-foreground mt-1">Optional. Leave blank if not applicable.</p>
   if (value.trim()) return <p className="text-xs text-green-600 mt-1">Looks good ✓</p>
   return null
 }
@@ -188,11 +188,10 @@ export default function ContactUsPage() {
           <div className="max-w-4xl mx-auto">
 
             <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact us</h1>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                Have a question, suggestion, or need help using a calculator? We&apos;d love to hear from you.
-                Reach out to <strong>Krushal</strong> and <strong>Meet</strong> at Calqulate.net —
-                simple, friendly help is just an email or call away.
+                Need help with a calculator, your Calqulate Vitals account, billing, or your data? Send us a note and we
+                will reply. For account and subscription questions, email <strong>support@calqulate.net</strong>.
               </p>
             </div>
 
@@ -204,7 +203,8 @@ export default function ContactUsPage() {
                     <CardTitle className="flex items-center gap-2"><Mail className="h-5 w-5" /> Email</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">krushal.barasiya@calqulate.net</p>
+                    <p className="text-muted-foreground">support@calqulate.net</p>
+                    <p className="mt-1 text-sm text-muted-foreground">krushal.barasiya@calqulate.net</p>
                   </CardContent>
                 </Card>
                 <Card>
@@ -315,7 +315,7 @@ export default function ContactUsPage() {
             </div>
 
             <div className="text-center mt-8 text-muted-foreground">
-              <p>Thanks for reaching out — <strong>Krushal & Meet</strong>, Calqulate.net</p>
+              <p>Thanks for reaching out. The Calqulate.net team</p>
             </div>
           </div>
         </div>

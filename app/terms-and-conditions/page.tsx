@@ -1,287 +1,123 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  FileText,
-  Server,
-  ShoppingCart,
-  Copyright,
-  Ban,
-  Lock,
-  AlertTriangle,
-  Scaling,
-  Shield,
-  RefreshCw,
-  XCircle,
-  Link as LinkIcon,
-  Gavel,
-  Wrench,
-  Mail,
-  FileCheck2,
-  BookUser,
-} from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions - Calqulate.NET",
+  title: "Terms & Conditions | Calqulate.net",
   description:
-    "Calqulate.net's Terms and Conditions governing the use of our free health calculators, custom development services, and website content. Last updated June 2026.",
-  keywords: "terms, terms and conditions, terms of service, Calqulate, calculator terms",
-  alternates: {
-    canonical: "https://calqulate.net/terms-and-conditions",
-  },
+    "The terms that govern your use of Calqulate.net, the free calculators, and the Calqulate Vitals subscription. Covers accounts, billing, cancellations, acceptable use, and liability.",
+  keywords: "terms and conditions, terms of service, Calqulate, subscription terms",
+  alternates: { canonical: "https://calqulate.net/terms-and-conditions" },
 };
 
-// Reusable Section Header Component
-const SectionHeader = ({ id, title, icon: Icon }: { id: string; title: string; icon: React.ElementType }) => (
-  <h2 id={id} className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-    <Icon className="w-8 h-8 text-primary" />
-    {title}
-  </h2>
-);
+const UPDATED = "June 2026";
 
-export default function TermsAndConditionsPage() {
+export default function TermsPage() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
+    <div className="flex min-h-screen flex-col bg-white">
       <Header />
-
-      <main className="flex-1 bg-gray-50/50">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-6xl mx-auto">
-            {/* Page Header */}
-            <div className="mb-12 text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-3" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-                Terms & Conditions
-              </h1>
-              <p className="text-muted-foreground text-lg" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-                Last updated: June 8, 2026
-              </p>
-               <p className="text-sm mt-2">
-                Contact: <a href="mailto:krushal.barasiya@calqulate.net" className="underline text-primary">krushal.barasiya@calqulate.net</a> 
-                {" "}or use our <a href="/contact-us" className="underline text-primary">Contact Us</a> form.
-              </p>
-            </div>
-
-            <div className="lg:flex lg:gap-10">
-              {/* Sidebar - Desktop only */}
-              <nav className="hidden lg:block w-56 shrink-0">
-                <div className="sticky top-[76px] space-y-1 border-l-2 border-slate-200 pl-4">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">On this page</p>
-                  <a href="#intro" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Introduction</a>
-                  <a href="#services" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Our Services</a>
-                  <a href="#orders" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Custom Orders</a>
-                  <a href="#ip" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Intellectual Property</a>
-                  <a href="#conduct" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">User Conduct</a>
-                  <a href="#privacy" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Privacy</a>
-                  <a href="#disclaimer" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Disclaimers</a>
-                  <a href="#liability" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Liability</a>
-                  <a href="#indemnification" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Indemnification</a>
-                  <a href="#changes" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Changes</a>
-                  <a href="#termination" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Termination</a>
-                  <a href="#thirdparty" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Third-Party Links</a>
-                  <a href="#law" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Governing Law</a>
-                  <a href="#modifications" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Modifications</a>
-                  <a href="#contact" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Contact</a>
-                  <a href="#agreement" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Complete Agreement</a>
-                  <a href="#legal" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Legal Advice</a>
-                </div>
-              </nav>
-
-              {/* Content area */}
-              <div className="flex-1 min-w-0">
-                {/* Mobile TOC pills */}
-                <div className="lg:hidden mb-8 p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                  <p className="text-xs font-bold mb-2 flex items-center gap-2 text-slate-500">
-                    <FileText className="w-3.5 h-3.5" />
-                    Jump to Section
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    <a href="#intro" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Introduction</a>
-                    <a href="#services" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Our Services</a>
-                    <a href="#orders" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Custom Orders</a>
-                    <a href="#ip" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Intellectual Property</a>
-                    <a href="#conduct" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">User Conduct</a>
-                    <a href="#privacy" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Privacy</a>
-                    <a href="#disclaimer" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Disclaimers</a>
-                    <a href="#liability" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Liability</a>
-                    <a href="#indemnification" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Indemnification</a>
-                    <a href="#changes" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Changes</a>
-                    <a href="#termination" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Termination</a>
-                    <a href="#thirdparty" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Third-Party Links</a>
-                    <a href="#law" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Governing Law</a>
-                    <a href="#modifications" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Modifications</a>
-                    <a href="#contact" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Contact</a>
-                    <a href="#agreement" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Complete Agreement</a>
-                    <a href="#legal" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Legal Advice</a>
-                  </div>
-                </div>
-
-                {/* Main Content */}
-                <div className="space-y-10">
-              
-              <SectionHeader id="intro" title="1. Introduction / Agreement to Terms" icon={FileText} />
-              <Card className="border-l-4 border-primary rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>
-                    Welcome to <strong>Calqulate</strong> ("we", "us", "our"). These Terms & Conditions ("Terms") define how you can access and use our website, calculators, tools, and related services (collectively, the "Site" or "Services"). Accessing this Site or requesting custom services signifies acceptance of these Terms.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="services" title="2. Our Services" icon={Server} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 space-y-4">
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">2.1 Free Calculators</h3>
-                    <p className="text-lg leading-relaxed">All calculators on Calqulate are free to access without login or fees.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">2.2 Custom Calculator & Development Services</h3>
-                    <p className="text-lg leading-relaxed">
-                      We offer custom calculator development for entrepreneurs or organizations. Contact us via email at <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a> or through our <a href="/contact-us" className="text-primary hover:underline">Contact Us</a> page.
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">2.3 Product Description</h3>
-                    <p className="text-lg leading-relaxed">Features, timelines, and specific terms for custom services are defined in each written proposal or agreement.</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="orders" title="3. Custom Services Orders, Quotes & Remit" icon={ShoppingCart} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p className="mb-4">Requests begin with a quote inquiry via email or contact form. A binding agreement is only formed once both parties sign off in writing.</p>
-                  <ul className="list-disc list-inside space-y-2 marker:text-primary">
-                    <li><strong>Payment:</strong> Fees and payment terms are included in written proposals.</li>
-                    <li><strong>Cancellations/Refunds:</strong> Terms are specified in each contract.</li>
-                  </ul>
-                </CardContent>
-              </Card>
-              
-              <SectionHeader id="ip" title="4. Intellectual Property" icon={Copyright} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                   <ul className="list-disc list-inside space-y-3 marker:text-primary">
-                    <li><strong>Our Ownership:</strong> All rights to the Site, design, source code, and calculators remain with Calqulate.</li>
-                    <li><strong>Your Content/Data:</strong> You own your data but grant us rights to use it solely to deliver services.</li>
-                    <li><strong>Deliverables:</strong> Licensing and reuse of non-confidential components may be specified in contracts.</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="conduct" title="5. User Conduct & Acceptable Use" icon={Ban} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p className="mb-4">You agree not to:</p>
-                  <ul className="list-disc list-inside space-y-2 marker:text-primary">
-                    <li>Violate laws or regulations.</li>
-                    <li>Upload harmful code or viruses.</li>
-                    <li>Exploit or resell our logic and algorithms unlawfully.</li>
-                    <li>Use calculators in high-risk scenarios where errors could cause harm.</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="privacy" title="6. Privacy and Data" icon={Lock} />
-              <Card className="border-l-4 border-primary rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>We collect minimal data needed to provide services. See our <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a> for full details.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="disclaimer" title="7. Disclaimers — No Warranty" icon={AlertTriangle} />
-              <Card className="rounded-lg bg-amber-50 border-amber-200">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <ul className="list-disc list-inside space-y-2 marker:text-amber-500">
-                    <li>No guarantee of 100% accuracy in calculator results.</li>
-                    <li>Not professional advice in finance, law, medicine, etc.</li>
-                    <li>All services are provided “as-is” with no implied warranties.</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="liability" title="8. Limit on Responsibility" icon={Scaling} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>Calqulate is not liable for indirect, incidental, or consequential damages. Liability is limited to fees paid (if any) in the 12 months before a claim.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="indemnification" title="9. Indemnification" icon={Shield} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>You agree to indemnify and hold harmless Calqulate and its team from claims or damages resulting from violations of these Terms or misuse of the Site.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="changes" title="10. Changes to Site and Terms" icon={RefreshCw} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>We may revise these Terms at any time. Updates will be posted here with an updated "Last updated" date.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="termination" title="11. Ending" icon={XCircle} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>We may terminate or suspend access at any time. Provisions regarding intellectual property, disclaimers, liability, and indemnification survive termination.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="thirdparty" title="12. Third-Party Links and Services" icon={LinkIcon} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>External sites may have their own policies. We are not responsible for third-party content or practices.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="law" title="13. Governing Law & Dispute Resolution" icon={Gavel} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>These Terms are governed by applicable local laws. Disputes are resolved in courts of our location, unless otherwise agreed in writing.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="modifications" title="14. Product Statement & Calculator Modifications" icon={Wrench} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>We may modify calculators or features at any time. Marketing terms like “fast” or “easy” are not guarantees of performance.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="contact" title="15. Contact & Notices" icon={Mail} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>
-                    For questions or notices, contact us at: <br />
-                    <strong>Email:</strong> <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a> <br />
-                    <strong>Contact Form:</strong> <a href="/contact-us" className="text-primary hover:underline">Contact Us</a>
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="agreement" title="16. Complete Agreement" icon={FileCheck2} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>These Terms, along with any written agreements, represent the entire understanding between you and Calqulate.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="legal" title="17. Legal Advice" icon={BookUser} />
-              <Card className="rounded-lg">
-                <CardContent className="p-6 text-lg leading-relaxed">
-                  <p>These Terms are provided as a model. Please seek legal advice to ensure compliance with local laws, especially regarding payment, intellectual property, and consumer protection.</p>
-                </CardContent>
-              </Card>
-
-            </div>
-            </div>
+      <main className="flex-1">
+        <section className="border-b border-gray-100 bg-gradient-to-br from-emerald-50 to-white py-12">
+          <div className="container mx-auto max-w-3xl px-4">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Terms and Conditions</h1>
+            <p className="mt-2 text-sm text-gray-500">Last updated {UPDATED}</p>
+            <p className="mt-4 text-lg text-gray-600">
+              These terms set the rules for using Calqulate.net. By using the calculators or subscribing to Calqulate
+              Vitals, you agree to them. Read them before you create an account.
+            </p>
           </div>
-        </div>
-        </div>
-      </main>
+        </section>
 
+        <article className="container mx-auto max-w-3xl px-4 py-10 prose prose-slate prose-headings:font-bold prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline">
+          <h2>Using the service</h2>
+          <p>
+            Calqulate.net gives you free health calculators and a paid service, Calqulate Vitals, that tracks your
+            metabolic and cardiovascular numbers over time. You may use the site for your own personal health
+            decisions. You agree not to misuse it, scrape it at scale, attempt to break its security, or use it to harm
+            others.
+          </p>
+
+          <h2>Not medical advice</h2>
+          <p>
+            Everything on Calqulate.net is educational. It does not diagnose, treat, or prescribe, and it is not a
+            substitute for a licensed clinician. Read the full <Link href="/disclaimer">Disclaimer</Link> before acting
+            on any result. GLP-1 dosing in particular must be confirmed with your prescriber.
+          </p>
+
+          <h2>Accounts</h2>
+          <p>
+            You need an account to save history and use paid features. You must be at least 18, give accurate
+            information, and keep your password private. You are responsible for activity under your account. Tell us at{" "}
+            <a href="mailto:support@calqulate.net">support@calqulate.net</a> if you suspect unauthorized access.
+          </p>
+
+          <h2>Subscriptions and billing</h2>
+          <p>
+            Calqulate Vitals is one plan, billed monthly or yearly through Stripe. By subscribing, you authorize Stripe
+            to charge your payment method on a recurring basis until you cancel. Prices are shown on the{" "}
+            <Link href="/pricing">pricing page</Link> and may change with notice for future billing periods.
+          </p>
+          <ul>
+            <li>Your plan renews automatically at the end of each period unless you cancel before it renews.</li>
+            <li>You can cancel any time from your billing settings. Cancellation stops future charges.</li>
+            <li>After cancelling, you keep access until the end of the period you already paid for.</li>
+            <li>We do not store your card details. Stripe handles payment data on its hosted systems.</li>
+          </ul>
+
+          <h2>Refunds</h2>
+          <p>
+            If something goes wrong or you are not happy, contact us within a reasonable time and we will try to make it
+            right. We review refund requests case by case. Where local law gives you a stronger refund right, that law
+            applies.
+          </p>
+
+          <h2>Free tier</h2>
+          <p>
+            The calculators and a one-time snapshot are free and do not require payment. We may change, limit, or retire
+            free features over time, and we will avoid breaking links to the calculators where we can.
+          </p>
+
+          <h2>Your content and data</h2>
+          <p>
+            The health data you enter stays yours. You grant us the limited permission needed to store and process it so
+            we can run the service for you. You can export or delete it any time, as described in our{" "}
+            <Link href="/privacy-policy">Privacy Policy</Link>.
+          </p>
+
+          <h2>Intellectual property</h2>
+          <p>
+            The site, its design, copy, and the way our scoring and protocols are presented belong to Calqulate.net. The
+            underlying clinical models we use, such as the Pooled Cohort Equations, Framingham, and FINDRISC, are public
+            and credited on the relevant pages. You may not copy or resell our content or code.
+          </p>
+
+          <h2>Availability</h2>
+          <p>
+            We aim to keep the service running, but we do not promise it will always be available or error free. We may
+            update, pause, or change features. We are not liable for losses caused by downtime or maintenance.
+          </p>
+
+          <h2>Limitation of liability</h2>
+          <p>
+            To the extent the law allows, Calqulate.net is not liable for indirect or consequential losses, or for any
+            health outcome that follows from how you use the information here. Our total liability for the paid service
+            is limited to what you paid us in the prior twelve months. Nothing in these terms limits liability that
+            cannot be limited by law.
+          </p>
+
+          <h2>Changes to these terms</h2>
+          <p>
+            We may update these terms and will revise the date above. If a change is significant, we will flag it in the
+            product or by email. Continuing to use the service after a change means you accept the new terms.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            Questions about these terms go to <a href="mailto:support@calqulate.net">support@calqulate.net</a>.
+          </p>
+        </article>
+      </main>
       <Footer />
     </div>
   );

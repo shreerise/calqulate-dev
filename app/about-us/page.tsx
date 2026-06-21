@@ -1,280 +1,89 @@
-import type { Metadata } from "next"
-import { Header } from "@/components/layout/header"
-import { Footer } from "@/components/layout/footer"
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  Lightbulb,
-  Rocket,
-  Zap,
-  Handshake,
-  TrendingUp,
-  FlaskConical,
-  Linkedin,
-  Stethoscope,
-  ExternalLink,
-} from "lucide-react"
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us - Calqulate.NET",
+  title: "About Calqulate.net | Metabolic and heart health, tracked",
   description:
-    "Learn about Calqulate.net's mission to provide accurate, user-friendly and Personalized calculators with clear explanations and real-world usability.",
-  keywords:
-    "about Calqulate, online calculators, free calculation tools, calculator website",
-  alternates: {
-    canonical: "https://calqulate.net/about-us",
-  },
-}
+    "Calqulate.net started as free health calculators and grew into Calqulate Vitals, a service that tracks your metabolic and cardiovascular risk over time and shows the one change that moves it most.",
+  keywords: "about Calqulate, metabolic health, longevity, our story",
+  alternates: { canonical: "https://calqulate.net/about-us" },
+};
 
-const SectionHeader = ({ id, title, icon: Icon }: any) => (
-  <h2
-    id={id}
-    className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8"
-  >
-    <Icon className="w-8 h-8 text-primary" />
-    {title}
-  </h2>
-)
-
-export default function AboutUsPage() {
+export default function AboutPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex min-h-screen flex-col bg-white">
       <Header />
-
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl mx-auto">
-
-            {/* Header */}
-            <div className="mb-12 text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-3">
-                About Us
-              </h1>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                We are building Calqulate.net to make calculations simple,
-                accurate, and easy to understand for everyone.
-              </p>
-            </div>
-
-            {/* Our Story */}
-            <section className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-lg mb-10">
-              <h2 className="text-3xl font-bold mb-4 text-primary">Our Story</h2>
-              <p className="text-lg mb-4">
-                Calqulate.net was launched with a simple mission: making
-                calculations faster, simpler, and more useful for real users.
-              </p>
-              <p className="text-lg">
-                Instead of forcing users to remember formulas or do manual
-                calculations, we provide tools that give accurate results along
-                with clear explanations.
-              </p>
-            </section>
-
-            {/* How We Began */}
-            <SectionHeader id="how-we-began" title="How We Began" icon={Lightbulb} />
-            <Card className="p-6 mb-10">
-              <CardContent className="p-0 text-lg">
-                We noticed that many people struggle with everyday calculations —
-                whether in health, finance, or daily life. That’s when we decided
-                to build a platform that solves real problems with simple tools.
-              </CardContent>
-            </Card>
-
-            {/* Why Calqulate */}
-            <SectionHeader id="why-calqulate" title="Why Calqulate.net?" icon={Rocket} />
-            <Card className="p-6 mb-10">
-              <CardContent className="p-0 text-lg">
-                <ul className="list-disc list-inside space-y-3">
-                  <li>Solve real-world problems using simple tools</li>
-                  <li>Provide accurate and instant results</li>
-                  <li>Help users understand calculations</li>
-                  <li>Continuously improve based on user needs</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Mission */}
-            <SectionHeader id="our-mission" title="Our Mission" icon={Handshake} />
-            <Card className="p-6 mb-10">
-              <CardContent className="p-0 text-lg">
-                Our mission is to provide accurate, easy-to-use calculators that
-                save time and remove confusion. We aim to build a platform where
-                users can trust every result they see.
-              </CardContent>
-            </Card>
-
-            {/* Difference */}
-            <SectionHeader id="difference" title="How are we different?" icon={FlaskConical} />
-            <Card className="p-6 mb-10">
-              <CardContent className="p-0 text-lg">
-                <ul className="list-disc list-inside space-y-3">
-                  <li>Accurate and reliable results</li>
-                  <li>Simple and user-friendly interface</li>
-                  <li>No signup required</li>
-                  <li>Free to use</li>
-                  <li>Clear explanations with every tool</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Our Approach */}
-            <SectionHeader id="approach" title="Our Approach: Beyond Just Calculation" icon={Zap} />
-            <Card className="p-6 mb-10">
-              <CardContent className="p-0 text-lg">
-                <p className="mb-4">
-                  Most calculator websites only give numbers.
-                </p>
-
-                <p className="mb-4 font-semibold">
-                  Users don’t want just a number — they also want to understand the process behind it.
-                </p>
-
-                <ul className="list-disc list-inside space-y-3">
-                  <li>Step-by-step explanation</li>
-                  <li>Real-world meaning of results</li>
-                  <li>Focus on accuracy (especially health tools)</li>
-                </ul>
-
-              </CardContent>
-            </Card>
-
-            {/* Organic Growth */}
-            <SectionHeader id="growth" title="Our Organic Growth (Google Search Performance)" icon={TrendingUp} />
-            <Card className="p-6 mb-10">
-              <CardContent className="p-0 text-lg">
-
-                <img
-                  src="/gsc-report.webp"
-                  alt="Google Search Console performance"
-                  className="mb-6 rounded-lg shadow-md"
-                />
-
-                <ul className="list-disc list-inside space-y-3">
-                  <li><strong>27.5K+ impressions</strong></li>
-                  <li><strong>105 clicks</strong></li>
-                  <li><strong>0.4% CTR</strong></li>
-                  <li><strong>Avg position: 45.7</strong></li>
-                </ul>
-
-                <p className="mt-4">
-                  This growth is completely organic, driven by users searching for real solutions.
-                </p>
-
-              </CardContent>
-            </Card>
-
-            {/* Medical Reviewer Section */}
-            <SectionHeader id="dr-jaydeep-sanghani" title="Medical Reviewer" icon={Stethoscope} />
-            <Card className="p-6 mb-10">
-              <CardContent className="flex flex-col md:flex-row items-start gap-6">
-                <img
-                  src="/dr-jaydeep-sanghani.webp"
-                  alt="Dr. Jaydeep Sanghani"
-                  className="w-24 h-24 rounded-full object-cover shrink-0"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <p className="font-semibold text-lg">Dr. Jaydeep Sanghani</p>
-                    <a
-                      href="https://www.docindia.org/doctors/rajkot/dr-jaydeep-sanghani-anesthesiology"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-blue-600 transition-colors"
-                      aria-label="Dr. Jaydeep Sanghani on DocIndia"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </div>
-                  <p className="font-medium text-blue-700 text-sm">MBBS, MD, DNB(Anaesth.), PDCC(CCM), DrNB(CCM)</p>
-                  <p className="text-xs text-blue-600/70 mb-3">AIIMS Bhubaneswar · AIIMS Rishikesh · GMERS Patan</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                    Dr. Jaydeep Sanghani is a critical care specialist and anesthesiologist with advanced training from AIIMS Bhubaneswar (MD) and AIIMS Rishikesh (DrNB, PDCC). His training across premier institutions — GMERS Patan, AIIMS Bhubaneswar, and AIIMS Rishikesh — has given him extensive experience in critical care medicine, emergency medicine, airway management, and perioperative care.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <a
-                      href="https://www.docindia.org/doctors/rajkot/dr-jaydeep-sanghani-anesthesiology"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50 transition-colors"
-                    >
-                      <ExternalLink className="w-3 h-3" /> Verified Medical Profile
-                    </a>
-                    <a
-                      href="https://www.urbanpro.com/rajkot/jaydeep-sanghani-anesthesiologist-and-critical-care-specialist-from-aiims-bhubaneswar"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50 transition-colors"
-                    >
-                      <ExternalLink className="w-3 h-3" /> Professional Profile
-                    </a>
-                  </div>
-                  <p className="text-xs text-gray-400 mt-3">
-                    At Calqulate.net, Dr. Sanghani medically reviews health calculators to ensure clinical accuracy and evidence-based standards.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Author Section */}
-            <Card className="p-6 mb-10">
-              <CardContent className="flex items-start md:items-center gap-4">
-                <img
-                  src="/meet.akabari.webp"
-                  alt="Meet Akabari"
-                  className="w-16 h-16 rounded-full object-cover mt-1 md:mt-0"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <p className="font-semibold text-lg">Meet Akabari</p>
-                    <a
-                      href="https://www.linkedin.com/in/meet-akabari/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-[#0A66C2] transition-colors"
-                      aria-label="Connect with Meet Akabari on LinkedIn"
-                    >
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Web Developer & Health enthusiast with a passion for building tools that solve real problems.
-                  </p>
-                  <p className="text-sm mt-1">
-                    Founder of Calqulate.net, focused on building accurate,
-                    user-friendly calculators.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
+        <section className="border-b border-gray-100 bg-gradient-to-br from-emerald-50 to-white py-14">
+          <div className="container mx-auto max-w-3xl px-4">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+              We built the tracker we wanted for our own numbers
+            </h1>
+            <p className="mt-5 text-lg text-gray-600">
+              Calqulate.net began as a set of free health calculators. People used them, got a number, and left. The
+              problem was obvious. A one-time number tells you where you stand today, but health is a trend, not a
+              snapshot. So we built Calqulate Vitals to track the numbers that actually predict disease and show what to
+              change first.
+            </p>
           </div>
-        </div>
+        </section>
+
+        <article className="container mx-auto max-w-3xl px-4 py-10 prose prose-slate prose-headings:font-bold prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline">
+          <h2>What we do</h2>
+          <p>
+            We turn your numbers into a Metabolic Health Score, a Longevity Index, a heart age, and validated 10-year
+            risk estimates for heart attack and type-2 diabetes. Then we track them over time and point you to the single
+            change that lowers your risk most. The free calculators are still here, and they are still the easy way in.
+          </p>
+
+          <h2>What we believe</h2>
+          <p>
+            Most health tools stop at a result. We think the result is the start. A number only helps if you can see
+            whether it is moving the right way, and if you know which lever to pull next. That belief shapes the whole
+            product. Every score comes with the math behind it and the one action that matters most.
+          </p>
+          <p>
+            We also think people deserve to understand their own data. So we show our methodology, name the clinical
+            models we use, and let you export or delete everything any time. There are no dark patterns and no fake
+            urgency.
+          </p>
+
+          <h2>How we build it</h2>
+          <p>
+            The clinical engines are written as plain, testable code and checked against published reference values. We
+            use the Pooled Cohort Equations for cardiovascular risk, the Framingham model for heart age, and FINDRISC for
+            diabetes risk. The scores and simulations are transparent composites built on top of those models, and we
+            label them as educational rather than as a diagnosis.
+          </p>
+
+          <h2>Who it is for</h2>
+          <p>
+            Calqulate Vitals is built for adults who got a number they did not understand and were left to figure it out
+            alone. Someone with a borderline A1c told to come back in six months. Someone on a GLP-1 worried about losing
+            muscle. Someone handed a heart risk score with no plan. If that sounds familiar, this was made for you.
+          </p>
+
+          <h2>A clear boundary</h2>
+          <p>
+            We are not your doctor and we do not pretend to be. Calqulate is educational decision-support. It helps you
+            understand your risk, track it, and bring better questions to your clinician. Read the full{" "}
+            <Link href="/disclaimer">Disclaimer</Link> for where the line sits.
+          </p>
+
+          <div className="not-prose mt-8 flex flex-wrap gap-3">
+            <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700">
+              Get my free score <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link href="/how-it-works" className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50">
+              See how it works
+            </Link>
+          </div>
+        </article>
       </main>
-
-      {/* Author Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Meet Akabari",
-            url: "https://calqulate.net/about-us",
-            sameAs: [
-              "https://www.linkedin.com/in/meet-akabari/"
-            ],
-            image: "/meet.akabari.webp",
-            jobTitle: "Web Developer & health enthusiast",
-            worksFor: {
-              "@type": "Organization",
-              name: "Calqulate.net",
-            },
-            description:
-              "Meet Akabari is a web developer and Health enthusiast building Calqulate.net.",
-          }),
-        }}
-      />
-
       <Footer />
     </div>
-  )
+  );
 }

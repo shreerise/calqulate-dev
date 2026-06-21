@@ -177,7 +177,7 @@ function CalculatorsMenu({ onClose }: { onClose: () => void }) {
           {categories.map((cat) => (
             <div key={cat.name}>
               <Link
-                href={cat.slug}
+                href="/search"
                 onClick={onClose}
                 className="flex items-center justify-between text-sm font-semibold text-gray-900 hover:text-emerald-700 mb-1.5"
               >
@@ -198,7 +198,7 @@ function CalculatorsMenu({ onClose }: { onClose: () => void }) {
                 ))}
                 {cat.calculators.length > 5 && (
                   <li>
-                    <Link href={cat.slug} onClick={onClose} className="block text-[12px] font-semibold text-emerald-600 hover:text-emerald-700 py-0.5">
+                    <Link href="/search" onClick={onClose} className="block text-[12px] font-semibold text-emerald-600 hover:text-emerald-700 py-0.5">
                       +{cat.calculators.length - 5} more
                     </Link>
                   </li>

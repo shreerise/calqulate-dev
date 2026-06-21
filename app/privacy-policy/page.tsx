@@ -1,296 +1,146 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  ShieldCheck,
-  ClipboardList,
-  Info,
-  Rocket,
-  Cookie,
-  Mail,
-  Share2,
-  Globe,
-  Gavel,
-  Lock,
-  Link,
-  Edit,
-  Handshake,
-  Lightbulb,
-} from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Calqulate.NET",
+  title: "Privacy Policy | Calqulate.net",
   description:
-    "Calqulate.net's privacy policy explains how we collect, use, and protect your personal information when using our free health calculators and services.",
-  keywords: "privacy policy, data protection, Calqulate, calculators, GDPR, CCPA",
-  alternates: {
-    canonical: "https://calqulate.net/privacy-policy",
-  },
+    "How Calqulate.net collects, uses, and protects your data across the free calculators and the Calqulate Vitals service. Includes your GDPR and CCPA rights, data export and account deletion.",
+  keywords: "privacy policy, data protection, Calqulate, health data, GDPR, CCPA",
+  alternates: { canonical: "https://calqulate.net/privacy-policy" },
 };
 
-const SectionHeader = ({ id, title, icon: Icon }: { id: string; title: string; icon: React.ElementType }) => (
-  <h2 id={id} className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-    <Icon className="w-8 h-8 text-primary" />
-    {title}
-  </h2>
-);
+const UPDATED = "June 2026";
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
+    <div className="flex min-h-screen flex-col bg-white">
       <Header />
-
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-6xl mx-auto">
-            {/* Header */}
-            <div className="mb-10">
-              <h1 className="text-4xl md:text-5xl font-bold mb-3 text-left" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>Privacy Policy</h1>
-              <p className="text-muted-foreground text-left text-lg" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>Last updated: June 8, 2026</p>
-            </div>
-
-            <div className="lg:flex lg:gap-10">
-              {/* Sidebar - Desktop only */}
-              <nav className="hidden lg:block w-56 shrink-0">
-                <div className="sticky top-[76px] space-y-1 border-l-2 border-slate-200 pl-4">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">On this page</p>
-                  <a href="#scope" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Scope</a>
-                  <a href="#information" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Information We Receive</a>
-                  <a href="#use" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">How We Use Info</a>
-                  <a href="#ads" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Ads & Partners</a>
-                  <a href="#sharing" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Data Sharing</a>
-                  <a href="#international" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">International</a>
-                  <a href="#rights" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Your Rights</a>
-                  <a href="#security" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Security</a>
-                  <a href="#links" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">External Links</a>
-                  <a href="#changes" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Changes</a>
-                  <a href="#contact" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Contact</a>
-                  <a href="#advertise" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Advertise</a>
-                  <a href="#values" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Our Values</a>
-                </div>
-              </nav>
-
-              {/* Content area */}
-              <div className="flex-1 min-w-0">
-                {/* Mobile TOC pills */}
-                <div className="lg:hidden mb-8 p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                  <p className="text-xs font-bold mb-2 flex items-center gap-2 text-slate-500">
-                    <ClipboardList className="w-3.5 h-3.5" />
-                    Jump to Section
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    <a href="#scope" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Scope</a>
-                    <a href="#information" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Information We Receive</a>
-                    <a href="#use" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">How We Use Info</a>
-                    <a href="#ads" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Ads & Partners</a>
-                    <a href="#sharing" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Data Sharing</a>
-                    <a href="#international" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">International</a>
-                    <a href="#rights" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Your Rights</a>
-                    <a href="#security" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Security</a>
-                    <a href="#links" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">External Links</a>
-                    <a href="#changes" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Changes</a>
-                    <a href="#contact" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Contact</a>
-                    <a href="#advertise" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Advertise</a>
-                    <a href="#values" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Our Values</a>
-                  </div>
-                </div>
-
-                {/* Main Content */}
-                <div className="space-y-10">
-              <section className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-lg w-full max-w-none">
-                <h2 className="text-3xl font-bold mb-4 text-primary">
-                  Introduction
-                </h2>
-
-                <div>
-                  <p className="text-lg mb-2"><strong>Begin date:</strong> September 20, 2025</p>
-                  <p className="text-lg mb-4"><strong>Last updated:</strong> June 8, 2026</p>
-                  
-                  <p className="text-lg leading-relaxed max-w-none">
-                    Welcome to <strong>Calqulate</strong>. We are a tiny startup founded by two friends and co-founders — 
-                    <strong> Krushal Patel</strong> and <strong>Meet Patel</strong>. We develop easy-to-use calculators 
-                    and research tools for people all over the planet. Our services are free, require no login, and are built 
-                    with research, design, logic, and code — guided by our ethos of helping people.
-                  </p>
-                </div>
-
-                <blockquote className="border-l-4 border-primary pl-4 italic bg-muted/30 py-3 mt-6 rounded text-gray-700 w-full">
-                  <p className="text-lg">निष्काम कर्म योग – निःस्वार्थ सेवा का आधार</p>
-                  <p className="font-semibold text-primary">Bhagavad Gita 2.47</p>
-                  <p className="text-lg">
-                    कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।<br />
-                    मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥
-                  </p>
-                </blockquote>
-              </section>
-
-              <SectionHeader id="scope" title="1. Scope and Acceptance" icon={ShieldCheck} />
-              <Card className="border-l-4 border-primary rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="mb-4 text-lg leading-relaxed">
-                    By accessing Calqulate (the "Service" at <a href="https://calqulate.net" className="text-primary hover:underline">https://calqulate.net</a>),
-                    you agree to the data practices described here. If you do not agree, please discontinue use of the Service.
-                  </p>
-                  <p className="text-lg leading-relaxed">No registration or account is required to use our calculators.</p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="information" title="2. Information We Receive" icon={Info} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0 space-y-6">
-                  <div>
-                    <h3 className="text-xl font-semibold mb-3 flex items-center gap-2" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-                      <ClipboardList className="w-6 h-6 text-blue-500" /> Log Data
-                    </h3>
-                    <p className="text-lg leading-relaxed">We automatically receive technical details like IP address, browser type, pages visited, timestamps, and device type. This helps us run, protect, and improve the Service.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-3 flex items-center gap-2" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-                      <Cookie className="w-6 h-6 text-green-500" /> Cookies and Tracking
-                    </h3>
-                    <p className="text-lg leading-relaxed">We use cookies and similar technologies to remember preferences, analyze traffic, and improve functionality. You can manage cookies in your browser settings.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-3 flex items-center gap-2" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-                      <Mail className="w-6 h-6 text-purple-500" /> Responses and Submissions
-                    </h3>
-                    <p className="text-lg leading-relaxed">If you contact us (form, email, feedback), we may receive personal details like your name, email, and message. We use this to respond and provide support.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-3 flex items-center gap-2" style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}>
-                      <Rocket className="w-6 h-6 text-red-500" /> Third-party Data and Ads
-                    </h3>
-                    <p className="text-lg leading-relaxed">Ad partners (like Google Ads) may use cookies or tracking images to show relevant ads. Their privacy policies and opt-out tools apply.</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="use" title="3. How We Use Information" icon={Lightbulb} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed marker:text-primary">
-                    <li>Provide and maintain calculators and services</li>
-                    <li>Analyze and improve user experience</li>
-                    <li>Prevent fraud, abuse, or security breaches</li>
-                    <li>Serve and measure advertising</li>
-                    <li>Respond to inquiries and support requests</li>
-                    <li>Comply with legal obligations</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="ads" title="4. Ads, Partners & Other Companies" icon={Handshake} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="text-lg leading-relaxed">
-                    We may use Google Ads and other networks that use cookies/web beacons to show targeted ads. To opt out, visit{" "}
-                    <a href="https://optout.networkadvertising.org" className="text-primary hover:underline">NAI opt-out</a>.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="sharing" title="5. Data Sharing & Disclosure" icon={Share2} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed marker:text-primary">
-                    <li>With providers (hosting, analytics, security)</li>
-                    <li>With ad partners for serving/measurement</li>
-                    <li>When required by law</li>
-                    <li>To protect rights, property, or safety</li>
-                    <li>During business changes (merger/acquisition)</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="international" title="6. International Users" icon={Globe} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="text-lg leading-relaxed">
-                    Data may be processed outside your country. Protections vary by region. EU users have rights under GDPR.
-                    For full compliance with GDPR/CCPA, consult a legal professional.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="rights" title="7. Your Rights and Options" icon={Gavel} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed marker:text-primary">
-                    <li>Manage cookies via browser settings</li>
-                    <li>Opt out of ad targeting via industry tools</li>
-                    <li>Request access, correction, or deletion of personal data</li>
-                    <li>Children under 13 cannot use our services</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="security" title="8. Maintaining and Guarding Information" icon={Lock} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="text-lg leading-relaxed">
-                    We retain data as long as needed for the Service, analytics, and security. Anonymous/aggregated data
-                    may be kept indefinitely. We apply safeguards, but no method is 100% secure.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="links" title="9. Links to Other Websites" icon={Link} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="text-lg leading-relaxed">
-                    Our site may contain links to third-party websites. Their privacy practices are their own, so please
-                    review them before sharing personal details.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="changes" title="10. Changes to This Policy" icon={Edit} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="text-lg leading-relaxed">
-                    We may update this Privacy Policy from time to time. Updates will be posted here with a new "Last updated"
-                    date. Continued use means acceptance.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="contact" title="11. Contact & Data Requests" icon={Mail} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="text-lg leading-relaxed">
-                    Email: <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a><br />
-                    Contact form: <a href="/contact-us" className="text-primary hover:underline">Contact Us</a>
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="advertise" title="12. Advertise With Us" icon={Rocket} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="text-lg leading-relaxed">
-                    We welcome sponsors and advertisers. To advertise on Calqulate, email{" "}
-                    <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a>.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SectionHeader id="values" title="13. A Word About Our Values" icon={Handshake} />
-              <Card className="rounded-lg p-6">
-                <CardContent className="p-0">
-                  <p className="text-lg leading-relaxed">
-                    Calqulate was created by Krushal and Meet, college friends and business partners. They build
-                    research-based tools that are simple, useful, and free — guided by the principle of selfless service.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-            </div>
+        <section className="border-b border-gray-100 bg-gradient-to-br from-emerald-50 to-white py-12">
+          <div className="container mx-auto max-w-3xl px-4">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Privacy Policy</h1>
+            <p className="mt-2 text-sm text-gray-500">Last updated {UPDATED}</p>
+            <p className="mt-4 text-lg text-gray-600">
+              This policy explains what Calqulate.net collects, why we collect it, and the control you have over your
+              data. It covers both the free calculators and the paid Calqulate Vitals service.
+            </p>
           </div>
-        </div>
-        </div>
-      </main>
+        </section>
 
+        <article className="container mx-auto max-w-3xl px-4 py-10 prose prose-slate prose-headings:font-bold prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline">
+          <h2>Who we are</h2>
+          <p>
+            Calqulate.net runs free health calculators and Calqulate Vitals, a metabolic and cardiovascular tracking
+            service. When this policy says "we" or "us," it means the team that operates calqulate.net. You can reach us
+            at <a href="mailto:support@calqulate.net">support@calqulate.net</a> for any privacy question.
+          </p>
+
+          <h2>What we collect</h2>
+          <p>How much we hold depends on how you use the site.</p>
+          <h3>Using the free calculators</h3>
+          <p>
+            You can run any calculator without an account. The numbers you type are used to produce a result and are not
+            saved to a profile. Our stateless compute endpoint processes the inputs and returns the result. We log a
+            short-lived IP address for rate limiting and abuse prevention, and nothing more from that interaction.
+          </p>
+          <h3>Creating a Calqulate Vitals account</h3>
+          <p>When you sign up, we store the data needed to run the service for you:</p>
+          <ul>
+            <li>Account details: your email, and your name or profile picture if you sign in with Google or Microsoft.</li>
+            <li>Health inputs you choose to save: measurements, lab values, body composition, and the risk results we compute from them.</li>
+            <li>Reports and protocols you generate, such as a doctor PDF or a GLP-1 plan.</li>
+            <li>Subscription status and your Stripe customer ID. We never see or store your card number.</li>
+            <li>Notification preferences and, if you opt in, your push subscription.</li>
+          </ul>
+          <h3>Technical data</h3>
+          <p>
+            Like most sites, we receive IP address, device and browser type, and basic usage events through the
+            analytics tools described in our <Link href="/cookie-policy">Cookie Policy</Link>.
+          </p>
+
+          <h2>Why we use it</h2>
+          <ul>
+            <li>To run the calculators and compute your scores and risk.</li>
+            <li>To save your history and show your trend if you are a Vitals member.</li>
+            <li>To process payments, manage your subscription, and send service emails.</li>
+            <li>To send your weekly progress email and optional notifications, only if you turn them on.</li>
+            <li>To keep the site secure, prevent abuse, and fix problems.</li>
+          </ul>
+          <p>
+            Under GDPR, our legal bases are your consent, the performance of our contract with you for paid features,
+            and our legitimate interest in keeping the service safe and working.
+          </p>
+
+          <h2>Who processes data for us</h2>
+          <p>We do not sell your personal information. We share data only with the providers that make the service run:</p>
+          <ul>
+            <li><strong>Supabase</strong> for authentication and the database that holds your account and health rows.</li>
+            <li><strong>Stripe</strong> for payments and subscription billing.</li>
+            <li><strong>Cloudflare Turnstile</strong> to block bots at signup and login.</li>
+            <li><strong>Email delivery</strong> through our SMTP provider for account and weekly digest emails.</li>
+            <li><strong>Google</strong> (Tag Manager, AdSense) and <strong>Microsoft Clarity</strong> for analytics and ads, as set out in the Cookie Policy.</li>
+          </ul>
+
+          <h2>How long we keep it</h2>
+          <p>
+            We keep your account data while your account is active. If you delete your account, we remove your profile,
+            measurements, risk results, reports, and subscription rows, then delete your login. Some records may persist
+            briefly in backups before they age out, and we may retain limited billing records where the law requires it.
+          </p>
+
+          <h2>Your rights and controls</h2>
+          <p>You stay in control of your data.</p>
+          <ul>
+            <li><strong>Export:</strong> download everything we hold about you as a JSON file from your settings.</li>
+            <li><strong>Delete:</strong> permanently erase your account and all health data from your settings. This cannot be undone.</li>
+            <li><strong>Access and correction:</strong> view and edit your profile any time, or email us.</li>
+            <li><strong>GDPR:</strong> you can object to or restrict processing and withdraw consent.</li>
+            <li><strong>CCPA:</strong> we do not sell personal information. You can request access or deletion using the same tools.</li>
+          </ul>
+          <p>
+            Manage all of this from <Link href="/dashboard/settings">your settings</Link>, or contact us if you need help.
+          </p>
+
+          <h2>Security</h2>
+          <p>
+            Health rows are protected with row-level security so each account can only read its own data. Traffic is
+            encrypted in transit, payments run through Stripe's hosted checkout, and signups are screened for bots. No
+            system is perfect, so we also ask you to use a strong password and keep it private.
+          </p>
+
+          <h2>Children</h2>
+          <p>
+            Calqulate Vitals is built for adults and is not directed at anyone under 18. We do not knowingly collect
+            data from children. If you believe a minor has created an account, contact us and we will remove it.
+          </p>
+
+          <h2>International transfers</h2>
+          <p>
+            Our providers may process data in the United States and other countries. Where required, we rely on standard
+            contractual protections so your data keeps the same level of care wherever it is handled.
+          </p>
+
+          <h2>Changes to this policy</h2>
+          <p>
+            We will update this page when our practices change and revise the date at the top. Major changes will be
+            highlighted in the product or by email.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            Questions or requests go to <a href="mailto:support@calqulate.net">support@calqulate.net</a>. We read every
+            message and reply.
+          </p>
+
+          <p className="text-sm text-gray-400">
+            This page describes our data practices. It is not legal advice. See our{" "}
+            <Link href="/terms-and-conditions">Terms</Link>, <Link href="/disclaimer">Disclaimer</Link>, and{" "}
+            <Link href="/cookie-policy">Cookie Policy</Link>.
+          </p>
+        </article>
+      </main>
       <Footer />
     </div>
   );

@@ -1,246 +1,94 @@
-import type { Metadata } from "next"
-import { Header } from "@/components/layout/header"
-import { Footer } from "@/components/layout/footer"
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  AlertTriangle,
-  Info,
-  ShieldCheck,
-  Megaphone,
-  LocateFixed,
-  Lightbulb,
-  Scale,
-  Link,
-  Edit,
-  UserCheck,
-  Mail,
-  Zap,
-  List,
-} from "lucide-react"
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 export const metadata: Metadata = {
-  title: "Disclaimer - Calqulate.net",
+  title: "Disclaimer | Calqulate.net",
   description:
-    "Calqulate.net's disclaimer: Our health calculators provide estimates for informational purposes only and do not replace professional medical advice. Read our full terms.",
-  keywords: "disclaimer, Calqulate.net, calculator accuracy, terms of use, estimates, professional advice, health calculator disclaimer",
-  alternates: {
-    canonical: "https://calqulate.net/disclaimer",
-  },
-}
+    "Calqulate.net is educational decision-support, not medical, legal, or financial advice. Read how to use our calculators and the Calqulate Vitals service safely.",
+  keywords: "disclaimer, medical disclaimer, not medical advice, Calqulate",
+  alternates: { canonical: "https://calqulate.net/disclaimer" },
+};
 
-const SectionHeader = ({ id, title, icon: Icon }: { id: string; title: string; icon: React.ElementType }) => (
-  <h2
-    id={id}
-    className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8"
-    style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
-  >
-    <Icon className="w-8 h-8 text-primary" />
-    {title}
-  </h2>
-)
+const UPDATED = "June 2026";
 
 export default function DisclaimerPage() {
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
-    >
+    <div className="flex min-h-screen flex-col bg-white">
       <Header />
-
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-6xl mx-auto">
-            {/* Header */}
-            <div className="mb-12 text-center">
-              <h1
-                className="text-4xl md:text-5xl font-bold mb-3"
-                style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
-              >
-                Disclaimer
-              </h1>
-              <p
-                className="text-muted-foreground text-lg max-w-2xl mx-auto"
-                style={{ fontFamily: "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", Arial, sans-serif" }}
-              >
-                Last updated: June 8, 2026
-              </p>
-            </div>
-
-            <div className="lg:flex lg:gap-10">
-              {/* Sidebar - Desktop only */}
-              <nav className="hidden lg:block w-56 shrink-0">
-                <div className="sticky top-[76px] space-y-1 border-l-2 border-slate-200 pl-4">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">On this page</p>
-                  <a href="#general-information" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">General Info</a>
-                  <a href="#not-professional-advice" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Not Professional Advice</a>
-                  <a href="#global-audience" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">International Users</a>
-                  <a href="#accuracy-limitations" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Accuracy</a>
-                  <a href="#limitation-of-liability" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Liability</a>
-                  <a href="#outer-links" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">External Links</a>
-                  <a href="#updates-revisions" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Updates</a>
-                  <a href="#user-responsibility" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">User Responsibility</a>
-                  <a href="#get-in-touch" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Contact</a>
-                  <a href="#final-point" className="block text-sm text-slate-600 hover:text-emerald-700 transition-colors py-1">Our Commitment</a>
-                </div>
-              </nav>
-
-              {/* Content area */}
-              <div className="flex-1 min-w-0">
-                {/* Mobile TOC pills */}
-                <div className="lg:hidden mb-8 p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                  <p className="text-xs font-bold mb-2 flex items-center gap-2 text-slate-500">
-                    <List className="w-3.5 h-3.5" />
-                    Jump to Section
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    <a href="#general-information" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">General Info</a>
-                    <a href="#not-professional-advice" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Not Professional Advice</a>
-                    <a href="#global-audience" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">International Users</a>
-                    <a href="#accuracy-limitations" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Accuracy</a>
-                    <a href="#limitation-of-liability" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Liability</a>
-                    <a href="#outer-links" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">External Links</a>
-                    <a href="#updates-revisions" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Updates</a>
-                    <a href="#user-responsibility" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">User Responsibility</a>
-                    <a href="#get-in-touch" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Contact</a>
-                    <a href="#final-point" className="px-2.5 py-1 text-xs font-medium bg-white border border-slate-200 rounded-md text-slate-600 hover:text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors">Our Commitment</a>
-                  </div>
-                </div>
-
-                {/* Introduction */}
-                <section className="bg-gradient-to-r from-yellow-50 to-orange-50 p-8 rounded-lg w-full max-w-none mb-10">
-              <h2 className="text-3xl font-bold mb-4 text-primary">Welcome to Calqulate.net</h2>
-              <div className="prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>
-                  Welcome to Calqulate.net — your home for simple, intelligent, and informative health calculators.
-                </p>
-                <p>
-                  Please read this disclaimer carefully before using our tools. As you continue looking at or using our
-                  calculators, you automatically accept the terms provided below.
-                </p>
-              </div>
-            </section>
-
-            <SectionHeader id="general-information" title="1. This information is general only." icon={Info} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>All the calculators and tools on Calqulate.net are meant for information and education only.</p>
-                <p>
-                  We aim for correct, accurate, and easy-to-use calculations — but note our results are estimates, not
-                  a sure thing.
-                </p>
-                <p>
-                  Always consult on your own or with a qualified expert prior to using our tools for any health,
-                  financial, or life decisions.
-                </p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="not-professional-advice" title="2. Not a Substitute for Professional Advice" icon={ShieldCheck} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>The calqulate.net does not make medical, financial, legal, or professional recommendations.</p>
-                <p>
-                  They are not a substitute for medical diagnostics or therapy, for example, our health calculators. If
-                  you have questions or concerns about your health or personal situation, consult a licensed
-                  professional.
-                </p>
-                <p>Consider our tools approachable guides, rather than accredited advisors.</p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="global-audience" title="3. International Users" icon={LocateFixed} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>
-                  Our users are located worldwide, so some calculators or results may not align with local laws,
-                  standards, or regulations.
-                </p>
-                <p>
-                  Always verify results against your country's official guidelines before relying on them for decisions.
-                </p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="accuracy-limitations" title="4. Accuracy & Limitations" icon={Zap} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>
-                  We regularly refresh our calculators for greater precision, but errors, mechanical faults, or
-                  out-of-date information may occur on occasion.
-                </p>
-                <p>
-                  Calqulate.net does not guarantee that information, results, materials, or other items on the site are
-                  complete, reliable, or suitable.
-                </p>
-                <p>Your decision to make any calculator usage is entirely your own risk.</p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="limitation-of-liability" title="5. Limitation of Liability" icon={Scale} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>
-                  Calqulate.net, its affiliates, and owners won't be held responsible for any direct, indirect, or
-                  consequential losses that happen when our tools, information, or site materials are being used.
-                </p>
-                <p>
-                  Your usage of our website constitutes your acknowledgment that we won't be liable for what you do on
-                  the basis of calculator output.
-                </p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="outer-links" title="6. Disclaimer for Outer Links" icon={Link} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>Our site might contain links to other third parties' sites or tools.</p>
-                <p>We incorporate them for you, but do not endorse or guarantee their sites, content, or privacy policies.</p>
-                <p>Check their policies first when using any other sites.</p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="updates-revisions" title="7. Updates & Revisions" icon={Edit} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>Calqulate.net may update this disclaimer at any time without prior notice.</p>
-                <p>We recommend checking this page periodically for any changes.</p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="user-responsibility" title="8. User Responsibility" icon={UserCheck} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>All results must be investigated and verified for compliance with your own needs, or the needs of your workplace.</p>
-                <p>It is recommended that results which concern health, finances, or legal matters be double-checked.</p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="get-in-touch" title="9. Contact Us" icon={Mail} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>Have questions about this disclaimer or our tools?</p>
-                <p>We'd love to hear from you:</p>
-                <p>Email: <a href="mailto:krushal.barasiya@calqulate.net" className="text-primary hover:underline">krushal.barasiya@calqulate.net</a></p>
-              </CardContent>
-            </Card>
-
-            <SectionHeader id="final-point" title="10. Our Commitment" icon={Megaphone} />
-            <Card className="rounded-lg p-6 mb-10">
-              <CardContent className="p-0 prose prose-gray max-w-none text-lg leading-relaxed">
-                <p>
-                  At Calqulate.net, our mission is to make health information more accessible — one calculation at a time.
-                  We are committed to accuracy, transparency, and helping you make informed decisions. Use our tools
-                  wisely and always consult a professional for medical advice.
-                </p>
-              </CardContent>
-            </Card>
+        <section className="border-b border-gray-100 bg-gradient-to-br from-emerald-50 to-white py-12">
+          <div className="container mx-auto max-w-3xl px-4">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Disclaimer</h1>
+            <p className="mt-2 text-sm text-gray-500">Last updated {UPDATED}</p>
+            <p className="mt-4 text-lg text-gray-600">
+              Calqulate.net helps you understand and track your health numbers. It is educational decision-support, not
+              medical advice. This page explains where the line sits and how to use the site safely.
+            </p>
           </div>
+        </section>
+
+        <article className="container mx-auto max-w-3xl px-4 py-10 prose prose-slate prose-headings:font-bold prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline">
+          <div className="not-prose rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
+            <strong>The short version.</strong> Our calculators, scores, simulations, and protocols are for education
+            and self-tracking. They do not diagnose, treat, or prescribe. Always talk to a licensed clinician before
+            you change anything about your care.
           </div>
-        </div>
-        </div>
+
+          <h2>Not medical advice</h2>
+          <p>
+            Every result on Calqulate.net, from the Metabolic Health Score to heart age, the Longevity Index, the Future
+            You simulation, and the GLP-1 plan, is an estimate built from published models. These tools cannot examine
+            you, read your full history, or account for everything a clinician would. Use the numbers to ask better
+            questions, not to replace a diagnosis.
+          </p>
+
+          <h2>How the calculators work, and their limits</h2>
+          <p>
+            We use validated models such as the Pooled Cohort Equations, the Framingham risk score, and FINDRISC. These
+            were developed on specific populations and have known limits. A risk percentage is a population estimate, not
+            a prediction about you personally. Lab values, blood pressure readings, and body measurements all vary day to
+            day, so a single result can mislead. Tracking the trend gives a clearer picture than any one number.
+          </p>
+
+          <h2>GLP-1 medications</h2>
+          <p>
+            The GLP-1 dose calculator and the Autopilot protocol organize standard, publicly available dose schedules.
+            They do not set your dose. Compounded products can differ in concentration, and your prescriber decides what
+            is right for you based on your health. Confirm every dose and every change with the clinician who prescribed
+            it, and check the units against your own vial before you draw anything.
+          </p>
+
+          <h2>In an emergency</h2>
+          <p>
+            Do not use this site for emergencies. If you have chest pain, trouble breathing, signs of a stroke, very high
+            or very low blood sugar, or any symptom that worries you, call your local emergency number or go to the
+            nearest emergency department.
+          </p>
+
+          <h2>Not financial or legal advice</h2>
+          <p>
+            Nothing here is financial or legal advice. Pricing and subscription details on the{" "}
+            <Link href="/pricing">pricing page</Link> are for the service only.
+          </p>
+
+          <h2>Accuracy and updates</h2>
+          <p>
+            We work to keep our formulas correct and current with published guidance, and we test the clinical engines
+            against reference values. Even so, errors can happen and guidelines change. If you spot something that looks
+            wrong, tell us at <a href="mailto:support@calqulate.net">support@calqulate.net</a> and we will check it.
+          </p>
+
+          <h2>Your responsibility</h2>
+          <p>
+            You decide how to use the information here. By using Calqulate.net you accept that we are not responsible for
+            decisions you make based on it. Read this alongside our{" "}
+            <Link href="/terms-and-conditions">Terms</Link> and <Link href="/privacy-policy">Privacy Policy</Link>.
+          </p>
+        </article>
       </main>
-
       <Footer />
     </div>
-  )
+  );
 }
