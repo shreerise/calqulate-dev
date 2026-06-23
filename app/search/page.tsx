@@ -65,13 +65,13 @@ export default function SearchPage() {
         <Header />
 
         <main className="flex-1">
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
             <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-8">
-                <h1 className="text-3xl md:text-4xl font-bold text-balance mb-4">
+              <div className="text-center mb-6 sm:mb-8">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-balance mb-4">
                   Search Calculators
                 </h1>
-                <p className="text-lg text-muted-foreground text-pretty">
+                <p className="text-base sm:text-lg text-muted-foreground text-pretty">
                   Find the perfect calculator for your needs from our
                   comprehensive collection.
                 </p>

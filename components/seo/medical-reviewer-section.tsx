@@ -1,5 +1,4 @@
 import Image from "next/image"
-import Link from "next/link"
 import { Stethoscope, ExternalLink, CalendarCheck, UserCheck } from "lucide-react"
 
 export function MedicalReviewerSection() {
@@ -53,15 +52,8 @@ export function MedicalReviewerSection() {
             <p className="text-slate-600 text-sm leading-relaxed mb-3">
               Critical care specialist and anesthesiologist with advanced training from AIIMS. Reviews health calculators at Calqulate to ensure medical accuracy and evidence-based standards.
             </p>
-            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
-              <Link
-                href="/about-us#dr-jaydeep-sanghani"
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 hover:text-blue-700 border border-slate-300 px-3 py-1.5 rounded-full hover:border-blue-300 hover:bg-blue-50 transition-colors"
-              >
-                <ExternalLink className="w-3 h-3" />
-                Full Profile
-              </Link>
-              <a
+              <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+                <a
                 href="https://www.docindia.org/doctors/rajkot/dr-jaydeep-sanghani-anesthesiology"
                 target="_blank"
                 rel="noopener noreferrer"

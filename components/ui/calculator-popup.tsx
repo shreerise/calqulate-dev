@@ -52,21 +52,21 @@ export default function CalculatorPopup() {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4"
       onClick={closePopup}
     >
       <div
-        className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl animate-fadeIn"
+        className="bg-white rounded-2xl p-5 sm:p-6 max-w-md w-full shadow-2xl animate-fadeIn mx-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {!submitted ? (
           <>
-            <h2 className="text-xl font-semibold mb-2 text-green-700">
-            Can’t find the calculator you need?       
+            <h2 className="text-lg sm:text-xl font-semibold mb-2 text-green-700">
+            Can&apos;t find the calculator you need?
              </h2>
 
-            <p className="text-gray-600 mb-4">
-             Tell us what you're looking for - we may build it next and help thousands of others searching for the same thing.
+            <p className="text-sm sm:text-base text-gray-600 mb-4">
+             Tell us what you&apos;re looking for &mdash; we may build it next and help thousands of others searching for the same thing.
             </p>
 
             <input
@@ -74,19 +74,19 @@ export default function CalculatorPopup() {
               onChange={(e) => setRequest(e.target.value)}
               type="text"
               placeholder="Enter calculator name..."
-              className="w-full border rounded-lg px-3 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full border rounded-lg px-3 py-2.5 sm:py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-green-600 text-sm sm:text-base"
             />
 
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <button
                 onClick={handleSubmit}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+                className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 sm:py-2 rounded-lg text-sm font-semibold min-h-[44px]"
               >
                 Send Request
               </button>
 
               <button
-                className="border px-4 py-2 rounded-lg"
+                className="w-full sm:w-auto border px-4 py-2.5 sm:py-2 rounded-lg text-sm font-medium min-h-[44px]"
                 onClick={closePopup}
               >
                 Close
@@ -95,14 +95,14 @@ export default function CalculatorPopup() {
           </>
         ) : (
           <>
-            <h2 className="text-xl font-semibold text-green-700">
+            <h2 className="text-lg sm:text-xl font-semibold text-green-700">
               Thank you!
             </h2>
-            <p className="text-gray-600 mt-2">
+            <p className="text-sm sm:text-base text-gray-600 mt-2">
               We received your request and may add this calculator soon.
             </p>
             <button
-              className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg"
+              className="mt-4 w-full sm:w-auto bg-green-600 text-white px-4 py-2.5 sm:py-2 rounded-lg text-sm font-semibold min-h-[44px]"
               onClick={closePopup}
             >
               Close

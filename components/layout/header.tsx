@@ -218,7 +218,7 @@ function MobileCategory({ category, onLinkClick }: { category: Category; onLinkC
   const [open, setOpen] = useState(false)
   return (
     <div className="border-b border-gray-100 last:border-0">
-      <button onClick={() => setOpen((v) => !v)} className="w-full flex items-center justify-between px-4 py-3 text-left">
+      <button onClick={() => setOpen((v) => !v)} className="w-full flex items-center justify-between px-4 py-3 sm:py-3 text-left min-h-[44px]">
         <div>
           <p className="text-sm font-semibold text-gray-900">{category.name}</p>
           <p className="text-xs text-gray-400 mt-0.5">{category.count} calculators</p>
@@ -232,7 +232,7 @@ function MobileCategory({ category, onLinkClick }: { category: Category; onLinkC
               key={calc.href}
               href={calc.href}
               onClick={onLinkClick}
-              className="flex items-center gap-2.5 px-6 py-2 text-sm text-gray-600 hover:text-emerald-700 hover:bg-emerald-50 transition-colors"
+              className="flex items-center gap-2.5 px-6 py-2.5 sm:py-2 text-sm text-gray-600 hover:text-emerald-700 hover:bg-emerald-50 transition-colors min-h-[44px]"
             >
               <span className="w-1 h-1 rounded-full bg-emerald-400 flex-shrink-0" />
               {calc.name}
@@ -317,8 +317,8 @@ export function Header() {
   return (
     <header ref={headerRef} className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
       {/* ── Main bar ── */}
-      <div className="container mx-auto px-4 lg:px-6">
-        <div className="flex h-[60px] items-center gap-4 lg:gap-6">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6">
+        <div className="flex h-[60px] items-center gap-2 sm:gap-4 lg:gap-6">
           {/* Logo */}
           <Link href="/" onClick={closeAll} className="flex items-center gap-2 flex-shrink-0 group">
             <div className="w-8 h-8 rounded-lg bg-emerald-600 group-hover:bg-emerald-700 transition-colors flex items-center justify-center shadow-sm">
@@ -436,13 +436,13 @@ export function Header() {
 
           {/* ── Mobile/tablet right ── */}
           <div className="flex lg:hidden items-center gap-1 ml-auto">
-            <button onClick={() => { setSearchOpen((v) => !v); setMobileOpen(false) }} aria-label="Search" className="p-2 rounded-md text-gray-500 hover:bg-gray-50 transition-colors">
+            <button onClick={() => { setSearchOpen((v) => !v); setMobileOpen(false) }} aria-label="Search" className="p-2.5 sm:p-3 rounded-md text-gray-500 hover:bg-gray-50 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
               <Search className="h-5 w-5" />
             </button>
             <button
               onClick={() => { setMobileOpen((v) => !v); setSearchOpen(false) }}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              className="p-2 rounded-md text-gray-500 hover:bg-gray-50 transition-colors"
+              className="p-2.5 sm:p-3 rounded-md text-gray-500 hover:bg-gray-50 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -471,13 +471,13 @@ export function Header() {
 
       {/* ── Mobile drawer ── */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-gray-100 bg-white flex flex-col max-h-[85vh]">
+        <div className="lg:hidden border-t border-gray-100 bg-white flex flex-col max-h-[90vh] sm:max-h-[85vh]">
           <div className="overflow-y-auto flex-1">
             {/* Vitals (first) */}
             <div className="border-b border-gray-100">
               <button
                 onClick={() => setMobileVitalsOpen((v) => !v)}
-                className="w-full flex items-center justify-between px-4 py-3 text-left"
+                className="w-full flex items-center justify-between px-4 py-3.5 sm:py-3 text-left min-h-[44px]"
               >
                 <div className="flex items-center gap-2">
                   <Activity className="h-4 w-4 text-emerald-600" />
@@ -488,7 +488,7 @@ export function Header() {
               {mobileVitalsOpen && (
                 <div className="bg-emerald-50/40 pb-1">
                   {vitalsLinks.map((l) => (
-                    <Link key={l.href} href={l.href} onClick={closeAll} className="flex items-center gap-2.5 px-6 py-2 text-sm text-gray-700 hover:text-emerald-700">
+                    <Link key={l.href} href={l.href} onClick={closeAll} className="flex items-center gap-2.5 px-6 py-2.5 sm:py-2 text-sm text-gray-700 hover:text-emerald-700 min-h-[44px]">
                       <span className="w-1 h-1 rounded-full bg-emerald-500 flex-shrink-0" />
                       {l.name}
                     </Link>
@@ -505,11 +505,11 @@ export function Header() {
               <MobileCategory key={cat.name} category={cat} onLinkClick={closeAll} />
             ))}
 
-            <div className="px-4 py-3 flex flex-wrap gap-4">
-              <Link href="/how-it-works" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">How it works</Link>
-              <Link href="/pricing" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">Pricing</Link>
-              <Link href="/blog" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">Blog</Link>
-              <Link href="/about-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700">About</Link>
+            <div className="px-4 py-4 flex flex-wrap gap-x-4 gap-y-3">
+              <Link href="/how-it-works" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">How it works</Link>
+              <Link href="/pricing" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">Pricing</Link>
+              <Link href="/blog" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">Blog</Link>
+              <Link href="/about-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">About</Link>
             </div>
           </div>
 
@@ -517,21 +517,21 @@ export function Header() {
           <div className="border-t border-gray-100 p-4 bg-white">
             {loggedIn ? (
               <div className="flex flex-col gap-2">
-                <Link href="/dashboard" onClick={closeAll} className="flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700">
+                <Link href="/dashboard" onClick={closeAll} className="flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 sm:py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 min-h-[44px]">
                   <LayoutDashboard className="h-4 w-4" /> Go to Dashboard
                 </Link>
                 <form action="/auth/signout" method="post">
-                  <button type="submit" className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
+                  <button type="submit" className="w-full rounded-lg border border-gray-300 px-4 py-3 sm:py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 min-h-[44px]">
                     Sign out
                   </button>
                 </form>
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <Link href="/service/metabolic-health-tracker" onClick={closeAll} className="flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700">
+                <Link href="/service/metabolic-health-tracker" onClick={closeAll} className="flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-3 sm:py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 min-h-[44px]">
                   Get my score <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link href="/login" onClick={closeAll} className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-center text-sm font-medium text-gray-600 hover:bg-gray-50">
+                <Link href="/login" onClick={closeAll} className="w-full rounded-lg border border-gray-300 px-4 py-3 sm:py-2.5 text-center text-sm font-medium text-gray-600 hover:bg-gray-50 min-h-[44px] flex items-center justify-center">
                   Log in
                 </Link>
               </div>

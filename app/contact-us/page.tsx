@@ -184,18 +184,18 @@ export default function ContactUsPage() {
       <StructuredData />
 
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-3 sm:px-4 py-10 sm:py-12">
           <div className="max-w-4xl mx-auto">
 
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact us</h1>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            <div className="text-center mb-10 sm:mb-12">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Contact us</h1>
+              <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
                 Need help with a calculator, your Calqulate Vitals account, billing, or your data? Send us a note and we
                 will reply. For account and subscription questions, email <strong>support@calqulate.net</strong>.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
               {/* Contact Info */}
               <div className="space-y-6">
                 <Card>
@@ -287,7 +287,7 @@ export default function ContactUsPage() {
                         {touched.message && <FieldHint error={errors.message!} value={form.message} />}
                       </div>
 
-                      <Button type="submit" className="w-full" disabled={status === "Sending…"}>
+                      <Button type="submit" className="w-full min-h-[44px]" disabled={status === "Sending…"}>
                         {status === "Sending…" ? "Sending…" : "Send Message"}
                       </Button>
 

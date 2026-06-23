@@ -70,25 +70,25 @@ export default function HowItWorksPage() {
       <main className="flex-1">
 
         {/* Hero / the real problem */}
-        <section className="bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800 py-16 lg:py-20">
-          <div className="container mx-auto px-4 max-w-4xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-800/60 border border-emerald-600/40 px-4 py-1.5 text-sm font-medium text-emerald-300 mb-6">
+        <section className="bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800 py-12 sm:py-16 lg:py-20">
+          <div className="container mx-auto px-3 sm:px-4 max-w-4xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-800/60 border border-emerald-600/40 px-3 sm:px-4 py-1.5 text-sm font-medium text-emerald-300 mb-6">
               <Stethoscope className="h-4 w-4" /> How it actually works
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
               You got a scary number. Your doctor said &ldquo;come back in 6 months.&rdquo;
             </h1>
-            <p className="mt-6 text-lg text-emerald-100/80 leading-relaxed">
+            <p className="mt-6 text-base sm:text-lg text-emerald-100/80 leading-relaxed">
               A borderline A1c. A high 10-year heart risk. Muscle melting off on a GLP-1. The result lands,
-              the fear spikes — and nobody tells you what it means or what to actually do. Calqulate Vitals
+              the fear spikes &mdash; and nobody tells you what it means or what to actually do. Calqulate Vitals
               fills that gap: it translates the number, tracks the real trend, and hands you the single change
               that lowers your risk most.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 font-semibold text-white hover:bg-emerald-400 transition-colors">
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
+              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-white hover:bg-emerald-400 transition-colors">
                 Get my free score <ArrowRight className="h-4 w-4" />
               </Link>
-              <a href="#pricing" className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/50 px-6 py-3 font-semibold text-emerald-200 hover:bg-emerald-800/50 transition-colors">
+              <a href="#pricing" className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/50 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-emerald-200 hover:bg-emerald-800/50 transition-colors">
                 See the one plan
               </a>
             </div>
@@ -96,18 +96,18 @@ export default function HowItWorksPage() {
         </section>
 
         {/* The 4 steps */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="text-center mb-12">
+        <section className="py-12 sm:py-16 bg-white">
+          <div className="container mx-auto px-3 sm:px-4 max-w-5xl">
+            <div className="text-center mb-10 sm:mb-12">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">The loop</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Snapshot → Track → Act → Reverse</h2>
-              <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Snapshot → Track → Act → Reverse</h2>
+              <p className="mt-3 text-sm sm:text-base text-gray-500 max-w-2xl mx-auto">
                 A one-time calculator gives you a number and walks away. Calqulate Vitals is a loop you live in.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               {steps.map((s) => (
-                <div key={s.n} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div key={s.n} className="rounded-2xl border border-gray-100 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 font-bold text-white">{s.n}</span>
                     <span className="text-emerald-600">{s.icon}</span>
@@ -121,18 +121,18 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Why it isn't just a calculator — the algorithm/moat in plain English */}
-        <section className="py-16 bg-gradient-to-br from-emerald-50 via-white to-emerald-50">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="text-center mb-12">
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-50 via-white to-emerald-50">
+          <div className="container mx-auto px-3 sm:px-4 max-w-5xl">
+            <div className="text-center mb-10 sm:mb-12">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">Why this isn&apos;t just a calculator</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Two engines a free calculator (or an AI) can&apos;t copy</h2>
-              <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Two engines a free calculator (or an AI) can&apos;t copy</h2>
+              <p className="mt-3 text-sm sm:text-base text-gray-500 max-w-2xl mx-auto">
                 Anyone can reproduce a risk formula. What can&apos;t be reproduced is a model built on <em>your</em> accumulated history.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="rounded-2xl border border-emerald-100 bg-white p-7 shadow-sm">
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="rounded-2xl border border-emerald-100 bg-white p-5 sm:p-7 shadow-sm">
                 <div className="flex items-center gap-2 text-emerald-700 mb-3">
                   <LineChart className="h-5 w-5" />
                   <h3 className="font-bold">1 · Personal trajectory engine</h3>
@@ -175,15 +175,15 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Who it's for */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="text-center mb-12">
+        <section className="py-12 sm:py-16 bg-white">
+          <div className="container mx-auto px-3 sm:px-4 max-w-5xl">
+            <div className="text-center mb-10 sm:mb-12">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">Who it&apos;s for</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Built for the moment the system left you on your own</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Built for the moment the system left you on your own</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {audiences.map((a) => (
-                <div key={a.tag} className="rounded-2xl border border-gray-100 bg-gray-50 p-6">
+                <div key={a.tag} className="rounded-2xl border border-gray-100 bg-gray-50 p-5 sm:p-6">
                   <div className="p-3 bg-emerald-100 rounded-xl w-fit text-emerald-700 mb-4">{a.icon}</div>
                   <div className="text-xs font-semibold uppercase tracking-wide text-emerald-600 mb-2">{a.tag}</div>
                   <p className="text-sm italic text-gray-700 mb-3">{a.pain}</p>
@@ -195,13 +195,13 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Benefits */}
-        <section className="py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="text-center mb-12">
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
+          <div className="container mx-auto px-3 sm:px-4 max-w-5xl">
+            <div className="text-center mb-10 sm:mb-12">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-400 mb-3 block">The benefits</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-white">Why people stay</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">Why people stay</h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
               {[
                 { icon: <TrendingDown className="h-5 w-5" />, t: "See your risk actually fall", d: "Watch 10-year heart and diabetes risk drop over time — the outcome the scale can't show." },
                 { icon: <LineChart className="h-5 w-5" />, t: "Signal, not noise", d: "Know when a change is real vs. a fluke, so you don't quit during a normal plateau." },
@@ -223,13 +223,13 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Pricing — one plan */}
-        <section id="pricing" className="py-16 bg-gray-50 scroll-mt-20">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10 max-w-2xl mx-auto">
+        <section id="pricing" className="py-12 sm:py-16 bg-gray-50 scroll-mt-20">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">One simple plan</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Start free. Upgrade to track &amp; reverse.</h2>
-              <p className="text-gray-600">
-                The snapshot is genuinely free — run any engine once, nothing saved. One plan unlocks the
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">Start free. Upgrade to track &amp; reverse.</h2>
+              <p className="text-sm sm:text-base text-gray-600">
+                The snapshot is genuinely free &mdash; run any engine once, nothing saved. One plan unlocks the
                 trajectory engine, your next-lever protocol, GLP-1 muscle tracking, and doctor PDFs.
               </p>
             </div>
@@ -238,20 +238,20 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Final reassurance */}
-        <section className="py-14 bg-white border-t border-gray-100">
-          <div className="container mx-auto px-4 max-w-3xl text-center">
+        <section className="py-10 sm:py-14 bg-white border-t border-gray-100">
+          <div className="container mx-auto px-3 sm:px-4 max-w-3xl text-center">
             <ShieldCheck className="h-8 w-8 text-emerald-600 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Educational decision-support — not a replacement for your doctor</h2>
-            <p className="text-gray-600">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">Educational decision-support &mdash; not a replacement for your doctor</h2>
+            <p className="text-sm sm:text-base text-gray-600">
               Calqulate Vitals helps you understand and track your risk and bring better questions to your
               clinician. It is not medical advice, diagnosis, or treatment. Always consult a licensed professional
               about your health decisions.
             </p>
-            <div className="mt-7 flex flex-wrap justify-center gap-4">
-              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700 transition-colors">
+            <div className="mt-7 flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
+              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-white hover:bg-emerald-700 transition-colors">
                 Get my free Metabolic Health Score <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/search" className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
+              <Link href="/search" className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
                 Try a free snapshot tool
               </Link>
             </div>

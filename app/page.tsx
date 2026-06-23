@@ -488,41 +488,41 @@ export default function HomePage() {
             <div className="absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-teal-400/10 blur-3xl" />
           </div>
 
-          <div className="relative container mx-auto px-4">
-            <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-8">
+          <div className="relative container mx-auto px-3 sm:px-4">
+            <div className="grid grid-cols-1 items-center gap-10 sm:gap-14 lg:grid-cols-12 lg:gap-8">
 
               {/* LEFT: copy */}
               <div className="lg:col-span-6 text-center lg:text-left">
-                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-300 backdrop-blur">
+                <div className="mb-5 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium text-emerald-300 backdrop-blur">
                   <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
                   Mission control for your metabolic health
                 </div>
 
-                <h1 className="text-balance text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl xl:text-7xl">
+                <h1 className="text-balance text-4xl sm:text-6xl xl:text-7xl font-extrabold leading-[1.05] tracking-tight text-white">
                   Stop calculating.{" "}
                   <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Start reversing.</span>
                 </h1>
 
-                <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-emerald-100/75 lg:mx-0">
+                <p className="mx-auto mt-5 sm:mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-emerald-100/75 lg:mx-0">
                   Calqulate models your metabolic and cardiovascular risk over time, projects your future self,
                   and tells you the single highest-impact change to make next. Built on validated clinical models,
                   not guesswork.
                 </p>
 
-                <div className="mx-auto mt-8 max-w-md lg:mx-0">
+                <div className="mx-auto mt-6 sm:mt-8 max-w-md lg:mx-0">
                   <SearchBar placeholder="Search free tools... e.g. BMI, heart age" className="h-13 rounded-xl bg-white text-base shadow-xl" />
                 </div>
 
-                <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
-                  <Button size="lg" className="rounded-xl bg-emerald-500 px-7 py-3 font-semibold text-emerald-950 shadow-lg shadow-emerald-900/40 transition hover:bg-emerald-400" asChild>
+                <div className="mt-5 sm:mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
+                  <Button size="lg" className="w-full sm:w-auto rounded-xl bg-emerald-500 px-7 py-3 font-semibold text-emerald-950 shadow-lg shadow-emerald-900/40 transition hover:bg-emerald-400 min-h-[44px]" asChild>
                     <Link href="/service/metabolic-health-tracker">Get my free score<ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="rounded-xl border-emerald-500/40 bg-white/5 px-7 py-3 font-semibold text-emerald-100 backdrop-blur transition hover:bg-emerald-800/40 hover:text-white" asChild>
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl border-emerald-500/40 bg-white/5 px-7 py-3 font-semibold text-emerald-100 backdrop-blur transition hover:bg-emerald-800/40 hover:text-white min-h-[44px]" asChild>
                     <Link href="/how-it-works">See how it works</Link>
                   </Button>
                 </div>
 
-                <div className="mt-9 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-emerald-300/70 lg:justify-start">
+                <div className="mt-7 sm:mt-9 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-emerald-300/70 lg:justify-start">
                   {["Validated clinical models", "Private by design", "Free to start"].map((t) => (
                     <span key={t} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-400" />{t}</span>
                   ))}
@@ -532,7 +532,7 @@ export default function HomePage() {
               {/* RIGHT: live product preview card */}
               <div className="relative lg:col-span-6">
                 <div className="absolute inset-0 rounded-[2.5rem] bg-emerald-400/20 blur-3xl" />
-                <div className="relative mx-auto w-full max-w-md rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 shadow-2xl backdrop-blur-xl">
+                <div className="relative mx-auto w-full max-w-md rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 sm:p-5 shadow-2xl backdrop-blur-xl">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-semibold text-white">Your metabolic health</span>
                     <span className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-300">
@@ -598,21 +598,21 @@ export default function HomePage() {
         </section>
 
         {/* ── SECTION B: THE FREE ON-RAMP ──────────────────────────────────── */}
-        <section className="py-12 bg-white border-b border-gray-100">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto rounded-2xl border border-emerald-100 bg-emerald-50/50 p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6">
+        <section className="py-10 sm:py-12 bg-white border-b border-gray-100">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="max-w-4xl mx-auto rounded-2xl border border-emerald-100 bg-emerald-50/50 p-5 sm:p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-5 sm:gap-6">
               <div className="flex-1">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900">
-                  Start with a free snapshot - no account needed.
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
+                  Start with a free snapshot &mdash; no account needed.
                 </h2>
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2 text-sm sm:text-base text-gray-600">
                   Run every clinical engine once, free and stateless. Upgrade only when you want to
                   save it, track it, and reverse it.
                 </p>
               </div>
               <Link
                 href="/search"
-                className="inline-flex flex-shrink-0 items-center gap-2 rounded-xl border border-emerald-300 bg-white px-6 py-3 font-semibold text-emerald-700 hover:bg-emerald-100 transition-colors"
+                className="inline-flex w-full sm:w-auto flex-shrink-0 items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-white px-6 py-3 font-semibold text-emerald-700 hover:bg-emerald-100 transition-colors min-h-[44px]"
               >
                 Browse all snapshot tools
                 <ArrowRight className="h-4 w-4" />
@@ -622,25 +622,25 @@ export default function HomePage() {
         </section>
 
         {/* ── SECTION C: INTRODUCING CALQULATE VITALS ──────────────────────── */}
-        <section id="how-it-works" className="py-16 bg-gradient-to-br from-emerald-50 via-white to-emerald-50 scroll-mt-20">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12 max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-5 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold mb-4">
-                <HeartPulse className="h-5 w-5" />
+        <section id="how-it-works" className="py-12 sm:py-16 bg-gradient-to-br from-emerald-50 via-white to-emerald-50 scroll-mt-20">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-10 sm:mb-12 max-w-3xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 bg-emerald-100 text-emerald-700 rounded-full text-xs sm:text-sm font-semibold mb-4">
+                <HeartPulse className="h-4 w-4 sm:h-5 sm:w-5" />
                 Introducing Calqulate Vitals
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
                 From a one-time number to a health trajectory.
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-base sm:text-lg text-gray-600">
                 Calqulate Vitals turns your numbers into a tracked score, validated risk models, and the
                 single highest-impact change to make next.
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 items-center max-w-6xl mx-auto">
               {/* 3-step how it works */}
-              <div className="lg:col-span-2 grid sm:grid-cols-3 gap-5">
+              <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
                 {[
                   { n: "1", icon: <Calculator className="h-5 w-5" />, title: "Compute", desc: "Run every clinical engine free and stateless - no login required." },
                   { n: "2", icon: <LineChart className="h-5 w-5" />, title: "Save & track", desc: "Trend your Metabolic Health Score, heart age, and 10-yr ASCVD & diabetes risk over time." },
@@ -688,17 +688,17 @@ export default function HomePage() {
         </section>
 
         {/* ── SECTION D: THE THREE VITALS SERVICES ─────────────────────────── */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
+        <section className="py-12 sm:py-16 bg-white">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-10">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 The Vitals services
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Pick the track that fits your goal
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
               {vitalsServices.map((svc) => (
                 <Link
                   key={svc.href}
@@ -720,19 +720,19 @@ export default function HomePage() {
         </section>
 
         {/* ── ADVANCED PLATFORM (v2 capabilities) ──────────────────────────── */}
-        <section className="bg-gray-950 py-16 text-gray-100">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-12 max-w-2xl mx-auto">
+        <section className="bg-gray-950 py-12 sm:py-16 text-gray-100">
+          <div className="container mx-auto px-3 sm:px-4 max-w-6xl">
+            <div className="text-center mb-10 sm:mb-12 max-w-2xl mx-auto">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-3 block">
                 Mission control for your body
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-white">More than a tracker - a model of your future self</h2>
-              <p className="mt-3 text-gray-400">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">More than a tracker &mdash; a model of your future self</h2>
+              <p className="mt-3 text-sm sm:text-base text-gray-400">
                 First-principles health: break your biology into measurable systems, model reality, and get god-mode
                 control over your trajectory.
               </p>
             </div>
-            <div className="grid gap-5 md:grid-cols-3">
+            <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
               {[
                 { tag: "Live", t: "Longevity Index (0–1000)", d: "One number that rolls up cardiovascular, metabolic, body-composition, fitness and glucose control - with the exact levers to raise it." },
                 { tag: "Live", t: "Biological age", d: "A transparent biomarker-weighted estimate of how old your body really is, and the top drivers aging you faster." },
@@ -757,17 +757,17 @@ export default function HomePage() {
         </section>
 
         {/* ── SECTION E: PRICING ───────────────────────────────────────────── */}
-        <section id="pricing" className="py-16 bg-gray-50 border-y border-gray-100 scroll-mt-20">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10 max-w-2xl mx-auto">
+        <section id="pricing" className="py-12 sm:py-16 bg-gray-50 border-y border-gray-100 scroll-mt-20">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Simple, honest pricing
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Free to start. Upgrade to track &amp; reverse.
               </h2>
-              <p className="text-gray-600">
-                The free snapshot is genuinely free - run any engine once, nothing saved. One plan unlocks
+              <p className="text-sm sm:text-base text-gray-600">
+                The free snapshot is genuinely free &mdash; run any engine once, nothing saved. One plan unlocks
                 saved history, the trajectory engine, your next-lever protocol, and doctor-shareable reports.
               </p>
             </div>
@@ -779,10 +779,10 @@ export default function HomePage() {
         </section>
 
         {/* ── UNIQUE VALUE PROPOSITION ──────────────────────────────────────── */}
-        <section className="py-16 bg-white border-b border-gray-100">
-          <div className="container mx-auto px-4">
+        <section className="py-12 sm:py-16 bg-white border-b border-gray-100">
+          <div className="container mx-auto px-3 sm:px-4">
             <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center">
                 <div className="p-6">
                   <div className="text-4xl font-extrabold text-emerald-600 mb-1">50+</div>
                   <div className="text-sm font-semibold text-gray-700 mb-2">Health Calculators</div>
@@ -810,35 +810,35 @@ export default function HomePage() {
         </section>
 
         {/* ── FEATURED: Face & Body Shape ──────────────────────────────────── */}
-        <section className="py-16 bg-gradient-to-br from-emerald-50 to-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-50 to-white">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-10">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Featured Calculators
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Discover Your Body & Face Shape
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Discover Your Body &amp; Face Shape
               </h2>
-              <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
                 Two of our most-loved tools. Hundreds of thousands of people use them to understand their physical traits and receive personalized lifestyle guidance.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-4xl mx-auto">
               {/* Body Shape Card */}
               <div className="group relative overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -translate-x-8 -translate-y-8 group-hover:bg-emerald-100 transition-colors" />
-                <div className="p-8 relative">
+                <div className="p-5 sm:p-8 relative">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="p-3 bg-emerald-100 rounded-xl">
-                      <Activity className="h-6 w-6 text-emerald-600" />
+                    <div className="p-2.5 sm:p-3 bg-emerald-100 rounded-xl">
+                      <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-600" />
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full">
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 px-2.5 sm:px-3 py-1 rounded-full">
                       Trending
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">Body Shape Calculator</h3>
-                  <p className="text-gray-500 mb-2 leading-relaxed">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">Body Shape Calculator</h3>
+                  <p className="text-sm sm:text-base text-gray-500 mb-2 leading-relaxed">
                     Enter your bust, waist, and hip measurements to discover your body shape, such as hourglass, pear, apple, or rectangle.
                   </p>
                   <ul className="space-y-1.5 mb-6">
@@ -864,17 +864,17 @@ export default function HomePage() {
               {/* Face Shape Card */}
               <div className="group relative overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-teal-50 rounded-full -translate-x-8 -translate-y-8 group-hover:bg-teal-100 transition-colors" />
-                <div className="p-8 relative">
+                <div className="p-5 sm:p-8 relative">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="p-3 bg-teal-100 rounded-xl">
-                      <Sparkles className="h-6 w-6 text-teal-600" />
+                    <div className="p-2.5 sm:p-3 bg-teal-100 rounded-xl">
+                      <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-teal-600" />
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-wider bg-teal-100 text-teal-700 px-3 py-1 rounded-full">
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-teal-100 text-teal-700 px-2.5 sm:px-3 py-1 rounded-full">
                       Trending
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">Face Shape Detector</h3>
-                  <p className="text-gray-500 mb-2 leading-relaxed">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">Face Shape Detector</h3>
+                  <p className="text-sm sm:text-base text-gray-500 mb-2 leading-relaxed">
                     Use precise facial measurements, including your forehead, cheekbones, jaw, and face length, to identify your exact face shape.
                   </p>
                   <ul className="space-y-1.5 mb-6">
@@ -901,21 +901,21 @@ export default function HomePage() {
         </section>
 
         {/* ── CATEGORY SECTION ──────────────────────────────────────────────── */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
+        <section className="py-12 sm:py-16 bg-gray-50">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-10">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Browse by Category
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Every Aspect of Your Health, Covered
               </h2>
-              <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
                 Eight specialized health categories help you find the calculator you need quickly.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
               {categoryGroups.map((cat) => (
                 <div
                   key={cat.name}
@@ -934,21 +934,21 @@ export default function HomePage() {
         </section>
 
         {/* ── POPULAR CALCULATORS GRID ──────────────────────────────────────── */}
-        <section id="calculators" className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
+        <section id="calculators" className="py-12 sm:py-16 bg-white">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-10">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Most Used Tools
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Popular Health Calculators
               </h2>
-              <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
                 Clinically validated calculators. Each tool provides a clear result alongside the context you need to take action.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 max-w-6xl mx-auto">
               {calculators.map((calculator) => (
                 <Link
                   key={calculator.href}
@@ -1006,16 +1006,16 @@ export default function HomePage() {
         </section>
 
         {/* ── DIFFERENTIATION / VALUE SECTION ──────────────────────────────── */}
-        <section className="py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
-          <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
 
               {/* Left: Headline */}
               <div>
                 <span className="text-xs font-semibold uppercase tracking-widest text-emerald-400 mb-3 block">
                   Our Difference
                 </span>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                   Go Beyond Raw Numbers.{" "}
                   <span className="text-emerald-400">A Decision Guide for Your Health.</span>
                 </h2>
@@ -1057,21 +1057,21 @@ export default function HomePage() {
         </section>
 
         {/* ── WHY CHOOSE US ─────────────────────────────────────────────────── */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
+        <section className="py-12 sm:py-16 bg-white">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-10 sm:mb-12">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Why Calqulate
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Built on Trust. Designed for Understanding.
               </h2>
-              <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
                 We built Calqulate because health tools should help people make better decisions, rather than overwhelming or misleading them.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
               {trustPoints.map((point) => (
                 <div
                   key={point.title}
@@ -1091,21 +1091,21 @@ export default function HomePage() {
         </section>
 
         {/* ── VISUAL GALLERY ───────────────────────────────────────────────── */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
+        <section className="py-12 sm:py-16 bg-white">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-10">
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Visual Guides
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Explore Health Visuals
               </h2>
-              <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
                 Body shapes, face shapes, and BMI charts are easier to understand visually. Click any image to explore detailed guides.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
               {[
                 { title: "Body Shapes", href: "/gallery#pear-shape", image: "/images/body-shapes/pear-shape.webp", color: "bg-rose-50" },
                 { title: "Face Shapes", href: "/gallery#face-shape-comparison", image: "/face-shape-comparison.webp", color: "bg-blue-50" },
@@ -1151,16 +1151,16 @@ export default function HomePage() {
         <SocialProof />
 
         {/* ── SECTION I: FINAL CTA (service-led, dual path) ────────────────── */}
-        <section className="py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
+          <div className="container mx-auto px-3 sm:px-4 text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
               Watch your disease risk drop, not just the scale.
             </h2>
-            <p className="text-emerald-100/80 text-lg mb-8 max-w-xl mx-auto">
-              Know your score, track your trend, lower your risk. Start free - upgrade only when you
+            <p className="text-emerald-100/80 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">
+              Know your score, track your trend, lower your risk. Start free &mdash; upgrade only when you
               want to save and reverse it.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
               <Button
                 size="lg"
                 className="bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-8 rounded-xl shadow-lg shadow-emerald-900/40"

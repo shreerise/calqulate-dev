@@ -5,7 +5,7 @@ import { STANDALONE_QUESTIONS } from "@/app/answers/questions-data"
 export function Footer() {
   return (
     <footer className="bg-muted/50 border-t">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-3 sm:px-4 py-10 sm:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
@@ -32,29 +32,29 @@ export function Footer() {
           {/* Vitals (service) */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Calqulate Vitals</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-1 text-sm">
               <li>
-                <Link href="/service/metabolic-health-tracker" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/service/metabolic-health-tracker" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Metabolic Health Tracker
                 </Link>
               </li>
               <li>
-                <Link href="/service/heart-age-tracker" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/service/heart-age-tracker" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Heart Age Tracker
                 </Link>
               </li>
               <li>
-                <Link href="/service/glp1-progress-tracker" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/service/glp1-progress-tracker" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   GLP-1 Progress Tracker
                 </Link>
               </li>
               <li>
-                <Link href="/#pricing" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/#pricing" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/dashboard" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Dashboard
                 </Link>
               </li>
@@ -64,24 +64,24 @@ export function Footer() {
           {/* Popular Calculators */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Popular Calculators</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-1 text-sm">
               <li>
-                <Link href="/health/absi-calculator" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/health/absi-calculator" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   ABSI Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/health/lean-body-mass-calculator" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/health/lean-body-mass-calculator" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Lean Body Mass Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/health/rfm-calculator" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/health/rfm-calculator" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   RFM Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/search" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/search" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   View All Calculators
                 </Link>
               </li>
@@ -91,34 +91,34 @@ export function Footer() {
           {/* Company */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Company</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-1 text-sm">
               <li>
-                <Link href="/about-us" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/about-us" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/how-it-works" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/how-it-works" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   How It Works
                 </Link>
               </li>
               <li>
-                <Link href="/answers" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/answers" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Health Questions
                 </Link>
               </li>
               <li>
-                <Link href="/contact-us" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/contact-us" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/privacy-policy" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/sitemap.xml" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/sitemap.xml" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Sitemap
                 </Link>
               </li>
@@ -128,29 +128,29 @@ export function Footer() {
           {/* Legal & Support */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Legal &amp; Support</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-1 text-sm">
               <li>
-                <Link href="/terms-and-conditions" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/terms-and-conditions" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Terms &amp; Conditions
                 </Link>
               </li>
               <li>
-                <Link href="/disclaimer" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/disclaimer" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Disclaimer
                 </Link>
               </li>
               <li>
-                <Link href="/cookie-policy" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/cookie-policy" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Cookie Policy
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard/settings" className="text-muted-foreground hover:text-emerald-700 transition-colors">
+                <Link href="/dashboard/settings" className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1">
                   Your privacy choices / Delete my data
                 </Link>
               </li>
               <li>
-                <span className="text-muted-foreground">24/7 Support · Free to start</span>
+                <span className="block text-muted-foreground py-1.5 sm:py-1">24/7 Support · Free to start</span>
               </li>
             </ul>
           </div>
@@ -164,12 +164,12 @@ export function Footer() {
               View all answers →
             </Link>
           </div>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-1 text-sm">
             {STANDALONE_QUESTIONS.map((q) => (
               <li key={q.slug}>
                 <Link
                   href={`/answers/${q.slug}`}
-                  className="text-muted-foreground hover:text-emerald-700 transition-colors"
+                  className="block text-muted-foreground hover:text-emerald-700 transition-colors py-1.5 sm:py-1"
                 >
                   {q.q}
                 </Link>

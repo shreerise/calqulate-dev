@@ -22,31 +22,31 @@ export default function BlogListingPage() {
       <main className="flex-1 bg-gradient-to-b from-slate-50 to-white">
       {/* ── Hero ────────────────────────────────────────── */}
       <section className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <div className="mx-auto max-w-6xl px-3 sm:px-6 py-12 sm:py-16 lg:py-24">
           <p className="text-sm font-medium uppercase tracking-widest text-emerald-600">
             Calqulate Journal
           </p>
-          <h1 className="mt-3 text-3xl font-bold leading-tight text-slate-800 md:text-5xl">
-            Why Do Some Diets, Workouts & Clothes Work for Others But Not You?{" "}
+          <h1 className="mt-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-slate-800">
+            Why Do Some Diets, Workouts &amp; Clothes Work for Others But Not You?{" "}
             <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
              Your Body Type Holds the Answer
             </span>
             .
           </h1>
-          <p className="mt-5 max-w-2xl text-lg text-slate-600">
-            Interactive guides powered by smart calculators - discover your body shape, perfect style, ideal diet, and fitness plan personalized specifically for your body and goals.
+          <p className="mt-5 max-w-2xl text-base sm:text-lg text-slate-600">
+            Interactive guides powered by smart calculators &mdash; discover your body shape, perfect style, ideal diet, and fitness plan personalized specifically for your body and goals.
           </p>
         </div>
       </section>
 
       {/* ── Category Filter (client-side toggle would go here in v2) ── */}
-      <section className="mx-auto max-w-6xl px-6 py-8">
-        <div className="flex flex-wrap gap-3">
+      <section className="mx-auto max-w-6xl px-3 sm:px-6 py-6 sm:py-8">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           {categories.map((cat) => (
             <Link
               key={cat}
               href={cat === "All" ? "/blog" : `/blog?category=${cat}`}
-              className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 transition hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700"
+              className="rounded-full border border-slate-300 bg-white px-4 sm:px-5 py-2 text-sm font-medium text-slate-700 transition hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700 min-h-[44px] flex items-center"
             >
               {cat}
             </Link>
@@ -55,8 +55,8 @@ export default function BlogListingPage() {
       </section>
 
       {/* ── Blog Grid ───────────────────────────────────── */}
-      <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <section className="mx-auto max-w-6xl px-3 sm:px-6 pb-16 sm:pb-24">
+        <div className="grid grid-cols-1 gap-5 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {blogs.map((blog) => (
             <Link
               key={blog.slug}
@@ -79,8 +79,8 @@ export default function BlogListingPage() {
               </div>
 
               {/* Content */}
-              <div className="flex flex-1 flex-col p-6">
-                <h2 className="text-xl font-bold leading-snug text-slate-900 group-hover:text-emerald-700">
+              <div className="flex flex-1 flex-col p-5 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold leading-snug text-slate-900 group-hover:text-emerald-700">
                   {blog.title}
                 </h2>
                 <p className="mt-3 line-clamp-2 text-sm text-slate-600">

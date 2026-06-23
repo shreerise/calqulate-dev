@@ -1,0 +1,185 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "Calqulate.NET" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: Calqulate.NET
+        - navigation [ref=e11]:
+          - button "Body Composition" [ref=e12]
+          - button "Cardio Health" [ref=e15]
+          - button "Nutrition & Weight" [ref=e18]
+          - button "Fitness Performance" [ref=e21]
+          - button "Disease Risk" [ref=e24]
+          - button "More" [ref=e28]
+        - generic [ref=e31]:
+          - button "Search" [ref=e32]
+          - link "Blog" [ref=e36] [cursor=pointer]:
+            - /url: /blog
+          - link "Gallery" [ref=e37] [cursor=pointer]:
+            - /url: /gallery
+          - link "About" [ref=e38] [cursor=pointer]:
+            - /url: /about-us
+    - main [ref=e39]:
+      - generic [ref=e40]:
+        - img [ref=e42]
+        - generic [ref=e45]:
+          - generic [ref=e46]
+          - generic [ref=e72]
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - generic [ref=e93]
+          - heading "Personalized Progress Tracking is Here" [level=2] [ref=e98]
+          - paragraph [ref=e99]: At Calqulate.net, we now make it easier than ever to track your health metrics over time.
+        - generic [ref=e100]:
+          - generic [ref=e101]
+          - generic [ref=e109]
+          - generic [ref=e119]
+          - generic [ref=e127]
+        - generic [ref=e137]:
+          - generic [ref=e139]
+          - heading "Start tracking your health progress today" [level=3] [ref=e144]
+          - paragraph [ref=e145]: Save your results, monitor your history, compare improvements, and celebrate your progress at zero cost.
+          - link "Try Any Calculator Now" [ref=e146] [cursor=pointer]:
+            - /url: /search
+          - paragraph [ref=e147]: No signup required to get started. Save results anytime.
+      - generic [ref=e151]:
+        - generic [ref=e152]:
+          - generic [ref=e153]: 50+
+          - generic [ref=e154]: Health Calculators
+          - paragraph [ref=e155]: From BMI to cardiovascular risk, find every health metric covered in one place.
+        - generic [ref=e156]:
+          - generic [ref=e157]: 100%
+          - generic [ref=e158]: Actionable Insights
+          - paragraph [ref=e159]: Receive a clear explanation of your results alongside specific, practical recommendations.
+        - generic [ref=e160]:
+          - generic [ref=e161]: "0"
+          - generic [ref=e162]: Data Stored or Sold
+          - paragraph [ref=e163]: Your health is private. Everything runs in your browser. Nothing leaves your device.
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - generic [ref=e167]: Featured Calculators
+          - heading "Discover Your Body & Face Shape" [level=2] [ref=e168]
+          - paragraph [ref=e169]: Two of our most-loved tools. Hundreds of thousands of people use them to understand their physical traits and receive personalized lifestyle guidance.
+        - generic [ref=e170]:
+          - generic [ref=e173]
+          - generic [ref=e197]
+      - generic [ref=e220]:
+        - generic [ref=e221]:
+          - generic [ref=e222]: Browse by Category
+          - heading "Every Aspect of Your Health, Covered" [level=2] [ref=e223]
+          - paragraph [ref=e224]: Eight specialized health categories help you find the calculator you need quickly.
+        - generic [ref=e225]:
+          - generic [ref=e226] [cursor=pointer]
+          - generic [ref=e236] [cursor=pointer]
+          - generic [ref=e244] [cursor=pointer]
+          - generic [ref=e252] [cursor=pointer]
+          - generic [ref=e261] [cursor=pointer]
+          - generic [ref=e269] [cursor=pointer]
+          - generic [ref=e285] [cursor=pointer]
+          - generic [ref=e293] [cursor=pointer]
+      - generic [ref=e302]:
+        - generic [ref=e303]:
+          - generic [ref=e304]: Most Used Tools
+          - heading "Popular Health Calculators" [level=2] [ref=e305]
+          - paragraph [ref=e306]: Clinically validated calculators. Each tool provides a clear result alongside the context you need to take action.
+        - generic [ref=e307]:
+          - link "Most Popular Body Composition BMI Calculator Standard weight scales don't tell the whole story. Decode what your numbers mean for your health and get a realistic, shame-free action plan. Check My BMI" [ref=e308] [cursor=pointer]:
+            - /url: /health/bmi-calculator
+          - link "Trending Body Composition Body Shape Calculator Many clothes look great on the hanger but fit poorly on your body. Discover your exact frame shape to find flattering styling choices that match your natural proportions. Find My Body Shape" [ref=e324] [cursor=pointer]:
+            - /url: /health/body-shape-calculator
+          - link "Trending Appearance Face Shape Detector Stop wasting money on haircuts or glasses that don't suit you. Instantly identify your facial structure so you can make style choices that naturally flatter your look. Detect My Face Shape" [ref=e338] [cursor=pointer]:
+            - /url: /health/face-shape-calculator
+          - link "Body Composition Body Fat Percentage Calculator Scale weight doesn't show your hard-earned muscle, which leads to needless frustration. Estimate your body composition using the trusted US Navy method to see real progress. Check My Fat" [ref=e352] [cursor=pointer]:
+            - /url: /health/body-fat-calculator
+          - link "Nutrition TDEE Calculator Consistent healthy eating still requires proper portion control. Find the exact baseline calories your body burns daily so you can eat with clear purpose. Find My Baseline" [ref=e365] [cursor=pointer]:
+            - /url: /health/tdee-calculator
+          - link "Body Composition Ideal Body Weight Calculator Generic height-weight charts often set unrealistic, discouraging targets. Calculate a personalized, clinically backed weight range based on your unique body frame. Get My Range for ideal body weight" [ref=e378] [cursor=pointer]:
+            - /url: /health/ideal-body-weight-calculator
+          - link "Cardio Health Heart Rate Calculator Working out to exhaustion without losing body fat is common when heart rate zones are off. Identify your target cardio zones to build stamina without burning yourself out. Check Heart Zone" [ref=e392] [cursor=pointer]:
+            - /url: /health/heart-rate-calculator
+          - link "Nutrition Calorie Deficit Calculator Restrictive dieting usually leads to crashes and intense cravings. Calculate a safe, sustainable deficit tailored to your lifestyle so you can lose weight without starving. Find My Deficit" [ref=e405] [cursor=pointer]:
+            - /url: /health/calorie-deficit-calculator
+          - link "Mental Wellness Sleep Cycle Calculator Sleeping for eight hours can still leave you feeling tired if you wake up mid-cycle. Time your bedtime with your natural sleep cycles to wake up clear-headed. Fix My Sleep cycle" [ref=e418] [cursor=pointer]:
+            - /url: /health/sleep-cycle-calculator
+          - link "Cardio Health Blood Pressure Calculator High numbers at the doctor's office can cause unnecessary anxiety. Safely decode your readings into clear terms and learn simple daily steps to protect your heart. Is My BP High?" [ref=e439] [cursor=pointer]:
+            - /url: /health/blood-pressure-calculator
+          - link "Nutrition Macro Calculator Tracking calories without balancing proteins, carbs, and fats often leads to hunger and low energy. Find the right daily ratio to preserve lean muscle. Get My Macros" [ref=e452] [cursor=pointer]:
+            - /url: /health/macro-calculator
+          - link "Disease Risk Diabetes Risk Calculator Silent risk factors can be hard to spot on your own. Take a clinical assessment to understand your personal risk levels and discover practical steps to protect your long-term health. Diabetes Risk Scan" [ref=e465] [cursor=pointer]:
+            - /url: /health/diabetes-risk-calculator
+          - link "Appearance Golden Ratio Face Calculator Cameras distort features differently than a standard flat mirror. Discover your structural symmetry using the classic Golden Ratio to analyze your natural balance. Measure My Face Symmetry" [ref=e478] [cursor=pointer]:
+            - /url: /health/golden-ratio-face-calculator
+          - link "Body Composition Waist-to-Height Ratio Calculator Standard weight doesn't account for midsection fat, which is often a hidden indicator of cardiovascular strain. Find out if your waistline falls within a healthy, safe range. Check Belly Fat" [ref=e491] [cursor=pointer]:
+            - /url: /health/waist-to-height-ratio-calculator
+          - link "Body Composition Weight loss percentage Calculator When progress feels slow, focusing only on the scale can kill your motivation. Shift your focus to your total progress percentage to celebrate how far you have come. Weight Loss % Check" [ref=e506] [cursor=pointer]:
+            - /url: /health/weight-loss-percentage-calculator
+          - link "Disease Risk GLP-1 Dose Calculator Titrating weight loss medications like Ozempic or Wegovy requires careful scheduling. Map out your typical dose progression to understand your plan and manage side effects. GLP-1 Dose Check" [ref=e520] [cursor=pointer]:
+            - /url: /health/glp-1-dose-calculator
+          - link "Appearance Dress Size Calculator Inconsistent sizing across apparel brands makes online shopping difficult. Get a personalized dress size recommendation based on your unique body measurements to reduce shopping errors. Find My Dress Size" [ref=e533] [cursor=pointer]:
+            - /url: /health/dress-size-calculator
+          - link "Appearance Ai Attractiveness Test Discover your unique facial features and learn what makes you attractive to others. Take the AI Attractiveness Test" [ref=e546] [cursor=pointer]:
+            - /url: /health/ai-attractiveness-test
+        - generic [ref=e559]:
+          - paragraph [ref=e560]: Showing 12 of 52+ calculators
+          - link "View All Calculators" [ref=e561] [cursor=pointer]:
+            - /url: /search
+      - generic [ref=e564]:
+        - generic [ref=e565]:
+          - generic [ref=e566]: Our Difference
+          - heading "Go Beyond Raw Numbers. A Decision Guide for Your Health." [level=2] [ref=e567]
+          - paragraph [ref=e568]: Most health calculators stop at a result. Calqulate goes further. Every calculation comes with an explanation of what your result means, how it compares to healthy ranges, and what concrete steps you should take next.
+          - paragraph [ref=e569]: You might want to optimize your fitness, manage a chronic condition, track weight loss, or understand your body. Calqulate turns raw data into real decisions.
+        - generic [ref=e570]:
+          - generic [ref=e571]
+          - generic [ref=e579]
+          - generic [ref=e587]
+          - generic [ref=e595]
+      - generic [ref=e604]:
+        - generic [ref=e605]:
+          - generic [ref=e606]: Why Calqulate
+          - heading "Built on Trust. Designed for Understanding." [level=2] [ref=e607]
+          - paragraph [ref=e608]: We built Calqulate because health tools should help people make better decisions, rather than overwhelming or misleading them.
+        - generic [ref=e609]:
+          - generic [ref=e610]
+          - generic [ref=e619]
+          - generic [ref=e630]
+          - generic [ref=e638]
+          - generic [ref=e647]
+          - generic [ref=e655]
+      - generic [ref=e664]:
+        - generic [ref=e665]:
+          - generic [ref=e666]: Visual Guides
+          - heading "Explore Health Visuals" [level=2] [ref=e667]
+          - paragraph [ref=e668]: Body shapes, face shapes, and BMI charts are easier to understand visually. Click any image to explore detailed guides.
+        - generic [ref=e669]:
+          - link "Body Shapes Body Shapes" [ref=e670] [cursor=pointer]:
+            - /url: /gallery#pear-shape
+          - link "Face Shapes Face Shapes" [ref=e675] [cursor=pointer]:
+            - /url: /gallery#face-shape-comparison
+          - link "BMI Chart BMI Chart" [ref=e680] [cursor=pointer]:
+            - /url: /gallery#bmi-chart
+          - link "Sleep Guide Sleep Guide" [ref=e685] [cursor=pointer]:
+            - /url: /gallery#sleep-cycle
+        - link "View All Visual Guides" [ref=e691] [cursor=pointer]:
+          - /url: /gallery
+          - text: View All Visual Guides
+          - img [ref=e692]
+      - generic [ref=e695]:
+        - heading "Ready to Understand Your Health Better?" [level=2] [ref=e696]
+        - paragraph [ref=e697]: Start with any calculator below. There are no accounts to create and no forms to fill. You will get clear health insights in seconds.
+        - generic [ref=e698]:
+          - link "Start with BMI Calculator" [ref=e699] [cursor=pointer]:
+            - /url: /health/bmi-calculator
+          - link "Try Ovulation Calculator" [ref=e700] [cursor=pointer]:
+            - /url: /health/ovulation-calculator
+    - contentinfo [ref=e701]:
+      - generic [ref=e702]:
+        - generic [ref=e703]:
+          - generic [ref=e704]
+          - generic [ref=e716]
+          - generic [ref=e727]
+          - generic [ref=e738]
+        - paragraph [ref=e750]: © 2026 Calqulate.NET All rights reserved.
+  - alert [ref=e751]

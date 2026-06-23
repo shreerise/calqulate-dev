@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { Cookie, ShieldCheck, SlidersHorizontal, FileText, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Cookie Policy | Calqulate.net",
@@ -13,77 +14,113 @@ export const metadata: Metadata = {
 
 const UPDATED = "June 2026";
 
+const categories = [
+  {
+    title: "Essential cookies",
+    content:
+      "These keep the site working and cannot be turned off. The main one is your sign-in session, set by our authentication provider so you stay logged in to your Calqulate Vitals account as you move between pages. Cloudflare Turnstile also sets a short-lived token at signup and login to tell humans from bots. Without these, accounts and security would not work.",
+  },
+  {
+    title: "Analytics cookies",
+    content:
+      "We use Google Tag Manager and Microsoft Clarity to understand which pages people use and where they get stuck. Clarity records anonymized usage so we can improve layout and fix problems. This data is about behavior on the site, not your health inputs.",
+  },
+  {
+    title: "Advertising cookies",
+    content:
+      "The free calculators are supported in part by Google AdSense, which may set cookies to show relevant ads and measure them. These appear on the free, public pages. You can limit ad personalization through Google's Ad settings.",
+  },
+  {
+    title: "Preferences",
+    content:
+      "We store small preferences in your browser, such as whether you chose US or metric units, so the site remembers your choice. These stay on your device.",
+  },
+];
+
+const sections = [
+  {
+    icon: ShieldCheck,
+    title: "What we do not do",
+    content: (
+      <p className="text-muted-foreground text-base leading-relaxed">
+        We do not use cookies to read your saved health data, and we do not sell your personal information. Your
+        measurements and risk results live in your secured account, not in cookies.
+      </p>
+    ),
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "How to control cookies",
+    content: (
+      <p className="text-muted-foreground text-base leading-relaxed">
+        You can clear or block cookies in your browser settings. Blocking essential cookies will sign you out and
+        may break parts of the site. For analytics and ads, you can use browser controls, an ad blocker, or the
+        Google ad settings linked above.
+      </p>
+    ),
+  },
+  {
+    icon: FileText,
+    title: "Related policies",
+    content: (
+      <p className="text-muted-foreground text-base leading-relaxed">
+        For the full picture of how we handle data, read our <Link href="/privacy-policy" className="text-emerald-700 font-semibold hover:underline">Privacy Policy</Link>. For
+        the rules of using the service, see our <Link href="/terms-and-conditions" className="text-emerald-700 font-semibold hover:underline">Terms</Link>.
+      </p>
+    ),
+  },
+  {
+    icon: Mail,
+    title: "Contact",
+    content: (
+      <p className="text-muted-foreground text-base leading-relaxed">
+        Questions about cookies go to <a href="mailto:support@calqulate.net" className="text-emerald-700 font-semibold hover:underline">support@calqulate.net</a>.
+      </p>
+    ),
+  },
+];
+
 export default function CookiePolicyPage() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <Header />
       <main className="flex-1">
-        <section className="border-b border-gray-100 bg-gradient-to-br from-emerald-50 to-white py-12">
-          <div className="container mx-auto max-w-3xl px-4">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Cookie Policy</h1>
-            <p className="mt-2 text-sm text-gray-500">Last updated {UPDATED}</p>
-            <p className="mt-4 text-lg text-gray-600">
-              Cookies are small files a site stores in your browser. This page lists the cookies and similar tools
-              Calqulate.net uses, what each one does, and how you can control them.
-            </p>
+        <div className="container mx-auto px-4 py-12 max-w-4xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900">Cookie Policy</h1>
+          <p className="text-sm text-gray-500 mb-8">Last updated {UPDATED}</p>
+          <p className="text-muted-foreground text-lg max-w-2xl mb-12 leading-relaxed">
+            Cookies are small files a site stores in your browser. This page lists the cookies and similar tools
+            Calqulate.net uses, what each one does, and how you can control them.
+          </p>
+
+          {/* The categories we use */}
+          <div className="mb-12">
+            <h2 className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8 text-gray-800">
+              <Cookie className="w-8 h-8 text-emerald-700" />
+              The categories we use
+            </h2>
+            <div className="space-y-4">
+              {categories.map((c) => (
+                <div key={c.title} className="rounded-xl border border-gray-200 bg-gray-50/40 p-5">
+                  <h3 className="font-bold mb-2 text-gray-800">{c.title}</h3>
+                  <p className="text-muted-foreground text-base leading-relaxed">{c.content}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </section>
 
-        <article className="container mx-auto max-w-3xl px-4 py-10 prose prose-slate prose-headings:font-bold prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline">
-          <h2>The categories we use</h2>
-
-          <h3>Essential cookies</h3>
-          <p>
-            These keep the site working and cannot be turned off. The main one is your sign-in session, set by our
-            authentication provider so you stay logged in to your Calqulate Vitals account as you move between pages.
-            Cloudflare Turnstile also sets a short-lived token at signup and login to tell humans from bots. Without
-            these, accounts and security would not work.
-          </p>
-
-          <h3>Analytics cookies</h3>
-          <p>
-            We use Google Tag Manager and Microsoft Clarity to understand which pages people use and where they get
-            stuck. Clarity records anonymized usage so we can improve layout and fix problems. This data is about
-            behavior on the site, not your health inputs.
-          </p>
-
-          <h3>Advertising cookies</h3>
-          <p>
-            The free calculators are supported in part by Google AdSense, which may set cookies to show relevant ads and
-            measure them. These appear on the free, public pages. You can limit ad personalization through{" "}
-            <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer">Google's Ad settings</a>.
-          </p>
-
-          <h3>Preferences</h3>
-          <p>
-            We store small preferences in your browser, such as whether you chose US or metric units, so the site
-            remembers your choice. These stay on your device.
-          </p>
-
-          <h2>What we do not do</h2>
-          <p>
-            We do not use cookies to read your saved health data, and we do not sell your personal information. Your
-            measurements and risk results live in your secured account, not in cookies.
-          </p>
-
-          <h2>How to control cookies</h2>
-          <p>
-            You can clear or block cookies in your browser settings. Blocking essential cookies will sign you out and
-            may break parts of the site. For analytics and ads, you can use browser controls, an ad blocker, or the
-            Google ad settings linked above.
-          </p>
-
-          <h2>Related policies</h2>
-          <p>
-            For the full picture of how we handle data, read our <Link href="/privacy-policy">Privacy Policy</Link>. For
-            the rules of using the service, see our <Link href="/terms-and-conditions">Terms</Link>.
-          </p>
-
-          <h2>Contact</h2>
-          <p>
-            Questions about cookies go to <a href="mailto:support@calqulate.net">support@calqulate.net</a>.
-          </p>
-        </article>
+          <div className="space-y-12">
+            {sections.map((s) => (
+              <div key={s.title}>
+                <h2 className="flex items-center gap-3 text-2xl font-bold mb-6 pt-8 text-gray-800">
+                  <s.icon className="w-8 h-8 text-emerald-700" />
+                  {s.title}
+                </h2>
+                {s.content}
+              </div>
+            ))}
+          </div>
+        </div>
       </main>
       <Footer />
     </div>

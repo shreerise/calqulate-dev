@@ -68,11 +68,11 @@ export default function PricingPage() {
       <Header />
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-br from-emerald-50 to-white py-16">
-          <div className="container mx-auto px-4 max-w-3xl text-center">
+        <section className="bg-gradient-to-br from-emerald-50 to-white py-12 sm:py-16">
+          <div className="container mx-auto px-3 sm:px-4 max-w-3xl text-center">
             <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">Pricing</span>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">One plan. Everything included.</h1>
-            <p className="mt-4 text-lg text-gray-600">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-900">One plan. Everything included.</h1>
+            <p className="mt-4 text-base sm:text-lg text-gray-600">
               No tiers to decode, no upsells. Start free, and when you want to actually track and reverse your numbers,
               one plan unlocks the whole platform. Cancel anytime.
             </p>
@@ -80,18 +80,18 @@ export default function PricingPage() {
         </section>
 
         {/* Plan */}
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4">
+        <section className="py-10 sm:py-12 bg-white">
+          <div className="container mx-auto px-3 sm:px-4">
             <SinglePlan />
           </div>
         </section>
 
         {/* Free vs paid */}
-        <section className="py-12 bg-gray-50 border-y border-gray-100">
-          <div className="container mx-auto px-4 max-w-3xl">
-            <h2 className="text-center text-2xl md:text-3xl font-bold text-gray-900 mb-8">What is free vs what you pay for</h2>
-            <div className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-2xl border border-gray-200 bg-white p-6">
+        <section className="py-10 sm:py-12 bg-gray-50 border-y border-gray-100">
+          <div className="container mx-auto px-3 sm:px-4 max-w-3xl">
+            <h2 className="text-center text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-8">What is free vs what you pay for</h2>
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
                 <h3 className="font-bold text-gray-900">Free, no account</h3>
                 <ul className="mt-4 space-y-2 text-sm text-gray-700">
                   {["All 50+ calculators", "One-time metabolic snapshot", "Your score, heart age and risk, once", "No saved history"].map((f) => (
@@ -99,7 +99,7 @@ export default function PricingPage() {
                   ))}
                 </ul>
               </div>
-              <div className="rounded-2xl border-2 border-emerald-600 bg-white p-6">
+              <div className="rounded-2xl border-2 border-emerald-600 bg-white p-5 sm:p-6">
                 <h3 className="font-bold text-gray-900">Calqulate Vitals members</h3>
                 <ul className="mt-4 space-y-2 text-sm text-gray-700">
                   {["Everything in free, plus saved history and trends", "Longevity Index, Future You, GLP-1 Autopilot", "Weekly email and mobile notifications", "Doctor PDF and full lab tracking"].map((f) => (
@@ -112,11 +112,11 @@ export default function PricingPage() {
         </section>
 
         {/* Everything included */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Everything you get when you subscribe</h2>
-              <p className="mt-2 text-gray-500">One plan, the full platform. Here is the whole list.</p>
+        <section className="py-12 sm:py-16 bg-white">
+          <div className="container mx-auto px-3 sm:px-4 max-w-4xl">
+            <div className="text-center mb-8 sm:mb-10">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">Everything you get when you subscribe</h2>
+              <p className="mt-2 text-sm sm:text-base text-gray-500">One plan, the full platform. Here is the whole list.</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               {INCLUDED.map((f) => (
@@ -132,9 +132,9 @@ export default function PricingPage() {
         <SocialProof />
 
         {/* FAQ */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 max-w-3xl">
-            <h2 className="text-center text-2xl md:text-3xl font-bold text-gray-900 mb-8">Questions people ask before paying</h2>
+        <section className="py-12 sm:py-16 bg-white">
+          <div className="container mx-auto px-3 sm:px-4 max-w-3xl">
+            <h2 className="text-center text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-8">Questions people ask before paying</h2>
             <div className="space-y-4">
               {FAQS.map((f) => (
                 <details key={f.q} className="rounded-2xl border border-gray-100 bg-gray-50/60 p-5">
@@ -147,15 +147,15 @@ export default function PricingPage() {
         </section>
 
         {/* CTA */}
-        <section className="py-14 bg-gradient-to-br from-emerald-950 to-emerald-900 text-center">
-          <div className="container mx-auto px-4 max-w-2xl">
-            <h2 className="text-3xl font-bold text-white">Start free, upgrade when you want the trend</h2>
-            <p className="mt-3 text-emerald-100/80">Get your free score first. No card needed.</p>
-            <div className="mt-6 flex flex-wrap justify-center gap-4">
-              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 font-semibold text-gray-950 hover:bg-emerald-400">
+        <section className="py-10 sm:py-14 bg-gradient-to-br from-emerald-950 to-emerald-900 text-center">
+          <div className="container mx-auto px-3 sm:px-4 max-w-2xl">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">Start free, upgrade when you want the trend</h2>
+            <p className="mt-3 text-sm sm:text-base text-emerald-100/80">Get your free score first. No card needed.</p>
+            <div className="mt-6 flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
+              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-gray-950 hover:bg-emerald-400">
                 Get my free score <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/how-it-works" className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/50 px-6 py-3 font-semibold text-emerald-200 hover:bg-emerald-800/50">
+              <Link href="/how-it-works" className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/50 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-emerald-200 hover:bg-emerald-800/50">
                 See how it works
               </Link>
             </div>

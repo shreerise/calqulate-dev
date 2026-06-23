@@ -1,0 +1,261 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "Calqulate.NET" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: Calqulate.NET
+        - navigation [ref=e11]:
+          - button "Body Composition" [ref=e12]:
+            - text: Body Composition
+            - img [ref=e13]
+          - button "Cardio Health" [ref=e15]:
+            - text: Cardio Health
+            - img [ref=e16]
+          - button "Nutrition & Weight" [ref=e18]:
+            - text: Nutrition & Weight
+            - img [ref=e19]
+          - button "Fitness Performance" [ref=e21]:
+            - text: Fitness Performance
+            - img [ref=e22]
+          - button "Disease Risk" [ref=e24]:
+            - text: Disease Risk
+            - img [ref=e25]
+          - button "More" [ref=e28]:
+            - text: More
+            - img [ref=e29]
+        - generic [ref=e31]:
+          - button "Search" [ref=e32]:
+            - img [ref=e33]
+          - link "Blog" [ref=e36] [cursor=pointer]:
+            - /url: /blog
+          - link "Gallery" [ref=e37] [cursor=pointer]:
+            - /url: /gallery
+          - link "About" [ref=e38] [cursor=pointer]:
+            - /url: /about-us
+    - main [ref=e39]:
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - heading "Privacy Policy" [level=1] [ref=e43]
+          - paragraph [ref=e44]: "Last updated: June 8, 2026"
+        - generic [ref=e45]:
+          - navigation [ref=e46]:
+            - generic [ref=e47]:
+              - paragraph [ref=e48]: On this page
+              - link "Scope" [ref=e49] [cursor=pointer]:
+                - /url: "#scope"
+              - link "Information We Receive" [ref=e50] [cursor=pointer]:
+                - /url: "#information"
+              - link "How We Use Info" [ref=e51] [cursor=pointer]:
+                - /url: "#use"
+              - link "Ads & Partners" [ref=e52] [cursor=pointer]:
+                - /url: "#ads"
+              - link "Data Sharing" [ref=e53] [cursor=pointer]:
+                - /url: "#sharing"
+              - link "International" [ref=e54] [cursor=pointer]:
+                - /url: "#international"
+              - link "Your Rights" [ref=e55] [cursor=pointer]:
+                - /url: "#rights"
+              - link "Security" [ref=e56] [cursor=pointer]:
+                - /url: "#security"
+              - link "External Links" [ref=e57] [cursor=pointer]:
+                - /url: "#links"
+              - link "Changes" [ref=e58] [cursor=pointer]:
+                - /url: "#changes"
+              - link "Contact" [ref=e59] [cursor=pointer]:
+                - /url: "#contact"
+              - link "Advertise" [ref=e60] [cursor=pointer]:
+                - /url: "#advertise"
+              - link "Our Values" [ref=e61] [cursor=pointer]:
+                - /url: "#values"
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - heading "Introduction" [level=2] [ref=e65]
+              - generic [ref=e66]:
+                - paragraph [ref=e67]:
+                  - strong [ref=e68]: "Begin date:"
+                  - text: September 20, 2025
+                - paragraph [ref=e69]:
+                  - strong [ref=e70]: "Last updated:"
+                  - text: June 8, 2026
+                - paragraph [ref=e71]:
+                  - text: Welcome to
+                  - strong [ref=e72]: Calqulate
+                  - text: . We are a tiny startup founded by two friends and co-founders —
+                  - strong [ref=e73]: Krushal Patel
+                  - text: and
+                  - strong [ref=e74]: Meet Patel
+                  - text: . We develop easy-to-use calculators and research tools for people all over the planet. Our services are free, require no login, and are built with research, design, logic, and code — guided by our ethos of helping people.
+              - blockquote [ref=e75]:
+                - paragraph [ref=e76]: निष्काम कर्म योग – निःस्वार्थ सेवा का आधार
+                - paragraph [ref=e77]: Bhagavad Gita 2.47
+                - paragraph [ref=e78]:
+                  - text: कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।
+                  - text: मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥
+            - heading "1. Scope and Acceptance" [level=2] [ref=e79]:
+              - img [ref=e80]
+              - text: 1. Scope and Acceptance
+            - generic [ref=e84]:
+              - paragraph [ref=e85]:
+                - text: By accessing Calqulate (the "Service" at
+                - link "https://calqulate.net" [ref=e86] [cursor=pointer]:
+                  - /url: https://calqulate.net
+                - text: ), you agree to the data practices described here. If you do not agree, please discontinue use of the Service.
+              - paragraph [ref=e87]: No registration or account is required to use our calculators.
+            - heading "2. Information We Receive" [level=2] [ref=e88]:
+              - img [ref=e89]
+              - text: 2. Information We Receive
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - heading "Log Data" [level=3] [ref=e94]:
+                  - img [ref=e95]
+                  - text: Log Data
+                - paragraph [ref=e98]: We automatically receive technical details like IP address, browser type, pages visited, timestamps, and device type. This helps us run, protect, and improve the Service.
+              - generic [ref=e99]:
+                - heading "Cookies and Tracking" [level=3] [ref=e100]:
+                  - img [ref=e101]
+                  - text: Cookies and Tracking
+                - paragraph [ref=e103]: We use cookies and similar technologies to remember preferences, analyze traffic, and improve functionality. You can manage cookies in your browser settings.
+              - generic [ref=e104]:
+                - heading "Responses and Submissions" [level=3] [ref=e105]:
+                  - img [ref=e106]
+                  - text: Responses and Submissions
+                - paragraph [ref=e109]: If you contact us (form, email, feedback), we may receive personal details like your name, email, and message. We use this to respond and provide support.
+              - generic [ref=e110]:
+                - heading "Third-party Data and Ads" [level=3] [ref=e111]:
+                  - img [ref=e112]
+                  - text: Third-party Data and Ads
+                - paragraph [ref=e117]: Ad partners (like Google Ads) may use cookies or tracking images to show relevant ads. Their privacy policies and opt-out tools apply.
+            - heading "3. How We Use Information" [level=2] [ref=e118]:
+              - img [ref=e119]
+              - text: 3. How We Use Information
+            - list [ref=e123]:
+              - listitem [ref=e124]: Provide and maintain calculators and services
+              - listitem [ref=e125]: Analyze and improve user experience
+              - listitem [ref=e126]: Prevent fraud, abuse, or security breaches
+              - listitem [ref=e127]: Serve and measure advertising
+              - listitem [ref=e128]: Respond to inquiries and support requests
+              - listitem [ref=e129]: Comply with legal obligations
+            - heading "4. Ads, Partners & Other Companies" [level=2] [ref=e130]:
+              - img [ref=e131]
+              - text: 4. Ads, Partners & Other Companies
+            - paragraph [ref=e138]:
+              - text: We may use Google Ads and other networks that use cookies/web beacons to show targeted ads. To opt out, visit
+              - link "NAI opt-out" [ref=e139] [cursor=pointer]:
+                - /url: https://optout.networkadvertising.org
+              - text: .
+            - heading "5. Data Sharing & Disclosure" [level=2] [ref=e140]:
+              - img [ref=e141]
+              - text: 5. Data Sharing & Disclosure
+            - list [ref=e149]:
+              - listitem [ref=e150]: With providers (hosting, analytics, security)
+              - listitem [ref=e151]: With ad partners for serving/measurement
+              - listitem [ref=e152]: When required by law
+              - listitem [ref=e153]: To protect rights, property, or safety
+              - listitem [ref=e154]: During business changes (merger/acquisition)
+            - heading "6. International Users" [level=2] [ref=e155]:
+              - img [ref=e156]
+              - text: 6. International Users
+            - paragraph [ref=e161]: Data may be processed outside your country. Protections vary by region. EU users have rights under GDPR. For full compliance with GDPR/CCPA, consult a legal professional.
+            - heading "7. Your Rights and Options" [level=2] [ref=e162]:
+              - img [ref=e163]
+              - text: 7. Your Rights and Options
+            - list [ref=e171]:
+              - listitem [ref=e172]: Manage cookies via browser settings
+              - listitem [ref=e173]: Opt out of ad targeting via industry tools
+              - listitem [ref=e174]: Request access, correction, or deletion of personal data
+              - listitem [ref=e175]: Children under 13 cannot use our services
+            - heading "8. Maintaining and Guarding Information" [level=2] [ref=e176]:
+              - img [ref=e177]
+              - text: 8. Maintaining and Guarding Information
+            - paragraph [ref=e182]: We retain data as long as needed for the Service, analytics, and security. Anonymous/aggregated data may be kept indefinitely. We apply safeguards, but no method is 100% secure.
+            - heading "9. Links to Other Websites" [level=2] [ref=e183]:
+              - img [ref=e184]
+              - text: 9. Links to Other Websites
+            - paragraph [ref=e189]: Our site may contain links to third-party websites. Their privacy practices are their own, so please review them before sharing personal details.
+            - heading "10. Changes to This Policy" [level=2] [ref=e190]:
+              - img [ref=e191]
+              - text: 10. Changes to This Policy
+            - paragraph [ref=e196]: We may update this Privacy Policy from time to time. Updates will be posted here with a new "Last updated" date. Continued use means acceptance.
+            - heading "11. Contact & Data Requests" [level=2] [ref=e197]:
+              - img [ref=e198]
+              - text: 11. Contact & Data Requests
+            - paragraph [ref=e203]:
+              - text: "Email:"
+              - link "krushal.barasiya@calqulate.net" [ref=e204] [cursor=pointer]:
+                - /url: mailto:krushal.barasiya@calqulate.net
+              - text: "Contact form:"
+              - link "Contact Us" [ref=e205] [cursor=pointer]:
+                - /url: /contact-us
+            - heading "12. Advertise With Us" [level=2] [ref=e206]:
+              - img [ref=e207]
+              - text: 12. Advertise With Us
+            - paragraph [ref=e214]:
+              - text: We welcome sponsors and advertisers. To advertise on Calqulate, email
+              - link "krushal.barasiya@calqulate.net" [ref=e215] [cursor=pointer]:
+                - /url: mailto:krushal.barasiya@calqulate.net
+              - text: .
+            - heading "13. A Word About Our Values" [level=2] [ref=e216]:
+              - img [ref=e217]
+              - text: 13. A Word About Our Values
+            - paragraph [ref=e224]: Calqulate was created by Krushal and Meet, college friends and business partners. They build research-based tools that are simple, useful, and free — guided by the principle of selfless service.
+    - contentinfo [ref=e225]:
+      - generic [ref=e226]:
+        - generic [ref=e227]:
+          - generic [ref=e228]:
+            - link "Calqulate" [ref=e229] [cursor=pointer]:
+              - /url: /
+              - img [ref=e230]
+              - generic [ref=e232]: Calqulate
+            - paragraph [ref=e233]: Professional-grade health calculators to improve your lifestyle - get accurate insights, track progress, and make smarter wellness decisions every day.
+            - generic [ref=e235]:
+              - img [ref=e236]
+              - link "krushal.barasiya@calqulate.net" [ref=e239] [cursor=pointer]:
+                - /url: mailto:krushal.barasiya@calqulate.net
+          - generic [ref=e240]:
+            - heading "Popular Calculators" [level=3] [ref=e241]
+            - list [ref=e242]:
+              - listitem [ref=e243]:
+                - link "ABSI Calculator" [ref=e244] [cursor=pointer]:
+                  - /url: /health/absi-calculator
+              - listitem [ref=e245]:
+                - link "Lean Body Mass Calculator" [ref=e246] [cursor=pointer]:
+                  - /url: /health/lean-body-mass-calculator
+              - listitem [ref=e247]:
+                - link "RFM Calculator" [ref=e248] [cursor=pointer]:
+                  - /url: /health/rfm-calculator
+              - listitem [ref=e249]:
+                - link "View All Calculators" [ref=e250] [cursor=pointer]:
+                  - /url: /search
+          - generic [ref=e251]:
+            - heading "Company" [level=3] [ref=e252]
+            - list [ref=e253]:
+              - listitem [ref=e254]:
+                - link "About Us" [ref=e255] [cursor=pointer]:
+                  - /url: /about-us
+              - listitem [ref=e256]:
+                - link "Contact Us" [ref=e257] [cursor=pointer]:
+                  - /url: /contact-us
+              - listitem [ref=e258]:
+                - link "Privacy Policy" [ref=e259] [cursor=pointer]:
+                  - /url: /privacy-policy
+              - listitem [ref=e260]:
+                - link "Sitemap" [ref=e261] [cursor=pointer]:
+                  - /url: /sitemap.xml
+          - generic [ref=e262]:
+            - heading "Legal & Support" [level=3] [ref=e263]
+            - list [ref=e264]:
+              - listitem [ref=e265]:
+                - link "Terms & Conditions" [ref=e266] [cursor=pointer]:
+                  - /url: /terms-and-conditions
+              - listitem [ref=e267]:
+                - link "Disclaimer" [ref=e268] [cursor=pointer]:
+                  - /url: /disclaimer
+              - listitem [ref=e269]:
+                - link "Cookie Policy" [ref=e270] [cursor=pointer]:
+                  - /url: /cookie-policy
+              - listitem [ref=e271]: 24/7 Support
+              - listitem [ref=e272]: Free to Use
+        - paragraph [ref=e274]: © 2026 Calqulate.NET All rights reserved.
+  - alert [ref=e275]

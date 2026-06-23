@@ -1,0 +1,188 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "Calqulate.NET" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: Calqulate.NET
+        - navigation [ref=e11]:
+          - button "Body Composition" [ref=e12]:
+            - text: Body Composition
+            - img [ref=e13]
+          - button "Cardio Health" [ref=e15]:
+            - text: Cardio Health
+            - img [ref=e16]
+          - button "Nutrition & Weight" [ref=e18]:
+            - text: Nutrition & Weight
+            - img [ref=e19]
+          - button "Fitness Performance" [ref=e21]:
+            - text: Fitness Performance
+            - img [ref=e22]
+          - button "Disease Risk" [ref=e24]:
+            - text: Disease Risk
+            - img [ref=e25]
+          - button "More" [ref=e28]:
+            - text: More
+            - img [ref=e29]
+        - generic [ref=e31]:
+          - button "Search" [ref=e32]:
+            - img [ref=e33]
+          - link "Blog" [ref=e36] [cursor=pointer]:
+            - /url: /blog
+          - link "Gallery" [ref=e37] [cursor=pointer]:
+            - /url: /gallery
+          - link "About" [ref=e38] [cursor=pointer]:
+            - /url: /about-us
+    - main [ref=e39]:
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - heading "About Us" [level=1] [ref=e43]
+          - paragraph [ref=e44]: We are building Calqulate.net to make calculations simple, accurate, and easy to understand for everyone.
+        - generic [ref=e45]:
+          - heading "Our Story" [level=2] [ref=e46]
+          - paragraph [ref=e47]: "Calqulate.net was launched with a simple mission: making calculations faster, simpler, and more useful for real users."
+          - paragraph [ref=e48]: Instead of forcing users to remember formulas or do manual calculations, we provide tools that give accurate results along with clear explanations.
+        - heading "How We Began" [level=2] [ref=e49]:
+          - img [ref=e50]
+          - text: How We Began
+        - generic [ref=e53]: We noticed that many people struggle with everyday calculations — whether in health, finance, or daily life. That’s when we decided to build a platform that solves real problems with simple tools.
+        - heading "Why Calqulate.net?" [level=2] [ref=e54]:
+          - img [ref=e55]
+          - text: Why Calqulate.net?
+        - list [ref=e62]:
+          - listitem [ref=e63]: Solve real-world problems using simple tools
+          - listitem [ref=e64]: Provide accurate and instant results
+          - listitem [ref=e65]: Help users understand calculations
+          - listitem [ref=e66]: Continuously improve based on user needs
+        - heading "Our Mission" [level=2] [ref=e67]:
+          - img [ref=e68]
+          - text: Our Mission
+        - generic [ref=e74]: Our mission is to provide accurate, easy-to-use calculators that save time and remove confusion. We aim to build a platform where users can trust every result they see.
+        - heading "How are we different?" [level=2] [ref=e75]:
+          - img [ref=e76]
+          - text: How are we different?
+        - list [ref=e80]:
+          - listitem [ref=e81]: Accurate and reliable results
+          - listitem [ref=e82]: Simple and user-friendly interface
+          - listitem [ref=e83]: No signup required
+          - listitem [ref=e84]: Free to use
+          - listitem [ref=e85]: Clear explanations with every tool
+        - 'heading "Our Approach: Beyond Just Calculation" [level=2] [ref=e86]':
+          - img [ref=e87]
+          - text: "Our Approach: Beyond Just Calculation"
+        - generic [ref=e90]:
+          - paragraph [ref=e91]: Most calculator websites only give numbers.
+          - paragraph [ref=e92]: Users don’t want just a number — they also want to understand the process behind it.
+          - list [ref=e93]:
+            - listitem [ref=e94]: Step-by-step explanation
+            - listitem [ref=e95]: Real-world meaning of results
+            - listitem [ref=e96]: Focus on accuracy (especially health tools)
+        - heading "Our Organic Growth (Google Search Performance)" [level=2] [ref=e97]:
+          - img [ref=e98]
+          - text: Our Organic Growth (Google Search Performance)
+        - generic [ref=e102]:
+          - img "Google Search Console performance" [ref=e103]
+          - list [ref=e104]:
+            - listitem [ref=e105]:
+              - strong [ref=e106]: 27.5K+ impressions
+            - listitem [ref=e107]:
+              - strong [ref=e108]: 105 clicks
+            - listitem [ref=e109]:
+              - strong [ref=e110]: 0.4% CTR
+            - listitem [ref=e111]:
+              - strong [ref=e112]: "Avg position: 45.7"
+          - paragraph [ref=e113]: This growth is completely organic, driven by users searching for real solutions.
+        - heading "Medical Reviewer" [level=2] [ref=e114]:
+          - img [ref=e115]
+          - text: Medical Reviewer
+        - generic [ref=e120]:
+          - img "Dr. Jaydeep Sanghani" [ref=e121]
+          - generic [ref=e122]:
+            - generic [ref=e123]:
+              - paragraph [ref=e124]: Dr. Jaydeep Sanghani
+              - link "Dr. Jaydeep Sanghani on DocIndia" [ref=e125] [cursor=pointer]:
+                - /url: https://www.docindia.org/doctors/rajkot/dr-jaydeep-sanghani-anesthesiology
+                - img [ref=e126]
+            - paragraph [ref=e130]: MBBS, MD, DNB(Anaesth.), PDCC(CCM), DrNB(CCM)
+            - paragraph [ref=e131]: AIIMS Bhubaneswar · AIIMS Rishikesh · GMERS Patan
+            - paragraph [ref=e132]: Dr. Jaydeep Sanghani is a critical care specialist and anesthesiologist with advanced training from AIIMS Bhubaneswar (MD) and AIIMS Rishikesh (DrNB, PDCC). His training across premier institutions — GMERS Patan, AIIMS Bhubaneswar, and AIIMS Rishikesh — has given him extensive experience in critical care medicine, emergency medicine, airway management, and perioperative care.
+            - generic [ref=e133]:
+              - link "Verified Medical Profile" [ref=e134] [cursor=pointer]:
+                - /url: https://www.docindia.org/doctors/rajkot/dr-jaydeep-sanghani-anesthesiology
+                - img [ref=e135]
+                - text: Verified Medical Profile
+              - link "Professional Profile" [ref=e139] [cursor=pointer]:
+                - /url: https://www.urbanpro.com/rajkot/jaydeep-sanghani-anesthesiologist-and-critical-care-specialist-from-aiims-bhubaneswar
+                - img [ref=e140]
+                - text: Professional Profile
+            - paragraph [ref=e144]: At Calqulate.net, Dr. Sanghani medically reviews health calculators to ensure clinical accuracy and evidence-based standards.
+        - generic [ref=e146]:
+          - img "Meet Akabari" [ref=e147]
+          - generic [ref=e148]:
+            - generic [ref=e149]:
+              - paragraph [ref=e150]: Meet Akabari
+              - link "Connect with Meet Akabari on LinkedIn" [ref=e151] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/meet-akabari/
+                - img [ref=e152]
+            - paragraph [ref=e156]: Web Developer & Health enthusiast with a passion for building tools that solve real problems.
+            - paragraph [ref=e157]: Founder of Calqulate.net, focused on building accurate, user-friendly calculators.
+    - contentinfo [ref=e158]:
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - generic [ref=e161]:
+            - link "Calqulate" [ref=e162] [cursor=pointer]:
+              - /url: /
+              - img [ref=e163]
+              - generic [ref=e165]: Calqulate
+            - paragraph [ref=e166]: Professional-grade health calculators to improve your lifestyle - get accurate insights, track progress, and make smarter wellness decisions every day.
+            - generic [ref=e168]:
+              - img [ref=e169]
+              - link "krushal.barasiya@calqulate.net" [ref=e172] [cursor=pointer]:
+                - /url: mailto:krushal.barasiya@calqulate.net
+          - generic [ref=e173]:
+            - heading "Popular Calculators" [level=3] [ref=e174]
+            - list [ref=e175]:
+              - listitem [ref=e176]:
+                - link "ABSI Calculator" [ref=e177] [cursor=pointer]:
+                  - /url: /health/absi-calculator
+              - listitem [ref=e178]:
+                - link "Lean Body Mass Calculator" [ref=e179] [cursor=pointer]:
+                  - /url: /health/lean-body-mass-calculator
+              - listitem [ref=e180]:
+                - link "RFM Calculator" [ref=e181] [cursor=pointer]:
+                  - /url: /health/rfm-calculator
+              - listitem [ref=e182]:
+                - link "View All Calculators" [ref=e183] [cursor=pointer]:
+                  - /url: /search
+          - generic [ref=e184]:
+            - heading "Company" [level=3] [ref=e185]
+            - list [ref=e186]:
+              - listitem [ref=e187]:
+                - link "About Us" [ref=e188] [cursor=pointer]:
+                  - /url: /about-us
+              - listitem [ref=e189]:
+                - link "Contact Us" [ref=e190] [cursor=pointer]:
+                  - /url: /contact-us
+              - listitem [ref=e191]:
+                - link "Privacy Policy" [ref=e192] [cursor=pointer]:
+                  - /url: /privacy-policy
+              - listitem [ref=e193]:
+                - link "Sitemap" [ref=e194] [cursor=pointer]:
+                  - /url: /sitemap.xml
+          - generic [ref=e195]:
+            - heading "Legal & Support" [level=3] [ref=e196]
+            - list [ref=e197]:
+              - listitem [ref=e198]:
+                - link "Terms & Conditions" [ref=e199] [cursor=pointer]:
+                  - /url: /terms-and-conditions
+              - listitem [ref=e200]:
+                - link "Disclaimer" [ref=e201] [cursor=pointer]:
+                  - /url: /disclaimer
+              - listitem [ref=e202]:
+                - link "Cookie Policy" [ref=e203] [cursor=pointer]:
+                  - /url: /cookie-policy
+              - listitem [ref=e204]: 24/7 Support
+              - listitem [ref=e205]: Free to Use
+        - paragraph [ref=e207]: © 2026 Calqulate.NET All rights reserved.
+  - alert [ref=e208]

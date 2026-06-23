@@ -204,7 +204,7 @@ export function ChatWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open chat with Ava, the Calqulate health guide"
-          className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-3 text-white shadow-lg shadow-emerald-900/20 hover:bg-emerald-700 transition-colors"
+          className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-50 flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-3 text-white shadow-lg shadow-emerald-900/20 hover:bg-emerald-700 transition-colors min-h-[44px]"
         >
           <MessageCircle className="h-5 w-5" />
           <span className="hidden sm:inline text-sm font-semibold">Ask {BOT_NAME}</span>
@@ -312,20 +312,20 @@ export function ChatWidget() {
               e.preventDefault();
               send(input);
             }}
-            className="flex items-center gap-2 border-t border-gray-100 bg-white px-3 py-3"
+            className="flex items-center gap-2 border-t border-gray-100 bg-white px-3 py-2.5 sm:py-3"
           >
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about a calculator, your numbers, pricing…"
-              className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-sm focus:border-emerald-500 focus:outline-none"
+              placeholder="Ask about a calculator, your numbers, pricing\u2026"
+              className="flex-1 rounded-full border border-gray-300 px-4 py-2.5 sm:py-2 text-sm focus:border-emerald-500 focus:outline-none"
               aria-label="Type your message"
             />
             <button
               type="submit"
               disabled={!input.trim()}
               aria-label="Send"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50"
+              className="flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50 flex-shrink-0"
             >
               <Send className="h-4 w-4" />
             </button>
