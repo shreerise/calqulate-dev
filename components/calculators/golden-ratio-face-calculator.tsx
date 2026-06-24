@@ -618,19 +618,19 @@ export default function GoldenRatioFaceCalculator() {
                 setErrorMessage(null);
               }}
             >
-              <TabsList className="grid w-full grid-cols-2 rounded-xl bg-slate-100 p-1 mb-6">
+              <TabsList className="grid w-full grid-cols-2 h-auto rounded-xl bg-slate-100 p-1 mb-6 gap-1">
                 <TabsTrigger
                   value="upload"
-                  className="rounded-lg text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-amber-700"
+                  className="rounded-lg text-xs sm:text-sm font-medium whitespace-normal text-center px-1.5 py-2 h-auto min-w-0 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-amber-700"
                 >
-                  <Upload className="w-4 h-4 mr-2" />
+                  <Upload className="w-4 h-4 mr-1.5 flex-shrink-0" />
                   Upload Photo
                 </TabsTrigger>
                 <TabsTrigger
                   value="manual"
-                  className="rounded-lg text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-amber-700"
+                  className="rounded-lg text-xs sm:text-sm font-medium whitespace-normal text-center px-1.5 py-2 h-auto min-w-0 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-amber-700"
                 >
-                  <Ruler className="w-4 h-4 mr-2" />
+                  <Ruler className="w-4 h-4 mr-1.5 flex-shrink-0" />
                   Manual Measurements
                 </TabsTrigger>
               </TabsList>

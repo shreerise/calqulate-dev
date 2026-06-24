@@ -114,6 +114,7 @@ interface AnalysisResult {
   shape: FaceShapeKey
   confidence: number
   overall: number          // 0–100 harmony score
+  beauty: number           // 0–100 attractiveness-weighted beauty score
   potential: number        // 0–100 with photo / pose corrections
   metrics: Metric[]
   quality: PhotoQuality
@@ -419,6 +420,13 @@ function analyzeFace(
     metrics.reduce((a, m) => a + m.score * m.weight, 0) / weightSum
   )
 
+  // Beauty score — an attractiveness-weighted blend. Where the harmony score
+  // weights every geometric metric evenly, the beauty score emphasizes the
+  // features research links most strongly to perceived attractiveness
+  // (symmetry, golden proportion, eyes, lips & cheekbones) with mild
+  // sexual-dimorphism weighting (jaw for male, lips/cheeks for female).
+  const beauty = computeBeautyScore(metrics, gender)
+
   // Potential = bump weakest metrics if photo quality were perfect
   const qualityBonus = quality.ok ? 2 : 6
   const potential = clamp(overall + qualityBonus + (100 - overall) * 0.08)
@@ -427,6 +435,7 @@ function analyzeFace(
     shape,
     confidence,
     overall: Math.round(overall),
+    beauty: Math.round(beauty),
     potential: Math.round(potential),
     metrics,
     quality,
@@ -438,6 +447,42 @@ function analyzeFace(
       symmetry: symmetryRatio,
     },
   }
+}
+
+/* Attractiveness-weighted beauty score (0–100).
+   Distinct from the harmony score: it over-weights the features most tied to
+   perceived attractiveness and applies a gentle curve so the scale spreads
+   realistically across faces. */
+function computeBeautyScore(metrics: Metric[], gender: Gender): number {
+  const byKey: Record<string, number> = {}
+  for (const m of metrics) byKey[m.key] = m.score
+
+  const weights: Record<string, number> = {
+    symmetry:  2.2,                          // strongest attractiveness driver
+    golden:    1.6,
+    thirds:    1.3,
+    fifths:    1.1,
+    eyes:      1.4,
+    lips:      gender === "female" ? 1.5 : 1.0,
+    noseMouth: 1.0,
+    cheek:     gender === "female" ? 1.4 : 1.1,
+    jaw:       gender === "male" ? 1.6 : 1.1,
+    balance:   1.0,
+  }
+
+  let num = 0
+  let den = 0
+  for (const key in weights) {
+    if (byKey[key] != null) {
+      num += byKey[key] * weights[key]
+      den += weights[key]
+    }
+  }
+  const raw = den ? num / den : 0
+  // Gentle S-curve around the midpoint so averages feel natural and the
+  // distribution spreads a little wider than the flat weighted mean.
+  const curved = 50 + (raw - 50) * 1.08
+  return clamp(curved)
 }
 
 /* Plain-English describers (used in the dashboard) */
@@ -960,6 +1005,7 @@ function ResultStep({
 }) {
   const tips = SHAPE_TIPS[result.shape]
   const grade = useMemo(() => gradeFor(result.overall), [result.overall])
+  const beautyGrade = useMemo(() => beautyGradeFor(result.beauty), [result.beauty])
 
   return (
     <div className="space-y-6">
@@ -977,6 +1023,7 @@ function ResultStep({
 
         <div className="grid sm:grid-cols-2 gap-4">
           <RadialScore value={animOverall} label="Harmony Score" sublabel={grade.label} accent={grade.color} />
+          <RadialScore value={result.beauty} label="Beauty Score" sublabel={beautyGrade.label} accent={beautyGrade.color} outOf={10} />
           <RadialScore value={result.potential} label="Potential Score" sublabel="with optimal photo & styling" accent="from-emerald-400 to-emerald-600" />
 
           <StatCard
@@ -1072,9 +1119,12 @@ function ResultStep({
 /* ── Small UI pieces ────────────────────────────────────────────────────────── */
 
 function RadialScore({
-  value, label, sublabel, accent,
-}: { value: number; label: string; sublabel: string; accent: string }) {
+  value, label, sublabel, accent, outOf = 100,
+}: { value: number; label: string; sublabel: string; accent: string; outOf?: number }) {
   const v = clamp(value)
+  // Arc geometry always runs on the 0–100 scale; `outOf` only rescales the
+  // displayed number (e.g. an 84/100 beauty score reads as 8.4 / 10).
+  const display = outOf === 100 ? Math.round(v) : (v / 100 * outOf).toFixed(1)
   const r = 42
   const C = 2 * Math.PI * r
   const dash = (v / 100) * C
@@ -1098,9 +1148,9 @@ function RadialScore({
         <div className="absolute inset-0 grid place-items-center">
           <div className="text-center">
             <div className={`text-2xl font-extrabold bg-gradient-to-br ${accent ?? "from-fuchsia-500 to-purple-600"} bg-clip-text text-transparent tabular-nums`}>
-              {Math.round(v)}
+              {display}
             </div>
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">/ 100</div>
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">/ {outOf}</div>
           </div>
         </div>
       </div>
@@ -1175,6 +1225,15 @@ function gradeFor(v: number) {
   if (v >= 60) return { label: "Balanced",            color: "from-fuchsia-500 to-purple-600" }
   if (v >= 50) return { label: "Average",             color: "from-amber-400 to-orange-500" }
   return       { label: "Distinctive",                color: "from-rose-400 to-rose-600" }
+}
+
+function beautyGradeFor(v: number) {
+  if (v >= 90) return { label: "Strikingly beautiful",   color: "from-rose-400 to-fuchsia-600" }
+  if (v >= 80) return { label: "Very attractive",        color: "from-fuchsia-400 to-purple-600" }
+  if (v >= 70) return { label: "Attractive",             color: "from-pink-400 to-rose-500" }
+  if (v >= 60) return { label: "Pleasant & balanced",    color: "from-violet-400 to-purple-500" }
+  if (v >= 50) return { label: "Naturally average",      color: "from-amber-400 to-orange-500" }
+  return       { label: "Uniquely distinctive",          color: "from-sky-400 to-indigo-500" }
 }
 
 function improvementTips(r: AnalysisResult): string[] {

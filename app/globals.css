@@ -121,11 +121,28 @@
     @apply border-border outline-ring/50;
   }
 
+  /* ─── Prevent horizontal layout shift on mobile ───
+     Stops the page from drifting left/right while scrolling when a child
+     element is slightly wider than the viewport (visible in Clarity heatmaps).
+     `clip` is used instead of `hidden` because `overflow: hidden` creates a
+     scroll container that breaks the sticky header — `clip` does not. */
+  html {
+    overflow-x: clip;
+  }
+
   body {
     @apply font-sans bg-background text-foreground;
     font-weight: 400;
     font-size: 16px; /* default text size */
     line-height: var(--ast-body-line-height, 1.65);
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  /* Media never forces the viewport wider than the screen */
+  img,
+  video {
+    max-width: 100%;
   }
 
    h1 {
