@@ -10,7 +10,7 @@ export function ScoreGauge({ score, grade }: { score: number; grade: string }) {
 
   return (
     <div className="flex flex-col items-center">
-      <svg width="200" height="120" viewBox="0 0 200 120">
+      <svg viewBox="0 0 200 120" className="w-full max-w-[200px]" height="auto">
         <path
           d="M 20 110 A 80 80 0 0 1 180 110"
           fill="none"
@@ -30,7 +30,7 @@ export function ScoreGauge({ score, grade }: { score: number; grade: string }) {
           {score}
         </text>
       </svg>
-      <div className="-mt-2 text-sm font-medium text-gray-500">
+      <div className="mt-1 text-sm font-medium text-gray-500">
         Metabolic Health Score · Grade {grade}
       </div>
     </div>

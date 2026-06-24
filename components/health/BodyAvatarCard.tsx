@@ -29,7 +29,7 @@ export function BodyAvatarCard(props: BodyAvatarCardProps) {
     <section className="overflow-hidden rounded-3xl bg-gray-950 text-gray-100">
       <div className="grid lg:grid-cols-[1fr_1fr]">
         {/* 3D viewport */}
-        <div className="relative h-[340px] bg-gradient-to-b from-gray-900 to-gray-950 lg:h-auto lg:min-h-[360px]">
+        <div className="relative h-[260px] bg-gradient-to-b from-gray-900 to-gray-950 sm:h-[300px] lg:h-auto lg:min-h-[360px]">
           <div className="absolute left-4 top-4 z-10 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-emerald-400">
             <Box className="h-4 w-4" /> Digital twin
           </div>

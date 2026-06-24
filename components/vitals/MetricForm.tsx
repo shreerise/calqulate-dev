@@ -121,21 +121,21 @@ export function MetricForm({
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <label className="text-sm">Age<input name="age" type="number" required className={field} /></label>
-          <label className="text-sm">Sex
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <label className="flex flex-col gap-1 text-sm">Age<input name="age" type="number" required className={field} /></label>
+          <label className="flex flex-col gap-1 text-sm">Sex
             <select name="sex" required className={field}>
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
           </label>
-          <label className="text-sm">Height ({units === "us" ? "in" : "cm"})<input name="heightCm" type="number" step="any" required className={field} placeholder={units === "us" ? "e.g. 70" : "e.g. 178"} /></label>
-          <label className="text-sm">Weight ({units === "us" ? "lb" : "kg"})<input name="weightKg" type="number" step="any" required className={field} placeholder={units === "us" ? "e.g. 200" : "e.g. 90"} /></label>
-          <label className="text-sm">Waist ({units === "us" ? "in" : "cm"})<input name="waistCm" type="number" step="any" className={field} /></label>
-          <label className="text-sm">Systolic BP<input name="systolicBp" type="number" className={field} /></label>
-          <label className="text-sm">Total chol (mg/dL)<input name="totalCholesterol" type="number" className={field} /></label>
-          <label className="text-sm">HDL (mg/dL)<input name="hdl" type="number" className={field} /></label>
-          <label className="text-sm col-span-2">Race/ethnicity (for ASCVD)
+          <label className="flex flex-col gap-1 text-sm">Height ({units === "us" ? "in" : "cm"})<input name="heightCm" type="number" step="any" required className={field} placeholder={units === "us" ? "e.g. 70" : "e.g. 178"} /></label>
+          <label className="flex flex-col gap-1 text-sm">Weight ({units === "us" ? "lb" : "kg"})<input name="weightKg" type="number" step="any" required className={field} placeholder={units === "us" ? "e.g. 200" : "e.g. 90"} /></label>
+          <label className="flex flex-col gap-1 text-sm">Waist ({units === "us" ? "in" : "cm"})<input name="waistCm" type="number" step="any" className={field} /></label>
+          <label className="flex flex-col gap-1 text-sm">Systolic BP<input name="systolicBp" type="number" className={field} /></label>
+          <label className="flex flex-col gap-1 text-sm">Total chol (mg/dL)<input name="totalCholesterol" type="number" className={field} /></label>
+          <label className="flex flex-col gap-1 text-sm">HDL (mg/dL)<input name="hdl" type="number" className={field} /></label>
+          <label className="flex flex-col gap-1 text-sm sm:col-span-2">Race/ethnicity (for ASCVD)
             <select name="race" className={field}>
               <option value="white">White / other</option>
               <option value="black">Black / African American</option>
@@ -167,7 +167,7 @@ export function MetricForm({
             ) : (
               <>
                 <ScoreGauge score={report.composite.score} grade={report.composite.grade} />
-                <div className="grid grid-cols-3 gap-3 text-center text-sm">
+                <div className="grid grid-cols-1 gap-3 text-center text-sm sm:grid-cols-3">
                   <Stat label="ASCVD 10-yr" value={report.ascvd.tenYearRiskPercent != null ? `${report.ascvd.tenYearRiskPercent}%` : "—"} />
                   <Stat label="Heart age" value={report.heartAge.heartAge != null ? `${report.heartAge.heartAge}` : "—"} />
                   <Stat label="Diabetes 10-yr" value={report.diabetes.tenYearRiskPercent != null ? `${report.diabetes.tenYearRiskPercent}%` : "—"} />
@@ -215,7 +215,7 @@ function HeartAgeHero({ report }: { report: VitalsReport }) {
           <p className="mt-2 text-xs text-gray-500">Add total cholesterol, HDL and systolic BP to calculate heart age.</p>
         )}
       </div>
-      <div className="grid grid-cols-3 gap-3 text-center text-sm">
+      <div className="grid grid-cols-1 gap-3 text-center text-sm sm:grid-cols-3">
         <Stat label="10-yr heart risk" value={report.ascvd.tenYearRiskPercent != null ? `${report.ascvd.tenYearRiskPercent}%` : "—"} />
         <Stat label="Health score" value={`${report.composite.score}`} />
         <Stat label="Diabetes 10-yr" value={report.diabetes.tenYearRiskPercent != null ? `${report.diabetes.tenYearRiskPercent}%` : "—"} />
@@ -242,7 +242,7 @@ function Glp1Hero({ report }: { report: VitalsReport }) {
           Save measurements to watch lean mass hold steady while fat falls — your insurance against the rebound.
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-3 text-center text-sm">
+      <div className="grid grid-cols-1 gap-3 text-center text-sm sm:grid-cols-3">
         <Stat label="10-yr heart risk" value={report.ascvd.tenYearRiskPercent != null ? `${report.ascvd.tenYearRiskPercent}%` : "—"} />
         <Stat label="Diabetes 10-yr" value={report.diabetes.tenYearRiskPercent != null ? `${report.diabetes.tenYearRiskPercent}%` : "—"} />
         <Stat label="Health score" value={`${report.composite.score}`} />

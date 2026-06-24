@@ -16,11 +16,11 @@ export function TrendChart({ data }: { data: TrendPoint[] }) {
     return <p className="text-sm text-gray-500">No history yet — save a measurement to start your trend.</p>;
   }
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={250}>
       <LineChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-        <XAxis dataKey="date" fontSize={12} />
-        <YAxis fontSize={12} />
+        <XAxis dataKey="date" fontSize={11} tickMargin={4} />
+        <YAxis fontSize={11} width={35} />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="score" name="Health Score" stroke="#2563eb" strokeWidth={2} dot />

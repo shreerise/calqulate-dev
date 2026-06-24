@@ -48,7 +48,7 @@ export function TrajectoryPanel({ s }: { s: TrajectorySummary }) {
 
       <p className="mt-3 text-sm text-gray-700">{s.realNote}</p>
 
-      <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+      <div className="mt-4 grid grid-cols-1 gap-3 text-center sm:grid-cols-3">
         <div className="rounded-lg bg-gray-50 p-3">
           <div className="text-lg font-bold text-gray-900">
             {s.weeklyChange >= 0 ? "+" : ""}{s.weeklyChange.toFixed(2)}

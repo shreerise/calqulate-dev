@@ -46,12 +46,12 @@ export function NextLeversPanel({ levers }: { levers: LeverResult[] }) {
       {levers.length > 1 && (
         <ul className="mt-4 space-y-2">
           {levers.slice(1).map((l, i) => (
-            <li key={l.factor} className="flex items-center justify-between rounded-lg border border-gray-100 px-4 py-2.5">
+            <li key={l.factor} className="flex flex-col items-start gap-1 rounded-lg border border-gray-100 px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <span className="text-xs font-semibold text-gray-400">#{i + 2}</span>{" "}
                 <span className="text-sm font-medium text-gray-800">{l.label}</span>
               </div>
-              <div className="flex flex-wrap justify-end gap-1.5 text-[11px]">
+              <div className="flex flex-wrap gap-1.5 text-[11px]">
                 {l.scoreGain > 0 && <Stat label="score" value={`+${l.scoreGain}`} good small />}
                 {l.ascvdDelta != null && l.ascvdDelta !== 0 && <Stat label="ASCVD" value={`${l.ascvdDelta}%`} good={l.ascvdDelta < 0} small />}
                 {l.diabetesDelta != null && l.diabetesDelta !== 0 && <Stat label="diabetes" value={`${l.diabetesDelta}%`} good={l.diabetesDelta < 0} small />}
