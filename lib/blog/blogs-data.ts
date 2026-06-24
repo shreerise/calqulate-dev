@@ -2,7 +2,7 @@
 // Single source of truth for all blogs across the site.
 // Add new blogs here — /blog page and /blog/[slug] page both read from this list.
 
-export type BlogCategory = "Body Shape" | "Face Shape" | "Health" | "Face & Aesthetics";
+export type BlogCategory = "Body Shape" | "Face Shape" | "Health" | "Face & Aesthetics" | "Health & Fitness";
 
 export interface Blog {
   slug: string;
@@ -274,6 +274,30 @@ export const blogs: Blog[] = [
       "nasolabial angle",
       "facial symmetry",
       "facial attractiveness",
+    ],
+  },
+  {
+    slug: "semaglutide-dosage-chart",
+    title: "Semaglutide Dosage Chart & Titration Schedule (Wegovy / Ozempic)",
+    description:
+      "The complete semaglutide dosage chart and titration schedule for Wegovy and Ozempic — starting dose, weekly step-ups, max dose, compounding math, storage rules, and a free GLP-1 dose calculator.",
+    category: "Health & Fitness",
+    intent: "Health information",
+    uspFeature: "Embedded dosage chart + titration ladder",
+    featuredImage: "/images/blogs/semaglutide-dosage-cover.webp",
+    readTime: "11 min read",
+    publishedAt: "2026-06-23",
+    cta: "Free GLP-1 Dose Check",
+    ctaHref: "https://calqulate.net/health/glp-1-dose-calculator",
+    tags: [
+      "semaglutide dosage",
+      "semaglutide dosage chart",
+      "wegovy dosage",
+      "ozempic dosage",
+      "titration schedule",
+      "glp-1",
+      "weight loss",
+      "compounded semaglutide",
     ],
   },
 ];

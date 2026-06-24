@@ -3,10 +3,13 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SinglePlan } from "@/components/vitals/SinglePlan";
+import { getAccess, hasPaidAccess } from "@/lib/auth";
 import {
   ArrowRight, Activity, LineChart, Target, ShieldCheck, Stethoscope,
   AlertTriangle, TrendingDown, Dumbbell, Brain, Lock,
 } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "How Calqulate Vitals Works — Track & Reverse Your Metabolic Risk",
@@ -63,7 +66,9 @@ const audiences = [
   },
 ];
 
-export default function HowItWorksPage() {
+export default async function HowItWorksPage() {
+  const access = await getAccess();
+  const paid = hasPaidAccess(access);
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
@@ -222,18 +227,38 @@ export default function HowItWorksPage() {
           </div>
         </section>
 
-        {/* Pricing — one plan */}
+        {/* Pricing — hidden for existing subscribers */}
         <section id="pricing" className="py-12 sm:py-16 bg-gray-50 scroll-mt-20">
           <div className="container mx-auto px-3 sm:px-4">
-            <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">One simple plan</span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">Start free. Upgrade to track &amp; reverse.</h2>
-              <p className="text-sm sm:text-base text-gray-600">
-                The snapshot is genuinely free &mdash; run any engine once, nothing saved. One plan unlocks the
-                trajectory engine, your next-lever protocol, GLP-1 muscle tracking, and doctor PDFs.
-              </p>
-            </div>
-            <SinglePlan />
+            {paid ? (
+              <div className="rounded-3xl border-2 border-emerald-200 bg-emerald-50 p-8 text-center max-w-lg mx-auto">
+                <span className="inline-block rounded-full bg-emerald-200 px-3 py-1 text-xs font-bold uppercase tracking-wider text-emerald-800">
+                  Active
+                </span>
+                <h2 className="mt-4 text-xl font-bold text-emerald-900">You already have Calqulate Vitals</h2>
+                <p className="mt-2 text-emerald-700">
+                  Your subscription is active. Go to your dashboard to see your scores, trends, and personalized next steps.
+                </p>
+                <Link
+                  href="/dashboard"
+                  className="mt-6 inline-block rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+                >
+                  Go to dashboard →
+                </Link>
+              </div>
+            ) : (
+              <>
+                <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
+                  <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">One simple plan</span>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">Start free. Upgrade to track &amp; reverse.</h2>
+                  <p className="text-sm sm:text-base text-gray-600">
+                    The snapshot is genuinely free &mdash; run any engine once, nothing saved. One plan unlocks the
+                    trajectory engine, your next-lever protocol, GLP-1 muscle tracking, and doctor PDFs.
+                  </p>
+                </div>
+                <SinglePlan />
+              </>
+            )}
           </div>
         </section>
 

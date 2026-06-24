@@ -5,10 +5,9 @@ import { SERVICES, getService } from "../data";
 import { SinglePlan } from "@/components/vitals/SinglePlan";
 import { MetricForm } from "@/components/vitals/MetricForm";
 import { CalculatorSearch } from "@/components/search/CalculatorSearch";
+import { getAccess, hasPaidAccess } from "@/lib/auth";
 
-export function generateStaticParams() {
-  return SERVICES.map((s) => ({ slug: s.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -36,6 +35,8 @@ export default async function ServicePage({
   const { slug } = await params;
   const svc = getService(slug);
   if (!svc) notFound();
+  const access = await getAccess();
+  const paid = hasPaidAccess(access);
 
   // Each tracker foregrounds its own metric in the free snapshot.
   const SNAPSHOTS: Record<string, { heading: string; sub: string; focus: "metabolic" | "heartAge" | "glp1" }> = {
@@ -116,14 +117,34 @@ export default async function ServicePage({
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* Pricing — hidden for existing subscribers */}
       <section className="mt-16">
         <h2 className="text-center text-2xl font-bold">Track it over time</h2>
         <p className="mt-1 text-center text-gray-600">
           A snapshot is a starting point. The value is the trend.
         </p>
         <div className="mt-8">
-          <SinglePlan />
+          {paid ? (
+            <div className="rounded-3xl border-2 border-emerald-200 bg-emerald-50 p-8 text-center">
+              <span className="inline-block rounded-full bg-emerald-200 px-3 py-1 text-xs font-bold uppercase tracking-wider text-emerald-800">
+                Active
+              </span>
+              <h3 className="mt-4 text-xl font-bold text-emerald-900">
+                You already have Calqulate Vitals
+              </h3>
+              <p className="mt-2 text-emerald-700">
+                Your subscription is active. Go to your dashboard to see your scores, trends, and personalized next steps.
+              </p>
+              <Link
+                href="/dashboard"
+                className="mt-6 inline-block rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-emerald-700"
+              >
+                Go to dashboard →
+              </Link>
+            </div>
+          ) : (
+            <SinglePlan />
+          )}
         </div>
       </section>
 

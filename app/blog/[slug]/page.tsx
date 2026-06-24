@@ -17,6 +17,7 @@ import FacialHarmonyBlog from "@/components/blog/FacialHarmonyBlog";
 import IdealWeightByHeightAgeBlog from "@/components/blog/IdealWeightByHeightAgeBlog";
 import BmrVsTdeeBlog from "@/components/blog/BmrVsTdeeBlog";
 import MensBodyShapeBlog from "@/components/blog/MensBodyShapeBlog";
+import SemaglutideDosageBlog from "@/components/blog/SemaglutideDosageBlog";
 import RelatedBlogs from "@/components/blog/RelatedBlogs";
 
 interface Props {
@@ -86,6 +87,8 @@ export default function BlogSlugPage({ params }: Props) {
         return <BmrVsTdeeBlog blog={blog} />;
       case "body-shape-calculator-for-men":
         return <MensBodyShapeBlog blog={blog} />;
+      case "semaglutide-dosage-chart":
+        return <SemaglutideDosageBlog blog={blog} />;
       default:
         return <GenericBlogPlaceholder blog={blog} />;
     }
