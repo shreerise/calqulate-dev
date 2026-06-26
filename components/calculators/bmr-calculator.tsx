@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calculator, RefreshCw, Loader2, Flame, Activity, TrendingDown, Target, TrendingUp, Info, CheckCircle2, History } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Flame, Activity, TrendingDown, Target, TrendingUp, Info, CheckCircle2, History, Scale, UtensilsCrossed } from "lucide-react";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -42,6 +42,11 @@ interface CalculationResult {
   tdee: number;
   activityLevel: string;
   tdeeBreakdown: { label: string; value: number; multiplier: number }[];
+  // Additive: both formulas computed side by side for comparison
+  mifflinBmr: number;
+  harrisBmr: number;
+  // Additive: daily calorie needs at every activity level
+  activityCalories: { label: string; multiplier: number; value: number }[];
 }
 
 interface SavedEntry {
@@ -228,11 +233,31 @@ export default function BMRCalculator() {
         value: calculatedBMR * level.multiplier
       }));
 
+      // Additive Feature 1: compute BOTH Mifflin-St Jeor and Harris-Benedict
+      // side by side using the same inputs (independent of the chosen formula).
+      const mifflinBmr = values.gender === "male"
+        ? (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5
+        : (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+      const harrisBmr = values.gender === "male"
+        ? 88.362 + (13.397 * weightKg) + (4.799 * heightCm) - (5.677 * age)
+        : 447.593 + (9.247 * weightKg) + (3.098 * heightCm) - (4.330 * age);
+
+      // Additive Feature 2: daily calorie needs at each activity multiplier,
+      // based on the BMR from the selected formula.
+      const activityCalories = ACTIVITY_LEVELS.map(level => ({
+        label: level.label,
+        multiplier: level.multiplier,
+        value: Math.round(calculatedBMR * level.multiplier),
+      }));
+
       setResult({
         bmr: Math.round(calculatedBMR),
         tdee: Math.round(tdee),
         activityLevel: activeLevelData?.label || "Sedentary",
-        tdeeBreakdown
+        tdeeBreakdown,
+        mifflinBmr: Math.round(mifflinBmr),
+        harrisBmr: Math.round(harrisBmr),
+        activityCalories,
       });
 
       setIsLoading(false);
@@ -523,6 +548,88 @@ export default function BMRCalculator() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Additive Feature 1: Mifflin-St Jeor vs Harris-Benedict side by side */}
+            <Card className="border-emerald-200">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2 text-emerald-700">
+                  <Scale className="w-5 h-5" /> Two Formulas, Side by Side
+                </CardTitle>
+                <CardDescription>
+                  The same inputs run through both gold-standard BMR equations so you can compare.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-5 text-center">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Mifflin-St Jeor</p>
+                    <p className="mt-2 text-3xl font-bold text-slate-900">{result.mifflinBmr.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">kcal/day at rest</p>
+                  </div>
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-5 text-center">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Harris-Benedict</p>
+                    <p className="mt-2 text-3xl font-bold text-slate-900">{result.harrisBmr.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">kcal/day at rest</p>
+                  </div>
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm text-slate-700 leading-relaxed">
+                    {(() => {
+                      const diff = Math.abs(result.mifflinBmr - result.harrisBmr);
+                      const higher = result.harrisBmr > result.mifflinBmr ? "Harris-Benedict" : "Mifflin-St Jeor";
+                      return (
+                        <>
+                          The two results differ by <strong className="text-emerald-700">{diff.toLocaleString()} kcal/day</strong>
+                          {diff > 0 ? <> ({higher} reads higher here)</> : null}. This happens because each equation
+                          was built from a different population: <strong>Harris-Benedict</strong> dates back to 1919 and tends
+                          to slightly over-estimate for modern adults, while <strong>Mifflin-St Jeor</strong> (1990) was
+                          calibrated on a more recent, broader sample and is generally considered the more accurate choice.
+                          Neither is &quot;wrong&quot; — they are estimates with a normal margin of about &plusmn;10%. Use
+                          Mifflin-St Jeor as your default and treat the gap as a healthy reminder to verify against real-world results.
+                        </>
+                      );
+                    })()}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Additive Feature 2: Daily calorie needs at every activity level */}
+            <Card className="border-emerald-200">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2 text-emerald-700">
+                  <UtensilsCrossed className="w-5 h-5" /> Your Daily Calorie Needs by Activity Level
+                </CardTitle>
+                <CardDescription>
+                  Maintenance calories for every lifestyle, so you can act on your BMR right away.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {result.activityCalories.map((item, i) => {
+                    const isCurrent = item.label === result.activityLevel;
+                    return (
+                      <div
+                        key={i}
+                        className={`rounded-xl border p-4 ${isCurrent ? 'border-emerald-300 bg-emerald-50' : 'border-slate-200 bg-white'}`}
+                      >
+                        <p className="text-xs font-semibold text-slate-600">{item.label.split('(')[0].trim()}</p>
+                        <p className="text-[11px] text-muted-foreground">&times; {item.multiplier}</p>
+                        <p className="mt-2 text-2xl font-bold text-slate-900">{item.value.toLocaleString()}</p>
+                        <p className="text-xs text-muted-foreground">kcal/day</p>
+                        {isCurrent && (
+                          <p className="mt-1 text-[11px] font-semibold text-emerald-700">Your selected level</p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  These are maintenance targets (the calories you burn in a typical day). Eat 300&ndash;500 kcal below your
+                  level for steady fat loss, and never drop below your BMR of {result.bmr.toLocaleString()} kcal.
+                </p>
+              </CardContent>
+            </Card>
 
             {/* Macro / Goal Planner */}
             <Card className="border-2 border-muted">

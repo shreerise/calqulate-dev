@@ -11,8 +11,9 @@ import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import {
   Scale, Info, Calculator as CalculatorIcon, User, Users,
   Utensils, Clock, AlertTriangle, CheckCircle2, Footprints,
-  TrendingDown, Activity, Heart, Brain, Stethoscope
+  TrendingDown, Activity, Heart, Brain, Stethoscope, Sparkles
 } from "lucide-react"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
 
@@ -124,6 +125,18 @@ export default function BMICalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net calculates your Body Mass Index from height and weight, cross-checked with waist data and a muscle-vs-fat caveat for fairness. You get an honest result and the exact amount to gain or lose.
+              </p>
             </div>
           </div>
         </section>
@@ -866,6 +879,8 @@ export default function BMICalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="bmi-calculator" />
 
             {/* FAQ ─────────────────────────────────────────────────────────── */}
             <div className="mt-12">

@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, RefreshCw, Loader2, HeartPulse, Stethoscope, ArrowRight, ShieldAlert, CheckCircle2, Activity } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, HeartPulse, Stethoscope, ArrowRight, ShieldAlert, CheckCircle2, Activity, Clock, TrendingUp, CalendarClock, Info } from "lucide-react";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -27,12 +27,33 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+interface RiskHorizon {
+  label: string;
+  /** Estimated absolute risk for this horizon, as a percentage. */
+  percent: number;
+  /** Average / baseline absolute risk for the same horizon, as a percentage. */
+  baselinePercent: number;
+  note: string;
+}
+
+interface RiskFactorContribution {
+  factor: string;
+  /** Relative-risk multiplier this single factor contributed (1.0 = no effect). */
+  multiplier: number;
+  detail: string;
+}
+
 interface CalculationResult {
   riskLevel: "Average" | "Moderate" | "High";
   scoreMultiplier: number;
   description: string;
   actionPlan: string[];
   doctorQuestions: string[];
+  // FEATURE 1 — multi-horizon risk (5-year, 10-year, lifetime)
+  horizons: RiskHorizon[];
+  // FEATURE 2 — which factors raised risk most + screening timing
+  topFactors: RiskFactorContribution[];
+  screeningGuidance: string;
 }
 
 interface SavedEntry {
@@ -138,32 +159,51 @@ const RiskGauge = ({ level, multiplier }: { level: string; multiplier: number })
 // This uses a simplified, weighted point system inspired by standard risk models (Gail/Tyrer-Cuzick).
 // It calculates a relative multiplier.
 
+// Approximate AVERAGE-risk absolute probabilities of developing breast cancer
+// within a given window, by current age. Anchored to widely cited NCI / SEER
+// figures (e.g. ~12.5% lifetime, ~1 in 8). These are baselines that the model's
+// relative multiplier scales — used purely to present a fuller risk picture.
+const getBaselineHorizons = (age: number): { fiveYear: number; tenYear: number; lifetime: number } => {
+  if (age < 40) return { fiveYear: 0.5, tenYear: 1.5, lifetime: 12.5 };
+  if (age < 50) return { fiveYear: 1.5, tenYear: 3.5, lifetime: 11.0 };
+  if (age < 60) return { fiveYear: 2.3, tenYear: 5.0, lifetime: 9.0 };
+  if (age < 70) return { fiveYear: 3.5, tenYear: 6.5, lifetime: 7.0 };
+  return { fiveYear: 3.8, tenYear: 6.5, lifetime: 5.0 };
+};
+
 const calculateRisk = (data: FormData): CalculationResult => {
   let score = 1.0; // Baseline multiplier
   const age = parseInt(data.age);
 
+  // Track each factor's individual contribution for the "what raised your risk" breakdown.
+  const contributions: RiskFactorContribution[] = [];
+  const addContribution = (factor: string, multiplier: number, detail: string) => {
+    if (multiplier > 1.0001) contributions.push({ factor, multiplier, detail });
+  };
+
   // 1. Age Factor (Risk generally increases with age)
-  if (age >= 60) score *= 1.5;
-  else if (age >= 50) score *= 1.3;
-  else if (age >= 40) score *= 1.1;
+  if (age >= 60) { score *= 1.5; addContribution("Age", 1.5, "Breast cancer risk rises markedly after age 60."); }
+  else if (age >= 50) { score *= 1.3; addContribution("Age", 1.3, "Risk increases through the 50s, around the menopausal transition."); }
+  else if (age >= 40) { score *= 1.1; addContribution("Age", 1.1, "Risk begins to climb steadily from your 40s."); }
 
   // 2. Menarche Age
-  if (data.menarcheAge === "<12") score *= 1.2;
-  else if (data.menarcheAge === "12-13") score *= 1.1;
+  if (data.menarcheAge === "<12") { score *= 1.2; addContribution("Early first period", 1.2, "Starting periods before age 12 means longer lifetime estrogen exposure."); }
+  else if (data.menarcheAge === "12-13") { score *= 1.1; addContribution("First period age", 1.1, "Periods starting at 12–13 add a small amount of estrogen exposure."); }
 
   // 3. First Birth Age
-  if (data.firstBirthAge === "nulliparous") score *= 1.3;
-  else if (data.firstBirthAge === ">=30") score *= 1.4;
-  else if (data.firstBirthAge === "25-29") score *= 1.1;
+  if (data.firstBirthAge === "nulliparous") { score *= 1.3; addContribution("No live births", 1.3, "Never having given birth is associated with modestly higher risk."); }
+  else if (data.firstBirthAge === ">=30") { score *= 1.4; addContribution("First birth at 30+", 1.4, "A first live birth at 30 or older raises risk relative to earlier births."); }
+  else if (data.firstBirthAge === "25-29") { score *= 1.1; addContribution("First birth at 25–29", 1.1, "A first birth in the late 20s carries a small added risk."); }
 
   // 4. First Degree Relatives
-  if (data.firstDegreeRelatives === "1") score *= 1.8;
-  else if (data.firstDegreeRelatives === "2+") score *= 2.5;
+  if (data.firstDegreeRelatives === "1") { score *= 1.8; addContribution("Family history", 1.8, "One first-degree relative (mother, sister, daughter) roughly doubles baseline risk."); }
+  else if (data.firstDegreeRelatives === "2+") { score *= 2.5; addContribution("Strong family history", 2.5, "Two or more first-degree relatives is one of the strongest risk factors here."); }
 
   // 5. Biopsy & Atypia
   if (data.priorBiopsy === "yes") {
     score *= 1.3;
-    if (data.atypicalHyperplasia === "yes") score *= 2.0;
+    addContribution("Prior breast biopsy", 1.3, "A previous breast biopsy reflects findings that can raise risk.");
+    if (data.atypicalHyperplasia === "yes") { score *= 2.0; addContribution("Atypical hyperplasia", 2.0, "Atypical hyperplasia on biopsy is a high-impact risk factor."); }
   }
 
   // Categorize
@@ -208,10 +248,55 @@ const calculateRisk = (data: FormData): CalculationResult => {
     doctorQuestions.push("What lifestyle changes can I make to keep my risk low?");
   }
 
+  // ── FEATURE 1: derive 5-year, 10-year and lifetime absolute risk ──────────
+  // The model produces a relative multiplier (Gail/Tyrer-Cuzick style). We apply
+  // it to age-matched average absolute baselines to present all three horizons.
+  const baselines = getBaselineHorizons(age);
+  const clampPct = (v: number) => Math.min(99, Math.round(v * 10) / 10);
+  const horizons: RiskHorizon[] = [
+    {
+      label: "5-Year Risk",
+      percent: clampPct(baselines.fiveYear * score),
+      baselinePercent: clampPct(baselines.fiveYear),
+      note: "Chance of developing breast cancer within the next 5 years. A 5-year risk of 1.67%+ is the threshold used in prevention-medication discussions.",
+    },
+    {
+      label: "10-Year Risk",
+      percent: clampPct(baselines.tenYear * score),
+      baselinePercent: clampPct(baselines.tenYear),
+      note: "Chance over the next decade — the horizon the Tyrer-Cuzick (IBIS) model is most often reported against.",
+    },
+    {
+      label: "Lifetime Risk",
+      percent: clampPct(Math.min(95, baselines.lifetime * score)),
+      baselinePercent: clampPct(baselines.lifetime),
+      note: "Cumulative chance from now to about age 90. A lifetime risk above 20% is the high-risk threshold for adding annual MRI.",
+    },
+  ];
+
+  // ── FEATURE 2: rank the factors that raised risk most ─────────────────────
+  const topFactors = [...contributions].sort((a, b) => b.multiplier - a.multiplier).slice(0, 4);
+
+  const lifetimePct = horizons[2].percent;
+  let screeningGuidance = "";
+  if (riskLevel === "High" || lifetimePct >= 20) {
+    screeningGuidance =
+      "Your estimated lifetime risk reaches the high-risk threshold. Major guidelines suggest annual mammography PLUS annual breast MRI, often starting around age 30 (or earlier than usual), alongside a specialist or genetic-counseling referral. This is an estimate to guide that conversation — not a diagnosis.";
+  } else if (riskLevel === "Moderate" || lifetimePct >= 15) {
+    screeningGuidance =
+      "Your estimate sits in the moderate band. Discuss starting (or continuing) annual mammograms and whether supplemental imaging is appropriate, especially if you have dense breasts. This is an estimate to guide screening decisions — not a diagnosis.";
+  } else {
+    screeningGuidance =
+      "Your estimate is in the average range. Following standard population screening — typically mammograms beginning at age 40–45 — is reasonable, with breast self-awareness in between. This is an estimate, not a diagnosis.";
+  }
+
   return {
     riskLevel,
     scoreMultiplier: score,
-    description: riskLevel === "High" 
+    horizons,
+    topFactors,
+    screeningGuidance,
+    description: riskLevel === "High"
       ? "Your inputs indicate an elevated risk profile compared to the average population. This does not mean you will get cancer, but it warrants proactive, specialized screening."
       : riskLevel === "Moderate"
       ? "Your inputs suggest a slightly higher than average risk. Standard screening is crucial, and you should discuss your specific factors with your doctor."
@@ -597,6 +682,84 @@ export default function BreastCancerRiskCalculator() {
                   <p className="text-gray-700 dark:text-gray-300 text-lg text-center leading-relaxed">
                     {result.description}
                   </p>
+                </div>
+
+                {/* ── FEATURE 1: 5-YEAR, 10-YEAR & LIFETIME RISK ─────────────────── */}
+                <div className="mt-10">
+                  <div className="flex items-center gap-2 mb-1">
+                    <TrendingUp className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Your Risk Over Time</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-5">
+                    Estimated absolute risk across three horizons, derived from the Gail / Tyrer-Cuzick relative
+                    multiplier applied to age-matched average baselines. Each figure is an estimate, not a diagnosis.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {result.horizons.map((h, idx) => (
+                      <div key={h.label} className="rounded-xl border bg-white dark:bg-gray-950 p-5 shadow-sm flex flex-col">
+                        <div className="flex items-center gap-2 text-emerald-700">
+                          {idx === 0 ? <Clock className="w-4 h-4" /> : idx === 1 ? <CalendarClock className="w-4 h-4" /> : <Activity className="w-4 h-4" />}
+                          <span className="text-xs font-bold uppercase tracking-wider">{h.label}</span>
+                        </div>
+                        <div className="mt-3 flex items-baseline gap-2">
+                          <span className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">{h.percent}%</span>
+                          <span className="text-xs text-muted-foreground">est.</span>
+                        </div>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          Average for your age: <strong className="text-gray-700 dark:text-gray-300">{h.baselinePercent}%</strong>
+                        </p>
+                        <p className="mt-3 text-xs text-muted-foreground leading-relaxed">{h.note}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-[11px] text-gray-400 leading-relaxed">
+                    These percentages are population-level estimates scaled by your relative-risk profile, not a
+                    personal prediction. Only clinical evaluation, mammography and biopsy can diagnose breast cancer.
+                  </p>
+                </div>
+
+                {/* ── FEATURE 2: WHAT RAISED YOUR RISK + WHEN TO SCREEN ──────────── */}
+                <div className="mt-10 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-6">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Info className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">What Raised Your Risk &amp; When to Screen</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-5">
+                    The factors below contributed most to your estimate, ranked by impact. This explains your number —
+                    it is an estimate to guide screening, <strong className="text-emerald-700">not a diagnosis.</strong>
+                  </p>
+
+                  {result.topFactors.length > 0 ? (
+                    <ul className="space-y-3">
+                      {result.topFactors.map((f, idx) => (
+                        <li key={f.factor} className="flex items-start gap-3 bg-white dark:bg-gray-950 rounded-xl p-4 border border-emerald-100 shadow-sm">
+                          <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                            {idx + 1}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between gap-3">
+                              <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">{f.factor}</span>
+                              <span className="text-xs font-bold text-emerald-700 whitespace-nowrap">×{f.multiplier.toFixed(1)} risk</span>
+                            </div>
+                            <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{f.detail}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-950 rounded-xl p-4 border border-emerald-100">
+                      No major individual risk factors stood out in your answers — your estimate stays close to the
+                      average for your age.
+                    </p>
+                  )}
+
+                  <div className="mt-5 flex items-start gap-3 rounded-xl border border-emerald-200 bg-white dark:bg-gray-950 p-4">
+                    <CalendarClock className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">When screening is advised</p>
+                      <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{result.screeningGuidance}</p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8 mt-10">

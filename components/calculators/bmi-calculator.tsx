@@ -28,6 +28,7 @@ const formSchema = z.object({
   heightFt: z.string().optional(),
   heightIn: z.string().optional(),
   weightLbs: z.string().optional(),
+  waist: z.string().optional(), // optional — sharpens the read, never required
 });
 
 type UnitSystem = "metric" | "imperial";
@@ -49,6 +50,21 @@ interface BMIResult {
   nextSteps: string[];
   usFact: string;
   riskLevel: "low" | "moderate" | "high" | "very-high";
+  // ── FEATURE 1: waist-to-height cross-check + muscle/athlete caveat ──────────
+  waistCheck: {
+    hasWaist: boolean;
+    whtr: number | null;           // waist-to-height ratio (null if no waist given)
+    whtrTone: "low" | "elevated" | null;
+    showMuscleCaveat: boolean;     // BMI flags overweight/obese but waist looks healthy
+    headline: string;
+    body: string;
+  };
+  // ── FEATURE 2: healthy weight range + amount to reach the midpoint ──────────
+  midpoint: {
+    targetWeightStr: string;       // weight at BMI ~21.7
+    differenceStr: string;         // amount to gain/lose to reach the midpoint
+    direction: "lose" | "gain" | "at-target";
+  };
 }
 
 interface SavedEntry {
@@ -273,6 +289,16 @@ export default function BmiCalculator() {
   const handleUnitChange = (newUnit: UnitSystem) => {
     const oldUnit = getValues("units");
     if (newUnit === oldUnit) return;
+    // Convert the optional waist value alongside the rest (cm ⇄ in).
+    const waistVal = parseFloat(getValues("waist") || "0");
+    if (waistVal > 0) {
+      setValue(
+        "waist",
+        newUnit === "imperial"
+          ? (waistVal * CM_TO_IN).toFixed(1)
+          : (waistVal / CM_TO_IN).toFixed(1)
+      );
+    }
     if (newUnit === "imperial") {
       const cm = parseFloat(getValues("heightCm") || "0");
       const kg = parseFloat(getValues("weightKg") || "0");
@@ -472,6 +498,62 @@ export default function BmiCalculator() {
 
         const { headline, subheadline } = generateHeadlines(bmi, category, values.gender, values.age, weightDifference?.type || "maintain", weightDiffNum);
 
+        // ── FEATURE 1: waist-to-height cross-check + muscle/athlete caveat ──────
+        // Waist is optional. If provided, we compute WHtR (waist ÷ height in the
+        // same unit) and sanity-check whether an "overweight"/"obese" BMI might be
+        // muscle rather than fat. If absent, we still surface the athlete caveat
+        // conditionally and note that adding a waist measurement sharpens the read.
+        let waistRaw = parseFloat(values.waist || "0");
+        let waistM = 0;
+        if (waistRaw > 0) {
+          waistM = values.units === "metric" ? waistRaw / 100 : (waistRaw * 2.54) / 100;
+        }
+        const hasWaist = waistM > 0;
+        const whtr = hasWaist ? parseFloat((waistM / heightM).toFixed(3)) : null;
+        const whtrTone: "low" | "elevated" | null =
+          whtr === null ? null : whtr < 0.5 ? "low" : "elevated";
+
+        const bmiFlagsExcess = bmi >= 25;
+        // A healthy waist alongside an "overweight" BMI is the classic muscle signal.
+        const waistLooksHealthy = whtr !== null && whtr < 0.5;
+        const showMuscleCaveat = bmiFlagsExcess && (waistLooksHealthy || !hasWaist);
+
+        let waistHeadline = "";
+        let waistBody = "";
+        if (hasWaist && whtr !== null) {
+          if (whtrTone === "low" && bmiFlagsExcess) {
+            waistHeadline = "BMI may overstate your risk — your waist looks healthy";
+            waistBody = `Your waist-to-height ratio is ${whtr} (a ratio under 0.5 is considered low-risk), yet your BMI of ${bmi} reads as "${category}". This pattern is common in athletic or muscular builds: muscle is denser than fat, so it inflates BMI without adding metabolic risk. Treat your healthy waist as the more reassuring signal here.`;
+          } else if (whtrTone === "low") {
+            waistHeadline = "Your waist confirms a low-risk profile";
+            waistBody = `Your waist-to-height ratio is ${whtr} — under the 0.5 threshold — which agrees with your BMI of ${bmi}. Both metrics point in the same direction, giving you a more confident read than BMI alone.`;
+          } else {
+            waistHeadline = "Your waist points to elevated central fat";
+            waistBody = `Your waist-to-height ratio is ${whtr}, above the 0.5 low-risk threshold. Central (belly) fat carries more metabolic risk than fat elsewhere, so this sharpens your BMI of ${bmi} rather than softening it — worth acting on even if your BMI looks borderline.`;
+          }
+        } else if (showMuscleCaveat) {
+          waistHeadline = "Could this be muscle, not fat?";
+          waistBody = `Your BMI of ${bmi} reads as "${category}", but BMI can't tell muscle from fat. If you strength-train or play sport, an athletic build often pushes BMI up without raising health risk. Add your waist measurement above for a waist-to-height cross-check — a ratio under 0.5 would confirm the extra mass is likely muscle, not central fat.`;
+        } else {
+          waistHeadline = "Add your waist for a sharper read";
+          waistBody = `BMI uses only height and weight, so it can't see where fat sits or tell muscle from fat. Adding your waist measurement above unlocks a waist-to-height ratio — the single best quick check for the belly fat that drives metabolic risk.`;
+        }
+
+        // ── FEATURE 2: healthy weight range + amount to reach the midpoint ──────
+        // Midpoint BMI ~21.7 sits in the centre of the healthy 18.5–24.9 band.
+        const MIDPOINT_BMI = 21.7;
+        const midpointKg = MIDPOINT_BMI * (heightM * heightM);
+        const midpointDiffKg = midpointKg - weightKg; // positive ⇒ need to gain
+        const atMidpoint = Math.abs(midpointDiffKg) < (values.units === "metric" ? 0.5 : 0.45);
+        const fmtWeight = (kg: number) =>
+          values.units === "metric" ? `${kg.toFixed(1)} kg` : `${(kg * KG_TO_LBS).toFixed(1)} lbs`;
+        const midpoint = {
+          targetWeightStr: fmtWeight(midpointKg),
+          differenceStr: fmtWeight(Math.abs(midpointDiffKg)),
+          direction: (atMidpoint ? "at-target" : midpointDiffKg > 0 ? "gain" : "lose") as
+            "lose" | "gain" | "at-target",
+        };
+
         setResult({
           bmi, category, color, textColor, badgeBg, ponderalIndex: pi, prime,
           idealRange, weightDifference, description: desc,
@@ -479,6 +561,15 @@ export default function BmiCalculator() {
           nextSteps: generateNextSteps(category, values.gender),
           usFact: getUSFact(category, values.gender),
           riskLevel,
+          waistCheck: {
+            hasWaist,
+            whtr,
+            whtrTone,
+            showMuscleCaveat,
+            headline: waistHeadline,
+            body: waistBody,
+          },
+          midpoint,
         });
       }
 
@@ -660,6 +751,20 @@ export default function BmiCalculator() {
                     )} />
                   </>
                 )}
+
+                {/* Optional waist — sharpens the read, never required */}
+                <FormField control={form.control} name="waist" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-1.5">
+                      Waist ({currentUnits === "metric" ? "cm" : "in"})
+                      <span className="text-xs font-normal text-muted-foreground">· optional</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input type="number" step="any" placeholder={currentUnits === "metric" ? "85" : "34"} {...field} className="h-12 text-lg" />
+                    </FormControl>
+                    <p className="text-xs text-muted-foreground">Adds a waist-to-height cross-check</p>
+                  </FormItem>
+                )} />
               </div>
 
               <Button type="submit" size="lg" className="w-full text-lg h-14 font-bold" disabled={isLoading}
@@ -846,6 +951,88 @@ export default function BmiCalculator() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* ── FEATURE 1: WAIST CROSS-CHECK + MUSCLE/ATHLETE CAVEAT ─────────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg flex-shrink-0" style={{ background: brand.primaryBg }}>
+                    <Activity className="w-5 h-5" style={{ color: brand.primary }} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                      <p className="font-bold text-sm text-emerald-700">{result.waistCheck.headline}</p>
+                      {result.waistCheck.whtr !== null && (
+                        <Badge
+                          variant="outline"
+                          className={`text-xs font-bold ${
+                            result.waistCheck.whtrTone === "low"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                              : "bg-orange-50 text-orange-700 border-orange-200"
+                          }`}
+                        >
+                          WHtR {result.waistCheck.whtr} · {result.waistCheck.whtrTone === "low" ? "Optimal" : "Elevated"}
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{result.waistCheck.body}</p>
+                    {!result.waistCheck.hasWaist && (
+                      <p className="text-xs text-muted-foreground mt-2 italic">
+                        Tip: a waist-to-height ratio under 0.5 is the simplest at-home check for healthy central fat.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* ── FEATURE 2: HEALTHY RANGE + MIDPOINT TARGET (BMI ~21.7) ───────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Target className="w-5 h-5" style={{ color: brand.primary }} />
+                  <h3 className="text-base font-bold">Your Healthy Weight Range & Ideal Target</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  For your height, a healthy weight (BMI 18.5–24.9) is{" "}
+                  <strong className="text-emerald-700">{result.idealRange}</strong>. The centre of that band
+                  (BMI ~21.7) lands at about <strong className="text-emerald-700">{result.midpoint.targetWeightStr}</strong>
+                  {result.midpoint.direction === "at-target"
+                    ? " — and you're already right there."
+                    : result.midpoint.direction === "lose"
+                    ? <> — roughly <strong className="text-emerald-700">{result.midpoint.differenceStr}</strong> to lose to reach that sweet spot.</>
+                    : <> — roughly <strong className="text-emerald-700">{result.midpoint.differenceStr}</strong> to gain to reach that sweet spot.</>}
+                </p>
+
+                <div className="grid grid-cols-3 gap-3 mt-5">
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Healthy range</p>
+                    <p className="text-sm font-black text-slate-800 dark:text-slate-100 mt-1">{result.idealRange}</p>
+                  </div>
+                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                    <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                      {result.midpoint.direction === "lose" ? (
+                        <><TrendingDown className="w-3.5 h-3.5" /> Lose</>
+                      ) : result.midpoint.direction === "gain" ? (
+                        <><TrendingUp className="w-3.5 h-3.5" /> Gain</>
+                      ) : (
+                        <><CheckCircle2 className="w-3.5 h-3.5" /> On target</>
+                      )}
+                    </div>
+                    <p className="text-sm font-black text-emerald-700 mt-1">
+                      {result.midpoint.direction === "at-target" ? "—" : result.midpoint.differenceStr}
+                    </p>
+                  </div>
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Ideal target</p>
+                    <p className="text-sm font-black text-slate-800 dark:text-slate-100 mt-1">{result.midpoint.targetWeightStr}</p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  The midpoint (BMI ~21.7) is a balanced goal inside the healthy band — not a hard rule. Anywhere in your healthy range is clinically fine.
+                </p>
+              </CardContent>
+            </Card>
 
             {/* 4. HIGH-CTR NEXT STEPS */}
             <Card className="border-0 shadow-xl" style={{ background: brand.primaryBg, border: `1px solid ${brand.primaryBorder}` }}>

@@ -24,6 +24,9 @@ import {
   CheckCircle2,
   ArrowRight,
   Info,
+  Percent,
+  CalendarClock,
+  Flag,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -111,6 +114,9 @@ interface CalculationResult {
   bmiCurrent: number | null;
   bmiCategory: string | null;
   goalReached: boolean;
+  // FEATURE 2 — projected goal date (weeks needed + estimated date)
+  weeksToGoal: number | null;
+  projectedGoalDate: Date | null;
 }
 
 // --- CALCULATION LOGIC (separate, pure functions) ---
@@ -164,6 +170,28 @@ const calculateResults = (
     else bmiCategory = "Obese";
   }
 
+  // FEATURE 2 — projected goal date.
+  // If we know the average weekly loss rate AND there is still weight to lose to
+  // reach the target, estimate how many weeks remain at the current pace and
+  // project a calendar date measured from the current (most recent) date.
+  let weeksToGoal: number | null = null;
+  let projectedGoalDate: Date | null = null;
+  if (
+    avgPerWeek !== null &&
+    avgPerWeek > 0 &&
+    remainingToTarget !== null &&
+    remainingToTarget > 0 &&
+    !goalReached
+  ) {
+    weeksToGoal = remainingToTarget / avgPerWeek;
+    const base = currentDate ? new Date(currentDate) : new Date();
+    if (!isNaN(base.getTime())) {
+      const projected = new Date(base.getTime());
+      projected.setDate(projected.getDate() + Math.ceil(weeksToGoal * 7));
+      projectedGoalDate = projected;
+    }
+  }
+
   return {
     weightLost,
     percentageLost,
@@ -174,6 +202,8 @@ const calculateResults = (
     bmiCurrent,
     bmiCategory,
     goalReached,
+    weeksToGoal,
+    projectedGoalDate,
   };
 };
 
@@ -626,7 +656,8 @@ export default function WeightLossPercentageCalculator() {
         {/* RIGHT: Result Card */}
         <div ref={resultsRef} className="lg:col-span-2">
           {result ? (
-            <Card className="overflow-hidden border-green-500/20 shadow-xl sticky top-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="space-y-6 sticky top-4">
+            <Card className="overflow-hidden border-green-500/20 shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div
                 className={`p-8 text-center text-white bg-gradient-to-br ${
                   result.goalReached
@@ -783,6 +814,159 @@ export default function WeightLossPercentageCalculator() {
                 </Link>
               </div>
             </Card>
+
+            {/* FEATURE 1 — EXACT % LOST & AMOUNT REMAINING TO GOAL */}
+            <Card className="border shadow-md animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Percent className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                    Exact Progress &amp; Remaining to Goal
+                  </h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  You&apos;ve lost{" "}
+                  <span className="font-bold text-emerald-700">
+                    {result.percentageLost.toFixed(2)}%
+                  </span>{" "}
+                  of your starting body weight — that&apos;s{" "}
+                  <span className="font-semibold">
+                    {result.weightLost.toFixed(1)} {unit}
+                  </span>
+                  {result.remainingToTarget !== null ? (
+                    result.goalReached ? (
+                      <> and you have already reached your goal weight. 🎉</>
+                    ) : (
+                      <>
+                        , with{" "}
+                        <span className="font-bold text-emerald-700">
+                          {Math.max(0, result.remainingToTarget).toFixed(1)} {unit}
+                        </span>{" "}
+                        still to lose to hit your target.
+                      </>
+                    )
+                  ) : (
+                    <>. Add a target weight above to see exactly how much is left to your goal.</>
+                  )}
+                </p>
+
+                {result.remainingToTarget !== null && (
+                  <div className="grid grid-cols-3 gap-3 mt-5">
+                    <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">
+                        % Lost
+                      </p>
+                      <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">
+                        {result.percentageLost.toFixed(2)}%
+                      </p>
+                    </div>
+                    <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">
+                        Lost
+                      </p>
+                      <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">
+                        {result.weightLost.toFixed(1)} {unit}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                      <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                        <Flag className="w-3.5 h-3.5" /> To Goal
+                      </div>
+                      <p className="text-lg font-black text-emerald-700 mt-1">
+                        {Math.max(0, result.remainingToTarget).toFixed(1)} {unit}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Calculated as ((Start − Current) ÷ Start) × 100, with the remaining
+                  amount measured against your target weight.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — WEEKLY RATE & PROJECTED GOAL DATE */}
+            <Card className="border shadow-md animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <CalendarClock className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                    Weekly Average &amp; Projected Goal Date
+                  </h3>
+                </div>
+
+                {result.avgPerWeek !== null && result.avgPerWeek > 0 ? (
+                  <>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      You&apos;re losing about{" "}
+                      <span className="font-bold text-emerald-700">
+                        {result.avgPerWeek.toFixed(2)} {unit}/week
+                      </span>
+                      {result.goalReached ? (
+                        <> — and you&apos;ve already reached your goal. Keep it up!</>
+                      ) : result.projectedGoalDate && result.weeksToGoal !== null ? (
+                        <>
+                          . At this pace you&apos;d reach your target in about{" "}
+                          <span className="font-bold text-emerald-700">
+                            {Math.ceil(result.weeksToGoal)} week
+                            {Math.ceil(result.weeksToGoal) === 1 ? "" : "s"}
+                          </span>{" "}
+                          — around{" "}
+                          <span className="font-bold text-emerald-700">
+                            {result.projectedGoalDate.toLocaleDateString("en-US", {
+                              month: "long",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </span>
+                          .
+                        </>
+                      ) : (
+                        <>. Add a target weight above to see a projected goal date.</>
+                      )}
+                    </p>
+
+                    {result.projectedGoalDate && !result.goalReached && (
+                      <div className="grid grid-cols-2 gap-3 mt-5">
+                        <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                          <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">
+                            Avg / Week
+                          </p>
+                          <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">
+                            {result.avgPerWeek.toFixed(2)} {unit}
+                          </p>
+                        </div>
+                        <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                          <p className="text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                            Projected Goal
+                          </p>
+                          <p className="text-base font-black text-emerald-700 mt-1">
+                            {result.projectedGoalDate.toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Add your <span className="font-semibold">start date</span> and{" "}
+                    <span className="font-semibold">current date</span> above and we&apos;ll
+                    calculate your weekly average loss rate and project when you&apos;ll
+                    reach your target weight.
+                  </p>
+                )}
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Estimate assumes your current weekly average loss rate stays constant
+                  until you reach your goal. Real progress varies — use it as motivation,
+                  not a guarantee.
+                </p>
+              </CardContent>
+            </Card>
+            </div>
           ) : (
             <Card className="border-dashed border-2 sticky top-4">
               <CardContent className="p-10 text-center">

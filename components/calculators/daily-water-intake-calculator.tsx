@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Calculator, RefreshCw, Loader2, Droplet, Clock, Utensils, CupSoda, Sun, Activity } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Droplet, Clock, Utensils, CupSoda, Sun, Activity, ThermometerSun, Dumbbell, Sliders, GlassWater, Milk } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 // --- FORM SCHEMA ---
@@ -22,7 +22,26 @@ const formSchema = z.object({
   exerciseMinutes: z.string().min(1, "Daily exercise minutes are required. Enter 0 if none."),
   isHotClimate: z.boolean().default(false),
   pregnancyStatus: z.enum(["none", "pregnant", "lactating"]).default("none"),
+  // OPTIONAL, non-breaking personalisation selectors
+  activityLevel: z.enum(["sedentary", "light", "moderate", "active"]).default("sedentary"),
+  climate: z.enum(["temperate", "warm", "hot"]).default("temperate"),
+  wakingHours: z.string().default("16"),
 });
+
+// Optional activity multipliers applied to the weight-based base requirement.
+const ACTIVITY_FACTORS: Record<string, { factor: number; label: string }> = {
+  sedentary: { factor: 1.0, label: "Sedentary (mostly sitting)" },
+  light: { factor: 1.05, label: "Lightly active" },
+  moderate: { factor: 1.12, label: "Moderately active" },
+  active: { factor: 1.2, label: "Very active / athlete" },
+};
+
+// Optional climate adjustments (added on top of the legacy hot-climate checkbox).
+const CLIMATE_FACTORS: Record<string, { add: number; label: string }> = {
+  temperate: { add: 0, label: "Temperate / mild" },
+  warm: { add: 350, label: "Warm" },
+  hot: { add: 600, label: "Hot / humid" },
+};
 
 type UnitSystem = "metric" | "imperial";
 
@@ -37,6 +56,19 @@ interface CalculationResult {
   glasses: number;
   hourlyOz: number;
   hourlyMl: number;
+  // --- FEATURE 1: personalised adjustment breakdown ---
+  baseMl: number;
+  activityAddMl: number;
+  climateAddMl: number;
+  exerciseAddMl: number;
+  conditionAddMl: number;
+  activityLabel: string;
+  climateLabel: string;
+  // --- FEATURE 2: cups, bottles & schedule ---
+  cups250: number;
+  bottles500: number;
+  wakingHours: number;
+  schedule: { label: string; ml: number; cups: number }[];
 }
 
 // --- VISUAL COMPONENTS ---
@@ -82,6 +114,9 @@ export default function DailyWaterIntakeCalculator() {
       exerciseMinutes: "0",
       isHotClimate: false,
       pregnancyStatus: "none",
+      activityLevel: "sedentary",
+      climate: "temperate",
+      wakingHours: "16",
     },
   });
 
@@ -119,25 +154,41 @@ export default function DailyWaterIntakeCalculator() {
       // 2. Base Calculation (Standard clinical: 35ml per kg of body weight)
       // Cap weight at 150kg for linear scaling to prevent excessive recommendations
       const effectiveWeightKg = Math.min(weightKg, 150);
-      let totalRequirementMl = effectiveWeightKg * 35;
+      const baseMl = effectiveWeightKg * 35;
+      let totalRequirementMl = baseMl;
+
+      // 2b. FEATURE 1 — Activity-level multiplier (optional, non-breaking).
+      // Scales the weight-based base instead of relying on a generic rule.
+      const activityInfo = ACTIVITY_FACTORS[values.activityLevel] ?? ACTIVITY_FACTORS.sedentary;
+      const activityAddMl = baseMl * (activityInfo.factor - 1);
+      totalRequirementMl += activityAddMl;
 
       // 3. Exercise adjustment: Add ~350ml (12oz) per 30 mins of exercise
       const exerciseMins = parseFloat(values.exerciseMinutes) || 0;
-      totalRequirementMl += (exerciseMins / 30) * 350;
+      const exerciseAddMl = (exerciseMins / 30) * 350;
+      totalRequirementMl += exerciseAddMl;
 
-      // 4. Climate adjustment: Add 500ml for hot climate
+      // 4. Climate adjustment.
+      // Legacy hot-climate checkbox (+500ml) is preserved, plus the new optional
+      // climate selector so the total reflects warm/hot conditions explicitly.
+      let climateAddMl = 0;
       if (values.isHotClimate) {
-        totalRequirementMl += 500;
+        climateAddMl += 500;
       }
+      const climateInfo = CLIMATE_FACTORS[values.climate] ?? CLIMATE_FACTORS.temperate;
+      climateAddMl += climateInfo.add;
+      totalRequirementMl += climateAddMl;
 
       // 5. Gender & Condition adjustment
+      let conditionAddMl = 0;
       if (values.gender === "female") {
         if (values.pregnancyStatus === "pregnant") {
-          totalRequirementMl += 300;
+          conditionAddMl += 300;
         } else if (values.pregnancyStatus === "lactating") {
-          totalRequirementMl += 700;
+          conditionAddMl += 700;
         }
       }
+      totalRequirementMl += conditionAddMl;
 
       // 6. Split into Drink vs Food (80% / 20% rule)
       const fluidMl = totalRequirementMl * 0.8;
@@ -153,9 +204,30 @@ export default function DailyWaterIntakeCalculator() {
       // Standard glass = 8 oz or ~240ml
       const glasses = fluidMl / 240;
 
-      // Hourly calculation (assuming 16 awake hours)
-      const hourlyMl = fluidMl / 16;
-      const hourlyOz = fluidOz / 16;
+      // FEATURE 2 — present the drinking goal as cups (250ml) and bottles (500ml)
+      const cups250 = fluidMl / 250;
+      const bottles500 = fluidMl / 500;
+
+      // Hourly calculation across the user's waking hours (defaults to 16)
+      const wakingHoursParsed = parseInt(values.wakingHours, 10);
+      const wakingHours = Math.min(20, Math.max(8, isNaN(wakingHoursParsed) ? 16 : wakingHoursParsed));
+      const hourlyMl = fluidMl / wakingHours;
+      const hourlyOz = fluidOz / wakingHours;
+
+      // FEATURE 2 — build a simple, follow-along drinking schedule.
+      // Spread the drinking goal across waking hours in a few practical blocks.
+      const blocks = [
+        { label: "Wake up", share: 0.12 },
+        { label: "Mid-morning", share: 0.18 },
+        { label: "Lunchtime", share: 0.2 },
+        { label: "Afternoon", share: 0.2 },
+        { label: "Evening", share: 0.18 },
+        { label: "Before bed", share: 0.12 },
+      ];
+      const schedule = blocks.map((b) => {
+        const ml = fluidMl * b.share;
+        return { label: b.label, ml, cups: ml / 250 };
+      });
 
       setResult({
         totalMl: totalRequirementMl,
@@ -166,7 +238,18 @@ export default function DailyWaterIntakeCalculator() {
         foodOz: foodOz,
         glasses: glasses,
         hourlyMl: hourlyMl,
-        hourlyOz: hourlyOz
+        hourlyOz: hourlyOz,
+        baseMl,
+        activityAddMl,
+        climateAddMl,
+        exerciseAddMl,
+        conditionAddMl,
+        activityLabel: activityInfo.label,
+        climateLabel: climateInfo.label,
+        cups250,
+        bottles500,
+        wakingHours,
+        schedule,
       });
       
       setIsLoading(false);
@@ -299,6 +382,77 @@ export default function DailyWaterIntakeCalculator() {
                   <Sun className="w-5 h-5" /> Lifestyle Variables
                 </h4>
                 
+                {/* FEATURE 1 — optional personalisation: activity level & climate */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="activityLevel"
+                    render={({ field }) => (
+                      <FormItem className="rounded-lg border bg-white dark:bg-background p-3">
+                        <FormLabel className="flex items-center gap-2 font-medium text-emerald-700 dark:text-emerald-400">
+                          <Dumbbell className="w-4 h-4" /> Activity Level
+                        </FormLabel>
+                        <FormControl>
+                          <select
+                            value={field.value}
+                            onChange={(e) => field.onChange(e.target.value)}
+                            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          >
+                            <option value="sedentary">Sedentary (mostly sitting)</option>
+                            <option value="light">Lightly active</option>
+                            <option value="moderate">Moderately active</option>
+                            <option value="active">Very active / athlete</option>
+                          </select>
+                        </FormControl>
+                        <p className="mt-1 text-xs text-muted-foreground">Optional — scales your base need by daily movement.</p>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="climate"
+                    render={({ field }) => (
+                      <FormItem className="rounded-lg border bg-white dark:bg-background p-3">
+                        <FormLabel className="flex items-center gap-2 font-medium text-emerald-700 dark:text-emerald-400">
+                          <ThermometerSun className="w-4 h-4" /> Climate
+                        </FormLabel>
+                        <FormControl>
+                          <select
+                            value={field.value}
+                            onChange={(e) => field.onChange(e.target.value)}
+                            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          >
+                            <option value="temperate">Temperate / mild</option>
+                            <option value="warm">Warm (+350 ml)</option>
+                            <option value="hot">Hot / humid (+600 ml)</option>
+                          </select>
+                        </FormControl>
+                        <p className="mt-1 text-xs text-muted-foreground">Optional — adds fluid for sweat loss in heat.</p>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="wakingHours"
+                  render={({ field }) => (
+                    <FormItem className="rounded-lg border bg-white dark:bg-background p-3 md:max-w-xs">
+                      <FormLabel className="flex items-center gap-2 font-medium text-emerald-700 dark:text-emerald-400">
+                        <Clock className="w-4 h-4" /> Waking Hours
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input type="number" min={8} max={20} placeholder="16" className="pr-14" {...field} />
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground font-medium">hrs</span>
+                        </div>
+                      </FormControl>
+                      <p className="mt-1 text-xs text-muted-foreground">Optional — used to pace your hourly schedule.</p>
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={form.control}
                   name="isHotClimate"
@@ -450,7 +604,94 @@ export default function DailyWaterIntakeCalculator() {
                       To prevent bloating and ensure optimal absorption, spread your fluid intake evenly over a typical 16-hour waking day.
                     </p>
                     <p className="text-lg">
-                      Drink roughly <strong className="text-blue-600 dark:text-blue-400">{Math.round(result.hourlyOz)} oz</strong> ({Math.round(result.hourlyMl)} ml) every hour.
+                      Drink roughly <strong className="text-blue-600 dark:text-blue-400">{Math.round(result.hourlyOz)} oz</strong> ({Math.round(result.hourlyMl)} ml) every hour across your {result.wakingHours} waking hours.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* FEATURE 1 — Personalised target breakdown (weight + activity + climate) */}
+              <Card className="md:col-span-3 shadow-sm border-emerald-100">
+                <CardHeader className="bg-emerald-50/50 dark:bg-emerald-950/20 pb-4 border-b">
+                  <CardTitle className="text-lg flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                    <Sliders className="w-5 h-5" />
+                    How Your Target Was Personalised
+                  </CardTitle>
+                  <CardDescription>
+                    Built from your weight, activity and climate — not a generic “8 glasses” rule.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-6 space-y-3">
+                  {[
+                    { label: "Base (35 ml × body weight)", icon: <Droplet className="w-4 h-4 text-blue-500" />, value: result.baseMl, note: "" },
+                    { label: `Activity — ${result.activityLabel}`, icon: <Dumbbell className="w-4 h-4 text-emerald-600" />, value: result.activityAddMl, note: "" },
+                    { label: `Climate — ${result.climateLabel}`, icon: <ThermometerSun className="w-4 h-4 text-orange-500" />, value: result.climateAddMl, note: "" },
+                    { label: "Exercise sessions", icon: <Activity className="w-4 h-4 text-cyan-600" />, value: result.exerciseAddMl, note: "" },
+                    { label: "Pregnancy / breastfeeding", icon: <Utensils className="w-4 h-4 text-pink-500" />, value: result.conditionAddMl, note: "" },
+                  ]
+                    .filter((row) => row.value > 0 || row.label.startsWith("Base"))
+                    .map((row) => (
+                      <div key={row.label} className="flex items-center justify-between gap-3 text-sm border-b last:border-0 border-dashed border-gray-100 dark:border-gray-800 pb-2 last:pb-0">
+                        <span className="flex items-center gap-2 text-muted-foreground">{row.icon}{row.label}</span>
+                        <span className="font-semibold text-slate-800 dark:text-slate-100">
+                          {row.label.startsWith("Base") ? "" : "+"}{Math.round(row.value)} ml
+                        </span>
+                      </div>
+                    ))}
+                  <div className="flex items-center justify-between gap-3 pt-2 border-t">
+                    <span className="font-bold text-emerald-700 dark:text-emerald-400">Personalised daily total</span>
+                    <span className="text-lg font-extrabold text-emerald-700 dark:text-emerald-400">
+                      {Math.round(result.totalMl)} ml
+                      <span className="text-sm font-medium text-muted-foreground"> ({(result.totalMl / 1000).toFixed(1)} L)</span>
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* FEATURE 2 — Cups, bottles & follow-along drinking schedule */}
+              <Card className="md:col-span-3 shadow-sm border-blue-100">
+                <CardHeader className="bg-blue-50/50 dark:bg-blue-950/20 pb-4 border-b">
+                  <CardTitle className="text-lg flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                    <GlassWater className="w-5 h-5" />
+                    Cups, Bottles & Your Drinking Schedule
+                  </CardTitle>
+                  <CardDescription>
+                    Your {(result.fluidMl / 1000).toFixed(1)} L drinking goal made easy to follow.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-6 space-y-6">
+                  {/* Cups & bottles summary */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="rounded-xl border bg-blue-50/40 dark:bg-blue-950/20 p-4 text-center">
+                      <CupSoda className="w-6 h-6 mx-auto text-blue-500 mb-1" />
+                      <p className="text-3xl font-extrabold text-blue-600 dark:text-blue-400">{Math.round(result.cups250)}</p>
+                      <p className="text-xs text-muted-foreground font-medium mt-0.5">cups (250 ml each)</p>
+                    </div>
+                    <div className="rounded-xl border bg-emerald-50/40 dark:bg-emerald-950/20 p-4 text-center">
+                      <Milk className="w-6 h-6 mx-auto text-emerald-600 mb-1" />
+                      <p className="text-3xl font-extrabold text-emerald-700 dark:text-emerald-400">{result.bottles500.toFixed(1)}</p>
+                      <p className="text-xs text-muted-foreground font-medium mt-0.5">bottles (500 ml each)</p>
+                    </div>
+                  </div>
+
+                  {/* Hourly / time-block schedule */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-blue-500" /> Suggested schedule across the day
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {result.schedule.map((slot) => (
+                        <div key={slot.label} className="flex items-center justify-between rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-background px-3 py-2.5">
+                          <div>
+                            <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{slot.label}</p>
+                            <p className="text-xs text-muted-foreground">{Math.round(slot.cups)} cup{Math.round(slot.cups) === 1 ? "" : "s"}</p>
+                          </div>
+                          <span className="text-sm font-bold text-blue-600 dark:text-blue-400">{Math.round(slot.ml)} ml</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      Sip steadily — about {Math.round(result.hourlyMl)} ml every hour — rather than gulping large amounts at once.
                     </p>
                   </div>
                 </CardContent>

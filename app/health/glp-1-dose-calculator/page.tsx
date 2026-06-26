@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ServiceCTA } from "@/components/seo/service-cta"
 import { SourcesSection } from "@/components/seo/sources-section"
 import { RelatedCalculators } from "@/components/seo/related-calculators"
+import { RelatedCalculators as CatalogRelatedCalculators } from "@/components/calculators/related-calculators"
 import {
   FlaskConical,
   CheckCircle2,
@@ -29,6 +30,7 @@ import {
   Pill,
   Scale,
   Zap,
+  Sparkles,
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -122,6 +124,18 @@ export default function GLP1DoseCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net calculates exact syringe units for compounded semaglutide or tirzepatide, concentration-aware with a titration schedule. You get precise dosing and built-in safety checks that help avoid errors.
+              </p>
             </div>
           </div>
         </section>
@@ -706,6 +720,8 @@ export default function GLP1DoseCalculatorPage() {
               />
 
             </div>
+
+            <CatalogRelatedCalculators slug="glp-1-dose-calculator" />
 
             {/* FAQ Section */}
             <div className="mt-12 pt-8 border-t border-slate-100">

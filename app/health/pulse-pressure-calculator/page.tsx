@@ -11,17 +11,19 @@ import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 import {
-  HeartPulse, 
-  Activity, 
-  Stethoscope, 
-  ShieldCheck, 
-  BookOpen, 
-  Calculator as CalculatorIcon, 
-  AlertCircle, 
-  Globe, 
-  Apple, 
-  Dumbbell 
+  HeartPulse,
+  Activity,
+  Stethoscope,
+  ShieldCheck,
+  BookOpen,
+  Calculator as CalculatorIcon,
+  AlertCircle,
+  Globe,
+  Apple,
+  Dumbbell,
+  Sparkles
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -120,6 +122,18 @@ export default function PulsePressureCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net works out your pulse pressure from your systolic and diastolic numbers against recognised vascular standards. You get a narrow/wide classification and what it means for arterial health.
+              </p>
             </div>
           </div>
         </section>
@@ -462,6 +476,8 @@ export default function PulsePressureCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="pulse-pressure-calculator" />
 
             {/* Structured FAQ UI */}
             <div className="mt-12">

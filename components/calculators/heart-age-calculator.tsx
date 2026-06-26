@@ -10,9 +10,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { 
-  Heart, Activity, RefreshCw, Loader2, 
+  Heart, Activity, RefreshCw, Loader2,
   TrendingDown, CheckCircle2, AlertCircle,
-  Stethoscope, Droplets, Flame, User
+  Stethoscope, Droplets, Flame, User, ArrowDownCircle, Sparkles
 } from "lucide-react";
 
 const formSchema = z.object({
@@ -42,15 +42,31 @@ export default function HeartAgeCalculator() {
     setIsLoading(true);
     setTimeout(() => {
       const age = parseInt(values.age);
-      let hAge = age;
-      
-      // Industrial standard weighting
-      if (values.isSmoker === "yes") hAge += 6;
-      if (values.isDiabetic === "yes") hAge += 4;
-      if (parseInt(values.sbp) > 140) hAge += 3;
-      if (parseFloat(values.bmi) > 28) hAge += 2;
       const ratio = parseInt(values.chol) / parseInt(values.hdl);
-      if (ratio > 5) hAge += 3;
+
+      // Industrial standard weighting — each modifiable factor adds years.
+      const smokerYears = values.isSmoker === "yes" ? 6 : 0;
+      const diabeticYears = values.isDiabetic === "yes" ? 4 : 0;
+      const sbpYears = parseInt(values.sbp) > 140 ? 3 : 0;
+      const bmiYears = parseFloat(values.bmi) > 28 ? 2 : 0;
+      const cholYears = ratio > 5 ? 3 : 0;
+
+      const hAge = age + smokerYears + diabeticYears + sbpYears + bmiYears + cholYears;
+
+      // ── FEATURE 2: identify the single biggest MODIFIABLE risk factor and
+      // project the improved heart age after fixing only that one factor. ──
+      const modifiableFactors = [
+        { key: "smoker", years: smokerYears, change: "quitting smoking" },
+        { key: "chol", years: cholYears, change: "lowering your cholesterol ratio below 5" },
+        { key: "sbp", years: sbpYears, change: "getting your systolic blood pressure under 140" },
+        { key: "diabetic", years: diabeticYears, change: "managing your blood sugar (reversing diabetes risk)" },
+        { key: "bmi", years: bmiYears, change: "bringing your BMI under 28" },
+      ];
+      const topFactor = modifiableFactors
+        .filter((f) => f.years > 0)
+        .sort((a, b) => b.years - a.years)[0] || null;
+
+      const projectedHeartAge = topFactor ? hAge - topFactor.years : hAge;
 
       setResult({
         heartAge: hAge,
@@ -58,6 +74,10 @@ export default function HeartAgeCalculator() {
         isAtRisk: hAge > age,
         diff: hAge - age,
         ratio: ratio.toFixed(1),
+        // Feature 2 payload
+        topFactorChange: topFactor ? topFactor.change : null,
+        topFactorYears: topFactor ? topFactor.years : 0,
+        projectedHeartAge,
         impacts: [
           { name: "Blood Pressure", status: parseInt(values.sbp) > 130 ? "High" : "Good", icon: Stethoscope },
           { name: "Cholesterol", status: ratio > 4.5 ? "Warning" : "Good", icon: Droplets },
@@ -221,6 +241,101 @@ export default function HeartAgeCalculator() {
                 </div>
               </div>
             </div>
+          </Card>
+        )}
+
+        {/* ── FEATURE 1: HEADLINE HEART-AGE GAP MESSAGE ───────────────────────── */}
+        {result && (
+          <Card
+            className={`max-w-4xl mx-auto mt-6 border shadow-md rounded-xl ${
+              result.diff > 0 ? "border-orange-200" : "border-emerald-200"
+            }`}
+          >
+            <CardContent
+              className={`p-6 md:p-8 flex items-start gap-4 ${
+                result.diff > 0 ? "bg-orange-50/60" : "bg-emerald-50/60"
+              }`}
+            >
+              <div
+                className={`p-2.5 rounded-xl flex-shrink-0 ${
+                  result.diff > 0 ? "bg-orange-100" : "bg-emerald-100"
+                }`}
+              >
+                <Heart
+                  className={`w-6 h-6 ${
+                    result.diff > 0
+                      ? result.diff >= 10
+                        ? "text-red-600 fill-red-600"
+                        : "text-orange-600 fill-orange-600"
+                      : "text-emerald-600 fill-emerald-600"
+                  }`}
+                />
+              </div>
+              <div>
+                <h3
+                  className={`text-xl md:text-2xl font-black leading-tight ${
+                    result.diff > 0
+                      ? result.diff >= 10
+                        ? "text-red-700"
+                        : "text-orange-700"
+                      : "text-emerald-700"
+                  }`}
+                >
+                  {result.diff > 0
+                    ? `Your heart is ${result.diff} ${result.diff === 1 ? "year" : "years"} older than you`
+                    : result.diff < 0
+                    ? `Your heart is ${Math.abs(result.diff)} ${Math.abs(result.diff) === 1 ? "year" : "years"} younger than you`
+                    : "Your heart age matches your real age"}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
+                  Your heart age is{" "}
+                  <strong className="text-slate-800">{result.heartAge}</strong> versus your real age of{" "}
+                  <strong className="text-slate-800">{result.actualAge}</strong>.{" "}
+                  {result.diff > 0
+                    ? "The gap reflects modifiable risk factors you can act on — the good news is that heart age can fall again."
+                    : "Keep up your healthy habits to maintain this advantage."}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── FEATURE 2: PROJECTED HEART AGE AFTER FIXING BIGGEST RISK FACTOR ──── */}
+        {result && result.topFactorChange && (
+          <Card className="max-w-4xl mx-auto mt-6 border border-emerald-200 shadow-md rounded-xl">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex items-center gap-2 mb-1">
+                <Sparkles className="w-5 h-5 text-emerald-700" />
+                <h3 className="text-base font-bold text-emerald-700">Your Biggest Single Win</h3>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                The one change that lowers your heart age the most is{" "}
+                <strong className="text-emerald-700">{result.topFactorChange}</strong>. Doing that alone could cut
+                roughly <strong className="text-emerald-700">{result.topFactorYears} {result.topFactorYears === 1 ? "year" : "years"}</strong>{" "}
+                off your heart age.
+              </p>
+
+              <div className="grid grid-cols-3 gap-3 mt-5 items-center">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
+                  <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Now</p>
+                  <p className="text-2xl md:text-3xl font-black text-slate-800 mt-1">{result.heartAge}</p>
+                </div>
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center">
+                  <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                    <ArrowDownCircle className="w-3.5 h-3.5" /> Save
+                  </div>
+                  <p className="text-2xl md:text-3xl font-black text-emerald-700 mt-1">−{result.topFactorYears}</p>
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
+                  <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Projected</p>
+                  <p className="text-2xl md:text-3xl font-black text-emerald-700 mt-1">{result.projectedHeartAge}</p>
+                </div>
+              </div>
+              <p className="text-[11px] text-slate-400 mt-4 leading-relaxed">
+                Projection assumes you fully address this one factor while everything else stays the same. It is a
+                motivating estimate based on validated risk weightings, not a medical prediction.
+              </p>
+            </CardContent>
           </Card>
         )}
       </div>

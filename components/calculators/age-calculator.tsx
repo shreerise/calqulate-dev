@@ -18,9 +18,10 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { 
-  Calculator, RefreshCw, Loader2, CalendarDays, Clock, PartyPopper, 
-  Star, Hourglass, Save, History, ChevronRight, Award, AlertCircle, 
-  Brain, ArrowRight, CheckCircle2, BarChart3, HelpCircle 
+  Calculator, RefreshCw, Loader2, CalendarDays, Clock, PartyPopper,
+  Star, Hourglass, Save, History, ChevronRight, Award, AlertCircle,
+  Brain, ArrowRight, CheckCircle2, BarChart3, HelpCircle,
+  Flag, Share2, Sparkles, Users
 } from "lucide-react";
 
 // ─── FORM SCHEMA ──────────────────────────────────────────────────────────────
@@ -67,6 +68,23 @@ interface AgeResult {
   zodiac: string;
   birthstone: string;
   dayBorn: string;
+  // FEATURE 1 — full unit breakdown + next milestone countdown
+  breakdown: {
+    years: number;
+    months: number;
+    weeks: number;
+    days: number;
+    hours: number;
+  };
+  nextMilestone: {
+    label: string;
+    targetDays: number;
+    daysAway: number;
+    date: string;
+    weekday: string;
+  };
+  // FEATURE 2 — shareable life summary
+  generation: string;
 }
 
 // ─── HELPER FUNCTIONS ─────────────────────────────────────────────────────────
@@ -165,6 +183,71 @@ function getAgeFact(years: number): string {
     return "Cognitive Science: During your 20s, your brain's prefrontal cortex completes its baseline structural consolidation, enhancing logic modeling and long-term planning.";
   }
   return "Longevity Insight: Research indicates that life contentment and emotional resilience consistently grow over time, typically peaking during later mature decades.";
+}
+
+// ─── FEATURE 2: GENERATION NAME FROM BIRTH YEAR ───────────────────────────────
+function getGeneration(birthYear: number): string {
+  if (birthYear >= 2013) return "Generation Alpha";
+  if (birthYear >= 1997) return "Gen Z";
+  if (birthYear >= 1981) return "Millennial (Gen Y)";
+  if (birthYear >= 1965) return "Gen X";
+  if (birthYear >= 1946) return "Baby Boomer";
+  if (birthYear >= 1928) return "Silent Generation";
+  return "Greatest Generation";
+}
+
+// ─── FEATURE 1: NEXT MEANINGFUL MILESTONE ─────────────────────────────────────
+// Picks whichever comes first: the next birthday or the next round-number
+// "days lived" milestone (1,000 / 5,000 / 10,000 / 20,000 / 25,000 …).
+function getNextMilestone(
+  birthDate: Date,
+  targetDate: Date,
+  totalDays: number,
+  nextBday: Date,
+): { label: string; targetDays: number; daysAway: number; date: string; weekday: string } {
+  const roundMilestones = [
+    1000, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000,
+  ];
+  const nextRound = roundMilestones.find((m) => m > totalDays);
+
+  const fmtDate = (d: Date) =>
+    d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  const fmtWeekday = (d: Date) => d.toLocaleDateString("en-US", { weekday: "long" });
+
+  // Candidate A — next birthday
+  const bdayDaysAway = differenceInDays(nextBday, targetDate);
+  const bdayAge = nextBday.getFullYear() - birthDate.getFullYear();
+  const birthdayCandidate = {
+    label: `Your ${bdayAge}${ordinalSuffix(bdayAge)} birthday`,
+    targetDays: totalDays + bdayDaysAway,
+    daysAway: bdayDaysAway,
+    date: fmtDate(nextBday),
+    weekday: fmtWeekday(nextBday),
+  };
+
+  // Candidate B — next round-number day milestone
+  if (nextRound) {
+    const roundDaysAway = nextRound - totalDays;
+    const roundDate = new Date(targetDate);
+    roundDate.setDate(roundDate.getDate() + roundDaysAway);
+    const roundCandidate = {
+      label: `Your ${nextRound.toLocaleString()}th day alive`,
+      targetDays: nextRound,
+      daysAway: roundDaysAway,
+      date: fmtDate(roundDate),
+      weekday: fmtWeekday(roundDate),
+    };
+    // Return whichever milestone is sooner
+    return roundCandidate.daysAway < birthdayCandidate.daysAway ? roundCandidate : birthdayCandidate;
+  }
+
+  return birthdayCandidate;
+}
+
+function ordinalSuffix(n: number): string {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return s[(v - 20) % 10] || s[v] || s[0];
 }
 
 // ─── PROGRESS CARD COMPONENT ──────────────────────────────────────────────────
@@ -366,6 +449,26 @@ export default function AgeCalculator() {
       const zodiac = getZodiacSign(birthDate.getDate(), birthDate.getMonth());
       const birthstone = getBirthstone(birthDate.getMonth());
 
+      // FEATURE 1 — granular Y/M/W/D/H breakdown of the residual age
+      // (years + months come from the exact calendar diff above; we add the
+      //  leftover "days" expressed as whole weeks + remaining days + hours.)
+      const breakdownWeeks = Math.floor(days / 7);
+      const breakdownDays = days % 7;
+      const breakdownHours = totalHours % 24;
+      const breakdown = {
+        years,
+        months,
+        weeks: breakdownWeeks,
+        days: breakdownDays,
+        hours: breakdownHours,
+      };
+
+      // FEATURE 1 — next meaningful milestone (birthday or round-number day)
+      const nextMilestone = getNextMilestone(birthDate, targetDate, totalDays, nextBday);
+
+      // FEATURE 2 — generation name from birth year
+      const generation = getGeneration(birthDate.getFullYear());
+
       setResult({
         years,
         months,
@@ -384,6 +487,9 @@ export default function AgeCalculator() {
         zodiac,
         birthstone,
         dayBorn: weekdayBorn,
+        breakdown,
+        nextMilestone,
+        generation,
       });
 
       setIsLoading(false);
@@ -613,6 +719,124 @@ export default function AgeCalculator() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* FEATURE 1 — DETAILED BREAKDOWN + NEXT MILESTONE COUNTDOWN */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Hourglass className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Your Age, Down to the Hour</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  The same age expressed as years, months, weeks, days and hours — then a live countdown to your next meaningful milestone.
+                </p>
+
+                {/* Y / M / W / D / H breakdown */}
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-5">
+                  {[
+                    { label: "Years", value: result.breakdown.years },
+                    { label: "Months", value: result.breakdown.months },
+                    { label: "Weeks", value: result.breakdown.weeks },
+                    { label: "Days", value: result.breakdown.days },
+                    { label: "Hours", value: result.breakdown.hours },
+                  ].map((b) => (
+                    <div
+                      key={b.label}
+                      className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-4 text-center"
+                    >
+                      <p className="text-2xl font-black tabular-nums text-emerald-700 leading-none">
+                        {b.value}
+                      </p>
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mt-1">
+                        {b.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Next milestone countdown */}
+                <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-emerald-100 flex-shrink-0">
+                      <Flag className="w-5 h-5 text-emerald-700" />
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-emerald-700 font-bold">
+                        Next milestone
+                      </p>
+                      <p className="text-base font-bold text-slate-900 dark:text-slate-100">
+                        {result.nextMilestone.label}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {result.nextMilestone.date} ({result.nextMilestone.weekday})
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-center sm:text-right">
+                    <p className="text-3xl font-black tabular-nums text-emerald-700 leading-none">
+                      {result.nextMilestone.daysAway.toLocaleString()}
+                    </p>
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mt-1">
+                      days to go
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — SHAREABLE LIFE SUMMARY */}
+            <Card className="border shadow-md overflow-hidden">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Sparkles className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Your Shareable Life Summary</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  A few standout facts about your life so far — perfect for bookmarking and sharing.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <Clock className="w-5 h-5 text-emerald-700 mx-auto mb-2" />
+                    <p className="text-2xl font-black tabular-nums text-slate-800 dark:text-slate-100 leading-none">
+                      {result.totalWeeks.toLocaleString()}
+                    </p>
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mt-1">
+                      Weeks lived
+                    </p>
+                  </div>
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <Users className="w-5 h-5 text-emerald-700 mx-auto mb-2" />
+                    <p className="text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">
+                      {result.generation}
+                    </p>
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mt-1">
+                      Your generation
+                    </p>
+                  </div>
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <CalendarDays className="w-5 h-5 text-emerald-700 mx-auto mb-2" />
+                    <p className="text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">
+                      {result.dayBorn}
+                    </p>
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mt-1">
+                      Day you were born
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-5 rounded-xl bg-emerald-50 border border-emerald-100 p-4 flex items-start gap-2.5">
+                  <Share2 className="w-4 h-4 text-emerald-700 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-slate-700 leading-relaxed">
+                    <strong className="text-emerald-700">In a sentence:</strong> You were born on a{" "}
+                    <strong>{result.dayBorn}</strong>, you belong to the{" "}
+                    <strong>{result.generation}</strong> cohort, and you have already lived{" "}
+                    <strong>{result.totalWeeks.toLocaleString()} weeks</strong> — about{" "}
+                    <strong>{result.totalDays.toLocaleString()} days</strong>. Save your result and check back to watch the numbers climb.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Time Alive Stats */}
             <Card>

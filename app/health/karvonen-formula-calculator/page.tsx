@@ -9,8 +9,9 @@ import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-sectio
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { AuthorSection } from "@/components/seo/author-section"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Calculator, HeartPulse, CheckCircle, Target, BarChart, Users, Globe, BookOpen, Award, Flame, TrendingUp, Zap , Stethoscope } from "lucide-react"
+import { Calculator, HeartPulse, CheckCircle, Target, BarChart, Users, Globe, BookOpen, Award, Flame, TrendingUp, Zap , Stethoscope, Sparkles } from "lucide-react"
 import Link from "next/link"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "Karvonen Formula Calculator: Find Your Ideal Heart Rate",
@@ -118,6 +119,18 @@ export default function KarvonenCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net finds your target heart-rate zones using heart-rate reserve and your resting rate. You get truly personalised zones with clear intensity guidance.
+              </p>
             </div>
           </div>
         </section>
@@ -345,7 +358,9 @@ export default function KarvonenCalculatorPage() {
               </section>
 
             </div>
-                    
+
+            <RelatedCalculators slug="karvonen-formula-calculator" />
+
             <FAQSection faqs={faqs} />
             <p className="text-sm text-muted-foreground text-center mt-12">
               Curious about your body shape's impact on health? Try our{" "}

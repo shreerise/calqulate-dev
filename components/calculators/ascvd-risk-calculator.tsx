@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, RefreshCw, Loader2, Info, Activity, HeartPulse, ArrowRight, CheckCircle2, History, ChevronRight, TrendingUp, AlertCircle } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Info, Activity, HeartPulse, ArrowRight, CheckCircle2, History, ChevronRight, TrendingUp, AlertCircle, Heart, Sparkles, TrendingDown } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // --- FORM SCHEMA ---
@@ -43,6 +43,15 @@ interface ResultData {
   riskColor: string;
   recommendation: string;
   drivers: string[]; // What is driving the risk up?
+  // FEATURE 1 — heart-age equivalent
+  heartAge: number; // age of an "ideal" person carrying the same 10-year risk
+  chronoAge: number; // the user's actual age, for comparison
+  // FEATURE 2 — single biggest modifiable change
+  topChange: {
+    label: string; // e.g. "Stop smoking"
+    projectedScore: number; // new 10-year risk after that one change
+    reduction: number; // percentage points removed
+  } | null;
 }
 
 interface SavedEntry {
@@ -246,15 +255,35 @@ export default function AscvdRiskCalculator() {
     if (isSmoker) baseRisk += 4;
     if (isDiabetic) baseRisk += 3;
     if (isTreated) baseRisk += 1;
-    
+
     const ageFactor = (age - 40) * 0.25;
     const cholFactor = (totChol - 170) * 0.04;
-    const hdlFactor = (50 - hdl) * 0.08; 
+    const hdlFactor = (50 - hdl) * 0.08;
     const bpFactor = (sbp - 110) * 0.08;
 
     let approximateScore = baseRisk + ageFactor + cholFactor + hdlFactor + bpFactor;
     if (approximateScore < 0.1) approximateScore = 0.5;
     let risk = Math.min(99, Math.max(0.1, approximateScore));
+
+    // Reusable scorer (mirrors the formula above exactly) so we can re-run the
+    // calculation under a single hypothetical change without altering anything.
+    const scoreFor = (o: {
+      smoker: boolean; diabetic: boolean; treated: boolean;
+      totChol: number; hdl: number; sbp: number;
+    }) => {
+      let b = 0;
+      if (data.gender === 'male') b += 2;
+      if (data.race === 'african_american') b += 1;
+      if (o.smoker) b += 4;
+      if (o.diabetic) b += 3;
+      if (o.treated) b += 1;
+      const chol = (o.totChol - 170) * 0.04;
+      const hdlF = (50 - o.hdl) * 0.08;
+      const bp = (o.sbp - 110) * 0.08;
+      let s = b + ageFactor + chol + hdlF + bp;
+      if (s < 0.1) s = 0.5;
+      return Number(Math.min(99, Math.max(0.1, s)).toFixed(1));
+    };
 
     // 2. Calculate "Optimal" Risk (Best possible score for this Age/Gender)
     // Optimal: No smoke, no diabetes, ideal BP (110), ideal Chol (170), ideal HDL (50+)
@@ -292,13 +321,44 @@ export default function AscvdRiskCalculator() {
         recommendation = "You are at borderline risk. Lifestyle improvements can help prevent this from rising.";
     }
 
+    // 5. FEATURE 1 — Heart-age equivalent.
+    // Find the age at which an otherwise-ideal profile (no smoke/diabetes, ideal
+    // BP/chol/HDL) would carry the SAME 10-year risk as this person. Reuses the
+    // same age weighting (0.25 pts/yr) used everywhere above.
+    const idealBase =
+      (data.gender === 'male' ? 2 : 0) + (data.race === 'african_american' ? 1 : 0);
+    const risk1 = Number(risk.toFixed(1));
+    let heartAge = Math.round(40 + (risk1 - idealBase) / 0.25);
+    if (!Number.isFinite(heartAge) || heartAge < age) heartAge = age;
+
+    // 6. FEATURE 2 — Single biggest modifiable change.
+    // Re-run the score with one factor swapped to its ideal value and keep the
+    // change that drops the 10-year risk the most.
+    const baseline = { smoker: isSmoker, diabetic: isDiabetic, treated: isTreated, totChol, hdl, sbp };
+    const candidates: { label: string; projectedScore: number }[] = [];
+    if (isSmoker) candidates.push({ label: "Stop smoking", projectedScore: scoreFor({ ...baseline, smoker: false }) });
+    if (sbp > 120) candidates.push({ label: `Lower systolic BP to 120 mmHg`, projectedScore: scoreFor({ ...baseline, sbp: 120 }) });
+    if (totChol > 170) candidates.push({ label: `Lower total cholesterol to 170 mg/dL`, projectedScore: scoreFor({ ...baseline, totChol: 170 }) });
+    if (hdl < 60) candidates.push({ label: `Raise HDL ("good" cholesterol) to 60 mg/dL`, projectedScore: scoreFor({ ...baseline, hdl: 60 }) });
+
+    let topChange: ResultData["topChange"] = null;
+    for (const c of candidates) {
+      const reduction = Number((risk1 - c.projectedScore).toFixed(1));
+      if (reduction > 0 && (!topChange || reduction > topChange.reduction)) {
+        topChange = { label: c.label, projectedScore: c.projectedScore, reduction };
+      }
+    }
+
     return {
         score: Number(risk.toFixed(1)),
         optimalScore: Number(optimalRisk.toFixed(1)),
         riskCategory,
         riskColor,
         recommendation,
-        drivers
+        drivers,
+        heartAge,
+        chronoAge: age,
+        topChange
     };
   };
 
@@ -605,6 +665,101 @@ export default function AscvdRiskCalculator() {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* FEATURE 1 — HEART AGE EQUIVALENT ─────────────────────────────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Heart className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Your Heart Age</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  A 10-year risk of{" "}
+                  <span className={`font-bold ${result.riskColor}`}>{result.score}%</span> is the same risk an
+                  ideal-health person would carry at age{" "}
+                  <span className="font-bold text-emerald-700">{result.heartAge}</span>
+                  {result.heartAge > result.chronoAge ? (
+                    <>
+                      {" "}— that&apos;s{" "}
+                      <span className="font-bold text-red-600">
+                        {result.heartAge - result.chronoAge} year{result.heartAge - result.chronoAge === 1 ? "" : "s"} older
+                      </span>{" "}
+                      than your actual age of {result.chronoAge}.
+                    </>
+                  ) : (
+                    <>
+                      {" "}— right in line with your actual age of {result.chronoAge}. Nicely done.
+                    </>
+                  )}
+                </p>
+                <div className="grid grid-cols-2 gap-3 mt-5">
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Actual age</p>
+                    <p className="text-2xl font-black text-slate-800 dark:text-slate-100 mt-1">{result.chronoAge}</p>
+                  </div>
+                  <div
+                    className={`rounded-xl border p-4 text-center ${
+                      result.heartAge > result.chronoAge
+                        ? "border-red-200 bg-red-50 dark:bg-red-950/30"
+                        : "border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30"
+                    }`}
+                  >
+                    <p className="text-[11px] uppercase tracking-wider font-bold text-gray-500">Heart age</p>
+                    <p
+                      className={`text-2xl font-black mt-1 ${
+                        result.heartAge > result.chronoAge ? "text-red-600" : "text-emerald-700"
+                      }`}
+                    >
+                      {result.heartAge}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Heart age translates your 10-year risk into the age of an otherwise-ideal heart. It is an
+                  educational illustration, not a diagnosis.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — SINGLE BIGGEST CHANGE ────────────────────────────── */}
+            {result.topChange && (
+              <Card className="border shadow-md">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Sparkles className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-base font-bold">Your Single Biggest Win</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Of the factors you can change, the one that lowers your risk the most is{" "}
+                    <span className="font-bold text-emerald-700">{result.topChange.label}</span>. On its own, that
+                    would cut your 10-year risk by about{" "}
+                    <span className="font-bold text-emerald-700">{result.topChange.reduction} points</span> — from{" "}
+                    <span className={`font-bold ${result.riskColor}`}>{result.score}%</span> down to roughly{" "}
+                    <span className="font-bold text-emerald-700">{result.topChange.projectedScore}%</span>.
+                  </p>
+                  <div className="grid grid-cols-3 gap-3 mt-5">
+                    <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Now</p>
+                      <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.score}%</p>
+                    </div>
+                    <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                      <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                        <TrendingDown className="w-3.5 h-3.5" /> Cut
+                      </div>
+                      <p className="text-lg font-black text-emerald-700 mt-1">{result.topChange.reduction} pts</p>
+                    </div>
+                    <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">After</p>
+                      <p className="text-lg font-black text-emerald-700 mt-1">{result.topChange.projectedScore}%</p>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                    Projection isolates a single change while holding everything else constant. Real-world results
+                    vary — discuss any treatment plan with your doctor.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
 
             <div className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-[1fr_auto] items-start">

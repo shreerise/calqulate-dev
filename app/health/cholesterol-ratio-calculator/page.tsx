@@ -6,7 +6,8 @@ import { Footer } from "@/components/layout/footer"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
-import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIcon, Droplets , Stethoscope } from "lucide-react"
+import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIcon, Droplets , Stethoscope, Sparkles } from "lucide-react"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
@@ -98,6 +99,18 @@ export default function CholesterolCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net computes your TC/HDL, LDL/HDL and TG/HDL ratios from your lipid numbers against recognised cardiac standards. You get colour-coded results that pinpoint the one ratio to fix.
+              </p>
             </div>
           </div>
         </section>
@@ -348,6 +361,8 @@ export default function CholesterolCalculatorPage() {
                 </Card>
               </section>
             </div>
+
+            <RelatedCalculators slug="cholesterol-ratio-calculator" />
 
             {/* Structured FAQ UI */}
             <div className="mt-12">

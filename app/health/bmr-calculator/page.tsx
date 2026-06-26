@@ -31,8 +31,10 @@ import {
   Thermometer,
   Star,
   Stethoscope,
+  Sparkles,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "BMR Calculator: Basal Metabolic Rate & Calories Burned at Rest",
@@ -272,6 +274,18 @@ export default function BMRCalculatorPage() {
                 <span className="font-semibold text-slate-700">4.8</span>
                 <span className="text-slate-400">(2,847 ratings)</span>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net finds the calories you burn at rest using both the Mifflin-St Jeor and Harris-Benedict formulas for accuracy. You get a reliable BMR plus practical daily calorie targets.
+              </p>
             </div>
           </div>
         </section>
@@ -901,6 +915,8 @@ export default function BMRCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="bmr-calculator" />
 
             {/* Structured FAQ UI */}
             <div className="mt-12">

@@ -20,7 +20,9 @@ import {
   Baby,
   Activity,
   Stethoscope,
+  Sparkles,
 } from "lucide-react"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
@@ -122,6 +124,18 @@ export default function OvulationCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net predicts your fertile window and ovulation day from your cycle, accurate for regular and irregular/PCOS cycles. You get your peak conception days on a clear calendar.
+              </p>
             </div>
           </div>
         </section>
@@ -534,6 +548,8 @@ export default function OvulationCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="ovulation-calculator" />
 
             {/* FAQ Section */}
             <div className="mt-12">

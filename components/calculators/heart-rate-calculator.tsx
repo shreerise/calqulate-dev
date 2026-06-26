@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Activity, Heart, Flame, Zap, Timer, Info } from "lucide-react"
+import { Activity, Heart, Flame, Zap, Timer, Info, Dumbbell, Target } from "lucide-react"
 
 // Define validation schema
 const formSchema = z.object({
@@ -27,6 +27,12 @@ interface ZoneResult {
   description: string;
   color: string;
   icon: React.ElementType;
+  // ── Additive: intensity bracket (% of HRmax / HRR) for this zone ──
+  intensity: string;
+  // ── Additive: concrete example workouts for training in this zone ──
+  workouts: string;
+  // ── Additive: flags the Zone 2 fat-burning range ──
+  fatBurn?: boolean;
 }
 
 // Define interface for results state
@@ -95,7 +101,9 @@ export default function HeartRateCalculator() {
         range: `${getBpm(0.50)} - ${getBpm(0.60)} bpm`,
         description: "Very light effort. Improves overall health and helps recovery.",
         color: "bg-gray-100 text-gray-700 border-gray-200",
-        icon: Activity
+        icon: Activity,
+        intensity: "50-60%",
+        workouts: "Easy walking, gentle stretching, foam rolling, light yoga, cool-downs.",
       },
       {
         zone: 2,
@@ -103,7 +111,10 @@ export default function HeartRateCalculator() {
         range: `${getBpm(0.60) + 1} - ${getBpm(0.70)} bpm`,
         description: "Light effort. Best for burning fat and building basic endurance.",
         color: "bg-blue-50 text-blue-700 border-blue-200",
-        icon: Flame
+        icon: Flame,
+        intensity: "60-70%",
+        workouts: "Easy jog, brisk walk, steady cycling, long conversational runs, hiking.",
+        fatBurn: true,
       },
       {
         zone: 3,
@@ -111,7 +122,9 @@ export default function HeartRateCalculator() {
         range: `${getBpm(0.70) + 1} - ${getBpm(0.80)} bpm`,
         description: "Moderate effort. Improves aerobic fitness and blood circulation.",
         color: "bg-green-50 text-green-700 border-green-200",
-        icon: Heart
+        icon: Heart,
+        intensity: "70-80%",
+        workouts: "Steady-state runs, group cardio classes, moderate cycling, swimming laps.",
       },
       {
         zone: 4,
@@ -119,7 +132,9 @@ export default function HeartRateCalculator() {
         range: `${getBpm(0.80) + 1} - ${getBpm(0.90)} bpm`,
         description: "Hard effort. Increases speed and lactate tolerance.",
         color: "bg-orange-50 text-orange-700 border-orange-200",
-        icon: Timer
+        icon: Timer,
+        intensity: "80-90%",
+        workouts: "Tempo intervals, threshold runs, hill repeats, hard spin intervals.",
       },
       {
         zone: 5,
@@ -127,7 +142,9 @@ export default function HeartRateCalculator() {
         range: `${getBpm(0.90) + 1} - ${mhr} bpm`,
         description: "Maximum effort. Develops peak performance and speed.",
         color: "bg-red-50 text-red-700 border-red-200",
-        icon: Zap
+        icon: Zap,
+        intensity: "90-100%",
+        workouts: "All-out sprints, short HIIT bursts, max-effort hill sprints, race finishes.",
       }
     ]
 
@@ -279,6 +296,96 @@ export default function HeartRateCalculator() {
                     </div>
                   ))}
                 </div>
+
+                {/* ── FEATURE 1: Personalised Karvonen Training Zones ────────────── */}
+                <Card className="border-emerald-100 bg-emerald-50/40 rounded-xl shadow-sm">
+                  <CardContent className="p-5 md:p-6 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <Target className="h-5 w-5 text-emerald-700" />
+                      <h3 className="text-base font-bold text-slate-800">Your Personalised Training Zones</h3>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {results.methodUsed === "Karvonen (HRR)" ? (
+                        <>
+                          These brackets use the <strong className="text-emerald-700">Karvonen method</strong>, blending your
+                          maximum heart rate with your resting rate (Heart Rate Reserve ={" "}
+                          <strong>{results.heartRateReserve} bpm</strong>) for zones tailored to your fitness level.
+                        </>
+                      ) : (
+                        <>
+                          These brackets use standard <strong className="text-emerald-700">% of max heart rate</strong>. Add
+                          your <strong>resting heart rate</strong> above to unlock the more precise Karvonen method.
+                        </>
+                      )}
+                    </p>
+
+                    <div className="space-y-2">
+                      {results.zones.map((zone) => (
+                        <div
+                          key={zone.zone}
+                          className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-2 ${
+                            zone.fatBurn
+                              ? "border-emerald-300 bg-emerald-100/70 ring-1 ring-emerald-200"
+                              : "border-slate-200 bg-white"
+                          }`}
+                        >
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-slate-800 flex items-center gap-1.5 flex-wrap">
+                              Zone {zone.zone}
+                              <span className="text-xs font-normal text-slate-500">· {zone.intensity} intensity</span>
+                              {zone.fatBurn && (
+                                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                                  <Flame className="h-3 w-3" /> Fat-Burning Zone
+                                </span>
+                              )}
+                            </p>
+                          </div>
+                          <span className="shrink-0 rounded-md bg-slate-900 px-2.5 py-1 text-xs font-bold text-white">
+                            {zone.range}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Spend most of your easy training in <strong className="text-emerald-700">Zone 2 (~60-70% HRR)</strong> —
+                      this is the fat-burning, aerobic-base range where your body uses fat most efficiently as fuel.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* ── FEATURE 2: Example Workouts For Each Zone ──────────────────── */}
+                <Card className="border-slate-200 rounded-xl shadow-sm">
+                  <CardContent className="p-5 md:p-6 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <Dumbbell className="h-5 w-5 text-emerald-700" />
+                      <h3 className="text-base font-bold text-slate-800">How To Train In Each Zone</h3>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Concrete workout ideas so you know exactly how to hit each heart-rate bracket.
+                    </p>
+                    <div className="space-y-2">
+                      {results.zones.map((zone) => (
+                        <div
+                          key={zone.zone}
+                          className={`flex items-start gap-3 rounded-lg border p-3 ${zone.color}`}
+                        >
+                          <div className="p-1.5 bg-white bg-opacity-60 rounded-full shrink-0">
+                            <zone.icon className="h-4 w-4 opacity-80" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-bold">
+                              Zone {zone.zone}: {zone.name}{" "}
+                              <span className="text-xs font-normal opacity-80">({zone.range})</span>
+                            </p>
+                            <p className="text-xs opacity-90 mt-0.5">
+                              <strong>Try:</strong> {zone.workouts}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-slate-400 min-h-[300px] border-2 border-dashed border-slate-200 rounded-xl">

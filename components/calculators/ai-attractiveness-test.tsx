@@ -1067,6 +1067,12 @@ function ResultStep({
         </div>
       </div>
 
+      {/* USP #1 — FEATURE-BY-FEATURE BREAKDOWN ─────────────────────────── */}
+      <FeatureBreakdownCard result={result} />
+
+      {/* USP #2 — WHAT THIS CAN & CAN'T MEASURE ────────────────────────── */}
+      <MeasureScopeCard />
+
       {/* SHAPE + RECOMMENDATIONS */}
       <div className="grid md:grid-cols-2 gap-4">
         <Card className="border-purple-200/60">
@@ -1211,6 +1217,137 @@ function RecBlock({
         {items.map((s, i) => <li key={i}>{s}</li>)}
       </ul>
     </div>
+  )
+}
+
+/* ── USP #1: Feature-by-feature breakdown ────────────────────────────────────
+   Reuses the sub-scores the calculator already derives and presents each one as
+   a labelled component of the overall harmony score — with its own bar and its
+   weighted contribution — so feedback feels specific and fair rather than a
+   single opaque number. */
+function FeatureBreakdownCard({ result }: { result: AnalysisResult }) {
+  const weightSum = result.metrics.reduce((a, m) => a + m.weight, 0)
+  // Each metric's share of the overall score (its weighted points out of 100).
+  const rows = result.metrics
+    .map((m) => ({
+      key: m.key,
+      label: m.label,
+      score: Math.round(m.score),
+      contribution: (m.score * m.weight) / weightSum, // points toward overall
+      sharePct: Math.round(((m.weight) / weightSum) * 100), // weight share
+    }))
+    .sort((a, b) => b.score - a.score)
+
+  return (
+    <Card className="border shadow-md">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base flex items-center gap-2">
+          <Activity className="h-4 w-4 text-emerald-700" />
+          Feature-by-Feature Breakdown
+        </CardTitle>
+        <CardDescription className="text-sm">
+          Your overall harmony score of{" "}
+          <span className="font-semibold text-emerald-700">{result.overall}</span> isn&apos;t one
+          guess — it&apos;s built from these {result.metrics.length} measured components. Stronger
+          features sit at the top so you can see exactly what lifts or lowers the result.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {rows.map((r) => {
+          const color =
+            r.score >= 80 ? "from-emerald-400 to-emerald-600"
+            : r.score >= 60 ? "from-amber-400 to-orange-500"
+            : "from-rose-400 to-rose-600"
+          return (
+            <div key={r.key}>
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-medium text-slate-700 dark:text-slate-200">{r.label}</span>
+                <span className="tabular-nums font-bold text-slate-800 dark:text-slate-100">
+                  {r.score}
+                  <span className="ml-1 text-[11px] font-normal text-muted-foreground">
+                    · {r.sharePct}% of score
+                  </span>
+                </span>
+              </div>
+              <div className="mt-1.5 h-2 rounded-full bg-muted overflow-hidden">
+                <div
+                  className={`h-full rounded-full bg-gradient-to-r ${color} transition-all duration-700`}
+                  style={{ width: `${r.score}%` }}
+                />
+              </div>
+            </div>
+          )
+        })}
+        <p className="text-[11px] text-muted-foreground leading-relaxed pt-1">
+          Each component is weighted by how strongly research links it to overall facial harmony,
+          then blended into the single score above — a transparent breakdown, never a black box.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
+/* ── USP #2: What this can & can't measure ───────────────────────────────────
+   An honest trust-building disclaimer: it measures geometric ratios & symmetry,
+   not real-world attractiveness, worth, or health. */
+function MeasureScopeCard() {
+  const can = [
+    "Geometric ratios (golden ratio, facial thirds & fifths)",
+    "Left/right symmetry of paired landmarks",
+    "Proportions like eye spacing, jaw angle and lip balance",
+    "Your face shape and photogenic styling tips",
+  ]
+  const cannot = [
+    "Whether you are attractive — beauty is subjective & cultural",
+    "Your worth, confidence, charisma or personality",
+    "Anything about your health or wellbeing",
+    "How a real person will actually perceive you",
+  ]
+  return (
+    <Card className="border border-emerald-200 bg-emerald-50/50 dark:bg-emerald-950/20 shadow-md">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base flex items-center gap-2 text-emerald-700">
+          <ShieldCheck className="h-4 w-4" />
+          What this can — and can&apos;t — measure
+        </CardTitle>
+        <CardDescription className="text-sm">
+          We&apos;d rather be honest than flatter you. Here&apos;s exactly what these numbers mean.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid sm:grid-cols-2 gap-5 text-sm">
+        <div>
+          <div className="flex items-center gap-1.5 font-semibold text-emerald-700 mb-2">
+            <CheckCircle2 className="h-4 w-4" /> What it measures
+          </div>
+          <ul className="space-y-1.5">
+            {can.map((t, i) => (
+              <li key={i} className="flex gap-2 text-slate-600 dark:text-slate-300">
+                <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <div className="flex items-center gap-1.5 font-semibold text-rose-600 mb-2">
+            <AlertTriangle className="h-4 w-4" /> What it can&apos;t
+          </div>
+          <ul className="space-y-1.5">
+            {cannot.map((t, i) => (
+              <li key={i} className="flex gap-2 text-slate-600 dark:text-slate-300">
+                <AlertTriangle className="h-4 w-4 text-rose-500 mt-0.5 shrink-0" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p className="sm:col-span-2 text-[11px] text-muted-foreground leading-relaxed border-t border-emerald-200/60 pt-3">
+          This is a measurement of facial geometry for entertainment and styling guidance only. It
+          is not a verdict on real-world attractiveness, your value as a person, or your health.
+          Beauty is multi-dimensional, deeply personal and varies across cultures.
+        </p>
+      </CardContent>
+    </Card>
   )
 }
 

@@ -20,8 +20,10 @@ import {
   Scale, 
   ClipboardList,
   Target,
-  Users
+  Users,
+  Sparkles
 } from "lucide-react"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "ASCVD Risk Calculator: What's Your 10-Year Heart Attack & Stroke Risk?",
@@ -103,6 +105,16 @@ export default function AscvdRiskPage() {
             >
               Try the Calculator ↓
             </a>
+          </div>
+        </div>
+
+        {/* USP SUMMARY (TOFU) */}
+        <div className="mb-12">
+          <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+            <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+            <p className="text-sm md:text-base leading-relaxed text-slate-700">
+              Calqulate.net estimates your 10-year heart-attack and stroke risk using the validated Pooled Cohort and PREVENT equations. You get an accurate percentage plus the single biggest factor you can change.
+            </p>
           </div>
         </div>
 
@@ -280,6 +292,8 @@ export default function AscvdRiskPage() {
           </section>
 
         </article>
+
+        <RelatedCalculators slug="ascvd-risk-calculator" />
 
         {/* Structured FAQ Section */}
         <div className="mt-20">

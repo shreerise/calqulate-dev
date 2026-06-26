@@ -6,6 +6,7 @@ import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 import { Card, CardContent } from "@/components/ui/card"
 import { 
   ScanFace, 
@@ -120,6 +121,18 @@ export default function GoldenRatioFacePage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net measures how closely your face matches the 1.618 Golden Ratio by analysing exact distances between your features. You get a harmony score, your face shape and the numbers behind both in one report.
+              </p>
             </div>
           </div>
         </section>
@@ -474,6 +487,8 @@ export default function GoldenRatioFacePage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="golden-ratio-face-calculator" />
 
             {/* Structured FAQ UI */}
             <div className="mt-16 pt-8 border-t border-gray-100">

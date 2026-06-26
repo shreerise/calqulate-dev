@@ -21,7 +21,11 @@ import {
   CheckCircle2,
   AlertCircle,
   Loader2,
+  Percent,
+  ScanFace,
+  ArrowRight,
 } from "lucide-react";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -142,6 +146,22 @@ function detectFaceShape(m: FaceLandmarks): string {
   if (jawForeheadRatio > 1.1) return "Pear";
   if (wlRatio >= 0.75 && wlRatio <= 0.85) return "Square";
   return "Oval";
+}
+
+// ─────────────────────────────────────────────
+// HELPER: SHORT DESCRIPTION FOR A DETECTED FACE SHAPE
+// Used in the combined harmony + face-shape report
+// ─────────────────────────────────────────────
+function faceShapeDescription(shape: string): string {
+  const map: Record<string, string> = {
+    Oval: "Balanced length-to-width with a gently rounded jaw — the proportion most associated with golden ratio harmony.",
+    Round: "Width and length are close to equal with soft curves, giving a youthful, full appearance.",
+    Oblong: "Noticeably longer than it is wide, with a straighter cheek line for an elegant, elongated look.",
+    Heart: "A wider forehead tapering to a narrower chin, drawing focus toward the eyes.",
+    Pear: "A narrower forehead with a fuller jaw, grounding the proportions toward the lower face.",
+    Square: "Forehead, cheeks and jaw are similar in width with a strong, defined jawline.",
+  };
+  return map[shape] || "A distinctive proportion blend that gives your face its own character.";
 }
 
 // ─────────────────────────────────────────────
@@ -955,6 +975,133 @@ export default function GoldenRatioFaceCalculator() {
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* ── FEATURE 1: GOLDEN RATIO MATCH (%) WITH MEASURED DISTANCES ── */}
+            <Card className="rounded-2xl border border-emerald-100 shadow-sm bg-white">
+              <CardContent className="pt-5 pb-5 px-5">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+                    <Percent className="w-4 h-4 text-emerald-700" />
+                  </div>
+                  <h3 className="font-semibold text-slate-800 text-sm">
+                    Golden Ratio Match
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Your facial harmony is a{" "}
+                  <span className="font-bold text-emerald-700">{result.overallScore}% match</span>{" "}
+                  to the 1.618 Golden Ratio. Below are the exact ratios measured between your
+                  eyes, nose, lips and face that drive this score.
+                </p>
+
+                <div className="mt-5 space-y-3">
+                  {[
+                    {
+                      label: "Eye spacing ÷ nose width",
+                      value: result.ratioBreakdown.nasalRatio,
+                      ideal: GOLDEN_RATIO,
+                      idealLabel: "1.618",
+                    },
+                    {
+                      label: "Forehead width ÷ eye spacing",
+                      value: result.ratioBreakdown.orbitalRatio,
+                      ideal: GOLDEN_RATIO,
+                      idealLabel: "1.618",
+                    },
+                    {
+                      label: "Face length ÷ face width",
+                      value: result.ratioBreakdown.faceRatio,
+                      ideal: GOLDEN_RATIO,
+                      idealLabel: "1.618",
+                    },
+                    {
+                      label: "Jaw width ÷ face width",
+                      value: result.ratioBreakdown.mandibularRatio,
+                      ideal: 1 / GOLDEN_RATIO,
+                      idealLabel: "0.618",
+                    },
+                  ].map(({ label, value, ideal, idealLabel }) => {
+                    const match = ratioScore(value, ideal);
+                    return (
+                      <div key={label}>
+                        <div className="flex items-center justify-between text-xs mb-1">
+                          <span className="font-medium text-slate-600">{label}</span>
+                          <span className="text-slate-500">
+                            <span className="font-bold text-slate-800">{value.toFixed(3)}</span>{" "}
+                            / {idealLabel} ideal ·{" "}
+                            <span className={`font-bold ${scoreColor(match)}`}>{match}%</span>
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                          <div
+                            className={`h-1.5 rounded-full ${progressColor(match)} transition-all duration-1000`}
+                            style={{ width: `${match}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed mt-4">
+                  Each ratio compares two measured facial distances. The closer a ratio sits to its
+                  golden ideal, the higher its individual match — together they form your overall harmony score.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* ── FEATURE 2: COMBINED HARMONY + FACE SHAPE REPORT ── */}
+            <Card className="rounded-2xl border border-emerald-100 shadow-sm bg-white">
+              <CardContent className="pt-5 pb-5 px-5">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+                    <ScanFace className="w-4 h-4 text-emerald-700" />
+                  </div>
+                  <h3 className="font-semibold text-slate-800 text-sm">
+                    Your Complete Proportion Read
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  One report combining your symmetry and harmony scores with your detected
+                  face shape, so you get the full picture of your proportions.
+                </p>
+
+                <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {[
+                    { label: "Harmony Match", value: `${result.overallScore}%` },
+                    { label: "Symmetry", value: `${result.symmetryScore}%` },
+                    { label: "Proportion", value: `${result.proportionScore}%` },
+                    { label: "Face Shape", value: result.faceShape },
+                  ].map(({ label, value }) => (
+                    <div
+                      key={label}
+                      className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-3 text-center"
+                    >
+                      <p className="text-[11px] uppercase tracking-wider text-slate-400 font-bold">
+                        {label}
+                      </p>
+                      <p className="text-base font-bold text-emerald-700 mt-1 leading-tight">
+                        {value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4 rounded-xl bg-emerald-50/60 border border-emerald-100 px-4 py-3">
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    <strong className="text-slate-800">{result.faceShape} face:</strong>{" "}
+                    {faceShapeDescription(result.faceShape)}
+                  </p>
+                </div>
+
+                <Link
+                  href="/health/face-shape-calculator"
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-800 hover:underline"
+                >
+                  Confirm your face shape with the Face Shape Calculator
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </CardContent>
             </Card>
 

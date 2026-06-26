@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, RefreshCw, Loader2, Activity, Droplet, Info, HeartPulse } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Activity, Droplet, Info, HeartPulse, Target, TrendingDown } from "lucide-react";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -50,6 +50,21 @@ interface CalculationResult {
   category: "Normal" | "Prediabetes" | "Diabetes";
   colorClass: string;
   insights: string[];
+}
+
+// --- ADAG FORMULA HELPERS (additive features) ---
+// eAG mg/dL = 28.7 * A1c - 46.7  (ADAG 2008 regression)
+const a1cToEagMgdl = (a1c: number) => 28.7 * a1c - 46.7;
+const mgdlToMmol = (mgdl: number) => mgdl / 18.015;
+
+// The A1C goals most adults are guided toward.
+const A1C_TARGETS = [7.0, 6.5];
+
+interface A1cTargetRow {
+  target: number;
+  targetEagMgdl: number;
+  targetEagMmol: number;
+  a1cChange: number; // current A1C minus target (positive = needs to drop)
 }
 
 // --- VISUAL GAUGE COMPONENT ---
@@ -396,6 +411,100 @@ export default function EstimatedAverageGlucoseCalculator() {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              {/* FEATURE 1 — Everyday eAG in both units (ADAG formula) */}
+              <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-6">
+                <h3 className="text-lg font-semibold flex items-center gap-2 mb-1 text-emerald-700">
+                  <Droplet className="w-5 h-5 text-emerald-600" /> Your Everyday Average Glucose
+                </h3>
+                <p className="text-sm text-muted-foreground mb-5">
+                  Your HbA1c of <strong>{result.a1c.toFixed(1)}%</strong> converts to this estimated average
+                  glucose using the recognised ADAG formula (eAG = 28.7 &times; A1c &minus; 46.7), shown in both
+                  everyday units.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="rounded-xl border border-emerald-100 bg-white p-5 text-center">
+                    <p className="text-xs uppercase tracking-wider font-bold text-slate-500 mb-1">
+                      mg/dL (US standard)
+                    </p>
+                    <p className="text-4xl font-extrabold text-emerald-700">
+                      {Math.round(a1cToEagMgdl(result.a1c))}
+                      <span className="text-base font-normal text-slate-500 ml-1">mg/dL</span>
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-emerald-100 bg-white p-5 text-center">
+                    <p className="text-xs uppercase tracking-wider font-bold text-slate-500 mb-1">
+                      mmol/L (UK / global)
+                    </p>
+                    <p className="text-4xl font-extrabold text-emerald-700">
+                      {mgdlToMmol(a1cToEagMgdl(result.a1c)).toFixed(1)}
+                      <span className="text-base font-normal text-slate-500 ml-1">mmol/L</span>
+                    </p>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-4">
+                  This is the average sugar level your meter would show day to day, not a single reading. It is an
+                  estimate for understanding, not a diagnosis.
+                </p>
+              </div>
+
+              {/* FEATURE 2 — A1C change needed to reach a target average glucose */}
+              <div className="rounded-xl border border-emerald-100 bg-white p-6">
+                <h3 className="text-lg font-semibold flex items-center gap-2 mb-1 text-emerald-700">
+                  <Target className="w-5 h-5 text-emerald-600" /> What It Takes to Reach a Target
+                </h3>
+                <p className="text-sm text-muted-foreground mb-5">
+                  Common A1C goals for many adults are 7% and 6.5%. Here is the A1C change needed from your current{" "}
+                  <strong>{result.a1c.toFixed(1)}%</strong> and the everyday average glucose each target represents.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {A1C_TARGETS.map((target) => {
+                    const row: A1cTargetRow = {
+                      target,
+                      targetEagMgdl: a1cToEagMgdl(target),
+                      targetEagMmol: mgdlToMmol(a1cToEagMgdl(target)),
+                      a1cChange: result.a1c - target,
+                    };
+                    const atOrBelow = row.a1cChange <= 0.05;
+                    return (
+                      <div key={target} className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-5">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-bold text-slate-700">Target A1C {target.toFixed(1)}%</span>
+                          {atOrBelow ? (
+                            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700">
+                              <TrendingDown className="w-3.5 h-3.5" /> Reached
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700">
+                              <TrendingDown className="w-3.5 h-3.5" /> Lower A1C
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-slate-700">
+                          {atOrBelow ? (
+                            <>You are already at or below this target.</>
+                          ) : (
+                            <>
+                              Reduce A1C by{" "}
+                              <strong className="text-emerald-700">{row.a1cChange.toFixed(1)} points</strong>.
+                            </>
+                          )}
+                        </p>
+                        <div className="mt-3 pt-3 border-t border-emerald-100 text-sm text-slate-600">
+                          Resulting eAG:{" "}
+                          <strong className="text-slate-800">{Math.round(row.targetEagMgdl)} mg/dL</strong>{" "}
+                          <span className="text-slate-400">/</span>{" "}
+                          <strong className="text-slate-800">{row.targetEagMmol.toFixed(1)} mmol/L</strong>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="text-xs text-muted-foreground mt-4">
+                  Targets are general references only. Your personal A1C goal should be set with your healthcare
+                  provider.
+                </p>
               </div>
             </CardContent>
           </Card>

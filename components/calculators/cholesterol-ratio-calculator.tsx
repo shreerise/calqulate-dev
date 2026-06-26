@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIcon } from "lucide-react"
+import { HeartPulse, TestTube, Activity, ShieldCheck, Calculator as CalculatorIcon, Target, AlertTriangle } from "lucide-react"
 
 // Define validation schema
 const formSchema = z.object({
@@ -30,8 +30,73 @@ interface ResultsState {
   calculatedLdl: string | null;
 }
 
+// ─── ADDITIVE FEATURE TYPES ───────────────────────────────────────────────────
+// Optimal (ideal) target for each of the three key ratios.
+const RATIO_TARGETS = {
+  tcHdl: 3.5,
+  ldlHdl: 2.0,
+  tgHdl: 2.0,
+} as const;
+
+type RatioKey = "tcHdl" | "ldlHdl" | "tgHdl";
+
+interface RatioSnapshot {
+  key: RatioKey;
+  label: string;
+  value: number;        // computed ratio
+  target: number;       // ideal ceiling
+  withinRange: boolean; // value < target
+  overBy: number;       // how far above target (0 if within)
+  excessPct: number;    // % above target, used to find the "worst" ratio
+}
+
+// Builds the three-ratio overview and flags the single ratio furthest outside
+// its healthy range (Feature 1).
+function buildRatioSnapshots(tcHdl: number, ldlHdl: number, tgHdl: number) {
+  const defs: { key: RatioKey; label: string; value: number; target: number }[] = [
+    { key: "tcHdl", label: "TC / HDL", value: tcHdl, target: RATIO_TARGETS.tcHdl },
+    { key: "ldlHdl", label: "LDL / HDL", value: ldlHdl, target: RATIO_TARGETS.ldlHdl },
+    { key: "tgHdl", label: "TG / HDL", value: tgHdl, target: RATIO_TARGETS.tgHdl },
+  ];
+
+  const snapshots: RatioSnapshot[] = defs.map((d) => {
+    const overBy = Math.max(0, d.value - d.target);
+    return {
+      ...d,
+      withinRange: d.value < d.target,
+      overBy,
+      excessPct: (overBy / d.target) * 100,
+    };
+  });
+
+  // The ratio to fix = the one with the greatest % excess over its target.
+  let worstKey: RatioKey | null = null;
+  let worstExcess = 0;
+  for (const s of snapshots) {
+    if (s.excessPct > worstExcess) {
+      worstExcess = s.excessPct;
+      worstKey = s.key;
+    }
+  }
+
+  return { snapshots, worstKey };
+}
+
+// Numeric snapshot used by the additive feature cards (Features 1 & 2).
+interface FeatureData {
+  unit: string;
+  tc: number;
+  hdl: number;
+  ldl: number;
+  tg: number;
+  tcHdl: number;
+  ldlHdl: number;
+  tgHdl: number;
+}
+
 export default function CholesterolRatioCalculator() {
   const [results, setResults] = useState<ResultsState | null>(null)
+  const [featureData, setFeatureData] = useState<FeatureData | null>(null)
   const [error, setError] = useState("")
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,6 +113,7 @@ export default function CholesterolRatioCalculator() {
   const calculateRatios = (values: z.infer<typeof formSchema>) => {
     setError("")
     setResults(null)
+    setFeatureData(null)
 
     const tc = parseFloat(values.totalCholesterol)
     const hdlVal = parseFloat(values.hdl)
@@ -88,6 +154,18 @@ export default function CholesterolRatioCalculator() {
       tgHdlRatio: tgHdlRatio.toFixed(2),
       vldl: vldl.toFixed(2),
       calculatedLdl: isNaN(ldlVal) ? calculatedLdl.toFixed(2) : null,
+    })
+
+    // Additive: store the numeric snapshot used by the feature cards.
+    setFeatureData({
+      unit: values.unit,
+      tc,
+      hdl: hdlVal,
+      ldl: calculatedLdl,
+      tg,
+      tcHdl: tcHdlRatio,
+      ldlHdl: ldlHdlRatio,
+      tgHdl: tgHdlRatio,
     })
   }
 
@@ -255,6 +333,164 @@ export default function CholesterolRatioCalculator() {
             )}
           </div>
         </div>
+
+        {/* ── ADDITIVE FEATURE CARDS ──────────────────────────────────────────── */}
+        {featureData && (() => {
+          const { snapshots, worstKey } = buildRatioSnapshots(
+            featureData.tcHdl,
+            featureData.ldlHdl,
+            featureData.tgHdl,
+          )
+          const unit = featureData.unit
+
+          // Feature 2: change to underlying numbers to hit each ratio's target.
+          const fmt = (n: number) => (Math.abs(n) >= 100 ? n.toFixed(0) : n.toFixed(1))
+          const targetActions = snapshots.map((s) => {
+            if (s.withinRange) {
+              return { ...s, message: null as string | null }
+            }
+            // To reach target ratio R at the current numerator, HDL must rise to
+            // numerator / R. Alternatively the numerator must fall to HDL * R.
+            let message = ""
+            if (s.key === "tcHdl") {
+              const hdlNeeded = featureData.tc / s.target
+              const tcNeeded = featureData.hdl * s.target
+              message = `Raise HDL by ${fmt(hdlNeeded - featureData.hdl)} ${unit} (to ${fmt(hdlNeeded)}) or lower Total Cholesterol by ${fmt(featureData.tc - tcNeeded)} ${unit} (to ${fmt(tcNeeded)}).`
+            } else if (s.key === "ldlHdl") {
+              const hdlNeeded = featureData.ldl / s.target
+              const ldlNeeded = featureData.hdl * s.target
+              message = `Raise HDL by ${fmt(hdlNeeded - featureData.hdl)} ${unit} (to ${fmt(hdlNeeded)}) or lower LDL by ${fmt(featureData.ldl - ldlNeeded)} ${unit} (to ${fmt(ldlNeeded)}).`
+            } else {
+              const hdlNeeded = featureData.tg / s.target
+              const tgNeeded = featureData.hdl * s.target
+              message = `Raise HDL by ${fmt(hdlNeeded - featureData.hdl)} ${unit} (to ${fmt(hdlNeeded)}) or lower Triglycerides by ${fmt(featureData.tg - tgNeeded)} ${unit} (to ${fmt(tgNeeded)}).`
+            }
+            return { ...s, message }
+          })
+
+          return (
+            <div className="mt-8 space-y-6">
+              {/* FEATURE 1 — All three ratios at once + the one to fix */}
+              <Card className="border-emerald-200">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                    <Activity className="w-5 h-5" />
+                    All Three Ratios at a Glance
+                  </CardTitle>
+                  <CardDescription className="text-sm">
+                    Your TC/HDL, LDL/HDL and TG/HDL ratios checked against recognised
+                    cardiac targets — colour-coded so you can see what is on track.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {snapshots.map((s) => {
+                      const isWorst = s.key === worstKey
+                      return (
+                        <div
+                          key={s.key}
+                          className={`rounded-xl border p-4 ${
+                            s.withinRange
+                              ? "border-emerald-200 bg-emerald-50"
+                              : isWorst
+                              ? "border-red-300 bg-red-50 ring-2 ring-red-200"
+                              : "border-yellow-200 bg-yellow-50"
+                          }`}
+                        >
+                          <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            {s.label}
+                          </p>
+                          <p
+                            className={`text-2xl font-bold ${
+                              s.withinRange
+                                ? "text-emerald-700"
+                                : isWorst
+                                ? "text-red-600"
+                                : "text-yellow-700"
+                            }`}
+                          >
+                            {s.value.toFixed(2)}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Ideal &lt; {s.target.toFixed(1)}
+                          </p>
+                          <p
+                            className={`text-xs font-semibold mt-1 ${
+                              s.withinRange ? "text-emerald-700" : isWorst ? "text-red-600" : "text-yellow-700"
+                            }`}
+                          >
+                            {s.withinRange ? "Within range" : `${s.overBy.toFixed(2)} over target`}
+                          </p>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {worstKey ? (
+                    <div className="flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 p-4">
+                      <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
+                      <p className="text-sm text-slate-700">
+                        The ratio furthest outside its healthy range is{" "}
+                        <strong className="text-red-600">
+                          {snapshots.find((s) => s.key === worstKey)?.label}
+                        </strong>
+                        . Focus here first for the biggest improvement to your cardiovascular profile.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                      <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+                      <p className="text-sm text-slate-700">
+                        All three ratios fall within their healthy targets. Keep up your current habits and re-check periodically.
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* FEATURE 2 — Optimal targets + change needed in the numbers */}
+              <Card className="border-emerald-200">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                    <Target className="w-5 h-5" />
+                    Your Targets &amp; What It Takes to Get There
+                  </CardTitle>
+                  <CardDescription className="text-sm">
+                    The optimal target for each ratio and the change in your actual
+                    cholesterol numbers needed to reach it at your current values.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {targetActions.map((s) => (
+                    <div
+                      key={s.key}
+                      className="rounded-xl border border-gray-200 bg-white p-4"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-sm font-semibold text-gray-800">{s.label}</p>
+                        <span className="text-xs font-semibold text-emerald-700 whitespace-nowrap">
+                          Now {s.value.toFixed(2)} → Target &lt; {s.target.toFixed(1)}
+                        </span>
+                      </div>
+                      {s.message ? (
+                        <p className="text-sm text-gray-600 mt-2 leading-relaxed">{s.message}</p>
+                      ) : (
+                        <p className="text-sm text-emerald-700 mt-2 leading-relaxed">
+                          Already at or below target — no change needed.
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    These figures show the single-variable change needed at your current
+                    numbers. In practice, improving diet, activity and weight shifts several
+                    values together — use this as a guide, not medical advice.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          )
+        })()}
       </CardContent>
     </Card>
   )

@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Activity, RefreshCw, Loader2, HeartPulse, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Activity, RefreshCw, Loader2, HeartPulse, AlertTriangle, CheckCircle2, Gauge, Brain } from "lucide-react";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -67,6 +67,83 @@ const MapGauge = ({ value }: { value: number }) => {
   );
 }
 
+// --- FEATURE 1: HEALTHY-RANGE BAND HELPER ---
+// Healthy MAP band is 70-100 mmHg. Marker placed on a 40-130 visual scale.
+const getHealthyRangeBand = (map: number) => {
+  const min = 40;
+  const max = 130;
+  const markerPct = Math.max(0, Math.min(100, ((map - min) / (max - min)) * 100));
+  // Healthy band (70-100) as a highlighted segment of the same scale.
+  const bandStartPct = ((70 - min) / (max - min)) * 100;
+  const bandEndPct = ((100 - min) / (max - min)) * 100;
+
+  if (map < 70) {
+    return {
+      zone: "low" as const,
+      label: "Below healthy range",
+      headline: "Your MAP is under 70 mmHg",
+      accent: "text-red-600",
+      dot: "border-red-500",
+      markerPct,
+      bandStartPct,
+      bandEndPct,
+    };
+  }
+  if (map <= 100) {
+    return {
+      zone: "normal" as const,
+      label: "Within healthy range",
+      headline: "Your MAP is in the healthy 70-100 mmHg band",
+      accent: "text-green-600",
+      dot: "border-green-500",
+      markerPct,
+      bandStartPct,
+      bandEndPct,
+    };
+  }
+  return {
+    zone: "high" as const,
+    label: "Above healthy range",
+    headline: "Your MAP is over 100 mmHg",
+    accent: "text-orange-600",
+    dot: "border-orange-500",
+    markerPct,
+    bandStartPct,
+    bandEndPct,
+  };
+};
+
+// --- FEATURE 2: ORGAN-PERFUSION PLAIN-LANGUAGE HELPER ---
+// Explains what the value means for blood flow to vital organs, tailored to MAP.
+const getPerfusionMeaning = (map: number): { title: string; body: string; accent: string } => {
+  if (map < 60) {
+    return {
+      title: "Too low to reliably perfuse your organs",
+      body: `At ${map.toFixed(0)} mmHg, your MAP is below the ~65 mmHg generally considered the minimum needed to push blood through the small vessels of the brain, kidneys and heart. Pressure this low risks hypoperfusion — organs may not get enough oxygen, which can cause dizziness, confusion or, if sustained, tissue damage.`,
+      accent: "text-red-600",
+    };
+  }
+  if (map < 70) {
+    return {
+      title: "On the low edge for organ blood flow",
+      body: `At ${map.toFixed(0)} mmHg, your MAP is just above the ~65 mmHg perfusion threshold but below the typical healthy floor of 70. There is usually enough pressure to supply vital organs, but the margin is thin — worth monitoring, especially if you feel light-headed or fatigued.`,
+      accent: "text-yellow-600",
+    };
+  }
+  if (map <= 100) {
+    return {
+      title: "Enough pressure to perfuse your vital organs",
+      body: `At ${map.toFixed(0)} mmHg, your MAP comfortably clears the ~65 mmHg needed to perfuse organs and sits inside the healthy 70-100 range. This means your brain, kidneys and heart are likely receiving a steady, adequate supply of oxygen-rich blood without putting excess strain on your vessels.`,
+      accent: "text-green-600",
+    };
+  }
+  return {
+    title: "More than enough flow, but added vascular strain",
+    body: `At ${map.toFixed(0)} mmHg, your MAP is above the healthy 70-100 range. Your organs are well perfused, but sustained high mean pressure makes the heart work harder and stresses artery walls over time, raising long-term cardiovascular risk. Persistent high readings are worth discussing with a clinician.`,
+    accent: "text-orange-600",
+  };
+};
+
 // --- MAIN CALCULATOR COMPONENT ---
 export default function MAPCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -113,12 +190,12 @@ export default function MAPCalculator() {
     setTimeout(() => {
       const sbp = parseFloat(values.systolic);
       const dbp = parseFloat(values.diastolic);
-      
-      // MAP Formula: (SBP + 2*DBP) / 3
+
+      // MAP Formula: (SBP + 2*DBP) / 3 — equivalent to DBP + 1/3(SBP - DBP)
       const mapValue = (sbp + (2 * dbp)) / 3;
-      
+
       const analysis = getMapCategory(mapValue);
-      
+
       setResult({
         map: mapValue,
         ...analysis
@@ -260,6 +337,68 @@ export default function MAPCalculator() {
                     <p className="font-semibold text-lg">{form.getValues("diastolic")} mmHg</p>
                  </div>
               </div>
+
+              {/* ── FEATURE 1: HEALTHY-RANGE CHECK (70-100 mmHg) ───────────────── */}
+              {(() => {
+                const band = getHealthyRangeBand(result.map);
+                return (
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-4 sm:p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Gauge className="w-5 h-5 text-emerald-700" />
+                      <h4 className="text-base font-bold text-slate-800">Healthy Range Check (70-100 mmHg)</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {band.headline} —{" "}
+                      <span className={`font-semibold ${band.accent}`}>{band.label}</span>. The
+                      clinically healthy mean arterial pressure band is{" "}
+                      <strong className="text-emerald-700">70-100 mmHg</strong>.
+                    </p>
+
+                    {/* Colour-cued band with the user's marker */}
+                    <div className="relative mt-5 w-full h-4 rounded-full bg-gradient-to-r from-red-500 via-yellow-400 to-red-500">
+                      {/* Healthy 70-100 segment highlighted */}
+                      <div
+                        className="absolute top-0 h-4 bg-green-500 rounded-sm"
+                        style={{
+                          left: `${band.bandStartPct}%`,
+                          width: `${band.bandEndPct - band.bandStartPct}%`,
+                        }}
+                      />
+                      {/* User marker */}
+                      <div
+                        className={`absolute top-1/2 h-6 w-6 rounded-full bg-white border-4 ${band.dot} shadow-lg -translate-y-1/2 -translate-x-1/2 transition-all duration-700`}
+                        style={{ left: `${band.markerPct}%` }}
+                        title={`Your MAP: ${result.map.toFixed(1)} mmHg`}
+                      />
+                    </div>
+                    <div className="flex justify-between text-[11px] font-semibold text-gray-400 mt-2 px-0.5">
+                      <span className="text-red-500">Low &lt;70</span>
+                      <span className="text-green-600">Normal 70-100</span>
+                      <span className="text-orange-500">High &gt;100</span>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* ── FEATURE 2: WHAT IT MEANS FOR ORGAN PERFUSION ──────────────── */}
+              {(() => {
+                const meaning = getPerfusionMeaning(result.map);
+                return (
+                  <div className="rounded-xl border bg-card p-4 sm:p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Brain className="w-5 h-5 text-emerald-700" />
+                      <h4 className="text-base font-bold text-slate-800">What This Means for Your Organs</h4>
+                    </div>
+                    <p className={`text-sm font-semibold ${meaning.accent}`}>{meaning.title}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                      {meaning.body}
+                    </p>
+                    <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
+                      MAP reflects the average pressure driving blood to your vital organs across a full heartbeat. A MAP of at least ~65 mmHg is generally needed to perfuse them — too low risks hypoperfusion, too high risks vascular strain.
+                    </p>
+                  </div>
+                );
+              })()}
 
             </CardContent>
           </Card>

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Calculator, RefreshCw, Loader2, Sparkles, Shirt, HeartPulse, CheckCircle2, History } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Sparkles, Shirt, HeartPulse, CheckCircle2, History, Ruler, Scissors } from "lucide-react";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -35,6 +35,68 @@ interface CalculationResult {
   healthInsights: string;
   whr: number;
   measurements: { bust: number, waist: number, hips: number };
+}
+
+// FEATURE 1 — exact ratios behind the shape result
+interface ShapeRatios {
+  waistToHip: number;   // waist / hip
+  bustToWaist: number;  // bust / waist
+  hipToBust: number;    // hip / bust
+  bustToHip: number;    // bust / hip
+}
+
+function getShapeRatios(bust: number, waist: number, hips: number): ShapeRatios {
+  return {
+    waistToHip: waist / hips,
+    bustToWaist: bust / waist,
+    hipToBust: hips / bust,
+    bustToHip: bust / hips,
+  };
+}
+
+// FEATURE 2 — flattering cuts, necklines and fits per body shape
+interface StylingGuide {
+  necklines: string[];
+  cuts: string[];
+  fits: string[];
+}
+
+function getStylingGuide(bodyShape: string): StylingGuide {
+  const shape = bodyShape.toLowerCase();
+  if (shape.includes("hourglass")) {
+    return {
+      necklines: ["V-neck", "Sweetheart", "Scoop neck"],
+      cuts: ["Wrap dresses", "High-waisted skirts", "Fitted pencil skirts"],
+      fits: ["Tailored, body-skimming fits", "Belted waist to define curves", "Avoid boxy or oversized layers"],
+    };
+  }
+  if (shape.includes("pear") || shape.includes("spoon")) {
+    return {
+      necklines: ["Boat neck", "Off-shoulder", "Cowl neck"],
+      cuts: ["A-line skirts", "Bootcut & flared trousers", "Structured, detailed tops"],
+      fits: ["Volume up top to balance hips", "Darker tones below, brighter above", "Avoid skinny jeans with clingy tops"],
+    };
+  }
+  if (shape.includes("apple") || shape.includes("inverted")) {
+    return {
+      necklines: ["Deep V-neck", "Scoop neck", "Open collar"],
+      cuts: ["Empire-waist dresses", "A-line silhouettes", "Straight-leg trousers"],
+      fits: ["Elongate the torso with vertical lines", "Flowy, untucked tops", "Avoid clingy waistbands and shoulder padding"],
+    };
+  }
+  if (shape.includes("rectangle")) {
+    return {
+      necklines: ["Sweetheart", "Halter", "Scoop neck"],
+      cuts: ["Peplum tops", "A-line & ruffled skirts", "Belted dresses"],
+      fits: ["Create curves with cinched waists", "Layering to add dimension", "Avoid shapeless, straight-cut shifts"],
+    };
+  }
+  // sensible default (e.g. male trapezoid / fallback)
+  return {
+    necklines: ["Crew neck", "V-neck", "Open collar"],
+    cuts: ["Slim-fit shirts", "Tapered trousers", "Structured jackets"],
+    fits: ["Highlight natural symmetry", "Avoid overly boxy or clingy cuts", "Layer to add shape where needed"],
+  };
 }
 
 interface SavedEntry {
@@ -431,6 +493,77 @@ export default function BodyShapeCalculator() {
                       {result.styleTips.map((tip, index) => (<li key={index}>{tip}</li>))}
                   </ul>
               </div>
+
+              {/* FEATURE 1 — Exact ratios behind your shape */}
+              {(() => {
+                const ratios = getShapeRatios(result.measurements.bust, result.measurements.waist, result.measurements.hips);
+                const rows = [
+                  { label: "Waist-to-Hip", value: ratios.waistToHip, note: "A lower ratio means a more defined waist relative to your hips." },
+                  { label: "Bust-to-Waist", value: ratios.bustToWaist, note: "How much wider your bust is than your waist." },
+                  { label: "Hip-to-Bust", value: ratios.hipToBust, note: "Above 1.00 leans pear/spoon; below 1.00 leans apple/inverted." },
+                  { label: "Bust-to-Hip", value: ratios.bustToHip, note: "Near 1.00 signals balanced top-to-bottom proportions." },
+                ];
+                return (
+                  <Card className="border border-emerald-100 bg-emerald-50/40 rounded-xl">
+                    <CardContent className="p-6 md:p-8">
+                      <h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
+                        <Ruler className="w-5 h-5 text-emerald-700" /> The Ratios Behind Your {result.bodyShape} Result
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Your shape is decided by the ratios between your measurements — not their absolute size. Here is exactly why you landed on {result.bodyShape}.
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {rows.map((r) => (
+                          <div key={r.label} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <div className="flex items-baseline justify-between">
+                              <span className="text-sm font-semibold text-slate-700">{r.label}</span>
+                              <span className="text-xl font-bold text-emerald-700">{r.value.toFixed(2)}</span>
+                            </div>
+                            <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{r.note}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
+
+              {/* FEATURE 2 — Flattering cuts, necklines and fits for your shape */}
+              {(() => {
+                const guide = getStylingGuide(result.bodyShape);
+                const columns = [
+                  { title: "Flattering necklines", items: guide.necklines },
+                  { title: "Best cuts & silhouettes", items: guide.cuts },
+                  { title: "Fit strategy", items: guide.fits },
+                ];
+                return (
+                  <Card className="border border-emerald-100 bg-emerald-50/40 rounded-xl">
+                    <CardContent className="p-6 md:p-8">
+                      <h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
+                        <Scissors className="w-5 h-5 text-emerald-700" /> What to Wear for a {result.bodyShape} Shape
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Turn your measurements into decisions — these cuts, necklines and fits are chosen to flatter your specific proportions.
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {columns.map((col) => (
+                          <div key={col.title} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <p className="text-sm font-semibold text-emerald-700 mb-2">{col.title}</p>
+                            <ul className="space-y-1.5">
+                              {col.items.map((item, i) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                                  <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-600" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
 
               <div className="border-t pt-8">
                   <h3 className="text-lg font-semibold flex items-center gap-2 mb-3"><HeartPulse className="w-5 h-5 text-red-500" /> Health Insights</h3>

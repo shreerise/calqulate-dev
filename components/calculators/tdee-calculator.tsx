@@ -45,6 +45,22 @@ interface TDEEResult {
     cutting: { calories: number; macros: MacroSplit }; // Mild deficit
     bulking: { calories: number; macros: MacroSplit }; // Mild surplus
   };
+  // FEATURE 1 — energy breakdown into BMR, movement/activity, and thermic effect of food
+  breakdown: {
+    bmr: number; // resting metabolism (kcal)
+    activity: number; // movement / activity (kcal)
+    tef: number; // thermic effect of food ~10% of intake (kcal)
+    total: number; // bmr + activity + tef
+    bmrPct: number;
+    activityPct: number;
+    tefPct: number;
+  };
+  // FEATURE 2 — calorie targets derived from the same TDEE
+  targets: {
+    cut: number; // -20%
+    maintain: number; // maintenance
+    bulk: number; // +12.5%
+  };
 }
 
 // --- ACTIVITY LEVELS ---
@@ -172,6 +188,30 @@ export default function TDEECalculator() {
         const heightM = heightCm / 100;
         const bmi = weightKg / (heightM * heightM);
 
+        // FEATURE 1 — Split TDEE into its physiological components.
+        // The thermic effect of food (TEF) is ~10% of calories eaten; at energy
+        // balance intake ≈ TDEE, so TEF ≈ 10% of TDEE. BMR is the resting floor,
+        // and the remainder is movement/activity (exercise + NEAT).
+        const tef = tdee * 0.10;
+        const activityKcal = Math.max(0, tdee - bmr - tef);
+        const breakdownTotal = bmr + activityKcal + tef;
+        const breakdown = {
+            bmr: bmr,
+            activity: activityKcal,
+            tef: tef,
+            total: breakdownTotal,
+            bmrPct: (bmr / breakdownTotal) * 100,
+            activityPct: (activityKcal / breakdownTotal) * 100,
+            tefPct: (tef / breakdownTotal) * 100,
+        };
+
+        // FEATURE 2 — Calorie targets derived from the same TDEE result.
+        const targets = {
+            cut: tdee * 0.80,   // -20% for fat loss
+            maintain: tdee,     // hold current weight
+            bulk: tdee * 1.125, // +12.5% lean surplus
+        };
+
         setResult({
             bmr: bmr,
             tdee: tdee,
@@ -181,7 +221,9 @@ export default function TDEECalculator() {
                 maintenance: { calories: tdee, macros: calculateMacros(tdee) },
                 cutting: { calories: tdee - 500, macros: calculateMacros(tdee - 500) },
                 bulking: { calories: tdee + 500, macros: calculateMacros(tdee + 500) },
-            }
+            },
+            breakdown,
+            targets,
         });
 
         setIsLoading(false);
@@ -382,6 +424,116 @@ export default function TDEECalculator() {
                         </TabsContent>
                     </div>
                 </Tabs>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* FEATURE 1 — ENERGY EXPENDITURE BREAKDOWN ──────────────────────── */}
+        {result && (
+          <Card className="max-w-4xl mx-auto mt-8 shadow-md rounded-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl text-emerald-700">
+                <Flame className="w-5 h-5" /> Where Your Calories Go
+              </CardTitle>
+              <CardDescription className="text-sm">
+                Your {Math.round(result.tdee)} kcal/day broken into resting metabolism (BMR), movement &amp; activity, and the energy your body uses to digest food (TEF, about 10%).
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              {/* Stacked bar */}
+              <div className="flex w-full h-7 rounded-full overflow-hidden border border-border/60">
+                <div
+                  className="bg-emerald-600 h-full"
+                  style={{ width: `${result.breakdown.bmrPct}%` }}
+                  title={`BMR ${Math.round(result.breakdown.bmrPct)}%`}
+                />
+                <div
+                  className="bg-teal-400 h-full"
+                  style={{ width: `${result.breakdown.activityPct}%` }}
+                  title={`Activity ${Math.round(result.breakdown.activityPct)}%`}
+                />
+                <div
+                  className="bg-amber-400 h-full"
+                  style={{ width: `${result.breakdown.tefPct}%` }}
+                  title={`Digestion ${Math.round(result.breakdown.tefPct)}%`}
+                />
+              </div>
+
+              {/* Labelled segments */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="rounded-xl border bg-emerald-50 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-sm bg-emerald-600 shrink-0" />
+                    <span className="text-sm font-semibold text-slate-700">Resting (BMR)</span>
+                  </div>
+                  <p className="mt-2 text-xl font-bold text-emerald-700">{Math.round(result.breakdown.bmr)} <span className="text-sm font-medium text-muted-foreground">kcal</span></p>
+                  <p className="text-xs text-muted-foreground">{Math.round(result.breakdown.bmrPct)}% · energy to stay alive at rest</p>
+                </div>
+                <div className="rounded-xl border bg-teal-50 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-sm bg-teal-400 shrink-0" />
+                    <span className="text-sm font-semibold text-slate-700">Movement</span>
+                  </div>
+                  <p className="mt-2 text-xl font-bold text-teal-600">{Math.round(result.breakdown.activity)} <span className="text-sm font-medium text-muted-foreground">kcal</span></p>
+                  <p className="text-xs text-muted-foreground">{Math.round(result.breakdown.activityPct)}% · exercise, steps &amp; daily activity</p>
+                </div>
+                <div className="rounded-xl border bg-amber-50 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-sm bg-amber-400 shrink-0" />
+                    <span className="text-sm font-semibold text-slate-700">Digestion (TEF)</span>
+                  </div>
+                  <p className="mt-2 text-xl font-bold text-amber-600">{Math.round(result.breakdown.tef)} <span className="text-sm font-medium text-muted-foreground">kcal</span></p>
+                  <p className="text-xs text-muted-foreground">{Math.round(result.breakdown.tefPct)}% · processing the food you eat</p>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                TEF is estimated at ~10% of intake (assuming intake near maintenance). Movement covers both planned exercise and unplanned daily activity (NEAT).
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* FEATURE 2 — CUT / MAINTAIN / BULK CALORIE TARGETS ──────────────── */}
+        {result && (
+          <Card className="max-w-4xl mx-auto mt-8 shadow-md rounded-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl text-emerald-700">
+                <Activity className="w-5 h-5" /> Your Calorie Targets
+              </CardTitle>
+              <CardDescription className="text-sm">
+                Daily calorie goals calculated from your TDEE of {Math.round(result.tdee)} kcal — pick the one that matches your goal.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="rounded-xl border border-red-200 bg-red-50 p-5 text-center">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-red-600">
+                    <TrendingDown className="w-4 h-4" /> Cut
+                  </div>
+                  <p className="mt-3 text-3xl font-extrabold text-red-600">{Math.round(result.targets.cut)}</p>
+                  <p className="text-xs text-muted-foreground">kcal/day · 20% deficit</p>
+                  <p className="mt-2 text-xs text-muted-foreground">Lose fat steadily while protecting muscle.</p>
+                </div>
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-center">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700">
+                    <Utensils className="w-4 h-4" /> Maintain
+                  </div>
+                  <p className="mt-3 text-3xl font-extrabold text-emerald-700">{Math.round(result.targets.maintain)}</p>
+                  <p className="text-xs text-muted-foreground">kcal/day · at TDEE</p>
+                  <p className="mt-2 text-xs text-muted-foreground">Hold your current weight and body composition.</p>
+                </div>
+                <div className="rounded-xl border border-green-200 bg-green-50 p-5 text-center">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-green-600">
+                    <TrendingUp className="w-4 h-4" /> Bulk
+                  </div>
+                  <p className="mt-3 text-3xl font-extrabold text-green-600">{Math.round(result.targets.bulk)}</p>
+                  <p className="text-xs text-muted-foreground">kcal/day · 12.5% surplus</p>
+                  <p className="mt-2 text-xs text-muted-foreground">Build muscle with a controlled lean surplus.</p>
+                </div>
+              </div>
+              <p className="mt-4 text-xs text-muted-foreground text-center">
+                Treat these as starting points. Adjust by ~100 kcal after 2–3 weeks based on real-world results.
+              </p>
             </CardContent>
           </Card>
         )}

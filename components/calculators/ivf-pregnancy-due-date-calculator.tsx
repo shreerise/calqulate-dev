@@ -12,7 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Baby, RefreshCw, Loader2, Heart, Calendar, Clock,
-  Share2, Download, Star, Stethoscope, FlaskConical
+  Share2, Download, Star, Stethoscope, FlaskConical,
+  CalendarCheck, Snowflake, ListChecks
 } from "lucide-react";
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
@@ -39,6 +40,14 @@ interface Milestone {
   note: string;
 }
 
+// ── Additive: a key scan / pregnancy milestone for the timeline feature ──
+interface ScanMilestone {
+  label: string;
+  week: number;
+  date: Date;
+  note: string;
+}
+
 interface CalculationResult {
   conception: Date;
   edd: Date;
@@ -49,6 +58,12 @@ interface CalculationResult {
   milestones: Milestone[];
   daysSinceConception: number;
   values: FormValues;
+  // ── Additive feature data (does not affect existing outputs) ──
+  transferTypeLabel: string;   // e.g. "Day 5 frozen (FET)"
+  standardEdd: Date;           // EDD via standard transfer-day math
+  gestWeeks: number;           // current gestational age (weeks)
+  gestDays: number;            // current gestational age (remainder days)
+  scanMilestones: ScanMilestone[];
 }
 
 // ─── SCHEMA ───────────────────────────────────────────────────────────────────
@@ -118,6 +133,28 @@ function calculate(values: FormValues): CalculationResult {
     { label: "Estimated Due Date", icon: "👶", date: edd, week: 40, note: "40 weeks" },
   ];
 
+  // ── ADDITIVE FEATURE 1 — transfer-type aware EDD + gestational age ──────────
+  // Standard math: EDD = transfer date + (280 - (embryo day age + 14)).
+  // Gestational age is measured from the "fake LMP" = conception - 14 days, so
+  // it matches how clinicians count weeks (transfer day = ~2w + embryo age).
+  const standardEdd = addDays(transfer, 280 - (age + 14));
+  const lmp = addDays(conception, -14);
+  const gestTotalDays = Math.max(0, daysBetween(lmp, today));
+  const gestWeeks = Math.floor(gestTotalDays / 7);
+  const gestDays = gestTotalDays % 7;
+
+  const freshOrFrozen = values.ivfType === "frozen" ? "frozen (FET)" : "fresh";
+  const transferTypeLabel = `Day ${age} ${freshOrFrozen}`;
+
+  // ── ADDITIVE FEATURE 2 — key scan dates mapped from the "fake LMP" ──────────
+  const scanMilestones: ScanMilestone[] = [
+    { label: "End of First Trimester", week: 13, date: addDays(lmp, 13 * 7), note: "Lower miscarriage risk milestone" },
+    { label: "Anatomy / 20-Week Scan", week: 20, date: addDays(lmp, 20 * 7), note: "Detailed fetal anatomy ultrasound" },
+    { label: "Viability", week: 24, date: addDays(lmp, 24 * 7), note: "Survival outside the womb possible" },
+    { label: "Third Trimester Begins", week: 28, date: addDays(lmp, 28 * 7), note: "Final stretch of pregnancy" },
+    { label: "Full Term", week: 37, date: addDays(lmp, 37 * 7), note: "Baby considered full term" },
+  ];
+
   return {
     conception,
     edd,
@@ -128,6 +165,11 @@ function calculate(values: FormValues): CalculationResult {
     milestones,
     daysSinceConception,
     values,
+    transferTypeLabel,
+    standardEdd,
+    gestWeeks,
+    gestDays,
+    scanMilestones,
   };
 }
 
@@ -552,6 +594,43 @@ export default function IVFDueDateCalculator() {
                 <StatCard icon="📊" label="Progress" value={`${Math.round(result.progressPct)}%`} sub="of full 40-week term" />
               </div>
 
+              {/* ── ADDITIVE FEATURE 1 — TRANSFER-TYPE EDD + GESTATIONAL AGE ── */}
+              <Card style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "1.5rem" }}>
+                <CardContent className="p-6">
+                  <h3 className="font-bold mb-4 text-base flex items-center gap-2" style={{ color: "var(--text)" }}>
+                    <CalendarCheck className="w-4 h-4" style={{ color: "var(--accent-color)" }} />
+                    Due Date by Transfer Type & Current Gestational Age
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="rounded-xl p-4" style={{ background: "var(--surface2)", border: "1px solid var(--border)" }}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <Snowflake className="w-4 h-4" style={{ color: "var(--accent-color)" }} />
+                        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Transfer Type</p>
+                      </div>
+                      <p className="text-lg font-bold leading-tight" style={{ color: "var(--text)" }}>{result.transferTypeLabel}</p>
+                      <p className="text-sm mt-2" style={{ color: "var(--text-muted)" }}>
+                        EDD for this transfer: <strong style={{ color: "var(--accent-color)" }}>{formatShort(result.standardEdd)}</strong>
+                      </p>
+                      <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
+                        Calculated as transfer date + 266 days − embryo age (Day {result.values.embryoAge} → +{266 - parseInt(result.values.embryoAge)} days).
+                      </p>
+                    </div>
+                    <div className="rounded-xl p-4" style={{ background: "var(--surface2)", border: "1px solid var(--border)" }}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <Clock className="w-4 h-4" style={{ color: "var(--accent-color)" }} />
+                        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>As of Today</p>
+                      </div>
+                      <p className="text-2xl font-bold leading-tight" style={{ color: "var(--accent-color)" }}>
+                        {result.gestWeeks}w {result.gestDays}d
+                      </p>
+                      <p className="text-sm mt-2" style={{ color: "var(--text-muted)" }}>
+                        Current gestational age, counted from your adjusted LMP — the way your OB-GYN measures pregnancy weeks.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* MILESTONE TIMELINE */}
               <Card style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "1.5rem" }}>
                 <CardContent className="p-6">
@@ -560,6 +639,52 @@ export default function IVFDueDateCalculator() {
                     Key Pregnancy Milestones
                   </h3>
                   <MilestoneTimeline milestones={result.milestones} today={today} />
+                </CardContent>
+              </Card>
+
+              {/* ── ADDITIVE FEATURE 2 — KEY SCAN DATES TIMELINE ── */}
+              <Card style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "1.5rem" }}>
+                <CardContent className="p-6">
+                  <h3 className="font-bold mb-2 text-base flex items-center gap-2" style={{ color: "var(--text)" }}>
+                    <ListChecks className="w-4 h-4" style={{ color: "var(--accent-color)" }} />
+                    Key Scan Dates & Pregnancy Timeline
+                  </h3>
+                  <p className="text-sm mb-5" style={{ color: "var(--text-muted)" }}>
+                    Important scan windows and trimester milestones mapped from your transfer date.
+                  </p>
+                  <div className="space-y-3">
+                    {result.scanMilestones.map((s, i) => {
+                      const isPast = s.date <= today;
+                      return (
+                        <div
+                          key={i}
+                          className="flex items-center justify-between gap-3 rounded-xl p-4 flex-wrap"
+                          style={{ background: "var(--surface2)", border: "1px solid var(--border)" }}
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span
+                              className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold"
+                              style={{
+                                background: isPast ? "var(--accent-soft)" : "var(--accent)",
+                                color: isPast ? "var(--accent-color)" : "var(--accent-text)",
+                                border: "1px solid var(--border)",
+                              }}
+                            >
+                              {s.week}w
+                            </span>
+                            <div className="min-w-0">
+                              <p className="font-semibold text-sm" style={{ color: "var(--text)" }}>{s.label}</p>
+                              <p className="text-xs" style={{ color: "var(--text-muted)" }}>{s.note}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm font-semibold" style={{ color: "var(--accent-color)" }}>{formatShort(s.date)}</p>
+                            <p className="text-xs" style={{ color: "var(--text-muted)" }}>{isPast ? "✓ Passed" : "Upcoming"}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </CardContent>
               </Card>
 

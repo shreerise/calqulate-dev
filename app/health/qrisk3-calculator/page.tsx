@@ -18,13 +18,15 @@ import {
   ClipboardList,
   Target,
   Users,
-  Brain
+  Brain,
+  Sparkles
 } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { AuthorSection } from "@/components/seo/author-section"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "QRISK3 Calculator: NHS Heart Disease 10-Year Risk Score",
@@ -106,6 +108,16 @@ export default function Qrisk3CalculatorPage() {
             >
               Try the Calculator ↓
             </a>
+          </div>
+        </div>
+
+        {/* USP SUMMARY (TOFU) */}
+        <div className="mb-12">
+          <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+            <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+            <p className="text-sm md:text-base leading-relaxed text-slate-700">
+              Calqulate.net estimates your 10-year heart-attack and stroke risk using the official QRISK3 algorithm with a cross-reference. You get an accurate score and a clear factor breakdown.
+            </p>
           </div>
         </div>
 
@@ -301,6 +313,10 @@ export default function Qrisk3CalculatorPage() {
           </section>
 
         </article>
+
+        {/* Related calculators */}
+        <RelatedCalculators slug="qrisk3-calculator" />
+
            {/* Structured FAQ UI */}
         <div className="mt-12">
           <FAQSection faqs={faqs} />

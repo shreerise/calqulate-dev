@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, RefreshCw, Loader2, Moon, Sun, Battery, BatteryWarning, Brain, Activity, Clock } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Moon, Sun, Battery, BatteryWarning, Brain, Activity, Clock, AlertTriangle, CalendarClock, Zap } from "lucide-react";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -22,6 +22,11 @@ const formSchema = z.object({
 });
 
 // --- RESULT TYPE INTERFACE ---
+interface RecoveryNight {
+  label: string;
+  detail: string;
+}
+
 interface CalculationResult {
   totalDebt: number;
   severity: string;
@@ -30,7 +35,60 @@ interface CalculationResult {
   recoveryPlan: string[];
   healthImpact: string;
   batteryPercentage: number;
+  // FEATURE 1 — age-calibrated accumulated deficit
+  ageLabel: string;
+  recommendedRange: string;
+  idealUsed: number;
+  debtSeverityNote: string;
+  // FEATURE 2 — recovery schedule + nap guidance
+  recoveryNights: RecoveryNight[];
+  recoveryDays: number;
+  napGuidance: string;
 }
+
+// Age-based recommended sleep need (hours/night) used for the calibrated readout.
+const AGE_SLEEP_NEEDS: Record<string, { label: string; range: string; ideal: number }> = {
+  teen: { label: "Teenager (14–17 yrs)", range: "8–10 hours", ideal: 9 },
+  adult: { label: "Adult (18–64 yrs)", range: "7–9 hours", ideal: 8 },
+  senior: { label: "Older Adult (65+ yrs)", range: "7–8 hours", ideal: 7.5 },
+};
+
+// FEATURE 2 — build a realistic catch-up schedule, capping nightly top-ups and
+// weekend recovery so users don't oversleep into a "sleep hangover".
+const buildRecoverySchedule = (totalDebt: number): { nights: RecoveryNight[]; days: number; nap: string } => {
+  if (totalDebt <= 0) {
+    return {
+      nights: [{ label: "You're balanced", detail: "No catch-up needed — keep a consistent wake time." }],
+      days: 0,
+      nap: "Skip naps after 3 PM so they don't push back tonight's bedtime.",
+    };
+  }
+
+  // Add 1h/night on weekdays and up to 2h on weekend recovery nights.
+  const nights: RecoveryNight[] = [];
+  let remaining = totalDebt;
+  let dayIndex = 0;
+  const weekendSlots = new Set([5, 6]); // day 6 & 7 in the cycle act as weekend
+  while (remaining > 0.05 && dayIndex < 28) {
+    const isWeekend = weekendSlots.has(dayIndex % 7);
+    const cap = isWeekend ? 2 : 1; // weekend recovery limit of +2h
+    const addTonight = Math.min(cap, remaining);
+    remaining = parseFloat((remaining - addTonight).toFixed(2));
+    nights.push({
+      label: `Night ${dayIndex + 1}${isWeekend ? " (weekend)" : ""}`,
+      detail: `Add +${addTonight.toFixed(addTonight % 1 === 0 ? 0 : 1)}h sleep · ${remaining > 0.05 ? `${remaining.toFixed(1)}h debt left` : "debt cleared"}`,
+    });
+    dayIndex++;
+  }
+
+  const days = nights.length;
+  const nap =
+    totalDebt <= 4
+      ? "A single 20-minute power nap before 3 PM clears grogginess without entering deep sleep."
+      : "Use a 20-minute power nap on busy days for a quick reset, or a full 90-minute nap (one complete cycle) on a free afternoon to recover deep + REM sleep.";
+
+  return { nights, days, nap };
+};
 
 // --- VISUAL COMPONENTS ---
 
@@ -58,7 +116,15 @@ const SleepBatteryGauge = ({ percentage, colorClass, severity }: { percentage: n
 }
 
 // --- CALCULATION LOGIC ---
-const generateSleepInsights = (totalDebt: number, weeks: number): CalculationResult => {
+const generateSleepInsights = (
+  totalDebt: number,
+  weeks: number,
+  ageGroup: string,
+  idealUsed: number
+): CalculationResult => {
+  const ageInfo = AGE_SLEEP_NEEDS[ageGroup] ?? AGE_SLEEP_NEEDS.adult;
+  const schedule = buildRecoverySchedule(totalDebt);
+
   // Edge Case: Surplus
   if (totalDebt <= 0) {
     return {
@@ -71,7 +137,14 @@ const generateSleepInsights = (totalDebt: number, weeks: number): CalculationRes
         "Keep your weekend and weekday wake times as consistent as possible."
       ],
       healthImpact: "Your brain and body are fully optimized. Your immune system is strong, and cortisol levels are well-regulated.",
-      batteryPercentage: 100
+      batteryPercentage: 100,
+      ageLabel: ageInfo.label,
+      recommendedRange: ageInfo.range,
+      idealUsed,
+      debtSeverityNote: `Calibrated to the ${ageInfo.range} recommended for your age group, you currently carry no accumulated deficit.`,
+      recoveryNights: schedule.nights,
+      recoveryDays: schedule.days,
+      napGuidance: schedule.nap,
     };
   }
 
@@ -114,7 +187,31 @@ const generateSleepInsights = (totalDebt: number, weeks: number): CalculationRes
     ];
   }
 
-  return { totalDebt, severity, colorClass, description, recoveryPlan, healthImpact, batteryPercentage };
+  // FEATURE 1 — severity note tied to the age-based recommended need.
+  const debtSeverityNote = `Measured against your age-based need of ${idealUsed}h/night (${ageInfo.range} for ${ageInfo.label}), you've accumulated ${totalDebt.toFixed(1)} hours of deficit over ${weeks} week(s) — a ${severity.toLowerCase()} level that ${
+    severity === "Mild Debt"
+      ? "is easily recoverable within a few days."
+      : severity === "Moderate Debt"
+      ? "needs a structured catch-up over about a week."
+      : "calls for a gradual multi-week recovery, not a single weekend lie-in."
+  }`;
+
+  return {
+    totalDebt,
+    severity,
+    colorClass,
+    description,
+    recoveryPlan,
+    healthImpact,
+    batteryPercentage,
+    ageLabel: ageInfo.label,
+    recommendedRange: ageInfo.range,
+    idealUsed,
+    debtSeverityNote,
+    recoveryNights: schedule.nights,
+    recoveryDays: schedule.days,
+    napGuidance: schedule.nap,
+  };
 };
 
 
@@ -164,7 +261,7 @@ export default function SleepDebtCalculator() {
       
       const debt = totalIdeal - totalActual;
       
-      const insights = generateSleepInsights(debt, wks);
+      const insights = generateSleepInsights(debt, wks, values.ageGroup, ideal);
       
       setResult(insights);
       setIsLoading(false);
@@ -381,6 +478,70 @@ export default function SleepDebtCalculator() {
                         Use our Body Shape Calculator to see how it affects your physique.
                       </p>
                     )}
+                  </div>
+                </div>
+              </div>
+
+              {/* FEATURE 1 — AGE-CALIBRATED ACCUMULATED DEFICIT */}
+              <div className="border-t pt-8">
+                <h3 className="text-lg font-bold flex items-center gap-2 mb-4">
+                  <AlertTriangle className="w-5 h-5 text-emerald-700" />
+                  Age-Calibrated Sleep Deficit
+                </h3>
+                <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-5 md:p-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
+                    <div className="text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Age Group</p>
+                      <p className="text-sm font-bold text-slate-800 dark:text-slate-100 mt-1">{result.ageLabel}</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Recommended</p>
+                      <p className="text-sm font-bold text-emerald-700 mt-1">{result.recommendedRange}</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Need Used</p>
+                      <p className="text-sm font-bold text-slate-800 dark:text-slate-100 mt-1">{result.idealUsed}h/night</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Total Debt</p>
+                      <p className={`text-sm font-bold mt-1 ${result.colorClass}`}>
+                        {result.totalDebt <= 0 ? "0" : result.totalDebt.toFixed(1)}h
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                    {result.debtSeverityNote}
+                  </p>
+                </div>
+              </div>
+
+              {/* FEATURE 2 — CATCH-UP / RECOVERY SCHEDULE + NAP GUIDANCE */}
+              <div className="border-t pt-8">
+                <h3 className="text-lg font-bold flex items-center gap-2 mb-1">
+                  <CalendarClock className="w-5 h-5 text-emerald-700" />
+                  Your Catch-Up Recovery Schedule
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {result.recoveryDays > 0
+                    ? `A realistic, paced plan to clear your debt over ${result.recoveryDays} night${result.recoveryDays === 1 ? "" : "s"} — capped at +1h on weeknights and +2h on weekends to avoid a "sleep hangover".`
+                    : "You have no debt to clear — keep your schedule consistent."}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {result.recoveryNights.map((night, index) => (
+                    <div
+                      key={index}
+                      className="rounded-xl border border-slate-200 bg-white dark:bg-slate-900 p-4 shadow-sm"
+                    >
+                      <p className="text-sm font-bold text-emerald-700">{night.label}</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">{night.detail}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5 flex items-start gap-3 rounded-xl border border-emerald-100 bg-emerald-50/60 p-5">
+                  <Zap className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+                  <div>
+                    <p className="text-sm font-bold text-slate-900 dark:text-slate-100">Smart Nap Guidance</p>
+                    <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mt-1">{result.napGuidance}</p>
                   </div>
                 </div>
               </div>

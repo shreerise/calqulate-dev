@@ -10,14 +10,16 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { 
-  Calculator, 
-  RefreshCw, 
-  Loader2, 
-  Dumbbell, 
-  Trophy, 
-  TrendingUp, 
-  LineChart 
+import {
+  Calculator,
+  RefreshCw,
+  Loader2,
+  Dumbbell,
+  Trophy,
+  TrendingUp,
+  LineChart,
+  ListChecks,
+  Medal
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
@@ -38,15 +40,29 @@ const formSchema = z.object({
     return num >= 1 && num <= 12;
   }, { message: "Calculations are most accurate between 1 and 12 reps." }),
   units: z.enum(["kg", "lbs"]),
+  // OPTIONAL — non-breaking fields used only for the strength-percentile feature
+  bodyweight: z.string().optional(),
+  sex: z.enum(["male", "female"]).optional(),
 });
 
 type UnitSystem = "kg" | "lbs";
+
+type StrengthLevelName = "Untrained" | "Novice" | "Intermediate" | "Advanced" | "Elite";
+
+interface StrengthRanking {
+  level: StrengthLevelName;
+  ratio: number;           // 1RM / bodyweight (in kg terms)
+  nextLevel: StrengthLevelName | null;
+  toNextLevel: number;     // additional 1RM (display units) needed to reach the next tier
+  thresholds: { level: StrengthLevelName; weight: number }[]; // 1RM thresholds in display units
+}
 
 interface CalculationResult {
   oneRepMax: number;
   percentages: { percent: number; weight: number; reps: number }[];
   chartData: { reps: number; weight: number }[];
   trainingZones: { zone: string; range: string; weightRange: string; focus: string; color: string }[];
+  strengthRanking: StrengthRanking | null;
 }
 
 // --- CALCULATION LOGIC (Standard Epley) ---
@@ -93,6 +109,74 @@ const getTrainingZones = (orm: number, unit: string) => {
   ];
 };
 
+// --- STRENGTH STANDARDS (1RM as a multiple of bodyweight) ---
+// Bodyweight-relative strength ratios for a general compound lift, expressed as
+// 1RM ÷ bodyweight. These are typical, widely-cited training benchmarks used to
+// place a lift on the Untrained → Elite spectrum.
+const STRENGTH_RATIOS: Record<"male" | "female", { level: StrengthLevelName; ratio: number }[]> = {
+  male: [
+    { level: "Untrained", ratio: 0.5 },
+    { level: "Novice", ratio: 0.75 },
+    { level: "Intermediate", ratio: 1.25 },
+    { level: "Advanced", ratio: 1.75 },
+    { level: "Elite", ratio: 2.25 },
+  ],
+  female: [
+    { level: "Untrained", ratio: 0.35 },
+    { level: "Novice", ratio: 0.55 },
+    { level: "Intermediate", ratio: 0.9 },
+    { level: "Advanced", ratio: 1.25 },
+    { level: "Elite", ratio: 1.6 },
+  ],
+};
+
+const getStrengthRanking = (
+  ormDisplay: number,        // 1RM in the user's display units (kg or lbs)
+  bodyweightDisplay: number, // bodyweight in the user's display units
+  sex: "male" | "female",
+  units: UnitSystem
+): StrengthRanking | null => {
+  if (!bodyweightDisplay || bodyweightDisplay <= 0) return null;
+
+  // ratio is unit-agnostic (both numerator & denominator share the same unit)
+  const ratio = ormDisplay / bodyweightDisplay;
+  const tiers = STRENGTH_RATIOS[sex];
+
+  // Build display-unit 1RM thresholds for each tier.
+  const thresholds = tiers.map((t) => ({
+    level: t.level,
+    weight: Math.round(t.ratio * bodyweightDisplay),
+  }));
+
+  // Find the highest tier the lifter meets or exceeds.
+  let levelIndex = 0;
+  for (let i = 0; i < tiers.length; i++) {
+    if (ratio >= tiers[i].ratio) levelIndex = i;
+  }
+  const level = tiers[levelIndex].level;
+  const nextTier = tiers[levelIndex + 1] || null;
+  const nextLevel = nextTier ? nextTier.level : null;
+  const toNextLevel = nextTier
+    ? Math.max(0, Math.round(nextTier.ratio * bodyweightDisplay - ormDisplay))
+    : 0;
+
+  return {
+    level,
+    ratio: parseFloat(ratio.toFixed(2)),
+    nextLevel,
+    toNextLevel,
+    thresholds,
+  };
+};
+
+const STRENGTH_LEVEL_STYLES: Record<StrengthLevelName, string> = {
+  Untrained: "bg-slate-100 text-slate-700 border-slate-200",
+  Novice: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  Intermediate: "bg-teal-50 text-teal-700 border-teal-200",
+  Advanced: "bg-amber-50 text-amber-700 border-amber-200",
+  Elite: "bg-emerald-600 text-white border-emerald-700",
+};
+
 export default function OneRepMaxCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -100,7 +184,7 @@ export default function OneRepMaxCalculator() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { weight: "", reps: "", units: "kg" },
+    defaultValues: { weight: "", reps: "", units: "kg", bodyweight: "", sex: "male" },
   });
 
   const { setValue, getValues, watch } = form;
@@ -113,18 +197,22 @@ export default function OneRepMaxCalculator() {
 
     if (newUnit === currentUnit) return;
 
+    const convert = (val: number) =>
+      currentUnit === "kg" && newUnit === "lbs"
+        ? val * 2.20462
+        : currentUnit === "lbs" && newUnit === "kg"
+        ? val / 2.20462
+        : val;
+
     if (currentWeight && !isNaN(parseFloat(currentWeight))) {
-      const val = parseFloat(currentWeight);
-      let converted = 0;
-      
-      if (currentUnit === "kg" && newUnit === "lbs") {
-        converted = val * 2.20462;
-      } else if (currentUnit === "lbs" && newUnit === "kg") {
-        converted = val / 2.20462;
-      }
-      
       // Update the input with 1 decimal place accuracy
-      setValue("weight", converted.toFixed(1));
+      setValue("weight", convert(parseFloat(currentWeight)).toFixed(1));
+    }
+
+    // Keep the optional bodyweight field in sync with the selected unit too.
+    const currentBodyweight = getValues("bodyweight");
+    if (currentBodyweight && !isNaN(parseFloat(currentBodyweight))) {
+      setValue("bodyweight", convert(parseFloat(currentBodyweight)).toFixed(1));
     }
 
     setValue("units", newUnit);
@@ -167,11 +255,19 @@ export default function OneRepMaxCalculator() {
 
       const trainingZones = getTrainingZones(orm, values.units);
 
-      setResult({ 
-        oneRepMax: orm, 
-        percentages, 
+      // FEATURE 2 — bodyweight-relative strength ranking (Novice → Elite).
+      // Optional: only computed when the user supplies a bodyweight.
+      const bodyweightVal = values.bodyweight ? parseFloat(values.bodyweight) : NaN;
+      const strengthRanking = !isNaN(bodyweightVal)
+        ? getStrengthRanking(orm, bodyweightVal, values.sex || "male", values.units)
+        : null;
+
+      setResult({
+        oneRepMax: orm,
+        percentages,
         trainingZones,
-        chartData 
+        chartData,
+        strengthRanking
       });
       
       setIsLoading(false);
@@ -263,6 +359,64 @@ export default function OneRepMaxCalculator() {
                         </FormItem>
                       )}
                     />
+                  </div>
+
+                  {/* OPTIONAL — strength-percentile inputs (non-breaking) */}
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/50 dark:border-emerald-900 dark:bg-emerald-950/20 p-4 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <Medal className="w-4 h-4 text-emerald-700" />
+                      <p className="text-sm font-semibold text-emerald-700">
+                        Optional: rank your strength (Novice → Elite)
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="bodyweight"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm">Bodyweight</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Input type="number" step="0.5" placeholder={units === 'kg' ? "80" : "176"} {...field} className="text-base pl-3 pr-12 h-11" />
+                                <span className="absolute right-3 top-3 text-muted-foreground text-sm font-medium">{units}</span>
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="sex"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm">Sex</FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                className="flex space-x-0 bg-secondary rounded-lg p-1 w-full"
+                              >
+                                {["male", "female"].map((s) => (
+                                  <FormItem key={s} className="flex-1 flex items-center space-y-0">
+                                    <FormControl>
+                                      <RadioGroupItem value={s} className="peer sr-only" />
+                                    </FormControl>
+                                    <FormLabel className="w-full text-center cursor-pointer px-3 py-2 rounded-md text-sm capitalize transition-all peer-data-[state=checked]:bg-white peer-data-[state=checked]:shadow-sm peer-data-[state=checked]:text-emerald-700 hover:text-emerald-700">
+                                      {s}
+                                    </FormLabel>
+                                  </FormItem>
+                                ))}
+                              </RadioGroup>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Leave blank to skip — your 1RM and training table still work without it.
+                    </p>
                   </div>
                 </div>
 
@@ -403,6 +557,71 @@ export default function OneRepMaxCalculator() {
                 </div>
               ))}
             </div>
+
+            {/* FEATURE 2 — STRENGTH RANKING (Novice → Elite) */}
+            {result.strengthRanking && (
+              <Card className="shadow-md border-t-4 border-t-emerald-600">
+                <CardHeader className="bg-emerald-50/60 dark:bg-emerald-950/20 border-b pb-4">
+                  <CardTitle className="text-lg flex items-center gap-2 text-emerald-700">
+                    <Medal className="w-5 h-5" /> Your Strength Level
+                  </CardTitle>
+                  <CardDescription>
+                    Where your 1RM ranks for your bodyweight, using standard strength-to-bodyweight ratios.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-6 space-y-6">
+                  {/* Headline rank */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <span
+                      className={`inline-flex items-center gap-2 self-start rounded-full border px-4 py-1.5 text-base font-bold ${STRENGTH_LEVEL_STYLES[result.strengthRanking.level]}`}
+                    >
+                      <Trophy className="w-4 h-4" /> {result.strengthRanking.level}
+                    </span>
+                    <p className="text-sm text-muted-foreground">
+                      Your 1RM is{" "}
+                      <strong className="text-emerald-700">{result.strengthRanking.ratio}×</strong>{" "}
+                      your bodyweight.
+                      {result.strengthRanking.nextLevel ? (
+                        <>
+                          {" "}Lift <strong className="text-emerald-700">{result.strengthRanking.toNextLevel} {units}</strong>{" "}
+                          more to reach <strong>{result.strengthRanking.nextLevel}</strong>.
+                        </>
+                      ) : (
+                        <> You are at the top tier — outstanding strength.</>
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Tier thresholds */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    {result.strengthRanking.thresholds.map((t) => {
+                      const isCurrent = t.level === result.strengthRanking!.level;
+                      return (
+                        <div
+                          key={t.level}
+                          className={`rounded-xl border p-3 text-center transition-all ${
+                            isCurrent
+                              ? "border-emerald-400 bg-emerald-50 shadow-sm ring-1 ring-emerald-200 dark:bg-emerald-950/30"
+                              : "border-slate-200 bg-white dark:bg-slate-900"
+                          }`}
+                        >
+                          <p className={`text-xs font-bold uppercase tracking-wider ${isCurrent ? "text-emerald-700" : "text-muted-foreground"}`}>
+                            {t.level}
+                          </p>
+                          <p className="text-lg font-extrabold text-slate-900 dark:text-white mt-1">
+                            {t.weight}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground">{units} 1RM</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    Thresholds are typical bodyweight-relative benchmarks for a general compound lift and are estimates, not absolute standards. Strength varies by lift, training age, and individual factors.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
 
           </div>
         )}

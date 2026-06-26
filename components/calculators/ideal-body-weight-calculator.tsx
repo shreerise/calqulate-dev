@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { 
-  Calculator, RefreshCw, Loader2, Scale, Info, 
-  Target, Zap, Activity, Heart, TrendingUp 
+import {
+  Calculator, RefreshCw, Loader2, Scale, Info,
+  Target, Zap, Activity, Heart, TrendingUp, TrendingDown, Ruler, ArrowDownUp
 } from "lucide-react";
 
 const formSchema = z.object({
@@ -32,11 +32,27 @@ interface IBWResults {
   bmrAtIdeal: number;
   weightDiff: number;
   formulas: { name: string; value: number; description: string }[];
+  // FEATURE 1 — spread across the four established formulas (all in kg)
+  formulaRange: { min: number; max: number; spread: number };
+  // FEATURE 2 — frame-size adjustment (all in kg)
+  currentWeightKg: number;
+  unitSystem: UnitSystem;
 }
+
+type FrameSize = "small" | "medium" | "large";
+
+// FEATURE 2 — established frame-size multipliers applied to the median IBW.
+// Small frames carry ~10% less, large frames ~10% more healthy mass.
+const FRAME_FACTORS: Record<FrameSize, number> = {
+  small: 0.9,
+  medium: 1.0,
+  large: 1.1,
+};
 
 export default function IdealBodyWeightCalculator() {
   const [result, setResult] = useState<IBWResults | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [frame, setFrame] = useState<FrameSize>("medium"); // FEATURE 2 — optional, non-breaking
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -94,6 +110,11 @@ export default function IdealBodyWeightCalculator() {
         ? (10 * devine) + (6.25 * hCm) - (5 * age) + 5
         : (10 * devine) + (6.25 * hCm) - (5 * age) - 161;
 
+      // FEATURE 1 — healthy weight range spanning all four established formulas
+      const formulaValues = [devine, robinson, miller, hamwi];
+      const formulaMin = Math.min(...formulaValues);
+      const formulaMax = Math.max(...formulaValues);
+
       setResult({
         mainResult: devine, // Matching industry standard 73.2kg for 178cm male
         healthyRange: { min: 18.5 * Math.pow(hCm / 100, 2), max: 24.9 * Math.pow(hCm / 100, 2) },
@@ -106,7 +127,10 @@ export default function IdealBodyWeightCalculator() {
           { name: "Robinson", value: robinson, description: "Popular revision of Devine formula." },
           { name: "Miller", value: miller, description: "Commonly used for height/weight charts." },
           { name: "Hamwi", value: hamwi, description: "Traditional health coaching formula." },
-        ]
+        ],
+        formulaRange: { min: formulaMin, max: formulaMax, spread: formulaMax - formulaMin },
+        currentWeightKg: wKg,
+        unitSystem: values.units,
       });
 
       setIsLoading(false);
@@ -335,6 +359,125 @@ export default function IdealBodyWeightCalculator() {
               </div>
             </CardContent>
           </Card>
+
+          {/* FEATURE 1 — HEALTHY WEIGHT RANGE FROM ALL FOUR FORMULAS */}
+          <Card className="border-none shadow-xl ring-1 ring-emerald-100 bg-emerald-50/40">
+            <CardHeader>
+              <CardTitle className="text-lg font-bold flex items-center gap-2 text-emerald-700">
+                <ArrowDownUp className="w-5 h-5" /> Your Healthy Weight Range
+              </CardTitle>
+              <CardDescription className="text-sm text-slate-600">
+                Rather than one rigid number, we combine the Devine, Robinson, Miller and Hamwi formulas
+                for a realistic, evidence-based spread.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Range headline */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 rounded-2xl bg-white border border-emerald-100 py-6 px-4 text-center shadow-sm">
+                <span className="text-3xl md:text-4xl font-black text-emerald-700">{formatWt(result.formulaRange.min)}</span>
+                <span className="text-slate-400 font-bold">to</span>
+                <span className="text-3xl md:text-4xl font-black text-emerald-700">{formatWt(result.formulaRange.max)}</span>
+              </div>
+              <p className="text-center text-sm text-slate-600">
+                A spread of <strong className="text-emerald-700">{formatWt(result.formulaRange.spread)}</strong> across
+                the four established formulas — any value inside this band is a defensible healthy target.
+              </p>
+
+              {/* Per-formula breakdown */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {result.formulas.map((f) => (
+                  <div key={f.name} className="rounded-xl border border-emerald-100 bg-white px-3 py-3 text-center shadow-sm">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{f.name}</p>
+                    <p className="text-base font-black text-slate-800 mt-1">{formatWt(f.value)}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* FEATURE 2 — BODY-FRAME ADJUSTMENT & WEIGHT DIFFERENCE */}
+          {(() => {
+            // Median of the four formulas is the most stable centre to scale by frame.
+            const sorted = [...result.formulas.map((f) => f.value)].sort((a, b) => a - b);
+            const median = (sorted[1] + sorted[2]) / 2;
+            const frameTargetKg = median * FRAME_FACTORS[frame];
+            // Positive => need to lose; negative => need to gain (toward target).
+            const diffKg = result.currentWeightKg - frameTargetKg;
+            const isMetric = result.unitSystem === "metric";
+            const unitLabel = isMetric ? "kg" : "lbs";
+            const toUnit = (kg: number) => (isMetric ? kg : kg * 2.20462);
+            const diffDisplay = Math.abs(toUnit(diffKg)).toFixed(1);
+            const atTarget = Math.abs(diffKg) < 0.5;
+
+            return (
+              <Card className="border-none shadow-xl ring-1 ring-slate-200">
+                <CardHeader>
+                  <CardTitle className="text-lg font-bold flex items-center gap-2">
+                    <Ruler className="w-5 h-5 text-emerald-700" /> Adjust for Your Body Frame
+                  </CardTitle>
+                  <CardDescription className="text-sm text-slate-600">
+                    Bone structure changes your healthy target. Pick your frame size to refine the goal and see
+                    exactly how far your current weight is from it.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Frame selector */}
+                  <div className="flex bg-slate-100 p-1 rounded-xl max-w-md mx-auto">
+                    {(["small", "medium", "large"] as FrameSize[]).map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setFrame(opt)}
+                        className={`flex-1 py-2 text-sm font-semibold rounded-lg capitalize transition-all ${
+                          frame === opt
+                            ? "bg-white text-emerald-700 shadow-sm"
+                            : "text-slate-500 hover:text-slate-700"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-center text-xs text-slate-500">
+                    Tip: wrap your fingers around your wrist — overlap means a small frame, just touching is
+                    medium, no touch suggests a large frame.
+                  </p>
+
+                  {/* Frame-adjusted target + difference */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-5 text-center">
+                      <p className="text-[10px] uppercase tracking-widest text-slate-400 font-black mb-1">
+                        Frame-Adjusted Target
+                      </p>
+                      <p className="text-3xl font-black text-emerald-700">{formatWt(frameTargetKg)}</p>
+                      <p className="text-xs text-slate-500 mt-1 capitalize">{frame} frame</p>
+                    </div>
+                    <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+                      <p className="text-[10px] uppercase tracking-widest text-slate-400 font-black mb-1">
+                        Difference From You
+                      </p>
+                      {atTarget ? (
+                        <p className="text-2xl font-black text-emerald-600 mt-2">You're on target 🎯</p>
+                      ) : (
+                        <div className="flex items-center justify-center gap-2 mt-1">
+                          <div className={`p-1.5 rounded-lg ${diffKg > 0 ? "bg-rose-500/15" : "bg-emerald-500/15"}`}>
+                            {diffKg > 0 ? (
+                              <TrendingDown className="w-5 h-5 text-rose-500" />
+                            ) : (
+                              <TrendingUp className="w-5 h-5 text-emerald-600" />
+                            )}
+                          </div>
+                          <p className="text-2xl font-black text-slate-800">
+                            {diffKg > 0 ? "Lose" : "Gain"} {diffDisplay} {unitLabel}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })()}
 
         </div>
       )}

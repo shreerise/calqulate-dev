@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
-import { Loader2, Activity, Heart, AlertCircle, Info } from "lucide-react";
+import { Loader2, Activity, Heart, AlertCircle, Info, HeartPulse, Target, Stethoscope } from "lucide-react";
 
 // --- VALIDATION SCHEMA ---
 const formSchema = z.object({
@@ -34,29 +34,32 @@ interface RiskResult {
   averageRisk: number; // For comparison
   color: string;
   description: string;
+  // Feature 1 — intuitive heart age
+  heartAge: number; // estimated cardiovascular age in years
+  chronologicalAge: number; // user's actual age
+  heartAgeGap: number; // heartAge - chronologicalAge (positive = older heart)
+  // Feature 2 — biggest single change + medication signal
+  topFactorLabel: string; // e.g. "Blood pressure", "Cholesterol", "Smoking"
+  topFactorMessage: string; // plain-language description of the most impactful change
+  potentialRiskAfterChange: number; // estimated 10-yr % after the single change
+  medicationWorthDiscussing: boolean; // non-prescriptive flag
 }
 
 // --- CALCULATION LOGIC: NCEP ATP III (Hard CHD) ---
 // This aligns with "Risk of MI or Coronary Death" logic seen in your screenshots (MDCalc/Omni)
 // Source: National Heart, Lung, and Blood Institute (ATP III Algorithm)
-const calculateFraminghamHardCHD = (data: FormData): RiskResult => {
-  const { gender, age, systolicBP, bpTreatment, smoker, units } = data;
-  
-  // 1. Normalize Units to mg/dL
-  let totChol = data.totalCholesterol;
-  let hdlChol = data.hdlCholesterol;
-  
-  if (units === "mmol/L") {
-    totChol = totChol * 38.67;
-    hdlChol = hdlChol * 38.67;
-  }
-
-  // Ensure logical bounds for calculation
-  const ageCalc = Math.max(20, Math.min(age, 79));
-  const tcCalc = Math.max(130, Math.min(totChol, 320));
-  const hdlCalc = Math.max(20, Math.min(hdlChol, 100));
-  const sbpCalc = Math.max(90, Math.min(systolicBP, 200));
-
+// --- POINTS ENGINE (extracted, identical logic — reused for heart-age & factor analysis) ---
+// Inputs already normalised to mg/dL and clamped to clinical bounds.
+const computeFraminghamPoints = (params: {
+  gender: "male" | "female";
+  ageCalc: number;
+  tcCalc: number;
+  hdlCalc: number;
+  sbpCalc: number;
+  bpTreatment: boolean;
+  smoker: boolean;
+}): number => {
+  const { gender, ageCalc, tcCalc, hdlCalc, sbpCalc, bpTreatment, smoker } = params;
   let points = 0;
 
   if (gender === "male") {
@@ -216,9 +219,13 @@ const calculateFraminghamHardCHD = (data: FormData): RiskResult => {
     }
   }
 
-  // --- CALCULATE RISK PERCENTAGE FROM POINTS ---
+  return points;
+};
+
+// --- POINTS → RISK % MAPPING (extracted, identical logic) ---
+const pointsToRisk = (gender: "male" | "female", points: number): number => {
   let risk = 0;
-  
+
   // NOTE: This mapping uses the "Hard CHD" tables.
   if (gender === "male") {
     if (points < 0) risk = 1; // <1%
@@ -263,10 +270,51 @@ const calculateFraminghamHardCHD = (data: FormData): RiskResult => {
     if (points > 25) risk = Math.min(30, 15.0 + (points - 25) * 3);
   }
 
-  // To match the specific "1.8%" granularity seen in regression models (like Omni), 
-  // we can interpolate or use the regression formula. 
-  // For the exact output in your screenshot (Men, 45, 180, 50, 120) -> 
+  return risk;
+};
+
+// --- FEATURE 1 HELPER: HEART AGE ---
+// Estimate cardiovascular ("heart") age: the age of a same-sex person with all
+// non-age factors at their healthiest who carries the SAME 10-year risk.
+// We hold optimal lipids/BP/non-smoker and scan ages to match the user's risk.
+const estimateHeartAge = (gender: "male" | "female", userRisk: number): number => {
+  // Healthy reference profile (optimal, untreated, non-smoker).
+  const ref = { tcCalc: 170, hdlCalc: 50, sbpCalc: 110, bpTreatment: false, smoker: false };
+  let best = 20;
+  for (let a = 20; a <= 79; a++) {
+    const pts = computeFraminghamPoints({ gender, ageCalc: a, ...ref });
+    const r = pointsToRisk(gender, pts);
+    if (r <= userRisk) best = a;
+    else break;
+  }
+  return best;
+};
+
+const calculateFraminghamHardCHD = (data: FormData): RiskResult => {
+  const { gender, age, systolicBP, bpTreatment, smoker, units } = data;
+
+  // 1. Normalize Units to mg/dL
+  let totChol = data.totalCholesterol;
+  let hdlChol = data.hdlCholesterol;
+
+  if (units === "mmol/L") {
+    totChol = totChol * 38.67;
+    hdlChol = hdlChol * 38.67;
+  }
+
+  // Ensure logical bounds for calculation
+  const ageCalc = Math.max(20, Math.min(age, 79));
+  const tcCalc = Math.max(130, Math.min(totChol, 320));
+  const hdlCalc = Math.max(20, Math.min(hdlChol, 100));
+  const sbpCalc = Math.max(90, Math.min(systolicBP, 200));
+
+  const points = computeFraminghamPoints({ gender, ageCalc, tcCalc, hdlCalc, sbpCalc, bpTreatment, smoker });
+
+  // To match the specific "1.8%" granularity seen in regression models (like Omni),
+  // we can interpolate or use the regression formula.
+  // For the exact output in your screenshot (Men, 45, 180, 50, 120) ->
   // This point system gives ~1-2%. This aligns perfectly with Hard CHD.
+  const risk = pointsToRisk(gender, points);
 
   let riskLevel: "Low" | "Intermediate" | "High" = "Low";
   let color = "text-green-600";
@@ -283,12 +331,82 @@ const calculateFraminghamHardCHD = (data: FormData): RiskResult => {
       description = "Your calculated risk is Intermediate (10-20%). Consider discussing lifestyle changes or preventive measures with your doctor.";
   }
 
+  // --- FEATURE 1: heart age (uses the same point/risk engine above) ---
+  const heartAge = estimateHeartAge(gender, risk);
+  const heartAgeGap = heartAge - ageCalc;
+
+  // --- FEATURE 2: most impactful single change ---
+  // Re-run the risk with each modifiable factor moved to a healthier value, one
+  // at a time, and pick the change that lowers 10-year risk the most.
+  const base = { gender, ageCalc, tcCalc, hdlCalc, sbpCalc, bpTreatment, smoker } as const;
+  type Candidate = { label: string; message: string; risk: number };
+  const candidates: Candidate[] = [];
+
+  if (smoker) {
+    const r = pointsToRisk(gender, computeFraminghamPoints({ ...base, smoker: false }));
+    candidates.push({
+      label: "Smoking",
+      message: "Quitting smoking is the single biggest lever you have — it would lower your estimated 10-year risk more than any other change.",
+      risk: r,
+    });
+  }
+  if (sbpCalc >= 130) {
+    const r = pointsToRisk(gender, computeFraminghamPoints({ ...base, sbpCalc: 120 }));
+    candidates.push({
+      label: "Blood pressure",
+      message: "Bringing your systolic blood pressure down toward 120 mmHg would have the largest impact on your estimated 10-year risk.",
+      risk: r,
+    });
+  }
+  if (tcCalc >= 200) {
+    const r = pointsToRisk(gender, computeFraminghamPoints({ ...base, tcCalc: 180 }));
+    candidates.push({
+      label: "Cholesterol",
+      message: "Lowering your total cholesterol toward a healthier range would have the largest impact on your estimated 10-year risk.",
+      risk: r,
+    });
+  }
+  if (hdlCalc < 60) {
+    const r = pointsToRisk(gender, computeFraminghamPoints({ ...base, hdlCalc: 60 }));
+    candidates.push({
+      label: "HDL (good) cholesterol",
+      message: "Raising your HDL (“good”) cholesterol toward 60 mg/dL would have the largest impact on your estimated 10-year risk.",
+      risk: r,
+    });
+  }
+
+  // Choose the change producing the lowest resulting risk.
+  candidates.sort((a, b) => a.risk - b.risk);
+  const top = candidates[0];
+
+  let topFactorLabel = "Maintain your habits";
+  let topFactorMessage =
+    "Your modifiable factors are already in a healthy range — keep up your current habits and re-screen periodically.";
+  let potentialRiskAfterChange = risk;
+
+  if (top && top.risk < risk) {
+    topFactorLabel = top.label;
+    topFactorMessage = top.message;
+    potentialRiskAfterChange = top.risk;
+  }
+
+  // Non-prescriptive medication signal: aligned with the page's existing
+  // intermediate/high benchmark (>= 10% is where statin discussion is common).
+  const medicationWorthDiscussing = risk >= 10;
+
   return {
       score: risk,
       riskLevel,
       averageRisk,
       color,
-      description
+      description,
+      heartAge,
+      chronologicalAge: ageCalc,
+      heartAgeGap,
+      topFactorLabel,
+      topFactorMessage,
+      potentialRiskAfterChange,
+      medicationWorthDiscussing,
   };
 };
 
@@ -587,6 +705,72 @@ export default function FraminghamCalculator() {
                     <p className="text-sm font-semibold text-gray-900">Interpretation</p>
                     <p className="text-sm text-gray-700 leading-relaxed">{result.description}</p>
                  </div>
+              </div>
+
+              {/* FEATURE 1 — RISK % + HEART AGE (intuitive read-out) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <HeartPulse className="w-4 h-4 text-emerald-700" />
+                    <h3 className="text-sm font-semibold text-emerald-700">10-Year Risk</h3>
+                  </div>
+                  <p className="text-3xl font-bold text-slate-900 leading-none">
+                    {result.score < 1 ? "<1" : result.score.toFixed(1)}
+                    <span className="text-lg text-slate-500">%</span>
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                    Estimated chance of a heart attack or coronary death within 10 years.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Heart className="w-4 h-4 text-emerald-700" />
+                    <h3 className="text-sm font-semibold text-emerald-700">Your Heart Age</h3>
+                  </div>
+                  <p className="text-3xl font-bold text-slate-900 leading-none">
+                    {result.heartAge}
+                    <span className="text-lg text-slate-500"> yrs</span>
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                    {result.heartAgeGap > 0
+                      ? `Your heart looks about ${result.heartAgeGap} year${result.heartAgeGap === 1 ? "" : "s"} older than your real age of ${result.chronologicalAge}.`
+                      : result.heartAgeGap < 0
+                      ? `Great — your heart looks about ${Math.abs(result.heartAgeGap)} year${Math.abs(result.heartAgeGap) === 1 ? "" : "s"} younger than your real age of ${result.chronologicalAge}.`
+                      : `Your heart age matches your real age of ${result.chronologicalAge}.`}
+                  </p>
+                </div>
+              </div>
+
+              {/* FEATURE 2 — BIGGEST SINGLE CHANGE + MEDICATION SIGNAL (non-prescriptive) */}
+              <div className="rounded-xl border border-slate-200 bg-white p-4 md:p-5">
+                <div className="flex items-center gap-2 mb-1">
+                  <Target className="w-4 h-4 text-emerald-700" />
+                  <h3 className="text-sm font-semibold text-emerald-700">Your Biggest Single Change</h3>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  <strong className="text-slate-900">{result.topFactorLabel}.</strong>{" "}
+                  {result.topFactorMessage}
+                  {result.potentialRiskAfterChange < result.score && (
+                    <>
+                      {" "}This one change could move your estimated 10-year risk from{" "}
+                      <strong className="text-slate-900">{result.score < 1 ? "<1" : result.score.toFixed(1)}%</strong>{" "}
+                      to roughly{" "}
+                      <strong className="text-emerald-700">
+                        {result.potentialRiskAfterChange < 1 ? "<1" : result.potentialRiskAfterChange.toFixed(1)}%
+                      </strong>.
+                    </>
+                  )}
+                </p>
+                {result.medicationWorthDiscussing && (
+                  <div className="mt-3 flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3">
+                    <Stethoscope className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-700" />
+                    <p className="text-sm text-amber-800 leading-relaxed">
+                      At an estimated risk of {result.score.toFixed(1)}%, many clinical guidelines suggest it may be
+                      worth <strong>discussing preventive medication (such as a statin) with your doctor</strong>. This
+                      is a conversation starter, not a prescription.
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-start gap-2 text-xs text-gray-500 pt-4 border-t">

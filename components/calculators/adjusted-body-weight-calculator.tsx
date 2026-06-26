@@ -14,9 +14,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { 
-  Calculator, RefreshCw, Loader2, Weight, Target, Save, History, 
-  ChevronRight, AlertCircle, Award, BarChart3, Heart, Brain, 
-  ArrowRight, CheckCircle2, TrendingDown, TrendingUp, Info 
+  Calculator, RefreshCw, Loader2, Weight, Target, Save, History,
+  ChevronRight, AlertCircle, Award, BarChart3, Heart, Brain,
+  ArrowRight, CheckCircle2, TrendingDown, TrendingUp, Info, Stethoscope, Scale
 } from "lucide-react"
 
 // ─── VALIDATION SCHEMA ────────────────────────────────────────────────────────
@@ -38,6 +38,13 @@ interface CalculationResult {
   interpretation: string
   headline: string
   nextSteps: string[];
+  // USP #1 — all three weights side by side (values already in display units)
+  // USP #2 — recommended dosing weight based on BMI
+  bmi: number
+  bmiCategory: string
+  dosingLabel: "Actual" | "Ideal" | "Adjusted"
+  dosingWeight: number
+  dosingReason: string
 }
 
 interface SavedEntry {
@@ -142,6 +149,48 @@ function generatePersonalizedInsights(
         "Track weekly dietary metrics to ensure consistency in your daily structural upkeep."
       ]
     }
+  }
+}
+
+// ─── DOSING WEIGHT RECOMMENDATION ENGINE ──────────────────────────────────────
+// Recommends which weight figure to use for clinical dosing/nutrition based on BMI.
+// Mirrors standard clinical practice: obese → adjusted, normal → actual, low → ideal.
+function recommendDosingWeight(
+  bmi: number,
+  actual: number,
+  ibw: number,
+  ajbw: number,
+  unit: string
+): { label: "Actual" | "Ideal" | "Adjusted"; weight: number; reason: string; category: string } {
+  if (bmi >= 30) {
+    return {
+      label: "Adjusted",
+      weight: ajbw,
+      category: "Obese",
+      reason: `Your BMI of ${bmi.toFixed(1)} falls in the obese range, so excess adipose tissue would inflate dosing if actual weight were used. Use your Adjusted Body Weight (${ajbw.toFixed(1)} ${unit}) for medication dosing and nutrition.`,
+    }
+  }
+  if (bmi >= 25) {
+    return {
+      label: "Adjusted",
+      weight: ajbw,
+      category: "Overweight",
+      reason: `Your BMI of ${bmi.toFixed(1)} is in the overweight range. Adjusted Body Weight (${ajbw.toFixed(1)} ${unit}) is the safer dosing figure, correcting for the lower metabolic activity of excess tissue.`,
+    }
+  }
+  if (bmi >= 18.5) {
+    return {
+      label: "Actual",
+      weight: actual,
+      category: "Normal",
+      reason: `Your BMI of ${bmi.toFixed(1)} is in the normal range, so no adjustment is needed — your Actual Body Weight (${actual.toFixed(1)} ${unit}) is the correct dosing weight.`,
+    }
+  }
+  return {
+    label: "Ideal",
+    weight: ibw,
+    category: "Underweight",
+    reason: `Your BMI of ${bmi.toFixed(1)} is below the normal range. Adjusted weight is not indicated here; clinicians typically dose to Ideal Body Weight (${ibw.toFixed(1)} ${unit}) to avoid underdosing.`,
   }
 }
 
@@ -379,6 +428,19 @@ export default function AdjustedBodyWeightCalculator() {
       const excessWeightPct = ((weightInKg - idealBodyWeight) / idealBodyWeight) * 100
       const unitLabel = units === 'metric' ? 'kg' : 'lbs'
 
+      // BMI from existing inputs, used to recommend the correct dosing weight
+      const heightInM = heightInCm / 100
+      const bmi = weightInKg / (heightInM * heightInM)
+      const bmiCategory =
+        bmi < 18.5 ? "Underweight" : bmi < 25 ? "Normal" : bmi < 30 ? "Overweight" : "Obese"
+      const dosing = recommendDosingWeight(
+        bmi,
+        finalActualWeight,
+        finalIdealWeight,
+        finalAdjustedWeight,
+        unitLabel
+      )
+
       const insights = generatePersonalizedInsights(
         excessWeightPct,
         finalActualWeight,
@@ -386,15 +448,20 @@ export default function AdjustedBodyWeightCalculator() {
         finalAdjustedWeight,
         unitLabel
       )
-      
-      setResult({ 
+
+      setResult({
         idealBodyWeight: finalIdealWeight,
         adjustedBodyWeight: finalAdjustedWeight,
         actualWeight: finalActualWeight,
         excessWeightPct,
         interpretation: insights.interpretation,
         headline: insights.headline,
-        nextSteps: insights.nextSteps
+        nextSteps: insights.nextSteps,
+        bmi,
+        bmiCategory,
+        dosingLabel: dosing.label,
+        dosingWeight: dosing.weight,
+        dosingReason: dosing.reason,
       })
       setIsLoading(false)
 
@@ -691,6 +758,92 @@ export default function AdjustedBodyWeightCalculator() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* USP #1 — ALL THREE WEIGHTS SIDE BY SIDE ───────────────────────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Scale className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Your Three Weights, Side by Side</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  See exactly which figure applies to you. Each weight serves a different purpose —
+                  the highlighted one is your recommended dosing weight.
+                </p>
+
+                <div className="grid grid-cols-3 gap-3 mt-5">
+                  {[
+                    { key: "Actual", label: "Actual (ABW)", value: result.actualWeight },
+                    { key: "Ideal", label: "Ideal (IBW)", value: result.idealBodyWeight },
+                    { key: "Adjusted", label: "Adjusted (AjBW)", value: result.adjustedBodyWeight },
+                  ].map((w) => {
+                    const isPick = result.dosingLabel === w.key
+                    return (
+                      <div
+                        key={w.key}
+                        className={`rounded-xl border p-4 text-center transition-all ${
+                          isPick
+                            ? "border-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 shadow-sm"
+                            : "border-slate-200 bg-slate-50 dark:bg-slate-900"
+                        }`}
+                      >
+                        <p className={`text-[11px] uppercase tracking-wider font-bold ${isPick ? "text-emerald-700" : "text-gray-500"}`}>
+                          {w.label}
+                        </p>
+                        <p className={`text-lg md:text-xl font-black mt-1 ${isPick ? "text-emerald-700" : "text-slate-800 dark:text-slate-100"}`}>
+                          {w.value.toFixed(1)} <span className="text-xs font-normal text-muted-foreground">{resultUnit}</span>
+                        </p>
+                        {isPick && (
+                          <span className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700">
+                            <CheckCircle2 className="w-3 h-3" /> Use this
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Actual is your measured mass, Ideal is your Devine-formula target, and Adjusted blends the two for overweight states.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* USP #2 — RECOMMENDED DOSING WEIGHT (BMI-DRIVEN) ────────────────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Stethoscope className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Recommended Dosing Weight</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                  Based on your BMI of{" "}
+                  <span className="font-bold text-emerald-700">{result.bmi.toFixed(1)}</span> ({result.bmiCategory}),
+                  use your{" "}
+                  <span className="font-bold text-emerald-700">{result.dosingLabel} Body Weight</span> for medication
+                  dosing and nutrition.
+                </p>
+
+                <div className="mt-5 flex flex-col sm:flex-row items-stretch gap-4">
+                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-5 text-center flex-shrink-0 sm:min-w-[180px] flex flex-col justify-center">
+                    <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                      <Target className="w-3.5 h-3.5" /> Dosing Weight
+                    </div>
+                    <p className="text-3xl font-black text-emerald-700 mt-1.5 leading-none">
+                      {result.dosingWeight.toFixed(1)} <span className="text-base font-normal text-muted-foreground">{resultUnit}</span>
+                    </p>
+                    <p className="text-[11px] text-emerald-700/80 font-semibold mt-2">{result.dosingLabel} Body Weight</p>
+                  </div>
+                  <div className="flex-1 flex items-center">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                      {result.dosingReason}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  This recommendation follows standard clinical practice for choosing a dosing weight. Always confirm with a pharmacist or physician.
+                </p>
+              </CardContent>
+            </Card>
 
             {/* 3. ORIGINAL CLINICAL WEIGHT TABLE */}
             <Card className="border shadow-md">

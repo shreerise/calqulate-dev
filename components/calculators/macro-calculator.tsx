@@ -12,7 +12,28 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calculator, RefreshCw, Loader2, Info, Beef, Wheat, Droplets, Target, Flame, GlassWater, ChevronRight } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Info, Beef, Wheat, Droplets, Target, Flame, GlassWater, ChevronRight, UtensilsCrossed, TrendingDown, Scale, TrendingUp } from "lucide-react";
+
+// --- MACRO MATH HELPERS (additive) ---
+// Build protein / fat / carb grams (rounded) for an arbitrary calorie target,
+// reusing the same protein-first formula the main calculator uses.
+function buildMacros(targetCalories: number, weightKg: number) {
+  let proteinGrams = weightKg * 2.2;
+  let fatGrams = weightKg * 0.8;
+  let remainingCals = targetCalories - (proteinGrams * 4 + fatGrams * 9);
+  if (remainingCals < 0) {
+    proteinGrams = (targetCalories * 0.4) / 4;
+    fatGrams = (targetCalories * 0.3) / 9;
+    remainingCals = targetCalories * 0.3;
+  }
+  const carbGrams = remainingCals / 4;
+  return {
+    calories: Math.round(targetCalories),
+    protein: Math.round(proteinGrams),
+    fats: Math.round(fatGrams),
+    carbs: Math.round(carbGrams),
+  };
+}
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
@@ -165,13 +186,25 @@ export default function MacroCalculator() {
       // Water (approx 35ml per kg)
       const waterLitres = (weightKg * 0.035).toFixed(1);
 
+      // --- Goal presets: cut / maintain / bulk recalculated together (FEATURE 2) ---
+      const presets = [
+        { key: "cut", label: "Cut", desc: "20% deficit", factor: 0.8, ...buildMacros(tdee * 0.8, weightKg) },
+        { key: "maintain", label: "Maintain", desc: "TDEE", factor: 1.0, ...buildMacros(tdee, weightKg) },
+        { key: "bulk", label: "Bulk", desc: "10% surplus", factor: 1.1, ...buildMacros(tdee * 1.1, weightKg) },
+      ];
+      const activePreset = values.goal === "lose" ? "cut" : values.goal === "gain" ? "bulk" : "maintain";
+
       setResult({
         calories: Math.round(targetCalories),
         protein: Math.round(proteinGrams),
         fats: Math.round(fatGrams),
         carbs: Math.round(carbGrams),
         goalType: goalText,
-        water: waterLitres
+        water: waterLitres,
+        weightKg,
+        tdee: Math.round(tdee),
+        presets,
+        activePreset,
       });
 
       setIsLoading(false);
@@ -370,6 +403,120 @@ export default function MacroCalculator() {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* FEATURE 1 — MACRO TARGETS PER MEAL (computed grams split across meals) */}
+            <Card className="border shadow-md overflow-hidden">
+              <CardHeader className="bg-emerald-50/60 dark:bg-emerald-900/10 pb-3 border-b">
+                <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                  <UtensilsCrossed className="w-5 h-5" /> Your Macro Targets Per Meal
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Daily protein, carb and fat targets for your <strong>{result.goalType}</strong> goal, split into even meals so you know exactly what to put on each plate.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6">
+                {/* Daily totals strip */}
+                <div className="grid grid-cols-3 gap-3 mb-5">
+                  <div className="rounded-xl border border-blue-100 bg-blue-50 dark:bg-blue-900/20 p-3 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-blue-700 font-bold">Protein</p>
+                    <p className="text-lg font-black text-blue-700">{result.protein}g</p>
+                  </div>
+                  <div className="rounded-xl border border-orange-100 bg-orange-50 dark:bg-orange-900/20 p-3 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-orange-700 font-bold">Carbs</p>
+                    <p className="text-lg font-black text-orange-700">{result.carbs}g</p>
+                  </div>
+                  <div className="rounded-xl border border-yellow-100 bg-yellow-50 dark:bg-yellow-900/20 p-3 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-yellow-700 font-bold">Fats</p>
+                    <p className="text-lg font-black text-yellow-700">{result.fats}g</p>
+                  </div>
+                </div>
+
+                {[3, 4].map((meals) => (
+                  <div key={meals} className="mb-5 last:mb-0">
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                      Split across {meals} meals (per meal)
+                    </p>
+                    <div className="overflow-x-auto rounded-xl border border-slate-200">
+                      <table className="w-full text-sm">
+                        <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500">
+                          <tr>
+                            <th className="px-3 py-2 text-left font-semibold">Per meal</th>
+                            <th className="px-3 py-2 text-right font-semibold">Protein</th>
+                            <th className="px-3 py-2 text-right font-semibold">Carbs</th>
+                            <th className="px-3 py-2 text-right font-semibold">Fats</th>
+                            <th className="px-3 py-2 text-right font-semibold">kcal</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                          <tr className="bg-white dark:bg-transparent">
+                            <td className="px-3 py-2.5 font-semibold text-emerald-700">Each meal</td>
+                            <td className="px-3 py-2.5 text-right font-bold text-blue-700">{Math.round(result.protein / meals)}g</td>
+                            <td className="px-3 py-2.5 text-right font-bold text-orange-700">{Math.round(result.carbs / meals)}g</td>
+                            <td className="px-3 py-2.5 text-right font-bold text-yellow-700">{Math.round(result.fats / meals)}g</td>
+                            <td className="px-3 py-2.5 text-right font-bold text-slate-700">{Math.round(result.calories / meals)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))}
+                <p className="text-xs text-muted-foreground mt-1">
+                  Targets are divided evenly — front-load protein around training if it suits your schedule better.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — CUT / MAINTAIN / BULK PRESETS (calories + macros side by side) */}
+            <Card className="border shadow-md overflow-hidden">
+              <CardHeader className="bg-emerald-50/60 dark:bg-emerald-900/10 pb-3 border-b">
+                <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                  <Scale className="w-5 h-5" /> Compare Goal Presets
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  See how your calories <strong>and</strong> macros change across cut, maintain and bulk — all calculated from your TDEE of <strong>{result.tdee} kcal</strong>.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {result.presets.map((p: any) => {
+                    const isActive = p.key === result.activePreset;
+                    const Icon = p.key === "cut" ? TrendingDown : p.key === "bulk" ? TrendingUp : Scale;
+                    return (
+                      <div
+                        key={p.key}
+                        className={`rounded-2xl border p-4 transition-all ${
+                          isActive
+                            ? "border-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 shadow-sm ring-1 ring-emerald-200"
+                            : "border-slate-200 bg-white dark:bg-transparent"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            <Icon className={`w-4 h-4 ${isActive ? "text-emerald-700" : "text-slate-500"}`} />
+                            <span className={`font-bold ${isActive ? "text-emerald-700" : "text-slate-700"}`}>{p.label}</span>
+                          </div>
+                          {isActive && (
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+                              Your goal
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-2xl font-black text-slate-800 dark:text-slate-100">{p.calories}<span className="text-sm font-medium text-muted-foreground"> kcal</span></p>
+                        <p className="text-xs text-muted-foreground mb-3">{p.desc}</p>
+                        <div className="space-y-1.5 text-sm border-t border-dashed border-slate-200 pt-3">
+                          <div className="flex justify-between"><span className="text-slate-500">Protein</span><span className="font-bold text-blue-700">{p.protein}g</span></div>
+                          <div className="flex justify-between"><span className="text-slate-500">Carbs</span><span className="font-bold text-orange-700">{p.carbs}g</span></div>
+                          <div className="flex justify-between"><span className="text-slate-500">Fats</span><span className="font-bold text-yellow-700">{p.fats}g</span></div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="text-xs text-muted-foreground mt-4">
+                  Protein stays high across every preset to protect muscle — only carbs and total calories shift with your goal.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         )}
       </div>

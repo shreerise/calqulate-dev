@@ -9,8 +9,9 @@ import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { HeartPulse, Activity, Info, ShieldAlert, Timer, TrendingUp, Users , Stethoscope } from "lucide-react"
+import { HeartPulse, Activity, Info, ShieldAlert, Timer, TrendingUp, Users , Stethoscope, Sparkles } from "lucide-react"
 import Link from "next/link"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "Resting Heart Rate Calculator: Check Your Heart Health Instantly",
@@ -86,6 +87,18 @@ export default function HeartRatePage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net measures your resting heart rate with a simple tap tracker, compared against age and sex bands. You get an accurate reading and what it signals.
+              </p>
             </div>
           </div>
         </section>
@@ -193,6 +206,8 @@ export default function HeartRatePage() {
                 </p>
               </section>
             </div>
+
+            <RelatedCalculators slug="resting-heart-rate-calculator" />
 
             <div className="mt-12">
               <FAQSection faqs={faqs} />

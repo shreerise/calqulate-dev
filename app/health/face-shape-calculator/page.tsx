@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { RelatedCalculators } from "@/components/calculators/related-calculators";
 
 export const metadata: Metadata = {
   title: "Face Shape Calculator – AI Detector for Men & Women",
@@ -309,6 +310,18 @@ export default function FaceShapeCalculatorPage() {
                 <span className="font-semibold text-slate-700">4.8</span>
                 <span className="text-slate-400">(1,256 ratings)</span>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net identifies your face shape from facial measurements using AI-backed ratio detection. You get your exact shape with the numbers behind it, plus hairstyle and glasses tips.
+              </p>
             </div>
           </div>
         </section>
@@ -615,6 +628,7 @@ export default function FaceShapeCalculatorPage() {
                 </Card>
               </section>
             </div>
+            <RelatedCalculators slug="face-shape-calculator" />
             <FAQSection faqs={faqs} />
             {/* Author Badge Section */}
             <AuthorSection />

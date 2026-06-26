@@ -17,6 +17,8 @@ const formSchema = z.object({
   calculationMode: z.enum(["wake", "sleep", "now"]),
   time: z.string().optional(),
   fallAsleepTime: z.string().min(1, "Required").default("15"),
+  // Optional, non-breaking: lets us tailor the cycle-length accuracy note.
+  ageBand: z.enum(["teen", "adult", "older"]).optional(),
 }).superRefine((data, ctx) => {
   if (data.calculationMode !== "now" && !data.time) {
     ctx.addIssue({
@@ -34,6 +36,30 @@ type CycleResult = {
   isOptimal: boolean;
   colorClass: string;
   badge: string;
+  // FEATURE 1: marks options that deliver a full, restful night (5–6 cycles).
+  fullNight: boolean;
+};
+
+// FEATURE 2: age-based cycle-length guidance for accuracy.
+type AgeBand = "teen" | "adult" | "older";
+const getCycleNote = (band: AgeBand): { label: string; note: string } => {
+  switch (band) {
+    case "teen":
+      return {
+        label: "Teens (13–18)",
+        note: "Teen sleep cycles often run a touch longer (around 90–100 min) and teens need 8–10 hours, so leaning toward 5–6 cycles is ideal.",
+      };
+    case "older":
+      return {
+        label: "Older adults (61+)",
+        note: "After 60, cycles can shorten (closer to 80–90 min) with lighter, more fragmented sleep. If you wake groggy, try shifting your alarm 10–15 min earlier.",
+      };
+    default:
+      return {
+        label: "Adults (18–60)",
+        note: "Adult cycles average ~90 minutes. Individual cycles can range 80–110 min, so treat these times as a tight guide and fine-tune by ±15 min.",
+      };
+  }
 };
 
 // --- VISUAL UI: SLEEP STAGE TIMELINE ---
@@ -60,6 +86,7 @@ const SleepStageTimeline = () => (
 
 export default function SleepCycleCalculator() {
   const [results, setResults] = useState<CycleResult[] | null>(null);
+  const [resultMeta, setResultMeta] = useState<{ fallAsleepMins: number; ageBand: AgeBand } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -69,6 +96,7 @@ export default function SleepCycleCalculator() {
       calculationMode: "wake",
       time: "07:00",
       fallAsleepTime: "15",
+      ageBand: "adult",
     },
   });
 
@@ -138,7 +166,9 @@ export default function SleepCycleCalculator() {
           durationStr: `${hoursText} hours`,
           isOptimal,
           colorClass,
-          badge
+          badge,
+          // FEATURE 1: 5–6 cycles (7.5–9h) count as a full night for adults.
+          fullNight: cycles >= 5,
         });
       });
 
@@ -152,6 +182,7 @@ export default function SleepCycleCalculator() {
       }
 
       setResults(calculatedCycles);
+      setResultMeta({ fallAsleepMins, ageBand: (values.ageBand as AgeBand) || "adult" });
       setIsLoading(false);
       setTimeout(() => { resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
     }, 500);
@@ -265,6 +296,44 @@ export default function SleepCycleCalculator() {
                     </FormItem>
                   )}
                 />
+
+                {/* Optional age band — tailors the cycle-length accuracy note (FEATURE 2) */}
+                <FormField
+                  control={form.control}
+                  name="ageBand"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel className="text-base font-semibold flex items-center gap-2">
+                        Age group <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+                      </FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value || "adult"}
+                          className="grid grid-cols-3 gap-3"
+                        >
+                          {([
+                            { value: "teen", label: "Teen 13–18" },
+                            { value: "adult", label: "Adult 18–60" },
+                            { value: "older", label: "Older 61+" },
+                          ] as const).map((opt) => (
+                            <FormItem key={opt.value} className="relative">
+                              <FormControl>
+                                <RadioGroupItem value={opt.value} className="peer sr-only" />
+                              </FormControl>
+                              <FormLabel className="flex items-center justify-center rounded-xl border-2 border-muted bg-popover p-3 text-sm hover:bg-accent peer-data-[state=checked]:border-primary peer-data-[state=checked]:text-primary cursor-pointer text-center transition-all">
+                                {opt.label}
+                              </FormLabel>
+                            </FormItem>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
+                      <FormDescription>
+                        Used only to fine-tune the cycle-length accuracy note below your results.
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -317,6 +386,85 @@ export default function SleepCycleCalculator() {
                 </Card>
               ))}
             </div>
+
+            {/* FEATURE 1 — FULL-NIGHT RECOMMENDATION SUMMARY ───────────────────── */}
+            <Card className="border border-emerald-200 bg-emerald-50/60 shadow-sm">
+              <CardContent className="p-6 md:p-8">
+                <h3 className="text-xl font-bold mb-2 flex items-center gap-2 text-emerald-700">
+                  <Moon className="h-5 w-5" /> Wake Between Cycles, Not Mid-Cycle
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Each option below lands you at the <strong>end of a full 90-minute cycle</strong>, so your alarm
+                  catches you in light sleep instead of deep sleep — the trick to waking up rested. The times marked
+                  <span className="font-semibold text-emerald-700"> Full Night</span> give adults a complete 7.5–9 hours.
+                </p>
+
+                <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {results.map((res, i) => (
+                    <div
+                      key={i}
+                      className={`flex items-center justify-between rounded-xl border bg-white px-4 py-3 ${
+                        res.isOptimal ? "border-emerald-300 ring-1 ring-emerald-200" : "border-slate-200"
+                      }`}
+                    >
+                      <div>
+                        <p className="text-lg font-bold text-slate-900">{res.timeStr}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {res.cycles} cycles · {res.durationStr}
+                        </p>
+                      </div>
+                      {res.isOptimal ? (
+                        <span className="text-xs font-bold rounded-full bg-emerald-600 text-white px-2.5 py-1">
+                          Recommended
+                        </span>
+                      ) : res.fullNight ? (
+                        <span className="text-xs font-bold rounded-full bg-emerald-100 text-emerald-700 px-2.5 py-1">
+                          Full Night
+                        </span>
+                      ) : (
+                        <span className="text-xs font-semibold rounded-full bg-slate-100 text-slate-500 px-2.5 py-1">
+                          Short Night
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — SLEEP LATENCY + AGE-BASED CYCLE NOTE ─────────────────── */}
+            {resultMeta && (
+              <Card className="border border-slate-200 shadow-sm">
+                <CardContent className="p-6 md:p-8">
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                    <Clock className="h-5 w-5 text-emerald-700" /> Accuracy Adjustments Applied
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="rounded-xl border border-slate-200 bg-white p-4">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Sleep Latency Buffer
+                      </p>
+                      <p className="text-2xl font-black text-emerald-700 mt-1">
+                        {resultMeta.fallAsleepMins} min
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                        We added the time it takes you to actually fall asleep
+                        {resultMeta.fallAsleepMins === 15 ? " (the ~15 min average)" : ""} before counting cycles,
+                        so your {mode === "wake" ? "bedtime" : "wake time"} reflects real sleep, not just time in bed.
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-slate-200 bg-white p-4">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Cycle-Length Note · {getCycleNote(resultMeta.ageBand).label}
+                      </p>
+                      <p className="text-sm text-slate-700 mt-2 leading-relaxed">
+                        {getCycleNote(resultMeta.ageBand).note}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             <Card className="mt-8 border border-slate-200 shadow-sm">
               <CardContent className="p-6 md:p-8">

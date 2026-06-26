@@ -21,7 +21,9 @@ import {
   Brain,
   Activity,
   Stethoscope,
+  Sparkles,
 } from "lucide-react"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
@@ -163,6 +165,18 @@ export default function SleepCycleCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net finds your ideal bedtime and wake time around 90-minute cycles based on sleep-cycle science. You get instant 'sleep now, wake at...' answers to wake up rested.
+              </p>
             </div>
           </div>
         </section>
@@ -792,6 +806,8 @@ export default function SleepCycleCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="sleep-cycle-calculator" />
 
             {/* Structured FAQ UI */}
             <div className="mt-12">

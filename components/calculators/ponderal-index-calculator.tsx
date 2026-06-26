@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Calculator, RefreshCw, Loader2, User, Baby, CheckCircle2, History, ChevronRight } from "lucide-react"
+import { Calculator, RefreshCw, Loader2, User, Baby, CheckCircle2, History, ChevronRight, Ruler, ScrollText } from "lucide-react"
 
 // Define validation schema
 const formSchema = z.object({
@@ -31,6 +31,9 @@ interface CalculationResult {
   categoryColor: string
   userType: UserType
   unitLabel: string
+  // Corpulence Index feature — adult BMI comparison (kg/m²). null for child/infant.
+  bmi: number | null
+  bmiCategory: string | null
 }
 
 // Data for ADULTS using PI = Weight (kg) / Height (m)³
@@ -166,13 +169,21 @@ const PonderalIndexCalculator = () => {
       let interpretation: string = "";
       let categoryColor: string = "";
       let unitLabel: string = "";
+      let bmi: number | null = null;
+      let bmiCategory: string | null = null;
 
       if (userType === 'adult') {
         const weightInKg = units === "metric" ? weightInput : lbsToKg(weightInput);
         const heightInM = units === "metric" ? heightInput / 100 : inchesToCm(heightInput) / 100;
-        
+
         pi = weightInKg / Math.pow(heightInM, 3);
         unitLabel = "kg/m³";
+
+        // Corpulence Index feature: compute BMI (height²) so we can contrast it
+        // with the Ponderal Index (height³) for tall/short builds.
+        bmi = weightInKg / Math.pow(heightInM, 2);
+        bmiCategory =
+          bmi < 18.5 ? "Underweight" : bmi < 25 ? "Normal" : bmi < 30 ? "Overweight" : "Obese";
 
         if (pi < 11) {
             category = "Underweight";
@@ -211,7 +222,7 @@ const PonderalIndexCalculator = () => {
         }
       }
       
-      setResult({ pi, category, interpretation, categoryColor, userType, unitLabel });
+      setResult({ pi, category, interpretation, categoryColor, userType, unitLabel, bmi, bmiCategory });
       setIsLoading(false);
 
       setTimeout(() => {
@@ -438,6 +449,98 @@ const PonderalIndexCalculator = () => {
                     <h3 className="text-lg font-semibold mb-2">Interpretation</h3>
                     <p className="text-muted-foreground">{result.interpretation}</p>
                 </div>
+
+                {/* FEATURE 1 — Corpulence Index vs BMI ───────────────────────────── */}
+                <Card className="border border-emerald-100 bg-emerald-50/40 rounded-xl shadow-none">
+                  <CardContent className="p-5 md:p-6">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Ruler className="w-5 h-5 text-emerald-700" />
+                      <h3 className="text-base font-bold text-emerald-700">Corpulence Index — Why It Beats BMI for Your Build</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Your <strong>Corpulence Index (Ponderal Index)</strong> is{" "}
+                      <strong className="text-emerald-700">{result.pi.toFixed(2)} {result.unitLabel}</strong>{" "}
+                      — weight divided by height <strong>cubed</strong> (m³). Because it scales with body
+                      <em> volume</em> rather than area, it stays accurate at the height extremes where BMI
+                      (which uses height <strong>squared</strong>) systematically distorts the result.
+                    </p>
+
+                    {result.userType === 'adult' && result.bmi !== null ? (
+                      <>
+                        <div className="grid grid-cols-2 gap-3 mt-4">
+                          <div className="rounded-xl border border-emerald-200 bg-white p-4 text-center">
+                            <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Ponderal Index</p>
+                            <p className="text-2xl font-black text-emerald-700 mt-1">{result.pi.toFixed(2)}</p>
+                            <p className="text-[11px] text-gray-500 mt-0.5">kg/m³ · {result.category}</p>
+                          </div>
+                          <div className="rounded-xl border bg-white p-4 text-center">
+                            <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Your BMI</p>
+                            <p className="text-2xl font-black text-slate-800 mt-1">{result.bmi.toFixed(1)}</p>
+                            <p className="text-[11px] text-gray-500 mt-0.5">kg/m² · {result.bmiCategory}</p>
+                          </div>
+                        </div>
+                        <p className="text-sm text-muted-foreground leading-relaxed mt-4">
+                          {result.category === result.bmiCategory
+                            ? `For your build, the Ponderal Index (${result.category}) and BMI (${result.bmiCategory}) agree — typical for average heights, where both metrics track closely.`
+                            : `Notice the difference: BMI labels you "${result.bmiCategory}", while the volume-based Ponderal Index reads "${result.category}". For very tall builds BMI overstates body mass, and for very short builds it understates it — the cubed-height PI corrects this, giving a more honest read for your frame.`}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-sm text-muted-foreground leading-relaxed mt-3">
+                        For infants and children the index uses grams over height in cm³, so a standard
+                        adult BMI comparison does not apply here. The cubed-height approach still captures
+                        proportional growth more faithfully than height-squared metrics.
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* FEATURE 2 — Reference ranges: adult, child, infant ─────────────── */}
+                <Card className="border border-emerald-100 rounded-xl shadow-none">
+                  <CardContent className="p-5 md:p-6">
+                    <div className="flex items-center gap-2 mb-1">
+                      <ScrollText className="w-5 h-5 text-emerald-700" />
+                      <h3 className="text-base font-bold text-emerald-700">Reference Ranges — Where Your Value Falls</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Ponderal Index thresholds differ by life stage. The normal range for adults is
+                      roughly <strong>11–15 kg/m³</strong>. Your result of{" "}
+                      <strong className="text-emerald-700">{result.pi.toFixed(2)} {result.unitLabel}</strong>{" "}
+                      sits in the{" "}
+                      <strong className={result.categoryColor}>{result.category.toLowerCase()}</strong>{" "}
+                      band for{" "}
+                      {result.userType === 'adult' ? "adults" : "infants and children"}.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
+                      {[
+                        { stage: "Adults", normal: "11 – 15 kg/m³", note: "Weight ÷ height³ in metres. Standard Rohrer adult band.", active: result.userType === 'adult' },
+                        { stage: "Children", normal: "2.2 – 3.0", note: "Pediatric Corpulence Index (g ÷ cm³, scaled). Tracks proportional growth.", active: result.userType === 'child' },
+                        { stage: "Infants / Newborns", normal: "2.32 – 2.85 g/cm³", note: "Neonatal PI. Low values flag IUGR; high values flag macrosomia.", active: result.userType === 'child' },
+                      ].map((r) => (
+                        <div
+                          key={r.stage}
+                          className={`rounded-xl border p-4 ${r.active ? "border-emerald-300 bg-emerald-50" : "border-slate-200 bg-white"}`}
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-bold text-slate-800">{r.stage}</p>
+                            {r.active && (
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-white border border-emerald-200 rounded-full px-2 py-0.5">
+                                You
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm font-semibold text-emerald-700 mt-1">{r.normal}</p>
+                          <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{r.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
+                      Adult and pediatric formulas use different units and are not directly comparable. This
+                      is a screening reference, not a diagnosis — discuss out-of-range values with a clinician.
+                    </p>
+                  </CardContent>
+                </Card>
 
                 <div className="border-t pt-6">
                     <h3 className="text-lg font-semibold mb-4 text-center">Ponderal Index Reference Chart ({result.userType === 'adult' ? 'Adults' : 'Children'})</h3>

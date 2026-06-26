@@ -10,10 +10,11 @@ import { AuthorSection } from "@/components/seo/author-section"
 import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
-import { 
-  HeartPulse, 
-  Ruler, 
-  CheckCircle2, 
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
+import {
+  HeartPulse,
+  Ruler,
+  CheckCircle2,
   AlertTriangle,
   ListChecks,
   ShieldCheck,
@@ -25,7 +26,8 @@ import {
   MessageCircleQuestion,
   Stethoscope,
   Scale,
-  HeartHandshake
+  HeartHandshake,
+  Sparkles
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -116,6 +118,18 @@ export default function WaistToHipRatioPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net works out your waist-to-hip ratio from two measurements against WHO thresholds. You get an apple/pear classification and a clear cardiometabolic read.
+              </p>
             </div>
           </div>
         </section>
@@ -503,6 +517,8 @@ export default function WaistToHipRatioPage() {
             {/* Author Badge Section */}
             <MedicalReviewerSection />
             
+
+            <RelatedCalculators slug="waist-to-hip-ratio-calculator" />
 
             {/* Structured FAQ UI */}
             <div className="mt-12 pt-8 border-t border-slate-100">

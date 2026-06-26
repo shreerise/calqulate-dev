@@ -6,7 +6,6 @@ import { GeistMono } from "geist/font/mono";
 import { OrganizationSchema } from "@/components/seo/structured-data";
 import "./globals.css";
 import { Suspense } from "react";
-import CalculatorPopup from "@/components/ui/calculator-popup";
 import ClarityProvider from "@/components/analytics/clarity-provider";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
@@ -104,7 +103,6 @@ export default function RootLayout({
 
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 
-        <CalculatorPopup />
         <FeedbackPopup />
         <ChatWidget />
         <ServiceWorkerRegister />

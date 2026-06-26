@@ -22,7 +22,9 @@ import {
   User,
   Info,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Ruler,
+  Glasses
 } from "lucide-react";
 
 // --- TYPE DEFINITIONS ---
@@ -820,6 +822,237 @@ const femaleFaceShapeImage: Record<FaceShape, string> = {
   triangle: "/blog/face-shape/shape-triangle.webp"
 };
 
+// --- SHAPE RATIO PROFILE (drives the classification, normalised to cheekbone = 1.00) ---
+// Each shape carries the representative length/jaw/cheekbone/forehead ratios behind the
+// detection, the decisive rule, and a plain-language reason it was classified as such.
+interface ShapeRatioProfile {
+  lengthRatio: number;   // face length ÷ cheekbone width (R1)
+  jawRatio: number;      // jaw width ÷ cheekbone width
+  foreheadRatio: number; // forehead width ÷ cheekbone width
+  cheekboneRatio: number; // always 1.00 (reference / widest baseline)
+  widestFeature: string;
+  jawLine: string;
+  reason: string;
+}
+
+const shapeRatioProfiles: Record<FaceShape, ShapeRatioProfile> = {
+  oval: {
+    lengthRatio: 1.50, jawRatio: 0.78, foreheadRatio: 0.93, cheekboneRatio: 1.0,
+    widestFeature: "Cheekbones", jawLine: "Soft, curved",
+    reason: "Face length is about 1.5× your cheekbone width and the jaw is gently narrower than the forehead — the balanced profile that classifies as oval.",
+  },
+  round: {
+    lengthRatio: 1.08, jawRatio: 0.90, foreheadRatio: 0.92, cheekboneRatio: 1.0,
+    widestFeature: "Cheekbones", jawLine: "Soft, curved",
+    reason: "Face length and cheekbone width are nearly equal (R1 ≈ 1.1) with a soft, curved jaw — the short, rounded ratio that reads as round.",
+  },
+  square: {
+    lengthRatio: 1.05, jawRatio: 0.97, foreheadRatio: 0.97, cheekboneRatio: 1.0,
+    widestFeature: "Even (forehead ≈ cheek ≈ jaw)", jawLine: "Sharp, angular",
+    reason: "Forehead, cheekbone and jaw widths are almost identical and the jaw is sharp and angular over a short length — the hallmark square ratio.",
+  },
+  heart: {
+    lengthRatio: 1.45, jawRatio: 0.72, foreheadRatio: 1.02, cheekboneRatio: 1.0,
+    widestFeature: "Forehead", jawLine: "Tapered to a pointed chin",
+    reason: "The forehead is the widest point and the jaw tapers to a narrow, pointed chin — the top-heavy ratio that classifies as heart.",
+  },
+  diamond: {
+    lengthRatio: 1.50, jawRatio: 0.80, foreheadRatio: 0.85, cheekboneRatio: 1.0,
+    widestFeature: "Cheekbones", jawLine: "Narrow, pointed chin",
+    reason: "Cheekbones are clearly the widest feature while both forehead and jaw are narrower — the angular mid-face ratio behind a diamond classification.",
+  },
+  oblong: {
+    lengthRatio: 1.70, jawRatio: 0.93, foreheadRatio: 0.95, cheekboneRatio: 1.0,
+    widestFeature: "Even (similar throughout)", jawLine: "Soft, curved",
+    reason: "Face length is well over 1.6× the cheekbone width while the three widths stay similar — the long, even ratio that reads as oblong.",
+  },
+  rectangle: {
+    lengthRatio: 1.72, jawRatio: 0.96, foreheadRatio: 0.96, cheekboneRatio: 1.0,
+    widestFeature: "Even (forehead ≈ cheek ≈ jaw)", jawLine: "Sharp, angular",
+    reason: "Like a square but elongated — a high length ratio (>1.6) combined with similar widths and an angular jaw classifies as rectangle.",
+  },
+  triangle: {
+    lengthRatio: 1.40, jawRatio: 1.04, foreheadRatio: 0.82, cheekboneRatio: 1.0,
+    widestFeature: "Jawline", jawLine: "Wide, the broadest feature",
+    reason: "The jawline is the widest point and the forehead is narrowest — the bottom-heavy ratio (opposite of heart) that classifies as triangle (pear).",
+  },
+};
+
+// --- GLASSES & BEARD RECOMMENDATIONS BY SHAPE ---
+interface StyleGuide {
+  glasses: { recommended: string; avoid: string };
+  beard: string;
+}
+
+const styleGuideByShape: Record<FaceShape, StyleGuide> = {
+  oval: {
+    glasses: { recommended: "Almost anything works — square, rectangular and geometric frames keep the balance, while bold oversized styles add interest.", avoid: "Frames that are too large and overwhelm your balanced proportions." },
+    beard: "Versatile — light stubble to a medium full beard both suit oval; keep edges clean to preserve the balance.",
+  },
+  round: {
+    glasses: { recommended: "Angular frames — rectangular, square or geometric — to add definition and length.", avoid: "Round or small circular frames that echo your soft curves." },
+    beard: "A beard with length at the chin (short boxed or a defined goatee) adds angles and elongates a round face.",
+  },
+  square: {
+    glasses: { recommended: "Round and oval frames to soften your strong, angular jaw and forehead.", avoid: "Sharp rectangular or boxy frames that exaggerate the angles." },
+    beard: "A rounded or circle beard softens the jaw; keep cheek lines slightly faded rather than razor-sharp.",
+  },
+  heart: {
+    glasses: { recommended: "Bottom-heavy or rimless frames, and light cat-eye shapes, to balance a wider forehead.", avoid: "Top-heavy, embellished or oversized frames that widen the upper face." },
+    beard: "Grow fuller volume at the jaw and chin (a full or extended goatee) to add weight to a narrow chin.",
+  },
+  diamond: {
+    glasses: { recommended: "Oval, rimless, or cat-eye frames with detailing on the brow line to highlight the eyes.", avoid: "Narrow frames that draw attention to wide cheekbones." },
+    beard: "A fuller beard at the jawline widens the lower face and balances dramatic cheekbones.",
+  },
+  oblong: {
+    glasses: { recommended: "Tall, oversized or decorative frames with depth to break up and shorten a long face.", avoid: "Short, narrow frames that make the face look even longer." },
+    beard: "Fuller on the sides and kept short at the chin to add width and visually shorten the face.",
+  },
+  rectangle: {
+    glasses: { recommended: "Deep, rounded or wide frames to add width and soften an angular, long face.", avoid: "Slim rectangular frames that lengthen and sharpen further." },
+    beard: "Fuller cheeks with a shorter chin line add width and balance a long, angular jaw.",
+  },
+  triangle: {
+    glasses: { recommended: "Frames with detail or width on the top — browline, cat-eye or decorated tops — to draw the eye upward.", avoid: "Bottom-heavy frames that add weight to an already wide jaw." },
+    beard: "Keep the beard light or shorter at the jaw and add fullness higher up; avoid adding bulk to a wide jawline.",
+  },
+};
+
+// --- FEATURE 1: RATIO DETECTION BREAKDOWN ---
+const ShapeRatioBreakdown = ({ result }: { result: CalculationResult }) => {
+  const shape = result.faceAnalysis.faceShape;
+  const profile = shapeRatioProfiles[shape];
+
+  const rows = [
+    { label: "Face length", desc: "Length ÷ cheekbone width (R1)", value: profile.lengthRatio, qualitative: result.faceAnalysis.proportions.faceLength },
+    { label: "Cheekbone width", desc: "Reference (widest baseline = 1.00)", value: profile.cheekboneRatio, qualitative: result.faceAnalysis.proportions.cheekboneWidth },
+    { label: "Jaw width", desc: "Jaw ÷ cheekbone width", value: profile.jawRatio, qualitative: result.faceAnalysis.proportions.jawlineWidth },
+    { label: "Forehead width", desc: "Forehead ÷ cheekbone width", value: profile.foreheadRatio, qualitative: result.faceAnalysis.proportions.foreheadWidth },
+  ];
+
+  return (
+    <Card className="border-emerald-100">
+      <CardContent className="p-6 md:p-8">
+        <div className="flex items-center gap-2 mb-1">
+          <Ruler className="w-5 h-5 text-emerald-700" />
+          <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-slate-100">
+            The Ratios Behind Your <span className="capitalize">{shape}</span> Result
+          </h3>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed">{profile.reason}</p>
+
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {rows.map((row) => (
+            <div key={row.label} className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 p-4">
+              <div className="flex items-baseline justify-between gap-2">
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{row.label}</p>
+                <p className="text-lg font-black text-emerald-700">{row.value.toFixed(2)}×</p>
+              </div>
+              <p className="text-xs text-muted-foreground mt-0.5">{row.desc}</p>
+              <div className="mt-2 h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-emerald-500 transition-all duration-700"
+                  style={{ width: `${Math.min(100, (row.value / 1.8) * 100)}%` }}
+                />
+              </div>
+              <p className="text-[11px] text-muted-foreground mt-1.5 capitalize">
+                Detected: <span className="font-semibold text-slate-600 dark:text-slate-300">{row.qualitative}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4">
+            <p className="text-[11px] uppercase tracking-wider text-emerald-700 font-bold">Widest feature</p>
+            <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 mt-1">{profile.widestFeature}</p>
+          </div>
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4">
+            <p className="text-[11px] uppercase tracking-wider text-emerald-700 font-bold">Jawline</p>
+            <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 mt-1">{profile.jawLine}</p>
+          </div>
+        </div>
+        <p className="text-[11px] text-muted-foreground mt-4 leading-relaxed">
+          Ratios are normalised to your cheekbone width (= 1.00). The combination of the R1 length ratio, your widest feature and jaw angularity is what separates one shape from another.
+        </p>
+      </CardContent>
+    </Card>
+  );
+};
+
+// --- FEATURE 2: STYLE RECOMMENDATIONS (HAIR · GLASSES · BEARD) ---
+const StyleRecommendations = ({ result }: { result: CalculationResult }) => {
+  const shape = result.faceAnalysis.faceShape;
+  const genderKey = result.gender === "other" ? "female" : result.gender;
+  const guide = styleGuideByShape[shape];
+  const hair = hairstyleDatabase[shape][genderKey] || [];
+  const showBeard = result.gender === "male";
+
+  return (
+    <Card className="border-emerald-100">
+      <CardContent className="p-6 md:p-8">
+        <div className="flex items-center gap-2 mb-1">
+          <Sparkles className="w-5 h-5 text-emerald-700" />
+          <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-slate-100">
+            What Suits a <span className="capitalize">{shape}</span> Face
+          </h3>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Tailored hairstyle, glasses and {showBeard ? "beard " : ""}guidance matched to your detected shape.
+        </p>
+
+        <div className="mt-5 space-y-4">
+          {/* Hairstyles */}
+          <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Scissors className="w-4 h-4 text-emerald-700" />
+              <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">Hairstyles</p>
+            </div>
+            {hair.length > 0 ? (
+              <ul className="space-y-1.5">
+                {hair.map((h) => (
+                  <li key={h.id} className="text-sm text-muted-foreground flex items-start gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 flex-shrink-0" />
+                    <span><span className="font-semibold text-slate-700 dark:text-slate-200">{h.name}</span> — {h.suitability.toLowerCase()}.</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted-foreground">Choose a style that balances your widest feature ({shapeRatioProfiles[shape].widestFeature.toLowerCase()}).</p>
+            )}
+          </div>
+
+          {/* Glasses */}
+          <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Glasses className="w-4 h-4 text-emerald-700" />
+              <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">Glasses Frames</p>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              <span className="font-semibold text-emerald-700">Best:</span> {guide.glasses.recommended}
+            </p>
+            <p className="text-sm text-muted-foreground mt-1.5">
+              <span className="font-semibold text-slate-600 dark:text-slate-300">Avoid:</span> {guide.glasses.avoid}
+            </p>
+          </div>
+
+          {/* Beard (males) */}
+          {showBeard && (
+            <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <User className="w-4 h-4 text-emerald-700" />
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">Beard Styles</p>
+              </div>
+              <p className="text-sm text-muted-foreground">{guide.beard}</p>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
 // --- 3D HAIRSTYLE VIEWER COMPONENT ---
 const HairstyleViewer3D = ({ 
   hairstyle, 
@@ -1355,6 +1588,12 @@ const FaceShapeResultCard = ({
           ))}
         </div>
       </div>
+
+      {/* FEATURE 1: Ratio detection breakdown */}
+      <ShapeRatioBreakdown result={result} />
+
+      {/* FEATURE 2: Hairstyle, glasses & beard recommendations */}
+      <StyleRecommendations result={result} />
 
       {/* Hairstyle Recommendations */}
       {recommendations.length > 0 && (

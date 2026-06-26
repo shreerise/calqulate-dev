@@ -10,8 +10,8 @@ import {
   ArrowRight, 
   ArrowLeft, 
   RefreshCw, 
-  ActivitySquare, 
-  Scale, 
+  ActivitySquare,
+  Scale,
   HeartPulse,
   AlertTriangle,
   CheckCircle2,
@@ -19,7 +19,10 @@ import {
   Dumbbell,
   Apple,
   Info,
-  ChevronDown
+  ChevronDown,
+  TestTube2,
+  TrendingDown,
+  Target
 } from "lucide-react";
 
 // --- TYPES & INTERFACES ---
@@ -46,6 +49,21 @@ interface BreakdownItem {
   type: "modifiable" | "non-modifiable";
 }
 
+// FEATURE 1 — clearer screening band derived from the existing score
+type RiskBand = "Low" | "Increased" | "High" | "Very High";
+interface RiskBandInfo {
+  band: RiskBand;
+  testAdvice: string;
+  worthTesting: boolean;
+}
+
+// FEATURE 2 — the changeable factors that most move the score
+interface TopFactor {
+  factor: string;
+  points: number;
+  advice: string; // how much improving this would help
+}
+
 interface RiskResult {
   score: number;
   riskLevel: "Low Risk" | "Moderate Risk" | "High Risk";
@@ -55,6 +73,77 @@ interface RiskResult {
   modifiablePoints: number;
   weightLossGoal?: { min: number; max: number; unit: string };
   actionPlan: { icon: any; title: string; desc: string }[];
+  // FEATURE 1 — screening band + whether an HbA1c test is worthwhile
+  riskBand: RiskBandInfo;
+  // FEATURE 2 — top two changeable factors and the points each could remove
+  topFactors: TopFactor[];
+}
+
+// FEATURE 1 — map the existing 0-10+ score onto a 4-level screening band and
+// explain whether getting an HbA1c blood test is worthwhile at that band.
+function getRiskBand(score: number): RiskBandInfo {
+  if (score >= 7) {
+    return {
+      band: "Very High",
+      worthTesting: true,
+      testAdvice:
+        "An HbA1c (or fasting glucose) test is strongly worthwhile now. At this level there is a meaningful chance you already have prediabetes or undiagnosed diabetes — a quick blood test confirms it and lets you act early.",
+    };
+  }
+  if (score >= 5) {
+    return {
+      band: "High",
+      worthTesting: true,
+      testAdvice:
+        "Getting an HbA1c test is worthwhile. A score of 5+ signals elevated risk, and a single blood test will tell you whether your blood sugar is already creeping up so you can reverse it.",
+    };
+  }
+  if (score === 4) {
+    return {
+      band: "Increased",
+      worthTesting: true,
+      testAdvice:
+        "An HbA1c test is reasonable to consider, especially if you have changeable factors below. You are on the borderline, so a baseline reading is useful to track against over time.",
+    };
+  }
+  return {
+    band: "Low",
+    worthTesting: false,
+    testAdvice:
+      "A blood test is not urgent at this risk level. Keep up your healthy habits and re-screen once a year, or sooner if your weight, activity, or health changes.",
+  };
+}
+
+// FEATURE 2 — pick the two changeable (modifiable) factors carrying the most
+// points and quantify how much fixing each one would lower the score.
+function getTopFactors(breakdown: BreakdownItem[], score: number): TopFactor[] {
+  const adviceFor = (factor: string, points: number): string => {
+    const newScore = Math.max(0, score - points);
+    const dropsBand = newScore < 5 && score >= 5;
+    const pointWord = points === 1 ? "point" : "points";
+    if (factor.startsWith("BMI")) {
+      return `Reaching a healthy weight removes ${points} ${pointWord} from your score${
+        dropsBand ? ", which would move you out of the high-risk band" : ""
+      }. Losing 5-7% of your body weight can cut diabetes risk by up to 58%.`;
+    }
+    if (factor === "Sedentary Lifestyle") {
+      return `Becoming active (150 min/week) removes ${points} ${pointWord} from your score${
+        dropsBand ? ", enough to drop you below the high-risk threshold" : ""
+      } and sharply improves insulin sensitivity.`;
+    }
+    if (factor === "High Blood Pressure") {
+      return `Bringing blood pressure under control removes ${points} ${pointWord} from your score${
+        dropsBand ? ", which would move you out of the high-risk band" : ""
+      } and protects your heart at the same time.`;
+    }
+    return `Improving this removes ${points} ${pointWord} from your score.`;
+  };
+
+  return breakdown
+    .filter((i) => i.type === "modifiable")
+    .sort((a, b) => b.points - a.points)
+    .slice(0, 2)
+    .map((i) => ({ factor: i.factor, points: i.points, advice: adviceFor(i.factor, i.points) }));
 }
 
 // --- VISUAL COMPONENTS ---
@@ -205,7 +294,10 @@ export default function DiabetesRiskCalculator() {
     if (score === 4) riskLevel = "Moderate Risk";
     if (score >= 5) riskLevel = "High Risk";
 
-    setResult({ score, riskLevel, bmi, bmiCategory, breakdown, modifiablePoints: modifiableScore, weightLossGoal, actionPlan });
+    const riskBand = getRiskBand(score);
+    const topFactors = getTopFactors(breakdown, score);
+
+    setResult({ score, riskLevel, bmi, bmiCategory, breakdown, modifiablePoints: modifiableScore, weightLossGoal, actionPlan, riskBand, topFactors });
     setTimeout(() => { resultsRef.current?.scrollIntoView({ behavior: 'smooth' }); }, 100);
   };
 
@@ -448,6 +540,98 @@ export default function DiabetesRiskCalculator() {
                 )}
               </CardContent>
             </Card>
+
+            {/* FEATURE 1 — SCREENING BAND & HbA1c TEST GUIDANCE */}
+            <Card className="shadow-md border-t-4 border-t-emerald-600 rounded-xl">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                  <TestTube2 className="w-5 h-5" /> Your Screening Band &amp; Should You Get an HbA1c Test?
+                </CardTitle>
+                <CardDescription>A clearer band than a single number — and whether a blood test is worth it for you.</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-2 space-y-5">
+                {/* Band scale */}
+                <div className="flex flex-wrap gap-2">
+                  {(["Low", "Increased", "High", "Very High"] as const).map((b) => {
+                    const active = result.riskBand.band === b;
+                    const tone =
+                      b === "Low"
+                        ? "bg-emerald-600"
+                        : b === "Increased"
+                        ? "bg-yellow-500"
+                        : b === "High"
+                        ? "bg-orange-500"
+                        : "bg-red-500";
+                    return (
+                      <span
+                        key={b}
+                        className={`flex-1 min-w-[90px] text-center text-xs font-bold px-3 py-2 rounded-lg transition-all ${
+                          active
+                            ? `${tone} text-white shadow-sm`
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-400"
+                        }`}
+                      >
+                        {b}
+                        {active && " ✓"}
+                      </span>
+                    );
+                  })}
+                </div>
+
+                <div
+                  className={`rounded-xl p-4 border text-sm leading-relaxed flex items-start gap-3 ${
+                    result.riskBand.worthTesting
+                      ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200"
+                      : "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                  }`}
+                >
+                  {result.riskBand.worthTesting ? (
+                    <TestTube2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-emerald-600" />
+                  ) : (
+                    <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-emerald-600" />
+                  )}
+                  <span>
+                    Your <strong>{result.riskBand.band}</strong> band: {result.riskBand.testAdvice}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  This is a screening estimate, not a diagnosis. Only a clinician and a blood test can diagnose diabetes or prediabetes.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — TOP TWO CHANGEABLE FACTORS */}
+            {result.topFactors.length > 0 && (
+              <Card className="shadow-md rounded-xl">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                    <Target className="w-5 h-5" /> Your Top {result.topFactors.length === 1 ? "Factor" : "2 Factors"} to Change
+                  </CardTitle>
+                  <CardDescription>The changeable factors that affect your score the most — and how much fixing each would help.</CardDescription>
+                </CardHeader>
+                <CardContent className="pt-2">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {result.topFactors.map((f, i) => (
+                      <div
+                        key={i}
+                        className="rounded-xl border border-emerald-100 dark:border-slate-700 bg-emerald-50/50 dark:bg-slate-800/50 p-4"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700">
+                            <TrendingDown className="w-3.5 h-3.5" /> #{i + 1} Biggest Lever
+                          </span>
+                          <span className="text-xs font-bold text-red-500 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-full">
+                            −{f.points} pt{f.points === 1 ? "" : "s"} possible
+                          </span>
+                        </div>
+                        <h4 className="font-bold text-gray-900 dark:text-white mb-1">{f.factor}</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{f.advice}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             <div className="grid md:grid-cols-2 gap-6">
               {/* Detailed Breakdown Card */}

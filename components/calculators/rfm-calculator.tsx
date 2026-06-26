@@ -69,7 +69,39 @@ interface RFMCalculationResult {
   actionableTips: string
   rfmColor: string // For visual feedback
   bmiCategory?: string // New: BMI category
+  // FEATURE 1 — No-calipers quick body-fat estimate (height + waist only)
+  bodyFatCategoryLabel: string
+  bodyFatCategoryColor: string
+  bodyFatCategoryDescription: string
+  // FEATURE 2 — Skinny-fat (normal BMI but high RFM) detection
+  skinnyFat?: {
+    isSkinnyFat: boolean
+    headline: string
+    message: string
+    tone: "alert" | "ok"
+  }
 }
+
+// FEATURE 1 — Map an RFM body-fat % to a clear, no-calipers category.
+// Uses the same ACE/AHA-style bands already shown in the page's interpretation table.
+const getBodyFatCategory = (
+  rfm: number,
+  sex: "male" | "female" | "other"
+): { label: string; color: string; description: string } => {
+  // Treat "other" with the male band set (matches the RFM formula default used above).
+  if (sex === "female") {
+    if (rfm < 14) return { label: "Essential / Very Lean", color: "text-blue-500", description: "Below the typical healthy range for women — body fat this low can affect hormones and energy." };
+    if (rfm < 21) return { label: "Athletic", color: "text-emerald-600", description: "A lean, athletic body-fat level typical of active women." };
+    if (rfm < 25) return { label: "Fitness", color: "text-green-600", description: "A fit, healthy body-fat level for women." };
+    if (rfm < 32) return { label: "Average", color: "text-yellow-600", description: "An average body-fat level for women — small reductions can still benefit health." };
+    return { label: "High", color: "text-red-500", description: "Above the average range for women — consider sustainable fat-loss habits." };
+  }
+  if (rfm < 6) return { label: "Essential / Very Lean", color: "text-blue-500", description: "Below the typical healthy range for men — body fat this low can affect performance and recovery." };
+  if (rfm < 14) return { label: "Athletic", color: "text-emerald-600", description: "A lean, athletic body-fat level typical of active men." };
+  if (rfm < 18) return { label: "Fitness", color: "text-green-600", description: "A fit, healthy body-fat level for men." };
+  if (rfm < 25) return { label: "Average", color: "text-yellow-600", description: "An average body-fat level for men — small reductions can still benefit health." };
+  return { label: "High", color: "text-red-500", description: "Above the average range for men — consider sustainable fat-loss habits." };
+};
 
 // Function to calculate BMI category
 const getBMICategory = (bmi: number): string => {
@@ -325,6 +357,38 @@ export default function RFMCalculator() {
         }
 
 
+        // ── FEATURE 1: No-calipers body-fat category from height & waist only ──
+        const bodyFat = getBodyFatCategory(rfm, sex);
+
+        // ── FEATURE 2: Skinny-fat detection (normal BMI but high RFM) ──────────
+        let skinnyFat: RFMCalculationResult["skinnyFat"] = undefined;
+        if (bmi !== undefined && bmiCategory !== undefined) {
+            const isBmiNormal = bmiCategory === "Normal weight";
+            const rfmIsHigh = rfmCategory === "Overfat" || rfmCategory === "Obese";
+            if (isBmiNormal && rfmIsHigh) {
+                skinnyFat = {
+                    isSkinnyFat: true,
+                    tone: "alert",
+                    headline: "Possible 'skinny-fat' pattern detected",
+                    message: `Your BMI of ${bmi.toFixed(1)} looks normal, but your RFM of ${rfm.toFixed(1)}% falls in the ${rfmCategory.toLowerCase()} range. This mismatch is the classic 'skinny-fat' (normal weight obesity / TOFI) profile — the scale looks fine while body fat is higher than ideal. Strength training plus adequate protein usually helps more than just losing weight.`,
+                };
+            } else if (isBmiNormal && rfmCategory === "Healthy") {
+                skinnyFat = {
+                    isSkinnyFat: false,
+                    tone: "ok",
+                    headline: "BMI and RFM agree",
+                    message: `Both your BMI (${bmi.toFixed(1)}, normal) and your RFM (${rfm.toFixed(1)}%, healthy) point the same way — no hidden 'skinny-fat' discrepancy. Your weight and your body-fat estimate tell a consistent story.`,
+                };
+            } else if (!isBmiNormal && rfmCategory === "Healthy") {
+                skinnyFat = {
+                    isSkinnyFat: false,
+                    tone: "ok",
+                    headline: "Higher BMI, healthy body fat",
+                    message: `Your BMI of ${bmi.toFixed(1)} reads as ${bmiCategory?.toLowerCase()}, yet your RFM of ${rfm.toFixed(1)}% is in the healthy range. BMI can over-flag muscular builds — your body-fat estimate suggests this may be muscle, not excess fat.`,
+                };
+            }
+        }
+
         setResult({
           rfm,
           rfmCategory,
@@ -335,7 +399,11 @@ export default function RFMCalculator() {
           idealRfmRange,
           healthRiskSummary,
           actionableTips,
-          rfmColor
+          rfmColor,
+          bodyFatCategoryLabel: bodyFat.label,
+          bodyFatCategoryColor: bodyFat.color,
+          bodyFatCategoryDescription: bodyFat.description,
+          skinnyFat,
         })
         setIsLoading(false)
 
@@ -519,6 +587,65 @@ export default function RFMCalculator() {
                     </p>
                   )}
                 </div>
+
+                {/* FEATURE 1 — No-calipers quick body-fat estimate */}
+                <Card className="border rounded-xl bg-emerald-50/60 border-emerald-100">
+                    <CardContent className="p-5 md:p-6">
+                        <div className="flex items-center gap-2 mb-1">
+                            <BarChart2 className="w-5 h-5 text-emerald-700" />
+                            <h3 className="text-base font-bold text-emerald-700">No-Calipers Body-Fat Estimate</h3>
+                        </div>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            Using just your height and waist, your estimated body fat is{" "}
+                            <span className={`font-bold ${result.rfmColor}`}>{result.rfm.toFixed(1)}%</span>, which sits in the{" "}
+                            <span className={`font-bold ${result.bodyFatCategoryColor}`}>{result.bodyFatCategoryLabel}</span> range.
+                        </p>
+                        <p className="text-sm text-muted-foreground leading-relaxed mt-2">
+                            {result.bodyFatCategoryDescription}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-3">
+                            No skinfold calipers, scales or scans needed — just a tape measure. Because it relies only on height and waist, it is quick and easy to repeat week to week to track your progress.
+                        </p>
+                    </CardContent>
+                </Card>
+
+                {/* FEATURE 2 — Skinny-fat (normal BMI but high RFM) detection */}
+                {result.skinnyFat && (
+                    <Card
+                        className={`border rounded-xl ${
+                            result.skinnyFat.tone === "alert"
+                                ? "bg-orange-50/70 border-orange-200"
+                                : "bg-emerald-50/60 border-emerald-100"
+                        }`}
+                    >
+                        <CardContent className="p-5 md:p-6">
+                            <div className="flex items-center gap-2 mb-1">
+                                {result.skinnyFat.tone === "alert" ? (
+                                    <Info className="w-5 h-5 text-orange-600" />
+                                ) : (
+                                    <Info className="w-5 h-5 text-emerald-700" />
+                                )}
+                                <h3
+                                    className={`text-base font-bold ${
+                                        result.skinnyFat.tone === "alert" ? "text-orange-700" : "text-emerald-700"
+                                    }`}
+                                >
+                                    RFM vs. BMI: {result.skinnyFat.headline}
+                                </h3>
+                            </div>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                {result.skinnyFat.message}
+                            </p>
+                        </CardContent>
+                    </Card>
+                )}
+
+                {result.bmi === undefined && (
+                    <p className="text-xs text-muted-foreground -mt-2">
+                        Tip: add your optional <span className="font-semibold">weight</span> above to unlock the RFM-vs-BMI
+                        check that reveals hidden &lsquo;skinny-fat&rsquo; cases.
+                    </p>
+                )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
                     {result.bmi !== undefined && (

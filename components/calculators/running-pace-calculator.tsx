@@ -30,6 +30,12 @@ const formSchema = z.object({
   paceMins: z.string().optional(),
   paceSecs: z.string().optional(),
   paceUnit: z.enum(["km", "mi"]),
+
+  // Goal-pace mode (optional, non-breaking)
+  goalRace: z.enum(["5", "10", "21.0975", "42.195"]).optional(),
+  goalHrs: z.string().optional(),
+  goalMins: z.string().optional(),
+  goalSecs: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -56,6 +62,22 @@ interface CalculationResult {
   splits: Split[];
 }
 
+// Goal-pace result (Feature 2): exact pace needed to hit a target finish time.
+interface GoalResult {
+  raceLabel: string;
+  raceDistanceStr: string;
+  finishStr: string;
+  goalPaceKm: string;
+  goalPaceMi: string;
+}
+
+const GOAL_RACES: { value: "5" | "10" | "21.0975" | "42.195"; label: string }[] = [
+  { value: "5", label: "5K" },
+  { value: "10", label: "10K" },
+  { value: "21.0975", label: "Half Marathon" },
+  { value: "42.195", label: "Full Marathon" },
+];
+
 // Quick Select Distances
 const PRESETS = [
   { label: "5K", val: "5", unit: "km" },
@@ -76,6 +98,7 @@ const formatTime = (totalSecs: number) => {
 
 export default function RunningPaceCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
+  const [goalResult, setGoalResult] = useState<GoalResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -86,6 +109,7 @@ export default function RunningPaceCalculator() {
       timeHrs: "0", timeMins: "25", timeSecs: "00",
       distanceVal: "5", distanceUnit: "km",
       paceMins: "5", paceSecs: "00", paceUnit: "km",
+      goalRace: "42.195", goalHrs: "4", goalMins: "00", goalSecs: "00",
     },
   });
 
@@ -205,6 +229,38 @@ export default function RunningPaceCalculator() {
       setIsLoading(false);
       setTimeout(() => { resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
     }, 500);
+  }
+
+  // ── FEATURE 2: Goal-pace mode ───────────────────────────────────────────────
+  // Given a target finish time for a chosen race, compute the exact per-km and
+  // per-mile pace required: pace = finishTime ÷ distance.
+  function calculateGoalPace() {
+    const values = form.getValues();
+    const parseNum = (str?: string) => parseFloat(str || "0") || 0;
+    const race = GOAL_RACES.find((r) => r.value === (values.goalRace ?? "42.195"));
+    if (!race) return;
+
+    const raceKm = parseFloat(race.value);
+    const finishSecs =
+      parseNum(values.goalHrs) * 3600 + parseNum(values.goalMins) * 60 + parseNum(values.goalSecs);
+
+    if (finishSecs <= 0 || raceKm <= 0) {
+      alert("Please enter a valid target finish time greater than zero.");
+      return;
+    }
+
+    const goalPaceSecsKm = finishSecs / raceKm;
+    const raceMi = raceKm / 1.60934;
+
+    setGoalResult({
+      raceLabel: race.label,
+      raceDistanceStr: `${raceKm.toFixed(raceKm % 1 === 0 ? 0 : 4)} km · ${raceMi.toFixed(2)} mi`,
+      finishStr: formatTime(finishSecs),
+      goalPaceKm: formatTime(goalPaceSecsKm),
+      goalPaceMi: formatTime(goalPaceSecsKm * 1.60934),
+    });
+
+    setTimeout(() => { resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }, 100);
   }
 
   return (
@@ -357,6 +413,127 @@ export default function RunningPaceCalculator() {
                 {result.mode === "pace" && <p className="text-blue-100 text-xl font-medium drop-shadow-sm border-t border-blue-400/30 pt-4 inline-block px-8">Or {result.paceStrMi} /mi</p>}
               </CardContent>
             </Card>
+
+            {/* ── FEATURE 1: Pace conversion + Riegel finish-time predictions ──────── */}
+            <Card className="max-w-4xl mx-auto shadow-sm border-emerald-100">
+              <CardHeader className="pb-3 border-b bg-emerald-50/50 rounded-t-xl">
+                <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                  <FastForward className="w-5 h-5" /> Pace Conversion & Finish-Time Predictions
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Your pace shown in both units, plus Riegel-predicted finish times across standard races.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-6">
+                {/* Min/km ↔ Min/mile conversion */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-4 text-center">
+                    <p className="text-xs uppercase tracking-wider font-bold text-slate-500">Pace per km</p>
+                    <p className="text-2xl font-black text-emerald-700 mt-1">{result.paceStrKm}<span className="text-sm font-semibold text-slate-500"> /km</span></p>
+                  </div>
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-4 text-center">
+                    <p className="text-xs uppercase tracking-wider font-bold text-slate-500">Pace per mile</p>
+                    <p className="text-2xl font-black text-emerald-700 mt-1">{result.paceStrMi}<span className="text-sm font-semibold text-slate-500"> /mi</span></p>
+                  </div>
+                </div>
+
+                {/* Riegel finish-time predictions */}
+                <div>
+                  <p className="text-xs uppercase tracking-wider font-bold text-slate-500 mb-3">
+                    Predicted finish times (Riegel formula: T₂ = T₁ × (D₂/D₁)^1.06)
+                  </p>
+                  <div className="overflow-hidden rounded-xl border border-slate-200">
+                    <table className="w-full text-sm">
+                      <thead className="bg-slate-50">
+                        <tr>
+                          <th className="px-4 py-2.5 text-left font-bold text-slate-600">Race</th>
+                          <th className="px-4 py-2.5 text-right font-bold text-slate-600">Predicted Finish</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {result.predictions.map((p, i) => (
+                          <tr key={i} className="hover:bg-emerald-50/40">
+                            <td className="px-4 py-2.5 font-medium text-slate-700">{p.event}</td>
+                            <td className="px-4 py-2.5 text-right font-mono font-bold text-emerald-700">{p.time}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-3 leading-relaxed">
+                    Predictions are extrapolated from your entered distance and time. Real race times also depend on terrain, weather, and fatigue.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* ── FEATURE 2: Goal-pace mode ──────────────────────────────────────── */}
+            <Form {...form}>
+            <Card className="max-w-4xl mx-auto shadow-sm border-emerald-100">
+              <CardHeader className="pb-3 border-b bg-emerald-50/50 rounded-t-xl">
+                <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                  <Goal className="w-5 h-5" /> Goal-Pace Target
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Pick a race and target finish time to see the exact per-km and per-mile pace you need.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField control={form.control} name="goalRace" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs text-slate-500">Target Race</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value ?? "42.195"}>
+                        <FormControl><SelectTrigger><SelectValue placeholder="Race" /></SelectTrigger></FormControl>
+                        <SelectContent>
+                          {GOAL_RACES.map((r) => (
+                            <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )} />
+                  <div>
+                    <FormLabel className="text-xs text-slate-500">Target Finish Time</FormLabel>
+                    <div className="grid grid-cols-3 gap-2 mt-2">
+                      <FormField control={form.control} name="goalHrs" render={({ field }) => (
+                        <FormItem><FormControl><Input type="number" min="0" placeholder="hh" {...field} /></FormControl></FormItem>
+                      )} />
+                      <FormField control={form.control} name="goalMins" render={({ field }) => (
+                        <FormItem><FormControl><Input type="number" min="0" max="59" placeholder="mm" {...field} /></FormControl></FormItem>
+                      )} />
+                      <FormField control={form.control} name="goalSecs" render={({ field }) => (
+                        <FormItem><FormControl><Input type="number" min="0" max="59" placeholder="ss" {...field} /></FormControl></FormItem>
+                      )} />
+                    </div>
+                  </div>
+                </div>
+
+                <Button type="button" onClick={calculateGoalPace} className="w-full sm:w-auto">
+                  <Goal className="h-4 w-4 mr-2" /> Calculate Goal Pace
+                </Button>
+
+                {goalResult && (
+                  <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5">
+                    <p className="text-sm text-slate-700">
+                      To finish the <strong className="text-emerald-700">{goalResult.raceLabel}</strong>{" "}
+                      ({goalResult.raceDistanceStr}) in <strong className="text-emerald-700">{goalResult.finishStr}</strong>, you need to hold:
+                    </p>
+                    <div className="grid grid-cols-2 gap-3 mt-4">
+                      <div className="rounded-xl border border-emerald-100 bg-white p-4 text-center">
+                        <p className="text-xs uppercase tracking-wider font-bold text-slate-500">Per km</p>
+                        <p className="text-2xl font-black text-emerald-700 mt-1">{goalResult.goalPaceKm}<span className="text-sm font-semibold text-slate-500"> /km</span></p>
+                      </div>
+                      <div className="rounded-xl border border-emerald-100 bg-white p-4 text-center">
+                        <p className="text-xs uppercase tracking-wider font-bold text-slate-500">Per mile</p>
+                        <p className="text-2xl font-black text-emerald-700 mt-1">{goalResult.goalPaceMi}<span className="text-sm font-semibold text-slate-500"> /mi</span></p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            </Form>
 
             <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
               

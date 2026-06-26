@@ -9,13 +9,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Calculator, RefreshCw, Loader2, Activity, HeartPulse, Info, AlertTriangle } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Activity, HeartPulse, Info, AlertTriangle, Gauge, ShieldCheck, ArrowRight } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // --- FORM SCHEMA ---
 const formSchema = z.object({
   systolic: z.string().min(1, "Systolic pressure is required."),
   diastolic: z.string().min(1, "Diastolic pressure is required."),
+  // Optional, non-breaking: lets us add age context to the result.
+  age: z.string().optional(),
 }).refine((data) => {
   const sys = parseFloat(data.systolic);
   const dia = parseFloat(data.diastolic);
@@ -33,6 +35,16 @@ interface CalculationResult {
   description: string;
   recommendation: string;
   color: string;
+  // ── USP FEATURE 1: classification band (Narrow <40 / Normal 40-60 / Wide >60) ──
+  band: "Narrow" | "Normal" | "Wide";
+  bandLabel: string;
+  bandTone: "narrow" | "normal" | "wide";
+  arterialMeaning: string;
+  // ── USP FEATURE 2: age context + next steps ──
+  age: number | null;
+  ageContext: string;
+  isElevated: boolean;
+  nextSteps: string[];
 }
 
 // --- VISUAL COMPONENTS ---
@@ -78,9 +90,80 @@ const PulseGauge = ({ value }: { value: number }) => {
 
 // --- LOGIC ---
 
-const calculatePulsePressure = (sys: number, dia: number): CalculationResult => {
+// ── USP FEATURE 1: 3-band clinical classification (Narrow <40, Normal 40-60, Wide >60) ──
+const classifyBand = (pp: number): { band: CalculationResult["band"]; bandLabel: string; bandTone: CalculationResult["bandTone"]; arterialMeaning: string } => {
+  if (pp < 40) {
+    return {
+      band: "Narrow",
+      bandLabel: "Narrow (under 40 mmHg)",
+      bandTone: "narrow",
+      arterialMeaning:
+        "A narrow pulse pressure means the gap between your beats is small. It can point to reduced stroke volume rather than stiff arteries — for example weak heart pumping, dehydration, or blood loss.",
+    };
+  }
+  if (pp <= 60) {
+    return {
+      band: "Normal",
+      bandLabel: "Normal (40–60 mmHg)",
+      bandTone: "normal",
+      arterialMeaning:
+        "A normal pulse pressure suggests your arteries are still flexible and absorb each heartbeat well. Healthy, elastic arteries cushion the pressure surge, keeping the gap in this ideal band.",
+    };
+  }
+  return {
+    band: "Wide",
+    bandLabel: "Wide (over 60 mmHg)",
+    bandTone: "wide",
+    arterialMeaning:
+      "A wide pulse pressure is a classic marker of arterial stiffness. As large arteries lose their elasticity, they can no longer cushion each beat, so the gap between systolic and diastolic widens.",
+  };
+};
+
+// ── USP FEATURE 2: age-aware context and clear next steps ──
+const buildAgeContext = (pp: number, age: number | null): { ageContext: string; isElevated: boolean; nextSteps: string[] } => {
+  const isElevated = pp > 60;
+
+  let ageContext: string;
+  if (age == null) {
+    ageContext = isElevated
+      ? "A wide pulse pressure becomes more common and more concerning with age, because arteries naturally stiffen over time. Adding your age above gives more tailored context."
+      : "Pulse pressure tends to widen as arteries stiffen with age. Adding your age above lets us tailor this context to your stage of life.";
+  } else if (age >= 60) {
+    ageContext = isElevated
+      ? `At ${age}, a wide pulse pressure is especially worth attention — arterial stiffening accelerates after 50–60, and wide pulse pressure is a recognised predictor of cardiovascular events in older adults.`
+      : `At ${age}, keeping your pulse pressure in range is a good sign, since arteries naturally stiffen with age. Continue monitoring it as part of your routine checks.`;
+  } else if (age >= 50) {
+    ageContext = isElevated
+      ? `At ${age}, a wide pulse pressure matters: research such as the Framingham Heart Study shows that after 50 it can predict heart risk better than systolic pressure alone.`
+      : `At ${age}, a normal pulse pressure is reassuring. After 50 the value carries extra weight, so it is worth re-checking periodically.`;
+  } else {
+    ageContext = isElevated
+      ? `At ${age}, a wide pulse pressure is less typical and worth investigating, since arterial stiffness usually develops later in life. Lifestyle factors and a clinician review can help find the cause.`
+      : `At ${age}, a normal pulse pressure fits the expectation for your age, when arteries are usually still flexible. Healthy habits now help keep them that way.`;
+  }
+
+  const nextSteps = isElevated
+    ? [
+        "Re-check on different days: take two seated readings two minutes apart and average them before drawing conclusions.",
+        "Trim sodium and processed foods, and add regular aerobic exercise (brisk walking, swimming, cycling) to help keep arteries elastic.",
+        "Manage stress, sleep 7–9 hours, and limit alcohol and nicotine, all of which influence arterial stiffness.",
+        "See a clinician if your pulse pressure is consistently above 60 mmHg — they can check for arterial stiffening or valve issues.",
+      ]
+    : [
+        "Keep a heart-healthy routine: balanced diet, regular movement, and steady weight management.",
+        "Re-measure periodically (more often if you are over 50) so you can spot any upward trend early.",
+        "Maintain healthy blood pressure habits — low sodium, limited alcohol, and good sleep.",
+      ];
+
+  return { ageContext, isElevated, nextSteps };
+};
+
+const calculatePulsePressure = (sys: number, dia: number, age: number | null): CalculationResult => {
   const pp = sys - dia;
   const map = dia + (pp / 3); // Standard MAP formula
+
+  const { band, bandLabel, bandTone, arterialMeaning } = classifyBand(pp);
+  const { ageContext, isElevated, nextSteps } = buildAgeContext(pp, age);
 
   let category: CalculationResult['category'] = "Normal";
   let description = "";
@@ -109,7 +192,22 @@ const calculatePulsePressure = (sys: number, dia: number): CalculationResult => 
     recommendation = "This reading warrants medical attention. Please consult a healthcare professional to assess your cardiovascular risk factors.";
   }
 
-  return { pulsePressure: pp, map, category, description, recommendation, color };
+  return {
+    pulsePressure: pp,
+    map,
+    category,
+    description,
+    recommendation,
+    color,
+    band,
+    bandLabel,
+    bandTone,
+    arterialMeaning,
+    age,
+    ageContext,
+    isElevated,
+    nextSteps,
+  };
 };
 
 // --- COMPONENT ---
@@ -121,7 +219,7 @@ export default function PulsePressureCalculator() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { systolic: "", diastolic: "" },
+    defaultValues: { systolic: "", diastolic: "", age: "" },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -130,8 +228,9 @@ export default function PulsePressureCalculator() {
     setTimeout(() => {
       const sys = parseFloat(values.systolic);
       const dia = parseFloat(values.diastolic);
-      
-      const calcResult = calculatePulsePressure(sys, dia);
+      const ageNum = values.age && !isNaN(parseInt(values.age)) ? parseInt(values.age) : null;
+
+      const calcResult = calculatePulsePressure(sys, dia, ageNum);
       setResult(calcResult);
       
       setIsLoading(false);
@@ -196,6 +295,27 @@ export default function PulsePressureCalculator() {
                     )} 
                   />
               </div>
+
+              {/* Optional age field — adds age context to results, non-breaking */}
+              <FormField
+                control={form.control}
+                name="age"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2">
+                      Age <span className="text-xs font-normal text-muted-foreground">(optional — adds age context)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input type="number" placeholder="e.g. 45" className="pl-9" {...field} />
+                        <Activity className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
+                        <span className="absolute right-3 top-3 text-xs text-muted-foreground">years</span>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <Button type="submit" className="flex-1 text-lg h-12" disabled={isLoading}>
@@ -266,6 +386,103 @@ export default function PulsePressureCalculator() {
                   {result.recommendation}
                 </AlertDescription>
               </Alert>
+
+              {/* ── USP FEATURE 1: Pulse pressure classification & arterial stiffness ── */}
+              <Card className="border shadow-md rounded-xl">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Gauge className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-base font-bold">Your Classification &amp; What It Means for Your Arteries</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                    Pulse pressure (systolic − diastolic) is{" "}
+                    <strong className="text-slate-800 dark:text-slate-100">
+                      {result.pulsePressure} mmHg
+                    </strong>
+                    , which falls in the{" "}
+                    <span
+                      className={`font-bold ${
+                        result.bandTone === "normal"
+                          ? "text-emerald-700"
+                          : result.bandTone === "narrow"
+                          ? "text-blue-600"
+                          : "text-orange-600"
+                      }`}
+                    >
+                      {result.bandLabel}
+                    </span>{" "}
+                    band.
+                  </p>
+
+                  {/* 3-band visual cue */}
+                  <div className="grid grid-cols-3 gap-2 mt-5">
+                    {[
+                      { key: "narrow", title: "Narrow", range: "< 40", active: "border-blue-300 bg-blue-50 text-blue-700", text: "text-blue-700" },
+                      { key: "normal", title: "Normal", range: "40–60", active: "border-emerald-300 bg-emerald-50 text-emerald-700", text: "text-emerald-700" },
+                      { key: "wide", title: "Wide", range: "> 60", active: "border-orange-300 bg-orange-50 text-orange-700", text: "text-orange-700" },
+                    ].map((b) => {
+                      const isActive = result.bandTone === b.key;
+                      return (
+                        <div
+                          key={b.key}
+                          className={`rounded-xl border p-3 text-center transition-all ${
+                            isActive ? b.active + " shadow-sm" : "border-slate-200 bg-slate-50 text-slate-500"
+                          }`}
+                        >
+                          <p className="text-sm font-bold">{b.title}</p>
+                          <p className="text-xs mt-0.5">{b.range} mmHg</p>
+                          {isActive && <p className="text-[10px] font-bold uppercase tracking-wider mt-1">You</p>}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-5">
+                    {result.arterialMeaning}
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* ── USP FEATURE 2: Age context & next steps ── */}
+              <Card className="border shadow-md rounded-xl">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <ShieldCheck className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-base font-bold">Age Context &amp; Next Steps</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                    {result.ageContext}
+                  </p>
+
+                  <div
+                    className={`mt-5 rounded-xl border p-5 ${
+                      result.isElevated
+                        ? "border-orange-200 bg-orange-50/60"
+                        : "border-emerald-200 bg-emerald-50/60"
+                    }`}
+                  >
+                    <p
+                      className={`text-xs font-bold uppercase tracking-wider mb-3 ${
+                        result.isElevated ? "text-orange-700" : "text-emerald-700"
+                      }`}
+                    >
+                      {result.isElevated ? "Recommended next steps" : "Keep it healthy"}
+                    </p>
+                    <ul className="space-y-2.5">
+                      {result.nextSteps.map((step, i) => (
+                        <li key={i} className="flex items-start gap-2.5">
+                          <ArrowRight
+                            className={`w-4 h-4 flex-shrink-0 mt-0.5 ${
+                              result.isElevated ? "text-orange-600" : "text-emerald-600"
+                            }`}
+                          />
+                          <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{step}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
 
               <div className="text-center">
                  <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">

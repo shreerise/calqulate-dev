@@ -10,15 +10,17 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { 
-  Calculator, 
-  RefreshCw, 
-  Loader2, 
-  Target, 
-  TrendingDown, 
-  AlertTriangle, 
+import {
+  Calculator,
+  RefreshCw,
+  Loader2,
+  Target,
+  TrendingDown,
+  AlertTriangle,
   Info,
-  Heart
+  Heart,
+  ShieldCheck,
+  CheckCircle2
 } from "lucide-react"
 
 const formSchema = z.object({
@@ -38,6 +40,20 @@ export default function WHtRCalculator() {
     targetWaist: number;
     color: string;
     stringTest: string;
+    // FEATURE 1 — "waist under half your height" rule + risk tier
+    tier: string;
+    tierColor: string;
+    tierBg: string;
+    tierBorder: string;
+    halfHeight: number;
+    rulePass: boolean;
+    ruleMessage: string;
+    // FEATURE 2 — exact waist reduction to reach the healthy range (ratio 0.5)
+    healthyWaist: number;
+    waistToLose: number;
+    alreadyHealthy: boolean;
+    currentWaist: number;
+    unitLabel: string;
   } | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const resultsRef = useRef<HTMLDivElement>(null)
@@ -103,7 +119,50 @@ export default function WHtRCalculator() {
 
       const targetWaist = h * 0.45 // Mid-range of healthy
 
-      setResult({ ratio, category, description, targetWaist, color, stringTest })
+      // ── FEATURE 1: "Keep your waist under half your height" rule + risk tier ──
+      const unitLabel = values.units === "metric" ? "cm" : "in"
+      const halfHeight = h * 0.5
+      const rulePass = w < halfHeight
+      const ruleMessage = rulePass
+        ? `Your waist (${w.toFixed(1)} ${unitLabel}) is under half your height (${halfHeight.toFixed(1)} ${unitLabel}). You pass the '<0.5' rule.`
+        : `Your waist (${w.toFixed(1)} ${unitLabel}) is over half your height (${halfHeight.toFixed(1)} ${unitLabel}). You're above the '<0.5' rule.`
+
+      let tier = ""
+      let tierColor = ""
+      let tierBg = ""
+      let tierBorder = ""
+      if (ratio < 0.4) {
+        tier = "Underweight signal"
+        tierColor = "text-blue-600"
+        tierBg = "bg-blue-50"
+        tierBorder = "border-blue-200"
+      } else if (ratio < 0.5) {
+        tier = "Healthy"
+        tierColor = "text-emerald-700"
+        tierBg = "bg-emerald-50"
+        tierBorder = "border-emerald-200"
+      } else if (ratio < 0.6) {
+        tier = "Increased risk"
+        tierColor = "text-orange-600"
+        tierBg = "bg-orange-50"
+        tierBorder = "border-orange-200"
+      } else {
+        tier = "High risk"
+        tierColor = "text-red-600"
+        tierBg = "bg-red-50"
+        tierBorder = "border-red-200"
+      }
+
+      // ── FEATURE 2: Exact waist reduction to reach the healthy range (ratio 0.5) ──
+      const healthyWaist = h * 0.5 // waist that yields WHtR = 0.5
+      const waistToLose = w - healthyWaist // positive ⇒ trim needed
+      const alreadyHealthy = waistToLose <= 0
+
+      setResult({
+        ratio, category, description, targetWaist, color, stringTest,
+        tier, tierColor, tierBg, tierBorder, halfHeight, rulePass, ruleMessage,
+        healthyWaist, waistToLose, alreadyHealthy, currentWaist: w, unitLabel,
+      })
       setIsLoading(false)
       setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100)
     }, 600)
@@ -251,6 +310,84 @@ export default function WHtRCalculator() {
                       </p>
                     </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 1 — "Waist under half your height" rule & risk tier */}
+            <Card className={`border ${result.tierBorder} shadow-md`}>
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <ShieldCheck className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold text-emerald-700">The &apos;Half Your Height&apos; Rule</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                  {result.ruleMessage}
+                </p>
+
+                <div className={`mt-5 flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border ${result.tierBorder} ${result.tierBg} p-4`}>
+                  <div className="flex items-center gap-2">
+                    {result.rulePass ? (
+                      <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-emerald-600" />
+                    ) : (
+                      <AlertTriangle className="w-5 h-5 flex-shrink-0 text-orange-500" />
+                    )}
+                    <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Risk tier</span>
+                  </div>
+                  <span className={`text-lg font-black ${result.tierColor}`}>{result.tier}</span>
+                </div>
+
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Tiers: below 0.40 underweight signal · 0.40–0.49 healthy · 0.50–0.59 increased · 0.60+ high.
+                  Keeping your waist below half your height (WHtR &lt; 0.50) is the simplest evidence-backed target.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — Exact waist reduction to reach the healthy range */}
+            <Card className="border border-emerald-100 shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Target className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold text-emerald-700">Your Healthy Waist Target</h3>
+                </div>
+
+                {result.alreadyHealthy ? (
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                    Great news — your waist is already at or below{" "}
+                    <strong className="text-emerald-700">{result.healthyWaist.toFixed(1)} {result.unitLabel}</strong>,
+                    the threshold for a healthy ratio (WHtR 0.50). Maintain it with your current habits and re-check every few weeks.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                      To move into the healthy range, aim for a waist of about{" "}
+                      <strong className="text-emerald-700">{result.healthyWaist.toFixed(1)} {result.unitLabel}</strong>{" "}
+                      (0.5 &times; your height) — a reduction of{" "}
+                      <strong className="text-emerald-700">{result.waistToLose.toFixed(1)} {result.unitLabel}</strong>{" "}
+                      from where you are now.
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-3 mt-5">
+                      <div className="rounded-xl border border-gray-100 bg-gray-50 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Current</p>
+                        <p className="text-lg font-black text-slate-800 mt-1">{result.currentWaist.toFixed(1)} {result.unitLabel}</p>
+                      </div>
+                      <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center">
+                        <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                          <TrendingDown className="w-3.5 h-3.5" /> Lose
+                        </div>
+                        <p className="text-lg font-black text-emerald-700 mt-1">{result.waistToLose.toFixed(1)} {result.unitLabel}</p>
+                      </div>
+                      <div className="rounded-xl border border-gray-100 bg-gray-50 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Target</p>
+                        <p className="text-lg font-black text-slate-800 mt-1">{result.healthyWaist.toFixed(1)} {result.unitLabel}</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Target shown in your chosen units ({result.unitLabel}). Use it as a motivating first milestone, not a medical prescription.
+                </p>
               </CardContent>
             </Card>
           </div>

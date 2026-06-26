@@ -58,6 +58,14 @@ interface CalculationResult {
   foodEquivalent: { name: string; emoji: string; amount: number };
   weeklyProjection: number;
   weightLossProjection: number;
+  // ── Additive feature data ──────────────────────────────────────────────
+  methodUsed: "activity" | "heartRate";
+  // Feature 1: relatable food equivalent for this exact activity + duration
+  foodEquivalents: { name: string; emoji: string; amount: number; cal: number }[];
+  // Feature 2: heart-rate-based estimate (higher accuracy) + weekly totals
+  hrEstimate: number | null;        // kcal from the HR formula (null if inputs missing)
+  weekly3x: number;                 // weekly kcal if repeated 3 sessions/week
+  weekly5x: number;                 // weekly kcal if repeated 5 sessions/week
 }
 
 export default function CaloriesBurnedCalculator() {
@@ -108,6 +116,31 @@ export default function CaloriesBurnedCalculator() {
     return { name: food.name, emoji: food.emoji, amount: +(calories / food.cal).toFixed(1) };
   };
 
+  // Feature 1: translate calories into several relatable food equivalents at once.
+  const getFoodEquivalents = (calories: number) => {
+    const foods = [
+      { name: "Bananas", emoji: "🍌", cal: 105 },
+      { name: "Donuts", emoji: "🍩", cal: 250 },
+      { name: "Slices of Pizza", emoji: "🍕", cal: 285 },
+    ];
+    return foods.map(f => ({ ...f, amount: +(calories / f.cal).toFixed(1) }));
+  };
+
+  // Feature 2: Keytel et al. (2005) heart-rate-based estimate (gender-specific).
+  const getHeartRateCalories = (
+    hr: number,
+    age: number,
+    weightKg: number,
+    durationMins: number,
+    gender: "male" | "female"
+  ) => {
+    const kcal =
+      gender === "male"
+        ? ((-55.0969 + 0.6309 * hr + 0.1988 * weightKg + 0.2017 * age) / 4.184) * durationMins
+        : ((-20.4022 + 0.4472 * hr - 0.1263 * weightKg + 0.074 * age) / 4.184) * durationMins;
+    return Math.max(0, kcal);
+  };
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setTimeout(() => {
@@ -131,12 +164,27 @@ export default function CaloriesBurnedCalculator() {
         calories = Math.max(0, calories); // Prevent negative anomalies
       }
 
+      // Feature 2: optional heart-rate-based estimate for higher accuracy.
+      // Computed whenever age + heart rate + gender are present, even on the
+      // Activity tab, so users can cross-check the MET figure.
+      let hrEstimate: number | null = null;
+      const hrVal = values.heartRate ? parseFloat(values.heartRate) : NaN;
+      const ageVal = values.age ? parseFloat(values.age) : NaN;
+      if (!isNaN(hrVal) && hrVal > 0 && !isNaN(ageVal) && ageVal > 0 && values.gender) {
+        hrEstimate = getHeartRateCalories(hrVal, ageVal, weightKg, durationMins, values.gender);
+      }
+
       setResult({
         totalCalories: calories,
         fatBurnedGrams: calories * 0.11, // Rough estimate: 1g fat = 9 kcal
         foodEquivalent: getFoodEquivalent(calories),
         weeklyProjection: calories * 3, // Assuming 3x a week
-        weightLossProjection: (calories * 3 * 4) / 7700 // 7700 kcal = 1 kg of fat
+        weightLossProjection: (calories * 3 * 4) / 7700, // 7700 kcal = 1 kg of fat
+        methodUsed: values.calcMethod,
+        foodEquivalents: getFoodEquivalents(calories),
+        hrEstimate,
+        weekly3x: calories * 3,
+        weekly5x: calories * 5,
       });
       
       setIsLoading(false);
@@ -245,6 +293,42 @@ export default function CaloriesBurnedCalculator() {
                   )} />
                 )}
 
+                {/* OPTIONAL HEART-RATE CROSS-CHECK (Activity method) */}
+                {calcMethod === "activity" && (
+                  <div className="md:col-span-2 rounded-xl border border-dashed border-emerald-200 bg-emerald-50/40 dark:bg-emerald-950/10 p-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <HeartPulse className="h-4 w-4 text-red-400" />
+                      <p className="text-sm font-semibold text-emerald-700">Optional: add heart rate for a more accurate estimate</p>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Wear a tracker? Enter your age, average BPM and sex below and we&apos;ll also show a heart-rate-based burn alongside the MET estimate.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <FormField control={form.control} name="age" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs">Age</FormLabel>
+                          <FormControl><Input type="number" placeholder="30" {...field} /></FormControl>
+                        </FormItem>
+                      )} />
+                      <FormField control={form.control} name="heartRate" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs">Avg Heart Rate (BPM)</FormLabel>
+                          <FormControl><Input type="number" placeholder="135" {...field} /></FormControl>
+                        </FormItem>
+                      )} />
+                      <FormField control={form.control} name="gender" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs">Sex</FormLabel>
+                          <RadioGroup onValueChange={field.onChange} value={field.value} className="flex gap-3 pt-2">
+                            <FormItem className="flex items-center space-x-1.5 space-y-0"><FormControl><RadioGroupItem value="female" /></FormControl><FormLabel className="font-normal text-sm">Female</FormLabel></FormItem>
+                            <FormItem className="flex items-center space-x-1.5 space-y-0"><FormControl><RadioGroupItem value="male" /></FormControl><FormLabel className="font-normal text-sm">Male</FormLabel></FormItem>
+                          </RadioGroup>
+                        </FormItem>
+                      )} />
+                    </div>
+                  </div>
+                )}
+
                 {/* HEART RATE METHOD INPUTS */}
                 {calcMethod === "heartRate" && (
                   <>
@@ -336,6 +420,69 @@ export default function CaloriesBurnedCalculator() {
                       ≈ {(units === 'metric' ? result.weightLossProjection : result.weightLossProjection * 2.20462).toFixed(2)} {units === 'metric' ? 'kg' : 'lbs'} of fat loss per month!
                     </p>
                   </div>
+                </div>
+
+                {/* ── FEATURE 1: Activity burn → relatable food equivalents ── */}
+                <div className="p-6 md:p-8 border-b">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Utensils className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white">What That Burn Looks Like in Food</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Your{" "}
+                    <span className="font-semibold text-emerald-700">{Math.round(result.totalCalories).toLocaleString()} kcal</span>{" "}
+                    {result.methodUsed === "activity" ? "from this activity" : "from this session"} is roughly equal to:
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
+                    {result.foodEquivalents.map((f) => (
+                      <div key={f.name} className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <div className="text-3xl mb-1">{f.emoji}</div>
+                        <p className="text-xl font-black text-slate-800 dark:text-slate-100">{f.amount}</p>
+                        <p className="text-xs text-muted-foreground">{f.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[11px] text-gray-400 mt-3">
+                    Approximate food energy: banana ≈ 105 kcal, donut ≈ 250 kcal, pizza slice ≈ 285 kcal.
+                  </p>
+                </div>
+
+                {/* ── FEATURE 2: Heart-rate estimate + weekly projection ── */}
+                <div className="p-6 md:p-8 border-b bg-emerald-50/40 dark:bg-emerald-950/10">
+                  <div className="flex items-center gap-2 mb-1">
+                    <HeartPulse className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white">Heart-Rate Estimate & Weekly Projection</h3>
+                  </div>
+
+                  {result.hrEstimate !== null ? (
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Based on your average heart rate, the clinical (Keytel) formula estimates{" "}
+                      <span className="font-semibold text-emerald-700">{Math.round(result.hrEstimate).toLocaleString()} kcal</span>{" "}
+                      for this session — use this for higher accuracy when you wear a tracker.
+                    </p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Want a more accurate number? Add your age, average heart rate and sex above and we&apos;ll show a
+                      heart-rate-based estimate alongside the MET figure.
+                    </p>
+                  )}
+
+                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-5 mb-2">
+                    If you repeat this session every week
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-emerald-200 bg-white dark:bg-slate-900 p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">3 sessions / week</p>
+                      <p className="text-xl font-black text-emerald-700 mt-1">{Math.round(result.weekly3x).toLocaleString()} kcal</p>
+                    </div>
+                    <div className="rounded-xl border border-emerald-200 bg-white dark:bg-slate-900 p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">5 sessions / week</p>
+                      <p className="text-xl font-black text-emerald-700 mt-1">{Math.round(result.weekly5x).toLocaleString()} kcal</p>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-gray-400 mt-3">
+                    Heart-rate estimates use the Keytel et al. (2005) equation. Projections assume an identical session repeated each week.
+                  </p>
                 </div>
 
                 {/* Internal Link / Call to action */}

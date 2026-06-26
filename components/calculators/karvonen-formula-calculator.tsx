@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calculator, RefreshCw, HeartPulse, Zap, TrendingUp, Award, Flame, Loader2 } from "lucide-react"
+import { Calculator, RefreshCw, HeartPulse, Zap, TrendingUp, Award, Flame, Loader2, GitCompareArrows, Gauge } from "lucide-react"
 
 // Define validation schema
 const formSchema = z.object({
@@ -38,11 +38,45 @@ interface HeartRateZone {
   icon: JSX.Element;
 }
 
+// Feature 1: contrast HRR-based zones with naive %-of-max-HR zones
+interface ZoneComparison {
+  zone: string;
+  intensity: string;
+  hrrRange: string;   // Karvonen (HRR-based, personalised)
+  naiveRange: string; // naive % of MaxHR (ignores resting rate)
+  color: string;
+}
+
+// Feature 2: intensity guidance per zone (RPE, feel, purpose, example session)
+interface ZoneGuidance {
+  zone: string;
+  rpe: string;
+  feel: string;
+  purpose: string;
+  session: string;
+  color: string;
+  icon: JSX.Element;
+}
+
 interface CalculationResult {
   maxHeartRate: number;
   heartRateReserve: number;
   zones: HeartRateZone[];
+  // Feature 1
+  zoneComparison: ZoneComparison[];
+  maxDelta: number; // largest bpm gap between Karvonen and naive at the same %
+  // Feature 2
+  zoneGuidance: ZoneGuidance[];
 }
+
+// Static intensity guidance keyed by zone index (RPE on the 1-10 Borg CR10 scale)
+const intensityGuidance = [
+  { rpe: "RPE 2-3", feel: "Very easy — you can breathe through your nose and talk freely.", purpose: "Active recovery and warm-up; promotes blood flow without fatigue.", session: "10-15 min easy walk or gentle spin before/after harder work." },
+  { rpe: "RPE 3-4", feel: "Comfortable — full sentences are easy; you could keep going for hours.", purpose: "Builds your aerobic base and trains the body to burn fat for fuel.", session: "45-90 min steady walk, jog or ride at a conversational pace." },
+  { rpe: "RPE 5-6", feel: "Moderately hard — talking is possible but in short phrases.", purpose: "Raises aerobic capacity and stamina for longer, faster efforts.", session: "30-50 min continuous run or ride, or 4-6 min repeats with rest." },
+  { rpe: "RPE 7-8", feel: "Hard — only a few words at a time; breathing is heavy and rhythmic.", purpose: "Lifts your lactate threshold so you can hold a faster pace longer.", session: "3-5 × 5-8 min at threshold with 2-3 min easy recovery between." },
+  { rpe: "RPE 9-10", feel: "All-out — talking is impossible; sustainable only for seconds to ~2 min.", purpose: "Develops peak power, speed and anaerobic capacity (VO2max work).", session: "6-10 × 30-60 sec near-max sprints with full 2-3 min recovery." },
+];
 
 const zoneDetails = [
   { name: "Zone 1: Recovery", intensity: "50-60%", color: "bg-sky-500", icon: <Award className="w-5 h-5" />, desc: "Very light activity. Helps with recovery and warms up the body." },
@@ -150,10 +184,52 @@ export default function KarvonenFormulaCalculator() {
             },
         ];
 
+        // ── FEATURE 1: HRR-based (Karvonen) zones vs naive %-of-MaxHR zones ──────
+        // Karvonen anchors each zone to the individual's resting rate via HRR, so
+        // a fitter person (lower RHR) gets a different — and more accurate — target
+        // than the generic "% of max HR" chart that ignores resting heart rate.
+        const zoneBands = [
+            { zone: "Zone 1: Recovery", intensity: "50-60%", lo: 0.5, hi: 0.6, color: "bg-sky-500" },
+            { zone: "Zone 2: Endurance", intensity: "60-70%", lo: 0.6, hi: 0.7, color: "bg-green-500" },
+            { zone: "Zone 3: Aerobic", intensity: "70-80%", lo: 0.7, hi: 0.8, color: "bg-yellow-500" },
+            { zone: "Zone 4: Threshold", intensity: "80-90%", lo: 0.8, hi: 0.9, color: "bg-orange-500" },
+            { zone: "Zone 5: Max Effort", intensity: "90-100%", lo: 0.9, hi: 1.0, color: "bg-red-500" },
+        ];
+
+        let maxDelta = 0;
+        const zoneComparison: ZoneComparison[] = zoneBands.map(({ zone, intensity, lo, hi, color }) => {
+            const hrrLo = Math.round(hrr * lo + rhr); // Karvonen: HRR × intensity + RHR
+            const hrrHi = Math.round(hrr * hi + rhr);
+            const naiveLo = Math.round(mhr * lo);      // naive: % of MaxHR only
+            const naiveHi = Math.round(mhr * hi);
+            maxDelta = Math.max(maxDelta, Math.abs(hrrLo - naiveLo), Math.abs(hrrHi - naiveHi));
+            return {
+                zone,
+                intensity,
+                hrrRange: `${hrrLo} - ${hrrHi}`,
+                naiveRange: `${naiveLo} - ${naiveHi}`,
+                color,
+            };
+        });
+
+        // ── FEATURE 2: clear intensity guidance for each zone ───────────────────
+        const zoneGuidance: ZoneGuidance[] = calculatedZones.map((z, i) => ({
+            zone: z.zone,
+            rpe: intensityGuidance[i].rpe,
+            feel: intensityGuidance[i].feel,
+            purpose: intensityGuidance[i].purpose,
+            session: intensityGuidance[i].session,
+            color: z.color,
+            icon: z.icon,
+        }));
+
         setResult({
             maxHeartRate: mhr,
             heartRateReserve: hrr,
-            zones: calculatedZones
+            zones: calculatedZones,
+            zoneComparison,
+            maxDelta,
+            zoneGuidance,
         })
         setIsLoading(false)
 
@@ -235,6 +311,97 @@ export default function KarvonenFormulaCalculator() {
 
                 <div className="border-t pt-6">
                   <HeartRateZoneChart zones={result.zones} mhr={result.maxHeartRate} />
+                </div>
+
+                {/* FEATURE 1: HRR-based zones vs naive %-of-Max-HR zones */}
+                <div className="border-t pt-6">
+                  <div className="flex items-center gap-2 mb-1">
+                    <GitCompareArrows className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-lg font-semibold text-emerald-700">Personalised vs Generic Zones</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Your zones below use your <strong>Heart-Rate Reserve</strong> (HRR = {result.maxHeartRate} max −{" "}
+                    {result.maxHeartRate - result.heartRateReserve} resting = {result.heartRateReserve} bpm), so each
+                    target BPM is <code className="rounded bg-muted px-1 py-0.5 text-xs">HRR × intensity + resting HR</code>.
+                    Because this anchors every zone to <em>your</em> resting rate, it reflects your real fitness — unlike the
+                    generic &ldquo;% of max heart rate&rdquo; chart that ignores it and can be off by up to{" "}
+                    <strong className="text-emerald-700">{result.maxDelta} bpm</strong> for you.
+                  </p>
+
+                  <div className="overflow-x-auto mt-4 rounded-xl border">
+                    <table className="w-full text-sm">
+                      <thead className="bg-muted/60 text-left">
+                        <tr>
+                          <th className="p-3">Zone</th>
+                          <th className="p-3">Intensity</th>
+                          <th className="p-3 text-emerald-700">Your Karvonen Zone (HRR)</th>
+                          <th className="p-3 text-muted-foreground">Generic % of Max HR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {result.zoneComparison.map((c) => (
+                          <tr key={c.zone} className="border-t">
+                            <td className="p-3 font-semibold">
+                              <span className="inline-flex items-center gap-2">
+                                <span className={`inline-block h-2.5 w-2.5 rounded-full ${c.color}`} />
+                                {c.zone}
+                              </span>
+                            </td>
+                            <td className="p-3">{c.intensity}</td>
+                            <td className="p-3 font-mono font-semibold text-emerald-700">{c.hrrRange} bpm</td>
+                            <td className="p-3 font-mono text-muted-foreground">{c.naiveRange} bpm</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Why HRR wins: two people with the same age share a max heart rate, but the fitter one (lower resting rate)
+                    needs a different target to train at the same true effort. Karvonen captures that; %-of-max does not.
+                  </p>
+                </div>
+
+                {/* FEATURE 2: intensity guidance for each zone */}
+                <div className="border-t pt-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Gauge className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-lg font-semibold text-emerald-700">What Each Zone Feels Like &amp; Is For</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {result.zoneGuidance.map((g) => (
+                      <div key={g.zone} className="rounded-xl border p-4 bg-card">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-white ${g.color}`}>
+                              {g.icon}
+                            </span>
+                            <p className="font-semibold leading-tight">{g.zone}</p>
+                          </div>
+                          <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 whitespace-nowrap">
+                            {g.rpe}
+                          </span>
+                        </div>
+                        <dl className="mt-3 space-y-2 text-sm">
+                          <div>
+                            <dt className="font-semibold text-foreground">Feels like</dt>
+                            <dd className="text-muted-foreground">{g.feel}</dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-foreground">Best for</dt>
+                            <dd className="text-muted-foreground">{g.purpose}</dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-foreground">Try this session</dt>
+                            <dd className="text-muted-foreground">{g.session}</dd>
+                          </div>
+                        </dl>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-3">
+                    RPE = Rate of Perceived Exertion on the 1–10 scale. Match how the effort feels to the BPM range above to
+                    train each system on purpose — recovery, fat-burn/base, aerobic, threshold, and max.
+                  </p>
                 </div>
             </CardContent>
           </Card>

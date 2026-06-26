@@ -29,8 +29,10 @@ import {
   Check,
   Zap,
   Stethoscope,
+  Sparkles,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "Body Fat Calculator: Check Your Real Body Fat %",
@@ -134,6 +136,18 @@ export default function BodyFatCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net estimates body-fat percentage from simple tape measurements using the trusted Navy method. You get an accurate figure, a fitness category and a clear goal-gap in your chosen units.
+              </p>
             </div>
           </div>
         </section>
@@ -663,6 +677,8 @@ export default function BodyFatCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="body-fat-calculator" />
 
             {/* FAQ Section - Long-tail keyword capture */}
             <div className="mt-12">

@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calculator, RefreshCw, AlertCircle, Loader2, Info, Share2, Copy, CheckCircle2, HeartPulse, ShieldAlert, ChevronDown } from "lucide-react"
+import { Calculator, RefreshCw, AlertCircle, Loader2, Info, Share2, Copy, CheckCircle2, HeartPulse, ShieldAlert, ChevronDown, Activity, Target, TrendingDown } from "lucide-react"
 
 // --- Constants & Helpers ---
 const IN_TO_CM = 2.54;
@@ -45,6 +45,20 @@ interface CalculationResult {
   shapeDesc: string;
   healthTip: string;
   dietTip: string;
+  // FEATURE 1 — apple/pear classification vs WHO threshold by sex
+  fatDistribution: "apple" | "pear";
+  whoThreshold: number;
+  aboveThreshold: boolean;
+  thresholdLabel: string;
+  // FEATURE 2 — cardiometabolic read + concrete target & waist reduction
+  unitLabel: string;
+  currentWaistStr: string;
+  hipStr: string;
+  targetRatio: number;
+  targetWaistStr: string;
+  waistToLoseStr: string;
+  atOrBelowTarget: boolean;
+  cardioMetabolicRead: string;
 }
 
 export default function WaistToHipRatioCalculator() {
@@ -174,6 +188,32 @@ export default function WaistToHipRatioCalculator() {
       let percent = ((whr - minScale) / (maxScale - minScale)) * 100
       percent = Math.max(0, Math.min(100, percent)) // Clamp between 0-100
 
+      // ── FEATURE 1: Apple/Pear classification vs WHO risk threshold by sex ──
+      // WHO increased-risk thresholds: men > 0.90, women > 0.85.
+      const whoThreshold = values.gender === "male" ? 0.90 : 0.85
+      const aboveThreshold = whr > whoThreshold
+      // Above the WHO line ⇒ central (abdominal) fat ⇒ "apple"; otherwise "pear".
+      const fatDistribution: "apple" | "pear" = aboveThreshold ? "apple" : "pear"
+      const thresholdLabel = `${values.gender === "male" ? "Men" : "Women"} > ${whoThreshold.toFixed(2)} = increased risk (WHO)`
+
+      // ── FEATURE 2: Cardiometabolic read + concrete target ratio & waist cut ──
+      // Use a safe target ratio just under the WHO threshold (hold hips constant).
+      const targetRatio = round(whoThreshold - 0.01, 2)
+      const targetWaist = targetRatio * hip // waist (in user's unit) that yields targetRatio
+      const waistToLose = waist - targetWaist // positive ⇒ reduction needed
+      const atOrBelowTarget = whr <= targetRatio
+      const unitLabel = values.unit
+      const currentWaistStr = `${round(waist, 1)} ${unitLabel}`
+      const hipStr = `${round(hip, 1)} ${unitLabel}`
+      const targetWaistStr = `${round(targetWaist, 1)} ${unitLabel}`
+      const waistToLoseStr = `${round(Math.abs(waistToLose), 1)} ${unitLabel}`
+
+      const cardioMetabolicRead = atOrBelowTarget
+        ? "Your ratio sits within the lower-risk band, so your fat is stored more around the hips and thighs than around your organs. That pattern is linked with lower pressure on your heart and metabolism. Keep maintaining it to protect your long-term cardiometabolic health."
+        : (fatDistribution === "apple"
+            ? "A higher ratio means more fat is carried around your midsection (visceral fat), which wraps around your organs and is strongly linked with higher risk of heart disease, high blood pressure and type 2 diabetes. Reducing your waist is one of the most effective ways to lower that risk."
+            : "Your ratio is approaching the increased-risk threshold for your sex. Acting now — before central fat builds up — keeps your heart and metabolic health on the safer side of the line.")
+
       setResult({
         whr,
         riskLevel,
@@ -182,7 +222,19 @@ export default function WaistToHipRatioCalculator() {
         bodyShape,
         shapeDesc,
         healthTip,
-        dietTip
+        dietTip,
+        fatDistribution,
+        whoThreshold,
+        aboveThreshold,
+        thresholdLabel,
+        unitLabel,
+        currentWaistStr,
+        hipStr,
+        targetRatio,
+        targetWaistStr,
+        waistToLoseStr,
+        atOrBelowTarget,
+        cardioMetabolicRead,
       })
 
       setIsLoading(false)
@@ -414,6 +466,98 @@ export default function WaistToHipRatioCalculator() {
                     </div>
                   </div>
                 </div>
+
+                {/* FEATURE 1 — Body-fat distribution vs WHO threshold ───────── */}
+                <Card className="border shadow-md">
+                  <CardContent className="p-6 md:p-8">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Activity className="w-5 h-5 text-emerald-700" />
+                      <h3 className="text-base font-bold">Body-Fat Distribution &amp; WHO Threshold</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                      Your ratio of{" "}
+                      <span className="font-bold text-emerald-700">{result.whr}</span>{" "}
+                      classifies your fat distribution as{" "}
+                      <span className={`font-bold ${result.fatDistribution === "apple" ? "text-red-600" : "text-emerald-700"}`}>
+                        {result.fatDistribution === "apple" ? "🍎 apple-shaped (central)" : "🍐 pear-shaped (peripheral)"}
+                      </span>{" "}
+                      — it sits{" "}
+                      <span className={`font-bold ${result.aboveThreshold ? "text-red-600" : "text-emerald-700"}`}>
+                        {result.aboveThreshold ? "above" : "at or below"}
+                      </span>{" "}
+                      the WHO increased-risk line for your sex.
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-3 mt-5">
+                      <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Your WHR</p>
+                        <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.whr}</p>
+                      </div>
+                      <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">WHO Threshold</p>
+                        <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.whoThreshold.toFixed(2)}</p>
+                      </div>
+                    </div>
+
+                    <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                      {result.thresholdLabel}. An apple shape stores fat around the abdomen and organs; a pear shape stores it around the hips and thighs.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* FEATURE 2 — Cardiometabolic read + target ratio & waist cut ─ */}
+                <Card className="border shadow-md">
+                  <CardContent className="p-6 md:p-8">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Target className="w-5 h-5 text-emerald-700" />
+                      <h3 className="text-base font-bold">Heart &amp; Metabolic Read + Your Target</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                      {result.cardioMetabolicRead}
+                    </p>
+
+                    {result.atOrBelowTarget ? (
+                      <p className="text-sm text-muted-foreground leading-relaxed mt-4">
+                        Your waist of{" "}
+                        <strong className="text-emerald-700">{result.currentWaistStr}</strong> already keeps you at or
+                        below a target ratio of{" "}
+                        <strong className="text-emerald-700">{result.targetRatio}</strong> (hips held at {result.hipStr}).
+                        Maintain it and re-check every few weeks.
+                      </p>
+                    ) : (
+                      <>
+                        <p className="text-sm text-muted-foreground leading-relaxed mt-4">
+                          Aim for a target ratio of{" "}
+                          <strong className="text-emerald-700">{result.targetRatio}</strong>. Holding your hips constant at{" "}
+                          <strong className="text-emerald-700">{result.hipStr}</strong>, that means trimming your waist to about{" "}
+                          <strong className="text-emerald-700">{result.targetWaistStr}</strong> — a reduction of{" "}
+                          <strong className="text-emerald-700">{result.waistToLoseStr}</strong>.
+                        </p>
+
+                        <div className="grid grid-cols-3 gap-3 mt-5">
+                          <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                            <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Current Waist</p>
+                            <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.currentWaistStr}</p>
+                          </div>
+                          <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                            <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                              <TrendingDown className="w-3.5 h-3.5" /> Reduce
+                            </div>
+                            <p className="text-lg font-black text-emerald-700 mt-1">{result.waistToLoseStr}</p>
+                          </div>
+                          <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                            <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Target Waist</p>
+                            <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.targetWaistStr}</p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                      Target holds your hip measurement constant and assumes waist change through fat loss. Use it as a motivating milestone, not a medical prescription.
+                    </p>
+                  </CardContent>
+                </Card>
 
             </CardContent>
 

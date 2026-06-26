@@ -17,6 +17,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import { RelatedCalculators } from "@/components/calculators/related-calculators";
 import {
   Activity,
   Droplets,
@@ -29,6 +30,7 @@ import {
   BrainCircuit,
   Zap,
   Stethoscope,
+  Sparkles,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -117,6 +119,18 @@ export default function FatIntakeCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net sets your daily fat target from your calories and goal, aligned with established dietary guidelines. You get grams split into saturated, unsaturated and trans, with diet presets.
+              </p>
             </div>
           </div>
         </section>
@@ -379,6 +393,8 @@ export default function FatIntakeCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="fat-intake-calculator" />
 
             {/* Structured FAQ Section */}
             <div className="mt-12">

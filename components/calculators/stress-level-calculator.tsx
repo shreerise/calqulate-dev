@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Brain, RefreshCw, Loader2, Activity, ShieldAlert, Heart, ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { Brain, RefreshCw, Loader2, Activity, ShieldAlert, Heart, ArrowRight, ArrowLeft, CheckCircle2, Gauge, Lightbulb } from "lucide-react";
 
 // --- PSS-10 QUESTIONS & DATA ---
 const pssQuestions = [
@@ -42,6 +42,14 @@ pssQuestions.forEach((q) => {
 const formSchema = z.object(schemaShape);
 
 // --- RESULT TYPE INTERFACE ---
+type StressBand = "low" | "moderate" | "high";
+
+interface CopingPlan {
+  area: string;
+  headline: string;
+  techniques: string[];
+}
+
 interface StressResult {
   totalScore: number;
   category: string;
@@ -50,6 +58,12 @@ interface StressResult {
   helplessnessScore: number;
   efficacyScore: number;
   insights: string[];
+  // FEATURE 1 — PSS sub-score bands behind the result
+  band: StressBand;
+  helplessnessBand: StressBand;
+  efficacyBand: StressBand;
+  // FEATURE 2 — coping plan targeted to the highest-scoring stress area
+  copingPlan: CopingPlan;
 }
 
 // --- VISUAL COMPONENTS ---
@@ -98,6 +112,72 @@ const SubFactorBar = ({ label, score, max, description, invertColor = false }: {
     </div>
   );
 }
+
+// --- FEATURE 1 HELPERS: PSS sub-score banding ---
+// Overall PSS-10 band (0-13 low, 14-26 moderate, 27-40 high).
+const getOverallBand = (total: number): StressBand =>
+  total <= 13 ? "low" : total <= 26 ? "moderate" : "high";
+
+// Perceived Helplessness: 6 forward-scored items, range 0-24. Higher = more stress.
+const getHelplessnessBand = (raw: number): StressBand =>
+  raw <= 8 ? "low" : raw <= 16 ? "moderate" : "high";
+
+// Perceived Self-Efficacy: 4 reverse-keyed items, range 0-16. Lower raw confidence
+// answers mean more stress, so a LOW raw efficacy score is the high-stress band.
+const getEfficacyBand = (raw: number): StressBand =>
+  raw >= 11 ? "low" : raw >= 6 ? "moderate" : "high";
+
+const bandLabel: Record<StressBand, string> = {
+  low: "Low",
+  moderate: "Moderate",
+  high: "High",
+};
+
+// --- FEATURE 2 HELPER: coping plan targeted to the highest-scoring stress area ---
+// Compares the two PSS sub-factors on a normalized 0-1 stress scale and returns
+// techniques aimed at whichever area is contributing most to the user's load.
+const buildCopingPlan = (helplessnessRaw: number, efficacyRaw: number): CopingPlan => {
+  // Normalize each sub-factor to a 0-1 "stress contribution" score.
+  const helplessnessStress = helplessnessRaw / 24; // higher raw = more stress
+  const efficacyStress = (16 - efficacyRaw) / 16; // lower confidence = more stress
+
+  // If neither area is meaningfully elevated, give general foundational techniques.
+  if (helplessnessStress < 0.4 && efficacyStress < 0.4) {
+    return {
+      area: "General resilience",
+      headline: "Your stress is well balanced — protect it with foundational habits.",
+      techniques: [
+        "Practise 4-7-8 breathing for two minutes when you notice tension rising.",
+        "Protect a consistent sleep window (7-9 hours) to keep cortisol steady.",
+        "Keep moving — 20-30 minutes of activity most days buffers everyday stress.",
+      ],
+    };
+  }
+
+  // Helplessness dominates → structure and control techniques.
+  if (helplessnessStress >= efficacyStress) {
+    return {
+      area: "Perceived helplessness",
+      headline: "External chaos is driving your stress — regain a sense of control.",
+      techniques: [
+        "List what is and isn't in your control, then act only on the controllable column.",
+        "Set firm boundaries on one recurring demand this week (a 'no', a deadline, a hand-off).",
+        "Break overwhelming tasks into small, scheduled steps so progress feels structured.",
+      ],
+    };
+  }
+
+  // Low self-efficacy dominates → confidence and skills techniques.
+  return {
+    area: "Perceived self-efficacy",
+    headline: "Self-doubt is driving your stress — rebuild confidence with small wins.",
+    techniques: [
+      "Stack two or three quick, achievable wins each day to rebuild a sense of capability.",
+      "Recall a past challenge you handled well and name the skills you used then.",
+      "Ask for help or delegate one task — sharing load is a coping skill, not a weakness.",
+    ],
+  };
+};
 
 // --- CALCULATION LOGIC ---
 const calculateStressLevel = (answers: Record<string, string>): StressResult => {
@@ -150,8 +230,33 @@ const calculateStressLevel = (answers: Record<string, string>): StressResult => 
     ];
   }
 
-  return { totalScore, category, description, colorClass, helplessnessScore: helplessnessRaw, efficacyScore: efficacyRaw, insights };
+  return {
+    totalScore,
+    category,
+    description,
+    colorClass,
+    helplessnessScore: helplessnessRaw,
+    efficacyScore: efficacyRaw,
+    insights,
+    band: getOverallBand(totalScore),
+    helplessnessBand: getHelplessnessBand(helplessnessRaw),
+    efficacyBand: getEfficacyBand(efficacyRaw),
+    copingPlan: buildCopingPlan(helplessnessRaw, efficacyRaw),
+  };
 };
+
+// --- FEATURE 1 UI: small band pill ---
+const bandPillClass: Record<StressBand, string> = {
+  low: "bg-green-100 text-green-700 border-green-200",
+  moderate: "bg-yellow-100 text-yellow-700 border-yellow-200",
+  high: "bg-red-100 text-red-700 border-red-200",
+};
+
+const BandPill = ({ band }: { band: StressBand }) => (
+  <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${bandPillClass[band]}`}>
+    {bandLabel[band]}
+  </span>
+);
 
 // --- MAIN COMPONENT ---
 export default function StressLevelCalculator() {
@@ -384,6 +489,76 @@ export default function StressLevelCalculator() {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              {/* FEATURE 1 — PSS sub-score banding behind the result */}
+              <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-5 md:p-6">
+                <h3 className="text-base font-bold flex items-center gap-2 mb-1 text-slate-800 dark:text-slate-200">
+                  <Gauge className="w-4 h-4 text-indigo-500" /> PSS Score Breakdown &amp; Bands
+                </h3>
+                <p className="text-xs text-muted-foreground mb-4">
+                  Built on the validated Perceived Stress Scale (PSS-10). Your total and each sub-factor
+                  are placed into a clear low / moderate / high band.
+                </p>
+
+                <div className="grid sm:grid-cols-3 gap-3">
+                  <div className="rounded-lg border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 p-4">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Total Perceived Stress</span>
+                      <BandPill band={result.band} />
+                    </div>
+                    <p className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">
+                      {result.totalScore}<span className="text-sm font-normal text-muted-foreground"> / 40</span>
+                    </p>
+                  </div>
+
+                  <div className="rounded-lg border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 p-4">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Perceived Helplessness</span>
+                      <BandPill band={result.helplessnessBand} />
+                    </div>
+                    <p className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">
+                      {result.helplessnessScore}<span className="text-sm font-normal text-muted-foreground"> / 24</span>
+                    </p>
+                    <p className="text-[11px] text-muted-foreground mt-1 leading-tight">Items 1, 2, 3, 6, 9, 10 — feeling out of control.</p>
+                  </div>
+
+                  <div className="rounded-lg border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 p-4">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Perceived Self-Efficacy</span>
+                      <BandPill band={result.efficacyBand} />
+                    </div>
+                    <p className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">
+                      {result.efficacyScore}<span className="text-sm font-normal text-muted-foreground"> / 16</span>
+                    </p>
+                    <p className="text-[11px] text-muted-foreground mt-1 leading-tight">Items 4, 5, 7, 8 — confidence in coping (higher is better).</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* FEATURE 2 — coping suggestions targeted to the highest-scoring stress area */}
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 dark:bg-emerald-950/20 dark:border-emerald-900 p-5 md:p-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Lightbulb className="w-4 h-4 text-emerald-600" />
+                  <h3 className="text-base font-bold text-emerald-700 dark:text-emerald-400">
+                    Targeted Coping Plan
+                  </h3>
+                  <span className="ml-auto inline-flex items-center rounded-full border border-emerald-200 bg-white/70 dark:bg-slate-950/40 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
+                    Focus: {result.copingPlan.area}
+                  </span>
+                </div>
+                <p className="text-sm text-slate-700 dark:text-slate-300 mb-4">{result.copingPlan.headline}</p>
+                <ul className="space-y-2.5">
+                  {result.copingPlan.techniques.map((tech, i) => (
+                    <li key={i} className="flex items-start gap-2.5 bg-white/80 dark:bg-slate-950/50 p-3 rounded-lg border border-emerald-100 dark:border-emerald-900/50">
+                      <div className="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 font-bold text-[10px] mt-0.5">{i + 1}</div>
+                      <span className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{tech}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
+                  These supportive techniques target the area adding most to your perceived stress. They are educational and not a substitute for professional care.
+                </p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">

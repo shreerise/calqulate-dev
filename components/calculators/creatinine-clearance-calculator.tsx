@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calculator, RefreshCw, Activity, AlertCircle, Loader2, Info } from "lucide-react"
+import { Calculator, RefreshCw, Activity, AlertCircle, Loader2, Info, GitCompareArrows, Layers } from "lucide-react"
 
 // --- helpers & constants ---
 const MGDL_TO_UMOL = 88.4
@@ -77,6 +77,38 @@ interface CalculationResult {
   stage: string;
   description: string;
   color: string;
+  // ── ADDITIVE FEATURE 1: CKD / kidney-function stage (KDIGO G-stages) ──
+  ckdStage: string;          // e.g. "G2"
+  ckdLabel: string;          // e.g. "Mildly Decreased"
+  ckdRange: string;          // e.g. "60–89 mL/min"
+  ckdBadgeClasses: string;   // colour cue classes for the badge
+  ckdBarPercent: number;     // 0–100 position on the stage spectrum
+  // ── ADDITIVE FEATURE 2: eGFR cross-check vs Cockcroft-Gault ──
+  egfr?: number;             // CKD-EPI 2021 eGFR (mL/min/1.73m²) when computable
+  egfrVsCrclDiff?: number;   // CrCl(actual) − eGFR
+}
+
+// ── ADDITIVE FEATURE 1 HELPER: map a clearance value to a KDIGO G-stage ──
+function getCkdStage(value: number): {
+  ckdStage: string
+  ckdLabel: string
+  ckdRange: string
+  ckdBadgeClasses: string
+  ckdBarPercent: number
+} {
+  // Position on a 0–120 visual spectrum (capped) for the colour bar.
+  const ckdBarPercent = Math.min(100, Math.max(0, (value / 120) * 100))
+  if (value >= 90)
+    return { ckdStage: "G1", ckdLabel: "Normal or High", ckdRange: "≥90 mL/min", ckdBadgeClasses: "bg-green-50 text-green-700 border-green-200", ckdBarPercent }
+  if (value >= 60)
+    return { ckdStage: "G2", ckdLabel: "Mildly Decreased", ckdRange: "60–89 mL/min", ckdBadgeClasses: "bg-lime-50 text-lime-700 border-lime-200", ckdBarPercent }
+  if (value >= 45)
+    return { ckdStage: "G3a", ckdLabel: "Mild–Moderate Decrease", ckdRange: "45–59 mL/min", ckdBadgeClasses: "bg-yellow-50 text-yellow-700 border-yellow-200", ckdBarPercent }
+  if (value >= 30)
+    return { ckdStage: "G3b", ckdLabel: "Moderate–Severe Decrease", ckdRange: "30–44 mL/min", ckdBadgeClasses: "bg-orange-50 text-orange-700 border-orange-200", ckdBarPercent }
+  if (value >= 15)
+    return { ckdStage: "G4", ckdLabel: "Severely Decreased", ckdRange: "15–29 mL/min", ckdBadgeClasses: "bg-red-50 text-red-700 border-red-200", ckdBarPercent }
+  return { ckdStage: "G5", ckdLabel: "Kidney Failure (ESRD)", ckdRange: "<15 mL/min", ckdBadgeClasses: "bg-red-100 text-red-800 border-red-300", ckdBarPercent }
 }
 
 // --- main component ---
@@ -255,6 +287,30 @@ export default function CreatinineClearanceCalculator() {
       // round output for UI - use actual body weight CrCl as primary
       const crClActualRounded = round(crClActual, 1)
 
+      // ── ADDITIVE FEATURE 1: KDIGO G-stage for the primary clearance value ──
+      const ckd = getCkdStage(crClActualRounded)
+
+      // ── ADDITIVE FEATURE 2: eGFR cross-check (CKD-EPI 2021, race-free) ──
+      // Inputs already available: age, sex, serum creatinine (mg/dL).
+      // eGFR = 142 × min(Scr/κ,1)^α × max(Scr/κ,1)^-1.200 × 0.9938^Age × (1.012 if female)
+      let egfr: number | undefined = undefined
+      let egfrVsCrclDiff: number | undefined = undefined
+      if (isFinite(creatinine) && creatinine > 0 && isFinite(age) && age > 0) {
+        const kappa = isFemale ? 0.7 : 0.9
+        const alpha = isFemale ? -0.241 : -0.302
+        const scrK = creatinine / kappa
+        const egfrRaw =
+          142 *
+          Math.pow(Math.min(scrK, 1), alpha) *
+          Math.pow(Math.max(scrK, 1), -1.2) *
+          Math.pow(0.9938, age) *
+          (isFemale ? 1.012 : 1)
+        if (isFinite(egfrRaw) && egfrRaw > 0) {
+          egfr = round(egfrRaw, 1)
+          egfrVsCrclDiff = round(crClActualRounded - egfr, 1)
+        }
+      }
+
       // Interpretation using KDIGO ranges but applied for CrCl here (simple rule-of-thumb)
       let stage = ""
       let description = ""
@@ -294,6 +350,13 @@ export default function CreatinineClearanceCalculator() {
         stage,
         description,
         color,
+        ckdStage: ckd.ckdStage,
+        ckdLabel: ckd.ckdLabel,
+        ckdRange: ckd.ckdRange,
+        ckdBadgeClasses: ckd.ckdBadgeClasses,
+        ckdBarPercent: ckd.ckdBarPercent,
+        egfr,
+        egfrVsCrclDiff,
       })
 
       setIsLoading(false)
@@ -516,6 +579,90 @@ export default function CreatinineClearanceCalculator() {
                     <h4 className="text-sm uppercase tracking-wide text-muted-foreground font-semibold mb-2">Interpretation</h4>
                     <p className={`text-2xl font-bold ${result.color} mb-2`}>{result.stage}</p>
                     <p className="text-muted-foreground">{result.description}</p>
+                </div>
+
+                {/* ── ADDITIVE FEATURE 1: Kidney-function / CKD stage ── */}
+                <div className="rounded-xl border bg-card p-5 md:p-6">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Layers className="w-5 h-5 text-emerald-700" />
+                    <h4 className="text-base font-bold text-emerald-700">Kidney Function Stage (KDIGO)</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    A clearance of <strong className="text-foreground">{result.crClActual} mL/min</strong> places this
+                    result in stage{" "}
+                    <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-bold ${result.ckdBadgeClasses}`}>
+                      {result.ckdStage} · {result.ckdLabel}
+                    </span>{" "}
+                    (the {result.ckdRange} band), giving the number immediate clinical meaning.
+                  </p>
+
+                  {/* Stage spectrum bar */}
+                  <div className="relative mt-5 w-full h-3 rounded-full bg-gradient-to-r from-red-500 via-yellow-400 to-green-500">
+                    <div
+                      className="absolute top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-white bg-emerald-700 shadow-lg transition-all duration-700"
+                      style={{ left: `${result.ckdBarPercent}%` }}
+                      title={`${result.crClActual} mL/min`}
+                    />
+                  </div>
+                  <div className="mt-2 flex justify-between px-1 text-[11px] font-semibold text-muted-foreground">
+                    <span>G5 (&lt;15)</span>
+                    <span>G3 (30–59)</span>
+                    <span>G1 (≥90)</span>
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
+                    G1 and G2 are only classified as chronic kidney disease when other evidence of kidney damage
+                    (e.g. albuminuria) is present. Staging here is for context, not diagnosis.
+                  </p>
+                </div>
+
+                {/* ── ADDITIVE FEATURE 2: Cockcroft-Gault vs eGFR cross-check ── */}
+                <div className="rounded-xl border bg-card p-5 md:p-6">
+                  <div className="flex items-center gap-2 mb-1">
+                    <GitCompareArrows className="w-5 h-5 text-emerald-700" />
+                    <h4 className="text-base font-bold text-emerald-700">Cockcroft-Gault vs eGFR Cross-Check</h4>
+                  </div>
+
+                  {typeof result.egfr !== "undefined" ? (
+                    <>
+                      <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="rounded-lg border bg-muted/40 p-4 text-center">
+                          <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Cockcroft-Gault CrCl</div>
+                          <div className="mt-1 text-2xl font-bold text-foreground">{result.crClActual}</div>
+                          <div className="text-xs text-muted-foreground">mL/min</div>
+                        </div>
+                        <div className="rounded-lg border bg-muted/40 p-4 text-center">
+                          <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">CKD-EPI eGFR</div>
+                          <div className="mt-1 text-2xl font-bold text-foreground">{result.egfr}</div>
+                          <div className="text-xs text-muted-foreground">mL/min/1.73m²</div>
+                        </div>
+                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-center">
+                          <div className="text-xs uppercase tracking-wider text-emerald-700 font-semibold">Difference</div>
+                          <div className="mt-1 text-2xl font-bold text-emerald-700">
+                            {result.egfrVsCrclDiff !== undefined && result.egfrVsCrclDiff > 0 ? "+" : ""}
+                            {result.egfrVsCrclDiff}
+                          </div>
+                          <div className="text-xs text-emerald-700/80">CrCl − eGFR</div>
+                        </div>
+                      </div>
+                      <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                        The two estimates can diverge because they normalise differently. Cockcroft-Gault scales clearance
+                        to <strong className="text-foreground">body weight</strong>, so it tends to read higher in heavier or
+                        more muscular people and lower with low muscle mass. CKD-EPI eGFR is normalised to a standard{" "}
+                        <strong className="text-foreground">1.73 m² body surface area</strong> and ignores weight, so it
+                        reflects "average-sized" kidney function. Most drug labels are written against Cockcroft-Gault CrCl,
+                        while eGFR is the standard for CKD staging — checking both reduces dosing surprises.
+                      </p>
+                    </>
+                  ) : (
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      eGFR could not be estimated from the current inputs. Conceptually, Cockcroft-Gault CrCl normalises
+                      clearance to <strong className="text-foreground">body weight</strong> (so it shifts with body size and
+                      muscle mass), whereas CKD-EPI eGFR normalises to a standard{" "}
+                      <strong className="text-foreground">1.73 m² body surface area</strong> and ignores weight. That is why
+                      the two methods can report different numbers for the same patient — and why drug labels (Cockcroft-Gault)
+                      and CKD staging (eGFR) often quote each separately.
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 rounded-lg text-sm">

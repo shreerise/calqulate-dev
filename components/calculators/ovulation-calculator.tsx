@@ -12,10 +12,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { 
+import {
   CalendarHeart, Baby, ShieldCheck, Activity, Info, CalendarClock, Beaker,
   Save, History, ChevronRight, Award, AlertCircle, Brain, ArrowRight,
-  CheckCircle2, BarChart3, TrendingDown, TrendingUp, RefreshCw
+  CheckCircle2, BarChart3, TrendingDown, TrendingUp, RefreshCw, CalendarDays, Star
 } from "lucide-react";
 
 // ─── VALIDATION SCHEMA ────────────────────────────────────────────────────────
@@ -30,6 +30,10 @@ const formSchema = z.object({
     const num = parseInt(val);
     return num >= 10 && num <= 16;
   }, "Luteal phase is typically between 10 and 16 days."),
+  // ── Optional, non-breaking: irregular / PCOS cycle handling ──────────────
+  cycleType: z.enum(["regular", "irregular"]).optional(),
+  cycleLengthMin: z.string().optional(),
+  cycleLengthMax: z.string().optional(),
 });
 
 // ─── INTERFACES ───────────────────────────────────────────────────────────────
@@ -44,7 +48,34 @@ interface ResultsState {
   headline: string;
   nextSteps: string[];
   scientificFact: string;
+  // ── FEATURE 1: regular vs irregular / PCOS fertile-window prediction ──────
+  isIrregular: boolean;
+  variabilityDays: number;          // ± spread applied to the window for irregular cycles
+  fertileWindowEarliest: Date;      // widened start for irregular / PCOS cycles
+  fertileWindowLatest: Date;        // widened end for irregular / PCOS cycles
+  ovulationEarliest: Date;          // earliest plausible ovulation day
+  ovulationLatest: Date;            // latest plausible ovulation day
+  peakDays: Date[];                 // highest-probability conception days
+  // ── FEATURE 2: multi-cycle calendar / timeline ───────────────────────────
+  cycleTimeline: CycleProjection[];
 }
+
+interface CycleProjection {
+  cycleNumber: number;
+  ovulationDate: Date;
+  fertileStart: Date;
+  fertileEnd: Date;
+  windowEarliest: Date;             // widened bounds (equals fertileStart when regular)
+  windowLatest: Date;
+  peakDays: Date[];
+  nextPeriodDate: Date;
+}
+
+// Returns true when two dates fall on the same calendar day.
+const isSameDay = (a: Date, b: Date): boolean =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
 
 interface SavedEntry {
   date: string;
@@ -284,6 +315,9 @@ export default function AdvancedOvulationCalculator() {
       lastPeriodDate: "",
       cycleLength: "28",
       lutealPhase: "14",
+      cycleType: "regular",
+      cycleLengthMin: "",
+      cycleLengthMax: "",
     },
   });
 
@@ -320,6 +354,62 @@ export default function AdvancedOvulationCalculator() {
 
       const insights = generateCycleInsights(values.goal, cycle, luteal);
 
+      // ── FEATURE 1: regular vs irregular / PCOS prediction ─────────────────
+      // When the user flags an irregular / PCOS cycle (or supplies a shortest–
+      // longest cycle range), ovulation can land anywhere across that range, so
+      // we widen the fertile window instead of pinning it to a single day.
+      const isIrregular = values.cycleType === "irregular";
+      const minCandidate = parseInt(values.cycleLengthMin || "");
+      const maxCandidate = parseInt(values.cycleLengthMax || "");
+      const hasRange = !isNaN(minCandidate) && !isNaN(maxCandidate) && maxCandidate >= minCandidate;
+
+      // Spread (± days) of plausible ovulation timing around the central estimate.
+      let variabilityDays = 0;
+      if (hasRange) {
+        // Half the shortest→longest spread, clamped to a sane range.
+        variabilityDays = Math.min(14, Math.max(1, Math.round((maxCandidate - minCandidate) / 2)));
+      } else if (isIrregular) {
+        // No explicit range given but flagged irregular — apply a conservative
+        // ±4-day spread (wider still for long, PCOS-typical cycles).
+        variabilityDays = cycle >= 35 ? 6 : 4;
+      }
+
+      // Ovulation is luteal days before the next period; for a range we anchor on
+      // the shortest and longest plausible cycles to bound the earliest/latest.
+      const shortCycle = hasRange ? minCandidate : cycle - variabilityDays;
+      const longCycle = hasRange ? maxCandidate : cycle + variabilityDays;
+      const ovulationEarliest = addDays(addDays(lmp, shortCycle), -luteal);
+      const ovulationLatest = addDays(addDays(lmp, longCycle), -luteal);
+
+      // Fertile window: 5 days of sperm survival before the earliest plausible
+      // ovulation, through 1 day after the latest plausible ovulation.
+      const fertileWindowEarliest = addDays(ovulationEarliest, -5);
+      const fertileWindowLatest = addDays(ovulationLatest, 1);
+
+      // Highest-probability conception days: the 2 days before through ovulation
+      // day itself, centred on the primary estimate.
+      const peakDays = [addDays(ovulationDate, -2), addDays(ovulationDate, -1), ovulationDate];
+
+      // ── FEATURE 2: project the next few cycles for a visual timeline ───────
+      const cycleTimeline: CycleProjection[] = [];
+      for (let i = 0; i < 3; i++) {
+        const cycleLmp = addDays(lmp, cycle * i);
+        const cNextPeriod = addDays(cycleLmp, cycle);
+        const cOvulation = addDays(cNextPeriod, -luteal);
+        const cFertileStart = addDays(cOvulation, -5);
+        const cFertileEnd = addDays(cOvulation, 1);
+        cycleTimeline.push({
+          cycleNumber: i + 1,
+          ovulationDate: cOvulation,
+          fertileStart: cFertileStart,
+          fertileEnd: cFertileEnd,
+          windowEarliest: variabilityDays ? addDays(cFertileStart, -variabilityDays) : cFertileStart,
+          windowLatest: variabilityDays ? addDays(cFertileEnd, variabilityDays) : cFertileEnd,
+          peakDays: [addDays(cOvulation, -2), addDays(cOvulation, -1), cOvulation],
+          nextPeriodDate: cNextPeriod,
+        });
+      }
+
       setResults({
         ovulationDate,
         fertileWindowStart,
@@ -330,7 +420,15 @@ export default function AdvancedOvulationCalculator() {
         goal: values.goal,
         headline: insights.headline,
         nextSteps: insights.nextSteps,
-        scientificFact: insights.scientificFact
+        scientificFact: insights.scientificFact,
+        isIrregular: isIrregular || hasRange,
+        variabilityDays,
+        fertileWindowEarliest,
+        fertileWindowLatest,
+        ovulationEarliest,
+        ovulationLatest,
+        peakDays,
+        cycleTimeline,
       });
     } catch (err) {
       setError("An error occurred while calculating. Please check your inputs.");
@@ -489,6 +587,72 @@ export default function AdvancedOvulationCalculator() {
                     />
                   </div>
 
+                  {/* ── OPTIONAL: irregular / PCOS cycle handling ──────────── */}
+                  <FormField
+                    control={form.control}
+                    name="cycleType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700 font-semibold flex items-center gap-1.5">
+                          <CalendarDays className="w-4 h-4 text-green-600" /> Cycle regularity
+                        </FormLabel>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { value: "regular", label: "Regular" },
+                            { value: "irregular", label: "Irregular / PCOS" },
+                          ].map((opt) => (
+                            <button
+                              type="button"
+                              key={opt.value}
+                              onClick={() => field.onChange(opt.value)}
+                              className={`rounded-lg border-2 p-2.5 text-sm font-semibold transition-all ${
+                                field.value === opt.value
+                                  ? "border-green-600 text-green-700 bg-green-50"
+                                  : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                        <FormDescription className="text-xs text-gray-500">
+                          Irregular / PCOS cycles get a wider, safer fertile window.
+                        </FormDescription>
+                      </FormItem>
+                    )}
+                  />
+
+                  {form.watch("cycleType") === "irregular" && (
+                    <div className="grid grid-cols-2 gap-4 rounded-lg bg-green-50/60 border border-green-100 p-3">
+                      <FormField
+                        control={form.control}
+                        name="cycleLengthMin"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-gray-700 font-semibold text-sm">Shortest cycle</FormLabel>
+                            <FormControl>
+                              <Input type="number" min="20" max="60" placeholder="e.g. 26" className="border-gray-300 focus:ring-green-500 h-11 text-base" {...field} />
+                            </FormControl>
+                            <FormDescription className="text-xs text-gray-500">Days (optional)</FormDescription>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="cycleLengthMax"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-gray-700 font-semibold text-sm">Longest cycle</FormLabel>
+                            <FormControl>
+                              <Input type="number" min="20" max="60" placeholder="e.g. 40" className="border-gray-300 focus:ring-green-500 h-11 text-base" {...field} />
+                            </FormControl>
+                            <FormDescription className="text-xs text-gray-500">Days (optional)</FormDescription>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  )}
+
                   <Button type="submit" size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold h-14 text-lg transition-colors">
                     Calculate My Cycle
                   </Button>
@@ -589,6 +753,175 @@ export default function AdvancedOvulationCalculator() {
                       </div>
                     )}
                   </div>
+
+                  {/* ── FEATURE 1: REGULAR vs IRREGULAR / PCOS FERTILE WINDOW ─── */}
+                  <Card className="border border-green-100 shadow-md text-left">
+                    <CardContent className="p-5 md:p-6">
+                      <div className="flex items-center gap-2 mb-1">
+                        <CalendarDays className="w-5 h-5 text-green-600" />
+                        <h3 className="text-base font-bold text-slate-900">
+                          {results.isIrregular
+                            ? "Fertile Window for Irregular / PCOS Cycles"
+                            : "Your Fertile Window & Ovulation Day"}
+                        </h3>
+                      </div>
+
+                      {results.isIrregular ? (
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          Because your cycle length varies, ovulation can land anywhere in a range rather than
+                          on a single day. Based on your shortest-to-longest cycles, your{" "}
+                          <span className="font-bold text-green-700">widest fertile window</span> runs from{" "}
+                          <strong className="text-emerald-700">{formatDate(results.fertileWindowEarliest)}</strong>{" "}
+                          to{" "}
+                          <strong className="text-emerald-700">{formatDate(results.fertileWindowLatest)}</strong>.
+                          Plan for intercourse across these days to stay covered through cycle variability.
+                        </p>
+                      ) : (
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          With a regular cycle, your fertile window is tightly defined — the 5 days before
+                          ovulation plus ovulation day itself.
+                        </p>
+                      )}
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+                        <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                          <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">
+                            {results.isIrregular ? "Earliest Ovulation" : "Window Opens"}
+                          </p>
+                          <p className="text-sm font-black text-slate-800 dark:text-slate-100 mt-1">
+                            {formatDate(results.isIrregular ? results.ovulationEarliest : results.fertileWindowStart)}
+                          </p>
+                        </div>
+                        <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                          <p className="text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                            Peak Ovulation
+                          </p>
+                          <p className="text-sm font-black text-emerald-700 mt-1">
+                            {formatDate(results.ovulationDate)}
+                          </p>
+                        </div>
+                        <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                          <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">
+                            {results.isIrregular ? "Latest Ovulation" : "Window Closes"}
+                          </p>
+                          <p className="text-sm font-black text-slate-800 dark:text-slate-100 mt-1">
+                            {formatDate(results.isIrregular ? results.ovulationLatest : results.fertileWindowEnd)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Highest-probability conception days */}
+                      <div className="mt-5">
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <Star className="w-3.5 h-3.5 text-green-600" /> Highest-probability conception days
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {results.peakDays.map((d, i) => (
+                            <span
+                              key={i}
+                              className="text-xs font-semibold px-3 py-1.5 rounded-full bg-green-600 text-white"
+                            >
+                              {d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {results.isIrregular && (
+                        <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                          For irregular and PCOS cycles, pair this estimate with LH ovulation strips and cervical
+                          mucus tracking — the widened window is a planning guide, not a precise prediction.
+                        </p>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* ── FEATURE 2: NEXT 3 CYCLES VISUAL TIMELINE ─────────────── */}
+                  <Card className="border border-green-100 shadow-md text-left">
+                    <CardContent className="p-5 md:p-6">
+                      <div className="flex items-center gap-2 mb-1">
+                        <CalendarHeart className="w-5 h-5 text-green-600" />
+                        <h3 className="text-base font-bold text-slate-900">Your Next 3 Cycles</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                        A quick look ahead — peak conception days marked in green for each upcoming cycle so you can
+                        plan in advance.
+                      </p>
+
+                      <div className="space-y-4">
+                        {results.cycleTimeline.map((cyc) => {
+                          // Build a compact day strip spanning the widened fertile window.
+                          const stripStart = cyc.windowEarliest;
+                          const totalDays =
+                            Math.round(
+                              (cyc.windowLatest.getTime() - cyc.windowEarliest.getTime()) / (1000 * 60 * 60 * 24)
+                            ) + 1;
+                          const days: Date[] = Array.from({ length: Math.max(1, totalDays) }, (_, i) =>
+                            addDays(stripStart, i)
+                          );
+
+                          return (
+                            <div
+                              key={cyc.cycleNumber}
+                              className="rounded-xl border border-gray-100 bg-gray-50/70 p-4"
+                            >
+                              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                                <span className="text-xs font-bold uppercase tracking-wider text-green-700">
+                                  Cycle {cyc.cycleNumber}
+                                </span>
+                                <span className="text-xs text-gray-500">
+                                  Ovulation ~ {formatDate(cyc.ovulationDate)}
+                                </span>
+                              </div>
+
+                              {/* Day strip / mini-calendar */}
+                              <div className="flex flex-wrap gap-1.5">
+                                {days.map((d, i) => {
+                                  const isPeak = cyc.peakDays.some((p) => isSameDay(p, d));
+                                  const isOvulation = isSameDay(d, cyc.ovulationDate);
+                                  return (
+                                    <div
+                                      key={i}
+                                      title={d.toLocaleDateString("en-US", {
+                                        weekday: "short",
+                                        month: "short",
+                                        day: "numeric",
+                                      })}
+                                      className={`flex flex-col items-center justify-center w-10 h-12 rounded-lg border text-center transition-all ${
+                                        isPeak
+                                          ? "bg-green-600 border-green-700 text-white shadow-sm"
+                                          : isOvulation
+                                          ? "bg-green-100 border-green-300 text-green-800"
+                                          : "bg-white border-gray-200 text-gray-600"
+                                      }`}
+                                    >
+                                      <span className="text-[9px] uppercase leading-none">
+                                        {d.toLocaleDateString("en-US", { weekday: "short" }).slice(0, 2)}
+                                      </span>
+                                      <span className="text-sm font-bold leading-none mt-0.5">{d.getDate()}</span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+
+                              <div className="flex items-center justify-between mt-3 text-[11px] text-gray-500">
+                                <span>Next period ~ {formatDate(cyc.nextPeriodDate)}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      <div className="flex items-center gap-4 mt-4 text-[11px] text-gray-500">
+                        <span className="flex items-center gap-1.5">
+                          <span className="inline-block w-3 h-3 rounded bg-green-600" /> Peak conception day
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <span className="inline-block w-3 h-3 rounded bg-green-100 border border-green-300" /> Fertile day
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
 
                   {/* 3. HIGH-CTR PERSONALIZED ACTION RECOMMENDATIONS */}
                   <Card className="border-0 shadow-lg text-left" style={{ background: "#f0fdf4", border: "1px solid #bbf7d0" }}>

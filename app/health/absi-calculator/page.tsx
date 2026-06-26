@@ -11,8 +11,9 @@ import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen , Stethoscope, ShieldCheck } from "lucide-react"
+import { Ruler, Calculator, BrainCircuit, HeartPulse, UserCheck, Shield, BookOpen , Stethoscope, ShieldCheck, Sparkles } from "lucide-react"
 import Link from "next/link"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "ABSI Calculator: Is Your Body Shape Killing You?",
@@ -164,6 +165,20 @@ export default function ABSICalculatorPage() {
                 <span className="font-semibold text-slate-700">4.8</span>
                 <span className="text-slate-400">(1,247 ratings)</span>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                <strong className="text-slate-900">Calqulate.net</strong> measures central-obesity risk from your
+                waist, BMI and height using the validated ABSI formula. You get an accurate percentile and a clear
+                waist-loss target — <strong className="text-emerald-700">an action plan, not just a score.</strong>
+              </p>
             </div>
           </div>
         </section>
@@ -391,6 +406,8 @@ export default function ABSICalculatorPage() {
               </section>
             </div>
                     
+            <RelatedCalculators slug="absi-calculator" />
+
             <FAQSection faqs={faqs} />
             <p className="text-sm text-muted-foreground text-center mt-12">
               Want to go one step further? Estimate your body fat directly with our{" "}

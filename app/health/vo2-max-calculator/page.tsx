@@ -23,8 +23,10 @@ import {
   Dumbbell,
   Timer,
   TrendingUp,
-  Heart
+  Heart,
+  Sparkles
 } from "lucide-react"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "VO2 Max Calculator: Accurate Estimates & Real-World Interpretation",
@@ -112,6 +114,18 @@ export default function VO2MaxCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net estimates your VO2 max from a simple test using the validated Cooper and Rockport protocols. You get an accurate score, a fitness-age and your training zones.
+              </p>
             </div>
           </div>
         </section>
@@ -448,6 +462,8 @@ export default function VO2MaxCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="vo2-max-calculator" />
 
             {/* Structured FAQ UI */}
             <div className="mt-12">

@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Calculator, RefreshCw, Loader2, Percent, BrainCircuit } from "lucide-react"
+import { Calculator, RefreshCw, Loader2, Percent, BrainCircuit, Scale, Drumstick, Flame } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 // --- Zod Validation Schema ---
@@ -55,6 +55,12 @@ interface LBMFormulaResults {
   totalBodyWeightKg: number
   lbmPercentageBoer: number | null
   interpretation: string
+  // FEATURE 1 — averaged lean-mass estimate (kg) across Boer, James, Hume
+  averageLbmKg: number | null
+  // FEATURE 2 — protein & calorie guidance derived from averaged lean mass (per day)
+  proteinLowG: number | null
+  proteinHighG: number | null
+  minCalories: number | null
 }
 
 // --- Main Calculator Component ---
@@ -163,11 +169,35 @@ export default function LeanBodyMassCalculator() {
     }
 
 
+    // --- FEATURE 1: Averaged lean-mass estimate (Boer + James + Hume) ---
+    const validFormulas = [boer, james, hume].filter((v): v is number => v !== null && !isNaN(v))
+    const averageLbmKg = validFormulas.length > 0
+      ? validFormulas.reduce((sum, v) => sum + v, 0) / validFormulas.length
+      : null
+
+    // --- FEATURE 2: Protein & calorie guidance from averaged lean mass ---
+    // Protein: ~1.6–2.2 g per kg of lean mass per day.
+    // Safe minimum calories: a conservative floor (1200 kcal women, 1500 kcal men)
+    // or ~22 kcal per kg of lean mass, whichever is higher.
+    let proteinLowG: number | null = null
+    let proteinHighG: number | null = null
+    let minCalories: number | null = null
+    if (averageLbmKg !== null) {
+      proteinLowG = averageLbmKg * 1.6
+      proteinHighG = averageLbmKg * 2.2
+      const calorieFloor = sex === "male" ? 1500 : 1200
+      minCalories = Math.max(calorieFloor, averageLbmKg * 22)
+    }
+
     return {
       boer, hume, james,
       totalBodyWeightKg: weightKg,
       lbmPercentageBoer,
       interpretation,
+      averageLbmKg,
+      proteinLowG,
+      proteinHighG,
+      minCalories,
     }
   }
 
@@ -283,6 +313,100 @@ export default function LeanBodyMassCalculator() {
                 <div className="p-3 bg-gray-100 dark:bg-gray-800 rounded-lg"><h4 className="font-semibold">Hume Formula</h4><p className="text-2xl text-primary">{getDisplayValue(lbmResults.hume)}</p></div>
                 <div className="p-3 bg-gray-100 dark:bg-gray-800 rounded-lg"><h4 className="font-semibold">James Formula</h4><p className="text-2xl text-primary">{getDisplayValue(lbmResults.james)}</p></div>
               </div>
+
+              {/* FEATURE 1 — Averaged lean-mass estimate across Boer, James & Hume */}
+              {lbmResults.averageLbmKg !== null && (
+                <Card className="border-emerald-200 bg-emerald-50/60 rounded-xl">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Scale className="h-5 w-5 text-emerald-700" />
+                      <h3 className="text-base font-bold text-emerald-700">Averaged Lean Mass Estimate</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Each formula was validated on a different population, so averaging the three gives a more
+                      stable, balanced estimate than any single equation.
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-3 mt-4">
+                      <div className="rounded-xl border bg-white p-3 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-bold">Boer</p>
+                        <p className="text-base font-bold text-slate-800 mt-1">{getDisplayValue(lbmResults.boer)}</p>
+                      </div>
+                      <div className="rounded-xl border bg-white p-3 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-bold">James</p>
+                        <p className="text-base font-bold text-slate-800 mt-1">{getDisplayValue(lbmResults.james)}</p>
+                      </div>
+                      <div className="rounded-xl border bg-white p-3 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-bold">Hume</p>
+                        <p className="text-base font-bold text-slate-800 mt-1">{getDisplayValue(lbmResults.hume)}</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 rounded-xl border border-emerald-300 bg-white p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                        Averaged Lean Mass (Boer · James · Hume)
+                      </p>
+                      <p className="text-3xl font-bold text-emerald-700 mt-1">{getDisplayValue(lbmResults.averageLbmKg)}</p>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
+                      Shown in your selected unit ({unitSystem === "metric" ? "kg" : "lbs"}). Treat this as a reliable
+                      working figure, not a clinical measurement — a DEXA scan is more precise for edge cases.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* FEATURE 2 — Protein & calorie guidance from averaged lean mass */}
+              {lbmResults.averageLbmKg !== null && lbmResults.proteinLowG !== null && (
+                <Card className="border-emerald-200 bg-emerald-50/60 rounded-xl">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Drumstick className="h-5 w-5 text-emerald-700" />
+                      <h3 className="text-base font-bold text-emerald-700">Daily Protein &amp; Calorie Guidance</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      These targets are based on your <strong>averaged lean mass</strong> of{" "}
+                      {getDisplayValue(lbmResults.averageLbmKg)} ({lbmResults.averageLbmKg.toFixed(1)} kg), the
+                      research-backed range of ~1.6–2.2 g of protein per kg of lean mass, and a conservative safe
+                      calorie floor.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                      <div className="rounded-xl border bg-white p-4">
+                        <div className="flex items-center gap-1.5 text-emerald-700">
+                          <Drumstick className="h-4 w-4" />
+                          <p className="text-[11px] uppercase tracking-wider font-bold">Daily Protein</p>
+                        </div>
+                        <p className="text-2xl font-bold text-slate-800 mt-1">
+                          {Math.round(lbmResults.proteinLowG)}–{Math.round(lbmResults.proteinHighG!)} g
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          ~1.6–2.2 g per kg of lean mass to support muscle repair and growth.
+                        </p>
+                      </div>
+                      <div className="rounded-xl border bg-white p-4">
+                        <div className="flex items-center gap-1.5 text-emerald-700">
+                          <Flame className="h-4 w-4" />
+                          <p className="text-[11px] uppercase tracking-wider font-bold">Safe Minimum Calories</p>
+                        </div>
+                        <p className="text-2xl font-bold text-slate-800 mt-1">
+                          {Math.round(lbmResults.minCalories!)} kcal
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          A floor to protect lean mass — don't diet below this for long periods.
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
+                      <strong>Assumptions:</strong> protein scales with lean mass (not total weight), so it suits both
+                      lean and higher-body-fat individuals. The calorie figure is a safe lower limit, not a target
+                      intake — your full maintenance needs are higher and depend on activity. This is general guidance,
+                      not medical or dietetic advice.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
 
               <div>
                 <h3 className="text-lg font-semibold">Interpretation</h3>

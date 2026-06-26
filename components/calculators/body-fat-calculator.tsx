@@ -42,6 +42,17 @@ interface BodyFatResult {
   headline: string;
   nextSteps: string[];
   bfpFact: string;
+  // FEATURE 1 — fitness category context + lean mass in real units
+  unitLabel: string;
+  categoryDescription: string;
+  categoryRange: string;
+  // FEATURE 2 — fat to lose to reach target BF% + realistic timeline
+  targetBfp: number;
+  targetIsHealthyCap: boolean;
+  alreadyAtTarget: boolean;
+  fatToLose: number; // in display units
+  weightAtTarget: number; // in display units
+  weeksToTarget: number;
 }
 
 interface SavedEntry {
@@ -150,6 +161,40 @@ function generateBodyFatInsights(bfp: number, gender: string): { headline: strin
       ],
       bfpFact: "Clinical Metric: Adopting persistent lifestyle-driven weight management changes yields better long-term cellular outcomes than drastic short-term diets."
     };
+  }
+}
+
+// ─── FITNESS CATEGORY CONTEXT (range + plain-language meaning, by sex) ─────────
+function getCategoryDetail(label: string, gender: string): { range: string; description: string } {
+  const isMale = gender === "male";
+  switch (label) {
+    case "Athlete":
+      return {
+        range: isMale ? "6–13%" : "14–20%",
+        description: isMale
+          ? "Athletic range — visible muscle definition and competition-level conditioning that takes discipline to maintain."
+          : "Athletic range — lean, defined and competition-level for women, requiring careful nutrition to sustain.",
+      };
+    case "Fitness":
+      return {
+        range: isMale ? "14–17%" : "21–24%",
+        description: isMale
+          ? "Fitness range — lean and toned with sustainable habits; a healthy, active-lifestyle target for most men."
+          : "Fitness range — toned and healthy with a sustainable balance; an ideal active-lifestyle target for most women.",
+      };
+    case "Average":
+      return {
+        range: isMale ? "18–24%" : "25–31%",
+        description: isMale
+          ? "Average range — acceptable but with room to improve body composition through training and nutrition."
+          : "Average range — acceptable but with room to improve body composition through training and nutrition.",
+      };
+    default:
+      return {
+        range: isMale ? "25%+" : "32%+",
+        description:
+          "Above the healthy range — gradual fat loss can meaningfully reduce metabolic and cardiovascular risk over time.",
+      };
   }
 }
 
@@ -389,6 +434,21 @@ export default function BodyFatCalculator() {
 
       const category = getCategory(bfp, values.gender);
       const insights = generateBodyFatInsights(bfp, values.gender);
+      const catDetail = getCategoryDetail(category.label, values.gender);
+
+      // ── FEATURE 2: fat mass to lose to reach a target BF% ───────────────────
+      // No dedicated target input exists, so default to the top of the healthy
+      // (Fitness) category for the user's sex and state the assumption in the UI.
+      const targetBfp = values.gender === "male" ? 17 : 24;
+      const alreadyAtTarget = bfp <= targetBfp;
+      // Hold lean mass constant: weight at target = leanMass / (1 - target%).
+      const weightAtTargetKg = leanMass / (1 - targetBfp / 100);
+      const fatToLoseKg = Math.max(0, w - weightAtTargetKg);
+      // Realistic, sustainable fat loss ≈ 0.5 kg/week.
+      const weeksToTarget = Math.max(0, Math.ceil(fatToLoseKg / 0.5));
+
+      const displayFatToLose = isMetric ? fatToLoseKg : fatToLoseKg * 2.20462;
+      const displayWeightAtTarget = isMetric ? weightAtTargetKg : weightAtTargetKg * 2.20462;
 
       setResult({
         bfp,
@@ -399,7 +459,16 @@ export default function BodyFatCalculator() {
         idealWeight: displayIdealWeight,
         headline: insights.headline,
         nextSteps: insights.nextSteps,
-        bfpFact: insights.bfpFact
+        bfpFact: insights.bfpFact,
+        unitLabel: isMetric ? "kg" : "lb",
+        categoryDescription: catDetail.description,
+        categoryRange: catDetail.range,
+        targetBfp,
+        targetIsHealthyCap: true,
+        alreadyAtTarget,
+        fatToLose: displayFatToLose,
+        weightAtTarget: displayWeightAtTarget,
+        weeksToTarget,
       });
 
       setIsLoading(false);
@@ -706,6 +775,95 @@ export default function BodyFatCalculator() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* FEATURE 1 — FITNESS CATEGORY + LEAN MASS IN REAL UNITS ─────────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Award className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">What Your Result Means</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                  At <strong className="text-emerald-700">{result.bfp.toFixed(1)}%</strong> body fat you fall into the{" "}
+                  <strong className={result.category.color}>{result.category.label}</strong> category for {gender}s
+                  (<span className="font-semibold">{result.categoryRange}</span>). {result.categoryDescription}
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 mt-5">
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Lean Mass</p>
+                    <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">
+                      {result.leanMass.toFixed(1)} {result.unitLabel}
+                    </p>
+                    <p className="text-[11px] text-gray-400 mt-1">Muscle, bone, organs &amp; fluids</p>
+                  </div>
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Fat Mass</p>
+                    <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">
+                      {result.fatMass.toFixed(1)} {result.unitLabel}
+                    </p>
+                    <p className="text-[11px] text-gray-400 mt-1">Essential &amp; stored body fat</p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Category ranges follow standard body-fat classifications, which differ between men and women.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — GOAL GAP: FAT TO LOSE + REALISTIC TIMELINE ─────────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Target className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Your Goal Gap &amp; Timeline</h3>
+                </div>
+
+                {result.alreadyAtTarget ? (
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                    Great news — at <strong className="text-emerald-700">{result.bfp.toFixed(1)}%</strong> you are already at or
+                    below the top of the healthy range (<strong>{result.targetBfp}%</strong> for {gender}s). Maintain your current
+                    habits and re-check every few weeks to stay on track.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                      To reach a healthy <strong className="text-emerald-700">{result.targetBfp}%</strong> body fat — the top of the
+                      healthy range for {gender}s — you would lose about{" "}
+                      <strong className="text-emerald-700">{result.fatToLose.toFixed(1)} {result.unitLabel}</strong> of fat while
+                      keeping your lean mass, reaching roughly{" "}
+                      <strong className="text-emerald-700">{result.weightAtTarget.toFixed(1)} {result.unitLabel}</strong>.
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-3 mt-5">
+                      <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Target BF%</p>
+                        <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.targetBfp}%</p>
+                      </div>
+                      <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                        <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                          <TrendingDown className="w-3.5 h-3.5" /> Fat to lose
+                        </div>
+                        <p className="text-lg font-black text-emerald-700 mt-1">
+                          {result.fatToLose.toFixed(1)} {result.unitLabel}
+                        </p>
+                      </div>
+                      <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Timeline</p>
+                        <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">
+                          ~{result.weeksToTarget} wks
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                )}
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  No target was entered, so this assumes the top of your healthy category ({result.targetBfp}% for {gender}s) and a
+                  sustainable rate of about 0.5 {result.unitLabel === "kg" ? "kg" : "kg (~1 lb)"}/week. Treat it as a motivating
+                  milestone, not a medical prescription.
+                </p>
+              </CardContent>
+            </Card>
 
             {/* 3. HIGH-CTR PERSONALIZED FITNESS ACTIONS */}
             <Card className="border-0 shadow-lg" style={{ background: brand.primaryBg, border: `1px solid ${brand.primaryBorder}` }}>

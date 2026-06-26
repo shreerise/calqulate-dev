@@ -23,7 +23,8 @@ import {
   CheckCircle2,
   History,
   ChevronRight,
-  ShieldAlert
+  ShieldAlert,
+  Activity
 } from "lucide-react"
 
 // Strict validations for safety and E-E-A-T guidelines
@@ -133,6 +134,32 @@ function getBpDeltaLabel(current: { systolic: number; diastolic: number; categor
   return { label: "No meaningful change from the last saved reading.", color: "#4B5563", icon: "same" as const }
 }
 
+// ─── ACC/AHA CATEGORY SCALE (FEATURE 1) ───────────────────────────────────────
+// Ordered low → high so a reading can be placed on a single visual band.
+const BP_SCALE = [
+  { key: "Normal", label: "Normal", color: "#10b981", text: "text-emerald-700" },          // emerald
+  { key: "Elevated", label: "Elevated", color: "#f59e0b", text: "text-amber-600" },          // amber
+  { key: "Hypertension Stage 1", label: "Stage 1", color: "#f97316", text: "text-orange-600" }, // orange
+  { key: "Hypertension Stage 2", label: "Stage 2", color: "#ef4444", text: "text-red-600" },    // red
+  { key: "Hypertensive Crisis", label: "Crisis", color: "#b91c1c", text: "text-red-700" },     // deep red
+] as const
+
+// Pure classifier (ACC/AHA) reused by the rolling-average feature.
+function classifyBP(s: number, d: number): string {
+  if (s >= 180 || d >= 120) return "Hypertensive Crisis"
+  if (s >= 140 || d >= 90) return "Hypertension Stage 2"
+  if (s >= 130 || d >= 80) return "Hypertension Stage 1"
+  if (s >= 120 && d < 80) return "Elevated"
+  if (s < 90 || d < 60) return "Low (Hypotension)"
+  return "Normal"
+}
+
+// Index of a category on the visual scale (Low/Hypotension maps to the Normal band start).
+function scaleIndex(category: string): number {
+  const i = BP_SCALE.findIndex((b) => b.key === category)
+  return i === -1 ? 0 : i
+}
+
 const ProgressCard = ({ current, history }: { current: { systolic: number; diastolic: number; category: string }; history: SavedEntry[] }) => {
   if (history.length === 0) return null
   const last = history[0]
@@ -196,6 +223,163 @@ const HistoryPanel = ({ history, onClear }: { history: SavedEntry[]; onClear: ()
         <button onClick={onClear} className="mt-4 text-xs text-gray-500 hover:text-red-500 transition-colors">
           Clear history
         </button>
+      </CardContent>
+    </Card>
+  )
+}
+
+// ─── FEATURE 1: ACC/AHA CATEGORY SCALE ────────────────────────────────────────
+const CategoryScale = ({ category }: { category: string }) => {
+  const activeIndex = scaleIndex(category)
+  const active = BP_SCALE[activeIndex]
+  // Centre the marker over the active band (each band is an equal segment).
+  const markerLeft = ((activeIndex + 0.5) / BP_SCALE.length) * 100
+
+  return (
+    <Card className="border shadow-md">
+      <CardContent className="p-5 sm:p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <Activity className="w-5 h-5 text-emerald-700" />
+          <h3 className="text-base font-bold">Where You Stand — ACC/AHA Category Scale</h3>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Your reading places you in the{" "}
+          <span className={`font-bold ${active.text}`}>{active.label}</span> band of the recognised
+          ACC/AHA blood pressure scale.
+        </p>
+
+        {/* Segmented colour band */}
+        <div className="relative mt-6">
+          <div className="flex w-full h-3 rounded-full overflow-hidden">
+            {BP_SCALE.map((b) => (
+              <div key={b.key} className="flex-1 h-full" style={{ background: b.color }} />
+            ))}
+          </div>
+
+          {/* User marker */}
+          <div
+            className="absolute -top-1 h-5 w-5 rounded-full bg-white border-4 shadow-lg -translate-x-1/2 transition-all duration-700"
+            style={{ left: `${markerLeft}%`, borderColor: active.color }}
+            title={active.label}
+          />
+        </div>
+
+        {/* Band labels */}
+        <div className="mt-3 grid grid-cols-5 gap-1 text-center">
+          {BP_SCALE.map((b, i) => (
+            <span
+              key={b.key}
+              className={`text-[10px] sm:text-[11px] font-bold leading-tight ${
+                i === activeIndex ? b.text : "text-gray-400"
+              }`}
+            >
+              {b.label}
+            </span>
+          ))}
+        </div>
+
+        <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+          Categories follow the 2017 ACC/AHA guidelines. The higher of your systolic or diastolic
+          number determines your overall band.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
+// ─── FEATURE 2: 7-DAY ROLLING AVERAGE ─────────────────────────────────────────
+const WeeklyAverage = ({ history, onLog, onClear, justLogged }: {
+  history: SavedEntry[]
+  onLog: () => void
+  onClear: () => void
+  justLogged: boolean
+}) => {
+  // Only consider readings logged within the last 7 days.
+  const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000
+  const recent = history.filter((e) => new Date(e.date).getTime() >= cutoff)
+
+  let avgSys = 0
+  let avgDia = 0
+  let avgCategory = ""
+  if (recent.length > 0) {
+    avgSys = Math.round(recent.reduce((a, b) => a + b.systolic, 0) / recent.length)
+    avgDia = Math.round(recent.reduce((a, b) => a + b.diastolic, 0) / recent.length)
+    avgCategory = classifyBP(avgSys, avgDia)
+  }
+  const avgScaleColor = avgCategory ? BP_SCALE[scaleIndex(avgCategory)]?.color : "#10b981"
+  const avgScaleText = avgCategory ? BP_SCALE[scaleIndex(avgCategory)]?.text : "text-emerald-700"
+
+  return (
+    <Card className="border shadow-md">
+      <CardContent className="p-5 sm:p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <History className="w-5 h-5 text-emerald-700" />
+          <h3 className="text-base font-bold">Your 7-Day Rolling Average</h3>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Log a reading whenever you measure. Your true weekly average smooths out one-off
+          misreadings for a more reliable picture. Everything stays in your browser.
+        </p>
+
+        {recent.length > 0 ? (
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-5 items-center">
+            <div className="rounded-xl border bg-slate-50 p-5 text-center min-w-[160px]">
+              <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">
+                Avg of {recent.length} {recent.length === 1 ? "reading" : "readings"}
+              </p>
+              <p className="text-3xl sm:text-4xl font-black text-gray-900 mt-1">
+                {avgSys}/{avgDia}
+                <span className="text-xs font-normal text-gray-400 ml-1">mmHg</span>
+              </p>
+              <span
+                className={`inline-block mt-2 text-xs font-bold ${avgScaleText}`}
+                style={{ borderBottom: `2px solid ${avgScaleColor}` }}
+              >
+                {avgCategory}
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Based on the readings you have logged in the last 7 days, your rolling average sits in
+              the <span className={`font-bold ${avgScaleText}`}>{avgCategory}</span> range. A
+              consistent average is a stronger signal than any single reading — share it with your
+              doctor if it stays elevated.
+            </p>
+          </div>
+        ) : (
+          <p className="mt-4 text-sm text-gray-500">
+            No readings logged in the last 7 days yet. Log your current reading to start building
+            your weekly average.
+          </p>
+        )}
+
+        <div className="flex flex-col sm:flex-row gap-3 mt-5">
+          <Button
+            type="button"
+            onClick={onLog}
+            disabled={justLogged}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white h-11 font-bold"
+          >
+            {justLogged ? (
+              <><CheckCircle2 className="w-4 h-4 mr-2" /> Logged for this week</>
+            ) : (
+              <>Log this reading to my week</>
+            )}
+          </Button>
+          {recent.length > 0 && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClear}
+              className="h-11 border-gray-200"
+            >
+              <RefreshCw className="w-4 h-4 mr-2" /> Clear my log
+            </Button>
+          )}
+        </div>
+        <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
+          Stored locally in this browser only — no account or upload. Readings older than 7 days
+          drop out of the rolling average automatically.
+        </p>
       </CardContent>
     </Card>
   )
@@ -699,6 +883,19 @@ export default function BloodPressureCalculator() {
               )}
             </CardContent>
           </Card>
+        )}
+
+        {/* FEATURE 1 + FEATURE 2 — additive computed insights */}
+        {result && reading && (
+          <div className="max-w-4xl mx-auto space-y-6 mt-6">
+            <CategoryScale category={result.category} />
+            <WeeklyAverage
+              history={history}
+              onLog={handleSave}
+              onClear={clearHistory}
+              justLogged={saved}
+            />
+          </div>
         )}
       </div>
 

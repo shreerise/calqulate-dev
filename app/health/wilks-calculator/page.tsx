@@ -11,6 +11,8 @@ import { AuthorSchema } from "@/components/seo/author-schema"
 import { MedicalReviewerSection } from "@/components/seo/medical-reviewer-section"
 import { MedicalReviewerSchema } from "@/components/seo/medical-reviewer-schema"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
+import { Sparkles } from "lucide-react"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "Wilks Calculator (Powerlifting Score Explained Clearly)",
@@ -98,6 +100,19 @@ export default function WilksCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net calculates your Wilks score from your lift and bodyweight using the recognised
+                competition formula. You get a fair cross-bodyweight comparison and your percentile.
+              </p>
             </div>
           </div>
         </section>
@@ -344,6 +359,8 @@ export default function WilksCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="wilks-calculator" />
 
             {/* FAQ UI */}
             <div className="mt-12">

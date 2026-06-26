@@ -24,9 +24,11 @@ import {
   Activity,
   Zap,
   Stethoscope,
+  Sparkles,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AuthorSection } from "@/components/seo/author-section"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 export const metadata: Metadata = {
   title: "Sleep Debt Calculator: Calculate Your Sleep Deficit | Free Tool",
@@ -114,6 +116,18 @@ export default function SleepDebtCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net totals your accumulated sleep deficit, calibrated to age-based sleep needs. You get your debt in hours plus a realistic recovery schedule.
+              </p>
             </div>
           </div>
         </section>
@@ -398,6 +412,8 @@ export default function SleepDebtCalculatorPage() {
               </section>
 
             </div>
+            <RelatedCalculators slug="sleep-debt-calculator" />
+
             {/* Structured FAQ UI */}
             <div className="mt-12">
               <FAQSection faqs={faqs} />

@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calculator, RefreshCw, Loader2, Sparkles, Shirt, AlertTriangle, CheckCircle2, Info, TrendingDown, History, ChevronRight } from "lucide-react";
+import { Calculator, RefreshCw, Loader2, Sparkles, Shirt, AlertTriangle, CheckCircle2, Info, TrendingDown, History, ChevronRight, Globe, ArrowUp, ArrowDown, Minus } from "lucide-react";
 
 // ---------------------------------------------------------------------------
 // TYPES
@@ -42,6 +42,12 @@ interface BetweenSizesAdvice {
   advice: string;
 }
 
+interface GarmentGuidance {
+  garment: string;
+  direction: "Size up" | "Size down" | "True to size";
+  reason: string;
+}
+
 interface CalculationResult {
   primarySize: SizeResult;
   altSize: SizeResult | null;
@@ -52,6 +58,13 @@ interface CalculationResult {
   bodyShapeNote: string;
   brandNote: string;
   measurements: { bust: number; waist: number; hips: number };
+  // USP #1 — full cross-region size conversion in one view
+  conversionRows: { region: string; size: string }[];
+  // USP #2 — between-sizes flag + per garment-type up/down guidance
+  isBetweenSizes: boolean;
+  smallerSizeLabel: string;
+  largerSizeLabel: string;
+  garmentGuidance: GarmentGuidance[];
 }
 
 // ---------------------------------------------------------------------------
@@ -337,6 +350,44 @@ function getBrandNote(brand: string): string {
   const found = BRANDS.find((b) => b.value === brand);
   if (!found || brand === "standard" || brand === "other") return "";
   return found.note ? `${found.label} ${found.note}.` : "";
+}
+
+// USP #1 — build a one-view conversion table (US / UK / EU / India) from a size row.
+function buildConversionRows(size: SizeResult): { region: string; size: string }[] {
+  const rows = [
+    { region: "United States (US)", size: size.us },
+    { region: "United Kingdom (UK)", size: size.uk },
+    { region: "Europe (EU)", size: size.eu },
+    { region: "India", size: size.india },
+  ];
+  if (size.plusSize) rows.push({ region: "Plus Size (US)", size: size.plusSize });
+  return rows;
+}
+
+// USP #2 — plain-language size-up / size-down guidance by garment type.
+function buildGarmentGuidance(smaller: string, larger: string): GarmentGuidance[] {
+  return [
+    {
+      garment: "Fitted / Bodycon dresses",
+      direction: "Size up",
+      reason: `Structured, close-fitting cuts have no give, so go with the ${larger} for comfort and movement.`,
+    },
+    {
+      garment: "Wedding / Formal wear",
+      direction: "Size up",
+      reason: `Bridal and occasion wear runs 1–2 sizes small — pick the ${larger} and let a tailor take it in.`,
+    },
+    {
+      garment: "Stretchy / Knit dresses",
+      direction: "Size down",
+      reason: `Jersey, spandex and knit fabrics stretch to fit, so the ${smaller} gives a flattering, second-skin look.`,
+    },
+    {
+      garment: "A-line / Wrap / Relaxed",
+      direction: "True to size",
+      reason: `Forgiving silhouettes skim the body — either size works, so choose the ${smaller} for a closer fit or ${larger} for ease.`,
+    },
+  ];
 }
 
 interface SavedEntry {
@@ -686,6 +737,11 @@ export default function DressSizeCalculator() {
 
       const { risk, reason } = getReturnRisk(betweenSizes, values.brand, values.dressStyle);
 
+      // Identify the smaller and larger of the two adjacent sizes for plain-language guidance.
+      const isBiggerSecond = SIZE_TABLE.indexOf(second) > SIZE_TABLE.indexOf(best);
+      const smallerSizeLabel = isBiggerSecond ? best.label : second.label;
+      const largerSizeLabel = isBiggerSecond ? second.label : best.label;
+
       setResult({
         primarySize: toSizeResult(adjustedBest),
         altSize: betweenSizes.show ? toSizeResult(second) : null,
@@ -700,6 +756,11 @@ export default function DressSizeCalculator() {
           waist: parseFloat(values.waist),
           hips: parseFloat(values.hips),
         },
+        conversionRows: buildConversionRows(toSizeResult(adjustedBest)),
+        isBetweenSizes: betweenSizes.show,
+        smallerSizeLabel,
+        largerSizeLabel,
+        garmentGuidance: buildGarmentGuidance(smallerSizeLabel, largerSizeLabel),
       });
 
       setIsLoading(false);
@@ -1091,6 +1152,88 @@ export default function DressSizeCalculator() {
                 {result.altSize && (
                   <SizeDisplay title="Alternative Size (if between sizes)" result={result.altSize} />
                 )}
+              </div>
+
+              {/* USP #1 — Global size conversion in one view */}
+              <div className="border-t pt-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Globe className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Your Size, Converted Worldwide</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  One set of measurements, every major chart. Use this grid to shop with confidence on US,
+                  UK, EU and Indian sites — no more guessing what your label means abroad.
+                </p>
+                <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                  {result.conversionRows.map((row) => (
+                    <div
+                      key={row.region}
+                      className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-4 text-center"
+                    >
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">
+                        {row.region}
+                      </p>
+                      <p className="mt-1 text-lg font-bold text-slate-800 dark:text-slate-100">
+                        {row.size}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
+                  Sizes are mapped from your bust, waist and hip measurements against standard regional charts.
+                  Indian sizing often aligns with UK but can run smaller — always check the brand&apos;s own guide.
+                </p>
+              </div>
+
+              {/* USP #2 — Between-sizes flag + per garment-type guidance */}
+              <div className="border-t pt-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Shirt className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Between Sizes? Which Way to Go</h3>
+                </div>
+
+                {result.isBetweenSizes ? (
+                  <div className="mt-2 rounded-xl border border-yellow-300 bg-yellow-50 dark:bg-yellow-950/20 p-4">
+                    <p className="flex items-center gap-2 text-sm font-semibold text-yellow-800 dark:text-yellow-300">
+                      <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                      You fall between a {result.smallerSizeLabel} and a {result.largerSizeLabel}.
+                    </p>
+                    <p className="mt-1 text-sm text-yellow-900/90 dark:text-yellow-200">
+                      The right pick depends on the dress — here is the plain-language rule for each garment type.
+                    </p>
+                  </div>
+                ) : (
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                    Good news — your measurements sit comfortably inside a{" "}
+                    <strong className="text-emerald-700">{result.primarySize.us}</strong>, so you are not on a
+                    size boundary. If you shop a brand that runs small or large, use the guidance below as a backup.
+                  </p>
+                )}
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {result.garmentGuidance.map((g) => {
+                    const tone =
+                      g.direction === "Size up"
+                        ? { badge: "bg-emerald-100 text-emerald-700", icon: <ArrowUp className="w-3.5 h-3.5" /> }
+                        : g.direction === "Size down"
+                        ? { badge: "bg-sky-100 text-sky-700", icon: <ArrowDown className="w-3.5 h-3.5" /> }
+                        : { badge: "bg-slate-100 text-slate-600", icon: <Minus className="w-3.5 h-3.5" /> };
+                    return (
+                      <div key={g.garment} className="rounded-xl border p-4">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{g.garment}</p>
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${tone.badge}`}
+                          >
+                            {tone.icon}
+                            {g.direction}
+                          </span>
+                        </div>
+                        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{g.reason}</p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Between sizes advice */}

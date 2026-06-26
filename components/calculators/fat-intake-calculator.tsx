@@ -41,6 +41,8 @@ import {
   Minus,
   Copy,
   Share2,
+  ShieldCheck,
+  Zap,
 } from "lucide-react";
 
 /* ---------------------- CONSTANTS ---------------------- */
@@ -81,6 +83,40 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
+
+/* ---------------------- ADDITIVE: DIET PRESETS (instant recalc) ---------------------- */
+// Quick-switch presets aligned with the diet table. Selecting one re-derives the
+// fat targets instantly from the already-calculated calorie figure.
+const FAT_PRESETS = [
+  { key: "low_fat", label: "Low-fat", fatPct: 0.20, hint: "~20% fat" },
+  { key: "standard", label: "Balanced", fatPct: 0.30, hint: "~30% fat" },
+  { key: "keto", label: "Keto", fatPct: 0.75, hint: "~70%+ fat" },
+] as const;
+
+/* ---------------------- ADDITIVE: GUIDELINE FAT SPLIT ---------------------- */
+// Splits the daily fat target into saturated / unsaturated / trans grams against
+// recognised dietary guidelines:
+//   • Saturated  -> capped at <10% of total calories (AHA/WHO)
+//   • Trans      -> kept as low as possible, ~0 g
+//   • Unsaturated-> the remainder (the bulk of healthy fats)
+function buildFatSplit(targetCalories: number, fatPct: number) {
+  const fatGrams = (targetCalories * fatPct) / 9;
+  const saturatedCap = (targetCalories * 0.10) / 9; // <10% of calories
+  const saturated = Math.min(saturatedCap, fatGrams);
+  const trans = 0; // guideline: as low as possible
+  const unsaturated = Math.max(0, fatGrams - saturated - trans);
+  // Conventional ~2:1 mono:poly split of the unsaturated portion.
+  const monounsaturated = unsaturated * (2 / 3);
+  const polyunsaturated = unsaturated * (1 / 3);
+  return {
+    fatGrams: Math.round(fatGrams),
+    saturated: Math.round(saturated),
+    unsaturated: Math.round(unsaturated),
+    monounsaturated: Math.round(monounsaturated),
+    polyunsaturated: Math.round(polyunsaturated),
+    trans: Math.round(trans),
+  };
+}
 
 /* ---------------------- SMALL UI HELPERS ---------------------- */
 
@@ -130,6 +166,11 @@ export default function FatIntakeCalculator() {
     unsaturated: number;
     dietLabel: string;
     goalLabel: string;
+    // ADDITIVE: guideline fat split + preset support
+    monounsaturated: number;
+    polyunsaturated: number;
+    trans: number;
+    dietKey: string;
   }>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showKcalFromFat, setShowKcalFromFat] = useState(false);
@@ -213,6 +254,9 @@ export default function FatIntakeCalculator() {
       const saturatedMaxGrams = (targetCalories * 0.10) / 9;
       const unsaturatedGrams = Math.max(0, fatGrams - saturatedMaxGrams);
 
+      // ADDITIVE: detailed guideline split (saturated / unsaturated / trans)
+      const split = buildFatSplit(targetCalories, dietInfo.fatPct);
+
       const rounded = {
         calories: Math.round(targetCalories),
         fatGrams: Math.round(fatGrams),
@@ -221,6 +265,11 @@ export default function FatIntakeCalculator() {
         unsaturated: Math.round(unsaturatedGrams),
         dietLabel: dietInfo.label,
         goalLabel: GOALS[values.goal as keyof typeof GOALS].label,
+        // ADDITIVE fields
+        monounsaturated: split.monounsaturated,
+        polyunsaturated: split.polyunsaturated,
+        trans: split.trans,
+        dietKey: values.diet,
       };
 
       setResult(rounded);
@@ -244,6 +293,30 @@ export default function FatIntakeCalculator() {
       if (copyTimeout.current) window.clearTimeout(copyTimeout.current);
       copyTimeout.current = window.setTimeout(() => setCopied(false), 2000);
     }
+  };
+
+  // ADDITIVE: apply a diet preset and recalculate fat targets instantly,
+  // reusing the already-calculated calorie figure and current inputs.
+  const applyPreset = (presetKey: string, fatPct: number, label: string) => {
+    setValue("diet", presetKey as FormValues["diet"]);
+    setResult((prev) => {
+      if (!prev) return prev;
+      const split = buildFatSplit(prev.calories, fatPct);
+      const saturatedMaxGrams = Math.round((prev.calories * 0.10) / 9);
+      const unsaturatedGrams = Math.max(0, split.fatGrams - saturatedMaxGrams);
+      return {
+        ...prev,
+        fatPct,
+        fatGrams: split.fatGrams,
+        saturated: saturatedMaxGrams,
+        unsaturated: Math.round(unsaturatedGrams),
+        monounsaturated: split.monounsaturated,
+        polyunsaturated: split.polyunsaturated,
+        trans: split.trans,
+        dietLabel: label,
+        dietKey: presetKey,
+      };
+    });
   };
 
   return (
@@ -510,6 +583,84 @@ export default function FatIntakeCalculator() {
                       </div>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+
+              {/* ADDITIVE FEATURE 2: Diet presets (instant recalculation) */}
+              <Card className="border-emerald-200">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm flex items-center gap-2 text-emerald-700">
+                    <Zap className="w-4 h-4" /> Quick diet presets
+                  </CardTitle>
+                  <CardDescription className="text-xs">
+                    Tap a preset to recalculate your fat target instantly.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-3 gap-2">
+                    {FAT_PRESETS.map((p) => {
+                      const active = result.dietKey === p.key;
+                      return (
+                        <button
+                          key={p.key}
+                          type="button"
+                          onClick={() => applyPreset(p.key, p.fatPct, p.label)}
+                          className={`rounded-xl border p-3 text-center transition-all ${
+                            active
+                              ? "border-emerald-500 bg-emerald-50 ring-1 ring-emerald-400"
+                              : "border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/40"
+                          }`}
+                        >
+                          <div className={`text-sm font-semibold ${active ? "text-emerald-700" : "text-slate-800"}`}>
+                            {p.label}
+                          </div>
+                          <div className="text-[11px] text-muted-foreground mt-0.5">{p.hint}</div>
+                          <div className={`text-base font-bold mt-1 ${active ? "text-emerald-700" : "text-slate-700"}`}>
+                            {buildFatSplit(result.calories, p.fatPct).fatGrams}g
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="text-[11px] text-muted-foreground mt-3">
+                    Balanced ~30% fat, Keto ~70%+ fat, Low-fat ~20% fat — based on your {result.calories} kcal target.
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* ADDITIVE FEATURE 1: Guideline fat-type breakdown */}
+              <Card className="border-emerald-200">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm flex items-center gap-2 text-emerald-700">
+                    <ShieldCheck className="w-4 h-4" /> Guideline fat-type breakdown
+                  </CardTitle>
+                  <CardDescription className="text-xs">
+                    Your {result.fatGrams}g target split against established dietary guidelines.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="rounded-xl border bg-emerald-50 p-3 text-center">
+                      <div className="text-[11px] uppercase tracking-wider text-emerald-700 font-bold">Unsaturated</div>
+                      <div className="text-xl font-black text-emerald-700 mt-1">{result.unsaturated}g</div>
+                      <div className="text-[11px] text-muted-foreground mt-0.5">Mono {result.monounsaturated}g · Poly {result.polyunsaturated}g</div>
+                    </div>
+                    <div className="rounded-xl border bg-amber-50 p-3 text-center">
+                      <div className="text-[11px] uppercase tracking-wider text-amber-700 font-bold">Saturated</div>
+                      <div className="text-xl font-black text-amber-700 mt-1">{result.saturated}g</div>
+                      <div className="text-[11px] text-muted-foreground mt-0.5">&lt;10% of calories</div>
+                    </div>
+                    <div className="rounded-xl border bg-red-50 p-3 text-center">
+                      <div className="text-[11px] uppercase tracking-wider text-red-700 font-bold">Trans</div>
+                      <div className="text-xl font-black text-red-700 mt-1">{result.trans}g</div>
+                      <div className="text-[11px] text-muted-foreground mt-0.5">As low as possible</div>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    Guidelines (AHA/WHO) cap saturated fat at under 10% of daily calories and advise keeping
+                    trans fat as close to zero as possible. The remainder of your target should come from
+                    unsaturated fats — olive oil, nuts, seeds and fatty fish.
+                  </p>
                 </CardContent>
               </Card>
 

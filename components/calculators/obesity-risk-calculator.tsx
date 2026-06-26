@@ -11,10 +11,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  Calculator, RefreshCw, Loader2, HeartPulse, AlertCircle, 
-  TrendingDown, Target, CheckCircle2, Calendar, Ruler, Scale, 
-  Activity, ArrowRightCircle
+import {
+  Calculator, RefreshCw, Loader2, HeartPulse, AlertCircle,
+  TrendingDown, Target, CheckCircle2, Calendar, Ruler, Scale,
+  Activity, ArrowRightCircle, Layers, Zap, ArrowDown
 } from "lucide-react";
 
 // --- FORM SCHEMA ---
@@ -42,6 +42,15 @@ interface CalculationResult {
   idealWeightMin: number;
   idealWeightMax: number;
   actionableInsights: string[];
+  // FEATURE 1 — composite waist + lifestyle risk read (beyond BMI alone)
+  compositeTier: string;
+  compositeScore: number; // 0-100 scale
+  compositeColor: string;
+  compositeNote: string;
+  bmiOnlyTier: string;
+  compositeDiffersFromBmi: boolean;
+  // FEATURE 2 — highest-impact habits to change
+  topFactors: { label: string; detail: string; improvement: string; icon: "waist" | "activity" | "diet" | "sleep" }[];
 }
 
 // --- VISUAL COMPONENTS ---
@@ -146,7 +155,108 @@ const calculateRisk = (
     }
   }
 
-  return { bmi, bmiCategory, whtr, whtrCategory, overallRisk, riskColor, idealWeightMin, idealWeightMax, actionableInsights };
+  // ── FEATURE 1: Composite waist + lifestyle risk read (beyond BMI alone) ──────
+  // Combine the Waist-to-Height Ratio (a stronger visceral-fat signal than BMI)
+  // with the reported activity level into a single 0-100 composite score.
+  // WHtR drives most of the score; activity nudges it up or down because an active
+  // lifestyle measurably offsets metabolic risk at the same body shape.
+  let whtrPoints = 0;
+  if (whtr <= 0.42) whtrPoints = 8;
+  else if (whtr <= 0.52) whtrPoints = 28;
+  else if (whtr <= 0.57) whtrPoints = 62;
+  else whtrPoints = 85;
+
+  const activityAdjust: Record<string, number> = {
+    sedentary: 12,
+    light: 4,
+    moderate: -6,
+    active: -14,
+  };
+  const compositeScore = Math.max(0, Math.min(100, Math.round(whtrPoints + (activityAdjust[activityLevel] ?? 0))));
+
+  let compositeTier = "Low";
+  let compositeColor = "text-green-600 bg-green-50 border-green-200";
+  if (compositeScore >= 70) {
+    compositeTier = "Very High";
+    compositeColor = "text-red-700 bg-red-50 border-red-200";
+  } else if (compositeScore >= 50) {
+    compositeTier = "High";
+    compositeColor = "text-red-500 bg-red-50 border-red-200";
+  } else if (compositeScore >= 30) {
+    compositeTier = "Moderate";
+    compositeColor = "text-yellow-600 bg-yellow-50 border-yellow-200";
+  }
+
+  // A BMI-only view ignores fat distribution and lifestyle entirely.
+  let bmiOnlyTier = "Low";
+  if (bmi >= 35) bmiOnlyTier = "Very High";
+  else if (bmi >= 30) bmiOnlyTier = "High";
+  else if (bmi >= 25) bmiOnlyTier = "Moderate";
+  else if (bmi < 18.5) bmiOnlyTier = "Low";
+
+  const compositeDiffersFromBmi = compositeTier !== bmiOnlyTier;
+  let compositeNote = "";
+  if (compositeDiffersFromBmi) {
+    if (compositeScore > 50 && bmi < 25) {
+      compositeNote = `A BMI-only reading would call you "${bmiOnlyTier}", but your waist size and activity place you at "${compositeTier}" — central (belly) fat carries risk that BMI can completely miss.`;
+    } else if (compositeScore < 50 && bmi >= 25) {
+      compositeNote = `BMI alone would flag you as "${bmiOnlyTier}", yet your healthy waist ratio and activity bring your true composite risk down to "${compositeTier}".`;
+    } else {
+      compositeNote = `Your composite risk ("${compositeTier}") differs from the BMI-only view ("${bmiOnlyTier}") once waist distribution and lifestyle are factored in.`;
+    }
+  } else {
+    compositeNote = `Your waist-and-lifestyle composite agrees with the BMI-only view here — both point to "${compositeTier}" risk, a consistent signal across measures.`;
+  }
+
+  // ── FEATURE 2: Highest-impact habits to change (ranked by estimated benefit) ──
+  const factorPool: { weight: number; label: string; detail: string; improvement: string; icon: "waist" | "activity" | "diet" | "sleep" }[] = [];
+
+  if (whtr > 0.5) {
+    const targetWaist = 0.5 * heightCm; // waist that brings WHtR to 0.50
+    const trimCm = Math.max(0, waistCm - targetWaist);
+    factorPool.push({
+      weight: whtr > 0.57 ? 100 : 80,
+      label: "Reduce waist circumference",
+      detail: `Trimming about ${trimCm.toFixed(0)} cm would bring your waist-to-height ratio to the healthy 0.50 threshold.`,
+      improvement: "Biggest single risk reducer — could drop your composite tier by one full level.",
+      icon: "waist",
+    });
+  }
+  if (activityLevel === "sedentary" || activityLevel === "light") {
+    factorPool.push({
+      weight: activityLevel === "sedentary" ? 90 : 60,
+      label: "Increase weekly activity",
+      detail: "Build up to 150 minutes of brisk movement per week plus 2 strength sessions.",
+      improvement: `Moving to "active" trims roughly ${activityLevel === "sedentary" ? 26 : 18} points off your composite score.`,
+      icon: "activity",
+    });
+  }
+  if (bmi >= 25) {
+    factorPool.push({
+      weight: bmi >= 30 ? 85 : 65,
+      label: "Improve diet quality",
+      detail: "Prioritise protein and fibre; cut refined sugar, liquid calories, and ultra-processed foods.",
+      improvement: "A 5-10% weight loss can meaningfully lower blood pressure, cholesterol, and visceral fat.",
+      icon: "diet",
+    });
+  }
+  // Sleep/recovery is always a relevant, low-friction lever.
+  factorPool.push({
+    weight: 40,
+    label: "Protect sleep & recovery",
+    detail: "Aim for 7-9 hours of consistent sleep to keep cortisol — a visceral-fat driver — in check.",
+    improvement: "Better sleep supports appetite control and makes every other change easier to sustain.",
+    icon: "sleep",
+  });
+
+  const topFactors = factorPool.sort((a, b) => b.weight - a.weight).slice(0, 3);
+
+  return {
+    bmi, bmiCategory, whtr, whtrCategory, overallRisk, riskColor,
+    idealWeightMin, idealWeightMax, actionableInsights,
+    compositeTier, compositeScore, compositeColor, compositeNote,
+    bmiOnlyTier, compositeDiffersFromBmi, topFactors,
+  };
 };
 
 export default function ObesityRiskCalculator() {
@@ -430,6 +540,101 @@ export default function ObesityRiskCalculator() {
                   </div>
                 </div>
 
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 1 — COMPOSITE RISK READ (BEYOND BMI) ───────────────────── */}
+            <Card className="mt-8 border-emerald-100 shadow-sm">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Layers className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-lg font-bold text-slate-900">Composite Risk Read — Beyond BMI</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  We blend your waist-to-height ratio with your activity level into one score, because where you carry
+                  fat and how you move matter more than weight alone.
+                </p>
+
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <div className={`rounded-xl border p-5 text-center ${result.compositeColor}`}>
+                    <p className="text-xs font-bold uppercase tracking-widest opacity-80">Composite Tier</p>
+                    <p className="text-3xl font-extrabold mt-1">{result.compositeTier} Risk</p>
+                    <p className="text-xs font-semibold mt-1 opacity-80">Composite score: {result.compositeScore}/100</p>
+                  </div>
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 text-center">
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-500">BMI-Only View</p>
+                    <p className="text-3xl font-extrabold mt-1 text-slate-700">{result.bmiOnlyTier} Risk</p>
+                    <p className="text-xs font-semibold mt-1 text-slate-400">Weight-for-height only</p>
+                  </div>
+                </div>
+
+                {/* Composite spectrum bar */}
+                <div className="relative mt-6 w-full h-3 bg-gradient-to-r from-green-400 via-yellow-400 to-red-500 rounded-full">
+                  <div
+                    className="absolute top-1/2 h-5 w-5 rounded-full bg-white border-2 border-emerald-700 shadow-lg -translate-y-1/2 -translate-x-1/2 transition-all duration-700"
+                    style={{ left: `${result.compositeScore}%` }}
+                    title={`Composite score: ${result.compositeScore}/100`}
+                  />
+                </div>
+                <div className="flex justify-between text-[11px] font-semibold text-slate-400 mt-2 px-1">
+                  <span>Low</span>
+                  <span>Moderate</span>
+                  <span>High</span>
+                  <span>Very High</span>
+                </div>
+
+                <div
+                  className={`mt-5 rounded-xl border p-4 text-sm leading-relaxed ${
+                    result.compositeDiffersFromBmi
+                      ? "border-amber-200 bg-amber-50 text-amber-800"
+                      : "border-emerald-200 bg-emerald-50 text-emerald-800"
+                  }`}
+                >
+                  {result.compositeNote}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* FEATURE 2 — TOP HABITS TO CHANGE ──────────────────────────────── */}
+            <Card className="mt-8 border-emerald-100 shadow-sm">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Zap className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-lg font-bold text-slate-900">Your Highest-Impact Changes</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Ranked by the difference each could make to your metabolic risk — start at the top.
+                </p>
+
+                <div className="mt-5 space-y-3">
+                  {result.topFactors.map((factor, idx) => {
+                    const Icon =
+                      factor.icon === "waist" ? Ruler :
+                      factor.icon === "activity" ? Activity :
+                      factor.icon === "diet" ? Scale : HeartPulse;
+                    return (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+                      >
+                        <div className="flex-shrink-0 flex items-center gap-2">
+                          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">
+                            {idx + 1}
+                          </span>
+                          <Icon className="w-5 h-5 text-emerald-700" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-slate-900">{factor.label}</p>
+                          <p className="text-sm text-slate-600 mt-0.5 leading-relaxed">{factor.detail}</p>
+                          <p className="text-xs font-semibold text-emerald-700 mt-1.5 flex items-start gap-1.5">
+                            <ArrowDown className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                            {factor.improvement}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </CardContent>
             </Card>
           </div>

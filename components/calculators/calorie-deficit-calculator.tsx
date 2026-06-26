@@ -16,7 +16,8 @@ import { Badge } from "@/components/ui/badge";
 import {
   Calculator, RefreshCw, Loader2, Flame, AlertTriangle, Calendar, Apple,
   Save, History, ChevronRight, Award, AlertCircle, Brain, ArrowRight,
-  CheckCircle2, BarChart3, TrendingDown, TrendingUp, Info, Scale, Zap
+  CheckCircle2, BarChart3, TrendingDown, TrendingUp, Info, Scale, Zap,
+  Dumbbell, ShieldCheck, CalendarCheck
 } from "lucide-react";
 
 // ─── VALIDATION SCHEMA ────────────────────────────────────────────────────────
@@ -29,6 +30,8 @@ const formSchema = z.object({
   activity: z.string({ required_error: "Please select activity level" }),
   goal: z.string({ required_error: "Please select a weight loss goal" }),
   macroSplit: z.string({ required_error: "Please select a macro preference" }),
+  // ── ADDITIVE: optional goal weight (non-breaking; blank = use ~5% milestone) ──
+  goalWeight: z.string().optional(),
 });
 
 type UnitSystem = "metric" | "imperial";
@@ -54,6 +57,19 @@ interface CalculationResult {
   headline: string;
   nextSteps: string[];
   deficitFact: string;
+  // ── ADDITIVE FEATURE 1: goal date projection ──
+  hasGoalProjection: boolean;
+  goalLossUnitStr: string;        // e.g. "4.0 kg" — amount to lose at a healthy pace
+  goalWeeklyLossStr: string;      // e.g. "0.6 kg/week"
+  goalWeeksToReach: number;       // whole weeks at the current deficit
+  goalDateStr: string;           // projected calendar date
+  goalDailyTarget: number;        // exact daily calorie target to hit the goal
+  goalUsesCustomWeight: boolean;  // true when the user supplied their own goal weight
+  // ── ADDITIVE FEATURE 2: safe floor + protein target ──
+  safeFloor: number;              // 1500 men / 1200 women
+  belowFloor: boolean;            // would the chosen deficit push below the floor?
+  proteinFloorTarget: number;     // protein at ~2.2 g/kg (upper, muscle-protective)
+  proteinFloorTargetLow: number;  // protein at ~1.6 g/kg (lower bound)
 }
 
 interface SavedEntry {
@@ -443,7 +459,8 @@ export default function CalorieDeficitCalculator() {
       height: "",
       activity: "moderate",
       goal: "normal",
-      macroSplit: "balanced"
+      macroSplit: "balanced",
+      goalWeight: ""
     },
   });
 
@@ -467,6 +484,14 @@ export default function CalorieDeficitCalculator() {
       const height = parseFloat(heightVal);
       const newHeight = newUnit === 'imperial' ? height / 2.54 : height * 2.54;
       setValue("height", newHeight.toFixed(1));
+    }
+
+    // ── ADDITIVE: convert the optional goal weight alongside current weight ──
+    const goalWeightVal = getValues("goalWeight");
+    if (goalWeightVal && !isNaN(parseFloat(goalWeightVal))) {
+      const gw = parseFloat(goalWeightVal);
+      const newGw = newUnit === 'imperial' ? gw * 2.20462 : gw / 2.20462;
+      setValue("goalWeight", newGw.toFixed(1));
     }
 
     setValue("units", newUnit);
@@ -510,6 +535,46 @@ export default function CalorieDeficitCalculator() {
 
       const insights = generateDeficitInsights(values.goal, values.macroSplit, values.activity);
 
+      // ── ADDITIVE FEATURE 1: projected goal date at a healthy pace ───────────
+      // Healthy target: lose ~5% of body weight at ~0.75%/week (mid of 0.5–1%).
+      // Energy math: 7700 kcal per kg of fat.
+      const unitLabelWt = values.units === "metric" ? "kg" : "lbs";
+
+      // Optional goal weight: if the user supplied a lower target weight, aim for
+      // that; otherwise fall back to the ~5% body-weight first milestone.
+      const goalWeightRaw = values.goalWeight ? parseFloat(values.goalWeight) : NaN;
+      const goalWeightKg = !isNaN(goalWeightRaw)
+        ? (values.units === "metric" ? goalWeightRaw : goalWeightRaw / 2.20462)
+        : NaN;
+      const goalUsesCustomWeight = !isNaN(goalWeightKg) && goalWeightKg > 0 && goalWeightKg < weightKg;
+
+      const goalLossKg = goalUsesCustomWeight
+        ? weightKg - goalWeightKg                         // distance to the chosen goal
+        : weightKg * 0.05;                                // a sensible first milestone
+      const healthyWeeklyLossKg = weightKg * 0.0075;      // ~0.75% body weight / week
+      const effectiveDailyDeficit = tdee - targetCalories; // honours the safe floor
+      const hasGoalProjection = effectiveDailyDeficit > 0 && goalLossKg > 0;
+
+      // Weekly weight loss the user's *actual* deficit produces (7700 kcal/kg).
+      const actualWeeklyLossKg = (effectiveDailyDeficit * 7) / 7700;
+      const goalWeeksRaw = hasGoalProjection ? goalLossKg / actualWeeklyLossKg : 0;
+      const goalWeeksToReach = hasGoalProjection ? Math.ceil(goalWeeksRaw) : 0;
+
+      const goalDate = new Date();
+      goalDate.setDate(goalDate.getDate() + goalWeeksToReach * 7);
+      const goalDateStr = goalDate.toLocaleDateString("en-US", {
+        month: "long", day: "numeric", year: "numeric",
+      });
+
+      const toDisplayWt = (kg: number) => (values.units === "metric" ? kg : kg * 2.20462);
+      const goalLossUnitStr = `${toDisplayWt(goalLossKg).toFixed(1)} ${unitLabelWt}`;
+      const goalWeeklyLossStr = `${toDisplayWt(healthyWeeklyLossKg).toFixed(1)} ${unitLabelWt}/week`;
+
+      // ── ADDITIVE FEATURE 2: protein target that protects muscle ─────────────
+      const proteinFloorTargetLow = Math.round(weightKg * 1.6);  // lower bound g/day
+      const proteinFloorTarget = Math.round(weightKg * 2.2);     // upper, protective
+      const belowFloor = (tdee - dailyDeficit) < safeFloor && values.goal !== "maintain";
+
       setResult({
         bmr,
         tdee,
@@ -520,7 +585,20 @@ export default function CalorieDeficitCalculator() {
         zigZag,
         headline: insights.headline,
         nextSteps: insights.nextSteps,
-        deficitFact: insights.deficitFact
+        deficitFact: insights.deficitFact,
+        // Feature 1
+        hasGoalProjection,
+        goalLossUnitStr,
+        goalWeeklyLossStr,
+        goalWeeksToReach,
+        goalDateStr,
+        goalDailyTarget: targetCalories,
+        goalUsesCustomWeight,
+        // Feature 2
+        safeFloor,
+        belowFloor,
+        proteinFloorTarget,
+        proteinFloorTargetLow,
       });
       
       setIsLoading(false);
@@ -724,6 +802,23 @@ export default function CalorieDeficitCalculator() {
                 )} />
               </div>
 
+              {/* ── ADDITIVE: optional goal weight ─────────────────────────────── */}
+              <FormField control={form.control} name="goalWeight" render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center gap-1.5">
+                    Goal Weight ({units === 'metric' ? 'kg' : 'lbs'})
+                    <span className="text-[11px] font-normal text-muted-foreground">— optional</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input type="number" step="0.1" placeholder={units === 'metric' ? "e.g. 65" : "e.g. 143"} {...field} className="h-11 text-base" />
+                  </FormControl>
+                  <p className="text-[10px] text-muted-foreground mt-1">
+                    Add a target weight to get the exact date you'll reach it. Leave blank to project your first 5% milestone.
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )} />
+
               <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
                 <Button type="submit" size="lg" className="flex-1 h-14 text-lg font-bold bg-emerald-700 hover:bg-emerald-800" disabled={isLoading}>
                   {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Flame className="mr-2 h-5 w-5" />}
@@ -782,6 +877,96 @@ export default function CalorieDeficitCalculator() {
                 <p className="text-sm font-medium leading-relaxed">{result.warning}</p>
               </div>
             )}
+
+            {/* ── ADDITIVE FEATURE 1: GOAL DATE PROJECTION ──────────────────── */}
+            {result.hasGoalProjection && (
+              <Card className="border shadow-md">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <CalendarCheck className="w-5 h-5 text-emerald-700" />
+                    <h3 className="text-base font-bold">Your Goal Date — Steady, Healthy Pace</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                    Eating your daily target of{" "}
+                    <strong className="text-emerald-700">{result.goalDailyTarget} kcal</strong> puts you on track to
+                    lose{" "}
+                    <strong className="text-emerald-700">{result.goalLossUnitStr}</strong>{" "}
+                    {result.goalUsesCustomWeight ? "to reach your goal weight" : "(about 5% of body weight)"}{" "}
+                    at a sustainable{" "}
+                    <strong className="text-emerald-700">{result.goalWeeklyLossStr}</strong>. Using proven
+                    energy-balance math (7,700 kcal per kg), you should reach it in about{" "}
+                    <strong className="text-emerald-700">{result.goalWeeksToReach} weeks</strong>.
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+                    <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Daily Target</p>
+                      <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.goalDailyTarget} kcal</p>
+                    </div>
+                    <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                      <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Time to Goal</p>
+                      <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.goalWeeksToReach} weeks</p>
+                    </div>
+                    <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                      <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                        <Calendar className="w-3.5 h-3.5" /> Goal Date
+                      </div>
+                      <p className="text-lg font-black text-emerald-700 mt-1">{result.goalDateStr}</p>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                    Projection assumes a consistent deficit. Re-check every few weeks — a lighter body burns fewer calories, so your pace naturally slows.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* ── ADDITIVE FEATURE 2: SAFE FLOOR + MUSCLE-PROTECTIVE PROTEIN ──── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <ShieldCheck className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Safe-Calorie Floor &amp; Protein to Protect Muscle</h3>
+                </div>
+
+                {result.belowFloor ? (
+                  <p className="text-sm text-amber-700 leading-relaxed mt-1">
+                    Your selected pace would push you below the safe minimum of{" "}
+                    <strong>{result.safeFloor} kcal/day</strong>. We have held your target at the floor — eat at
+                    least <strong>{result.safeFloor} kcal</strong> and create the rest of your deficit through more
+                    daily movement rather than eating less.
+                  </p>
+                ) : (
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                    Your target stays safely above the minimum floor of{" "}
+                    <strong className="text-emerald-700">{result.safeFloor} kcal/day</strong>. To preserve lean
+                    muscle while losing fat, aim for{" "}
+                    <strong className="text-emerald-700">{result.proteinFloorTargetLow}–{result.proteinFloorTarget} g of protein per day</strong>{" "}
+                    (about 1.6–2.2 g/kg).
+                  </p>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Safe Floor</p>
+                    <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.safeFloor} kcal</p>
+                  </div>
+                  <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Your Target</p>
+                    <p className={`text-lg font-black mt-1 ${result.belowFloor ? "text-amber-600" : "text-slate-800 dark:text-slate-100"}`}>{result.targetCalories} kcal</p>
+                  </div>
+                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                    <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                      <Dumbbell className="w-3.5 h-3.5" /> Protein/Day
+                    </div>
+                    <p className="text-lg font-black text-emerald-700 mt-1">{result.proteinFloorTargetLow}–{result.proteinFloorTarget} g</p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Higher protein plus strength training during a deficit helps you lose fat — not muscle. Floors are general guidance, not a substitute for medical advice.
+                </p>
+              </CardContent>
+            </Card>
 
             {/* 2. DUAL-SECTION COMPOSITIONAL MATRIX */}
             <Card className="border shadow-md overflow-hidden">

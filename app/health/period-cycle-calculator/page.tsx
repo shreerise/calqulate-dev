@@ -26,8 +26,10 @@ import {
   UserCheck,
   Clock,
   Stethoscope,
+  Sparkles,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 // ─────────────────────────────────────────────────────────────────
 // METADATA — title & description built from top GSC clusters:
@@ -144,6 +146,18 @@ export default function PeriodCycleCalculatorPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net predicts your next period, fertile window and PMS days from your cycle, accurate even when irregular. You get all three mapped on a clear visual calendar.
+              </p>
             </div>
           </div>
         </section>
@@ -729,6 +743,8 @@ export default function PeriodCycleCalculatorPage() {
               </section>
 
             </div>
+
+            <RelatedCalculators slug="period-cycle-calculator" />
 
             {/* ── FAQ ── */}
             <div className="mt-12">

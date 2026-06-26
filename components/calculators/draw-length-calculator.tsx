@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 // Updated icon import: Replaced Calculator with Target
-import { Target, RefreshCw, Loader2, ArrowDown } from "lucide-react"
+import { Target, RefreshCw, Loader2, ArrowDown, Ruler, Crosshair, GraduationCap, Trophy } from "lucide-react"
 
 // Define validation schema for draw length (no changes here)
 const formSchema = z.object({
@@ -28,6 +28,11 @@ interface CalculationResult {
   drawLengthCm: number
   rangeStart: number
   rangeEnd: number
+  // Feature 1 — bow & arrow recommendations derived from the result
+  arrowLengthMin: number
+  arrowLengthMax: number
+  recommendedAtA: string
+  bowSizeNote: string
 }
 
 // Simple conversion helpers (no changes here)
@@ -67,11 +72,35 @@ export default function DrawLengthCalculator() {
         const wingspan = parseFloat(values.wingspan)
         const wingspanInInches = units === "imperial" ? wingspan : cmToInches(wingspan)
         const calculatedDrawLength = wingspanInInches / 2.5
+
+        // ── FEATURE 1: bow size (AMO / axle-to-axle) + arrow length guidance ──
+        // Arrow length is typically draw length + 1 to 2 inches for safe clearance.
+        const arrowLengthMin = calculatedDrawLength + 1
+        const arrowLengthMax = calculatedDrawLength + 2
+
+        // AMO / axle-to-axle bow length guidance scaled to draw length.
+        let recommendedAtA = ""
+        let bowSizeNote = ""
+        if (calculatedDrawLength < 26) {
+          recommendedAtA = "62–66\" (recurve) · 28–31\" ATA (compound)"
+          bowSizeNote = "A shorter draw length pairs well with a more compact bow for easy handling and control."
+        } else if (calculatedDrawLength <= 28) {
+          recommendedAtA = "66–68\" (recurve) · 31–33\" ATA (compound)"
+          bowSizeNote = "A mid-range draw length fits the most common bow sizes — easy to find and forgiving to shoot."
+        } else {
+          recommendedAtA = "68–72\" (recurve) · 33\"+ ATA (compound)"
+          bowSizeNote = "A longer draw length benefits from a longer bow for a smoother draw cycle and a more stable anchor."
+        }
+
         setResult({
           drawLengthInches: calculatedDrawLength,
           drawLengthCm: inchesToCm(calculatedDrawLength),
           rangeStart: calculatedDrawLength - 0.5,
           rangeEnd: calculatedDrawLength + 0.5,
+          arrowLengthMin,
+          arrowLengthMax,
+          recommendedAtA,
+          bowSizeNote,
         })
         setIsLoading(false)
         setTimeout(() => {
@@ -192,6 +221,74 @@ export default function DrawLengthCalculator() {
                         </div>
                     </CardHeader>
                 </Card>
+                {/* ── FEATURE 1: Bow size & arrow length recommendations ── */}
+                <Card className="border-emerald-200 bg-emerald-50/60 dark:bg-emerald-900/10">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                          <Crosshair className="w-5 h-5" /> Recommended Bow & Arrow Setup
+                        </CardTitle>
+                        <CardDescription>
+                          Matched to your {result.drawLengthInches.toFixed(1)}" draw length using the wingspan method.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="rounded-xl border bg-white dark:bg-slate-950 p-4">
+                                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
+                                  <Ruler className="w-3.5 h-3.5" /> Recommended Bow Size
+                                </p>
+                                <p className="text-base font-bold text-slate-900 dark:text-slate-100 mt-1">{result.recommendedAtA}</p>
+                                <p className="text-sm text-muted-foreground mt-2">{result.bowSizeNote}</p>
+                            </div>
+                            <div className="rounded-xl border bg-white dark:bg-slate-950 p-4">
+                                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
+                                  <Target className="w-3.5 h-3.5" /> Suggested Arrow Length
+                                </p>
+                                <p className="text-base font-bold text-slate-900 dark:text-slate-100 mt-1">
+                                  {result.arrowLengthMin.toFixed(1)}" – {result.arrowLengthMax.toFixed(1)}"
+                                </p>
+                                <p className="text-sm text-muted-foreground mt-2">
+                                  Arrows are typically cut to your draw length plus 1–2 inches for safe clearance past the rest.
+                                </p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* ── FEATURE 2: Beginner vs competition tuning notes ── */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-lg">
+                          <GraduationCap className="w-5 h-5 text-primary" /> Tuning Notes for Your Setup
+                        </CardTitle>
+                        <CardDescription>How to adapt your {result.drawLengthInches.toFixed(1)}" baseline depending on your level.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="rounded-xl border bg-white dark:bg-slate-950 p-4">
+                                <p className="text-sm font-bold text-emerald-700 flex items-center gap-1.5">
+                                  <GraduationCap className="w-4 h-4" /> Beginners
+                                </p>
+                                <ul className="text-sm text-muted-foreground mt-2 space-y-1.5 list-disc pl-5">
+                                  <li>Cut arrows slightly longer (toward {result.arrowLengthMax.toFixed(1)}") for extra safety margin.</li>
+                                  <li>Start with a lighter draw weight so you can hold steady at full draw without strain.</li>
+                                  <li>If between sizes, round down to the shorter draw length to build consistent form first.</li>
+                                </ul>
+                            </div>
+                            <div className="rounded-xl border bg-white dark:bg-slate-950 p-4">
+                                <p className="text-sm font-bold text-emerald-700 flex items-center gap-1.5">
+                                  <Trophy className="w-4 h-4" /> Competition
+                                </p>
+                                <ul className="text-sm text-muted-foreground mt-2 space-y-1.5 list-disc pl-5">
+                                  <li>Tune arrow length precisely (nearer {result.arrowLengthMin.toFixed(1)}") to optimise spine and speed.</li>
+                                  <li>Dial in brace height within the bow's spec window for a quieter, more forgiving release.</li>
+                                  <li>Confirm your draw length against your anchor point at full draw, not just the wingspan estimate.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
                 <div className="text-center pt-4">
                     <h3 className="text-lg font-semibold">What's Next?</h3>
                     <p className="text-muted-foreground mt-1">Scroll down to learn how to verify this measurement by checking your form and making micro-adjustments for perfect accuracy.</p>

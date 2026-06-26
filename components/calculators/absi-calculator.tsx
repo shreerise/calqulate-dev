@@ -44,6 +44,16 @@ interface CalculationResult {
   badgeBg: string;
   recommendations: string[];
   absiFact: string;
+  // USP #1 — population percentile
+  percentile: number;
+  percentileTone: "low" | "average" | "high";
+  // USP #2 — target waist
+  unitLabel: string;
+  currentWaistStr: string;
+  targetWaistStr: string;
+  waistToLoseStr: string;
+  projectedPercentile: number;
+  waistAtTargetOptimal: boolean;
 }
 
 interface SavedEntry {
@@ -126,6 +136,22 @@ const getAbsiReference = (age: number, gender: "male" | "female"): { mean: numbe
     return { mean: 0.084, sd: 0.0050 };
   }
 };
+
+// ─── NORMAL CDF (Abramowitz & Stegun 26.2.17) → percentile from a z-score ─────
+function normalCdf(z: number): number {
+  const az = Math.abs(z);
+  const t = 1 / (1 + 0.2316419 * az);
+  const d = 0.3989422804014327 * Math.exp((-az * az) / 2);
+  const q = d * t * (0.31938153 + t * (-0.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))));
+  return z >= 0 ? 1 - q : q;
+}
+
+// Ordinal suffix for percentiles: 1 → "1st", 22 → "22nd", 78 → "78th".
+function ordinal(n: number): string {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
 
 // ─── PERSONALIZED RECOMMENDATION ENGINE ───────────────────────────────────────
 function generatePersonalizedRecommendations(riskCategory: string, whtr: number, bmi: number): string[] {
@@ -513,6 +539,27 @@ export default function ABSICalculator() {
         interpretation = "Your results suggest a highly favorable relationship between standard mass variables and trunk boundaries. Both metrics fall within low-to-average risk bands compared against matching cohort age bands.";
       }
 
+      // ── USP #1: population percentile from the z-score ──────────────────────
+      const percentile = Math.min(99, Math.max(1, Math.round(normalCdf(absiZScore) * 100)));
+      const percentileTone: "low" | "average" | "high" =
+        percentile <= 25 ? "low" : percentile >= 75 ? "high" : "average";
+
+      // ── USP #2: target waist to reach the cohort average (50th percentile) ───
+      // ABSI isolates waist relative to BMI & height, so we hold BMI/height fixed
+      // and solve for the waist that lands the user at their age/sex average.
+      const denom = Math.pow(bmi, 2 / 3) * Math.pow(heightInM, 0.5);
+      const targetWaistM = mean * denom; // waist (m) that yields ABSI = cohort mean
+      const waistToLoseM = waistInM - targetWaistM; // positive ⇒ trim needed
+      const waistAtTargetOptimal = waistToLoseM <= 0.005; // already at/below average
+
+      // Convert metres → the unit the user entered with.
+      const toUnit = (m: number) => (units === "metric" ? m * 100 : (m * 100) / 2.54);
+      const unitLabel = units === "metric" ? "cm" : "in";
+      const currentWaistStr = `${toUnit(waistInM).toFixed(1)} ${unitLabel}`;
+      const targetWaistStr = `${toUnit(targetWaistM).toFixed(1)} ${unitLabel}`;
+      const waistToLoseStr = `${toUnit(Math.abs(waistToLoseM)).toFixed(1)} ${unitLabel}`;
+      const projectedPercentile = waistAtTargetOptimal ? percentile : 50; // average ⇒ 50th
+
       setResult({
         bmi,
         absi,
@@ -525,6 +572,14 @@ export default function ABSICalculator() {
         badgeBg,
         recommendations: generatePersonalizedRecommendations(riskCategory, whtr, bmi),
         absiFact: getABSIFact(riskCategory, whtr),
+        percentile,
+        percentileTone,
+        unitLabel,
+        currentWaistStr,
+        targetWaistStr,
+        waistToLoseStr,
+        projectedPercentile,
+        waistAtTargetOptimal,
       });
 
       setIsLoading(false);
@@ -834,6 +889,109 @@ export default function ABSICalculator() {
                     <span>Extreme Risk</span>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* USP #1 — POPULATION PERCENTILE ───────────────────────────────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <BarChart3 className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Where You Rank — Population Percentile</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Your ABSI sits in the{" "}
+                  <span
+                    className={`font-bold ${
+                      result.percentileTone === "low"
+                        ? "text-emerald-700"
+                        : result.percentileTone === "high"
+                        ? "text-red-600"
+                        : "text-yellow-700"
+                    }`}
+                  >
+                    {ordinal(result.percentile)} percentile
+                  </span>{" "}
+                  for your age and sex — your central-fat risk is{" "}
+                  {result.percentileTone === "low"
+                    ? "lower than most people like you."
+                    : result.percentileTone === "high"
+                    ? "higher than most people like you."
+                    : "about average for people like you."}
+                </p>
+
+                {/* Percentile bar */}
+                <div className="relative mt-6 w-full h-3 bg-gradient-to-r from-emerald-400 via-yellow-400 to-red-500 rounded-full">
+                  <div
+                    className="absolute top-1/2 h-5 w-5 rounded-full bg-white border-4 shadow-lg -translate-y-1/2 -translate-x-1/2 transition-all duration-1000"
+                    style={{
+                      left: `${result.percentile}%`,
+                      borderColor:
+                        result.percentileTone === "low"
+                          ? "#10b981"
+                          : result.percentileTone === "high"
+                          ? "#ef4444"
+                          : "#eab308",
+                    }}
+                    title={`${ordinal(result.percentile)} percentile`}
+                  />
+                </div>
+                <div className="flex justify-between text-[11px] font-bold text-gray-400 mt-2 px-1">
+                  <span>Low risk (0)</span>
+                  <span>Average (50)</span>
+                  <span>High risk (100)</span>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
+                  Percentile is derived from your ABSI z-score against age- and sex-matched reference data — a higher percentile means more central fat relative to peers.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* USP #2 — TARGET WAIST ───────────────────────────────────────────── */}
+            <Card className="border shadow-md">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Target className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold">Your Target Waist</h3>
+                </div>
+
+                {result.waistAtTargetOptimal ? (
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                    Great news — at your current weight, your waist of{" "}
+                    <strong className="text-emerald-700">{result.currentWaistStr}</strong> is already at or below the
+                    average for your age and sex. Maintain it with your current habits and re-check every few weeks.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                      Trimming your waist to about{" "}
+                      <strong className="text-emerald-700">{result.targetWaistStr}</strong> — a reduction of{" "}
+                      <strong className="text-emerald-700">{result.waistToLoseStr}</strong> at your current weight —
+                      would move you from the {ordinal(result.percentile)} to roughly the{" "}
+                      {ordinal(result.projectedPercentile)} percentile, lowering your central-fat risk to average.
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-3 mt-5">
+                      <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Current</p>
+                        <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.currentWaistStr}</p>
+                      </div>
+                      <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                        <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                          <TrendingDown className="w-3.5 h-3.5" /> Lose
+                        </div>
+                        <p className="text-lg font-black text-emerald-700 mt-1">{result.waistToLoseStr}</p>
+                      </div>
+                      <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Target</p>
+                        <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.targetWaistStr}</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+                <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                  Target assumes waist reduction through central-fat loss at a stable weight. Use it as a motivating first milestone, not a medical prescription.
+                </p>
               </CardContent>
             </Card>
 

@@ -22,9 +22,12 @@ import {
   Timer, 
   Footprints, 
   Trophy, 
-  TrendingUp, 
+  TrendingUp,
   Zap,
-  Info
+  Info,
+  Target,
+  Gauge,
+  CalendarClock
 } from "lucide-react";
 
 // --- FORM SCHEMA & TYPES ---
@@ -64,6 +67,9 @@ interface ResultData {
   maxHR: number;
   trainingZones: { zone: number; name: string; range: string; desc: string; color: string }[];
   percentile: number;
+  // Additive feature inputs (reused by the new results cards)
+  chronologicalAge: number;
+  gender: "male" | "female";
 }
 
 // --- LOGIC HELPERS ---
@@ -105,6 +111,27 @@ const getFitnessData = (vo2: number, age: number, gender: "male" | "female") => 
   else { level = "Poor"; percentile = 15; }
 
   return { level, percentile };
+};
+
+// Standard age- & sex-matched average VO2 max norms (ml/kg/min) — based on
+// widely used ACSM / Cooper Institute reference ranges for healthy adults.
+const getAverageVO2 = (age: number, gender: "male" | "female") => {
+  const table = gender === "male"
+    ? [
+        { max: 29, avg: 48 },
+        { max: 39, avg: 44 },
+        { max: 49, avg: 41 },
+        { max: 59, avg: 36 },
+        { max: 200, avg: 31 },
+      ]
+    : [
+        { max: 29, avg: 41 },
+        { max: 39, avg: 38 },
+        { max: 49, avg: 35 },
+        { max: 59, avg: 31 },
+        { max: 200, avg: 27 },
+      ];
+  return (table.find((r) => age <= r.max) || table[table.length - 1]).avg;
 };
 
 // --- VISUAL COMPONENTS ---
@@ -254,7 +281,9 @@ export default function VO2MaxCalculator() {
         fitnessAge: fitAge,
         maxHR,
         trainingZones,
-        percentile
+        percentile,
+        chronologicalAge: age,
+        gender: values.gender,
       });
 
       setIsLoading(false);
@@ -500,7 +529,165 @@ export default function VO2MaxCalculator() {
                 </Tabs>
               </CardContent>
             </Card>
-            
+
+            {/* ── FEATURE 1: Fitness Age & Percentile vs Age/Sex Norms ─────────── */}
+            {(() => {
+              const avgVO2 = getAverageVO2(result.chronologicalAge, result.gender);
+              const diff = result.vo2Max - avgVO2;
+              const aheadOfAvg = diff >= 0;
+              const ageGap = result.chronologicalAge - result.fitnessAge;
+              // Map VO2 to a 0–100 scale (20–70 ml/kg/min) for the marker position.
+              const markerPos = Math.min(100, Math.max(0, ((result.vo2Max - 20) / (70 - 20)) * 100));
+              const avgPos = Math.min(100, Math.max(0, ((avgVO2 - 20) / (70 - 20)) * 100));
+              return (
+                <Card className="border border-emerald-100 shadow-md rounded-xl">
+                  <CardContent className="p-6 md:p-8">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Gauge className="w-5 h-5 text-emerald-700" />
+                      <h3 className="text-base font-bold text-emerald-700">Your Fitness Age &amp; Rating vs Peers</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      A VO2 max of <strong>{result.vo2Max.toFixed(1)} ml/kg/min</strong> rates as{" "}
+                      <strong className="text-emerald-700">{result.fitnessLevel}</strong> and places you in roughly the{" "}
+                      <strong className="text-emerald-700">{result.percentile}th percentile</strong> for a{" "}
+                      {result.chronologicalAge}-year-old {result.gender}. The age- and sex-matched average is about{" "}
+                      <strong>{avgVO2} ml/kg/min</strong>, so you are{" "}
+                      <strong className={aheadOfAvg ? "text-emerald-700" : "text-orange-600"}>
+                        {Math.abs(diff).toFixed(1)} ml/kg/min {aheadOfAvg ? "above" : "below"} average
+                      </strong>.
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-3 mt-5">
+                      <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Your VO2 Max</p>
+                        <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{result.vo2Max.toFixed(1)}</p>
+                      </div>
+                      <div className="rounded-xl border bg-slate-50 dark:bg-slate-900 p-4 text-center">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Age-Group Avg</p>
+                        <p className="text-lg font-black text-slate-800 dark:text-slate-100 mt-1">{avgVO2}</p>
+                      </div>
+                      <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-center">
+                        <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-wider text-emerald-700 font-bold">
+                          <CalendarClock className="w-3.5 h-3.5" /> Fitness Age
+                        </div>
+                        <p className="text-lg font-black text-emerald-700 mt-1">{result.fitnessAge}</p>
+                      </div>
+                    </div>
+
+                    {/* Norm comparison bar */}
+                    <div className="relative mt-6 w-full h-3 bg-gradient-to-r from-red-400 via-yellow-400 to-emerald-500 rounded-full">
+                      {/* Average marker */}
+                      <div
+                        className="absolute top-1/2 h-4 w-0.5 -translate-y-1/2 -translate-x-1/2 bg-slate-700"
+                        style={{ left: `${avgPos}%` }}
+                        title={`Age-group average: ${avgVO2} ml/kg/min`}
+                      />
+                      {/* Your marker */}
+                      <div
+                        className="absolute top-1/2 h-5 w-5 rounded-full bg-white border-4 border-emerald-600 shadow-lg -translate-y-1/2 -translate-x-1/2 transition-all duration-1000"
+                        style={{ left: `${markerPos}%` }}
+                        title={`You: ${result.vo2Max.toFixed(1)} ml/kg/min`}
+                      />
+                    </div>
+                    <div className="flex justify-between text-[11px] font-bold text-gray-400 mt-2 px-1">
+                      <span>Lower fitness (20)</span>
+                      <span>Higher fitness (70)</span>
+                    </div>
+
+                    <p className="text-sm text-slate-700 mt-4 leading-relaxed">
+                      {ageGap > 0 ? (
+                        <>Your estimated <strong className="text-emerald-700">fitness age is {ageGap} year{ageGap === 1 ? "" : "s"} younger</strong> than your actual age — your aerobic system is performing like someone fitter and younger.</>
+                      ) : ageGap < 0 ? (
+                        <>Your estimated <strong className="text-orange-600">fitness age is {Math.abs(ageGap)} year{Math.abs(ageGap) === 1 ? "" : "s"} older</strong> than your actual age — consistent aerobic training can pull this number back down.</>
+                      ) : (
+                        <>Your estimated <strong className="text-emerald-700">fitness age matches your actual age</strong> — a solid, average baseline to build on.</>
+                      )}
+                    </p>
+                    <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
+                      Percentile and fitness age are estimated from standard age- and sex-matched VO2 max norms (ACSM / Cooper Institute style reference ranges) and are for guidance, not diagnosis.
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })()}
+
+            {/* ── FEATURE 2: Training Zones → Improvement Plan ──────────────────── */}
+            {(() => {
+              const z2 = result.trainingZones.find((z) => z.zone === 2)!;
+              const z4 = result.trainingZones.find((z) => z.zone === 4)!;
+              const z5 = result.trainingZones.find((z) => z.zone === 5)!;
+              const target = Math.round((result.vo2Max + 3.5) * 10) / 10; // realistic ~8 week target
+              const plan = [
+                {
+                  title: "Build a Zone 2 aerobic base",
+                  detail: `Spend most weekly volume easy at ${z2.range} BPM (Zone 2). Aim for 3 sessions of 30–45 min where you can still hold a conversation — this grows the capillaries and mitochondria that raise VO2 max.`,
+                },
+                {
+                  title: "Add VO2 max intervals 1–2×/week",
+                  detail: `Once your base is set, add intervals in Zone 4–5 (${z4.range}–${z5.range.replace("> ", "")}+ BPM). Try 4–6 × 3–4 min hard with equal easy recovery; this is the strongest stimulus for VO2 max gains.`,
+                },
+                {
+                  title: "Apply progressive overload",
+                  detail: "Increase weekly volume or interval reps by no more than ~10% per week. Repeat the test every 4–8 weeks to confirm progress and avoid plateaus.",
+                },
+                {
+                  title: "Recover to adapt",
+                  detail: "Keep 1–2 full rest or easy days each week and prioritise 7–9 h sleep — aerobic gains are consolidated during recovery, not during the workout.",
+                },
+              ];
+              return (
+                <Card className="border-0 shadow-md rounded-xl" style={{ background: "#f0fdf4", border: "1px solid #bbf7d0" }}>
+                  <CardContent className="p-6 md:p-8">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Target className="w-5 h-5 text-emerald-700" />
+                      <h3 className="text-base font-bold text-emerald-700">Your Training Zones &amp; Improvement Plan</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Built from your Max HR of <strong>{result.maxHR} BPM</strong> and current VO2 max. A realistic{" "}
+                      <strong className="text-emerald-700">4–8 week target is about {target} ml/kg/min</strong> if you train consistently.
+                    </p>
+
+                    {/* Key training targets */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+                      <div className="rounded-xl border border-emerald-100 bg-white p-4">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Zone 2 Base</p>
+                        <p className="text-sm font-black text-slate-800 mt-1">{z2.range} <span className="text-[10px] font-normal text-gray-400">BPM</span></p>
+                        <p className="text-xs text-muted-foreground mt-1">Easy endurance volume</p>
+                      </div>
+                      <div className="rounded-xl border border-emerald-100 bg-white p-4">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Threshold (Z4)</p>
+                        <p className="text-sm font-black text-slate-800 mt-1">{z4.range} <span className="text-[10px] font-normal text-gray-400">BPM</span></p>
+                        <p className="text-xs text-muted-foreground mt-1">Tempo / cruise intervals</p>
+                      </div>
+                      <div className="rounded-xl border border-emerald-100 bg-white p-4">
+                        <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">VO2 Max (Z5)</p>
+                        <p className="text-sm font-black text-slate-800 mt-1">{z5.range} <span className="text-[10px] font-normal text-gray-400">BPM</span></p>
+                        <p className="text-xs text-muted-foreground mt-1">Hard intervals</p>
+                      </div>
+                    </div>
+
+                    {/* Progressive plan */}
+                    <div className="space-y-3 mt-5">
+                      {plan.map((step, i) => (
+                        <div key={i} className="flex items-start gap-3 bg-white/80 rounded-lg p-3.5 border border-emerald-100/60">
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 bg-emerald-600 text-white">
+                            {i + 1}
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-slate-800">{step.title}</p>
+                            <p className="text-sm text-gray-600 leading-relaxed mt-0.5">{step.detail}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
+                      Heart-rate zones are derived from an estimated Max HR (220 − age). Build intensity gradually and consult a professional before starting high-intensity training.
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })()}
+
             <div className="flex justify-center gap-4">
                 <Button variant="outline" onClick={() => { setResult(null); form.reset(); }} className="gap-2">
                   <RefreshCw className="w-4 h-4" /> Start Over

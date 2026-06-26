@@ -16,8 +16,10 @@ import {
   CheckCircle2,
   XCircle,
   ArrowRight,
+  Sparkles,
 } from "lucide-react"
 import ImproveParagraphs from "@/components/ui/improve-paragraphs"
+import { RelatedCalculators } from "@/components/calculators/related-calculators"
 
 /* ------------------------------------------------------------------ */
 /* Page metadata                                                       */
@@ -198,6 +200,18 @@ export default function AiAttractivenessTestPage() {
               >
                 Try the Calculator ↓
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* USP SUMMARY (TOFU) */}
+        <section className="border-b border-emerald-100 bg-white">
+          <div className="mx-auto max-w-5xl px-6 py-6">
+            <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 md:p-6">
+              <Sparkles className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+              <p className="text-sm md:text-base leading-relaxed text-slate-700">
+                Calqulate.net analyses facial geometry with ratio-based detection to give a feature-by-feature breakdown. You get clear, honestly-framed insight with a real disclaimer — never an inflated score.
+              </p>
             </div>
           </div>
         </section>
@@ -424,6 +438,8 @@ export default function AiAttractivenessTestPage() {
                   ))}
                 </ul>
               </section>
+
+              <RelatedCalculators slug="ai-attractiveness-test" />
             </div>
           </div>
         </div>

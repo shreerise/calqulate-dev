@@ -39,6 +39,9 @@ import {
   TrendingUp,
   Info,
   Table as TableIcon,
+  Target,
+  CalendarClock,
+  PieChart,
 } from "lucide-react";
 
 // --- TYPES & CONSTANTS ---
@@ -264,6 +267,49 @@ export default function PregnancyWeightGainCalculator() {
         });
       }
 
+      // 4b. ADDITIVE FEATURE 1 — Healthy total weight-gain range from pre-pregnancy BMI (IOM)
+      // Reuses the BMI + guideline already computed above. We surface the underlying single
+      // (non-twin) range and flag whether the active guideline is doubled for twins.
+      const singleGuidelineMap: Record<string, { min: number; max: number }> = {
+        underweight: { min: GUIDELINES.underweight.min, max: GUIDELINES.underweight.max },
+        normal: { min: GUIDELINES.normal.min, max: GUIDELINES.normal.max },
+        overweight: { min: GUIDELINES.overweight.min, max: GUIDELINES.overweight.max },
+        obese: { min: GUIDELINES.obese.min, max: GUIDELINES.obese.max },
+      };
+      const singleRange = singleGuidelineMap[bmiCategory] || singleGuidelineMap.normal;
+      const isTwins = values.pregnancyType === "twins";
+      const toDisplay = (kg: number) => (values.units === "imperial" ? kg * 2.20462 : kg);
+      const iomBmiLabelMap: Record<string, string> = {
+        underweight: "Underweight (BMI below 18.5)",
+        normal: "Healthy weight (BMI 18.5–24.9)",
+        overweight: "Overweight (BMI 25.0–29.9)",
+        obese: "Obese (BMI 30.0 or above)",
+      };
+
+      // 4c. ADDITIVE FEATURE 2 — Week-by-week pace targets + where the weight goes
+      // Trimester pacing derived from the same first-trimester + linear model used for the chart.
+      const t2t3WeeklyMin = ((totalGainMin - firstTriGainMin) / weeksRemaining);
+      const t2t3WeeklyMax = ((totalGainMax - firstTriGainMax) / weeksRemaining);
+      const phaseTargets = [
+        {
+          phase: "First trimester (weeks 1–13)",
+          detail: `Slow, steady start — about ${toDisplay(firstTriGainMin).toFixed(1)}–${toDisplay(firstTriGainMax).toFixed(1)} ${values.units === "metric" ? "kg" : "lbs"} total. Gaining little, none, or even losing a bit with nausea is common.`,
+        },
+        {
+          phase: "Second & third trimester (weeks 14–40)",
+          detail: `A consistent pace of roughly ${toDisplay(t2t3WeeklyMin).toFixed(2)}–${toDisplay(t2t3WeeklyMax).toFixed(2)} ${values.units === "metric" ? "kg" : "lbs"} per week as your baby grows fastest.`,
+        },
+      ];
+      // Where the gained weight is distributed (proportions of a typical full-term gain).
+      const distribution = [
+        { part: "Baby", pct: 27 },
+        { part: "Fat & nutrient stores", pct: 25 },
+        { part: "Blood volume", pct: 14 },
+        { part: "Fluids & tissue", pct: 14 },
+        { part: "Uterus & breast tissue", pct: 13 },
+        { part: "Placenta & amniotic fluid", pct: 7 },
+      ];
+
       // 5. Current Status Logic
       const currentWeekInt = parseInt(values.currentWeek);
       const currentGainRaw = weightCurrentKg - weightBeforeKg;
@@ -291,7 +337,15 @@ export default function PregnancyWeightGainCalculator() {
         targetMinCurrent: currentWeekData.min,
         targetMaxCurrent: currentWeekData.max,
         status,
-        statusColor
+        statusColor,
+        // Additive feature data
+        units: values.units,
+        isTwins,
+        iomBmiLabel: iomBmiLabelMap[bmiCategory] || iomBmiLabelMap.normal,
+        singleRangeMin: toDisplay(singleRange.min).toFixed(1),
+        singleRangeMax: toDisplay(singleRange.max).toFixed(1),
+        phaseTargets,
+        distribution,
       });
 
       setIsLoading(false);
@@ -521,6 +575,99 @@ export default function PregnancyWeightGainCalculator() {
                     </CardContent>
                 </Card>
 
+            </div>
+
+            {/* --- ADDITIVE FEATURE CARDS (full width) --- */}
+            <div className="md:col-span-3 space-y-8">
+
+              {/* FEATURE 1: Healthy total weight-gain range (IOM, BMI-based) */}
+              <Card className="border-emerald-200 shadow-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                    <Target className="w-5 h-5" /> Your Healthy Weight-Gain Range
+                  </CardTitle>
+                  <CardDescription>
+                    Set from your pre-pregnancy BMI using recognised IOM guidelines.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-5 text-center">
+                    <p className="text-sm text-muted-foreground">
+                      {result.iomBmiLabel}
+                      {result.isTwins && " · carrying twins"}
+                    </p>
+                    <p className="mt-1 text-3xl font-bold text-emerald-700">
+                      {result.totalMin} – {result.totalMax}{" "}
+                      <span className="text-base font-normal text-slate-600">
+                        {result.units === "metric" ? "kg" : "lbs"}
+                      </span>
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">recommended total gain across your pregnancy</p>
+                  </div>
+                  {result.isTwins && (
+                    <div className="rounded-lg bg-slate-50 border p-3 text-sm text-slate-600">
+                      For a single baby at this BMI the range would be{" "}
+                      <span className="font-semibold text-slate-800">
+                        {result.singleRangeMin} – {result.singleRangeMax} {result.units === "metric" ? "kg" : "lbs"}
+                      </span>
+                      . Carrying twins increases your healthy range, as shown above.
+                    </div>
+                  )}
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    These are supportive guidelines, not strict limits — every pregnancy is unique. Your midwife or
+                    obstetrician will personalise your target at your appointments.
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* FEATURE 2: Week-by-week pace + where the weight goes */}
+              <div className="grid md:grid-cols-2 gap-8">
+                <Card className="shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                      <CalendarClock className="w-5 h-5" /> Week-by-Week Target Pace
+                    </CardTitle>
+                    <CardDescription>How your gain is expected to be spread over time.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {result.phaseTargets.map((p: { phase: string; detail: string }) => (
+                      <div key={p.phase} className="rounded-xl border bg-muted/30 p-4">
+                        <p className="text-sm font-semibold text-slate-800">{p.phase}</p>
+                        <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{p.detail}</p>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+
+                <Card className="shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg text-emerald-700">
+                      <PieChart className="w-5 h-5" /> Where the Weight Goes
+                    </CardTitle>
+                    <CardDescription>It is far more than body fat — it is your baby's support system.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {result.distribution.map((d: { part: string; pct: number }) => (
+                      <div key={d.part}>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-slate-700">{d.part}</span>
+                          <span className="font-semibold text-emerald-700">{d.pct}%</span>
+                        </div>
+                        <div className="mt-1 h-2 w-full rounded-full bg-emerald-100">
+                          <div
+                            className="h-2 rounded-full bg-emerald-500"
+                            style={{ width: `${d.pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                    <p className="pt-1 text-xs text-muted-foreground leading-relaxed">
+                      Approximate proportions of a typical full-term gain (baby, placenta, fluid, blood, breast tissue
+                      and fat stores).
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         )}

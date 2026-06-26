@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Activity, Calculator, RefreshCw, Loader2, Heart, AlertCircle, Info, TrendingUp, CheckCircle2, History, ChevronRight } from "lucide-react";
+import { Activity, Calculator, RefreshCw, Loader2, Heart, AlertCircle, Info, TrendingUp, TrendingDown, CheckCircle2, History, ChevronRight, BarChart3, Users, Minus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 // --- FORM SCHEMA ---
@@ -37,6 +37,17 @@ const formSchema = z.object({
 });
 
 // --- TYPES ---
+// Each contributing factor and roughly how much it pushes the risk up or down.
+interface RiskFactor {
+  label: string;
+  // Multiplier applied to the running risk (1.0 = neutral, >1 raises, <1 lowers).
+  multiplier: number;
+  // Human-readable "+25%" / "−15%" / "baseline" style delta derived from multiplier.
+  effectLabel: string;
+  direction: "up" | "down" | "neutral";
+  detail: string;
+}
+
 interface QriskResult {
   score: number;
   heartAge: number;
@@ -44,7 +55,23 @@ interface QriskResult {
   riskLevel: "Low" | "Moderate" | "High";
   riskColor: string;
   recommendations: string[];
+  // FEATURE 1 — per-factor breakdown of what drove the score.
+  baseRisk: number;
+  factors: RiskFactor[];
+  // FEATURE 2 — relative / equivalent risk read vs a healthy peer.
+  healthyReferenceRisk: number;
+  relativeRisk: number;
+  age: number;
+  gender: "male" | "female";
 }
+
+// Convert a risk multiplier into a readable "+/-%" delta + direction for the breakdown.
+const effectFrom = (multiplier: number): { effectLabel: string; direction: "up" | "down" | "neutral" } => {
+  const pct = Math.round((multiplier - 1) * 100);
+  if (pct > 0) return { effectLabel: `+${pct}%`, direction: "up" };
+  if (pct < 0) return { effectLabel: `${pct}%`, direction: "down" };
+  return { effectLabel: "no change", direction: "neutral" };
+};
 
 // --- CALCULATION LOGIC (SIMULATION) ---
 // Note: The actual Qrisk3 algorithm uses a proprietary coefficient table with thousands of data points.
@@ -59,64 +86,136 @@ const calculateRisk = (values: z.infer<typeof formSchema>): QriskResult => {
 
   // 1. Base Risk (Exponential age curve)
   // Male starts higher, Female catches up post-menopause
-  let risk = values.gender === 'male' 
+  let risk = values.gender === 'male'
     ? 0.05 * Math.exp(0.06 * (age - 25))
     : 0.03 * Math.exp(0.065 * (age - 25));
 
+  // FEATURE 1 — capture the age-driven baseline before any modifiers apply.
+  const baseRisk = risk;
+  const factors: RiskFactor[] = [];
+
   // 2. Ethnicity Multipliers (Specific for UK/UAE populations)
   // South Asians have higher CVD risk
+  let ethnicityMult = 1.0;
   switch (values.ethnicity) {
     case "indian":
     case "pakistani":
     case "bangladeshi":
-      risk *= 1.5;
+      ethnicityMult = 1.5;
       break;
     case "black_african":
     case "black_caribbean":
-      risk *= 0.85; // Often lower CHD risk but higher Stroke risk - averaged here
+      ethnicityMult = 0.85; // Often lower CHD risk but higher Stroke risk - averaged here
       break;
     case "chinese":
-      risk *= 0.7;
+      ethnicityMult = 0.7;
       break;
     default:
-      break; // White/Other stays baseline
+      ethnicityMult = 1.0; // White/Other stays baseline
+  }
+  risk *= ethnicityMult;
+  if (ethnicityMult !== 1.0) {
+    factors.push({
+      label: "Ethnicity",
+      multiplier: ethnicityMult,
+      ...effectFrom(ethnicityMult),
+      detail: ethnicityMult > 1 ? "Higher background CVD risk in this group." : "Lower background CVD risk in this group.",
+    });
   }
 
   // 3. Clinical Factors
   // Smoking is massive
   const smokingMultipliers = [1.0, 1.2, 1.5, 2.0, 2.5]; // Non, Ex, Light, Mod, Heavy
-  risk *= smokingMultipliers[parseInt(values.smokingStatus)];
+  const smokingMult = smokingMultipliers[parseInt(values.smokingStatus)];
+  risk *= smokingMult;
+  if (smokingMult !== 1.0) {
+    factors.push({
+      label: "Smoking",
+      multiplier: smokingMult,
+      ...effectFrom(smokingMult),
+      detail: "Tobacco exposure accelerates arterial damage — the most modifiable factor here.",
+    });
+  }
 
   // Diabetes
+  const diabetesMult = values.diabetes === 'type1' ? 2.5 : values.diabetes === 'type2' ? 1.8 : 1.0;
   if (values.diabetes === 'type1') risk *= 2.5;
   if (values.diabetes === 'type2') risk *= 1.8;
+  if (diabetesMult !== 1.0) {
+    factors.push({
+      label: values.diabetes === 'type1' ? "Type 1 Diabetes" : "Type 2 Diabetes",
+      multiplier: diabetesMult,
+      ...effectFrom(diabetesMult),
+      detail: "Raised blood glucose damages blood vessels over time.",
+    });
+  }
 
   // Family History
   if (values.familyHistory) risk *= 1.5;
+  if (values.familyHistory) {
+    factors.push({
+      label: "Family History",
+      multiplier: 1.5,
+      ...effectFrom(1.5),
+      detail: "A first-degree relative with early heart disease raises inherited risk.",
+    });
+  }
 
   // Comorbidities
   if (values.ckd) risk *= 1.4;
   if (values.atrialFibrillation) risk *= 1.6;
   if (values.rheumatoidArthritis) risk *= 1.3;
+  if (values.ckd) factors.push({ label: "Chronic Kidney Disease", multiplier: 1.4, ...effectFrom(1.4), detail: "Reduced kidney function is independently linked to cardiovascular events." });
+  if (values.atrialFibrillation) factors.push({ label: "Atrial Fibrillation", multiplier: 1.6, ...effectFrom(1.6), detail: "Irregular heart rhythm increases the chance of clot-related stroke." });
+  if (values.rheumatoidArthritis) factors.push({ label: "Rheumatoid Arthritis", multiplier: 1.3, ...effectFrom(1.3), detail: "Chronic systemic inflammation contributes to arterial plaque." });
 
   // 4. Measurements
   // BMI Impact (Risk increases significantly over 30)
   if (bmi > 25) {
-    risk *= (1 + ((bmi - 25) * 0.02)); 
+    const bmiMult = 1 + ((bmi - 25) * 0.02);
+    risk *= bmiMult;
+    factors.push({
+      label: `BMI (${bmi.toFixed(1)})`,
+      multiplier: bmiMult,
+      ...effectFrom(bmiMult),
+      detail: "Excess body weight above a BMI of 25 adds metabolic strain.",
+    });
   }
 
   // Blood Pressure (Standard ~120)
   if (sbp > 120) {
     // If on treatment, risk is higher because underlying pathology exists
     const treatmentFactor = values.bpTreatment ? 1.2 : 1.0;
-    risk *= (1 + ((sbp - 120) * 0.015)) * treatmentFactor;
+    const bpMult = (1 + ((sbp - 120) * 0.015)) * treatmentFactor;
+    risk *= bpMult;
+    factors.push({
+      label: `Blood Pressure (${sbp} mmHg)`,
+      multiplier: bpMult,
+      ...effectFrom(bpMult),
+      detail: values.bpTreatment
+        ? "Systolic pressure above 120 mmHg, with existing BP treatment, raises risk."
+        : "Systolic pressure above 120 mmHg increases load on artery walls.",
+    });
   }
 
   // Cholesterol Ratio (Standard ~4.0)
+  let cholMult: number;
   if (ratio > 4) {
-    risk *= (1 + ((ratio - 4) * 0.1));
+    cholMult = 1 + ((ratio - 4) * 0.1);
+    risk *= cholMult;
   } else {
-    risk *= (1 - ((4 - ratio) * 0.05));
+    cholMult = 1 - ((4 - ratio) * 0.05);
+    risk *= cholMult;
+  }
+  if (Math.abs(cholMult - 1) > 0.0001) {
+    factors.push({
+      label: `Cholesterol Ratio (${ratio.toFixed(1)})`,
+      multiplier: cholMult,
+      ...effectFrom(cholMult),
+      detail: cholMult > 1
+        ? "A Total:HDL ratio above 4.0 favours plaque build-up."
+        : "A Total:HDL ratio below 4.0 is protective and lowers risk.",
+    });
   }
 
   // Cap risk at 99% and Floor at 0.1%
@@ -156,13 +255,25 @@ const calculateRisk = (values: z.infer<typeof formSchema>): QriskResult => {
   if (bmi > 30) recs.push("Weight reduction will significantly improve your heart age.");
   if (ratio > 5) recs.push("Your cholesterol ratio is high - consider dietary changes.");
 
+  // FEATURE 2 — equivalent / relative risk read.
+  // expectedRisk is the age/sex baseline of a healthy peer (non-smoker, no comorbidities,
+  // normal BMI/BP and an ideal cholesterol ratio) — i.e. an optimal reference person.
+  const healthyReferenceRisk = Math.min(99, Math.max(0.1, expectedRisk));
+  const relativeRisk = healthyReferenceRisk > 0 ? finalScore / healthyReferenceRisk : 1;
+
   return {
     score: parseFloat(finalScore.toFixed(1)),
     heartAge,
     bmi: parseFloat(bmi.toFixed(1)),
     riskLevel: level,
     riskColor: color,
-    recommendations: recs
+    recommendations: recs,
+    baseRisk: parseFloat(baseRisk.toFixed(1)),
+    factors,
+    healthyReferenceRisk: parseFloat(healthyReferenceRisk.toFixed(1)),
+    relativeRisk: parseFloat(relativeRisk.toFixed(1)),
+    age,
+    gender: values.gender,
   };
 };
 
@@ -755,6 +866,127 @@ export default function Qrisk3Calculator() {
                   <span className="font-semibold text-blue-900 dark:text-blue-100">Your Calculated BMI:</span>
                 </div>
                 <span className="font-bold text-xl text-blue-700 dark:text-blue-200">{result.bmi}</span>
+              </div>
+
+              {/* FEATURE 1 — FACTOR BREAKDOWN ──────────────────────────────── */}
+              <div className="rounded-2xl border border-emerald-100 bg-emerald-50/40 p-5 md:p-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <BarChart3 className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold text-slate-900">What's Driving Your Score</h3>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Everyone starts from an age-and-sex baseline of{" "}
+                  <span className="font-bold text-emerald-700">{result.baseRisk}%</span>. Each factor below then
+                  pushes your 10-year risk up or down to reach{" "}
+                  <span className="font-bold text-emerald-700">{result.score}%</span>.
+                </p>
+
+                <div className="mt-5 space-y-2.5">
+                  {/* Baseline row */}
+                  <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
+                    <div className="flex items-center gap-2.5">
+                      <Activity className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800">Age &amp; Sex Baseline</p>
+                        <p className="text-xs text-slate-500">Starting point for a healthy person your age and sex.</p>
+                      </div>
+                    </div>
+                    <span className="text-sm font-bold text-slate-700 whitespace-nowrap">{result.baseRisk}%</span>
+                  </div>
+
+                  {result.factors.length === 0 ? (
+                    <p className="px-1 text-sm text-slate-500">
+                      No additional risk factors moved your score — your result is driven almost entirely by age and sex.
+                    </p>
+                  ) : (
+                    result.factors.map((f, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          {f.direction === "up" ? (
+                            <TrendingUp className="w-4 h-4 text-red-500 flex-shrink-0" />
+                          ) : f.direction === "down" ? (
+                            <TrendingDown className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                          ) : (
+                            <Minus className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                          )}
+                          <div>
+                            <p className="text-sm font-semibold text-slate-800">{f.label}</p>
+                            <p className="text-xs text-slate-500 leading-snug">{f.detail}</p>
+                          </div>
+                        </div>
+                        <span
+                          className={`text-sm font-bold whitespace-nowrap ${
+                            f.direction === "up"
+                              ? "text-red-600"
+                              : f.direction === "down"
+                              ? "text-emerald-700"
+                              : "text-slate-500"
+                          }`}
+                        >
+                          {f.effectLabel}
+                        </span>
+                      </div>
+                    ))
+                  )}
+                </div>
+                <p className="mt-4 text-[11px] text-slate-400 leading-relaxed">
+                  Percentages show roughly how much each factor multiplies your risk relative to baseline. Combined effects compound, so the total is not a simple sum.
+                </p>
+              </div>
+
+              {/* FEATURE 2 — RELATIVE / EQUIVALENT RISK READ ───────────────── */}
+              <div className="rounded-2xl border border-emerald-100 bg-white p-5 md:p-6 shadow-sm">
+                <div className="flex items-center gap-2 mb-1">
+                  <Users className="w-5 h-5 text-emerald-700" />
+                  <h3 className="text-base font-bold text-slate-900">Your Risk in Context</h3>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  A healthy {result.age}-year-old {result.gender === "male" ? "man" : "woman"} with no risk factors has
+                  an estimated 10-year risk of{" "}
+                  <span className="font-bold text-emerald-700">{result.healthyReferenceRisk}%</span>.
+                  {result.relativeRisk > 1.05 ? (
+                    <>
+                      {" "}Yours is{" "}
+                      <span className="font-bold text-red-600">{result.relativeRisk}× higher</span> than that healthy peer.
+                    </>
+                  ) : result.relativeRisk < 0.95 ? (
+                    <>
+                      {" "}Yours is actually{" "}
+                      <span className="font-bold text-emerald-700">lower</span> than that reference — a strong profile.
+                    </>
+                  ) : (
+                    <>
+                      {" "}Yours is{" "}
+                      <span className="font-bold text-emerald-700">about the same</span> as that healthy peer.
+                    </>
+                  )}
+                </p>
+
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Healthy Peer</p>
+                    <p className="text-2xl font-black text-slate-700 mt-1">{result.healthyReferenceRisk}%</p>
+                  </div>
+                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-emerald-700 font-bold">You</p>
+                    <p className={`text-2xl font-black mt-1 ${result.riskColor}`}>{result.score}%</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-slate-50 border border-slate-200 px-4 py-3">
+                  <Heart className={`w-4 h-4 ${result.heartAge > result.age ? "text-red-500" : "text-emerald-600"}`} fill="currentColor" />
+                  <span className="text-sm text-slate-600">
+                    Equivalent heart age:{" "}
+                    <span className="font-bold text-slate-900">{result.heartAge}</span>{" "}
+                    vs real age <span className="font-bold text-slate-900">{result.age}</span>
+                  </span>
+                </div>
+                <p className="mt-4 text-[11px] text-slate-400 leading-relaxed">
+                  The relative read keeps your percentage meaningful: a small absolute number can still be several times a healthy peer's, while a high number at older ages may be closer to expected.
+                </p>
               </div>
 
               {currentDeltaInfo && (
