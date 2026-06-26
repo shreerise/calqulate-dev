@@ -1,7 +1,16 @@
 "use client";
 import { useState } from "react";
+import { CreditCard } from "lucide-react";
 
-export function BillingButton() {
+export function BillingButton({
+  className,
+  labelClassName,
+  withIcon = false,
+}: {
+  className?: string;
+  labelClassName?: string;
+  withIcon?: boolean;
+}) {
   const [busy, setBusy] = useState(false);
   async function open() {
     setBusy(true);
@@ -15,8 +24,13 @@ export function BillingButton() {
     }
   }
   return (
-    <button onClick={open} disabled={busy} className="text-sm text-gray-500 hover:text-blue-600 disabled:opacity-60">
-      {busy ? "Opening…" : "Manage billing"}
+    <button
+      onClick={open}
+      disabled={busy}
+      className={className ?? "text-sm text-gray-500 hover:text-emerald-600 disabled:opacity-60"}
+    >
+      {withIcon && <CreditCard className="h-4 w-4 shrink-0" />}
+      <span className={labelClassName}>{busy ? "Opening…" : "Manage billing"}</span>
     </button>
   );
 }

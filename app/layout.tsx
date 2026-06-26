@@ -11,6 +11,7 @@ import ClarityProvider from "@/components/analytics/clarity-provider";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 import { InstallBanner } from "@/components/pwa/InstallBanner";
+import FeedbackPopup from "@/components/feedback/FeedbackPopup";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://calqulate.net"),
@@ -104,6 +105,7 @@ export default function RootLayout({
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 
         <CalculatorPopup />
+        <FeedbackPopup />
         <ChatWidget />
         <ServiceWorkerRegister />
         <InstallBanner />
