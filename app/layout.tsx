@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
@@ -10,6 +10,7 @@ import CalculatorPopup from "@/components/ui/calculator-popup";
 import ClarityProvider from "@/components/analytics/clarity-provider";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
+import { InstallBanner } from "@/components/pwa/InstallBanner";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://calqulate.net"),
@@ -19,6 +20,15 @@ export const metadata: Metadata = {
   keywords: "calqulate.net",
   generator: "Calqulate",
   robots: "index, follow",
+  applicationName: "Calqulate",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Calqulate",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     title: "Calqulate - Professional Calculators",
     description: "Free online calculators for health improvement",
@@ -35,11 +45,20 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/logo.webp", sizes: "32x32", type: "image/png" },
+      { url: "/favicon/favicon-32x32.webp", sizes: "32x32", type: "image/webp" },
+      { url: "/favicon/favicon-16x16.webp", sizes: "16x16", type: "image/webp" },
+      { url: "/logo.webp", sizes: "192x192", type: "image/webp" },
     ],
-    apple: "/apple-touch-icon.jpg",
+    apple: "/favicon/apple-touch-icon.webp",
   },
-  manifest: "/favicon/site.webmanifest",
+  manifest: "/manifest.webmanifest",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#059669",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -54,11 +73,6 @@ export default function RootLayout({
 
         {/* Google AdSense Verification */}
         <meta name="google-adsense-account" content="ca-pub-4361792190799561" />
-
-        {/* PWA */}
-        <meta name="theme-color" content="#059669" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-title" content="Calqulate" />
 
         {/* Preconnect to critical third-party origins */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
@@ -92,6 +106,7 @@ export default function RootLayout({
         <CalculatorPopup />
         <ChatWidget />
         <ServiceWorkerRegister />
+        <InstallBanner />
       </body>
     </html>
   );

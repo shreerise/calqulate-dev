@@ -21,7 +21,7 @@ export function LongevityHero({ longevity, bioAge }: { longevity: LongevityResul
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-emerald-500">Longevity Index</p>
           <div className="mt-2 flex items-end gap-3">
-            <div className="text-6xl font-extrabold tracking-tight text-white">{longevity.index}</div>
+            <div className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">{longevity.index}</div>
             <div className="pb-2 text-gray-500">/ 1000</div>
             <div className={`pb-2 text-lg font-bold ${bandColor[longevity.band]}`}>{longevity.band}</div>
           </div>
@@ -32,7 +32,7 @@ export function LongevityHero({ longevity, bioAge }: { longevity: LongevityResul
           </div>
 
           {/* Subscores */}
-          <div className="mt-4 grid grid-cols-5 gap-2 text-center">
+          <div className="mt-4 grid grid-cols-2 gap-2 text-center sm:grid-cols-3 md:grid-cols-5">
             {Object.entries(longevity.subScores).map(([k, v]) => (
               <div key={k} className="rounded-lg bg-gray-900 p-2">
                 <div className="text-sm font-bold text-white">{v}</div>
@@ -53,7 +53,7 @@ export function LongevityHero({ longevity, bioAge }: { longevity: LongevityResul
           <div className="rounded-2xl border border-gray-800 bg-gray-900/60 p-5">
             <div className="text-xs uppercase tracking-wide text-gray-500">Biological age</div>
             <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-4xl font-extrabold text-white">{bioAge.biologicalAge}</span>
+              <span className="text-2xl font-extrabold text-white sm:text-3xl lg:text-4xl">{bioAge.biologicalAge}</span>
               <span className={`text-sm font-bold ${bioAge.delta <= 0 ? "text-emerald-400" : "text-orange-400"}`}>
                 {bioAge.delta > 0 ? "+" : ""}{bioAge.delta} vs real age {bioAge.chronologicalAge}
               </span>

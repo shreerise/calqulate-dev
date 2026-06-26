@@ -79,7 +79,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">Your metabolic health</h1>
           <p className="text-gray-600">Track the outcomes that matter, not just the scale.</p>

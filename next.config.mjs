@@ -1,3 +1,14 @@
+import withSerwistInit from "@serwist/next";
+
+const revision = crypto.randomUUID();
+
+const withSerwist = withSerwistInit({
+  cacheOnNavigation: true,
+  additionalPrecacheEntries: [{ url: "/offline", revision }],
+  swSrc: "app/sw.ts",
+  swDest: "public/sw.js",
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -14,4 +25,4 @@ const nextConfig = {
   },
 }
 
-export default nextConfig
+export default withSerwist(nextConfig)
