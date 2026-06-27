@@ -183,7 +183,7 @@ export default function ContactUsPage() {
       <Header />
       <StructuredData />
 
-      <main className="flex-1">
+      <main id="main" className="flex-1">
         <div className="container mx-auto px-3 sm:px-4 py-10 sm:py-12">
           <div className="max-w-4xl mx-auto">
 

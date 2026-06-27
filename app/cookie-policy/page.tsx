@@ -84,7 +84,7 @@ export default function CookiePolicyPage() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <Header />
-      <main className="flex-1">
+      <main id="main" className="flex-1">
         <div className="container mx-auto px-4 py-12 max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900">Cookie Policy</h1>
           <p className="text-sm text-gray-500 mb-8">Last updated {UPDATED}</p>

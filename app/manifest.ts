@@ -24,7 +24,13 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/favicon/android-chrome-512x512.webp",
         sizes: "512x512",
         type: "image/webp",
-        purpose: "any maskable",
+        purpose: "any",
+      },
+      {
+        src: "/favicon/android-chrome-512x512.webp",
+        sizes: "512x512",
+        type: "image/webp",
+        purpose: "maskable",
       },
       {
         src: "/favicon/android-chrome-192x192.webp",

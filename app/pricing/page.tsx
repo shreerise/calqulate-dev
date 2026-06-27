@@ -66,7 +66,7 @@ export default function PricingPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
-      <main className="flex-1">
+      <main id="main" className="flex-1">
         {/* Hero */}
         <section className="bg-gradient-to-br from-emerald-50 to-white py-12 sm:py-16">
           <div className="container mx-auto px-3 sm:px-4 max-w-3xl text-center">

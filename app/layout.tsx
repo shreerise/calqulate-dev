@@ -34,11 +34,21 @@ export const metadata: Metadata = {
     description: "Free online calculators for health improvement",
     type: "website",
     siteName: "Calqulate",
+    url: "https://calqulate.net/",
+    images: [
+      {
+        url: "/og-image.webp",
+        width: 1200,
+        height: 630,
+        alt: "Calqulate — professional health calculators",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Calqulate - Professional Calculators",
     description: "Free online calculators for health improvement",
+    images: ["/og-image.webp"],
   },
   alternates: {
     canonical: "https://calqulate.net/",
@@ -85,6 +95,14 @@ export default function RootLayout({
       <body
         className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
+        {/* Skip to content — first focusable element for keyboard / AT users */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-emerald-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+        >
+          Skip to content
+        </a>
+
         {/* Google Tag Manager — loaded after page becomes interactive */}
         <Script
           id="gtm-script"

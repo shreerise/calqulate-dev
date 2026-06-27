@@ -19,7 +19,7 @@ function UnsubscribeInner() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#f7f8fa] px-4">
+    <main id="main" className="flex min-h-screen items-center justify-center bg-[#f7f8fa] px-4">
       <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
         <p className="text-lg font-bold text-gray-900">
           Calqulate <span className="text-emerald-600">Vitals</span>

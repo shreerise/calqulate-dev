@@ -72,7 +72,7 @@ export default async function HowItWorksPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
-      <main className="flex-1">
+      <main id="main" className="flex-1">
 
         {/* Hero / the real problem */}
         <section className="bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800 py-12 sm:py-16 lg:py-20">

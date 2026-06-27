@@ -57,7 +57,7 @@ export default async function AnswerPage({
     <div className="min-h-screen flex flex-col bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
-      <main className="flex-1">
+      <main id="main" className="flex-1">
         <article className="container mx-auto px-4 max-w-3xl py-10">
           <Link href="/answers" className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700 hover:text-emerald-800">
             <ArrowLeft className="h-4 w-4" /> All health questions

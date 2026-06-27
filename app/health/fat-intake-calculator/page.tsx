@@ -97,7 +97,7 @@ export default function FatIntakeCalculatorPage() {
 
       <Header />
 
-      <main className="flex-1">
+      <main id="main" className="flex-1">
         {/* HERO */}
         <section className="bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-b border-slate-200">
           <div className="mx-auto max-w-5xl px-6 py-12 md:py-20">

@@ -26,6 +26,7 @@ import {
   Target,
   LineChart,
   Lock,
+  ChevronDown,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -399,6 +400,41 @@ const vitalsServices = [
 ]
 
 
+// ─── Homepage FAQ (rendered + marked up as FAQPage JSON-LD) ──────────────────
+
+const faqs = [
+  {
+    question: "Are Calqulate's health calculators free to use?",
+    answer:
+      "Yes. Every calculator runs free and stateless — you can compute your BMI, body fat, TDEE, heart age, disease risk and 50+ other metrics without paying or creating an account. The paid Calqulate Vitals plan is optional and only adds saved history, trend tracking and a next-lever protocol.",
+  },
+  {
+    question: "Does Calqulate store or sell my health data?",
+    answer:
+      "No. The free snapshot calculators run entirely in your browser and nothing is stored or transmitted. If you choose to create a Calqulate Vitals account to track your scores over time, your data is yours to export or permanently delete at any time under GDPR and CCPA.",
+  },
+  {
+    question: "Which clinical models do Calqulate's calculators use?",
+    answer:
+      "Calqulate uses peer-reviewed, published formulas: the Pooled Cohort Equations for 10-year ASCVD risk, the Framingham model for heart age, and FINDRISC for type-2 diabetes risk. Calculations are transparent code — no black-box AI — and the methodology is shown on every result.",
+  },
+  {
+    question: "Do I need an account to use the calculators?",
+    answer:
+      "No account is required for any of the free snapshot tools. Just enter your numbers and get an instant result with a plain-English explanation of what it means and what to do next.",
+  },
+  {
+    question: "How many calculators does Calqulate offer?",
+    answer:
+      "Calqulate offers 50+ clinically grounded health calculators across eight categories: Body Composition, Cardio Health, Nutrition & Weight, Fitness Performance, Disease Risk, Mental Wellness, Women's Health and Appearance.",
+  },
+  {
+    question: "Is Calqulate a substitute for medical advice?",
+    answer:
+      "No. Calqulate provides educational decision-support, not medical, legal or financial advice. Always consult a qualified healthcare professional before making changes to your treatment or care.",
+  },
+]
+
 // ─── Page Component ───────────────────────────────────────────────────────────
 
 const homeJsonLd = {
@@ -452,6 +488,15 @@ const homeJsonLd = {
         "Doctor-shareable PDF reports",
       ],
     },
+    {
+      "@type": "FAQPage",
+      "@id": "https://calqulate.net/#faq",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: { "@type": "Answer", text: f.answer },
+      })),
+    },
   ],
 }
 
@@ -475,7 +520,7 @@ export default function HomePage() {
 
       <Header />
 
-      <main className="flex-1">
+      <main id="main" className="flex-1">
 
         {/* ── HERO SECTION (premium redesign) ──────────────────────────────── */}
         <section className="relative overflow-hidden bg-[#04140f] py-16 lg:py-24">
@@ -602,7 +647,7 @@ export default function HomePage() {
           <div className="container mx-auto px-3 sm:px-4">
             <div className="max-w-4xl mx-auto rounded-2xl border border-emerald-100 bg-emerald-50/50 p-5 sm:p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-5 sm:gap-6">
               <div className="flex-1">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
+                <h2 id="free-snapshot" className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                   Start with a free snapshot &mdash; no account needed.
                 </h2>
                 <p className="mt-2 text-sm sm:text-base text-gray-600">
@@ -629,7 +674,7 @@ export default function HomePage() {
                 <HeartPulse className="h-4 w-4 sm:h-5 sm:w-5" />
                 Introducing Calqulate Vitals
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
+              <h2 id="vitals-intro" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
                 From a one-time number to a health trajectory.
               </h2>
               <p className="text-base sm:text-lg text-gray-600">
@@ -679,10 +724,33 @@ export default function HomePage() {
 
             <p className="mt-10 text-center text-sm text-gray-500 max-w-3xl mx-auto">
               Built on validated, published models:{" "}
-              <span className="font-medium text-gray-700">Pooled Cohort Equations (ASCVD)</span>,{" "}
-              <span className="font-medium text-gray-700">Framingham (heart age)</span>, and{" "}
-              <span className="font-medium text-gray-700">FINDRISC (type-2 diabetes risk)</span>.{" "}
-              Educational decision-support - not medical advice.
+              <a
+                href="https://www.ahajournals.org/doi/10.1161/01.cir.0000437741.48606.98"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-gray-700 underline decoration-gray-300 underline-offset-2 hover:text-emerald-700"
+              >
+                Pooled Cohort Equations (ASCVD)
+              </a>
+              ,{" "}
+              <a
+                href="https://www.framinghamheartstudy.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-gray-700 underline decoration-gray-300 underline-offset-2 hover:text-emerald-700"
+              >
+                Framingham (heart age)
+              </a>
+              , and{" "}
+              <a
+                href="https://pubmed.ncbi.nlm.nih.gov/12610029/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-gray-700 underline decoration-gray-300 underline-offset-2 hover:text-emerald-700"
+              >
+                FINDRISC (type-2 diabetes risk)
+              </a>
+              . Educational decision-support - not medical advice.
             </p>
           </div>
         </section>
@@ -694,7 +762,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 The Vitals services
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="vitals-services" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Pick the track that fits your goal
               </h2>
             </div>
@@ -726,7 +794,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-3 block">
                 Mission control for your body
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">More than a tracker &mdash; a model of your future self</h2>
+              <h2 id="advanced-platform" className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">More than a tracker &mdash; a model of your future self</h2>
               <p className="mt-3 text-sm sm:text-base text-gray-400">
                 First-principles health: break your biology into measurable systems, model reality, and get god-mode
                 control over your trajectory.
@@ -763,7 +831,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Simple, honest pricing
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="pricing-heading" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Free to start. Upgrade to track &amp; reverse.
               </h2>
               <p className="text-sm sm:text-base text-gray-600">
@@ -816,7 +884,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Featured Calculators
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="face-body-shape" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Discover Your Body &amp; Face Shape
               </h2>
               <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
@@ -907,7 +975,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Browse by Category
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="categories" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Every Aspect of Your Health, Covered
               </h2>
               <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
@@ -940,7 +1008,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Most Used Tools
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="popular-calculators" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Popular Health Calculators
               </h2>
               <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
@@ -1015,7 +1083,7 @@ export default function HomePage() {
                 <span className="text-xs font-semibold uppercase tracking-widest text-emerald-400 mb-3 block">
                   Our Difference
                 </span>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                <h2 id="our-difference" className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                   Go Beyond Raw Numbers.{" "}
                   <span className="text-emerald-400">A Decision Guide for Your Health.</span>
                 </h2>
@@ -1063,7 +1131,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Why Calqulate
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="why-calqulate" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Built on Trust. Designed for Understanding.
               </h2>
               <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
@@ -1097,7 +1165,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
                 Visual Guides
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="visual-guides" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Explore Health Visuals
               </h2>
               <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
@@ -1150,10 +1218,46 @@ export default function HomePage() {
         {/* ── SOCIAL PROOF: testimonials, stats, success stories ───────────── */}
         <SocialProof />
 
+        {/* ── FAQ (rendered + FAQPage JSON-LD) ─────────────────────────────── */}
+        <section id="faq" className="py-12 sm:py-16 bg-gray-50 border-b border-gray-100 scroll-mt-20">
+          <div className="container mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-10">
+              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+                Frequently Asked Questions
+              </span>
+              <h2 id="faq-heading" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Common questions about Calqulate
+              </h2>
+              <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
+                Everything you need to know about our calculators, your data, and the clinical models behind the numbers.
+              </p>
+            </div>
+
+            <div className="max-w-3xl mx-auto divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
+              {faqs.map((faq, i) => (
+                <details key={faq.question} className="group px-5 sm:px-6" open={i === 0}>
+                  <summary className="flex cursor-pointer items-center justify-between gap-4 py-4 sm:py-5 list-none [&::-webkit-details-marker]:hidden">
+                    <h3
+                      id={`faq-${i}`}
+                      className="text-sm sm:text-base font-semibold text-gray-900 scroll-mt-24"
+                    >
+                      {faq.question}
+                    </h3>
+                    <ChevronDown className="h-5 w-5 flex-shrink-0 text-emerald-600 transition-transform duration-200 group-open:rotate-180" />
+                  </summary>
+                  <p className="pb-5 text-sm sm:text-base leading-relaxed text-gray-600">
+                    {faq.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── SECTION I: FINAL CTA (service-led, dual path) ────────────────── */}
         <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
           <div className="container mx-auto px-3 sm:px-4 text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 id="final-cta" className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
               Watch your disease risk drop, not just the scale.
             </h2>
             <p className="text-emerald-100/80 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">

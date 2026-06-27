@@ -19,7 +19,7 @@ export default function BlogListingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
-      <main className="flex-1 bg-gradient-to-b from-slate-50 to-white">
+      <main id="main" className="flex-1 bg-gradient-to-b from-slate-50 to-white">
       {/* ── Hero ────────────────────────────────────────── */}
       <section className="border-b border-slate-200 bg-white">
         <div className="mx-auto max-w-6xl px-3 sm:px-6 py-12 sm:py-16 lg:py-24">

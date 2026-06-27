@@ -84,7 +84,7 @@ export default function AscvdRiskPage() {
 
       <Header />
 
-      <main className="max-w-5xl mx-auto px-6 py-12">
+      <main id="main" className="max-w-5xl mx-auto px-6 py-12">
         {/* Editorial Header */}
         {/* HERO */}
         <div className="mb-10 overflow-hidden rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-lime-50 p-8 md:p-12">

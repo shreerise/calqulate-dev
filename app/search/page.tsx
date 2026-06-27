@@ -64,7 +64,7 @@ export default function SearchPage() {
       <div className="min-h-screen flex flex-col">
         <Header />
 
-        <main className="flex-1">
+        <main id="main" className="flex-1">
           <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-6 sm:mb-8">

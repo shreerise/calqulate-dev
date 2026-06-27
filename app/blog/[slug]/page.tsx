@@ -97,7 +97,7 @@ export default function BlogSlugPage({ params }: Props) {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
-      <main className="flex-1">
+      <main id="main" className="flex-1">
         {renderContent()}
         <RelatedBlogs blogs={related} />
       </main>

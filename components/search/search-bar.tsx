@@ -103,6 +103,7 @@ export function SearchBar({
         <Input
           ref={inputRef}
           type="search"
+          aria-label="Search calculators"
           placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
