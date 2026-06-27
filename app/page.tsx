@@ -404,34 +404,46 @@ const vitalsServices = [
 
 const faqs = [
   {
-    question: "Are Calqulate's health calculators free to use?",
+    // Main purpose — what the whole service is for
+    question: "What does Calqulate Vitals actually do?",
     answer:
-      "Yes. Every calculator runs free and stateless — you can compute your BMI, body fat, TDEE, heart age, disease risk and 50+ other metrics without paying or creating an account. The paid Calqulate Vitals plan is optional and only adds saved history, trend tracking and a next-lever protocol.",
+      "Calqulate Vitals turns your health numbers into a tracked Metabolic Health Score and shows the outcomes that actually matter — your 10-year heart-attack risk, heart age and type-2 diabetes risk — falling over time, instead of just your weight. It runs on validated clinical models and tells you the single highest-impact change to make next. Three tracks build on the same engine: the Metabolic Health Tracker, the Heart Age Tracker and the GLP-1 Progress Tracker.",
   },
   {
-    question: "Does Calqulate store or sell my health data?",
+    // Metabolic Health Tracker — viral: "is it accurate / what's a good score"
+    question: "Is the Metabolic Health Score accurate, and what counts as a good score?",
     answer:
-      "No. The free snapshot calculators run entirely in your browser and nothing is stored or transmitted. If you choose to create a Calqulate Vitals account to track your scores over time, your data is yours to export or permanently delete at any time under GDPR and CCPA.",
+      "The Metabolic Health Score (0–100) is built from peer-reviewed clinical equations, not a black-box AI, and the methodology is shown on every result. Like any single reading it is an estimate, so the real value is the trend — re-check every few weeks and watch the number climb as your blood pressure, glucose and body composition improve. Higher is better, and the tracker shows exactly which levers move your score the most.",
   },
   {
-    question: "Which clinical models do Calqulate's calculators use?",
+    // Heart Age Tracker — viral: "why is my heart age older than my real age"
+    question: "Why is my heart age older than my actual age?",
     answer:
-      "Calqulate uses peer-reviewed, published formulas: the Pooled Cohort Equations for 10-year ASCVD risk, the Framingham model for heart age, and FINDRISC for type-2 diabetes risk. Calculations are transparent code — no black-box AI — and the methodology is shown on every result.",
+      "A higher heart age usually means one or more risk factors — high blood pressure, high cholesterol, high blood sugar or smoking — are adding strain to your arteries. It is extremely common: the CDC estimates the average American heart is about 7 years older than their real age. The Heart Age Tracker uses the validated Framingham model (designed for ages 30–74) and lets you watch the number fall as your numbers improve.",
   },
   {
-    question: "Do I need an account to use the calculators?",
+    // GLP-1 Progress Tracker — viral: "am I losing muscle not fat"
+    question: "On Ozempic or Wegovy, how do I know I'm losing fat and not muscle?",
     answer:
-      "No account is required for any of the free snapshot tools. Just enter your numbers and get an instant result with a plain-English explanation of what it means and what to do next.",
+      "The scale can't tell fat from muscle. The GLP-1 Progress Tracker watches lean-mass-aware body composition alongside your heart and diabetes risk, and pairs it with protein targets and resistance-training reminders — the two things shown to protect muscle while you lose weight on a GLP-1. It works for semaglutide (Ozempic, Wegovy) and tirzepatide (Mounjaro, Zepbound).",
   },
   {
-    question: "How many calculators does Calqulate offer?",
+    // Features — the standout capabilities people ask about
+    question: "What are the Future You simulator and the 'next lever'?",
     answer:
-      "Calqulate offers 50+ clinically grounded health calculators across eight categories: Body Composition, Cardio Health, Nutrition & Weight, Fitness Performance, Disease Risk, Mental Wellness, Women's Health and Appearance.",
+      "Future You is a Monte-Carlo engine that projects your weight, score and heart age 6–60 months out across realistic, optimistic and pessimistic effort, with honest confidence bands. Your 'next lever' is the single highest-impact change to make first, quantified in your own risk numbers — so you are never guessing what to fix. Both are included with every Calqulate Vitals plan.",
   },
   {
-    question: "Is Calqulate a substitute for medical advice?",
+    // Pricing — viral: "is it free / how much"
+    question: "How much does Calqulate Vitals cost, and is there a free version?",
     answer:
-      "No. Calqulate provides educational decision-support, not medical, legal or financial advice. Always consult a qualified healthcare professional before making changes to your treatment or care.",
+      "Every calculator and your first full metabolic snapshot are free — no account, nothing saved, no card needed. Calqulate Vitals, which adds saved history, trend tracking, the Future You simulator and your GLP-1 protocol, is one simple plan: $9.99/month or $79/year (about $6.58/month). You can cancel anytime.",
+  },
+  {
+    // Accuracy / trust — models + privacy + not medical advice
+    question: "What clinical models is this based on, and is it medical advice?",
+    answer:
+      "Calqulate uses transparent, published models: the Pooled Cohort Equations for 10-year ASCVD risk, Framingham for heart age, and FINDRISC for type-2 diabetes risk. Your data is private — you can export or permanently delete it anytime, and we never sell it. It is educational decision-support to help you understand and track your risk, not a diagnosis, so always confirm any changes with your doctor.",
   },
 ]
 

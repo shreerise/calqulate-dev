@@ -60,16 +60,28 @@ export default async function ServicePage({
 
   const ld = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: svc.name,
-    description: svc.metaDescription,
-    brand: { "@type": "Brand", name: "Calqulate" },
-    offers: {
-      "@type": "AggregateOffer",
-      lowPrice: "0",
-      highPrice: "119",
-      priceCurrency: "USD",
-    },
+    "@graph": [
+      {
+        "@type": "Product",
+        name: svc.name,
+        description: svc.metaDescription,
+        brand: { "@type": "Brand", name: "Calqulate" },
+        offers: {
+          "@type": "AggregateOffer",
+          lowPrice: "0",
+          highPrice: "119",
+          priceCurrency: "USD",
+        },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: svc.faqs.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      },
+    ],
   };
 
   return (
@@ -145,6 +157,26 @@ export default async function ServicePage({
           ) : (
             <SinglePlan />
           )}
+        </div>
+      </section>
+
+      {/* FAQ — rendered + marked up as FAQPage JSON-LD above */}
+      <section id="faq" className="mt-16 scroll-mt-20">
+        <h2 className="text-center text-2xl font-bold">Frequently asked questions</h2>
+        <div className="mx-auto mt-8 max-w-3xl divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
+          {svc.faqs.map((faq, i) => (
+            <details key={faq.question} className="group px-5 sm:px-6" open={i === 0}>
+              <summary className="flex cursor-pointer items-center justify-between gap-4 py-4 sm:py-5 list-none [&::-webkit-details-marker]:hidden">
+                <h3 id={`faq-${i}`} className="text-sm font-semibold text-gray-900 scroll-mt-24 sm:text-base">
+                  {faq.question}
+                </h3>
+                <span className="flex-shrink-0 text-blue-600 transition-transform duration-200 group-open:rotate-180">
+                  ▾
+                </span>
+              </summary>
+              <p className="pb-5 text-sm leading-relaxed text-gray-600 sm:text-base">{faq.answer}</p>
+            </details>
+          ))}
         </div>
       </section>
 
