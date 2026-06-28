@@ -20,3 +20,4 @@ export * from "./reconstitution";
 export * from "./refill";
 export * from "./foods";
 export * from "./foodParser";
+export * from "./coach";

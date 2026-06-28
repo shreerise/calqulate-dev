@@ -3,7 +3,7 @@ import Link from "next/link";
 import {
   Syringe, Utensils, LineChart, Scale, HeartPulse, ShieldCheck, BellRing, Target,
   Activity, FlaskConical, Dumbbell, Sparkles, FileText, Pill, Flame,
-  Check, Minus, ArrowRight, Star, BadgeCheck, CloudUpload,
+  Check, ArrowRight, Star, BadgeCheck, CloudUpload,
 } from "lucide-react";
 import { Reveal } from "@/components/glp1/marketing/Reveal";
 import { CountUp } from "@/components/glp1/marketing/CountUp";
@@ -11,6 +11,7 @@ import { FaqAccordion } from "@/components/glp1/marketing/FaqAccordion";
 import { ScreenshotFrame } from "@/components/glp1/marketing/ScreenshotFrame";
 import { PremiumPricingCard } from "@/components/glp1/marketing/PremiumPricingCard";
 import { StickyCtaBar } from "@/components/glp1/marketing/StickyCtaBar";
+import { MoatSection } from "@/components/marketing/MoatSection";
 
 export const metadata: Metadata = {
   title: "GLP-1 Tracker + Heart Age & Metabolism | Calqulate",
@@ -125,10 +126,10 @@ const jsonLd = {
 // ─── Small presentational helpers ─────────────────────────────────────────────
 
 function CompareCell({ v }: { v: string }) {
-  if (v === "no") return <Minus className="mx-auto h-4 w-4 text-faint" />;
+  if (v === "no") return <span className="text-sm font-semibold text-faint">No</span>;
   if (v === "premium") return <span className="text-xs font-medium text-faint">Premium</span>;
-  if (v === "free") return <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-800"><Check className="h-4 w-4" /> Free</span>;
-  return <Check className="mx-auto h-4 w-4 text-brand" />;
+  if (v === "free") return <span className="text-sm font-bold text-brand-800">Free</span>;
+  return <span className="text-sm font-bold text-brand">Yes</span>;
 }
 
 const btnGreen =
@@ -452,6 +453,9 @@ export default function Glp1TrackerLanding() {
           </Reveal>
         </div>
       </section>
+
+      {/* ── Product moat (luxe) ────────────────────────────────────────────── */}
+      <MoatSection />
 
       {/* ── Pricing ────────────────────────────────────────────────────────── */}
       <section id="pricing" className="scroll-mt-24 bg-white py-14 sm:py-20">

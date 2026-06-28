@@ -81,22 +81,28 @@ function useSubmit(entity: Glp1EntityName, onSaved?: () => void) {
   return { status, submit };
 }
 
-function StatusRow({ status, label }: { status: Status; label: string }) {
+function StatusRow({ status, label, note }: { status: Status; label: string; note?: string }) {
   return (
-    <div className="mt-3 flex items-center gap-3">
-      <Button type="submit" disabled={status.kind === "saving"} className="bg-emerald-600 hover:bg-emerald-700">
-        {status.kind === "saving" ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-        {label}
-      </Button>
-      {status.kind === "saved" && (
-        <span className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600">
-          <Check className="h-4 w-4" /> Saved
-        </span>
-      )}
-      {status.kind === "error" && (
-        <span className="inline-flex items-center gap-1 text-sm font-medium text-red-600">
-          <AlertCircle className="h-4 w-4" /> {status.message}
-        </span>
+    <div className="mt-3">
+      <div className="flex items-center gap-3">
+        <Button type="submit" disabled={status.kind === "saving"} className="bg-emerald-600 hover:bg-emerald-700">
+          {status.kind === "saving" ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+          {label}
+        </Button>
+        {status.kind === "saved" && (
+          <span className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600">
+            <Check className="h-4 w-4" /> Saved
+          </span>
+        )}
+        {status.kind === "error" && (
+          <span className="inline-flex items-center gap-1 text-sm font-medium text-red-600">
+            <AlertCircle className="h-4 w-4" /> {status.message}
+          </span>
+        )}
+      </div>
+      {/* Immediate coaching feedback — every save teaches or reassures */}
+      {status.kind === "saved" && note && (
+        <p className="mt-2 rounded-lg bg-emerald-50 px-3 py-2 text-xs leading-relaxed text-emerald-800">💡 {note}</p>
       )}
     </div>
   );
@@ -181,7 +187,7 @@ function DoseForm({ medications, onSaved }: { medications: MedicationOption[]; o
           </select>
         </div>
       </div>
-      <StatusRow status={status} label="Log dose" />
+      <StatusRow status={status} label="Log dose" note="Appetite often dips for 24–48h after a shot — drink extra water to ease side-effects." />
     </form>
   );
 }
@@ -223,7 +229,7 @@ function WeightForm({ onSaved }: { onSaved?: () => void }) {
           <Input id="w-when" type="datetime-local" value={takenAt} onChange={(e) => setTakenAt(e.target.value)} />
         </div>
       </div>
-      <StatusRow status={status} label="Log weight" />
+      <StatusRow status={status} label="Log weight" note="Daily weight bounces around — your weekly trend is what matters. Check your journey below." />
     </form>
   );
 }
@@ -295,7 +301,7 @@ function FoodForm({ onSaved }: { onSaved?: () => void }) {
         </div>
       </div>
       <p className="text-xs text-gray-400">Protein &amp; fiber come first — calories are optional.</p>
-      <StatusRow status={status} label="Log food" />
+      <StatusRow status={status} label="Log food" note="Protein first protects muscle while you lose fat — aim to hit your daily target." />
     </form>
   );
 }
@@ -348,6 +354,9 @@ function SymptomForm({ onSaved }: { onSaved?: () => void }) {
           <span className="inline-flex items-center gap-1 text-sm font-medium text-red-600"><AlertCircle className="h-4 w-4" /> {status.message}</span>
         )}
       </div>
+      {status.kind === "saved" && (
+        <p className="rounded-lg bg-emerald-50 px-3 py-2 text-xs leading-relaxed text-emerald-800">💡 Most GLP-1 side-effects ease within a few weeks as your body adjusts. Logging “none” days helps too.</p>
+      )}
     </form>
   );
 }
@@ -400,7 +409,7 @@ function CheckInForm({ onSaved }: { onSaved?: () => void }) {
         <Label htmlFor="ci-notes">Notes</Label>
         <Textarea id="ci-notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Anything worth remembering today…" rows={2} />
       </div>
-      <StatusRow status={status} label="Save check-in" />
+      <StatusRow status={status} label="Save check-in" note="Noted. Tracking mood, energy and cravings helps your coach spot patterns over time." />
     </form>
   );
 }

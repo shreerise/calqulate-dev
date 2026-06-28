@@ -1,4 +1,3 @@
-import { Check, Minus } from "lucide-react";
 import { Reveal } from "@/components/glp1/marketing/Reveal";
 
 /**
@@ -26,10 +25,10 @@ const ROWS: { feature: string; us: Val; shotsy: Val; glapp: Val }[] = [
 ];
 
 function Cell({ v }: { v: Val }) {
-  if (v === "no") return <Minus className="mx-auto h-4 w-4 text-faint" />;
+  if (v === "no") return <span className="text-sm font-semibold text-faint">No</span>;
   if (v === "premium") return <span className="text-xs font-medium text-faint">Premium</span>;
-  if (v === "free") return <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-800"><Check className="h-4 w-4" /> Free</span>;
-  return <Check className="mx-auto h-4 w-4 text-brand" />;
+  if (v === "free") return <span className="text-sm font-bold text-brand-800">Free</span>;
+  return <span className="text-sm font-bold text-brand">Yes</span>;
 }
 
 export function FeatureComparison() {

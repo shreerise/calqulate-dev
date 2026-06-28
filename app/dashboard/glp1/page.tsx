@@ -8,6 +8,9 @@ import {
   computeNextDoseMs,
   describeDueIn,
   benchmark,
+  journeyMetrics,
+  weeklyHealthScore,
+  coachMessages,
   type Medication,
   type DoseLog,
   type WeightLog,
@@ -22,6 +25,8 @@ import {
 } from "@/lib/glp1";
 import { Glp1LoggingPanel } from "@/components/glp1/Glp1LoggingPanel";
 import { TrackMore } from "@/components/glp1/TrackMore";
+import { CoachBanner } from "@/components/glp1/CoachBanner";
+import { JourneyCoach } from "@/components/glp1/JourneyCoach";
 import { DeleteEntryButton } from "@/components/glp1/DeleteEntryButton";
 import { DoseReminderCard } from "@/components/glp1/DoseReminderCard";
 import { Glp1ReportButton } from "@/components/glp1/Glp1ReportButton";
@@ -77,6 +82,7 @@ export default async function Glp1TrackerPage() {
   // ── Dose reminder + next-dose computation ────────────────────────────────────
   const doseReminder = reminders.find((r) => r.kind === "dose" && r.medicationId === activeMed?.id) ?? null;
   let nextDoseLabel: string | null = null;
+  let nextDoseDueSoon = false;
   if (activeMed) {
     const medDoses = doses.filter((d) => d.medicationId === activeMed.id && !d.skipped);
     const nextDoseMs = computeNextDoseMs({
@@ -85,6 +91,7 @@ export default async function Glp1TrackerPage() {
       lastDoseMs: medDoses[0] ? Date.parse(medDoses[0].takenAt) : null,
     });
     nextDoseLabel = describeDueIn(nextDoseMs, Date.now());
+    nextDoseDueSoon = nextDoseMs - Date.now() <= 36 * 3_600_000; // due within ~1.5 days
   }
 
   // ── Medication-level (PK) — free differentiator, GLP-1 compounds only ─────────
@@ -109,6 +116,31 @@ export default async function Glp1TrackerPage() {
   }
 
   const latestWeight = weights[0];
+
+  // ── Coaching layer (presentation-only, derived from loaded data) ─────────────
+  const journey = journeyMetrics(
+    weights.map((w) => ({ takenAt: w.takenAt, weightKg: w.weightKg })),
+    activeMed?.startDate,
+  );
+  const weekly = journey
+    ? weeklyHealthScore({
+        currentKg: journey.currentKg,
+        bodyFatPct: bodyComps[0]?.bodyFatPct,
+        foods: foods.map((f) => ({ loggedAt: f.loggedAt, proteinG: f.proteinG })),
+        water: [], // water logs aren't loaded on this view; treated as 0 until logged
+        exercises: exercises.map((e) => ({ loggedAt: e.loggedAt })),
+        checkins: checkins.map((c) => ({ loggedAt: c.loggedAt, sleepHours: c.sleepHours })),
+      })
+    : null;
+  const coach = coachMessages({
+    journey,
+    weekly,
+    nextDoseLabel,
+    nextDoseDueSoon,
+    muscleFlag: comp?.level ?? null,
+    hasMedication: Boolean(activeMed),
+    hasWeights: weights.length > 0,
+  });
 
   // ── Merged recent timeline ───────────────────────────────────────────────────
   const timeline: TimelineItem[] = [
@@ -140,19 +172,23 @@ export default async function Glp1TrackerPage() {
         <Glp1ReportButton enabled={paid} />
       </div>
 
+      {/* Coaching banner — turns the dashboard from passive into a guide */}
+      <CoachBanner messages={coach} />
+
       {/* Summary cards */}
       <div className="grid gap-4 sm:grid-cols-3">
         <SummaryCard
           icon={<Activity className="h-5 w-5" />}
           label="Medication level now"
           value={pk ? `${pk.currentPct}%` : "—"}
-          sub={pk?.nextDosePct != null ? `~${pk.nextDosePct}% just before next dose` : "Log a dose to see your curve"}
+          sub={pk?.nextDosePct != null ? `~${pk.nextDosePct}% active just before your next dose — cravings often return here` : "Log a dose to see your curve"}
         />
         <SummaryCard
           icon={<Scale className="h-5 w-5" />}
           label="Latest weight"
           value={latestWeight ? `${(latestWeight.weightKg * 2.2046226218).toFixed(1)} lb` : "—"}
-          sub={latestWeight ? `${latestWeight.weightKg.toFixed(1)} kg` : "No weight logged yet"}
+          sub={journey?.projectedNextKg ? `Projected next week ~${(journey.projectedNextKg * 2.2046226218).toFixed(1)} lb` : latestWeight ? `${latestWeight.weightKg.toFixed(1)} kg` : "No weight logged yet"}
+          tone={journey && journey.lostKg > 0 ? "ok" : undefined}
         />
         <SummaryCard
           icon={<Syringe className="h-5 w-5" />}
@@ -162,6 +198,9 @@ export default async function Glp1TrackerPage() {
           tone={comp?.level === "high" ? "warn" : comp?.level === "watch" ? "caution" : "ok"}
         />
       </div>
+
+      {/* Interactive journey + weekly health score */}
+      {journey && <JourneyCoach journey={journey} weekly={weekly} />}
 
       {/* Dose reminders + refills */}
       <div className="grid gap-4 lg:grid-cols-2">

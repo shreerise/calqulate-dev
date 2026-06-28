@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import { Check, Minus, ArrowRight, Star, BadgeCheck, CloudUpload } from "lucide-react";
+import { Check, ArrowRight, Star, BadgeCheck, CloudUpload } from "lucide-react";
 import { Reveal } from "@/components/glp1/marketing/Reveal";
 import { CountUp } from "@/components/glp1/marketing/CountUp";
 import { FaqAccordion } from "@/components/glp1/marketing/FaqAccordion";
@@ -60,11 +60,11 @@ const ACCENT: Record<Accent, { text: string; bg: string }> = {
 };
 
 function CompareCell({ v }: { v: CompareVal }) {
-  if (v === "no") return <Minus className="mx-auto h-4 w-4 text-faint" />;
+  if (v === "no") return <span className="text-sm font-semibold text-faint">No</span>;
   if (v === "partial") return <span className="text-xs font-medium text-faint">Partial</span>;
   if (v === "premium") return <span className="text-xs font-medium text-faint">Premium</span>;
-  if (v === "free") return <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-800"><Check className="h-4 w-4" /> Free</span>;
-  return <Check className="mx-auto h-4 w-4 text-brand" />;
+  if (v === "free") return <span className="text-sm font-bold text-brand-800">Free</span>;
+  return <span className="text-sm font-bold text-brand">Yes</span>;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
