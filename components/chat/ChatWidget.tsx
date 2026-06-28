@@ -32,7 +32,7 @@ interface Msg {
 const GREETING: Msg = {
   role: "bot",
   text: `Hi, I'm ${BOT_NAME} 👋 your Calqulate health guide. Tell me what you're trying to figure out — a number you got, a calculator you need, or how the tracker works — and I'll point you to the right place.`,
-  chips: ["Pricing", "Heart age", "GLP-1 & muscle", "Prediabetes / A1c", "Find a calculator", "Talk to a human"],
+  chips: ["Pricing", "Heart age", "GLP-1 & muscle", "Prediabetes / A1c", "Install the app", "Talk to a human"],
 };
 
 function has(text: string, ...words: string[]) {
@@ -74,6 +74,23 @@ function respond(raw: string): Msg {
         { label: `Email ${SUPPORT_EMAIL}`, href: `mailto:${SUPPORT_EMAIL}?subject=Calqulate%20question`, external: true },
         { label: "Open contact form", href: "/contact-us" },
       ],
+    };
+  }
+
+  // Install / mobile app — guide the PWA install (no native app yet)
+  if (
+    has(
+      t,
+      "install", "mobile app", "android", "iphone", "ipad", "ios", "home screen",
+      "add to home", "pwa", "native app", "download the app", "download app",
+      "get the app", "is there an app", "do you have an app", "have an app", "app store", "play store",
+    )
+  ) {
+    return {
+      role: "bot",
+      text:
+        "We haven't launched native iOS/Android apps yet — but you don't have to wait for a better mobile experience. You can install Calqulate to your phone right now and use it just like an app: a home-screen icon, offline access, faster loading, and dose & push reminders.\n\n📱 iPhone / iPad (Safari): tap the Share button, then \"Add to Home Screen.\"\n🤖 Android (Chrome): tap the ⋮ menu, then \"Install app\" (or \"Add to Home screen\").\n💻 Desktop (Chrome / Edge): click the install icon at the right of the address bar.\n\nThen open Calqulate from your home screen — it runs full-screen like a real app. Want better mobile tracking? Install it and try app mode.",
+      chips: ["GLP-1 & muscle", "Pricing", "Talk to a human"],
     };
   }
 
@@ -244,7 +261,7 @@ export function ChatWidget() {
               <div key={i} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
                 <div className={m.role === "user" ? "max-w-[80%]" : "max-w-[88%]"}>
                   <div
-                    className={`rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                    className={`whitespace-pre-line rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
                       m.role === "user"
                         ? "bg-emerald-600 text-white rounded-br-sm"
                         : "bg-white text-gray-800 ring-1 ring-gray-100 rounded-bl-sm"

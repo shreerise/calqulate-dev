@@ -118,23 +118,29 @@ export const SERVICES: ServiceProduct[] = [
     slug: "glp1-progress-tracker",
     name: "Calqulate Vitals — GLP-1 Results Tracker",
     tagline: "Prove your GLP-1 is working — at the level that matters.",
-    metaTitle: "GLP-1 Results Tracker | Track Heart & Diabetes Risk on Semaglutide — Calqulate Vitals",
+    metaTitle: "GLP-1 Tracker | Body Composition, Free Med-Level Curves & Risk — Calqulate Vitals",
     metaDescription:
-      "On a GLP-1? Track more than pounds. See your heart-attack and diabetes risk fall as you lose weight, and protect lean mass. Validated clinical formulas.",
+      "The all-in-one GLP-1 tracker for semaglutide and tirzepatide. See fat vs. lean muscle, free medication-level curves, clinical-study benchmarking, labs and heart & diabetes risk — with durable backup so you never lose your data.",
     keywords: [
       "glp-1 tracker",
+      "best glp-1 tracker app",
+      "glp-1 muscle loss tracker",
       "semaglutide results tracker",
       "ozempic weight loss tracker",
-      "tirzepatide progress",
+      "ozempic body composition",
+      "tirzepatide progress tracker",
+      "semaglutide medication level",
     ],
-    heroHeadline: "Your GLP-1 is dropping pounds. Is it dropping your risk?",
+    heroHeadline: "Your GLP-1 is dropping pounds. Is it dropping your risk — and keeping your muscle?",
     heroSub:
-      "Track the outcomes that actually matter on semaglutide or tirzepatide: heart-attack risk, diabetes risk and lean-mass-aware body composition — not just the scale.",
+      "The all-in-one GLP-1 tracker that's built so you never lose your data. Track body composition (fat vs. muscle), medication levels, labs, food and your heart & diabetes risk in one place — on semaglutide or tirzepatide. Free to start.",
     bullets: [
-      "See cardiovascular & diabetes risk fall over time",
-      "Lean-mass aware body composition",
-      "Personalized protocol to protect muscle",
-      "Doctor-shareable progress report",
+      "Body composition, not just the scale — see fat vs. lean muscle, with a flag when you're losing too much muscle",
+      "Medication-level (drug-remaining) curves included free — see why cravings spike before your next dose",
+      "\"Am I on track?\" — benchmark your loss and side-effects against published clinical-trial data",
+      "All-in-one: shots, food (protein & fiber first), labs, exercise and risk in one place — no app juggling",
+      "Your data is yours — durable cloud backup, cross-device sync, export or delete anytime",
+      "Heart-attack & diabetes risk trended over time + doctor-shareable progress report",
     ],
     faqs: [
       {
@@ -151,6 +157,21 @@ export const SERVICES: ServiceProduct[] = [
         question: "Does it work for tirzepatide (Mounjaro / Zepbound) too?",
         answer:
           "Yes. It works for both semaglutide (Ozempic, Wegovy) and tirzepatide (Mounjaro, Zepbound), and for compounded versions — the tracking is based on your body composition and risk numbers, not on a specific brand.",
+      },
+      {
+        question: "Will I lose my data if I switch phones or devices?",
+        answer:
+          "No. Losing logs after a phone switch or an app update is the most common complaint about other GLP-1 trackers — so it's the first thing we fixed. Your data is saved durably in the cloud the moment you enter it, syncs across every device and browser, and you can export everything (JSON or CSV) or delete it permanently anytime.",
+      },
+      {
+        question: "Do I have to pay for medication-level (PK) curves?",
+        answer:
+          "No. Your estimated medication-level curve — how much drug is still active between shots — is included free. Other trackers paywall this even though it's the single most-requested feature for understanding why cravings and appetite return before your next dose.",
+      },
+      {
+        question: "Is it all-in-one, or do I need separate apps for food and exercise?",
+        answer:
+          "All-in-one. You log shots, food (protein and fiber first, calories secondary), water, labs, exercise, side-effects and body composition in one place, alongside your heart and diabetes risk — so you're not juggling three apps and copying numbers between them.",
       },
       {
         question: "Does the tracker prescribe or change my dose?",

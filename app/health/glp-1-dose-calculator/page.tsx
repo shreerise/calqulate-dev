@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import GLP1DoseCalculator from "@/components/calculators/glp-1-dose-calculator"
+import { FreeFeaturesPromo } from "@/components/glp1/marketing/FreeFeaturesPromo"
 import { CalculatorSchema, FAQSchema } from "@/components/seo/structured-data"
 import { FAQSection } from "@/components/seo/faq-section"
 import { AuthorSection } from "@/components/seo/author-section"
@@ -166,6 +167,12 @@ export default function GLP1DoseCalculatorPage() {
             <GLP1DoseCalculator />
           </div>
         </section>
+
+        {/* FREE GLP-1 TRACKER PROMO */}
+        <FreeFeaturesPromo
+          heading="Calculated your dose? Now track it — free"
+          sub="Calqulate Vitals logs every shot, reminds you when the next is due, and tracks food, weight and side effects in one place — with medication-level curves other apps charge for."
+        />
 
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">

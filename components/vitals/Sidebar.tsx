@@ -9,6 +9,7 @@ import {
   History,
   Settings,
   Shield,
+  Syringe,
   LogOut,
   X,
 } from "lucide-react";
@@ -16,6 +17,7 @@ import { BillingButton } from "./BillingButton";
 
 const NAV = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/dashboard/glp1", label: "GLP-1 Tracker", icon: Syringe },
   { href: "/dashboard/future", label: "Future You", icon: TrendingUp },
   { href: "/dashboard/protocol", label: "Autopilot", icon: Compass },
   { href: "/dashboard/history", label: "History", icon: History },

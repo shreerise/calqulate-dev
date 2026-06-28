@@ -1,0 +1,260 @@
+import { getAccess, hasPaidAccess } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
+import { listRecords } from "@/lib/glp1/repository";
+import {
+  currentLevelStatus,
+  bodyComp,
+  bodyCompChange,
+  computeNextDoseMs,
+  describeDueIn,
+  benchmark,
+  type Medication,
+  type DoseLog,
+  type WeightLog,
+  type FoodLog,
+  type SideEffectLog,
+  type CheckIn,
+  type BodyCompositionLog,
+  type LabResult,
+  type ExerciseLog,
+  type Reminder,
+  type Refill,
+} from "@/lib/glp1";
+import { Glp1LoggingPanel } from "@/components/glp1/Glp1LoggingPanel";
+import { TrackMore } from "@/components/glp1/TrackMore";
+import { DeleteEntryButton } from "@/components/glp1/DeleteEntryButton";
+import { DoseReminderCard } from "@/components/glp1/DoseReminderCard";
+import { Glp1ReportButton } from "@/components/glp1/Glp1ReportButton";
+import { ReconstitutionCalculator } from "@/components/glp1/ReconstitutionCalculator";
+import { RefillTracker } from "@/components/glp1/RefillTracker";
+import type { Glp1EntityName } from "@/lib/glp1/schemas";
+import { Activity, Syringe, Scale, Utensils, Target } from "lucide-react";
+
+export const dynamic = "force-dynamic";
+
+type TimelineIcon = "dose" | "weight" | "food" | "symptom" | "checkin" | "lab" | "exercise" | "bodycomp";
+type TimelineItem = { entity: Glp1EntityName; id: string; when: string; icon: TimelineIcon; text: string };
+
+export default async function Glp1TrackerPage() {
+  const access = await getAccess();
+  const supabase = await createClient();
+  const userId = access.userId!;
+
+  // Durable reads through the shared repository (one source of truth).
+  const [meds, doses, weights, foods, symptoms, checkins, bodyComps, labs, exercises, reminders, refills, prefsRes] = await Promise.all([
+    listRecords<Medication>(supabase, "medication", userId, { limit: 10 }),
+    listRecords<DoseLog>(supabase, "doseLog", userId, { limit: 50 }),
+    listRecords<WeightLog>(supabase, "weightLog", userId, { limit: 30 }),
+    listRecords<FoodLog>(supabase, "foodLog", userId, { limit: 20 }),
+    listRecords<SideEffectLog>(supabase, "sideEffect", userId, { limit: 20 }),
+    listRecords<CheckIn>(supabase, "checkIn", userId, { limit: 20 }),
+    listRecords<BodyCompositionLog>(supabase, "bodyComposition", userId, { limit: 30 }),
+    listRecords<LabResult>(supabase, "labResult", userId, { limit: 20 }),
+    listRecords<ExerciseLog>(supabase, "exerciseLog", userId, { limit: 20 }),
+    listRecords<Reminder>(supabase, "reminder", userId, { limit: 20 }),
+    listRecords<Refill>(supabase, "refill", userId, { limit: 20 }),
+    supabase.from("notification_prefs").select("push_enabled").eq("user_id", userId).maybeSingle(),
+  ]);
+
+  const activeMed = meds.find((m) => m.active) ?? meds[0];
+  const pushEnabled = Boolean((prefsRes.data as { push_enabled?: boolean } | null)?.push_enabled);
+  const paid = hasPaidAccess(access);
+
+  // ── Clinical-study benchmark ("Am I on track?") — GLP-1 compounds only ────────
+  let bench: ReturnType<typeof benchmark> | null = null;
+  if (activeMed?.compound && weights.length >= 1) {
+    const weeks = Math.max(0, Math.floor((Date.now() - Date.parse(activeMed.startDate)) / (7 * 24 * 3_600_000)));
+    if (weeks >= 1) {
+      bench = benchmark({
+        compound: activeMed.compound,
+        baselineKg: weights[weights.length - 1].weightKg,
+        currentKg: weights[0].weightKg,
+        weeks,
+      });
+    }
+  }
+
+  // ── Dose reminder + next-dose computation ────────────────────────────────────
+  const doseReminder = reminders.find((r) => r.kind === "dose" && r.medicationId === activeMed?.id) ?? null;
+  let nextDoseLabel: string | null = null;
+  if (activeMed) {
+    const medDoses = doses.filter((d) => d.medicationId === activeMed.id && !d.skipped);
+    const nextDoseMs = computeNextDoseMs({
+      startMs: Date.parse(activeMed.startDate),
+      intervalMs: activeMed.doseIntervalHours * 3_600_000,
+      lastDoseMs: medDoses[0] ? Date.parse(medDoses[0].takenAt) : null,
+    });
+    nextDoseLabel = describeDueIn(nextDoseMs, Date.now());
+  }
+
+  // ── Medication-level (PK) — free differentiator, GLP-1 compounds only ─────────
+  let pk: { currentPct: number; nextDosePct: number | null } | null = null;
+  if (activeMed?.compound && doses.length > 0) {
+    pk = currentLevelStatus(
+      doses.filter((d) => !d.skipped).map((d) => ({ takenAt: d.takenAt, amountMg: d.amountMg })),
+      activeMed.compound,
+      Date.now(),
+    );
+  }
+
+  // ── Body composition trend (oldest vs newest) ────────────────────────────────
+  let comp: ReturnType<typeof bodyCompChange> | null = null;
+  if (bodyComps.length >= 2) {
+    const latest = bodyComps[0];
+    const baseline = bodyComps[bodyComps.length - 1];
+    comp = bodyCompChange(
+      bodyComp(baseline.weightKg, baseline.bodyFatPct),
+      bodyComp(latest.weightKg, latest.bodyFatPct),
+    );
+  }
+
+  const latestWeight = weights[0];
+
+  // ── Merged recent timeline ───────────────────────────────────────────────────
+  const timeline: TimelineItem[] = [
+    ...doses.map((d): TimelineItem => ({ entity: "doseLog", id: d.id, when: d.takenAt, icon: "dose", text: `${d.amountMg} mg dose${d.injectionSite ? ` · ${d.injectionSite.replace(/-/g, " ")}` : ""}` })),
+    ...weights.map((w): TimelineItem => ({ entity: "weightLog", id: w.id, when: w.takenAt, icon: "weight", text: `Weight ${(w.weightKg * 2.2046226218).toFixed(1)} lb (${w.weightKg.toFixed(1)} kg)` })),
+    ...foods.map((f): TimelineItem => ({ entity: "foodLog", id: f.id, when: f.loggedAt, icon: "food", text: `${f.label} · ${f.proteinG}g protein, ${f.fiberG}g fiber` })),
+    ...symptoms.map((s): TimelineItem => ({ entity: "sideEffect", id: s.id, when: s.loggedAt, icon: "symptom", text: s.noSymptoms ? "No symptoms today" : `${s.type?.replace(/-/g, " ")} · severity ${s.severity}/5` })),
+    ...checkins.map((c): TimelineItem => ({ entity: "checkIn", id: c.id, when: c.loggedAt, icon: "checkin", text: `Check-in · mood ${c.mood ?? "—"}, energy ${c.energy ?? "—"}, cravings ${c.craving ?? "—"}` })),
+    ...labs.map((l): TimelineItem => ({ entity: "labResult", id: l.id, when: l.takenAt, icon: "lab", text: `${l.type.replace(/-/g, " ")} · ${l.value} ${l.unit}` })),
+    ...exercises.map((x): TimelineItem => ({ entity: "exerciseLog", id: x.id, when: x.loggedAt, icon: "exercise", text: `${x.type} · ${x.label}${x.durationMin ? ` · ${x.durationMin} min` : ""}` })),
+    ...bodyComps.map((b): TimelineItem => ({ entity: "bodyComposition", id: b.id, when: b.takenAt, icon: "bodycomp", text: `Body comp · ${b.bodyFatPct}% fat (${(b.weightKg * 2.2046226218).toFixed(1)} lb)` })),
+  ]
+    .sort((a, b) => Date.parse(b.when) - Date.parse(a.when))
+    .slice(0, 20);
+
+  const medOptions = meds.map((m) => ({ id: m.id, compound: m.compound, customName: m.customName, brandName: m.brandName }));
+  const activeMedName = activeMed ? (activeMed.brandName ?? activeMed.customName ?? activeMed.compound ?? "Medication") : null;
+  const latestRefill = activeMed ? refills.find((r) => r.medicationId === activeMed.id) ?? null : null;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">GLP-1 Tracker</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Log in seconds. Everything is saved durably the moment you hit save — and recoverable if you delete it.
+          </p>
+        </div>
+        <Glp1ReportButton enabled={paid} />
+      </div>
+
+      {/* Summary cards */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <SummaryCard
+          icon={<Activity className="h-5 w-5" />}
+          label="Medication level now"
+          value={pk ? `${pk.currentPct}%` : "—"}
+          sub={pk?.nextDosePct != null ? `~${pk.nextDosePct}% just before next dose` : "Log a dose to see your curve"}
+        />
+        <SummaryCard
+          icon={<Scale className="h-5 w-5" />}
+          label="Latest weight"
+          value={latestWeight ? `${(latestWeight.weightKg * 2.2046226218).toFixed(1)} lb` : "—"}
+          sub={latestWeight ? `${latestWeight.weightKg.toFixed(1)} kg` : "No weight logged yet"}
+        />
+        <SummaryCard
+          icon={<Syringe className="h-5 w-5" />}
+          label="Fat vs. muscle"
+          value={comp ? `${comp.leanLossPct}% lean` : "—"}
+          sub={comp ? comp.message : "Add 2+ body-composition entries"}
+          tone={comp?.level === "high" ? "warn" : comp?.level === "watch" ? "caution" : "ok"}
+        />
+      </div>
+
+      {/* Dose reminders + refills */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <DoseReminderCard
+          medication={activeMed ? { id: activeMed.id, name: activeMedName! } : null}
+          reminder={doseReminder ? { id: doseReminder.id, enabled: doseReminder.enabled, leadMinutes: doseReminder.leadMinutes, channel: doseReminder.channel } : null}
+          nextDoseLabel={nextDoseLabel}
+          pushEnabled={pushEnabled}
+        />
+        <RefillTracker
+          medication={activeMed ? { id: activeMed.id, name: activeMedName!, doseIntervalHours: activeMed.doseIntervalHours } : null}
+          latestRefill={latestRefill ? { filledDate: latestRefill.filledDate, dosesSupplied: latestRefill.dosesSupplied, pharmacy: latestRefill.pharmacy, copayUsd: latestRefill.copayUsd, priorAuthStatus: latestRefill.priorAuthStatus } : null}
+        />
+      </div>
+
+      {/* Clinical-study benchmark */}
+      {bench && (
+        <div className={`rounded-2xl border p-5 ${
+          bench.status === "behind" ? "border-amber-200 bg-amber-50/60"
+            : bench.status === "ahead" ? "border-emerald-200 bg-emerald-50/60"
+            : "border-gray-200 bg-white"
+        }`}>
+          <div className="flex items-center gap-2 text-gray-500">
+            <Target className="h-5 w-5" />
+            <span className="text-xs font-semibold uppercase tracking-wide">Am I on track? · {bench.trial} ({bench.dose})</span>
+          </div>
+          <div className="mt-3 flex flex-wrap items-end gap-x-8 gap-y-2">
+            <div>
+              <div className="text-2xl font-extrabold text-gray-900">{bench.actualPct}%</div>
+              <div className="text-xs text-gray-500">your loss</div>
+            </div>
+            <div>
+              <div className="text-2xl font-extrabold text-gray-400">{bench.expectedPct}%</div>
+              <div className="text-xs text-gray-500">trial average</div>
+            </div>
+            <div className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${
+              bench.status === "ahead" ? "bg-emerald-100 text-emerald-700"
+                : bench.status === "behind" ? "bg-amber-100 text-amber-700"
+                : "bg-gray-100 text-gray-600"
+            }`}>
+              {bench.status.replace("-", " ")}
+            </div>
+          </div>
+          <p className="mt-3 text-sm text-gray-600">{bench.message}</p>
+        </div>
+      )}
+
+      {/* Logging */}
+      <Glp1LoggingPanel medications={medOptions} />
+
+      {/* Body comp / labs / exercise */}
+      <TrackMore />
+
+      {/* Reconstitution calculator (compounded vials) */}
+      <ReconstitutionCalculator />
+
+      {/* Recent timeline */}
+      <div className="rounded-2xl border border-gray-200 bg-white">
+        <div className="flex items-center gap-2 border-b border-gray-100 px-4 py-3 sm:px-6">
+          <Utensils className="h-4 w-4 text-gray-400" />
+          <h2 className="text-sm font-semibold text-gray-900">Recent entries</h2>
+        </div>
+        {timeline.length === 0 ? (
+          <p className="px-4 py-8 text-center text-sm text-gray-500 sm:px-6">Nothing logged yet — use the panel above to start.</p>
+        ) : (
+          <ul className="divide-y divide-gray-100">
+            {timeline.map((t) => (
+              <li key={`${t.entity}-${t.id}`} className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
+                <div className="min-w-0">
+                  <p className="truncate text-sm text-gray-800">{t.text}</p>
+                  <p className="text-xs text-gray-400">{new Date(t.when).toLocaleString()}</p>
+                </div>
+                <DeleteEntryButton entity={t.entity} id={t.id} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SummaryCard({
+  icon, label, value, sub, tone = "ok",
+}: {
+  icon: React.ReactNode; label: string; value: string; sub: string; tone?: "ok" | "caution" | "warn";
+}) {
+  const toneCls = tone === "warn" ? "text-red-600" : tone === "caution" ? "text-amber-600" : "text-emerald-600";
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="flex items-center gap-2 text-gray-400">{icon}<span className="text-xs font-medium uppercase tracking-wide">{label}</span></div>
+      <div className={`mt-2 text-2xl font-extrabold ${toneCls}`}>{value}</div>
+      <p className="mt-1 text-xs leading-relaxed text-gray-500">{sub}</p>
+    </div>
+  );
+}

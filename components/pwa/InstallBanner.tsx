@@ -41,31 +41,34 @@ export function InstallBanner() {
   if (!deferredPrompt || dismissed || installed) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-md animate-slide-up rounded-2xl border border-emerald-200 bg-white p-4 shadow-xl">
-      <div className="flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100">
-          <Download className="h-5 w-5 text-emerald-600" />
+    // Compact card, bottom-right ABOVE the chat launcher (bottom-4/5).
+    // z-40 so an open chat panel (z-50) covers it instead of overlapping.
+    <div className="fixed bottom-20 right-3 sm:right-5 z-40 w-[calc(100%-1.5rem)] max-w-[17rem] animate-slide-up rounded-xl border border-emerald-200 bg-white p-3 shadow-xl">
+      <button
+        onClick={() => setDismissed(true)}
+        className="absolute right-1.5 top-1.5 rounded-md p-0.5 text-gray-400 transition hover:text-gray-600"
+        aria-label="Dismiss install banner"
+      >
+        <X className="h-3.5 w-3.5" />
+      </button>
+
+      <div className="flex items-center gap-2">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-100">
+          <Download className="h-4 w-4 text-emerald-600" />
         </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-gray-900">Install Calqulate</p>
-          <p className="mt-0.5 text-xs text-gray-500">
-            Get the best experience with offline access, faster loading, and push notifications.
-          </p>
-        </div>
-        <button
-          onClick={handleInstall}
-          className="shrink-0 rounded-lg bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700"
-        >
-          Install
-        </button>
-        <button
-          onClick={() => setDismissed(true)}
-          className="shrink-0 rounded-lg p-1 text-gray-400 transition hover:text-gray-600"
-          aria-label="Dismiss install banner"
-        >
-          <X className="h-4 w-4" />
-        </button>
+        <p className="pr-4 text-[13px] font-semibold leading-tight text-gray-900">Try the app experience</p>
       </div>
+
+      <p className="mt-1.5 text-[11px] leading-snug text-gray-500">
+        No native app yet &mdash; install Calqulate for an app-like experience: offline, faster &amp; reminders.
+      </p>
+
+      <button
+        onClick={handleInstall}
+        className="mt-2 w-full rounded-lg bg-emerald-600 px-3 py-2 text-[13px] font-semibold text-white transition hover:bg-emerald-700"
+      >
+        Install app
+      </button>
     </div>
   );
 }
