@@ -5,6 +5,7 @@ import { SearchBar } from "@/components/search/search-bar"
 import { ScoreGauge } from "@/components/vitals/ScoreGauge"
 import { SinglePlan } from "@/components/vitals/SinglePlan"
 import { SocialProof } from "@/components/marketing/SocialProof"
+import { PremiumTrackersBand } from "@/components/marketing/PremiumTrackersBand"
 
 import {
   Calculator,
@@ -512,6 +513,12 @@ const homeJsonLd = {
   ],
 }
 
+// Shared luxe dark-emerald + gold background for premium sections.
+const LUXE_BG =
+  "radial-gradient(70% 60% at 82% -10%, rgba(16,185,129,0.22), transparent 60%)," +
+  "radial-gradient(55% 60% at 2% 112%, rgba(245,158,11,0.14), transparent 55%)," +
+  "linear-gradient(160deg, #0a3a2b 0%, #052017 45%, #02120c 100%)"
+
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -654,6 +661,9 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── PREMIUM TRACKERS BAND (luxe, top-of-funnel) ──────────────────── */}
+        <PremiumTrackersBand />
+
         {/* ── SECTION B: THE FREE ON-RAMP ──────────────────────────────────── */}
         <section className="py-10 sm:py-12 bg-white border-b border-gray-100">
           <div className="container mx-auto px-3 sm:px-4">
@@ -771,7 +781,7 @@ export default function HomePage() {
         <section className="py-12 sm:py-16 bg-white">
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-8 sm:mb-10">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 The Vitals services
               </span>
               <h2 id="vitals-services" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -800,11 +810,12 @@ export default function HomePage() {
         </section>
 
         {/* ── ADVANCED PLATFORM (v2 capabilities) ──────────────────────────── */}
-        <section className="bg-gray-950 py-12 sm:py-16 text-gray-100">
-          <div className="container mx-auto px-3 sm:px-4 max-w-6xl">
+        <section className="relative overflow-hidden py-12 sm:py-16 text-gray-100" style={{ background: LUXE_BG }}>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.55), transparent)" }} />
+          <div className="container relative mx-auto px-3 sm:px-4 max-w-6xl">
             <div className="text-center mb-10 sm:mb-12 max-w-2xl mx-auto">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-3 block">
-                Mission control for your body
+              <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-gold-light to-gold px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-gold-ink">
+                ✦ Mission control for your body
               </span>
               <h2 id="advanced-platform" className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">More than a tracker &mdash; a model of your future self</h2>
               <p className="mt-3 text-sm sm:text-base text-gray-400">
@@ -821,16 +832,16 @@ export default function HomePage() {
                 { tag: "Soon", t: "GLP-1 Autopilot", d: "An adaptive 12–24 week titration + protein + training protocol that adjusts to your logged side-effects and progress." },
                 { tag: "Soon", t: "Mobile + weekly email", d: "Opt-in mobile notifications and a week-on-week progress email so your trajectory stays top of mind." },
               ].map((f) => (
-                <div key={f.t} className="rounded-2xl border border-gray-800 bg-gray-900/60 p-6">
-                  <span className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${f.tag === "Live" ? "bg-emerald-500/20 text-emerald-400" : "bg-gray-700 text-gray-300"}`}>
+                <div key={f.t} className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors hover:border-gold/25 hover:bg-white/10">
+                  <span className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${f.tag === "Live" ? "bg-gradient-to-r from-gold-light to-gold text-gold-ink" : "bg-white/10 text-white/70"}`}>
                     {f.tag}
                   </span>
                   <h3 className="mt-3 text-lg font-bold text-white">{f.t}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-gray-400">{f.d}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-white/65">{f.d}</p>
                 </div>
               ))}
             </div>
-            <p className="mt-6 text-center text-xs text-gray-600">
+            <p className="mt-6 text-center text-xs text-white/45">
               All calculations are pure, transparent code - no black-box AI. Methodology is shown on every result.
             </p>
           </div>
@@ -840,7 +851,7 @@ export default function HomePage() {
         <section id="pricing" className="py-12 sm:py-16 bg-gray-50 border-y border-gray-100 scroll-mt-20">
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 Simple, honest pricing
               </span>
               <h2 id="pricing-heading" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -893,7 +904,7 @@ export default function HomePage() {
         <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-50 to-white">
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-8 sm:mb-10">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 Featured Calculators
               </span>
               <h2 id="face-body-shape" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -984,7 +995,7 @@ export default function HomePage() {
         <section className="py-12 sm:py-16 bg-gray-50">
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-8 sm:mb-10">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 Browse by Category
               </span>
               <h2 id="categories" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -1017,7 +1028,7 @@ export default function HomePage() {
         <section id="calculators" className="py-12 sm:py-16 bg-white">
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-8 sm:mb-10">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 Most Used Tools
               </span>
               <h2 id="popular-calculators" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -1086,25 +1097,26 @@ export default function HomePage() {
         </section>
 
         {/* ── DIFFERENTIATION / VALUE SECTION ──────────────────────────────── */}
-        <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
-          <div className="container mx-auto px-3 sm:px-4">
+        <section className="relative overflow-hidden py-12 sm:py-16" style={{ background: LUXE_BG }}>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.55), transparent)" }} />
+          <div className="container relative mx-auto px-3 sm:px-4">
             <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
 
               {/* Left: Headline */}
               <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-emerald-400 mb-3 block">
-                  Our Difference
+                <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-gold-light to-gold px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-gold-ink">
+                  ✦ Our Difference
                 </span>
-                <h2 id="our-difference" className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                <h2 id="our-difference" className="mt-3 text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                   Go Beyond Raw Numbers.{" "}
-                  <span className="text-emerald-400">A Decision Guide for Your Health.</span>
+                  <span className="text-gold-light">A Decision Guide for Your Health.</span>
                 </h2>
-                <p className="text-emerald-100/70 text-lg leading-relaxed mb-6">
+                <p className="text-white/65 text-lg leading-relaxed mb-6">
                   Most health calculators stop at a result. Calqulate goes further. Every calculation comes
                   with an explanation of what your result means, how it compares to healthy ranges, and what
                   concrete steps you should take next.
                 </p>
-                <p className="text-emerald-100/70 leading-relaxed">
+                <p className="text-white/65 leading-relaxed">
                   You might want to optimize your fitness, manage a chronic condition, track weight loss,
                   or understand your body. Calqulate turns raw data into real decisions.
                 </p>
@@ -1120,14 +1132,14 @@ export default function HomePage() {
                 ].map((feature) => (
                   <div
                     key={feature.title}
-                    className="flex gap-4 p-5 bg-emerald-900/50 rounded-2xl border border-emerald-800/50"
+                    className="flex gap-4 p-5 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-sm transition-colors hover:border-gold/25 hover:bg-white/10"
                   >
-                    <div className="flex-shrink-0 w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                      <CheckCircle2 className="h-4 w-4 text-white" />
+                    <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-gold-light to-gold rounded-lg flex items-center justify-center">
+                      <CheckCircle2 className="h-4 w-4 text-gold-ink" />
                     </div>
                     <div>
                       <div className="font-bold text-white text-sm mb-0.5">{feature.title}</div>
-                      <div className="text-sm text-emerald-300/70 leading-relaxed">{feature.desc}</div>
+                      <div className="text-sm text-white/60 leading-relaxed">{feature.desc}</div>
                     </div>
                   </div>
                 ))}
@@ -1140,7 +1152,7 @@ export default function HomePage() {
         <section className="py-12 sm:py-16 bg-white">
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-10 sm:mb-12">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 Why Calqulate
               </span>
               <h2 id="why-calqulate" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -1174,7 +1186,7 @@ export default function HomePage() {
         <section className="py-12 sm:py-16 bg-white">
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-8 sm:mb-10">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 Visual Guides
               </span>
               <h2 id="visual-guides" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -1234,7 +1246,7 @@ export default function HomePage() {
         <section id="faq" className="py-12 sm:py-16 bg-gray-50 border-b border-gray-100 scroll-mt-20">
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-8 sm:mb-10">
-              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-3 block">
+              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 Frequently Asked Questions
               </span>
               <h2 id="faq-heading" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -1267,19 +1279,20 @@ export default function HomePage() {
         </section>
 
         {/* ── SECTION I: FINAL CTA (service-led, dual path) ────────────────── */}
-        <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-950 to-emerald-900">
-          <div className="container mx-auto px-3 sm:px-4 text-center">
+        <section className="relative overflow-hidden py-12 sm:py-16" style={{ background: LUXE_BG }}>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.55), transparent)" }} />
+          <div className="container relative mx-auto px-3 sm:px-4 text-center">
             <h2 id="final-cta" className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
               Watch your disease risk drop, not just the scale.
             </h2>
-            <p className="text-emerald-100/80 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">
+            <p className="text-white/70 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">
               Know your score, track your trend, lower your risk. Start free &mdash; upgrade only when you
               want to save and reverse it.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
               <Button
                 size="lg"
-                className="bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-8 rounded-xl shadow-lg shadow-emerald-900/40"
+                className="bg-gradient-to-r from-gold-light to-gold hover:opacity-95 text-gold-ink font-bold px-8 rounded-xl shadow-[0_8px_20px_rgba(245,158,11,.35)]"
                 asChild
               >
                 <Link href="/service/metabolic-health-tracker">
@@ -1290,13 +1303,13 @@ export default function HomePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-emerald-500/50 text-emerald-200 hover:bg-emerald-800/50 hover:text-white px-8 rounded-xl font-semibold"
+                className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white px-8 rounded-xl font-semibold"
                 asChild
               >
                 <Link href="/search">Or try any free snapshot</Link>
               </Button>
             </div>
-            <p className="mt-8 text-xs text-emerald-300/60">
+            <p className="mt-8 text-xs text-white/45">
               Educational decision-support - not medical, legal, or financial advice.
             </p>
           </div>

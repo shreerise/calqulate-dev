@@ -4,6 +4,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SinglePlan } from "@/components/vitals/SinglePlan";
 import { SocialProof } from "@/components/marketing/SocialProof";
+import { PremiumTrackersBand } from "@/components/marketing/PremiumTrackersBand";
+import { FeatureComparison } from "@/components/marketing/FeatureComparison";
 import { Check, X, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -128,6 +130,12 @@ export default function PricingPage() {
             </div>
           </div>
         </section>
+
+        {/* Luxe gold band — one plan, three trackers */}
+        <PremiumTrackersBand />
+
+        {/* Full feature comparison vs competitors */}
+        <FeatureComparison />
 
         <SocialProof />
 
