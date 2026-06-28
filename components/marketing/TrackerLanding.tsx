@@ -350,23 +350,25 @@ export function TrackerLanding({ config: c }: { config: TrackerLandingConfig }) 
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="bg-brand-50/40 py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-4">
-          <Reveal className="text-center"><h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">What our members say</h2></Reveal>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {c.testimonials.map((t, i) => (
-              <Reveal key={t.n} delay={i * 60}>
-                <figure className="h-full rounded-2xl border border-line bg-white p-6">
-                  <div className="mb-3 flex gap-1 text-gold">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-current" />)}</div>
-                  <blockquote className="text-[15px] leading-relaxed text-ink">“{t.q}”</blockquote>
-                  <figcaption className="mt-4 text-sm"><span className="font-semibold text-ink">{t.n}</span><span className="text-faint"> · {t.m}</span></figcaption>
-                </figure>
-              </Reveal>
-            ))}
+      {/* Testimonials (only when real, permissioned reviews exist) */}
+      {c.testimonials.length > 0 && (
+        <section className="bg-brand-50/40 py-14 sm:py-20">
+          <div className="mx-auto max-w-6xl px-4">
+            <Reveal className="text-center"><h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">What our members say</h2></Reveal>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              {c.testimonials.map((t, i) => (
+                <Reveal key={t.n} delay={i * 60}>
+                  <figure className="h-full rounded-2xl border border-line bg-white p-6">
+                    <div className="mb-3 flex gap-1 text-gold">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-current" />)}</div>
+                    <blockquote className="text-[15px] leading-relaxed text-ink">“{t.q}”</blockquote>
+                    <figcaption className="mt-4 text-sm"><span className="font-semibold text-ink">{t.n}</span><span className="text-faint"> · {t.m}</span></figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* FAQ */}
       <section id="faq" className="scroll-mt-24 py-14 sm:py-20">

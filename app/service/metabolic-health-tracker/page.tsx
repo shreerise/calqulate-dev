@@ -4,6 +4,7 @@ import {
   FlaskConical, FileText, Gauge, Sparkles, Brain, Syringe, Compass,
 } from "lucide-react";
 import { TrackerLanding, type TrackerLandingConfig } from "@/components/marketing/TrackerLanding";
+import { getReviews } from "@/lib/reviews";
 
 export const metadata: Metadata = {
   title: "Metabolic Health Score Tracker | Heart & Diabetes Risk — Calqulate",
@@ -129,12 +130,8 @@ const config: TrackerLandingConfig = {
     ],
     freePrimary: { label: "Open a free risk calculator", href: "/health/ascvd-risk-calculator" },
   },
-  testimonials: [
-    { q: "My doctor gave me a 10-year risk number and zero context. This explained it and showed me the one thing to fix first.", n: "Priya S.", m: "high cholesterol" },
-    { q: "The score moving when the scale didn't is what kept me going. My A1c went from 5.9 to 5.5.", n: "Mark R.", m: "prediabetes" },
-    { q: "Seeing my biological age drop below my real age was the most motivating number I've ever tracked.", n: "Tom B.", m: "metabolic reset" },
-    { q: "I switched phones and didn't lose any of my history. That trust matters with health data.", n: "Dana K.", m: "Vitals member" },
-  ],
+  // Real, permissioned reviews only (empty until collected) — see lib/reviews.ts.
+  testimonials: getReviews("metabolic").map((r) => ({ q: r.quote, n: r.name, m: r.context })),
   faqs: [
     { q: "What is the Metabolic Health Score?", a: "It's one composite score (0–100) built from peer-reviewed clinical equations — the Pooled Cohort Equations, Framingham and FINDRISC — that rolls up your cardiovascular, metabolic and body-composition picture. The methodology is shown on every result." },
     { q: "Is it accurate, and what's a good score?", a: "The score is built from validated published models, not a black box. Any single reading is an estimate, so the real value is the trend — re-check every few weeks and watch it climb. Higher is better, and the tracker shows which levers move it most." },

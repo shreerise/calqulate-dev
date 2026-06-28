@@ -1,4 +1,4 @@
-import { Bot, TrendingUp, Zap, LayoutDashboard, ListChecks, Lightbulb, Brain, Route } from "lucide-react";
+import { Compass, TrendingUp, Zap, LayoutDashboard, ListChecks, Lightbulb, Brain, Route } from "lucide-react";
 import { Reveal } from "@/components/glp1/marketing/Reveal";
 
 /**
@@ -6,7 +6,7 @@ import { Reveal } from "@/components/glp1/marketing/Reveal";
  * copy. Luxe dark-emerald + gold band matching the premium sections.
  */
 const MOAT = [
-  { icon: Bot, t: "AI Personal Coach", d: "Personalized guidance after every interaction — not static tracking." },
+  { icon: Compass, t: "Personal Coach", d: "Personalized guidance after every interaction — not static tracking." },
   { icon: TrendingUp, t: "Predictive Journey", d: "Estimated timelines, milestones and progress — not just historical data." },
   { icon: Zap, t: "Instant Insights", d: "Every logged action generates meaningful feedback and recommendations." },
   { icon: LayoutDashboard, t: "Adaptive Dashboard", d: "Content evolves with your behavior and stage of the journey." },

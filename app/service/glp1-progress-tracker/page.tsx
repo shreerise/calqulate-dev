@@ -12,6 +12,7 @@ import { ScreenshotFrame } from "@/components/glp1/marketing/ScreenshotFrame";
 import { PremiumPricingCard } from "@/components/glp1/marketing/PremiumPricingCard";
 import { StickyCtaBar } from "@/components/glp1/marketing/StickyCtaBar";
 import { MoatSection } from "@/components/marketing/MoatSection";
+import { getReviews } from "@/lib/reviews";
 
 export const metadata: Metadata = {
   title: "GLP-1 Tracker + Heart Age & Metabolism | Calqulate",
@@ -78,12 +79,8 @@ const COMPARE: { feature: string; us: "yes" | "free" | "best"; shotsy: "yes" | "
   { feature: "Works on web", us: "best", shotsy: "no", glapp: "yes" },
 ];
 
-const TESTIMONIALS = [
-  { q: "I was paying for three different apps. Now it’s all here, and the medication-level chart finally explained my afternoon cravings.", n: "Jenna R.", m: "Zepbound" },
-  { q: "I switched phones and didn’t lose a single day of my history. After what happened with my last app, that means everything.", n: "Marcus T.", m: "Mounjaro" },
-  { q: "Seeing my heart age drop kept me going on the weeks the scale wouldn’t move.", n: "Dana L.", m: "Wegovy" },
-  { q: "Body composition was the missing piece. I’m losing fat and keeping my muscle, and now I can prove it.", n: "Priya S.", m: "semaglutide" },
-];
+// Real, permissioned reviews only (empty until collected) — see lib/reviews.ts.
+const TESTIMONIALS = getReviews("glp1").map((r) => ({ q: r.quote, n: r.name, m: r.context }));
 
 const FAQS = [
   { q: "What is a GLP-1 tracker app?", a: "A GLP-1 tracker helps you log your weekly medication, side effects, food and weight in one place. Calqulate Vitals also shows your medication levels, body composition, heart age and metabolism, so you understand how your treatment is working." },
@@ -498,28 +495,30 @@ export default function Glp1TrackerLanding() {
         </div>
       </section>
 
-      {/* ── Testimonials ───────────────────────────────────────────────────── */}
-      <section className="bg-brand-50/40 py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-4">
-          <Reveal className="text-center">
-            <h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">What our users say</h2>
-          </Reveal>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.n} delay={i * 60}>
-                <figure className="h-full rounded-2xl border border-line bg-white p-6">
-                  <div className="mb-3 flex gap-1 text-gold">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-current" />)}</div>
-                  <blockquote className="text-[15px] leading-relaxed text-ink">“{t.q}”</blockquote>
-                  <figcaption className="mt-4 text-sm">
-                    <span className="font-semibold text-ink">{t.n}</span>
-                    <span className="text-faint"> · {t.m}</span>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
+      {/* ── Testimonials (only when real, permissioned reviews exist) ───────── */}
+      {TESTIMONIALS.length > 0 && (
+        <section className="bg-brand-50/40 py-14 sm:py-20">
+          <div className="mx-auto max-w-6xl px-4">
+            <Reveal className="text-center">
+              <h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">What our members say</h2>
+            </Reveal>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              {TESTIMONIALS.map((t, i) => (
+                <Reveal key={t.n} delay={i * 60}>
+                  <figure className="h-full rounded-2xl border border-line bg-white p-6">
+                    <div className="mb-3 flex gap-1 text-gold">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-current" />)}</div>
+                    <blockquote className="text-[15px] leading-relaxed text-ink">“{t.q}”</blockquote>
+                    <figcaption className="mt-4 text-sm">
+                      <span className="font-semibold text-ink">{t.n}</span>
+                      <span className="text-faint"> · {t.m}</span>
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── FAQ ────────────────────────────────────────────────────────────── */}
       <section id="faq" className="scroll-mt-24 py-14 sm:py-20">

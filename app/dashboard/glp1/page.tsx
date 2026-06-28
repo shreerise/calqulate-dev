@@ -27,6 +27,7 @@ import { Glp1LoggingPanel } from "@/components/glp1/Glp1LoggingPanel";
 import { TrackMore } from "@/components/glp1/TrackMore";
 import { CoachBanner } from "@/components/glp1/CoachBanner";
 import { JourneyCoach } from "@/components/glp1/JourneyCoach";
+import { Onboarding } from "@/components/glp1/Onboarding";
 import { DeleteEntryButton } from "@/components/glp1/DeleteEntryButton";
 import { DoseReminderCard } from "@/components/glp1/DoseReminderCard";
 import { Glp1ReportButton } from "@/components/glp1/Glp1ReportButton";
@@ -159,6 +160,15 @@ export default async function Glp1TrackerPage() {
   const medOptions = meds.map((m) => ({ id: m.id, compound: m.compound, customName: m.customName, brandName: m.brandName }));
   const activeMedName = activeMed ? (activeMed.brandName ?? activeMed.customName ?? activeMed.compound ?? "Medication") : null;
   const latestRefill = activeMed ? refills.find((r) => r.medicationId === activeMed.id) ?? null : null;
+
+  // First-time experience: no medication yet → guided 6-step setup instead of an empty dashboard.
+  if (!activeMed) {
+    return (
+      <div className="py-2">
+        <Onboarding />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

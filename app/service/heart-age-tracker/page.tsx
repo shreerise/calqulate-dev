@@ -4,6 +4,7 @@ import {
   FlaskConical, FileText, Gauge, Sparkles, Droplet, Syringe, Compass,
 } from "lucide-react";
 import { TrackerLanding, type TrackerLandingConfig } from "@/components/marketing/TrackerLanding";
+import { getReviews } from "@/lib/reviews";
 
 export const metadata: Metadata = {
   title: "Heart Age Tracker | See Your Cardiovascular Age — Calqulate",
@@ -129,12 +130,8 @@ const config: TrackerLandingConfig = {
     ],
     freePrimary: { label: "Open the free Heart Age calculator", href: "/health/heart-age-calculator" },
   },
-  testimonials: [
-    { q: "My heart was 7 years older than me. Seeing that — and then watching it drop — changed how seriously I took my blood pressure.", n: "Marcus T.", m: "high BP" },
-    { q: "Seeing my heart age fall kept me going on the weeks the scale wouldn't move.", n: "Dana L.", m: "Vitals member" },
-    { q: "Finally a heart-age tool that explains the number and shows me the one thing to fix first.", n: "Priya S.", m: "high cholesterol" },
-    { q: "Brought the PDF to my doctor and we had a real conversation for once.", n: "Tom B.", m: "cardiac risk" },
-  ],
+  // Real, permissioned reviews only (empty until collected) — see lib/reviews.ts.
+  testimonials: getReviews("heart-age").map((r) => ({ q: r.quote, n: r.name, m: r.context })),
   faqs: [
     { q: "What is heart age?", a: "Heart age is an estimate of how old your cardiovascular system really is, based on your risk factors. A higher heart age than your real age means strain is adding years to your heart. Calqulate uses the validated Framingham model." },
     { q: "Why is my heart age older than my actual age?", a: "Usually one or more risk factors — high blood pressure, high cholesterol, high blood sugar or smoking — are adding strain. It's very common: the CDC estimates the average American heart is about 7 years older than their real age." },

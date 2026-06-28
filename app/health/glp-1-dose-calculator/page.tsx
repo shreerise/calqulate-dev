@@ -118,12 +118,23 @@ export default function GLP1DoseCalculatorPage() {
               After more than 20 years studying metabolic health and watching how these medications work in everyday life, one thing stands out above everything else: getting the dose right matters a lot. That is why we built this straightforward tool for you. Just plug in your prescribed dose and the concentration on your vial, and it tells you exactly how many units to draw on a standard U-100 insulin syringe.
             </p>
 
-            <div className="mt-6 flex flex-wrap items-center gap-4">
+            <p className="mt-5 max-w-3xl border-l-4 border-emerald-500 pl-4 text-base md:text-lg font-semibold text-slate-800">
+              The app that makes sure your GLP-1 weight loss is the <span className="text-emerald-700">right</span> weight loss &mdash; <span className="text-emerald-700">fat, not muscle</span> &mdash; and never loses your data.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <a
                 href="#calculator"
                 className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
               >
                 Try the Calculator ↓
+              </a>
+              <a
+                href="/service/glp1-progress-tracker"
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold-light to-gold px-6 py-3 text-sm font-bold text-gold-ink shadow-[0_8px_20px_rgba(245,158,11,.35)] transition hover:-translate-y-0.5"
+              >
+                ✦ Try our Premium GLP-1 Tracker
+                <span aria-hidden>&rarr;</span>
               </a>
             </div>
           </div>

@@ -131,7 +131,7 @@ const categories = [
       { name: "Face Shape Calculator", href: "/health/face-shape-calculator" },
       { name: "Golden Ratio Face Calculator", href: "/health/golden-ratio-face-calculator" },
       { name: "Body Shape Calculator", href: "/health/body-shape-calculator" },
-      { name: "Ai Attraciveness Calculator", href: "/health/ai-attractiveness-calculator" },
+      { name: "Ai Attraciveness Test", href: "/health/ai-attractiveness-test" },
       { name: "facial harmony calculator", href: "/health/facial-harmony-calculator" },
     ],
   },
