@@ -6,6 +6,7 @@ import { ScoreGauge } from "@/components/vitals/ScoreGauge"
 import { SinglePlan } from "@/components/vitals/SinglePlan"
 import { SocialProof } from "@/components/marketing/SocialProof"
 import { PremiumTrackersBand } from "@/components/marketing/PremiumTrackersBand"
+import { getAccess, hasPaidAccess } from "@/lib/auth"
 
 import {
   Calculator,
@@ -384,19 +385,19 @@ const vitalsServices = [
     icon: <Activity className="h-6 w-6" />,
     title: "Metabolic Health Tracker",
     desc: "A composite Metabolic Health Score plus heart age and 10-year ASCVD risk, tracked over time.",
-    href: "/service/metabolic-health-tracker",
+    href: "/product/metabolic-health-tracker",
   },
   {
     icon: <Heart className="h-6 w-6" />,
     title: "Heart Age Tracker",
     desc: "See your vascular age versus your real age with the validated Framingham model - and watch it fall.",
-    href: "/service/heart-age-tracker",
+    href: "/product/heart-age-tracker",
   },
   {
     icon: <TrendingUp className="h-6 w-6" />,
     title: "GLP-1 Progress Tracker",
     desc: "On semaglutide or Ozempic? Track results that matter beyond the scale - risk, not just pounds.",
-    href: "/service/glp1-progress-tracker",
+    href: "/product/glp1-progress-tracker",
   },
 ]
 
@@ -458,7 +459,7 @@ const homeJsonLd = {
       "@id": "https://calqulate.net/#org",
       name: "Calqulate.net",
       url: "https://calqulate.net",
-      email: "support@calqulate.net",
+      email: "krushal.barasiya@calqulate.net",
       description:
         "A USA metabolic and cardiovascular risk-reversal service. Track your Metabolic Health Score, Longevity Index, heart age and disease risk, and reverse it over time.",
       sameAs: [] as string[],
@@ -519,7 +520,9 @@ const LUXE_BG =
   "radial-gradient(55% 60% at 2% 112%, rgba(245,158,11,0.14), transparent 55%)," +
   "linear-gradient(160deg, #0a3a2b 0%, #052017 45%, #02120c 100%)"
 
-export default function HomePage() {
+export default async function HomePage() {
+  const access = await getAccess();
+  const paid = hasPaidAccess(access);
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }} />
@@ -579,7 +582,7 @@ export default function HomePage() {
 
                 <div className="mt-5 sm:mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
                   <Button size="lg" className="w-full sm:w-auto rounded-xl bg-emerald-500 px-7 py-3 font-semibold text-emerald-950 shadow-lg shadow-emerald-900/40 transition hover:bg-emerald-400 min-h-[44px]" asChild>
-                    <Link href="/service/metabolic-health-tracker">Get my free score<ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    <Link href="/product/metabolic-health-tracker">Get my free score<ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
                   <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl border-emerald-500/40 bg-white/5 px-7 py-3 font-semibold text-emerald-100 backdrop-blur transition hover:bg-emerald-800/40 hover:text-white min-h-[44px]" asChild>
                     <Link href="/how-it-works">See how it works</Link>
@@ -662,7 +665,7 @@ export default function HomePage() {
         </section>
 
         {/* ── PREMIUM TRACKERS BAND (luxe, top-of-funnel) ──────────────────── */}
-        <PremiumTrackersBand />
+        <PremiumTrackersBand paid={paid} />
 
         {/* ── SECTION B: THE FREE ON-RAMP ──────────────────────────────────── */}
         <section className="py-10 sm:py-12 bg-white border-b border-gray-100">
@@ -862,7 +865,7 @@ export default function HomePage() {
                 saved history, the trajectory engine, your next-lever protocol, and doctor-shareable reports.
               </p>
             </div>
-            <SinglePlan />
+            <SinglePlan paid={paid} />
             <p className="mt-8 text-center text-xs text-gray-400">
               Educational decision-support - not medical advice. Cancel anytime.
             </p>
@@ -1295,7 +1298,7 @@ export default function HomePage() {
                 className="bg-gradient-to-r from-gold-light to-gold hover:opacity-95 text-gold-ink font-bold px-8 rounded-xl shadow-[0_8px_20px_rgba(245,158,11,.35)]"
                 asChild
               >
-                <Link href="/service/metabolic-health-tracker">
+                <Link href="/product/metabolic-health-tracker">
                   Start your free Metabolic Health Score
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>

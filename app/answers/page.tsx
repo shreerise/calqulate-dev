@@ -130,7 +130,7 @@ export default function AnswersPage() {
               and always know the single highest-impact change to make next.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700 transition-colors">
+              <Link href="/product/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700 transition-colors">
                 Get my free score <ArrowRight className="h-4 w-4" />
               </Link>
               <Link href="/search" className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50 transition-colors">

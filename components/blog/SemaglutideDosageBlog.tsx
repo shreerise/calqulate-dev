@@ -18,7 +18,7 @@ import SemaglutideGuidePdfButton from "@/components/plans/SemaglutideGuidePdfBut
 // Free GLP-1 dose calculator (open to everyone) and the premium advanced
 // tracking service. Centralised here so every CTA points to one source.
 const GLP1_CALCULATOR_URL = "https://calqulate.net/health/glp-1-dose-calculator";
-const GLP1_TRACKER_URL = "/service/glp1-progress-tracker";
+const GLP1_TRACKER_URL = "/product/glp1-progress-tracker";
 
 interface Props {
   blog: Blog;
@@ -87,7 +87,7 @@ export default function SemaglutideDosageBlog({ blog }: Props) {
             </p>
           </a>
 
-          {/* Premium tracker card → /service/glp-1-traker */}
+          {/* Premium tracker card → /product/glp-1-traker */}
           <Link
             href={GLP1_TRACKER_URL}
             className="group relative bg-white p-6 text-center transition hover:bg-lime-50"
@@ -548,7 +548,7 @@ export default function SemaglutideDosageBlog({ blog }: Props) {
               </a>
             </div>
 
-            {/* PREMIUM → /service/glp-1-traker */}
+            {/* PREMIUM → /product/glp-1-traker */}
             <div className="relative rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-white ring-1 ring-slate-700">
               <span className="inline-block rounded-full bg-lime-500 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
                 Premium Service

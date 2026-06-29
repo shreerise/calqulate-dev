@@ -69,6 +69,20 @@ export function OrganizationSchema() {
     description: "Professional health calculators — BMI, body fat, calorie, face shape, and body composition tools.",
     url: "https://calqulate.net/",
     logo: "https://calqulate.net/logo.webp",
+    founder: [
+      {
+        "@type": "Person",
+        name: "Meet Akabari",
+        jobTitle: "Co-Founder",
+        url: "https://www.linkedin.com/in/meet-akabari/",
+      },
+      {
+        "@type": "Person",
+        name: "Krushal Barasiya",
+        jobTitle: "Co-Founder",
+        url: "https://www.linkedin.com/in/krushalbarasiya/",
+      },
+    ],
     contactPoint: {
       "@type": "ContactPoint",
       email: "krushal.barasiya@calqulate.net",
@@ -77,4 +91,26 @@ export function OrganizationSchema() {
   }
 
   return <StructuredData type="Organization" data={data} />
+}
+
+export function ArticleAuthorsSchema() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://calqulate.net/#meet-akabari",
+        name: "Meet Akabari",
+        url: "https://www.linkedin.com/in/meet-akabari/",
+      },
+      {
+        "@type": "Person",
+        "@id": "https://calqulate.net/#krushal-barasiya",
+        name: "Krushal Barasiya",
+        url: "https://www.linkedin.com/in/krushalbarasiya/",
+      },
+    ],
+  }
+
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
 }

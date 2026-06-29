@@ -59,7 +59,7 @@ function respond(raw: string): Msg {
       text: "Calqulate Vitals is one simple plan — $9.99/mo or $79/yr (save ~34%). The calculators and your first metabolic snapshot are completely free, no account needed. Cancel anytime, and you can export or delete your data whenever you like.",
       actions: [
         { label: "See plans & how it works", href: "/how-it-works#pricing" },
-        { label: "Get my free score", href: "/service/metabolic-health-tracker" },
+        { label: "Get my free score", href: "/product/metabolic-health-tracker" },
       ],
       chips: ["What do I get for paying?", "Heart age", "Talk to a human"],
     };
@@ -110,7 +110,7 @@ function respond(raw: string): Msg {
       role: "bot",
       text: "Let's find out how old your heart really is — and track it getting younger. Use the free calculator for a snapshot, or the tracker to watch it over time.",
       actions: [
-        { label: "Heart Age Tracker", href: "/service/heart-age-tracker" },
+        { label: "Heart Age Tracker", href: "/product/heart-age-tracker" },
         { label: "Free Heart Age Calculator", href: "/health/heart-age-calculator" },
       ],
     };
@@ -122,7 +122,7 @@ function respond(raw: string): Msg {
       role: "bot",
       text: "On a GLP-1, what matters is losing fat without losing muscle — and not bouncing back when you stop. The GLP-1 Progress Tracker is built for exactly that.",
       actions: [
-        { label: "GLP-1 Progress Tracker", href: "/service/glp1-progress-tracker" },
+        { label: "GLP-1 Progress Tracker", href: "/product/glp1-progress-tracker" },
         { label: "Am I losing muscle? (answer)", href: "/answers/losing-muscle-on-ozempic" },
         { label: "Lean Body Mass Calculator", href: "/health/lean-body-mass-calculator" },
       ],
@@ -137,7 +137,7 @@ function respond(raw: string): Msg {
       actions: [
         { label: "A1c 5.7 — what to do", href: "/answers/a1c-5-7-what-to-do" },
         { label: "Diabetes Risk Calculator", href: "/health/diabetes-risk-calculator" },
-        { label: "Metabolic Health Tracker", href: "/service/metabolic-health-tracker" },
+        { label: "Metabolic Health Tracker", href: "/product/metabolic-health-tracker" },
       ],
     };
   }

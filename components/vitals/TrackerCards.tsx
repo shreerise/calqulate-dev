@@ -83,7 +83,7 @@ export function TrackerCards({ history }: { history: TrackerRow[] }) {
         <CardShell
           icon={<Activity className="h-4 w-4 text-emerald-700" />}
           title="Metabolic Health Score"
-          href="/service/metabolic-health-tracker"
+          href="/product/metabolic-health-tracker"
           cta="Tracker"
           accent="bg-emerald-100"
         >
@@ -101,7 +101,7 @@ export function TrackerCards({ history }: { history: TrackerRow[] }) {
         <CardShell
           icon={<Heart className="h-4 w-4 text-rose-600" />}
           title="Heart Age Tracker"
-          href="/service/heart-age-tracker"
+          href="/product/heart-age-tracker"
           cta="Tracker"
           accent="bg-rose-100"
         >
@@ -128,7 +128,7 @@ export function TrackerCards({ history }: { history: TrackerRow[] }) {
         <CardShell
           icon={<TrendingDown className="h-4 w-4 text-blue-600" />}
           title="GLP-1 Progress Tracker"
-          href="/service/glp1-progress-tracker"
+          href="/product/glp1-progress-tracker"
           cta="Tracker"
           accent="bg-blue-100"
         >

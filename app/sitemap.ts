@@ -58,10 +58,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   scanDir(appDir);
 
-  // Calqulate Vitals service landing pages (dynamic /service/[slug] route).
+  // Calqulate Vitals product landing pages (dynamic /product/[slug] route).
   for (const slug of ["metabolic-health-tracker", "heart-age-tracker", "glp1-progress-tracker"]) {
     urls.push({
-      url: `${baseUrl}/service/${slug}`,
+      url: `${baseUrl}/product/${slug}`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,

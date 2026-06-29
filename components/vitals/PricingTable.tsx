@@ -1,30 +1,24 @@
 "use client";
 import { useState } from "react";
-import { PLANS, type Tier } from "@/lib/stripe/plans";
+import { Loader2 } from "lucide-react";
+import { PLANS, type Tier, type Gateway } from "@/lib/payment/types/index";
+import { GatewayPicker } from "@/components/payment/GatewayPicker";
+import { useCheckout } from "@/hooks/useCheckout";
 
 export function PricingTable() {
   const [cadence, setCadence] = useState<"monthly" | "yearly">("yearly");
-  const [loading, setLoading] = useState<Tier | null>(null);
+  const [gateway, setGateway] = useState<Gateway>("paypal");
+  const { loading, error, checkout, retry } = useCheckout();
+  const [activeTier, setActiveTier] = useState<Tier | null>(null);
 
   async function subscribe(tier: Tier) {
     if (tier === "free") {
       window.location.href = "/signup";
       return;
     }
-    setLoading(tier);
-    try {
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier, cadence }),
-      });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else if (res.status === 401) window.location.href = "/signup?next=/service/metabolic-health-tracker";
-      else alert(data.error ?? "Could not start checkout.");
-    } finally {
-      setLoading(null);
-    }
+    setActiveTier(tier);
+    await checkout(gateway, tier, cadence);
+    setActiveTier(null);
   }
 
   return (
@@ -45,10 +39,26 @@ export function PricingTable() {
         </div>
       </div>
 
+      <div className="mb-6 flex justify-center">
+        <div className="w-full max-w-sm">
+          <GatewayPicker gateway={gateway} onChange={setGateway} disabled={loading} />
+        </div>
+      </div>
+
+      {error && (
+        <div className="mb-4 mx-auto max-w-md rounded-lg bg-red-50 border border-red-200 px-4 py-3">
+          <p className="text-sm text-red-600">{error}</p>
+          <button onClick={retry} className="mt-1 text-xs font-semibold text-red-700 hover:underline">
+            Try again
+          </button>
+        </div>
+      )}
+
       <div className="grid gap-6 md:grid-cols-3">
         {PLANS.map((p) => {
           const price = cadence === "yearly" ? p.priceYearly : p.priceMonthly;
           const featured = p.tier === "plus";
+          const isBusy = loading && activeTier === p.tier;
           return (
             <div
               key={p.tier}
@@ -78,14 +88,15 @@ export function PricingTable() {
               </ul>
               <button
                 onClick={() => subscribe(p.tier)}
-                disabled={loading === p.tier}
-                className={`mt-6 rounded-lg px-4 py-2.5 font-semibold ${
+                disabled={isBusy}
+                className={`mt-6 rounded-lg px-4 py-2.5 font-semibold inline-flex items-center justify-center gap-2 ${
                   featured
                     ? "bg-blue-600 text-white hover:bg-blue-700"
                     : "border border-gray-300 hover:bg-gray-50"
                 } disabled:opacity-60`}
               >
-                {loading === p.tier ? "Redirecting…" : p.cta}
+                {isBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                {isBusy ? "Redirecting\u2026" : p.cta}
               </button>
             </div>
           );

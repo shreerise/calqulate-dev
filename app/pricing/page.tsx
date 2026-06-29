@@ -6,6 +6,7 @@ import { SinglePlan } from "@/components/vitals/SinglePlan";
 import { SocialProof } from "@/components/marketing/SocialProof";
 import { PremiumTrackersBand } from "@/components/marketing/PremiumTrackersBand";
 import { FeatureComparison } from "@/components/marketing/FeatureComparison";
+import { getAccess, hasPaidAccess } from "@/lib/auth";
 import { Check, X, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ const FAQS = [
   { q: "What devices does it work on?", a: "Any modern browser on phone, tablet or desktop. You can add it to your home screen as an app and turn on optional notifications." },
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -64,6 +65,9 @@ export default function PricingPage() {
     ],
   };
 
+  const access = await getAccess();
+  const paid = hasPaidAccess(access);
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -84,7 +88,7 @@ export default function PricingPage() {
         {/* Plan */}
         <section className="py-10 sm:py-12 bg-white">
           <div className="container mx-auto px-3 sm:px-4">
-            <SinglePlan />
+            <SinglePlan paid={paid} />
           </div>
         </section>
 
@@ -132,7 +136,7 @@ export default function PricingPage() {
         </section>
 
         {/* Luxe gold band — one plan, three trackers */}
-        <PremiumTrackersBand />
+        <PremiumTrackersBand paid={paid} />
 
         {/* Full feature comparison vs competitors */}
         <FeatureComparison />
@@ -157,11 +161,11 @@ export default function PricingPage() {
         {/* CTA */}
         <section className="py-10 sm:py-14 bg-gradient-to-br from-emerald-950 to-emerald-900 text-center">
           <div className="container mx-auto px-3 sm:px-4 max-w-2xl">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">Start free, upgrade when you want the trend</h2>
-            <p className="mt-3 text-sm sm:text-base text-emerald-100/80">Get your free score first. No card needed.</p>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{paid ? "Your plan is active" : "Start free, upgrade when you want the trend"}</h2>
+            <p className="mt-3 text-sm sm:text-base text-emerald-100/80">{paid ? "You already have Vitals. Go to your dashboard to see your scores." : "Get your free score first. No card needed."}</p>
             <div className="mt-6 flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
-              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-gray-950 hover:bg-emerald-400">
-                Get my free score <ArrowRight className="h-4 w-4" />
+              <Link href={paid ? "/dashboard" : "/product/metabolic-health-tracker"} className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-gray-950 hover:bg-emerald-400">
+                {paid ? "Go to dashboard" : "Get my free score"} <ArrowRight className="h-4 w-4" />
               </Link>
               <Link href="/how-it-works" className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/50 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-emerald-200 hover:bg-emerald-800/50">
                 See how it works

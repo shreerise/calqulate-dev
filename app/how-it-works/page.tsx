@@ -90,7 +90,7 @@ export default async function HowItWorksPage() {
               that lowers your risk most.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
-              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-white hover:bg-emerald-400 transition-colors">
+              <Link href="/product/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-white hover:bg-emerald-400 transition-colors">
                 Get my free score <ArrowRight className="h-4 w-4" />
               </Link>
               <a href="#pricing" className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/50 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-emerald-200 hover:bg-emerald-800/50 transition-colors">
@@ -273,7 +273,7 @@ export default async function HowItWorksPage() {
               about your health decisions.
             </p>
             <div className="mt-7 flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
-              <Link href="/service/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-white hover:bg-emerald-700 transition-colors">
+              <Link href="/product/metabolic-health-tracker" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-white hover:bg-emerald-700 transition-colors">
                 Get my free Metabolic Health Score <ArrowRight className="h-4 w-4" />
               </Link>
               <Link href="/search" className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-5 sm:px-6 py-3 min-h-[44px] font-semibold text-gray-700 hover:bg-gray-50 transition-colors">

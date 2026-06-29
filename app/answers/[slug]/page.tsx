@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ArrowRight, ArrowLeft, ShieldCheck } from "lucide-react";
 import { STANDALONE_QUESTIONS, getStandaloneQuestion } from "../questions-data";
-import { getService } from "@/app/service/data";
+import { getService } from "@/app/product/data";
 
 export function generateStaticParams() {
   return STANDALONE_QUESTIONS.map((q) => ({ slug: q.slug! }));
@@ -78,7 +78,7 @@ export default async function AnswerPage({
               <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">{svc.name.replace("Calqulate Vitals — ", "")}</p>
               <p className="mt-1 text-gray-700">{svc.tagline}</p>
               <Link
-                href={`/service/${qa.serviceSlug}`}
+                href={`/product/${qa.serviceSlug}`}
                 className="mt-4 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700 transition-colors"
               >
                 {qa.serviceLabel ?? "Explore the tracker"}

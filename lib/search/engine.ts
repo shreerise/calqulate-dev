@@ -55,7 +55,7 @@ export function search(query: string, limit = 8): SearchResult[] {
   for (const [id, raw] of scores) {
     const item = CATALOG[id];
     // 3. boost service products and title matches
-    const categoryBoost = item.category === "service" ? 1.25 : 1;
+    const categoryBoost = item.category === "product" ? 1.25 : 1;
     const titleBoost = tokenize(item.title).some((t) => qTokens.includes(t)) ? 1.5 : 1;
     results.push({ ...item, score: raw * categoryBoost * titleBoost });
   }

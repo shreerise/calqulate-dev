@@ -130,7 +130,7 @@ export default function GLP1DoseCalculatorPage() {
                 Try the Calculator ↓
               </a>
               <a
-                href="/service/glp1-progress-tracker"
+                href="/product/glp1-progress-tracker"
                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold-light to-gold px-6 py-3 text-sm font-bold text-gold-ink shadow-[0_8px_20px_rgba(245,158,11,.35)] transition hover:-translate-y-0.5"
               >
                 ✦ Try our Premium GLP-1 Tracker
@@ -678,7 +678,7 @@ export default function GLP1DoseCalculatorPage() {
                   "Heart and diabetes risk trended over time",
                   "Rebound-risk view for when you taper off",
                 ]}
-                href="/service/glp1-progress-tracker"
+                href="/product/glp1-progress-tracker"
                 cta="Start the GLP-1 Progress Tracker"
               />
 
@@ -723,7 +723,7 @@ export default function GLP1DoseCalculatorPage() {
                   { label: "Macro Calculator", href: "/health/macro-calculator" },
                   { label: "Calorie Deficit Calculator", href: "/health/calorie-deficit-calculator" },
                   { label: "Diabetes Risk Calculator", href: "/health/diabetes-risk-calculator" },
-                  { label: "GLP-1 Progress Tracker (paid)", href: "/service/glp1-progress-tracker" },
+                  { label: "GLP-1 Progress Tracker (paid)", href: "/product/glp1-progress-tracker" },
                 ]}
               />
 

@@ -8,9 +8,9 @@ import { Reveal } from "@/components/glp1/marketing/Reveal";
  * try the GLP-1 tracker free, see premium, or get the full premium bundle.
  */
 const TRACKERS = [
-  { icon: Syringe, name: "GLP-1 Progress", href: "/service/glp1-progress-tracker", d: "Fat vs. muscle, free medication-level curves & risk." },
-  { icon: Gauge, name: "Metabolic Health Score", href: "/service/metabolic-health-tracker", d: "One 0–100 score + heart & diabetes risk, tracked." },
-  { icon: HeartPulse, name: "Heart Age", href: "/service/heart-age-tracker", d: "How old your heart is — watch it get younger." },
+  { icon: Syringe, name: "GLP-1 Progress", href: "/product/glp1-progress-tracker", d: "Fat vs. muscle, free medication-level curves & risk." },
+  { icon: Gauge, name: "Metabolic Health Score", href: "/product/metabolic-health-tracker", d: "One 0–100 score + heart & diabetes risk, tracked." },
+  { icon: HeartPulse, name: "Heart Age", href: "/product/heart-age-tracker", d: "How old your heart is — watch it get younger." },
 ];
 
 const LUXE_BG =
@@ -18,7 +18,7 @@ const LUXE_BG =
   "radial-gradient(55% 60% at 2% 112%, rgba(245,158,11,0.14), transparent 55%)," +
   "linear-gradient(160deg, #0a3a2b 0%, #052017 45%, #02120c 100%)";
 
-export function PremiumTrackersBand() {
+export function PremiumTrackersBand({ paid }: { paid?: boolean }) {
   return (
     <section className="relative overflow-hidden py-14 text-white sm:py-20" style={{ background: LUXE_BG }}>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.55), transparent)" }} />
@@ -55,26 +55,37 @@ export function PremiumTrackersBand() {
           ))}
         </div>
 
-        {/* Three CTAs */}
+        {/* CTAs */}
         <Reveal className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
-          <Link
-            href="/health/glp-1-dose-calculator"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:bg-brand-600 sm:w-auto"
-          >
-            Try the GLP-1 tracker free <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            href="/pricing"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:w-auto"
-          >
-            See Premium
-          </Link>
-          <Link
-            href="/pricing"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-light to-gold px-6 py-3 text-sm font-bold text-gold-ink shadow-[0_8px_20px_rgba(245,158,11,.35)] transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
-          >
-            GLP-1 + Metabolism + Heart Age — Premium <ArrowRight className="h-4 w-4" />
-          </Link>
+          {paid ? (
+            <Link
+              href="/dashboard"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:bg-brand-600 sm:w-auto"
+            >
+              Go to dashboard <ArrowRight className="h-4 w-4" />
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/health/glp-1-dose-calculator"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:bg-brand-600 sm:w-auto"
+              >
+                Try the GLP-1 tracker free <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/pricing"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:w-auto"
+              >
+                See Premium
+              </Link>
+              <Link
+                href="/pricing"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-light to-gold px-6 py-3 text-sm font-bold text-gold-ink shadow-[0_8px_20px_rgba(245,158,11,.35)] transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
+              >
+                GLP-1 + Metabolism + Heart Age — Premium <ArrowRight className="h-4 w-4" />
+              </Link>
+            </>
+          )}
         </Reveal>
       </div>
     </section>

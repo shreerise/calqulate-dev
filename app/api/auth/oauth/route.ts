@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   }
 
   const supabase = await createClient();
-  const redirectTo = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=${encodeURIComponent(next ?? "/dashboard")}`;
+  const redirectTo = `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net"}/auth/callback?next=${encodeURIComponent(next ?? "/dashboard")}`;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,

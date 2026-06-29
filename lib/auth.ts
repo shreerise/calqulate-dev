@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type { Tier } from "@/lib/stripe/plans";
+import type { Tier } from "@/lib/payment/types/index";
 import { resolveIsAdmin } from "@/lib/admin-core";
 
 export async function getUser() {

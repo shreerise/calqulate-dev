@@ -6,13 +6,13 @@ import { Menu, X, HeartPulse, ChevronDown, Search, ArrowRight, Activity, LayoutD
 import { SearchBar } from "@/components/search/search-bar"
 import { createClient } from "@/lib/supabase/client"
 
-// ─── Vitals service links (the product — listed first) ───────────────────────
+// ─── Product links (listed first) ─────────────────────────────────────────────
 
-const vitalsLinks = [
-  { name: "Metabolic Health Tracker", href: "/service/metabolic-health-tracker", desc: "Composite score + heart age + 10-yr risk" },
-  { name: "Heart Age Tracker", href: "/service/heart-age-tracker", desc: "Your vascular age vs. your real age" },
-  { name: "GLP-1 Progress Tracker", href: "/service/glp1-progress-tracker", desc: "Track results beyond the scale" },
-  { name: "How Vitals works", href: "/how-it-works", desc: "From a one-time number to a trajectory" },
+const productLinks = [
+  { name: "Metabolic Health Tracker", href: "/product/metabolic-health-tracker", desc: "Composite score + heart age + 10-yr risk" },
+  { name: "Heart Age Tracker", href: "/product/heart-age-tracker", desc: "Your vascular age vs. your real age" },
+  { name: "GLP-1 Progress Tracker", href: "/product/glp1-progress-tracker", desc: "Track results beyond the scale" },
+  { name: "How the product works", href: "/how-it-works", desc: "From a one-time number to a trajectory" },
   { name: "Pricing", href: "/pricing", desc: "One simple plan, everything included" },
 ]
 
@@ -139,15 +139,15 @@ const categories = [
 
 type Category = (typeof categories)[0]
 
-// ─── Vitals mega dropdown ─────────────────────────────────────────────────────
+// ─── Product mega dropdown ─────────────────────────────────────────────────────
 
-function VitalsMenu({ onClose }: { onClose: () => void }) {
+function ProductMenu({ onClose }: { onClose: () => void }) {
   return (
     <div className="absolute left-0 top-full mt-2 w-80 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden py-2">
       <div className="px-4 pt-2 pb-1.5 flex items-center gap-2">
-        <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600">The service</span>
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600">The product</span>
       </div>
-      {vitalsLinks.map((l) => (
+      {productLinks.map((l) => (
         <Link
           key={l.href}
           href={l.href}
@@ -170,7 +170,7 @@ function CalculatorsMenu({ onClose }: { onClose: () => void }) {
       <div className="container mx-auto px-6 py-6">
         <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
           <span className="text-base font-semibold text-gray-900">
-            Free snapshot tools <span className="text-sm font-normal text-gray-400">— the free entry point into Calqulate Vitals</span>
+            Free snapshot tools <span className="text-sm font-normal text-gray-400">— the free entry point into the product</span>
           </span>
           <Link href="/search" onClick={onClose} className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
             View all →
@@ -250,10 +250,10 @@ function MobileCategory({ category, onLinkClick }: { category: Category; onLinkC
 // ─── Header ──────────────────────────────────────────────────────────────────
 
 export function Header() {
-  const [activeMenu, setActiveMenu] = useState<"vitals" | "calculators" | null>(null)
+  const [activeMenu, setActiveMenu] = useState<"product" | "calculators" | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const [mobileVitalsOpen, setMobileVitalsOpen] = useState(true)
+  const [mobileProductOpen, setMobileProductOpen] = useState(true)
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [authReady, setAuthReady] = useState(false)
   const [avatarOpen, setAvatarOpen] = useState(false)
@@ -339,19 +339,19 @@ export function Header() {
 
           {/* ── Desktop nav ── */}
           <nav className="hidden lg:flex items-center gap-0.5 flex-1" onMouseLeave={startClose} onMouseEnter={cancelClose}>
-            {/* Vitals (the product) */}
+            {/* Product */}
             <div className="relative">
               <button
-                onMouseEnter={() => { cancelClose(); setActiveMenu("vitals") }}
-                onClick={() => setActiveMenu(activeMenu === "vitals" ? null : "vitals")}
+                onMouseEnter={() => { cancelClose(); setActiveMenu("product") }}
+                onClick={() => setActiveMenu(activeMenu === "product" ? null : "product")}
                 className={`flex items-center gap-1 px-3.5 py-2 text-[13.5px] font-semibold rounded-md whitespace-nowrap transition-colors
-                  ${activeMenu === "vitals" ? "text-emerald-700 bg-emerald-50" : "text-emerald-700 hover:bg-emerald-50"}`}
+                  ${activeMenu === "product" ? "text-emerald-700 bg-emerald-50" : "text-emerald-700 hover:bg-emerald-50"}`}
               >
                 <Activity className="h-4 w-4" />
-                Vitals
-                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeMenu === "vitals" ? "rotate-180 text-emerald-600" : "text-emerald-400"}`} />
+                Product
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeMenu === "product" ? "rotate-180 text-emerald-600" : "text-emerald-400"}`} />
               </button>
-              {activeMenu === "vitals" && <VitalsMenu onClose={closeAll} />}
+              {activeMenu === "product" && <ProductMenu onClose={closeAll} />}
             </div>
 
             {/* Calculators (free snapshot tools) */}
@@ -373,6 +373,9 @@ export function Header() {
             </Link>
             <Link href="/blog" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
               Blog
+            </Link>
+            <Link href="/gallery" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
+              Gallery
             </Link>
             <Link href="/about-us" onClick={closeAll} className="px-3.5 py-2 text-[13.5px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
               About
@@ -426,7 +429,7 @@ export function Header() {
                   Log in
                 </Link>
                 <Link
-                  href="/service/metabolic-health-tracker"
+                  href="/product/metabolic-health-tracker"
                   onClick={closeAll}
                   className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-emerald-700 transition-colors shadow-sm"
                 >
@@ -476,21 +479,21 @@ export function Header() {
       {mobileOpen && (
         <div className="lg:hidden border-t border-gray-100 bg-white flex flex-col max-h-[90vh] sm:max-h-[85vh]">
           <div className="overflow-y-auto flex-1">
-            {/* Vitals (first) */}
+            {/* Product (first) */}
             <div className="border-b border-gray-100">
               <button
-                onClick={() => setMobileVitalsOpen((v) => !v)}
+                onClick={() => setMobileProductOpen((v) => !v)}
                 className="w-full flex items-center justify-between px-4 py-3.5 sm:py-3 text-left min-h-[44px]"
               >
                 <div className="flex items-center gap-2">
                   <Activity className="h-4 w-4 text-emerald-600" />
-                  <span className="text-sm font-semibold text-emerald-700">Vitals — the service</span>
+                  <span className="text-sm font-semibold text-emerald-700">Product</span>
                 </div>
-                <ChevronDown className={`h-4 w-4 transition-transform ${mobileVitalsOpen ? "rotate-180 text-emerald-600" : "text-gray-400"}`} />
+                <ChevronDown className={`h-4 w-4 transition-transform ${mobileProductOpen ? "rotate-180 text-emerald-600" : "text-gray-400"}`} />
               </button>
-              {mobileVitalsOpen && (
+              {mobileProductOpen && (
                 <div className="bg-emerald-50/40 pb-1">
-                  {vitalsLinks.map((l) => (
+      {productLinks.map((l) => (
                     <Link key={l.href} href={l.href} onClick={closeAll} className="flex items-center gap-2.5 px-6 py-2.5 sm:py-2 text-sm text-gray-700 hover:text-emerald-700 min-h-[44px]">
                       <span className="w-1 h-1 rounded-full bg-emerald-500 flex-shrink-0" />
                       {l.name}
@@ -512,6 +515,7 @@ export function Header() {
               <Link href="/how-it-works" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">How it works</Link>
               <Link href="/pricing" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">Pricing</Link>
               <Link href="/blog" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">Blog</Link>
+              <Link href="/gallery" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">Gallery</Link>
               <Link href="/about-us" onClick={closeAll} className="text-sm font-medium text-gray-600 hover:text-emerald-700 min-h-[44px] flex items-center">About</Link>
             </div>
           </div>
@@ -531,7 +535,7 @@ export function Header() {
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <Link href="/service/metabolic-health-tracker" onClick={closeAll} className="flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-3 sm:py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 min-h-[44px]">
+                <Link href="/product/metabolic-health-tracker" onClick={closeAll} className="flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-3 sm:py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 min-h-[44px]">
                   Get my score <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link href="/login" onClick={closeAll} className="w-full rounded-lg border border-gray-300 px-4 py-3 sm:py-2.5 text-center text-sm font-medium text-gray-600 hover:bg-gray-50 min-h-[44px] flex items-center justify-center">

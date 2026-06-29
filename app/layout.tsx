@@ -11,6 +11,7 @@ import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 import { InstallBanner } from "@/components/pwa/InstallBanner";
 import FeedbackPopup from "@/components/feedback/FeedbackPopup";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://calqulate.net"),
@@ -125,6 +126,7 @@ export default function RootLayout({
         <ChatWidget />
         <ServiceWorkerRegister />
         <InstallBanner />
+        <Toaster position="top-center" richColors closeButton />
       </body>
     </html>
   );

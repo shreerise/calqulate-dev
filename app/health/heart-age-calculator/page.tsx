@@ -495,7 +495,7 @@ export default function HeartAgeCalculatorPage() {
                   "10-year heart and diabetes risk in one place",
                   "Doctor-shareable PDF report",
                 ]}
-                href="/service/heart-age-tracker"
+                href="/product/heart-age-tracker"
                 cta="Start the Heart Age Tracker"
               />
 
@@ -544,7 +544,7 @@ export default function HeartAgeCalculatorPage() {
                   { label: "Blood Pressure Calculator", href: "/health/blood-pressure-calculator" },
                   { label: "Cholesterol Ratio Calculator", href: "/health/cholesterol-ratio-calculator" },
                   { label: "Diabetes Risk Calculator", href: "/health/diabetes-risk-calculator" },
-                  { label: "Heart Age Tracker (paid)", href: "/service/heart-age-tracker" },
+                  { label: "Heart Age Tracker (paid)", href: "/product/heart-age-tracker" },
                 ]}
               />
 

@@ -91,7 +91,7 @@ export const GROUPS: Group[] = [
           "Calqulate.net gives you the free baseline (your Diabetes Risk and Metabolic Health Score), and Calqulate Vitals turns the six-month wait into a tracked, prove-it-yourself plan — with your single highest-impact change identified and your trajectory monitored the whole way.",
         ],
         links: [
-          { label: "Get my free Metabolic Health Score", href: "/service/metabolic-health-tracker" },
+          { label: "Get my free Metabolic Health Score", href: "/product/metabolic-health-tracker" },
           { label: "Diabetes Risk Calculator", href: "/health/diabetes-risk-calculator" },
         ],
       },
@@ -228,7 +228,7 @@ export const GROUPS: Group[] = [
         ],
         links: [
           { label: "Heart Age Calculator", href: "/health/heart-age-calculator" },
-          { label: "Heart Age Tracker", href: "/service/heart-age-tracker" },
+          { label: "Heart Age Tracker", href: "/product/heart-age-tracker" },
         ],
       },
       {
@@ -246,7 +246,7 @@ export const GROUPS: Group[] = [
           "Use Calqulate.net's free Heart Age Calculator to see where you stand, then the Heart Age Tracker in Calqulate Vitals to watch the number fall as you make changes and to see which single change moves it most for you.",
         ],
         links: [
-          { label: "Heart Age Tracker", href: "/service/heart-age-tracker" },
+          { label: "Heart Age Tracker", href: "/product/heart-age-tracker" },
           { label: "Blood Pressure Calculator", href: "/health/blood-pressure-calculator" },
         ],
       },
@@ -291,7 +291,7 @@ export const GROUPS: Group[] = [
           "Third, don't lose too fast. Aim for around 1% of body weight per week or less; faster loss tilts the ratio toward muscle. The drug creates the deficit automatically, so your job is purely to aim that deficit at fat with protein and lifting — and then to verify it's working by tracking lean body mass, not just the scale. That's exactly what the GLP-1 Progress Tracker on Calqulate.net is built to do.",
         ],
         links: [
-          { label: "GLP-1 Progress Tracker", href: "/service/glp1-progress-tracker" },
+          { label: "GLP-1 Progress Tracker", href: "/product/glp1-progress-tracker" },
           { label: "Macro Calculator", href: "/health/macro-calculator" },
         ],
       },
@@ -310,7 +310,7 @@ export const GROUPS: Group[] = [
           "So the smartest move is to go into the off-ramp lean-mass-aware and tracking the markers that matter — body composition and your heart and diabetes risk — not just the scale. Calqulate.net's GLP-1 Progress Tracker is designed specifically for this: protect the muscle, watch the risk numbers, and don't let months of effort quietly reverse.",
         ],
         links: [
-          { label: "GLP-1 Progress Tracker", href: "/service/glp1-progress-tracker" },
+          { label: "GLP-1 Progress Tracker", href: "/product/glp1-progress-tracker" },
           { label: "Lean Body Mass Calculator", href: "/health/lean-body-mass-calculator" },
         ],
       },
@@ -318,7 +318,7 @@ export const GROUPS: Group[] = [
         q: "Is my GLP-1 actually improving my health, or just dropping pounds?",
         a: "Weight is only the surface metric. The wins that matter are falling blood sugar, blood pressure, and 10-year heart and diabetes risk — and those don't always track the scale one-to-one. Calqulate.net lets you see the risk numbers, not just the weight, so you know the drug is buying real health.",
         links: [
-          { label: "GLP-1 Progress Tracker", href: "/service/glp1-progress-tracker" },
+          { label: "GLP-1 Progress Tracker", href: "/product/glp1-progress-tracker" },
           { label: "Diabetes Risk Calculator", href: "/health/diabetes-risk-calculator" },
         ],
       },
@@ -352,7 +352,7 @@ export const GROUPS: Group[] = [
         q: "What is a metabolic health score and what's a good one?",
         a: "It's a single 0–100 number rolling up the stuff that predicts disease — heart risk, heart age, diabetes risk, and body composition — where higher is healthier. Calqulate.net grades it A–F (80+ = solid, under 60 = work to do). The value is watching it climb as you change. Get yours free on Calqulate.net.",
         links: [
-          { label: "Get my Metabolic Health Score", href: "/service/metabolic-health-tracker" },
+          { label: "Get my Metabolic Health Score", href: "/product/metabolic-health-tracker" },
           { label: "How it's calculated", href: "/how-it-works" },
         ],
       },

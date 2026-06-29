@@ -38,7 +38,7 @@ export default async function AdminNotificationsPage() {
           <h2 className="text-sm font-semibold text-gray-700">Configuration</h2>
           <ul className="mt-3 space-y-2 text-sm">
             <li className="flex items-center justify-between">
-              <span>Email (SMTP support@calqulate.net)</span>
+              <span>Email (SMTP krushal.barasiya@calqulate.net)</span>
               <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${emailConfigured() ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>{emailConfigured() ? "Configured" : "Not set"}</span>
             </li>
             <li className="flex items-center justify-between">

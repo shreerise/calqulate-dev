@@ -1,6 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/server";
 import { StatCard } from "@/components/admin/StatCard";
-import { PLANS } from "@/lib/stripe/plans";
+import { PLANS } from "@/lib/payment/types/index";
 
 export const dynamic = "force-dynamic";
 
@@ -26,15 +26,36 @@ export default async function AdminDashboard() {
     admin.from("profiles").select("email,role,created_at").order("created_at", { ascending: false }).limit(8),
   ]);
 
-  // Best-effort MRR estimate from active paid subscriptions × plan price.
+  // ── Subscription analytics ────────────────────────────────────────────────
+  const since30 = new Date(Date.now() - 30 * 86_400_000).toISOString();
+
   const { data: subs } = await admin
     .from("subscriptions")
-    .select("tier,status")
+    .select("tier,status,gateway")
     .in("status", ["active", "trialing"]);
+
   const planMonthly: Record<string, number> = Object.fromEntries(PLANS.map((p) => [p.tier, p.priceMonthly]));
-  const mrr = (subs ?? [])
-    .filter((s: any) => s.tier && s.tier !== "free")
-    .reduce((sum: number, s: any) => sum + (planMonthly[s.tier] ?? 0), 0);
+  const activePaid = (subs ?? []).filter((s: any) => s.tier && s.tier !== "free");
+
+  const mrr = activePaid.reduce((sum: number, s: any) => sum + (planMonthly[s.tier] ?? 0), 0);
+
+  // Gateway breakdown
+  const razorpayCount = activePaid.filter((s: any) => s.gateway === "razorpay" || !s.gateway).length;
+  const paypalCount = activePaid.filter((s: any) => s.gateway === "paypal").length;
+
+  // Plan distribution
+  const plusCount = activePaid.filter((s: any) => s.tier === "plus").length;
+  const proCount = activePaid.filter((s: any) => s.tier === "pro").length;
+
+  // Churn (active → inactive in last 30 days)
+  const { count: churned } = await admin
+    .from("subscriptions")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "canceled")
+    .gte("updated_at", since30);
+
+  // Conversion rate
+  const conversion = users > 0 ? ((activePaid.length / users) * 100).toFixed(1) : "0.0";
 
   const recentRows = recent.data ?? [];
 
@@ -48,12 +69,20 @@ export default async function AdminDashboard() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total users" value={users} hint={`${admins} admin${admins === 1 ? "" : "s"}`} />
         <StatCard label="New (7 days)" value={newUsers} />
-        <StatCard label="Active paid subs" value={paidSubs} />
+        <StatCard label="Active paid subs" value={activePaid.length} />
         <StatCard label="Est. MRR" value={`$${mrr.toFixed(2)}`} hint="active paid × monthly price" />
-        <StatCard label="Measurements" value={measurements} />
-        <StatCard label="Risk results" value={riskResults} />
-        <StatCard label="Reports" value={reports} />
-        <StatCard label="Est. ARR" value={`$${(mrr * 12).toFixed(0)}`} />
+        <StatCard label="Conversions" value={`${conversion}%`} hint="paid / total users" />
+        <StatCard label="Churned (30d)" value={churned ?? 0} hint="canceled in last 30 days" />
+        <StatCard label="Est. ARR" value={`$${(mrr * 12).toFixed(0)}`} hint="MRR × 12" />
+        <StatCard label="Total measurements" value={measurements} />
+      </div>
+
+      {/* Subscription breakdown */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard label="Razorpay subs" value={razorpayCount} hint="active paid" />
+        <StatCard label="PayPal subs" value={paypalCount} hint="active paid" />
+        <StatCard label="Plus plan" value={plusCount} hint="active paid" />
+        <StatCard label="Pro plan" value={proCount} hint="active paid" />
       </div>
 
       <div className="rounded-2xl border border-gray-200 bg-white">
@@ -119,8 +148,7 @@ export default async function AdminDashboard() {
           These are scaffolded for later — they require data we don&apos;t collect yet, so we haven&apos;t shipped fake dashboards:
         </p>
         <ul className="mt-3 grid gap-2 text-sm text-gray-600 sm:grid-cols-2">
-          <li>• <strong>Payments / Stripe analytics</strong> — needs live Stripe keys + synced invoices</li>
-          <li>• <strong>Analytics (DAU/WAU/MAU, funnel, churn, LTV)</strong> — needs an events table</li>
+          <li>• <strong>Analytics (DAU/WAU/MAU, funnel, LTV)</strong> — needs an events table</li>
           <li>• <strong>Calculators (enable/disable, CTR)</strong> — needs a calculators table + page-view tracking</li>
           <li>• <strong>Content CMS &amp; Notifications broadcast</strong> — needs a content store + email queue</li>
           <li>• <strong>System metrics</strong> — needs host/DB monitoring hooks</li>

@@ -20,7 +20,7 @@ function StructuredData() {
       "url": "https://calqulate.net",
       "contactPoint": {
         "@type": "ContactPoint",
-        "email": "support@calqulate.net",
+        "email": "krushal.barasiya@calqulate.net",
         "telephone": "+91-6351007253",
         "contactType": "customer support",
         "areaServed": "Worldwide",
@@ -191,7 +191,7 @@ export default function ContactUsPage() {
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Contact us</h1>
               <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
                 Need help with a calculator, your Calqulate Vitals account, billing, or your data? Send us a note and we
-                will reply. For account and subscription questions, email <strong>support@calqulate.net</strong>.
+                will reply. For account and subscription questions, email <strong>krushal.barasiya@calqulate.net</strong>.
               </p>
             </div>
 
@@ -203,7 +203,7 @@ export default function ContactUsPage() {
                     <CardTitle className="flex items-center gap-2"><Mail className="h-5 w-5" /> Email</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">support@calqulate.net</p>
+                    <p className="text-muted-foreground">krushal.barasiya@calqulate.net</p>
                     <p className="mt-1 text-sm text-muted-foreground">krushal.barasiya@calqulate.net</p>
                   </CardContent>
                 </Card>

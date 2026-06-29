@@ -9,7 +9,7 @@ import { ArrowRight } from "lucide-react";
  * user after they scroll past the hero, then hides near the footer so it never
  * covers the final CTA. A high-intent conversion lever on small screens.
  */
-export function StickyCtaBar() {
+export function StickyCtaBar({ hidePremium }: { hidePremium?: boolean }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -39,17 +39,19 @@ export function StickyCtaBar() {
         style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
       >
         <Link
-          href="/signup?next=/dashboard/glp1"
+          href={hidePremium ? "/dashboard/glp1" : "/signup?next=/dashboard/glp1"}
           className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
         >
-          Start free <ArrowRight className="h-4 w-4" />
+          {hidePremium ? "Go to dashboard" : "Start free"} <ArrowRight className="h-4 w-4" />
         </Link>
-        <a
-          href="#pricing"
-          className="flex items-center justify-center rounded-xl bg-gradient-to-r from-gold-light to-gold px-4 py-3 text-sm font-bold text-gold-ink"
-        >
-          Go Premium
-        </a>
+        {!hidePremium && (
+          <a
+            href="#pricing"
+            className="flex items-center justify-center rounded-xl bg-gradient-to-r from-gold-light to-gold px-4 py-3 text-sm font-bold text-gold-ink"
+          >
+            Go Premium
+          </a>
+        )}
       </div>
     </div>
   );

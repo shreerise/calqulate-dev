@@ -63,7 +63,7 @@ export function FreeFeaturesPromo({
             Start free <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
-            href="/service/glp1-progress-tracker"
+            href="/product/glp1-progress-tracker"
             className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-brand bg-white px-6 py-3 text-sm font-semibold text-brand-800 transition-colors hover:bg-brand-50 sm:w-auto"
           >
             Explore the tracker

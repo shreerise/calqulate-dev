@@ -38,9 +38,9 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-white">Calqulate Vitals</h3>
             <ul className="space-y-1 text-sm">
-              <li><Link href="/service/metabolic-health-tracker" className={linkCls}>Metabolic Health Tracker</Link></li>
-              <li><Link href="/service/heart-age-tracker" className={linkCls}>Heart Age Tracker</Link></li>
-              <li><Link href="/service/glp1-progress-tracker" className={linkCls}>GLP-1 Progress Tracker</Link></li>
+              <li><Link href="/product/metabolic-health-tracker" className={linkCls}>Metabolic Health Tracker</Link></li>
+              <li><Link href="/product/heart-age-tracker" className={linkCls}>Heart Age Tracker</Link></li>
+              <li><Link href="/product/glp1-progress-tracker" className={linkCls}>GLP-1 Progress Tracker</Link></li>
               <li><Link href="/pricing" className={linkCls}>Pricing</Link></li>
               <li><Link href="/dashboard" className={linkCls}>Dashboard</Link></li>
             </ul>

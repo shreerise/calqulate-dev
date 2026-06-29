@@ -69,7 +69,7 @@ function CompareCell({ v }: { v: CompareVal }) {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function TrackerLanding({ config: c }: { config: TrackerLandingConfig }) {
+export function TrackerLanding({ config: c, paid }: { config: TrackerLandingConfig; paid?: boolean }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -102,8 +102,8 @@ export function TrackerLanding({ config: c }: { config: TrackerLandingConfig }) 
             </h1>
             <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-copy">{c.hero.sub}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link href={c.startFreeHref} className={btnGreen}>Start free <ArrowRight className="h-4 w-4" /></Link>
-              <Link href="#pricing" className={btnGold}>See Premium</Link>
+              <Link href={c.startFreeHref} className={btnGreen}>{paid ? "Go to dashboard" : "Start free"} <ArrowRight className="h-4 w-4" /></Link>
+              {!paid && <Link href="#pricing" className={btnGold}>See Premium</Link>}
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-faint">
               <span className="inline-flex items-center gap-1 text-gold">
@@ -220,7 +220,7 @@ export function TrackerLanding({ config: c }: { config: TrackerLandingConfig }) 
               </Reveal>
             ))}
           </div>
-          <Reveal className="mt-12 text-center"><Link href="#pricing" className={btnGold}>Go Premium <ArrowRight className="h-4 w-4" /></Link></Reveal>
+          {!paid && <Reveal className="mt-12 text-center"><Link href="#pricing" className={btnGold}>Go Premium <ArrowRight className="h-4 w-4" /></Link></Reveal>}
         </div>
       </section>
 
@@ -339,12 +339,23 @@ export function TrackerLanding({ config: c }: { config: TrackerLandingConfig }) 
                   {c.pricing.freeFeatures.map((x) => <li key={x} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand" /> {x}</li>)}
                 </ul>
                 <div className="mt-6 flex flex-col gap-2">
-                  <Link href={c.pricing.freePrimary.href} className={`${btnGreen} w-full`}>{c.pricing.freePrimary.label} <ArrowRight className="h-4 w-4" /></Link>
-                  <Link href={c.startFreeHref} className={`${btnOutline} w-full`}>Start the free tracker</Link>
+                  <Link href={c.pricing.freePrimary.href} className={`${btnGreen} w-full`}>{paid ? "Go to dashboard" : c.pricing.freePrimary.label} <ArrowRight className="h-4 w-4" /></Link>
+                  <Link href={c.startFreeHref} className={`${btnOutline} w-full`}>{paid ? "Go to dashboard" : "Start the free tracker"}</Link>
                 </div>
               </div>
             </Reveal>
-            <Reveal delay={100}><PremiumPricingCard /></Reveal>
+            {paid ? (
+              <Reveal delay={100}>
+                <div className="flex h-full flex-col items-center justify-center rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-7 text-center">
+                  <span className="inline-block rounded-full bg-emerald-200 px-3 py-1 text-xs font-bold uppercase tracking-wider text-emerald-800">Active</span>
+                  <h3 className="mt-4 text-xl font-bold text-emerald-900">You already have Vitals</h3>
+                  <p className="mt-2 text-sm text-emerald-700">Your subscription is active. Go to your dashboard to see your scores and trends.</p>
+                  <Link href="/dashboard" className="mt-6 rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700">Go to dashboard →</Link>
+                </div>
+              </Reveal>
+            ) : (
+              <Reveal delay={100}><PremiumPricingCard /></Reveal>
+            )}
           </div>
           <Reveal className="mt-5 text-center text-sm text-faint">Cancel anytime · Switch monthly ↔ yearly anytime · Export your data anytime · Core tracking stays free.</Reveal>
         </div>
@@ -385,15 +396,15 @@ export function TrackerLanding({ config: c }: { config: TrackerLandingConfig }) 
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{c.finalCta.h2}</h2>
             <p className="mx-auto mt-3 max-w-xl text-[17px] text-emerald-50/90">{c.finalCta.sub}</p>
             <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link href={c.startFreeHref} className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-3 text-sm font-bold text-brand-800 shadow-sm transition-all duration-150 hover:-translate-y-0.5">Start free at calqulate.net <ArrowRight className="h-4 w-4" /></Link>
-              <Link href="#pricing" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/40 px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">See pricing</Link>
+              <Link href={c.startFreeHref} className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-3 text-sm font-bold text-brand-800 shadow-sm transition-all duration-150 hover:-translate-y-0.5">{paid ? "Go to dashboard" : "Start free at calqulate.net"} <ArrowRight className="h-4 w-4" /></Link>
+              {!paid && <Link href="#pricing" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/40 px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">See pricing</Link>}
             </div>
             <p className="mt-6 text-xs text-emerald-50/70">Educational decision-support, not medical advice · We never sell your data.</p>
           </Reveal>
         </div>
       </section>
 
-      <StickyCtaBar />
+      <StickyCtaBar hidePremium={paid} />
     </main>
   );
 }

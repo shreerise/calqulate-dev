@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminSubscriptionsPage() {
   const admin = createAdminClient();
   const [{ data: subs }, { data: profiles }] = await Promise.all([
-    admin.from("subscriptions").select("user_id,tier,status,stripe_customer_id,stripe_subscription_id,current_period_end,updated_at").order("updated_at", { ascending: false }).limit(500),
+    admin.from("subscriptions").select("user_id,tier,status,gateway,gateway_customer_id,gateway_subscription_id,current_period_end,updated_at").order("updated_at", { ascending: false }).limit(500),
     admin.from("profiles").select("id,email"),
   ]);
   const emailById = new Map<string, string>();
@@ -17,7 +17,7 @@ export default async function AdminSubscriptionsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Subscriptions</h1>
-        <p className="text-gray-500">{rows.length} subscription row{rows.length === 1 ? "" : "s"}, synced from Stripe via webhook.</p>
+        <p className="text-gray-500">{rows.length} subscription row{rows.length === 1 ? "" : "s"}, synced from Razorpay/PayPal via webhook.</p>
       </div>
       <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white">
         <table className="w-full text-sm">
@@ -26,13 +26,14 @@ export default async function AdminSubscriptionsPage() {
               <th className="px-4 py-2.5 font-medium">Email</th>
               <th className="px-4 py-2.5 font-medium">Tier</th>
               <th className="px-4 py-2.5 font-medium">Status</th>
+              <th className="px-4 py-2.5 font-medium">Gateway</th>
               <th className="px-4 py-2.5 font-medium">Renews</th>
-              <th className="px-4 py-2.5 font-medium">Stripe customer</th>
+              <th className="px-4 py-2.5 font-medium">Customer ID</th>
             </tr>
           </thead>
           <tbody>
             {rows.length === 0 && (
-              <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">No subscriptions yet.</td></tr>
+              <tr><td colSpan={6} className="px-4 py-6 text-center text-gray-400">No subscriptions yet.</td></tr>
             )}
             {rows.map((s: any, i: number) => (
               <tr key={i} className="border-t border-gray-100">
@@ -43,8 +44,13 @@ export default async function AdminSubscriptionsPage() {
                   </span>
                 </td>
                 <td className="px-4 py-2.5 text-gray-600">{s.status ?? "—"}</td>
+                <td className="px-4 py-2.5">
+                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${s.gateway === "razorpay" ? "bg-emerald-100 text-emerald-700" : s.gateway === "paypal" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500"}`}>
+                    {s.gateway ?? "—"}
+                  </span>
+                </td>
                 <td className="px-4 py-2.5 text-gray-500">{s.current_period_end ? new Date(s.current_period_end).toLocaleDateString() : "—"}</td>
-                <td className="px-4 py-2.5 font-mono text-xs text-gray-400">{s.stripe_customer_id ?? "—"}</td>
+                <td className="px-4 py-2.5 font-mono text-xs text-gray-400">{s.gateway_customer_id ?? "—"}</td>
               </tr>
             ))}
           </tbody>

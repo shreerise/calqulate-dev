@@ -79,7 +79,7 @@ export function NotificationSettings() {
           <Mail className="mt-0.5 h-5 w-5 text-gray-400" />
           <div>
             <div className="text-sm font-medium text-gray-800">Weekly progress email</div>
-            <div className="text-xs text-gray-500">A week-on-week recap of your score, risks and next lever — from support@calqulate.net.</div>
+            <div className="text-xs text-gray-500">A week-on-week recap of your score, risks and next lever — from krushal.barasiya@calqulate.net.</div>
           </div>
         </div>
         <label className="relative inline-flex cursor-pointer items-center">

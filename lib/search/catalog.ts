@@ -2,15 +2,15 @@
 export interface CatalogItem {
   title: string;
   url: string;
-  category: "calculator" | "service";
+  category: "calculator" | "product";
   keywords: string[];
 }
 
 export const CATALOG: CatalogItem[] = [
   // Vitals services (boosted via category weighting in the engine)
-  { title: "Metabolic Health Tracker", url: "/service/metabolic-health-tracker", category: "service", keywords: ["metabolic", "health", "score", "track", "risk", "vitals"] },
-  { title: "Heart Age Tracker", url: "/service/heart-age-tracker", category: "service", keywords: ["heart", "age", "vascular", "framingham", "cardiovascular"] },
-  { title: "GLP-1 Results Tracker", url: "/service/glp1-progress-tracker", category: "service", keywords: ["glp1", "glp-1", "semaglutide", "ozempic", "tirzepatide", "weight", "loss"] },
+  { title: "Metabolic Health Tracker", url: "/product/metabolic-health-tracker", category: "product", keywords: ["metabolic", "health", "score", "track", "risk", "vitals"] },
+  { title: "Heart Age Tracker", url: "/product/heart-age-tracker", category: "product", keywords: ["heart", "age", "vascular", "framingham", "cardiovascular"] },
+  { title: "GLP-1 Results Tracker", url: "/product/glp1-progress-tracker", category: "product", keywords: ["glp1", "glp-1", "semaglutide", "ozempic", "tirzepatide", "weight", "loss"] },
 
   // Health calculators (high-traffic subset from calqulate.net)
   { title: "BMI Calculator", url: "/health/bmi-calculator", category: "calculator", keywords: ["bmi", "body", "mass", "index", "weight"] },

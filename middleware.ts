@@ -1,7 +1,16 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // 301 redirect old /service/* URLs to /product/*
+  if (pathname === "/service" || pathname.startsWith("/service/")) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(/^\/service/, "/product");
+    return NextResponse.redirect(url, { status: 301 });
+  }
+
   return await updateSession(request);
 }
 
@@ -13,9 +22,12 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/admin/:path*",
+    "/product/:path*",
     "/service/:path*",
     "/login",
     "/signup",
+    "/forgot-password",
+    "/reset-password",
     "/auth/:path*",
   ],
 };

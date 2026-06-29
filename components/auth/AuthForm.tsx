@@ -2,9 +2,25 @@
 import { useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { Eye, EyeOff, Loader2, Mail, Lock, AlertCircle } from "lucide-react";
 import { TurnstileWidget } from "./TurnstileWidget";
+import { toast } from "sonner";
 
-const input = "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm";
+const inputBase =
+  "w-full rounded-lg border bg-white pl-9 pr-3 py-2 text-sm outline-none transition-colors";
+const inputNormal = "border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
+const inputError = "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500";
+
+function passwordStrength(pw: string): { label: string; color: string; width: string; score: number } {
+  if (!pw) return { label: "", color: "", width: "0%", score: 0 };
+  const checks = [/[A-Z]/, /[a-z]/, /\d/, /[^A-Za-z0-9]/];
+  const score = checks.filter((r) => r.test(pw)).length;
+  if (pw.length < 8) return { label: "Too short", color: "bg-red-500", width: "25%", score: 0 };
+  if (score <= 1) return { label: "Weak", color: "bg-red-500", width: "33%", score: 1 };
+  if (score <= 2) return { label: "Fair", color: "bg-orange-500", width: "50%", score: 2 };
+  if (score <= 3) return { label: "Good", color: "bg-yellow-500", width: "75%", score: 3 };
+  return { label: "Strong", color: "bg-emerald-500", width: "100%", score: 4 };
+}
 
 export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const router = useRouter();
@@ -13,18 +29,30 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
   const [consent, setConsent] = useState(false);
   const [token, setToken] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string; consent?: string }>({});
 
   const onToken = useCallback((t: string) => setToken(t), []);
+  const strength = mode === "signup" ? passwordStrength(password) : null;
+
+  function validate(): boolean {
+    const errs: typeof fieldErrors = {};
+    if (!email.includes("@") || !email.includes(".")) errs.email = "Enter a valid email address.";
+    if (password.length < 8) errs.password = "Use at least 8 characters.";
+    if (mode === "signup" && !consent) errs.consent = "You must accept the terms to continue.";
+    setFieldErrors(errs);
+    return Object.keys(errs).length === 0;
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    setInfo(null);
+    if (!validate()) return;
+
     setBusy(true);
     try {
       const endpoint = mode === "signup" ? "/api/auth/signup" : "/api/auth/login";
@@ -43,9 +71,10 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         return;
       }
       if (mode === "signup" && data.needsConfirmation) {
-        setInfo("Check your email to confirm your account, then sign in.");
+        toast.success("Account created! Check your email to confirm.");
         return;
       }
+      toast.success(mode === "login" ? "Welcome back!" : "Account created!");
       router.push(next);
       router.refresh();
     } finally {
@@ -55,14 +84,18 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
 
   async function oauth(provider: "google" | "azure") {
     setError(null);
-    const res = await fetch("/api/auth/oauth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ provider, next }),
-    });
-    const data = await res.json();
-    if (data.url) window.location.href = data.url;
-    else setError(data.error ?? "Could not start sign-in.");
+    try {
+      const res = await fetch("/api/auth/oauth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ provider, next }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else setError(data.error ?? "Could not start sign-in.");
+    } catch {
+      setError("Network error. Please try again.");
+    }
   }
 
   return (
@@ -71,59 +104,176 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         {mode === "signup" ? "Create your account" : "Welcome back"}
       </h1>
       <p className="mt-1 text-sm text-gray-500">
-        {mode === "signup" ? "Start tracking your metabolic health." : "Sign in to your dashboard."}
+        {mode === "signup"
+          ? "Start tracking your metabolic health."
+          : "Sign in to your dashboard."}
       </p>
 
       <div className="mt-5 space-y-2">
-        <button onClick={() => oauth("google")} className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 text-sm font-medium hover:bg-gray-50">
-          <span aria-hidden>G</span> Continue with Google
+        <button
+          type="button"
+          onClick={() => oauth("google")}
+          disabled={busy}
+          className="flex w-full items-center justify-center gap-2.5 rounded-lg border border-gray-300 py-2.5 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 transition-colors min-h-[44px]"
+        >
+          <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+          </svg>
+          Continue with Google
         </button>
-        <button onClick={() => oauth("azure")} className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 text-sm font-medium hover:bg-gray-50">
-          <span aria-hidden>⊞</span> Continue with Outlook / Microsoft
+        <button
+          type="button"
+          onClick={() => oauth("azure")}
+          disabled={busy}
+          className="flex w-full items-center justify-center gap-2.5 rounded-lg border border-gray-300 py-2.5 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 transition-colors min-h-[44px]"
+        >
+          <svg className="h-5 w-5" viewBox="0 0 21 21" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="19" height="19" rx="2" fill="#00A4EF" />
+            <path d="M10.4 11.5v4.5l4.5-1.5V11.5h-4.5zm0-5v4.5h4.5V5.5l-4.5 1zM5.5 11.5v4.5l4.5-1.5V11.5H5.5zm0-5v4.5H10V5.5L5.5 6.5z" fill="#fff" />
+          </svg>
+          Continue with Microsoft
         </button>
       </div>
 
-      <div className="my-5 flex items-center gap-3 text-xs text-gray-400">
-        <div className="h-px flex-1 bg-gray-200" /> or <div className="h-px flex-1 bg-gray-200" />
+      <div className="my-5 flex items-center gap-3 text-xs text-gray-400" role="separator" aria-orientation="horizontal">
+        <div className="h-px flex-1 bg-gray-200" />
+        <span>or continue with email</span>
+        <div className="h-px flex-1 bg-gray-200" />
       </div>
 
-      <form onSubmit={submit} className="space-y-3">
-        <label className="block text-sm">
-          Email
-          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={input} autoComplete="email" />
-        </label>
-        <label className="block text-sm">
-          Password
-          <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className={input} autoComplete={mode === "signup" ? "new-password" : "current-password"} minLength={8} />
-        </label>
+      <form onSubmit={submit} className="space-y-3" noValidate>
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+            <div className="relative mt-1">
+              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setFieldErrors((p) => ({ ...p, email: undefined })); }}
+                className={`${inputBase} ${fieldErrors.email ? inputError : inputNormal}`}
+                placeholder="name@example.com"
+                autoComplete="email"
+                autoFocus
+                aria-invalid={!!fieldErrors.email}
+                aria-describedby={fieldErrors.email ? "email-error" : undefined}
+              />
+            </div>
+          </label>
+          {fieldErrors.email && <p id="email-error" className="text-xs text-red-500">{fieldErrors.email}</p>}
+        </div>
+
+        <div className="space-y-1">
+          <div className="flex items-center justify-between">
+            <label className="block text-sm font-medium text-gray-700">Password</label>
+            {mode === "login" && (
+              <Link href="/forgot-password" className="text-xs font-semibold text-blue-600 hover:text-blue-700">
+                Forgot?
+              </Link>
+            )}
+          </div>
+          <div className="relative mt-1">
+            <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <input
+              type={showPw ? "text" : "password"}
+              required
+              minLength={8}
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); setFieldErrors((p) => ({ ...p, password: undefined })); }}
+              className={`${inputBase} pr-10 ${fieldErrors.password ? inputError : inputNormal}`}
+              placeholder={mode === "signup" ? "Min. 8 characters" : "Enter your password"}
+              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              aria-invalid={!!fieldErrors.password}
+              aria-describedby={fieldErrors.password ? "password-error" : undefined}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPw((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              tabIndex={-1}
+              aria-label={showPw ? "Hide password" : "Show password"}
+            >
+              {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+          {fieldErrors.password && <p id="password-error" className="text-xs text-red-500">{fieldErrors.password}</p>}
+
+          {mode === "signup" && (
+            <div className={`mt-1.5 h-1.5 w-full rounded-full bg-gray-200 overflow-hidden ${password ? "" : "invisible"}`}>
+              <div className={`h-full rounded-full transition-all duration-300 ${strength?.color}`} style={{ width: strength?.width ?? "0%" }} />
+            </div>
+          )}
+          {mode === "signup" && (
+            <ul className="mt-1.5 space-y-1 text-xs text-gray-500" aria-label="Password requirements">
+              {[
+                { label: "At least 8 characters", check: password.length >= 8 },
+                { label: "One uppercase letter", check: /[A-Z]/.test(password) },
+                { label: "One lowercase letter", check: /[a-z]/.test(password) },
+                { label: "One number", check: /\d/.test(password) },
+              ].map((r) => (
+                <li key={r.label} className={`flex items-center gap-1.5 ${r.check ? "text-emerald-600" : ""}`}>
+                  <span className={`h-1.5 w-1.5 rounded-full flex-shrink-0 ${r.check ? "bg-emerald-500" : "bg-gray-300"}`} />
+                  {r.label}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
         {mode === "signup" && (
-          <label className="flex items-start gap-2 text-xs text-gray-600">
-            <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5" />
-            <span>
-              I agree to the <Link href="/terms-and-conditions" className="text-blue-600 underline">Terms</Link> and{" "}
-              <Link href="/privacy-policy" className="text-blue-600 underline">Privacy Policy</Link>, and understand this is educational, not medical advice.
-            </span>
-          </label>
+          <div className="space-y-1">
+            <label className="flex items-start gap-2 text-xs text-gray-600">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => { setConsent(e.target.checked); setFieldErrors((p) => ({ ...p, consent: undefined })); }}
+                className="mt-0.5"
+                aria-invalid={!!fieldErrors.consent}
+              />
+              <span>
+                I agree to the <Link href="/terms-and-conditions" className="text-blue-600 underline font-medium">Terms</Link> and{" "}
+                <Link href="/privacy-policy" className="text-blue-600 underline font-medium">Privacy Policy</Link>, and understand this is educational, not medical advice.
+              </span>
+            </label>
+            {fieldErrors.consent && <p className="text-xs text-red-500">{fieldErrors.consent}</p>}
+          </div>
         )}
 
         <TurnstileWidget onToken={onToken} />
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        {info && <p className="text-sm text-green-600">{info}</p>}
+        {error && (
+          <div className="flex items-start gap-2 rounded-lg bg-red-50 border border-red-200 px-3 py-2" role="alert">
+            <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-500" />
+            <p className="text-sm text-red-600">{error}</p>
+          </div>
+        )}
 
-        <button disabled={busy} className="w-full rounded-lg bg-blue-600 py-2.5 font-semibold text-white hover:bg-blue-700 disabled:opacity-60">
+        <button
+          disabled={busy}
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60 transition-colors min-h-[44px]"
+        >
+          {busy && <Loader2 className="h-4 w-4 animate-spin" />}
           {busy ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
         </button>
       </form>
 
       <p className="mt-4 text-center text-sm text-gray-500">
         {mode === "signup" ? (
-          <>Already have an account? <Link href="/login" className="text-blue-600">Sign in</Link></>
+          <>Already have an account? <Link href="/login" className="font-semibold text-blue-600 hover:text-blue-700">Sign in</Link></>
         ) : (
-          <>New here? <Link href="/signup" className="text-blue-600">Create an account</Link></>
+          <>New here? <Link href="/signup" className="font-semibold text-blue-600 hover:text-blue-700">Create an account</Link></>
         )}
       </p>
+
+      {mode === "login" && (
+        <p className="mt-2 text-center text-xs text-gray-400">
+          <Link href="/forgot-password" className="text-blue-600 hover:text-blue-700 font-medium">Forgot your password?</Link>
+        </p>
+      )}
     </div>
   );
 }

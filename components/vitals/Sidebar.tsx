@@ -12,6 +12,7 @@ import {
   Syringe,
   LogOut,
   X,
+  Globe,
 } from "lucide-react";
 import { BillingButton } from "./BillingButton";
 
@@ -79,6 +80,19 @@ export function Sidebar({ variant, tier, isAdmin, email, onNavigate, onClose }: 
             <X className="h-5 w-5" />
           </button>
         )}
+      </div>
+
+      {/* Back to main site */}
+      <div className="border-b border-gray-800 px-2 pb-2 lg:px-3">
+        <Link
+          href="/"
+          onClick={onNavigate}
+          className={`flex min-h-[44px] items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-400 transition-colors hover:bg-gray-800 hover:text-white ${focusRing} ${itemJustify}`}
+          title="Back to Calqulate.net"
+        >
+          <Globe className="h-5 w-5 shrink-0" />
+          <span className={labelCls}>Calqulate.net</span>
+        </Link>
       </div>
 
       {/* Primary nav */}
