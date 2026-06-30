@@ -21,6 +21,7 @@ export interface RazorpaySubscription {
   customer_id: string;
   plan_id: string;
   status: string;
+  short_url?: string;
   current_start?: number;
   current_end?: number;
   ended_at?: number | null;

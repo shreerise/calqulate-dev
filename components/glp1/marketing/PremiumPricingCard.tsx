@@ -16,7 +16,7 @@ export function PremiumPricingCard() {
   const sub = cadence === "yearly" ? "About $6.58/month, billed annually." : "Billed monthly.";
 
   async function goPremium() {
-    await checkout(gateway, "plus", cadence);
+    await checkout(gateway, "pro", cadence);
   }
 
   return (

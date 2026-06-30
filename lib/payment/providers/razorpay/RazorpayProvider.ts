@@ -66,13 +66,8 @@ function normalizeEventType(razorpayEvent: RazorpayEventType): NormalizedEventTy
 }
 
 function inferTier(planId: string): Tier {
-  const envMap: Record<string, string | undefined> = {
-    [process.env.RAZORPAY_PLAN_PLUS_MONTHLY ?? ""]: "plus",
-    [process.env.RAZORPAY_PLAN_PLUS_YEARLY ?? ""]: "plus",
-    [process.env.RAZORPAY_PLAN_PRO_MONTHLY ?? ""]: "pro",
-    [process.env.RAZORPAY_PLAN_PRO_YEARLY ?? ""]: "pro",
-  };
-  return (envMap[planId] as Tier) ?? "free";
+  if (planId === process.env.RAZORPAY_PLAN_PRO_MONTHLY || planId === process.env.RAZORPAY_PLAN_PRO_YEARLY) return "pro";
+  return "free";
 }
 
 export class RazorpayProvider implements PaymentProvider {
@@ -91,21 +86,25 @@ export class RazorpayProvider implements PaymentProvider {
     const totalCount = input.cadence === "yearly" ? 12 : 0; // 0 = infinite for monthly
 
     // Create subscription
-    const subscription = await client.subscriptions.create({
+    const sub = await client.subscriptions.create({
       plan_id: planId,
       customer_id: customerId,
       total_count: totalCount,
-      customer_notify: 1,
+      customer_notify: 0,
       notes: {
         supabase_user_id: input.userId,
         tier: input.tier,
         cadence: input.cadence,
       },
-    } as any) as unknown as RazorpaySubscription;
+    }) as any;
 
-    // For Razorpay, we redirect to the subscription's hosted page
+    const subscription = sub as RazorpaySubscription;
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net";
+    const keyId = process.env.RAZORPAY_KEY_ID;
+    const checkoutUrl = `${siteUrl}/checkout/razorpay?subscription_id=${subscription.id}&key=${keyId}`;
+
     return {
-      url: `https://checkout.razorpay.com/v1/subscription/${subscription.id}`,
+      url: checkoutUrl,
       sessionId: subscription.id,
     };
   }
@@ -159,11 +158,13 @@ export class RazorpayProvider implements PaymentProvider {
     const client = getClient();
     try {
       await client.subscriptions.cancel(subscriptionId);
-    } catch (err) {
-      throw new SubscriptionActionError(
-        "cancel Razorpay subscription",
-        (err as Error).message,
-      );
+    } catch (err: unknown) {
+      const msg =
+        (err as { error?: { description?: string } })?.error?.description ??
+        (err as { message?: string })?.message ??
+        (err as { description?: string })?.description ??
+        JSON.stringify(err);
+      throw new SubscriptionActionError("cancel Razorpay subscription", msg);
     }
   }
 
@@ -176,11 +177,19 @@ export class RazorpayProvider implements PaymentProvider {
         notes: { supabase_user_id: userId },
       }) as unknown as RazorpayCustomer;
       return customer.id;
-    } catch (err) {
-      throw new SubscriptionActionError(
-        "create Razorpay customer",
-        (err as Error).message,
-      );
+    } catch (err: unknown) {
+      const desc =
+        (err as { error?: { description?: string } })?.error?.description ??
+        (err as { message?: string })?.message ??
+        (err as { description?: string })?.description ??
+        "";
+      // If customer already exists, search by email and return existing
+      if (/already exists/i.test(desc)) {
+        const existing = await client.customers.all({ email }) as unknown as { items: RazorpayCustomer[] };
+        const found = existing?.items?.[0];
+        if (found?.id) return found.id;
+      }
+      throw new SubscriptionActionError("create Razorpay customer", desc);
     }
   }
 
@@ -193,11 +202,13 @@ export class RazorpayProvider implements PaymentProvider {
         currentPeriodEnd: sub.current_end ? new Date(sub.current_end * 1000) : new Date(),
         tier: inferTier(sub.plan_id),
       };
-    } catch (err) {
-      throw new SubscriptionActionError(
-        "fetch Razorpay subscription",
-        (err as Error).message,
-      );
+    } catch (err: unknown) {
+      const msg =
+        (err as { error?: { description?: string } })?.error?.description ??
+        (err as { message?: string })?.message ??
+        (err as { description?: string })?.description ??
+        JSON.stringify(err);
+      throw new SubscriptionActionError("fetch Razorpay subscription", msg);
     }
   }
 }

@@ -39,5 +39,5 @@ export async function getAccess(): Promise<AccessState> {
 }
 
 export function hasPaidAccess(state: AccessState): boolean {
-  return state.isActive && (state.tier === "plus" || state.tier === "pro");
+  return state.isActive && state.tier === "pro";
 }

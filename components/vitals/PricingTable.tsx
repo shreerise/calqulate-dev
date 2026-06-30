@@ -54,10 +54,10 @@ export function PricingTable() {
         </div>
       )}
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2">
         {PLANS.map((p) => {
           const price = cadence === "yearly" ? p.priceYearly : p.priceMonthly;
-          const featured = p.tier === "plus";
+          const featured = p.tier === "pro";
           const isBusy = loading && activeTier === p.tier;
           return (
             <div

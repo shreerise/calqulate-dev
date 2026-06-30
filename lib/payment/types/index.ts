@@ -1,6 +1,6 @@
 /** Gateway-agnostic plan and subscription types */
 
-export type Tier = "free" | "plus" | "pro";
+export type Tier = "free" | "pro";
 export type Gateway = "razorpay" | "paypal";
 export type Cadence = "monthly" | "yearly";
 export type SubscriptionStatus = "active" | "inactive" | "trialing" | "canceled" | "past_due";
@@ -28,25 +28,16 @@ export const PLANS: Plan[] = [
     cta: "Start free",
   },
   {
-    tier: "plus",
-    name: "Vitals Plus",
+    tier: "pro",
+    name: "Vitals Pro",
     priceMonthly: 9.99,
     priceYearly: 79,
     features: [
+      "All Calqulate calculators",
       "Saved measurement history",
       "Metabolic Health Score + trend dashboard",
       "Personalized 'next lever' protocol",
       "Re-measure & milestone reminders",
-    ],
-    cta: "Get Vitals Plus",
-  },
-  {
-    tier: "pro",
-    name: "Vitals Pro",
-    priceMonthly: 14.99,
-    priceYearly: 119,
-    features: [
-      "Everything in Plus",
       "Doctor-shareable PDF reports",
       "Full lab-value tracking (A1c, lipids)",
       "Priority access to new risk engines",
@@ -74,34 +65,18 @@ export function displayUnit(tier: Tier, cadence: Cadence): string {
 
 export function displaySub(cadence: Cadence): string {
   return cadence === "yearly"
-    ? "Billed annually - about $6.58/mo. Save ~34%."
+    ? "Billed annually — about $6.58/mo. Save ~34%."
     : "Billed monthly. Switch to yearly anytime.";
 }
 
 /** Razorpay-specific plan ID lookup */
 export function razorpayPlanIdFor(tier: Tier, cadence: Cadence): string | undefined {
-  const plan = PLANS.find((p) => p.tier === tier);
-  if (!plan) return undefined;
-  const key = `RAZORPAY_PLAN_${tier.toUpperCase()}_${cadence.toUpperCase()}` as const;
-  const envKey: Record<string, string | undefined> = {
-    RAZORPAY_PLAN_PLUS_MONTHLY: process.env.RAZORPAY_PLAN_PLUS_MONTHLY,
-    RAZORPAY_PLAN_PLUS_YEARLY: process.env.RAZORPAY_PLAN_PLUS_YEARLY,
-    RAZORPAY_PLAN_PRO_MONTHLY: process.env.RAZORPAY_PLAN_PRO_MONTHLY,
-    RAZORPAY_PLAN_PRO_YEARLY: process.env.RAZORPAY_PLAN_PRO_YEARLY,
-  };
-  return envKey[key];
+  if (tier === "free") return undefined;
+  return process.env[`RAZORPAY_PLAN_${tier.toUpperCase()}_${cadence.toUpperCase()}`];
 }
 
 /** PayPal-specific plan ID lookup */
 export function paypalPlanIdFor(tier: Tier, cadence: Cadence): string | undefined {
-  const plan = PLANS.find((p) => p.tier === tier);
-  if (!plan) return undefined;
-  const key = `PAYPAL_PLAN_${tier.toUpperCase()}_${cadence.toUpperCase()}` as const;
-  const envKey: Record<string, string | undefined> = {
-    PAYPAL_PLAN_PLUS_MONTHLY: process.env.PAYPAL_PLAN_PLUS_MONTHLY,
-    PAYPAL_PLAN_PLUS_YEARLY: process.env.PAYPAL_PLAN_PLUS_YEARLY,
-    PAYPAL_PLAN_PRO_MONTHLY: process.env.PAYPAL_PLAN_PRO_MONTHLY,
-    PAYPAL_PLAN_PRO_YEARLY: process.env.PAYPAL_PLAN_PRO_YEARLY,
-  };
-  return envKey[key];
+  if (tier === "free") return undefined;
+  return process.env[`PAYPAL_PLAN_${tier.toUpperCase()}_${cadence.toUpperCase()}`];
 }

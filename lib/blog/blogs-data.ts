@@ -288,7 +288,7 @@ export const blogs: Blog[] = [
     readTime: "11 min read",
     publishedAt: "2026-06-23",
     cta: "Free GLP-1 Dose Check",
-    ctaHref: "https://calqulate.net/health/glp-1-dose-calculator",
+    ctaHref: "/health/glp-1-dose-calculator",
     tags: [
       "semaglutide dosage",
       "semaglutide dosage chart",
@@ -298,6 +298,29 @@ export const blogs: Blog[] = [
       "glp-1",
       "weight loss",
       "compounded semaglutide",
+    ],
+  },
+  {
+    slug: "ozempic-muscle-loss-body-composition",
+    title:
+      "Ozempic Muscle Loss: How to Track Your Body Composition and Prevent \"Skinny Fat\"",
+    description:
+      "Up to a third of the weight you lose on Ozempic, Wegovy, or Mounjaro can be muscle — not fat. Learn why your bathroom scale is lying to you, and how to track your body composition so you lose fat, keep muscle, and avoid \"skinny fat\" and \"Ozempic face.\"",
+    category: "Health & Fitness",
+    featuredImage: "/images/blogs/ozempic-muscle-loss-cover.png",
+    readTime: "10 min read",
+    publishedAt: "2026-06-30",
+    cta: "Try the GLP-1 Tracker Free",
+    ctaHref: "/health/glp-1-dose-calculator",
+    tags: [
+      "ozempic muscle loss",
+      "glp-1 muscle loss",
+      "skinny fat",
+      "ozempic face",
+      "body composition tracking",
+      "wegovy",
+      "mounjaro",
+      "weight loss",
     ],
   },
 ];

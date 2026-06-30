@@ -9,6 +9,7 @@ const schema = z.object({
   password: z.string().min(8, "Use at least 8 characters."),
   turnstileToken: z.string().optional(),
   consent: z.literal(true, { errorMap: () => ({ message: "You must accept the terms." }) }),
+  next: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -32,14 +33,18 @@ export async function POST(req: Request) {
   }
 
   const supabase = await createClient();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net";
+  const next = parsed.data.next ?? "/dashboard";
+  const redirectTo = `${siteUrl}/auth/callback?next=${encodeURIComponent(next)}`;
+
   const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
-    options: { emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net"}/auth/callback` },
+    options: { emailRedirectTo: redirectTo },
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
 
   // session present => no email confirmation required.
-  return NextResponse.json({ ok: true, needsConfirmation: !data.session });
+  return NextResponse.json({ ok: true, needsConfirmation: !data.session, next });
 }

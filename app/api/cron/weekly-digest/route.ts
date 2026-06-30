@@ -31,7 +31,7 @@ async function handle(req: Request) {
     .from("subscriptions")
     .select("user_id,tier,status")
     .in("status", ["active", "trialing"])
-    .in("tier", ["plus", "pro"]);
+    .eq("tier", "pro");
   const subRows = (subs ?? []) as any[];
   const userIds: string[] = Array.from(new Set(subRows.map((s) => String(s.user_id)))).slice(0, 500);
 

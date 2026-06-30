@@ -44,7 +44,6 @@ export default async function AdminDashboard() {
   const paypalCount = activePaid.filter((s: any) => s.gateway === "paypal").length;
 
   // Plan distribution
-  const plusCount = activePaid.filter((s: any) => s.tier === "plus").length;
   const proCount = activePaid.filter((s: any) => s.tier === "pro").length;
 
   // Churn (active → inactive in last 30 days)

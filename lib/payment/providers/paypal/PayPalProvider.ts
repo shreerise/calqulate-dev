@@ -87,13 +87,8 @@ function normalizeEventType(eventType: string): NormalizedEventType {
 }
 
 function inferTier(planId: string): Tier {
-  const envMap: Record<string, string | undefined> = {
-    [process.env.PAYPAL_PLAN_PLUS_MONTHLY ?? ""]: "plus",
-    [process.env.PAYPAL_PLAN_PLUS_YEARLY ?? ""]: "plus",
-    [process.env.PAYPAL_PLAN_PRO_MONTHLY ?? ""]: "pro",
-    [process.env.PAYPAL_PLAN_PRO_YEARLY ?? ""]: "pro",
-  };
-  return (envMap[planId] as Tier) ?? "free";
+  if (planId === process.env.PAYPAL_PLAN_PRO_MONTHLY || planId === process.env.PAYPAL_PLAN_PRO_YEARLY) return "pro";
+  return "free";
 }
 
 export class PayPalProvider implements PaymentProvider {

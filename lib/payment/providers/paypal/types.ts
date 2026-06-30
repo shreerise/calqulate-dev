@@ -49,8 +49,8 @@ export interface PayPalSubscriptionDetails {
 
 /** PayPal subscription statuses */
 export const PAYPAL_STATUS_MAP: Record<string, string> = {
-  APPROVAL_PENDING: "trialing",
-  APPROVED: "trialing",
+  APPROVAL_PENDING: "inactive",
+  APPROVED: "active",
   ACTIVE: "active",
   SUSPENDED: "past_due",
   CANCELLED: "canceled",

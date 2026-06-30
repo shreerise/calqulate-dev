@@ -17,7 +17,7 @@ import SemaglutideGuidePdfButton from "@/components/plans/SemaglutideGuidePdfBut
 // ── EXTERNAL / INTERNAL TOOL ROUTES ────────────────────────────────
 // Free GLP-1 dose calculator (open to everyone) and the premium advanced
 // tracking service. Centralised here so every CTA points to one source.
-const GLP1_CALCULATOR_URL = "https://calqulate.net/health/glp-1-dose-calculator";
+const GLP1_CALCULATOR_URL = "/health/glp-1-dose-calculator";
 const GLP1_TRACKER_URL = "/product/glp1-progress-tracker";
 
 interface Props {

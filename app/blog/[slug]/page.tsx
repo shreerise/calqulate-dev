@@ -18,6 +18,7 @@ import IdealWeightByHeightAgeBlog from "@/components/blog/IdealWeightByHeightAge
 import BmrVsTdeeBlog from "@/components/blog/BmrVsTdeeBlog";
 import MensBodyShapeBlog from "@/components/blog/MensBodyShapeBlog";
 import SemaglutideDosageBlog from "@/components/blog/SemaglutideDosageBlog";
+import OzempicMuscleLossBlog from "@/components/blog/OzempicMuscleLossBlog";
 import RelatedBlogs from "@/components/blog/RelatedBlogs";
 
 interface Props {
@@ -89,6 +90,8 @@ export default function BlogSlugPage({ params }: Props) {
         return <MensBodyShapeBlog blog={blog} />;
       case "semaglutide-dosage-chart":
         return <SemaglutideDosageBlog blog={blog} />;
+      case "ozempic-muscle-loss-body-composition":
+        return <OzempicMuscleLossBlog blog={blog} />;
       default:
         return <GenericBlogPlaceholder blog={blog} />;
     }

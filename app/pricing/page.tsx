@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { SinglePlan } from "@/components/vitals/SinglePlan";
 import { SocialProof } from "@/components/marketing/SocialProof";
 import { PremiumTrackersBand } from "@/components/marketing/PremiumTrackersBand";
+import { CheckoutStatus } from "@/components/payment/CheckoutStatus";
 import { FeatureComparison } from "@/components/marketing/FeatureComparison";
 import { getAccess, hasPaidAccess } from "@/lib/auth";
 import { Check, X, ArrowRight } from "lucide-react";
@@ -72,6 +73,7 @@ export default async function PricingPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
+      <CheckoutStatus />
       <main id="main" className="flex-1">
         {/* Hero */}
         <section className="bg-gradient-to-br from-emerald-50 to-white py-12 sm:py-16">

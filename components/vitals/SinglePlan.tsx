@@ -24,12 +24,12 @@ export function SinglePlan({ paid }: { paid?: boolean }) {
   const [gateway, setGateway] = useState<Gateway>("paypal");
   const { loading, error, checkout, retry } = useCheckout();
 
-  const price = displayPrice("plus", cadence);
-  const unit = displayUnit("plus", cadence);
+  const price = displayPrice("pro", cadence);
+  const unit = displayUnit("pro", cadence);
   const sub = displaySub(cadence);
 
   async function subscribe() {
-    await checkout(gateway, "plus", cadence);
+    await checkout(gateway, "pro", cadence);
   }
 
   return (

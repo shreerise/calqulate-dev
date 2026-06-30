@@ -61,7 +61,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
           mode === "signup"
-            ? { email, password, consent, turnstileToken: token }
+            ? { email, password, consent, turnstileToken: token, next }
             : { email, password, turnstileToken: token },
         ),
       });

@@ -5,6 +5,7 @@ import { TrendChart, type TrendPoint } from "@/components/vitals/TrendChart";
 import { MetricForm } from "@/components/vitals/MetricForm";
 import { Paywall } from "@/components/vitals/Paywall";
 import { DownloadReportButton } from "@/components/vitals/DownloadReportButton";
+import { CheckoutStatus } from "@/components/payment/CheckoutStatus";
 import { TrajectoryPanel, type TrajectorySummary } from "@/components/vitals/TrajectoryPanel";
 import { NextLeversPanel } from "@/components/vitals/NextLeversPanel";
 import { fitTrajectory, forecast, isRealChange, METRIC_NOISE, type SeriesPoint } from "@/lib/vitals/trajectory";
@@ -79,6 +80,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      <CheckoutStatus />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">Your metabolic health</h1>
@@ -142,7 +144,7 @@ export default async function DashboardPage() {
           <MetricForm persist />
         ) : (
           <p className="text-sm text-gray-600">
-            Upgrade to Vitals Plus to save measurements and build your trend.
+            Upgrade to Vitals Pro to save measurements and build your trend.
           </p>
         )}
       </section>
