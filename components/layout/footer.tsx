@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { HeartPulse, Mail, ShieldCheck } from "lucide-react"
+import { HeartPulse, Mail, ShieldCheck, Lock } from "lucide-react"
 import { STANDALONE_QUESTIONS } from "@/app/answers/questions-data"
+import { PaymentBadges } from "./payment-badges"
 
 const linkCls = "block text-white/55 hover:text-white transition-colors py-1.5 sm:py-1"
 
@@ -75,6 +76,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-white">Legal &amp; Support</h3>
             <ul className="space-y-1 text-sm">
               <li><Link href="/terms-and-conditions" className={linkCls}>Terms &amp; Conditions</Link></li>
+              <li><Link href="/refund-policy" className={linkCls}>Refund Policy</Link></li>
               <li><Link href="/disclaimer" className={linkCls}>Disclaimer</Link></li>
               <li><Link href="/cookie-policy" className={linkCls}>Cookie Policy</Link></li>
               <li><Link href="/dashboard/settings" className={linkCls}>Your privacy choices / Delete my data</Link></li>
@@ -96,6 +98,34 @@ export function Footer() {
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Payment methods */}
+        <div className="mt-8 border-t border-white/10 pt-8">
+          <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="space-y-3 text-center lg:text-left">
+              <h3 className="flex items-center justify-center gap-2 text-sm font-semibold text-white lg:justify-start">
+                <Lock className="h-4 w-4 text-brand" /> Secure payment methods we accept
+              </h3>
+              <div className="flex justify-center lg:justify-start">
+                <PaymentBadges />
+              </div>
+            </div>
+            <div className="max-w-md space-y-1.5 text-center text-xs text-white/55 lg:text-right">
+              <p>
+                <span className="font-semibold text-white/80">🇺🇸 In the USA &amp; worldwide:</span>{" "}
+                buy your subscription securely with <span className="text-white/80">PayPal</span> — credit
+                &amp; debit cards (Visa, Mastercard, Amex) accepted, no PayPal account required.
+              </p>
+              <p>
+                <span className="font-semibold text-white/80">🇮🇳 In India:</span>{" "}
+                pay via <span className="text-white/80">Razorpay</span> — UPI, cards, netbanking &amp; wallets.
+              </p>
+              <p className="text-white/40">
+                Payments are processed by PCI-DSS compliant gateways. We never store your card details.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="mt-8 space-y-2 border-t border-white/10 pt-8">
