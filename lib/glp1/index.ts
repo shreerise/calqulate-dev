@@ -16,6 +16,7 @@ export * from "./bodyComposition";
 export * from "./nutrition";
 export * from "./reminders";
 export * from "./benchmark";
+export * from "./sweetSpot";
 export * from "./reconstitution";
 export * from "./refill";
 export * from "./foods";

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ArrowRight, Heart, Code2, Users, ShieldCheck, Sparkles, Linkedin } from "lucide-react";
+import { FounderVision } from "@/components/marketing/FounderVision";
 
 export const metadata: Metadata = {
   title: "About Calqulate.net | Metabolic and heart health, tracked",
@@ -108,6 +109,11 @@ export default function AboutPage() {
               change that lowers your risk most. The free calculators are still here, and they are still the easy way in.
             </p>
           </div>
+        </section>
+
+        {/* Founder vision */}
+        <section className="container mx-auto px-4 max-w-4xl mb-16">
+          <FounderVision />
         </section>
 
         {/* Values */}

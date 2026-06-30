@@ -134,6 +134,55 @@
   --color-metab: #8b5cf6;
 }
 
+/* Gold spotlight sweep for highlighted premium features */
+@keyframes goldShine {
+  0% { transform: translateX(0) skewX(-12deg); }
+  60%, 100% { transform: translateX(900%) skewX(-12deg); }
+}
+.gold-shine {
+  animation: goldShine 4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gold-shine { animation: none; }
+}
+
+/* ── Hero headline animations ─────────────────────────────────────────── */
+@keyframes heroIn {
+  0% { opacity: 0; transform: translateY(18px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-hero-in {
+  animation: heroIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes heroShimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.hero-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    #b8860b 0%,
+    #d4af37 20%,
+    #f5d77a 45%,
+    #fff3c4 50%,
+    #f5d77a 55%,
+    #d4af37 80%,
+    #b8860b 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: heroShimmer 3.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-in { animation: none; }
+  .hero-shimmer { animation: none; }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

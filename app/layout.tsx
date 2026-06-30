@@ -15,10 +15,10 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://calqulate.net"),
-  title: "Calqulate - Professional Health Calculators",
+  title: "Stop GLP-1 Muscle Loss: Track Metabolism & Look Younger",
   description:
-    "Calculate your health metrics instantly with Calqulate.net — your trusted hub for accurate BMI, body fat, calorie, and ideal weight calculators.",
-  keywords: "calqulate.net",
+    "Stop GLP-1 muscle loss. The only app to track your dosage, Metabolism Score, and Heart Age. Burn pure fat, protect muscle, and look 15 years younger.",
+  keywords: "calqulate.net, Glp-1 tracker",
   generator: "Calqulate",
   robots: "index, follow",
   applicationName: "Calqulate",

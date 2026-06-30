@@ -1,22 +1,38 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, Loader2 } from "lucide-react";
+import { Check, ArrowRight, Loader2, Sparkles, Dumbbell, ShieldCheck } from "lucide-react";
 import { GatewayPicker } from "@/components/payment/GatewayPicker";
 import { useCheckout } from "@/hooks/useCheckout";
 import { displayPrice, displayUnit, displaySub } from "@/lib/payment/types/index";
 import type { Gateway } from "@/lib/payment/types/index";
 
 const FEATURES = [
+  "GLP-1 dose & side-effect tracking for Ozempic, Wegovy & Mounjaro",
+  "Protein targets & resistance-training reminders to protect lean mass",
+  "Body-composition tracking - fat vs. muscle, not just the scale",
   "Metabolic Health Score + Longevity Index (0–1000) & biological age",
   "\u201cFuture You\u201d simulator - Monte-Carlo projection of your next 6\u201360 months",
   "Personal trajectory engine - separates real progress from daily noise",
   "Your single highest-impact 'next lever', quantified in your own risk",
   "Heart age, 10-yr heart-attack & diabetes risk, trended month over month",
-  "GLP-1 lean-mass protection: track muscle, not just the scale",
   "Doctor-shareable PDF report + full lab tracking (kg/lb \u00b7 cm/in)",
   "Weekly progress email + optional mobile notifications",
   "Private by design \u00b7 export or delete your data anytime",
+];
+
+// Two standout, members-only benefits get the gold spotlight treatment.
+const HIGHLIGHTS = [
+  {
+    icon: Dumbbell,
+    title: "Fat-loss vs. muscle-loss detection",
+    body: "Know exactly what you’re burning on a GLP-1 — so you never end up “skinny-fat”.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Your history is never lost",
+    body: "Switch or replace your device and your full health timeline follows you, securely.",
+  },
 ];
 
 export function SinglePlan({ paid }: { paid?: boolean }) {
@@ -63,7 +79,27 @@ export function SinglePlan({ paid }: { paid?: boolean }) {
           <p className="mt-1 text-xs text-gray-500">{sub}</p>
         </div>
 
-        <ul className="mt-6 space-y-2.5">
+        {/* Members-only spotlight (gold shine) */}
+        <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/40 bg-gradient-to-br from-gold-light/15 via-white to-gold/10 p-4 shadow-[0_4px_20px_rgba(245,158,11,0.12)]">
+          <span className="gold-shine pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-12deg] bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+          <div className="relative">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-gold-light to-gold px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-gold-ink shadow-sm">
+              <Sparkles className="h-3 w-3" /> Members-only
+            </span>
+            <ul className="mt-3 space-y-2.5">
+              {HIGHLIGHTS.map(({ icon: Icon, title, body }) => (
+                <li key={title} className="flex gap-2.5">
+                  <Icon className="h-4 w-4 mt-0.5 flex-shrink-0 text-gold" />
+                  <span className="text-sm leading-snug text-gray-800">
+                    <span className="font-bold">{title}.</span> {body}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <ul className="mt-5 space-y-2.5">
           {FEATURES.map((f) => (
             <li key={f} className="flex gap-2.5 text-sm text-gray-700">
               <Check className="h-4 w-4 mt-0.5 flex-shrink-0 text-emerald-600" />
@@ -93,7 +129,7 @@ export function SinglePlan({ paid }: { paid?: boolean }) {
             <button
               onClick={subscribe}
               disabled={loading}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 font-semibold text-white hover:bg-emerald-700 transition-colors disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-light to-gold px-4 py-3 font-bold text-gold-ink shadow-[0_8px_20px_rgba(245,158,11,.35)] transition-all duration-150 hover:-translate-y-0.5 disabled:opacity-60"
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
               {loading ? "Redirecting\u2026" : "Start Calqulate Vitals"}

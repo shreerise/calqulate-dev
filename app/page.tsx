@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/search/search-bar"
 import { ScoreGauge } from "@/components/vitals/ScoreGauge"
 import { SinglePlan } from "@/components/vitals/SinglePlan"
+import { FounderVision } from "@/components/marketing/FounderVision"
 import { SocialProof } from "@/components/marketing/SocialProof"
 import { PremiumTrackersBand } from "@/components/marketing/PremiumTrackersBand"
 import { getAccess, hasPaidAccess } from "@/lib/auth"
@@ -406,46 +407,29 @@ const vitalsServices = [
 
 const faqs = [
   {
-    // Main purpose — what the whole service is for
-    question: "What does Calqulate Vitals actually do?",
+    question: "I already use MyFitnessPal. Why do I need this?",
     answer:
-      "Calqulate Vitals turns your health numbers into a tracked Metabolic Health Score and shows the outcomes that actually matter — your 10-year heart-attack risk, heart age and type-2 diabetes risk — falling over time, instead of just your weight. It runs on validated clinical models and tells you the single highest-impact change to make next. Three tracks build on the same engine: the Metabolic Health Tracker, the Heart Age Tracker and the GLP-1 Progress Tracker.",
+      "Generic trackers are designed just for counting calories. Calqulate is built specifically for people on GLP-1 medications (Ozempic, Wegovy, Mounjaro). We monitor the unique side effects of these meds—like rapid muscle loss, extreme drops in appetite, and metabolic changes—so you lose weight safely.",
   },
   {
-    // Metabolic Health Tracker — viral: "is it accurate / what's a good score"
-    question: "Is the Metabolic Health Score accurate, and what counts as a good score?",
+    question: "How do I know if I am losing muscle instead of fat?",
     answer:
-      "The Metabolic Health Score (0–100) is built from peer-reviewed clinical equations, not a black-box AI, and the methodology is shown on every result. Like any single reading it is an estimate, so the real value is the trend — re-check every few weeks and watch the number climb as your blood pressure, glucose and body composition improve. Higher is better, and the tracker shows exactly which levers move your score the most.",
+      "The standard bathroom scale lies to you. Up to 30% of weight lost on GLP-1s can be muscle. Our Body Composition Tracker uses clinically validated inputs to show you exactly how much fat you are burning versus muscle, so you don't end up 'skinny fat'.",
   },
   {
-    // Heart Age Tracker — viral: "why is my heart age older than my real age"
-    question: "Why is my heart age older than my actual age?",
+    question: "Why do you track 'Heart Age' and Labs?",
     answer:
-      "A higher heart age usually means one or more risk factors — high blood pressure, high cholesterol, high blood sugar or smoking — are adding strain to your arteries. It is extremely common: the CDC estimates the average American heart is about 7 years older than their real age. The Heart Age Tracker uses the validated Framingham model (designed for ages 30–74) and lets you watch the number fall as your numbers improve.",
+      "Insurance companies and doctors require proof that your medication is actually making you healthier to keep refilling it. By tracking your labs and your 'Heart Age' in our app, you have undeniable proof that your internal health is drastically improving.",
   },
   {
-    // GLP-1 Progress Tracker — viral: "am I losing muscle not fat"
-    question: "On Ozempic or Wegovy, how do I know I'm losing fat and not muscle?",
+    question: "What is the Founding Member Beta offer?",
     answer:
-      "The scale can't tell fat from muscle. The GLP-1 Progress Tracker watches lean-mass-aware body composition alongside your heart and diabetes risk, and pairs it with protein targets and resistance-training reminders — the two things shown to protect muscle while you lose weight on a GLP-1. It works for semaglutide (Ozempic, Wegovy) and tirzepatide (Mounjaro, Zepbound).",
+      "We just launched the GLP-1 suite! For our first 100 users, instead of a $9.99 monthly subscription, we are offering a one-time lifetime pass for just $49. No recurring fees, ever.",
   },
   {
-    // Features — the standout capabilities people ask about
-    question: "What are the Future You simulator and the 'next lever'?",
+    question: "Is my medical data safe?",
     answer:
-      "Future You is a Monte-Carlo engine that projects your weight, score and heart age 6–60 months out across realistic, optimistic and pessimistic effort, with honest confidence bands. Your 'next lever' is the single highest-impact change to make first, quantified in your own risk numbers — so you are never guessing what to fix. Both are included with every Calqulate Vitals plan.",
-  },
-  {
-    // Pricing — viral: "is it free / how much"
-    question: "How much does Calqulate Vitals cost, and is there a free version?",
-    answer:
-      "Every calculator and your first full metabolic snapshot are free — no account, nothing saved, no card needed. Calqulate Vitals, which adds saved history, trend tracking, the Future You simulator and your GLP-1 protocol, is one simple plan: $9.99/month or $79/year (about $6.58/month). You can cancel anytime.",
-  },
-  {
-    // Accuracy / trust — models + privacy + not medical advice
-    question: "What clinical models is this based on, and is it medical advice?",
-    answer:
-      "Calqulate uses transparent, published models: the Pooled Cohort Equations for 10-year ASCVD risk, Framingham for heart age, and FINDRISC for type-2 diabetes risk. Your data is private — you can export or permanently delete it anytime, and we never sell it. It is educational decision-support to help you understand and track your risk, not a diagnosis, so always confirm any changes with your doctor.",
+      "100% yes. We do not require an account for basic calculators, and for premium users, your data is never sold. You can export or permanently delete your health history with the click of a single button.",
   },
 ]
 
@@ -544,119 +528,68 @@ export default async function HomePage() {
 
       <main id="main" className="flex-1">
 
-        {/* ── HERO SECTION (premium redesign) ──────────────────────────────── */}
-        <section className="relative overflow-hidden bg-[#04140f] py-16 lg:py-24">
-          {/* Layered background: radial glow + grid + orbs */}
+        {/* ── HERO SECTION (GLP-1 focused, light product-page palette) ──────── */}
+        <section className="relative overflow-hidden bg-surface py-16 lg:py-24">
+          {/* Soft light background accents (match product-page hero) */}
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(16,185,129,0.22),transparent_55%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(5,150,105,0.18),transparent_50%)]" />
-            <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:46px_46px]" />
-            <div className="absolute -top-40 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl" />
-            <div className="absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-teal-400/10 blur-3xl" />
+            <div className="absolute -right-32 -top-24 h-96 w-96 rounded-full bg-brand/20 blur-3xl" />
+            <div className="absolute -left-24 top-40 h-72 w-72 rounded-full bg-curve/10 blur-3xl" />
           </div>
 
           <div className="relative container mx-auto px-3 sm:px-4">
             <div className="grid grid-cols-1 items-center gap-10 sm:gap-14 lg:grid-cols-12 lg:gap-8">
 
               {/* LEFT: copy */}
-              <div className="lg:col-span-6 text-center lg:text-left">
-                <div className="mb-5 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium text-emerald-300 backdrop-blur">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-                  Mission control for your metabolic health
+              <div className="lg:col-span-6 text-center lg:text-left lg:pl-8 xl:pl-14">
+                <div className="mb-5 sm:mb-6 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-brand-800">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-brand" />
+                  For Ozempic, Wegovy, &amp; Mounjaro users
                 </div>
 
-                <h1 className="text-balance text-4xl sm:text-6xl xl:text-7xl font-extrabold leading-[1.05] tracking-tight text-white">
-                  Stop calculating.{" "}
-                  <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Start reversing.</span>
+                <h1 className="animate-hero-in text-balance text-3xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.07] tracking-tight text-ink">
+                  Stop GLP-1 Muscle Loss:{" "}
+                  <span className="hero-shimmer">Track Metabolism &amp; Look Younger.</span>
                 </h1>
 
-                <p className="mx-auto mt-5 sm:mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-emerald-100/75 lg:mx-0">
-                  Calqulate models your metabolic and cardiovascular risk over time, projects your future self,
-                  and tells you the single highest-impact change to make next. Built on validated clinical models,
-                  not guesswork.
+                <p className="mx-auto mt-5 sm:mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-copy lg:mx-0">
+                  Up to 40% of GLP-1 weight loss is actually muscle. Stop letting the scale lie to you. Track your
+                  doses, monitor your Metabolism Score, and reverse your Heart Age to ensure you burn 100% fat -
+                  so you look and feel 15 years younger.
                 </p>
 
                 <div className="mx-auto mt-6 sm:mt-8 max-w-md lg:mx-0">
-                  <SearchBar placeholder="Search free tools... e.g. BMI, heart age" className="h-13 rounded-xl bg-white text-base shadow-xl" />
+                  <SearchBar placeholder="Search free tools... e.g. glp-1 dose, heart age" className="h-13 rounded-xl border border-line bg-white text-base shadow-md" />
                 </div>
 
                 <div className="mt-5 sm:mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
-                  <Button size="lg" className="w-full sm:w-auto rounded-xl bg-emerald-500 px-7 py-3 font-semibold text-emerald-950 shadow-lg shadow-emerald-900/40 transition hover:bg-emerald-400 min-h-[44px]" asChild>
-                    <Link href="/product/metabolic-health-tracker">Get my free score<ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  <Button size="lg" className="w-full sm:w-auto rounded-xl bg-brand px-7 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-brand-600 min-h-[44px]" asChild>
+                    <Link href="/product/glp1-progress-tracker">Get my Metabolism Score<ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl border-emerald-500/40 bg-white/5 px-7 py-3 font-semibold text-emerald-100 backdrop-blur transition hover:bg-emerald-800/40 hover:text-white min-h-[44px]" asChild>
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl border-brand bg-white px-7 py-3 font-semibold text-brand-800 transition hover:bg-brand-50 min-h-[44px]" asChild>
                     <Link href="/how-it-works">See how it works</Link>
                   </Button>
                 </div>
 
-                <div className="mt-7 sm:mt-9 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-emerald-300/70 lg:justify-start">
-                  {["Validated clinical models", "Private by design", "Free to start"].map((t) => (
-                    <span key={t} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-400" />{t}</span>
+                <div className="mt-7 sm:mt-9 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-faint lg:justify-start">
+                  {["Based on clinical formulas", "100% private & secure", "Built for GLP-1 users"].map((t) => (
+                    <span key={t} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand" />{t}</span>
                   ))}
                 </div>
               </div>
 
-              {/* RIGHT: live product preview card */}
+              {/* RIGHT: GLP-1 reality-check video (responsive) */}
               <div className="relative lg:col-span-6">
-                <div className="absolute inset-0 rounded-[2.5rem] bg-emerald-400/20 blur-3xl" />
-                <div className="relative mx-auto w-full max-w-md rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 sm:p-5 shadow-2xl backdrop-blur-xl">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-white">Your metabolic health</span>
-                    <span className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-300">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" /> LIVE
-                    </span>
+                <div className="absolute inset-0 rounded-[2.5rem] bg-brand/20 blur-3xl" />
+                <div className="relative mx-auto w-full max-w-xl overflow-hidden rounded-2xl border border-line bg-black shadow-2xl">
+                  <div className="relative aspect-video w-full">
+                    <iframe
+                      src="https://player.cloudinary.com/embed/?cloud_name=tiotxqvw&public_id=GLP-1_Reality_Check_xsfptb"
+                      title="GLP-1 Reality Check"
+                      className="absolute inset-0 h-full w-full"
+                      allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                      allowFullScreen
+                    />
                   </div>
-
-                  {/* Longevity index */}
-                  <div className="mt-4 rounded-2xl bg-black/20 p-4">
-                    <div className="flex items-end justify-between">
-                      <div>
-                        <div className="text-[11px] uppercase tracking-wide text-emerald-300/70">Longevity Index</div>
-                        <div className="text-3xl font-extrabold text-white">742<span className="text-sm font-medium text-white/40"> / 1000</span></div>
-                      </div>
-                      <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-bold text-emerald-300">Strong</span>
-                    </div>
-                    <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/10">
-                      <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-300" style={{ width: "74%" }} />
-                    </div>
-                  </div>
-
-                  {/* Gauge + sparkline */}
-                  <div className="mt-3 grid grid-cols-2 gap-3">
-                    <div className="rounded-2xl bg-black/20 p-3">
-                      <div className="rounded-xl bg-white p-2">
-                        <ScoreGauge score={88} grade="B" />
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-between rounded-2xl bg-black/20 p-3">
-                      <div className="text-[11px] uppercase tracking-wide text-emerald-300/70">Score trend</div>
-                      <svg viewBox="0 0 120 48" className="w-full" aria-hidden>
-                        <polyline points="0,40 24,36 48,30 72,26 96,16 120,8" fill="none" stroke="#34d399" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                        {[[0,40],[24,36],[48,30],[72,26],[96,16],[120,8]].map(([x,y],i)=>(<circle key={i} cx={x} cy={y} r="2.5" fill="#34d399" />))}
-                      </svg>
-                      <div className="text-xs font-semibold text-emerald-300">+11 this quarter</div>
-                    </div>
-                  </div>
-
-                  {/* Risk tiles */}
-                  <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-                    {[["Heart age","52"],["10-yr heart","5.4%"],["Diabetes","4%"]].map(([l,v]) => (
-                      <div key={l} className="rounded-xl bg-black/20 p-2.5">
-                        <div className="text-base font-bold text-white">{v}</div>
-                        <div className="text-[10px] text-white/50">{l}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* floating accents */}
-                <div className="absolute -bottom-5 -left-3 hidden rounded-2xl border border-emerald-100 bg-white p-3 shadow-xl sm:flex items-center gap-3 animate-float">
-                  <div className="rounded-full bg-emerald-100 p-2 text-emerald-600"><TrendingUp className="h-5 w-5" /></div>
-                  <div><div className="text-xs font-bold text-gray-900">Risk falling</div><div className="text-[11px] text-gray-500">month over month</div></div>
-                </div>
-                <div className="absolute -top-5 -right-3 hidden rounded-2xl border border-emerald-500/30 bg-emerald-900/90 p-3 shadow-xl backdrop-blur sm:flex items-center gap-3 animate-float-delayed">
-                  <div className="rounded-full bg-emerald-500/20 p-2 text-emerald-300"><Lock className="h-5 w-5" /></div>
-                  <div><div className="text-xs font-bold text-white">Private by design</div><div className="text-[11px] text-emerald-200/80">export or delete anytime</div></div>
                 </div>
               </div>
 
@@ -780,38 +713,6 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── SECTION D: THE THREE VITALS SERVICES ─────────────────────────── */}
-        <section className="py-12 sm:py-16 bg-white">
-          <div className="container mx-auto px-3 sm:px-4">
-            <div className="text-center mb-8 sm:mb-10">
-              <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
-                The Vitals services
-              </span>
-              <h2 id="vitals-services" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Pick the track that fits your goal
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
-              {vitalsServices.map((svc) => (
-                <Link
-                  key={svc.href}
-                  href={svc.href}
-                  className="group block rounded-2xl border border-gray-100 bg-white p-6 hover:border-emerald-200 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
-                >
-                  <div className="p-3 bg-emerald-50 rounded-xl w-fit text-emerald-600 group-hover:bg-emerald-100 transition-colors mb-4">
-                    {svc.icon}
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">{svc.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-4">{svc.desc}</p>
-                  <span className="inline-flex items-center text-sm font-semibold text-emerald-600 group-hover:text-emerald-500">
-                    Explore <ArrowRight className="ml-1.5 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ── ADVANCED PLATFORM (v2 capabilities) ──────────────────────────── */}
         <section className="relative overflow-hidden py-12 sm:py-16 text-gray-100" style={{ background: LUXE_BG }}>
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.55), transparent)" }} />
@@ -831,9 +732,9 @@ export default async function HomePage() {
                 { tag: "Live", t: "Longevity Index (0–1000)", d: "One number that rolls up cardiovascular, metabolic, body-composition, fitness and glucose control - with the exact levers to raise it." },
                 { tag: "Live", t: "Biological age", d: "A transparent biomarker-weighted estimate of how old your body really is, and the top drivers aging you faster." },
                 { tag: "Live", t: "“Future You” simulator", d: "A Monte-Carlo engine projects your weight, score and heart age 6–60 months out - across optimistic, realistic and pessimistic adherence, with honest confidence bands." },
-                { tag: "Soon", t: "3D body + organ systems", d: "An interactive avatar that morphs with your composition, plus per-organ biological-age gauges (heart, liver, pancreas, brain, muscle)." },
-                { tag: "Soon", t: "GLP-1 Autopilot", d: "An adaptive 12–24 week titration + protein + training protocol that adjusts to your logged side-effects and progress." },
-                { tag: "Soon", t: "Mobile + weekly email", d: "Opt-in mobile notifications and a week-on-week progress email so your trajectory stays top of mind." },
+                { tag: "Live", t: "3D body + organ systems", d: "An interactive avatar that morphs with your composition, plus per-organ biological-age gauges (heart, liver, pancreas, brain, muscle)." },
+                { tag: "Live", t: "GLP-1 Autopilot", d: "An adaptive 12–24 week titration + protein + training protocol that adjusts to your logged side-effects and progress." },
+                { tag: "Live", t: "Mobile + weekly email", d: "Opt-in mobile notifications and a week-on-week progress email so your trajectory stays top of mind." },
               ].map((f) => (
                 <div key={f.t} className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors hover:border-gold/25 hover:bg-white/10">
                   <span className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${f.tag === "Live" ? "bg-gradient-to-r from-gold-light to-gold text-gold-ink" : "bg-white/10 text-white/70"}`}>
@@ -865,7 +766,14 @@ export default async function HomePage() {
                 saved history, the trajectory engine, your next-lever protocol, and doctor-shareable reports.
               </p>
             </div>
-            <SinglePlan paid={paid} />
+            <div className="mx-auto grid max-w-5xl items-center gap-6 lg:grid-cols-2 lg:gap-8">
+              <div className="order-2 lg:order-1">
+                <FounderVision />
+              </div>
+              <div className="order-1 lg:order-2">
+                <SinglePlan paid={paid} />
+              </div>
+            </div>
             <p className="mt-8 text-center text-xs text-gray-400">
               Educational decision-support - not medical advice. Cancel anytime.
             </p>
@@ -1298,8 +1206,8 @@ export default async function HomePage() {
                 className="bg-gradient-to-r from-gold-light to-gold hover:opacity-95 text-gold-ink font-bold px-8 rounded-xl shadow-[0_8px_20px_rgba(245,158,11,.35)]"
                 asChild
               >
-                <Link href="/product/metabolic-health-tracker">
-                  Start your free Metabolic Health Score
+                <Link href="/product/glp-1-progress-tracker">
+                  Start with GLP-1 Progress Tracker
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

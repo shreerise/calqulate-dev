@@ -8,6 +8,7 @@ import {
   computeNextDoseMs,
   describeDueIn,
   benchmark,
+  doseSweetSpot,
   journeyMetrics,
   weeklyHealthScore,
   coachMessages,
@@ -33,6 +34,7 @@ import { DoseReminderCard } from "@/components/glp1/DoseReminderCard";
 import { Glp1ReportButton } from "@/components/glp1/Glp1ReportButton";
 import { ReconstitutionCalculator } from "@/components/glp1/ReconstitutionCalculator";
 import { RefillTracker } from "@/components/glp1/RefillTracker";
+import { SweetSpotCard } from "@/components/glp1/SweetSpotCard";
 import type { Glp1EntityName } from "@/lib/glp1/schemas";
 import { Activity, Syringe, Scale, Utensils, Target } from "lucide-react";
 
@@ -115,6 +117,16 @@ export default async function Glp1TrackerPage() {
       bodyComp(latest.weightKg, latest.bodyFatPct),
     );
   }
+
+  // ── Dosing sweet spot (most loss for least side effects, from logged history) ─
+  const sweet = doseSweetSpot({
+    doses: doses.filter((d) => !d.skipped).map((d) => ({ takenAt: d.takenAt, amountMg: d.amountMg })),
+    weights: weights.map((w) => ({ takenAt: w.takenAt, weightKg: w.weightKg })),
+    bodyComps: bodyComps.map((b) => ({ takenAt: b.takenAt, weightKg: b.weightKg, bodyFatPct: b.bodyFatPct })),
+    sideEffects: symptoms.map((s) => ({ loggedAt: s.loggedAt, noSymptoms: s.noSymptoms, severity: s.severity })),
+    nowMs: Date.now(),
+  });
+  const showSweetSpot = sweet.sweetSpot != null || sweet.levels.length >= 2;
 
   const latestWeight = weights[0];
 
@@ -257,6 +269,9 @@ export default async function Glp1TrackerPage() {
           <p className="mt-3 text-sm text-gray-600">{bench.message}</p>
         </div>
       )}
+
+      {/* Dosing sweet spot — most loss for the least side effects, from your data */}
+      {showSweetSpot && <SweetSpotCard result={sweet} />}
 
       {/* Logging */}
       <Glp1LoggingPanel medications={medOptions} />
