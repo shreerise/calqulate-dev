@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Linkedin, ArrowRight } from "lucide-react"
 
-const meetContributions = ["Product Strategy", "User Experience", "Operations"]
+const meetContributions = ["Product Strategy", "Product Algorithm", "User Acquisition",]
 const krushalContributions = ["Software Engineering", "Calculator Development", "Technical SEO"]
 
 function FounderCard({
@@ -48,7 +48,7 @@ function FounderCard({
             </span>
           ))}
         </div>
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 mt-4">
           <a
             href={linkedInUrl}
             target="_blank"

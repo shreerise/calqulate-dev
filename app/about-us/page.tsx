@@ -161,7 +161,7 @@ export default function AboutPage() {
                   <h3 className="text-xl font-bold text-gray-900">Meet Akabari</h3>
                   <p className="text-sm text-emerald-700 font-medium mb-3">Co-Founder, Calqulate.net</p>
                   <div className="flex flex-wrap gap-1.5 mb-3">
-                    {["Product Strategy", "User Experience", "Operations"].map((c) => (
+                    {["Product Strategy", "Product Algorithm", "User Acquisition"].map((c) => (
                       <span key={c} className="inline-flex rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
                         {c}
                       </span>
@@ -170,8 +170,8 @@ export default function AboutPage() {
                   <p className="text-gray-600 text-sm leading-relaxed">
                     Meet is the co-founder of Calqulate.net, dedicated to building accurate, privacy-first, personalized,
                     and evidence-based health, beauty, and fitness tools that help users make informed decisions about
-                    their well-being and appearance. With expertise in web development and a passion for health science,
-                    Meet combines technical excellence with practical health knowledge to deliver tools you can trust.
+                    their well-being and appearance. With expertise in Product Stretagy, Product Algorithm Creator and a passion for health science,
+                    Meet combines technical excellence with practical health knowledge to deliver product you can trust.
                   </p>
                   <a
                     href="https://www.linkedin.com/in/meet-akabari/"
