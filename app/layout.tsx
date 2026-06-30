@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { OrganizationSchema } from "@/components/seo/structured-data";
+import { OrganizationSchema, WebSiteSchema } from "@/components/seo/structured-data";
 import "./globals.css";
 import { Suspense } from "react";
 import ClarityProvider from "@/components/analytics/clarity-provider";
@@ -81,6 +81,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <OrganizationSchema />
+        <WebSiteSchema />
 
         {/* Google AdSense Verification */}
         <meta name="google-adsense-account" content="ca-pub-4361792190799561" />

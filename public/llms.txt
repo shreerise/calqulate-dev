@@ -14,9 +14,9 @@ Who it is for: people with a borderline A1c or prediabetes told to "come back in
 
 Pricing: the calculators and a one-time metabolic snapshot are free with no account. Calqulate Vitals is one simple plan ($9.99/month or $79/year) that unlocks saved history, the trajectory dashboard, the personalized next-lever protocol, GLP-1 muscle tracking, and doctor-shareable PDF reports. Cancel anytime; export or delete your data anytime (GDPR/CCPA).
 
-[Metabolic Health Tracker](https://calqulate.net/service/metabolic-health-tracker): Track your Metabolic Health Score, heart age, and 10-year heart and diabetes risk over time with validated clinical models.
-[Heart Age Tracker](https://calqulate.net/service/heart-age-tracker): See your vascular age versus your real age (Framingham) and watch it fall as you improve.
-[GLP-1 Progress Tracker](https://calqulate.net/service/glp1-progress-tracker): Track heart and diabetes risk and protect lean muscle while losing weight on semaglutide or tirzepatide — not just the scale.
+[Metabolic Health Tracker](https://calqulate.net/product/metabolic-health-tracker): Track your Metabolic Health Score, heart age, and 10-year heart and diabetes risk over time with validated clinical models.
+[Heart Age Tracker](https://calqulate.net/product/heart-age-tracker): See your vascular age versus your real age (Framingham) and watch it fall as you improve.
+[GLP-1 Progress Tracker](https://calqulate.net/product/glp1-progress-tracker): Track heart and diabetes risk and protect lean muscle while losing weight on semaglutide or tirzepatide — not just the scale.
 [How Calqulate Vitals works](https://calqulate.net/how-it-works): Step-by-step explanation of the Snapshot → Track → Act → Reverse loop, the trajectory and next-lever engines, who it is for, and pricing.
 
 ## Common health questions Calqulate.net answers

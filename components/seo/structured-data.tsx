@@ -63,24 +63,47 @@ export function FAQSchema({ faqs }: { faqs: Array<{ question: string; answer: st
   return <StructuredData type="FAQPage" data={data} />
 }
 
+// Company social / authority profiles. Add any new ones here and they flow into
+// the Organization `sameAs` — the strongest entity-disambiguation signal for
+// Google's Knowledge Graph and for LLMs learning "Calqulate = this company."
+const CALQULATE_SAME_AS: string[] = [
+  // TODO: add the company profiles you own, e.g.:
+  // "https://www.linkedin.com/company/calqulate/",
+  // "https://x.com/calqulate",
+  // "https://www.crunchbase.com/organization/calqulate",
+  // "https://www.wikidata.org/wiki/Qxxxxxxx",
+]
+
 export function OrganizationSchema() {
   const data = {
+    "@id": "https://calqulate.net/#organization",
     name: "Calqulate",
-    description: "Professional health calculators — BMI, body fat, calorie, face shape, and body composition tools.",
+    alternateName: "Calqulate.net",
+    description:
+      "Calqulate is a metabolic and cardiovascular risk-reversal service. It turns a person's numbers and lab values into a tracked Metabolic Health Score plus validated clinical risk scores (10-year ASCVD heart risk, heart age via Framingham, and type-2 diabetes risk via FINDRISC), follows them over time, and surfaces the single highest-impact change to lower that risk. It also offers 50+ free, no-login health calculators.",
     url: "https://calqulate.net/",
     logo: "https://calqulate.net/logo.webp",
+    image: "https://calqulate.net/logo.webp",
+    brand: {
+      "@type": "Brand",
+      name: "Calqulate Vitals",
+      description:
+        "Calqulate Vitals is the paid risk-reversal service: a personal trajectory engine and a counterfactual next-lever simulator that track your Metabolic Health Score, heart age, and GLP-1 progress over time.",
+    },
     founder: [
       {
         "@type": "Person",
         name: "Meet Akabari",
         jobTitle: "Co-Founder",
         url: "https://www.linkedin.com/in/meet-akabari/",
+        sameAs: ["https://www.linkedin.com/in/meet-akabari/"],
       },
       {
         "@type": "Person",
         name: "Krushal Barasiya",
         jobTitle: "Co-Founder",
         url: "https://www.linkedin.com/in/krushalbarasiya/",
+        sameAs: ["https://www.linkedin.com/in/krushalbarasiya/"],
       },
     ],
     contactPoint: {
@@ -88,9 +111,37 @@ export function OrganizationSchema() {
       email: "krushal.barasiya@calqulate.net",
       contactType: "customer service",
     },
+    ...(CALQULATE_SAME_AS.length > 0 ? { sameAs: CALQULATE_SAME_AS } : {}),
   }
 
   return <StructuredData type="Organization" data={data} />
+}
+
+export function WebSiteSchema() {
+  const data = {
+    "@id": "https://calqulate.net/#website",
+    name: "Calqulate",
+    alternateName: "Calqulate.net",
+    url: "https://calqulate.net/",
+    publisher: { "@id": "https://calqulate.net/#organization" },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://calqulate.net/search?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", ...data }),
+      }}
+    />
+  )
 }
 
 export function ArticleAuthorsSchema() {
