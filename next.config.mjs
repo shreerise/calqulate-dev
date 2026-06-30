@@ -23,6 +23,17 @@ const nextConfig = {
     minimumCacheTTL: 31536000,
     deviceSizes: [320, 420, 768, 1024, 1200, 1600],
   },
+  async headers() {
+    return [
+      {
+        // Let the embeddable widgets be framed on any third-party site.
+        // CSP frame-ancestors is the modern control; we deliberately do NOT
+        // send X-Frame-Options here so older browsers don't block framing.
+        source: "/embed/:path*",
+        headers: [{ key: "Content-Security-Policy", value: "frame-ancestors *" }],
+      },
+    ]
+  },
   webpack: (config, { dev }) => {
     // Next/webpack's filesystem cache gzips its pack files. On large projects
     // this can throw "RangeError: Array buffer allocation failed" inside zlib

@@ -14,6 +14,7 @@ import { ServiceCTA } from "@/components/seo/service-cta"
 import { SourcesSection } from "@/components/seo/sources-section"
 import { RelatedCalculators } from "@/components/seo/related-calculators"
 import { RelatedCalculators as CatalogRelatedCalculators } from "@/components/calculators/related-calculators"
+import { EmbedCodeBox } from "@/components/embed/EmbedCodeBox"
 import {
   FlaskConical,
   CheckCircle2,
@@ -176,6 +177,13 @@ export default function GLP1DoseCalculatorPage() {
         <section id="calculator" className="scroll-mt-20">
           <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
             <GLP1DoseCalculator />
+          </div>
+        </section>
+
+        {/* EMBED THIS CALCULATOR — free-backlink widget */}
+        <section className="container mx-auto px-4 py-8">
+          <div className="mx-auto max-w-4xl">
+            <EmbedCodeBox />
           </div>
         </section>
 

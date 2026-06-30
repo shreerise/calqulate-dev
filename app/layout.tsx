@@ -7,10 +7,8 @@ import { OrganizationSchema, WebSiteSchema } from "@/components/seo/structured-d
 import "./globals.css";
 import { Suspense } from "react";
 import ClarityProvider from "@/components/analytics/clarity-provider";
-import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
-import { InstallBanner } from "@/components/pwa/InstallBanner";
-import FeedbackPopup from "@/components/feedback/FeedbackPopup";
+import { NonEmbedChrome } from "@/components/layout/non-embed-chrome";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
@@ -123,10 +121,8 @@ export default function RootLayout({
 
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 
-        <FeedbackPopup />
-        <ChatWidget />
+        <NonEmbedChrome />
         <ServiceWorkerRegister />
-        <InstallBanner />
         <Toaster position="top-center" richColors closeButton />
       </body>
     </html>
