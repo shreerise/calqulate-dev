@@ -37,7 +37,7 @@ export default function RazorpayCheckoutPage() {
         image: "https://calqulate.net/favicon.ico",
         theme: { color: "#059669" },
         handler: () => {
-          router.push("/dashboard?checkout=success");
+          router.push("/calqulate-vitals/welcome");
         },
         modal: {
           ondismiss: () => {

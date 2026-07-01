@@ -191,14 +191,14 @@ export default async function Glp1TrackerPage() {
             Log in seconds. Everything is saved durably the moment you hit save — and recoverable if you delete it.
           </p>
         </div>
-        <Glp1ReportButton enabled={paid} />
+        <span id="report" className="scroll-mt-24"><Glp1ReportButton enabled={paid} /></span>
       </div>
 
       {/* Coaching banner — turns the dashboard from passive into a guide */}
       <CoachBanner messages={coach} />
 
       {/* Summary cards */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div id="vitals" className="grid gap-4 scroll-mt-24 sm:grid-cols-3">
         <SummaryCard
           icon={<Activity className="h-5 w-5" />}
           label="Medication level now"
@@ -240,7 +240,7 @@ export default async function Glp1TrackerPage() {
 
       {/* Clinical-study benchmark */}
       {bench && (
-        <div className={`rounded-2xl border p-5 ${
+        <div id="benchmark" className={`scroll-mt-24 rounded-2xl border p-5 ${
           bench.status === "behind" ? "border-amber-200 bg-amber-50/60"
             : bench.status === "ahead" ? "border-emerald-200 bg-emerald-50/60"
             : "border-gray-200 bg-white"
@@ -271,13 +271,17 @@ export default async function Glp1TrackerPage() {
       )}
 
       {/* Dosing sweet spot — most loss for the least side effects, from your data */}
-      {showSweetSpot && <SweetSpotCard result={sweet} />}
+      {showSweetSpot && <div id="sweet-spot" className="scroll-mt-24"><SweetSpotCard result={sweet} /></div>}
 
       {/* Logging */}
-      <Glp1LoggingPanel medications={medOptions} />
+      <div id="log" className="scroll-mt-24">
+        <Glp1LoggingPanel medications={medOptions} />
+      </div>
 
       {/* Body comp / labs / exercise */}
-      <TrackMore />
+      <div id="track-more" className="scroll-mt-24">
+        <TrackMore />
+      </div>
 
       {/* Reconstitution calculator (compounded vials) */}
       <ReconstitutionCalculator />

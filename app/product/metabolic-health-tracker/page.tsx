@@ -39,6 +39,7 @@ const config: TrackerLandingConfig = {
     sub: "Calqulate turns your numbers into one Metabolic Health Score, shows your real 10-year heart-attack and diabetes risk, and tells you the single highest-impact change to make next — then tracks it all falling over time.",
     trustLine: "Built on the same equations clinicians use — ASCVD, Framingham & FINDRISC",
     screenshotLabel: "Dashboard — Metabolic Health Score, heart age & risk trend",
+    screenshotSrc: "/screenshots/metabolic-dashboard.png",
   },
   trust: { label: "Built on validated models", items: ["Pooled Cohort Equations", "Framingham", "FINDRISC", "Longevity Index"] },
   whatYouGet: {
@@ -57,8 +58,8 @@ const config: TrackerLandingConfig = {
     heading: "Free features, from day one",
     sub: "Run every clinical engine once, free and stateless — no account needed to see your numbers.",
     rows: [
-      { title: "Your free Metabolic Health Score", body: "Enter your numbers and get today's composite score with a plain-English explanation of what it means — and where you stand against healthy ranges. No account, nothing saved.", screenshotLabel: "Metabolic Health Score snapshot" },
-      { title: "Your real risk, broken down", body: "See your 10-year heart-attack risk, heart age and type-2 diabetes risk from validated models, with the exact factors driving each one. Methodology is shown on every result.", screenshotLabel: "Risk breakdown — ASCVD, heart age, diabetes", reverse: true },
+      { title: "Your free Metabolic Health Score", body: "Enter your numbers and get today's composite score with a plain-English explanation of what it means — and where you stand against healthy ranges. No account, nothing saved.", screenshotLabel: "Metabolic Health Score snapshot", screenshotSrc: "/screenshots/metabolic-score-snapshot.png" },
+      { title: "Your real risk, broken down", body: "See your 10-year heart-attack risk, heart age and type-2 diabetes risk from validated models, with the exact factors driving each one. Methodology is shown on every result.", screenshotLabel: "Risk breakdown — ASCVD, heart age, diabetes", screenshotSrc: "/screenshots/metabolic-risk-breakdown.png", reverse: true },
     ],
     grid: [
       { icon: Gauge, t: "Composite score (0–100)", d: "Built from validated cardiometabolic models." },
@@ -90,6 +91,7 @@ const config: TrackerLandingConfig = {
       { icon: Syringe, accent: "brand", title: "GLP-1 Progress Tracker", sublabel: "On Ozempic, Wegovy, Mounjaro or Zepbound?", stat: 100, statSuffix: "%", body: "Track fat vs. muscle, free medication-level curves and your risk falling — all in the same plan." },
     ],
     screenshotLabels: ["Heart Age tracker", "GLP-1 Progress tracker"],
+    screenshotSrcs: ["/screenshots/heart-age-tracker.png", "/screenshots/glp1-tracker.png"],
   },
   how: {
     heading: "How it works",

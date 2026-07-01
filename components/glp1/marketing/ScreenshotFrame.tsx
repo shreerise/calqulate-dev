@@ -1,9 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 
 /**
  * Screenshot slot. Drop a real image by passing `src` (file under /public);
- * otherwise a labelled device-frame placeholder renders — never a broken image.
+ * otherwise — or if that file is missing / fails to load — a labelled
+ * device-frame placeholder renders instead of a broken image.
  *
  * Device chrome: `frame="browser"` (default) or `frame="phone"`.
  */
@@ -22,7 +26,10 @@ export function ScreenshotFrame({
   className?: string;
   aspect?: string;
 }) {
+  const [failed, setFailed] = useState(false);
   const rounded = frame === "phone" ? "rounded-[2rem]" : "rounded-2xl";
+  const showImage = src && !failed;
+
   return (
     <div
       className={`relative overflow-hidden border border-line bg-white shadow-[0_8px_24px_rgba(15,23,42,.10)] ${rounded} ${className}`}
@@ -35,8 +42,15 @@ export function ScreenshotFrame({
         <span className="ml-2 hidden truncate text-[11px] text-faint sm:inline">{label}</span>
       </div>
 
-      {src ? (
-        <Image src={src} alt={alt ?? label} width={1280} height={800} className="h-auto w-full" />
+      {showImage ? (
+        <Image
+          src={src}
+          alt={alt ?? label}
+          width={1280}
+          height={800}
+          className="h-auto w-full"
+          onError={() => setFailed(true)}
+        />
       ) : (
         <div className={`flex ${aspect} items-center justify-center bg-gradient-to-br from-brand-50 to-white p-6 text-center`}>
           <div>

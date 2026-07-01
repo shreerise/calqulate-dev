@@ -119,7 +119,7 @@ export class PayPalProvider implements PaymentProvider {
             payer_selected: "PAYPAL",
             payee_preferred: "IMMEDIATE_PAYMENT_REQUIRED",
           },
-          return_url: `${siteUrl}/dashboard?checkout=success`,
+          return_url: `${siteUrl}/calqulate-vitals/welcome`,
           cancel_url: `${siteUrl}/pricing?checkout=cancelled`,
         },
       }),

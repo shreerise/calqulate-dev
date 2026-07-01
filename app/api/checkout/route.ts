@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       userEmail: user.email ?? null,
       tier: tier as Tier,
       cadence: cadence as Cadence,
-      successUrl: `${SITE}/dashboard?checkout=success`,
+      successUrl: `${SITE}/calqulate-vitals/welcome`,
       cancelUrl: `${SITE}/pricing?checkout=cancelled`,
     });
 

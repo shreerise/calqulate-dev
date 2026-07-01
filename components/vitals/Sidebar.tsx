@@ -13,6 +13,7 @@ import {
   LogOut,
   X,
   Globe,
+  BookOpen,
 } from "lucide-react";
 import { BillingButton } from "./BillingButton";
 
@@ -21,6 +22,7 @@ const NAV = [
   { href: "/dashboard/glp1", label: "GLP-1 Tracker", icon: Syringe },
   { href: "/dashboard/future", label: "Future You", icon: TrendingUp },
   { href: "/dashboard/protocol", label: "Autopilot", icon: Compass },
+  { href: "/dashboard/guide", label: "Help Guide", icon: BookOpen },
   { href: "/dashboard/history", label: "History", icon: History },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];

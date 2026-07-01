@@ -206,6 +206,20 @@
     max-width: 100%;
   }
 
+  /* ─── Desktop "zoom out" ───
+     Render the whole site ~10% smaller on desktop only, so the fixed-width
+     content containers leave a comfortable gutter on the left and right.
+     `zoom` (not transform: scale) is used on purpose: the layout still
+     reflows, the sticky header keeps working, there is no leftover gap at the
+     bottom, and text stays crisp. Mobile and tablet are left untouched, and
+     the /embed widgets are excluded automatically because their iframe
+     viewport is far narrower than this 1024px breakpoint. */
+  @media (min-width: 1024px) {
+    body {
+      zoom: 0.9;
+    }
+  }
+
   /* Media never forces the viewport wider than the screen */
   img,
   video {
@@ -270,6 +284,25 @@
 
 .animate-slideRight {
   animation: slideRight 0.25s ease-out;
+}
+
+/* ─── Confetti celebration (welcome page) ─── */
+@keyframes confetti-fall {
+  0% { transform: translate3d(0, -24px, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate3d(var(--confetti-drift, 0px), 340px, 0) rotate(600deg); opacity: 0; }
+}
+
+.confetti-piece {
+  border-radius: 2px;
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.37, 0.16, 0.62, 1);
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece { display: none; }
 }
 
 .transition-transform {

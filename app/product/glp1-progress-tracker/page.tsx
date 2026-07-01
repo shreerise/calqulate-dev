@@ -183,7 +183,7 @@ export default async function Glp1TrackerLanding() {
 
           <Reveal delay={120}>
             {/* SCREENSHOT 1: dashboard — dose countdown, weight trend, medication-level curve */}
-            <ScreenshotFrame label="Dashboard — dose countdown, weight trend & medication-level curve" frame="browser" />
+            <ScreenshotFrame label="Dashboard — dose countdown, weight trend & medication-level curve" src="/screenshots/glp1-dashboard.png" frame="browser" />
           </Reveal>
         </div>
       </section>
@@ -241,7 +241,7 @@ export default async function Glp1TrackerLanding() {
             </Reveal>
             <Reveal delay={100}>
               {/* SCREENSHOT 3: medication-level (PK) curve with cravings overlay */}
-              <ScreenshotFrame label="Medication-level curve with cravings overlay" />
+              <ScreenshotFrame label="Medication-level curve with cravings overlay" src="/screenshots/glp1-medication-curve.png" />
             </Reveal>
           </div>
 
@@ -257,7 +257,7 @@ export default async function Glp1TrackerLanding() {
             </Reveal>
             <Reveal delay={100} className="lg:order-1">
               {/* SCREENSHOT: side-effect logging with severity + "no symptoms" */}
-              <ScreenshotFrame label="Side-effect logging — severity scale & “no symptoms today”" />
+              <ScreenshotFrame label="Side-effect logging — severity scale & “no symptoms today”" src="/screenshots/glp1-side-effects.png" />
             </Reveal>
           </div>
 
@@ -384,8 +384,8 @@ export default async function Glp1TrackerLanding() {
           </div>
           {/* SCREENSHOT 6 & 7: Heart Age tracker / Metabolism tracker */}
           <Reveal className="mt-5 grid gap-5 lg:grid-cols-2">
-            <ScreenshotFrame label="Heart Age tracker" />
-            <ScreenshotFrame label="Metabolism tracker" />
+            <ScreenshotFrame label="Heart Age tracker" src="/screenshots/heart-age-tracker.png" />
+            <ScreenshotFrame label="Metabolism tracker" src="/screenshots/metabolic-tracker.png" />
           </Reveal>
         </div>
       </section>

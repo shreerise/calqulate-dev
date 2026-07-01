@@ -11,7 +11,7 @@ import { StickyCtaBar } from "@/components/glp1/marketing/StickyCtaBar";
 // ─── Config types ─────────────────────────────────────────────────────────────
 
 export interface FeatureItem { icon: LucideIcon; t: string; d: string; hero?: boolean }
-export interface FreeRow { title: string; body: string; screenshotLabel: string; reverse?: boolean }
+export interface FreeRow { title: string; body: string; screenshotLabel: string; screenshotSrc?: string; reverse?: boolean }
 export type Accent = "heart" | "metab" | "brand" | "gold";
 export interface BonusCard {
   icon: LucideIcon;
@@ -29,12 +29,12 @@ export interface CompareRow { feature: string; us: CompareVal; b: CompareVal; c:
 export interface TrackerLandingConfig {
   jsonLd: { productName: string; productDescription: string; canonical: string };
   startFreeHref: string;
-  hero: { badge: string; h1: string; h1Accent: string; sub: string; trustLine: string; screenshotLabel: string };
+  hero: { badge: string; h1: string; h1Accent: string; sub: string; trustLine: string; screenshotLabel: string; screenshotSrc?: string };
   trust: { label: string; items: string[] };
   whatYouGet: { heading: string; sub: string; items: FeatureItem[] };
   free: { heading: string; sub: string; rows: FreeRow[]; grid: FeatureItem[] };
   premium: { heading: string; sub: string; items: FeatureItem[] };
-  bonus: { heading: string; sub: string; cards: BonusCard[]; screenshotLabels: string[] };
+  bonus: { heading: string; sub: string; cards: BonusCard[]; screenshotLabels: string[]; screenshotSrcs?: string[] };
   how: { heading: string; sub: string; steps: { t: string; d: string }[] };
   compare: { heading: string; sub: string; cols: [string, string]; rows: CompareRow[]; priceRow: { us: string; b: string; c: string }; note: string };
   pricing: { freeTitle: string; freePrice: string; freeUnit: string; freeSub: string; freeFeatures: string[]; freePrimary: { label: string; href: string } };
@@ -113,7 +113,7 @@ export function TrackerLanding({ config: c, paid }: { config: TrackerLandingConf
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <ScreenshotFrame label={c.hero.screenshotLabel} frame="browser" />
+            <ScreenshotFrame label={c.hero.screenshotLabel} src={c.hero.screenshotSrc} frame="browser" />
           </Reveal>
         </div>
       </section>
@@ -164,7 +164,7 @@ export function TrackerLanding({ config: c, paid }: { config: TrackerLandingConf
                 <p className="mt-2 text-[15px] leading-relaxed text-copy">{row.body}</p>
               </Reveal>
               <Reveal delay={100} className={row.reverse ? "lg:order-1" : ""}>
-                <ScreenshotFrame label={row.screenshotLabel} />
+                <ScreenshotFrame label={row.screenshotLabel} src={row.screenshotSrc} />
               </Reveal>
             </div>
           ))}
@@ -254,7 +254,7 @@ export function TrackerLanding({ config: c, paid }: { config: TrackerLandingConf
             ))}
           </div>
           <Reveal className="mt-5 grid gap-5 lg:grid-cols-2">
-            {c.bonus.screenshotLabels.map((l) => <ScreenshotFrame key={l} label={l} />)}
+            {c.bonus.screenshotLabels.map((l, i) => <ScreenshotFrame key={l} label={l} src={c.bonus.screenshotSrcs?.[i]} />)}
           </Reveal>
         </div>
       </section>

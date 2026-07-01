@@ -39,6 +39,7 @@ const config: TrackerLandingConfig = {
     sub: "Your heart age is calculated from the validated Framingham model. Calqulate shows it against your real age, explains what's driving it, and tracks the number falling as your blood pressure, cholesterol and blood sugar improve.",
     trustLine: "Built on the validated Framingham heart-age model (designed for ages 30–74)",
     screenshotLabel: "Dashboard — heart age vs. real age, trending down",
+    screenshotSrc: "/screenshots/heart-age-dashboard.png",
   },
   trust: { label: "Built on validated science", items: ["Framingham model", "CDC-referenced", "Ages 30–74", "Doctor PDF"] },
   whatYouGet: {
@@ -57,8 +58,8 @@ const config: TrackerLandingConfig = {
     heading: "Free features, from day one",
     sub: "You shouldn't have to pay to find out how old your heart is.",
     rows: [
-      { title: "Your free heart-age snapshot", body: "Enter your numbers and find out how old your heart really is — in plain English, against your real age. No account, nothing saved.", screenshotLabel: "Heart age snapshot vs. real age" },
-      { title: "Why your heart age is what it is", body: "High blood pressure, cholesterol, blood sugar or smoking each add years. See exactly which factors are aging your heart, and how much each one matters.", screenshotLabel: "Heart-age risk-factor breakdown", reverse: true },
+      { title: "Your free heart-age snapshot", body: "Enter your numbers and find out how old your heart really is — in plain English, against your real age. No account, nothing saved.", screenshotLabel: "Heart age snapshot vs. real age", screenshotSrc: "/screenshots/heart-age-snapshot.png" },
+      { title: "Why your heart age is what it is", body: "High blood pressure, cholesterol, blood sugar or smoking each add years. See exactly which factors are aging your heart, and how much each one matters.", screenshotLabel: "Heart-age risk-factor breakdown", screenshotSrc: "/screenshots/heart-age-risk-factors.png", reverse: true },
     ],
     grid: [
       { icon: HeartPulse, t: "Validated Framingham model", d: "The clinically used heart-age estimate." },
@@ -90,6 +91,7 @@ const config: TrackerLandingConfig = {
       { icon: Syringe, accent: "brand", title: "GLP-1 Progress Tracker", sublabel: "On a GLP-1 medication?", stat: 100, statSuffix: "%", body: "Track fat vs. muscle, free medication-level curves and your risk falling — all in the same plan." },
     ],
     screenshotLabels: ["Metabolic Health Score tracker", "GLP-1 Progress tracker"],
+    screenshotSrcs: ["/screenshots/metabolic-tracker.png", "/screenshots/glp1-tracker.png"],
   },
   how: {
     heading: "How it works",
