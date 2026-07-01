@@ -7,6 +7,7 @@ import { SinglePlan } from "@/components/vitals/SinglePlan"
 import { FounderVision } from "@/components/marketing/FounderVision"
 import { SocialProof } from "@/components/marketing/SocialProof"
 import { PremiumTrackersBand } from "@/components/marketing/PremiumTrackersBand"
+import { GLP1StorySlides } from "@/components/marketing/GLP1StorySlides"
 import { getAccess, hasPaidAccess } from "@/lib/auth"
 
 import {
@@ -600,29 +601,8 @@ export default async function HomePage() {
         {/* ── PREMIUM TRACKERS BAND (luxe, top-of-funnel) ──────────────────── */}
         <PremiumTrackersBand paid={paid} />
 
-        {/* ── SECTION B: THE FREE ON-RAMP ──────────────────────────────────── */}
-        <section className="py-10 sm:py-12 bg-white border-b border-gray-100">
-          <div className="container mx-auto px-3 sm:px-4">
-            <div className="max-w-4xl mx-auto rounded-2xl border border-emerald-100 bg-emerald-50/50 p-5 sm:p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-5 sm:gap-6">
-              <div className="flex-1">
-                <h2 id="free-snapshot" className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
-                  Start with a free snapshot &mdash; no account needed.
-                </h2>
-                <p className="mt-2 text-sm sm:text-base text-gray-600">
-                  Run every clinical engine once, free and stateless. Upgrade only when you want to
-                  save it, track it, and reverse it.
-                </p>
-              </div>
-              <Link
-                href="/search"
-                className="inline-flex w-full sm:w-auto flex-shrink-0 items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-white px-6 py-3 font-semibold text-emerald-700 hover:bg-emerald-100 transition-colors min-h-[44px]"
-              >
-                Browse all snapshot tools
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* ── SECTION B: THE GLP-1 STORY (miracle → danger → solution) ──────── */}
+        <GLP1StorySlides />
 
         {/* ── SECTION C: INTRODUCING CALQULATE VITALS ──────────────────────── */}
         <section id="how-it-works" className="py-12 sm:py-16 bg-gradient-to-br from-emerald-50 via-white to-emerald-50 scroll-mt-20">
@@ -756,10 +736,10 @@ export default async function HomePage() {
           <div className="container mx-auto px-3 sm:px-4">
             <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
               <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
-                Simple, honest pricing
+                Simple, honest and transparent pricing
               </span>
               <h2 id="pricing-heading" className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Free to start. Upgrade to track &amp; reverse.
+                 Upgrade Calqulate Vitals to track Glp-1 dose, Metabolism &amp; Heart age.
               </h2>
               <p className="text-sm sm:text-base text-gray-600">
                 The free snapshot is genuinely free &mdash; run any engine once, nothing saved. One plan unlocks
@@ -1062,7 +1042,7 @@ export default async function HomePage() {
         {/* ── WHY CHOOSE US ─────────────────────────────────────────────────── */}
         <section className="py-12 sm:py-16 bg-white">
           <div className="container mx-auto px-3 sm:px-4">
-            <div className="text-center mb-10 sm:mb-12">
+            <div className="text-center mb-8 sm:mb-10">
               <span className="mb-3 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700">
                 Why Calqulate
               </span>
@@ -1074,21 +1054,18 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
-              {trustPoints.map((point) => (
-                <div
-                  key={point.title}
-                  className="flex gap-4 p-6 bg-gray-50 rounded-2xl hover:bg-emerald-50 transition-colors duration-200"
-                >
-                  <div className="flex-shrink-0 w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center">
-                    <span className="text-emerald-600">{point.icon}</span>
-                  </div>
-                  <div>
-                    <div className="font-bold text-gray-900 text-sm mb-1">{point.title}</div>
-                    <div className="text-sm text-gray-500 leading-relaxed">{point.desc}</div>
-                  </div>
-                </div>
-              ))}
+            {/* Full infographic — native 3:2 (1536×1024), fits without cropping */}
+            <div className="relative max-w-5xl mx-auto">
+              <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-emerald-400/15 blur-3xl" />
+              <Image
+                src="/why-calqulate.webp"
+                alt="Why Calqulate — clinically grounded formulas, built for real people, 100% private, trusted by thousands, instant results, and track change over time"
+                width={1536}
+                height={1024}
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                quality={100}
+                className="relative w-full h-auto rounded-3xl ring-1 ring-emerald-100 shadow-xl"
+              />
             </div>
           </div>
         </section>
@@ -1191,6 +1168,24 @@ export default async function HomePage() {
 
         {/* ── SECTION I: FINAL CTA (service-led, dual path) ────────────────── */}
         <section className="relative overflow-hidden py-12 sm:py-16" style={{ background: LUXE_BG }}>
+          {/* Angled diagonal bands (Razorpay-style, emerald palette) */}
+          <svg
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            {/* top steep bands */}
+            <polygon points="0,0 100,0 100,4 0,48" fill="rgba(16,185,129,0.12)" />
+            <polygon points="0,48 100,4 100,14 0,66" fill="rgba(16,185,129,0.07)" />
+            {/* gold accent edge on the top diagonal */}
+            <polyline points="0,48 100,4" fill="none" stroke="rgba(245,158,11,0.55)" strokeWidth="0.4" vectorEffect="non-scaling-stroke" />
+            {/* bottom steep bands */}
+            <polygon points="0,100 100,100 100,58 0,96" fill="rgba(6,95,70,0.38)" />
+            <polygon points="0,96 100,58 100,70 0,100" fill="rgba(16,185,129,0.09)" />
+            {/* gold accent edge on the bottom diagonal */}
+            <polyline points="0,96 100,58" fill="none" stroke="rgba(245,158,11,0.45)" strokeWidth="0.4" vectorEffect="non-scaling-stroke" />
+          </svg>
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.55), transparent)" }} />
           <div className="container relative mx-auto px-3 sm:px-4 text-center">
             <h2 id="final-cta" className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
