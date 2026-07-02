@@ -7,7 +7,7 @@ import type {
   BillingPortalInput,
   ProviderSubscription,
 } from "../../PaymentProvider";
-import type { Gateway, Tier, Cadence } from "../../types/index";
+import type { Gateway, Tier, Cadence, Currency } from "../../types/index";
 import type { NormalizedEvent, NormalizedEventType } from "../../types/events";
 import { razorpayPlanIdFor } from "../../types/index";
 import { ProviderNotConfiguredError, InvalidWebhookError, SubscriptionActionError, BillingPortalError } from "../../utils/errors";
@@ -66,8 +66,19 @@ function normalizeEventType(razorpayEvent: RazorpayEventType): NormalizedEventTy
 }
 
 function inferTier(planId: string): Tier {
-  if (planId === process.env.RAZORPAY_PLAN_PRO_MONTHLY || planId === process.env.RAZORPAY_PLAN_PRO_YEARLY) return "pro";
+  const proPlans = [
+    process.env.RAZORPAY_PLAN_PRO_MONTHLY,
+    process.env.RAZORPAY_PLAN_PRO_YEARLY,
+    process.env.RAZORPAY_PLAN_PRO_MONTHLY_INR,
+    process.env.RAZORPAY_PLAN_PRO_YEARLY_INR,
+  ].filter(Boolean);
+  if (proPlans.includes(planId)) return "pro";
   return "free";
+}
+
+function inferCurrency(planId: string): Currency {
+  if (planId === process.env.RAZORPAY_PLAN_PRO_MONTHLY_INR || planId === process.env.RAZORPAY_PLAN_PRO_YEARLY_INR) return "INR";
+  return "USD";
 }
 
 export class RazorpayProvider implements PaymentProvider {
@@ -75,8 +86,8 @@ export class RazorpayProvider implements PaymentProvider {
 
   async createCheckout(input: CreateCheckoutInput): Promise<CheckoutResult> {
     const client = getClient();
-    const planId = razorpayPlanIdFor(input.tier, input.cadence);
-    if (!planId) throw new Error(`No plan configured for ${input.tier} ${input.cadence}`);
+    const planId = razorpayPlanIdFor(input.tier, input.cadence, input.currency);
+    if (!planId) throw new Error(`No plan configured for ${input.tier} ${input.cadence} ${input.currency}`);
 
     // Get or create customer
     const customerId = await this.getOrCreateCustomer(input.userId, input.userEmail ?? "");
@@ -85,21 +96,25 @@ export class RazorpayProvider implements PaymentProvider {
     const plan = await client.plans.fetch(planId) as unknown as RazorpayPlan;
     const totalCount = input.cadence === "yearly" ? 12 : 0; // 0 = infinite for monthly
 
-    // Create subscription
+    // Create subscription — charge starts in 7 days (free trial)
+    const startAt = Math.floor(Date.now() / 1000) + 7 * 86400;
     const sub = await client.subscriptions.create({
       plan_id: planId,
       customer_id: customerId,
       total_count: totalCount,
       customer_notify: 0,
+      start_at: startAt,
       notes: {
         supabase_user_id: input.userId,
         tier: input.tier,
         cadence: input.cadence,
+        currency: input.currency,
+        country: input.country ?? "",
       },
     }) as any;
 
     const subscription = sub as RazorpaySubscription;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net";
+    const siteUrl = input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net";
     const keyId = process.env.RAZORPAY_KEY_ID;
     const checkoutUrl = `${siteUrl}/checkout/razorpay?subscription_id=${subscription.id}&key=${keyId}`;
 
@@ -136,6 +151,8 @@ export class RazorpayProvider implements PaymentProvider {
 
     const notes = (sub as { notes?: Record<string, string> }).notes ?? {};
 
+    const currency = notes.currency === "INR" ? "INR" : "USD";
+
     return {
       eventId: `${payload.event}_${sub.id}_${payload.created_at}`,
       type: normalizeEventType(payload.event as RazorpayEventType),
@@ -150,6 +167,8 @@ export class RazorpayProvider implements PaymentProvider {
         : sub.charge_at
           ? new Date(sub.charge_at * 1000).toISOString()
           : null,
+      currency: currency as Currency,
+      country: notes.country || undefined,
       raw: payload,
     };
   }

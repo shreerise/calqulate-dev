@@ -40,6 +40,9 @@ export class PaymentService {
     userEmail: string | null;
     tier: Tier;
     cadence: Cadence;
+    currency: import("./types/index").Currency;
+    country?: string;
+    siteUrl?: string;
     successUrl: string;
     cancelUrl: string;
   }): Promise<{ url: string }> {
@@ -49,6 +52,9 @@ export class PaymentService {
       userEmail: input.userEmail,
       tier: input.tier,
       cadence: input.cadence,
+      currency: input.currency,
+      country: input.country,
+      siteUrl: input.siteUrl,
       successUrl: input.successUrl,
       cancelUrl: input.cancelUrl,
     });

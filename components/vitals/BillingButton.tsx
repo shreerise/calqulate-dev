@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { CreditCard } from "lucide-react";
+import { toast } from "sonner";
 
 export function BillingButton({
   className,
@@ -17,10 +18,13 @@ export function BillingButton({
     try {
       const res = await fetch("/api/billing/portal", { method: "POST" });
       const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else alert(data.error ?? "No billing account yet. Contact support for help.");
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error(data.error ?? "No billing portal available. Contact support for help.");
+      }
     } catch {
-      alert("Could not open billing portal. Please try again.");
+      toast.error("Could not open billing portal. Please try again.");
     } finally {
       setBusy(false);
     }

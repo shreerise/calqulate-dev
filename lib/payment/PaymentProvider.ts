@@ -1,14 +1,16 @@
-import type { Tier, Cadence, Gateway } from "./types/index";
+import type { Tier, Cadence, Gateway, Currency } from "./types/index";
 import type { NormalizedEvent } from "./types/events";
 
-/** Input to create a checkout session */
 export interface CreateCheckoutInput {
   userId: string;
   userEmail: string | null;
   tier: Tier;
   cadence: Cadence;
+  currency: Currency;
+  country?: string;
   successUrl: string;
   cancelUrl: string;
+  siteUrl?: string;
 }
 
 /** Result of creating a checkout session */

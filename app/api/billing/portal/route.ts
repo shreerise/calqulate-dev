@@ -21,10 +21,10 @@ export async function POST() {
     return NextResponse.json({ error: "No billing account" }, { status: 400 });
   }
 
-  const gateway = (sub.gateway ?? "razorpay") as Gateway;
+
 
   try {
-    const url = await paymentService.createBillingPortal(gateway, sub.gateway_customer_id, `${SITE}/dashboard`);
+    const url = await paymentService.createBillingPortal((sub.gateway ?? "razorpay") as Gateway, sub.gateway_customer_id, `${SITE}/dashboard`);
     return NextResponse.json({ url });
   } catch (err) {
     const message = (err as Error).message;

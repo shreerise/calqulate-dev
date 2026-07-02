@@ -1,28 +1,21 @@
 /** Normalized webhook event shapes shared across all providers */
 
-import type { Gateway, Tier, SubscriptionStatus } from "./index";
+import type { Gateway, Tier, SubscriptionStatus, Currency } from "./index";
 
 /** Normalized event after provider-specific verification */
 export interface NormalizedEvent {
-  /** Provider's original event ID (used for idempotency) */
   eventId: string;
-  /** Normalized event type */
   type: NormalizedEventType;
-  /** Provider name */
   gateway: Gateway;
-  /** Gateway-specific customer ID */
   customerId: string;
-  /** Gateway-specific subscription ID */
   subscriptionId: string;
-  /** Tier inferred from the plan/price */
   tier: Tier;
-  /** Subscription status from provider */
   status: SubscriptionStatus;
-  /** Period end timestamp (ISO string) */
   currentPeriodEnd: string | null;
-  /** Our internal user ID extracted from gateway notes/metadata */
   userId?: string;
-  /** Original raw event data */
+  currency?: Currency;
+  country?: string;
+  amount?: number;
   raw: unknown;
 }
 

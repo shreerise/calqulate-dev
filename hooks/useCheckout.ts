@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import type { Gateway, Tier, Cadence } from "@/lib/payment/types/index";
+import type { Tier, Cadence } from "@/lib/payment/types/index";
+import { detectCountryFromBrowser } from "@/lib/payment/country";
 
 interface UseCheckoutOptions {
   onError?: (message: string) => void;
@@ -11,27 +12,29 @@ interface UseCheckoutOptions {
 interface UseCheckoutReturn {
   loading: boolean;
   error: string | null;
-  checkout: (gateway: Gateway, tier: Tier, cadence: Cadence) => Promise<void>;
+  checkout: (tier: Tier, cadence: Cadence, usePaypal?: boolean) => Promise<void>;
   retry: () => void;
-  lastAttempt: { gateway: Gateway; tier: Tier; cadence: Cadence } | null;
+  lastAttempt: { tier: Tier; cadence: Cadence; usePaypal?: boolean } | null;
 }
 
 export function useCheckout(options: UseCheckoutOptions = {}): UseCheckoutReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastAttempt, setLastAttempt] = useState<{ gateway: Gateway; tier: Tier; cadence: Cadence } | null>(null);
+  const [lastAttempt, setLastAttempt] = useState<{ tier: Tier; cadence: Cadence; usePaypal?: boolean } | null>(null);
 
   const checkout = useCallback(
-    async (gateway: Gateway, tier: Tier, cadence: Cadence) => {
+    async (tier: Tier, cadence: Cadence, usePaypal?: boolean) => {
       setLoading(true);
       setError(null);
-      setLastAttempt({ gateway, tier, cadence });
+      const country = detectCountryFromBrowser();
+      const gateway = usePaypal !== false ? "paypal" : "razorpay";
+      setLastAttempt({ tier, cadence, usePaypal });
 
       try {
         const res = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ gateway, tier, cadence }),
+          body: JSON.stringify({ gateway, tier, cadence, country }),
         });
 
         const data = await res.json().catch(() => ({}));
@@ -63,7 +66,7 @@ export function useCheckout(options: UseCheckoutOptions = {}): UseCheckoutReturn
 
   const retry = useCallback(() => {
     if (lastAttempt) {
-      checkout(lastAttempt.gateway, lastAttempt.tier, lastAttempt.cadence);
+      checkout(lastAttempt.tier, lastAttempt.cadence, lastAttempt.usePaypal);
     }
   }, [lastAttempt, checkout]);
 

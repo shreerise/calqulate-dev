@@ -80,7 +80,6 @@ export default async function AdminDashboard() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Razorpay subs" value={razorpayCount} hint="active paid" />
         <StatCard label="PayPal subs" value={paypalCount} hint="active paid" />
-        <StatCard label="Plus plan" value={plusCount} hint="active paid" />
         <StatCard label="Pro plan" value={proCount} hint="active paid" />
       </div>
 

@@ -6,7 +6,7 @@ import {
   BillingPortalInput,
   ProviderSubscription,
 } from "../../PaymentProvider";
-import { Gateway, Tier, Cadence } from "../../types/index";
+import { Gateway, Tier, Cadence, type Currency } from "../../types/index";
 import { NormalizedEvent, NormalizedEventType } from "../../types/events";
 import { paypalPlanIdFor } from "../../types/index";
 import {
@@ -95,10 +95,10 @@ export class PayPalProvider implements PaymentProvider {
   readonly name: Gateway = "paypal";
 
   async createCheckout(input: CreateCheckoutInput): Promise<CheckoutResult> {
-    const planId = paypalPlanIdFor(input.tier, input.cadence);
-    if (!planId) throw new Error(`No plan configured for ${input.tier} ${input.cadence}`);
+    const planId = paypalPlanIdFor(input.tier, input.cadence, input.currency);
+    if (!planId) throw new Error(`No plan configured for ${input.tier} ${input.cadence} ${input.currency}`);
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net";
+    const siteUrl = input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net";
 
     // Create subscription via PayPal REST API
     const res = await paypalFetch("/v1/billing/subscriptions", {
@@ -220,6 +220,7 @@ export class PayPalProvider implements PaymentProvider {
       tier: inferTier(planId),
       status: status as "active" | "inactive" | "trialing" | "canceled" | "past_due",
       currentPeriodEnd,
+      currency: "USD" as Currency,
       raw: payload,
     };
   }

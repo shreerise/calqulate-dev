@@ -3,19 +3,19 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { paymentService } from "@/lib/payment/PaymentService";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
-import type { Gateway, Tier, Cadence } from "@/lib/payment/types/index";
-
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://calqulate.net";
+import { detectCountryFromHeaders, getConfigForCountry } from "@/lib/payment/country";
+import type { Tier, Cadence, Gateway } from "@/lib/payment/types/index";
+import { getPrice } from "@/lib/payment/pricing";
 
 const schema = z.object({
-  gateway: z.enum(["razorpay", "paypal"]),
+  gateway: z.enum(["razorpay", "paypal"]).optional(),
   tier: z.enum(["free", "pro"]),
   cadence: z.enum(["monthly", "yearly"]),
+  country: z.string().length(2).optional(),
 });
 
 export async function POST(req: Request) {
   try {
-    // Rate limit
     const rl = rateLimit(`checkout:${clientIp(req)}`, 15, 60_000);
     if (!rl.ok) {
       return NextResponse.json(
@@ -24,35 +24,47 @@ export async function POST(req: Request) {
       );
     }
 
-    // Validate input
     const parsed = schema.safeParse(await req.json());
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
     }
 
-    const { gateway, tier, cadence } = parsed.data;
+    const { gateway, tier, cadence, country: clientCountry } = parsed.data;
+
+    const origin = req.headers.get("origin") ?? "";
+    const SITE = origin || process.env.NEXT_PUBLIC_SITE_URL || "https://calqulate.net";
 
     if (tier === "free") {
       return NextResponse.json({ url: `${SITE}/signup` });
     }
 
-    // Auth check
+    // Detect country: client-provided > server headers > default
+    const country = clientCountry ?? detectCountryFromHeaders(req.headers);
+
+    // If gateway explicitly chosen by user, use it; otherwise auto-detect
+    const config = gateway
+      ? { gateway: gateway as Gateway, currency: gateway === "razorpay" ? "INR" as const : "USD" as const }
+      : getConfigForCountry(country);
+
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const result = await paymentService.createCheckout(gateway as Gateway, {
+    const result = await paymentService.createCheckout(config.gateway, {
       userId: user.id,
       userEmail: user.email ?? null,
       tier: tier as Tier,
       cadence: cadence as Cadence,
+      currency: config.currency,
+      country,
+      siteUrl: SITE,
       successUrl: `${SITE}/calqulate-vitals/welcome`,
       cancelUrl: `${SITE}/pricing?checkout=cancelled`,
     });
 
-    return NextResponse.json({ url: result.url });
+    return NextResponse.json({ url: result.url, gateway: config.gateway, currency: config.currency });
   } catch (err) {
     const message = (err as Error)?.message ?? JSON.stringify(err);
     console.error("[checkout] error:", message, err);

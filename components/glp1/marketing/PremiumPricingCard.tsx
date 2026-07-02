@@ -4,19 +4,20 @@ import { useState } from "react";
 import { Check, ArrowRight, Loader2 } from "lucide-react";
 import { GatewayPicker } from "@/components/payment/GatewayPicker";
 import { useCheckout } from "@/hooks/useCheckout";
-import type { Gateway } from "@/lib/payment/types/index";
+import { getPrice, formatPrice, displaySubtitle } from "@/lib/payment/pricing";
 
 export function PremiumPricingCard() {
   const [cadence, setCadence] = useState<"yearly" | "monthly">("yearly");
-  const [gateway, setGateway] = useState<Gateway>("paypal");
   const { loading, error, checkout, retry } = useCheckout();
 
-  const price = cadence === "yearly" ? "$79" : "$9.99";
+  const currency = "USD";
+  const price = getPrice("pro", cadence, currency);
+  const formatted = formatPrice(price, currency);
   const unit = cadence === "yearly" ? "/year" : "/month";
-  const sub = cadence === "yearly" ? "About $6.58/month, billed annually." : "Billed monthly.";
+  const sub = displaySubtitle(currency, cadence);
 
-  async function goPremium() {
-    await checkout(gateway, "pro", cadence);
+  async function goPremium(usePaypal?: boolean) {
+    await checkout("pro", cadence, usePaypal);
   }
 
   return (
@@ -44,10 +45,10 @@ export function PremiumPricingCard() {
       </div>
 
       <div className="mt-3">
-        <span className="text-4xl font-extrabold text-ink">{price}</span>
+        <span className="text-4xl font-extrabold text-ink">{formatted}</span>
         <span className="text-faint">{unit}</span>
       </div>
-      <p className="mt-1 text-sm text-faint">{sub} Switch between monthly and yearly anytime.</p>
+      <p className="mt-1 text-sm text-faint">{sub}</p>
 
       <ul className="mt-5 space-y-2 text-sm text-copy">
         {[
@@ -62,24 +63,31 @@ export function PremiumPricingCard() {
       </ul>
 
       <div className="mt-6 space-y-3">
-        <GatewayPicker gateway={gateway} onChange={setGateway} disabled={loading} />
-
         {error && (
           <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2">
             <p className="text-sm text-red-600">{error}</p>
-            <button onClick={retry} className="mt-1 text-xs font-semibold text-red-700 hover:underline">
+            <button onClick={() => retry()} className="mt-1 text-xs font-semibold text-red-700 hover:underline">
               Try again
             </button>
           </div>
         )}
-
         <button
-          onClick={goPremium}
+          onClick={() => goPremium(true)}
           disabled={loading}
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-light to-gold px-6 py-3 text-sm font-bold text-gold-ink shadow-[0_8px_20px_rgba(245,158,11,.35)] transition-all duration-150 hover:-translate-y-0.5 disabled:opacity-60"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><ArrowRight className="h-4 w-4" /> Go Premium</>}
         </button>
+        <GatewayPicker />
+        <div className="text-center">
+          <button
+                onClick={() => goPremium(false)}
+            disabled={loading}
+            className="text-xs text-gray-400 underline-offset-2 hover:text-emerald-600 hover:underline"
+          >
+            or pay with your card
+          </button>
+        </div>
       </div>
       <p className="mt-3 text-center text-xs text-faint">Create your account, then pay securely — cancel anytime.</p>
     </div>

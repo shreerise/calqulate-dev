@@ -4,8 +4,7 @@ import Link from "next/link";
 import { Check, ArrowRight, Loader2, Sparkles, Dumbbell, ShieldCheck } from "lucide-react";
 import { GatewayPicker } from "@/components/payment/GatewayPicker";
 import { useCheckout } from "@/hooks/useCheckout";
-import { displayPrice, displayUnit, displaySub } from "@/lib/payment/types/index";
-import type { Gateway } from "@/lib/payment/types/index";
+import { getPrice, formatPrice, displaySubtitle } from "@/lib/payment/pricing";
 
 const FEATURES = [
   "GLP-1 dose & side-effect tracking for Ozempic, Wegovy & Mounjaro",
@@ -21,12 +20,11 @@ const FEATURES = [
   "Private by design \u00b7 export or delete your data anytime",
 ];
 
-// Two standout, members-only benefits get the gold spotlight treatment.
 const HIGHLIGHTS = [
   {
     icon: Dumbbell,
     title: "Fat-loss vs. muscle-loss detection",
-    body: "Know exactly what you’re burning on a GLP-1 — so you never end up “skinny-fat”.",
+    body: "Know exactly what you\u2019re burning on a GLP-1 \u2014 so you never end up \u201cskinny-fat\u201d.",
   },
   {
     icon: ShieldCheck,
@@ -37,15 +35,16 @@ const HIGHLIGHTS = [
 
 export function SinglePlan({ paid }: { paid?: boolean }) {
   const [cadence, setCadence] = useState<"yearly" | "monthly">("yearly");
-  const [gateway, setGateway] = useState<Gateway>("paypal");
   const { loading, error, checkout, retry } = useCheckout();
 
-  const price = displayPrice("pro", cadence);
-  const unit = displayUnit("pro", cadence);
-  const sub = displaySub(cadence);
+  const currency = "USD";
+  const price = getPrice("pro", cadence, currency);
+  const formatted = formatPrice(price, currency);
+  const unit = cadence === "yearly" ? "/year" : "/month";
+  const sub = displaySubtitle(currency, cadence);
 
-  async function subscribe() {
-    await checkout(gateway, "pro", cadence);
+  async function subscribe(usePaypal?: boolean) {
+    await checkout("pro", cadence, usePaypal);
   }
 
   return (
@@ -73,13 +72,12 @@ export function SinglePlan({ paid }: { paid?: boolean }) {
         <div className="text-center">
           <div className="text-xs font-semibold uppercase tracking-widest text-emerald-600">Calqulate Vitals</div>
           <div className="mt-2">
-            <span className="text-5xl font-extrabold text-gray-900">{price}</span>
+            <span className="text-5xl font-extrabold text-gray-900">{formatted}</span>
             <span className="text-gray-500">{unit}</span>
           </div>
           <p className="mt-1 text-xs text-gray-500">{sub}</p>
         </div>
 
-        {/* Members-only spotlight (gold shine) */}
         <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/40 bg-gradient-to-br from-gold-light/15 via-white to-gold/10 p-4 shadow-[0_4px_20px_rgba(245,158,11,0.12)]">
           <span className="gold-shine pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-12deg] bg-gradient-to-r from-transparent via-white/70 to-transparent" />
           <div className="relative">
@@ -117,23 +115,32 @@ export function SinglePlan({ paid }: { paid?: boolean }) {
           </Link>
         ) : (
           <div className="mt-6 space-y-3">
-            <GatewayPicker gateway={gateway} onChange={setGateway} disabled={loading} />
             {error && (
               <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2">
                 <p className="text-sm text-red-600">{error}</p>
-                <button onClick={retry} className="mt-1 text-xs font-semibold text-red-700 hover:underline">
+                <button onClick={() => retry()} className="mt-1 text-xs font-semibold text-red-700 hover:underline">
                   Try again
                 </button>
               </div>
             )}
             <button
-              onClick={subscribe}
+              onClick={() => subscribe(true)}
               disabled={loading}
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-light to-gold px-4 py-3 font-bold text-gold-ink shadow-[0_8px_20px_rgba(245,158,11,.35)] transition-all duration-150 hover:-translate-y-0.5 disabled:opacity-60"
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
               {loading ? "Redirecting\u2026" : "Start Calqulate Vitals"}
             </button>
+            <GatewayPicker />
+            <div className="text-center">
+              <button
+                onClick={() => subscribe(false)}
+                disabled={loading}
+                className="text-xs text-gray-400 underline-offset-2 hover:text-emerald-600 hover:underline"
+              >
+                or pay with your card
+              </button>
+            </div>
             <p className="text-center text-xs text-gray-400">
               Create your account, then pay securely. Cancel anytime.
             </p>

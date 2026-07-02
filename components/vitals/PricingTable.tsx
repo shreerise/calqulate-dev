@@ -1,23 +1,25 @@
 "use client";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { PLANS, type Tier, type Gateway } from "@/lib/payment/types/index";
+import { PLANS, type Tier } from "@/lib/payment/types/index";
+import { getPrice, formatPrice } from "@/lib/payment/pricing";
 import { GatewayPicker } from "@/components/payment/GatewayPicker";
 import { useCheckout } from "@/hooks/useCheckout";
 
 export function PricingTable() {
   const [cadence, setCadence] = useState<"monthly" | "yearly">("yearly");
-  const [gateway, setGateway] = useState<Gateway>("paypal");
   const { loading, error, checkout, retry } = useCheckout();
   const [activeTier, setActiveTier] = useState<Tier | null>(null);
 
-  async function subscribe(tier: Tier) {
+  const currency = "USD";
+
+  async function subscribe(tier: Tier, usePaypal?: boolean) {
     if (tier === "free") {
       window.location.href = "/signup";
       return;
     }
     setActiveTier(tier);
-    await checkout(gateway, tier, cadence);
+    await checkout(tier, cadence, usePaypal);
     setActiveTier(null);
   }
 
@@ -39,16 +41,10 @@ export function PricingTable() {
         </div>
       </div>
 
-      <div className="mb-6 flex justify-center">
-        <div className="w-full max-w-sm">
-          <GatewayPicker gateway={gateway} onChange={setGateway} disabled={loading} />
-        </div>
-      </div>
-
       {error && (
         <div className="mb-4 mx-auto max-w-md rounded-lg bg-red-50 border border-red-200 px-4 py-3">
           <p className="text-sm text-red-600">{error}</p>
-          <button onClick={retry} className="mt-1 text-xs font-semibold text-red-700 hover:underline">
+          <button onClick={() => retry()} className="mt-1 text-xs font-semibold text-red-700 hover:underline">
             Try again
           </button>
         </div>
@@ -56,7 +52,7 @@ export function PricingTable() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {PLANS.map((p) => {
-          const price = cadence === "yearly" ? p.priceYearly : p.priceMonthly;
+          const price = p.tier === "free" ? 0 : getPrice(p.tier, cadence, currency);
           const featured = p.tier === "pro";
           const isBusy = loading && activeTier === p.tier;
           return (
@@ -73,34 +69,51 @@ export function PricingTable() {
               )}
               <h3 className="text-lg font-bold">{p.name}</h3>
               <div className="mt-2">
-                <span className="text-3xl font-extrabold">${price}</span>
+                <span className="text-3xl font-extrabold">{p.tier === "free" ? "$0" : formatPrice(price, currency)}</span>
                 <span className="text-gray-500">
                   {p.tier === "free" ? "" : cadence === "yearly" ? "/yr" : "/mo"}
                 </span>
               </div>
               <ul className="mt-4 flex-1 space-y-2 text-sm text-gray-700">
-                {p.features.map((f) => (
+                {p.features.map((f: string) => (
                   <li key={f} className="flex gap-2">
                     <span className="text-blue-600">✓</span>
                     {f}
                   </li>
                 ))}
               </ul>
-              <button
-                onClick={() => subscribe(p.tier)}
-                disabled={isBusy}
-                className={`mt-6 rounded-lg px-4 py-2.5 font-semibold inline-flex items-center justify-center gap-2 ${
-                  featured
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "border border-gray-300 hover:bg-gray-50"
-                } disabled:opacity-60`}
-              >
-                {isBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                {isBusy ? "Redirecting\u2026" : p.cta}
-              </button>
+              {p.tier === "free" ? (
+                <button
+                  onClick={() => subscribe("free")}
+                  className="mt-6 rounded-lg border border-gray-300 px-4 py-2.5 font-semibold hover:bg-gray-50"
+                >
+                  {p.cta}
+                </button>
+              ) : (
+                <div className="mt-6 space-y-2">
+                  <button
+                    onClick={() => subscribe(p.tier, true)}
+                    disabled={isBusy}
+                    className="w-full rounded-lg bg-blue-600 px-4 py-2.5 font-semibold text-white hover:bg-blue-700 inline-flex items-center justify-center gap-2 disabled:opacity-60"
+                  >
+                    {isBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                    {isBusy ? "Redirecting\u2026" : p.cta}
+                  </button>
+                  <button
+                    onClick={() => subscribe(p.tier, false)}
+                    disabled={isBusy}
+                    className="w-full text-center text-xs text-gray-400 underline-offset-2 hover:text-emerald-600 hover:underline"
+                  >
+                    or pay with your card
+                  </button>
+                </div>
+              )}
             </div>
           );
         })}
+      </div>
+      <div className="mt-6">
+        <GatewayPicker />
       </div>
     </div>
   );

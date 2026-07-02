@@ -1,11 +1,12 @@
 import { createAdminClient } from "@/lib/supabase/server";
+import { RefundButton } from "./RefundButton";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSubscriptionsPage() {
   const admin = createAdminClient();
   const [{ data: subs }, { data: profiles }] = await Promise.all([
-    admin.from("subscriptions").select("user_id,tier,status,gateway,gateway_customer_id,gateway_subscription_id,current_period_end,updated_at").order("updated_at", { ascending: false }).limit(500),
+    admin.from("subscriptions").select("id,user_id,tier,status,gateway,gateway_customer_id,gateway_subscription_id,amount,current_period_end,updated_at").order("updated_at", { ascending: false }).limit(500),
     admin.from("profiles").select("id,email"),
   ]);
   const emailById = new Map<string, string>();
@@ -17,7 +18,7 @@ export default async function AdminSubscriptionsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Subscriptions</h1>
-        <p className="text-gray-500">{rows.length} subscription row{rows.length === 1 ? "" : "s"}, synced from Razorpay/PayPal via webhook.</p>
+        <p className="text-gray-500">{rows.length} subscription row{rows.length === 1 ? "" : "s"}, synced via webhooks.</p>
       </div>
       <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white">
         <table className="w-full text-sm">
@@ -28,7 +29,7 @@ export default async function AdminSubscriptionsPage() {
               <th className="px-4 py-2.5 font-medium">Status</th>
               <th className="px-4 py-2.5 font-medium">Gateway</th>
               <th className="px-4 py-2.5 font-medium">Renews</th>
-              <th className="px-4 py-2.5 font-medium">Customer ID</th>
+              <th className="px-4 py-2.5 font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -45,12 +46,16 @@ export default async function AdminSubscriptionsPage() {
                 </td>
                 <td className="px-4 py-2.5 text-gray-600">{s.status ?? "—"}</td>
                 <td className="px-4 py-2.5">
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${s.gateway === "razorpay" ? "bg-emerald-100 text-emerald-700" : s.gateway === "paypal" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500"}`}>
-                    {s.gateway ?? "—"}
+                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${s.gateway === "razorpay" ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
+                    {s.gateway ?? "razorpay"}
                   </span>
                 </td>
                 <td className="px-4 py-2.5 text-gray-500">{s.current_period_end ? new Date(s.current_period_end).toLocaleDateString() : "—"}</td>
-                <td className="px-4 py-2.5 font-mono text-xs text-gray-400">{s.gateway_customer_id ?? "—"}</td>
+                <td className="px-4 py-2.5">
+                  {s.status === "active" && (
+                    <RefundButton subscriptionId={s.id} userId={s.user_id} gatewaySubId={s.gateway_subscription_id} gateway={s.gateway} />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

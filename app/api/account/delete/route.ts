@@ -25,10 +25,7 @@ export async function POST() {
 
   if (sub?.gateway_subscription_id && (sub.status === "active" || sub.status === "trialing")) {
     try {
-      await paymentService.cancelSubscription(
-        (sub.gateway ?? "razorpay") as Gateway,
-        sub.gateway_subscription_id,
-      );
+      await paymentService.cancelSubscription((sub.gateway ?? "razorpay") as Gateway, sub.gateway_subscription_id);
     } catch {
       // Non-blocking — proceed with account deletion even if cancellation fails
     }
